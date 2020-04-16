@@ -6,8 +6,6 @@
       Author: Pixinvent
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
-
 @import "../_variables.scss";
 
 // Note: This styles are regrading demo/default sidebar. If you are creating your custom sidebar or changing something. Be sure to take care of CSS.
@@ -27,7 +25,7 @@
           justify-content: center;
           width: 100%;
 
-          >button {
+          > button {
             margin-left: 10px;
           }
         }
@@ -40,7 +38,7 @@
         align-items: center;
         justify-content: space-between;
 
-        >button {
+        > button {
           border: 0px solid rgba(0, 0, 0, 0) !important;
           border-left: 1px solid rgba(0, 0, 0, .07) !important;
           border-radius: 0px !important;
@@ -67,7 +65,7 @@
 }
 
 
-.theme-dark{
+.theme-dark {
   .vs-content-sidebar.sidebarpage {
     &.bordered-sidebar {
       .vs-sidebar {

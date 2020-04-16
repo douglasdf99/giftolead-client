@@ -158,6 +158,12 @@
         color: white;
         margin-bottom: 1rem;
         cursor: pointer;
+        transition-duration: .3s;
+    }
+
+    #MainMenu li:hover {
+        transition-duration: .3s;
+        padding-left: 5%;
     }
 
     .vs-icon {

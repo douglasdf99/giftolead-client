@@ -62,7 +62,7 @@ const state = {
     scrollY                 : 0,
     starredPages            : navbarSearchAndPinList["pages"].data.filter((page) => page.is_bookmarked),
     theme                   : themeConfig.theme || "light",
-    themePrimaryColor       : colors.primary,
+    themePrimaryColor       : "#1E1E1E",
     animacaoMenu            : '',
     menuAtivo               : true,
     menuSelecionado         : '',
