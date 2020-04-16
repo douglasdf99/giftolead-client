@@ -1,6 +1,6 @@
 export default [
     {
-        url: '/dashboard/analytics',
+        url: '/dashboard',
         name: "Dashboard",
         tag: "2",
         tagColor: "warning",
@@ -36,6 +36,19 @@ export default [
                 name: "Meus Planos",
                 slug: "planos-meus-planos",
                 icon: 'apps'
+            },
+        ]
+    },
+    {
+        url: null,
+        name: "Configurações",
+        icon: "toggle_off",
+        submenu: [
+            {
+                url: '/configuracoes/geral',
+                name: "Geral",
+                slug: "configuracoes-geral",
+                icon: 'view_module'
             },
         ]
     },

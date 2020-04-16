@@ -14,6 +14,7 @@
 
 <style lang="scss">
     .buy-now{
+        display: none;
         position: fixed;
         bottom: 5%;
         right: 79px;

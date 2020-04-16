@@ -14,6 +14,7 @@
         <div class="main-menu" v-bind:style="{animationName: animacao}">
             <!--<img src="@/assets/images/sidebar/seta-esquerda.svg" class="seta" v-if="menuAtivo">-->
             <img src="@/assets/images/sidebar/seta-direita.svg" class="seta" v-if="!menuAtivo">
+            <vs-icon icon-pack="material-icons" :icon="icone_destaque" class="icone-destaque" v-if="!menuAtivo"/>
             <div class="header-sidebar" slot="header">
                 <div class="text-center">
                     <img src="@/assets/images/sidebar/logo-1.png" alt="" class="logo" v-if="menuAtivo">
@@ -53,6 +54,7 @@
         data() {
             return {
                 navMenuItems: navMenuItems,
+                icone_destaque: ''
             }
         },
         created() {
@@ -62,6 +64,7 @@
             ativarMenu(e, obj = null) {
                 if(obj != null) {
                     if (obj.submenu) {
+                        this.icone_destaque = obj.icon;
                         this.$store.dispatch('ativarMenu', e);
                         this.$store.dispatch('submenu', obj);
                     } else {
@@ -97,7 +100,7 @@
     .main-menu {
         z-index: 55000;
         position: fixed;
-        width: 12vw;
+        width: 13vw;
         height: 100vh;
         background-color: #2B2B2B;
         padding: 2rem;
@@ -175,6 +178,15 @@
         font-family: "Poppins", sans-serif;
     }
 
+    .icone-destaque {
+        color: white;
+        font-size: 2rem;
+        position: absolute;
+        top: 16.6%;
+        left: 10px;
+        z-index: 90000;
+    }
+
     @keyframes recolher {
         from {
             width: 12vw;
@@ -190,7 +202,7 @@
             width: 2vw;
         }
         to {
-            width: 12vw;
+            width: 13vw;
             padding: 25px;
         }
     }

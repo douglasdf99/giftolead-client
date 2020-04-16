@@ -18,7 +18,7 @@
                         <img src="@/assets/images/sidebar/logo-2.png" alt="" class="logo" v-if="!menuAtivo">
                     </div>
                 </div>
-                <vs-row style="margin: 1rem 0 2rem">
+                <vs-row style="margin: .3rem 0 2rem">
                     <vs-col vs-w="12">
                         <span class="menuSelected">{{menuSelecionado}}</span>
                     </vs-col>
@@ -28,7 +28,7 @@
                         <ul id="submenu">
                             <li v-for="item in submenu">
                                 <vs-icon icon-pack="material-icons" :icon="item.icon"/>
-                                <router-link :to="item.slug"><span class="menu-name">{{item.name}}</span></router-link>
+                                <router-link :to="item.url"><span class="menu-name">{{item.name}}</span></router-link>
                             </li>
                         </ul>
                     </vs-col>
@@ -105,7 +105,7 @@
     }
 
     .vs-sidebar {
-        min-width: 262px;
-        max-width: 262px;
+        min-width: 15.2vw;
+        max-width: 15.2vw;
     }
 </style>

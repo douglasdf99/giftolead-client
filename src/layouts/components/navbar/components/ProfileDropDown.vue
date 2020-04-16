@@ -90,13 +90,13 @@ export default {
 
         if (firebaseCurrentUser) {
             firebase.auth().signOut().then(() => {
-                this.$router.push('/pages/login').catch(() => {})
+                this.$router.push('/login').catch(() => {})
             })
         }
         // If JWT login
         if(localStorage.getItem("accessToken")) {
           localStorage.removeItem("accessToken")
-          this.$router.push('/pages/login').catch(() => {})
+          this.$router.push('/login').catch(() => {})
         }
 
         // Change role on logout. Same value as initialRole of acj.js
@@ -104,7 +104,7 @@ export default {
         localStorage.removeItem('userInfo')
 
         // This is just for demo Purpose. If user clicks on logout -> redirect
-        this.$router.push('/pages/login').catch(() => {})
+        this.$router.push('/login').catch(() => {})
     },
   }
 }

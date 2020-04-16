@@ -1,37 +1,37 @@
 <template>
   <div>
     <vs-input
-        v-validate="'required|email|min:3'"
-        data-vv-validate-on="blur"
-        name="email"
-        icon-no-border
-        icon="icon icon-user"
-        icon-pack="feather"
-        label-placeholder="Email"
-        v-model="email"
-        class="w-full"/>
+            v-validate="'required|email|min:3'"
+            data-vv-validate-on="blur"
+            name="email"
+            icon-no-border
+            icon="icon icon-user"
+            icon-pack="feather"
+            label-placeholder="E-mail"
+            v-model="email"
+            class="w-full"/>
     <span class="text-danger text-sm">{{ errors.first('email') }}</span>
 
     <vs-input
-        data-vv-validate-on="blur"
-        v-validate="'required|min:6|max:10'"
-        type="password"
-        name="password"
-        icon-no-border
-        icon="icon icon-lock"
-        icon-pack="feather"
-        label-placeholder="Password"
-        v-model="password"
-        class="w-full mt-6" />
-    <span class="text-danger text-sm">{{ errors.first('password') }}</span>
+            data-vv-validate-on="blur"
+            v-validate="'required|min:6|'"
+            type="password"
+            name="password"
+            icon-no-border
+            icon="icon icon-lock"
+            icon-pack="feather"
+            label-placeholder="Senha"
+            v-model="password"
+            class="w-full mt-6"/>
+    <span class="text-danger text-sm">O Preenchimento da senha é obrigatório</span>
 
     <div class="flex flex-wrap justify-between my-5">
-        <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Remember Me</vs-checkbox>
-        <router-link to="/pages/forgot-password">Forgot Password?</router-link>
+      <vs-checkbox v-model="checkbox_remember_me" class="mb-3">Lembrar-me</vs-checkbox>
+      <router-link to="/esqueceu-a-senha">Esqueceu a senha?</router-link>
     </div>
     <div class="flex flex-wrap justify-between mb-3">
-      <vs-button  type="border" @click="registerUser">Register</vs-button>
-      <vs-button :disabled="!validateForm" @click="loginJWT">Login</vs-button>
+      <vs-button type="border" @click="registerUser">Registrar</vs-button>
+      <vs-button :disabled="!validateForm" @click="loginJWT">Entrar</vs-button>
     </div>
   </div>
 </template>
@@ -40,8 +40,8 @@
 export default {
   data() {
     return {
-      email: 'admin@admin.com',
-      password: 'adminadmin',
+      email: 'mbr.douglasmatos@gmail.com',
+      password: '123456',
       checkbox_remember_me: false
     }
   },
@@ -59,8 +59,8 @@ export default {
         // this.$vs.loading.close()
 
         this.$vs.notify({
-          title: 'Login Attempt',
-          text: 'You are already logged in!',
+          title: 'Tentativa de Login',
+          text: 'Você já está logado!',
           iconPack: 'feather',
           icon: 'icon-alert-circle',
           color: 'warning'
@@ -83,25 +83,32 @@ export default {
           email: this.email,
           password: this.password
         }
-      }
+      };
 
       this.$store.dispatch('auth/loginJWT', payload)
-        .then(() => { this.$vs.loading.close() })
-        .catch(error => {
-          this.$vs.loading.close()
-          this.$vs.notify({
-            title: 'Error',
-            text: error.message,
-            iconPack: 'feather',
-            icon: 'icon-alert-circle',
-            color: 'danger'
-          })
-        })
+              .then(() => {
+                this.$store.dispatch('auth/getUser').then(() => {
+                  this.$vs.loading.close();
+                  // Navigate User to homepage
+                  this.$router.push(this.$router.currentRoute.query.to || '/');
+                });
+              })
+              .catch(error => {
+                this.$vs.loading.close()
+                this.$vs.notify({
+                  title: 'Error',
+                  text: error.message,
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                })
+              })
     },
     registerUser() {
       if (!this.checkLogin()) return
-      this.$router.push('/pages/register').catch(() => {})
-    }
+      this.$router.push('/registrar').catch(() => {
+      })
+    },
   }
 }
 

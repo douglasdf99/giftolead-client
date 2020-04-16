@@ -1280,7 +1280,66 @@ const router = new Router({
                         rule: 'editor'
                     },
                 },
+
             ],
+        },
+        // =============================================================================
+        // ROTAS PERSONALIZADAS SAVELEADS 3.0
+        // =============================================================================
+        {
+            path: '',
+            component: () => import('./layouts/main/Base.vue'),
+            children: [
+                {
+                    path: '/',
+                    redirect: '/dashboard'
+                },
+                {
+                    path: '/dashboard',
+                    name: 'dashboard',
+                    component: () => import('./views/DashboardAnalytics.vue'),
+                    meta: {
+                        rule: 'editor',
+                    }
+                },
+                // =============================================================================
+                // Configurações
+                // =============================================================================
+                {
+                    path: '/configuracoes/',
+                    redirect: '/configuracoes/login',
+                    rule: 'editor'
+                },
+                {
+                    path: '/configuracoes/geral',
+                    name: 'configuracoes-geral',
+                    component: () => import('@/views/configuracoes/Geral.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', active: true},
+                        ],
+                        pageTitle: 'Configurações Gerais',
+                        rule: 'editor'
+                    },
+                },
+                {
+                    path: '/configuracoes/geral/dados-empresa',
+                    name: 'dados-empresa',
+                    component: () => import('@/views/configuracoes/DadosEmpresa.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Dados da Empresa', active: true},
+                        ],
+                        pageTitle: 'Dados da Empresa',
+                        rule: 'editor'
+                    },
+                }
+            ]
         },
         // =============================================================================
         // FULL PAGE LAYOUTS
@@ -1301,7 +1360,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/login',
+                    path: '/login',
                     name: 'page-login',
                     component: () => import('@/views/pages/login/Login.vue'),
                     meta: {
@@ -1309,7 +1368,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/register',
+                    path: '/registrar',
                     name: 'page-register',
                     component: () => import('@/views/pages/register/Register.vue'),
                     meta: {
@@ -1317,9 +1376,17 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/forgot-password',
-                    name: 'page-forgot-password',
+                    path: '/esqueceu-a-senha',
+                    name: 'page-esqueceu-a-senha',
                     component: () => import('@/views/pages/ForgotPassword.vue'),
+                    meta: {
+                        rule: 'editor'
+                    }
+                },
+                {
+                    path: '/recuperar-a-senha/:token',
+                    name: 'page-esqueceu-a-senha',
+                    component: () => import('@/views/pages/RecuperarSenha.vue'),
                     meta: {
                         rule: 'editor'
                     }

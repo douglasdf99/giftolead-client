@@ -23,24 +23,12 @@
             <div class="vx-col sm:w-full md:w-full lg:w-1/2 d-theme-dark-bg">
               <div class="px-8 pt-8 login-tabs-container">
 
-                <div class="vx-card__title mb-4">
+                <div class="vx-card__title mb-5" style="margin-bottom: 5rem !important;">
                   <h4 class="mb-4">Login</h4>
-                  <p>Welcome back, please login to your account.</p>
+                  <p>Bem vindo(a) de volta, por favor faça login com suas credenciais.</p>
                 </div>
 
-                <vs-tabs>
-                  <vs-tab label="JWT">
-                    <login-jwt></login-jwt>
-                  </vs-tab>
-
-                  <vs-tab label="Firebase">
-                    <login-firebase></login-firebase>
-                  </vs-tab>
-
-                  <vs-tab label="Auth0">
-                    <login-auth0></login-auth0>
-                  </vs-tab>
-                </vs-tabs>
+                <login-jwt></login-jwt>
 
               </div>
             </div>
