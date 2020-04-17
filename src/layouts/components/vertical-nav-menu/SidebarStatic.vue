@@ -40,9 +40,12 @@
 
 <script>
     export default {
-        data: () => ({
-            active: false,
-        }),
+        data() {
+         return {
+             active: false,
+             rota: this.$route
+         }
+        },
         methods: {
             ativarMenu() {
                 this.$store.dispatch('ativarMenu', true);
@@ -77,7 +80,7 @@
 
     .menuSelected {
         font-family: "Poppins", sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 700;
         color: #4A4A4A;
     }
@@ -101,6 +104,10 @@
     }
 
     #submenu li:hover span {
+        font-weight: 800;
+    }
+
+    .router-link-active span {
         font-weight: 800;
     }
 

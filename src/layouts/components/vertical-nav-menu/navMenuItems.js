@@ -5,7 +5,7 @@ export default [
         tag: "2",
         tagColor: "warning",
         icon: "dashboard",
-        slug: 'dashboard-analytics'
+        slug: 'dashboard'
     },
     {
         url: null,

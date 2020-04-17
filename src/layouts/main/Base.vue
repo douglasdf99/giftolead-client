@@ -341,6 +341,6 @@
         font-weight: 700;
     }
     .router-header {
-        margin-bottom: 7rem !important;
+        margin-bottom: 6rem !important;
     }
 </style>

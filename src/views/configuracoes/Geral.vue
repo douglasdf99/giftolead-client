@@ -17,11 +17,11 @@
                 lista: [
                     {
                         nome: 'Dados da Empresa',
-                        url: 'dados-empresa'
+                        url: 'geral/dados-empresa'
                     },
                     {
                         nome: 'Cadastrar ou alterar contas de produtos',
-                        url: 'dados-empresa'
+                        url: 'geral/contas'
                     }
                 ]
             }
@@ -35,7 +35,7 @@
 <style scoped>
     ul li a {
         font-family: "Poppins", sans-serif;
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         font-weight: normal;
         color: #434343;
     }
