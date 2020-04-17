@@ -96,7 +96,7 @@ const mutations = {
 
   // Updates user info in state and localstorage
   UPDATE_USER_INFO(state, payload) {
-
+    console.log('payload', payload)
     // Get Data localStorage
     let userInfo = JSON.parse(localStorage.getItem("userInfo")) || state.AppActiveUser
 
@@ -127,8 +127,8 @@ const mutations = {
   },
 
   SET_OBJ_SUBMENU(state, obj){
-    state.menuSelecionado = obj.name;
-    state.submenu = obj.submenu;
+      state.menuSelecionado = obj.name;
+      state.submenu = obj.submenu;
   }
 }
 

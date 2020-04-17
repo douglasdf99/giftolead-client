@@ -51,7 +51,7 @@ import './globalComponents.js'
 
 // Styles: SCSS
 import './assets/scss/main.scss'
-
+import './assets/css/base.css'
 
 // Tailwind
 import '@/assets/css/main.css'

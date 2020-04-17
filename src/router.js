@@ -38,14 +38,14 @@ const router = new Router({
             // =============================================================================
             // MAIN LAYOUT ROUTES
             // =============================================================================
-            path: '',
+            path: '/antigo',
             component: () => import('./layouts/main/Main.vue'),
             children: [
                 // =============================================================================
                 // Theme Routes
                 // =============================================================================
                 {
-                    path: '/',
+                    path: '/antigo/',
                     redirect: '/dashboard/analytics'
                 },
                 {
@@ -1289,6 +1289,7 @@ const router = new Router({
         {
             path: '',
             component: () => import('./layouts/main/Base.vue'),
+            meta: {authRequired: true},
             children: [
                 {
                     path: '/',
@@ -1307,7 +1308,7 @@ const router = new Router({
                 // =============================================================================
                 {
                     path: '/configuracoes/',
-                    redirect: '/configuracoes/login',
+                    redirect: '/configuracoes/geral',
                     rule: 'editor'
                 },
                 {
@@ -1325,7 +1326,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/configuracoes/geral/dados-empresa',
+                    path: '/configuracoes/empresa',
                     name: 'dados-empresa',
                     component: () => import('@/views/configuracoes/DadosEmpresa.vue'),
                     meta: {
@@ -1336,6 +1337,21 @@ const router = new Router({
                             {title: 'Dados da Empresa', active: true},
                         ],
                         pageTitle: 'Dados da Empresa',
+                        rule: 'editor'
+                    },
+                },
+                {
+                    path: '/configuracoes/contas',
+                    name: 'contas',
+                    component: () => import('@/views/contas/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Contas', active: true},
+                        ],
+                        pageTitle: 'Contas',
                         rule: 'editor'
                     },
                 }
@@ -1361,7 +1377,7 @@ const router = new Router({
                 },
                 {
                     path: '/login',
-                    name: 'page-login',
+                    name: 'login',
                     component: () => import('@/views/pages/login/Login.vue'),
                     meta: {
                         rule: 'editor'
@@ -1493,9 +1509,11 @@ router.beforeEach((to, from, next) => {
         // }
 
         // If auth required, check login. If login fails redirect to login page
-        if (to.meta.authRequired) {
-            if (!(auth.isAuthenticated() || firebaseCurrentUser)) {
-                router.push({path: '/pages/login', query: {to: to.path}})
+        if (to.matched.some(record => record.meta.authRequired)) {
+            console.log('auth', auth.isAuthenticated())
+            console.log('firebase', firebaseCurrentUser)
+            if (!localStorage.getItem('userInfo')) {
+                router.push({path: '/login', query: {to: to.path}})
             }
         }
 

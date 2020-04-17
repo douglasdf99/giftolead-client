@@ -7,6 +7,8 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
+import axios from "@/axios.js"
+
 const actions = {
 
     // /////////////////////////////////////////////
@@ -64,7 +66,22 @@ const actions = {
     },
     submenu({commit}, obj) {
         commit('SET_OBJ_SUBMENU', obj)
-    }
+        localStorage.setItem('submenu', JSON.stringify(obj))
+    },
+
+    /* CRUD básico */
+    addItem({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/${dados.rota}`, dados.item)
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    /* Fim*/
 };
 
 export default actions

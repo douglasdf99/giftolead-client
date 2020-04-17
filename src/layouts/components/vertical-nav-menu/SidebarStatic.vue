@@ -11,7 +11,7 @@
 <template>
     <div>
         <div class="parentx-static" style="height: 100vh; position: fixed !important;">
-            <vs-sidebar static-position default-index="1" color="primary"
+            <vs-sidebar static-position default-index="1" color="primary" :hidden-background="true"
                         class="sidebarx sidebarpage bordered-sidebar" spacer v-model="active">
                 <div class="header-sidebar" slot="header" style="padding-left: 15%">
                     <div class="text-center">
@@ -47,8 +47,8 @@
          }
         },
         methods: {
-            ativarMenu() {
-                this.$store.dispatch('ativarMenu', true);
+            ativarMenu(e) {
+                this.$store.dispatch('ativarMenu', e);
             }
         },
         computed: {
@@ -61,6 +61,9 @@
             submenu() {
                 return this.$store.state.submenu;
             }
+        },
+        created() {
+
         }
     }
 </script>

@@ -20,16 +20,16 @@
                         <div class="vx-col sm:w-full md:w-full lg:w-1/2 mx-auto self-center d-theme-dark-bg">
                             <div class="p-8">
                                 <div class="vx-card__title mb-8">
-                                    <h4 class="mb-4">Recupere sua senha</h4>
-                                    <p>Por favor, entre com seu endereço de e-mail e enviaremos as intruções para a
+                                    <h4 class="mb-4">{{enviado ? 'Enviamos o e-mail com a chave de segurança' : 'Recupere sua senha'}}</h4>
+                                    <p v-show="!enviado">Por favor, entre com seu endereço de e-mail e enviaremos as intruções para a
                                         recuperação de senha.</p>
                                 </div>
 
-                                <vs-input type="email" label-placeholder="Email" v-model="email" class="w-full mb-8" onautocomplete/>
-                                <vs-button type="border" to="/pages/login" class="px-4 w-full md:w-auto">Voltar ao
+                                <vs-input v-show="!enviado" type="email" label-placeholder="Email" v-model="email" class="w-full mb-8" onautocomplete/>
+                                <vs-button type="border" to="/login" class="px-4 w-full md:w-auto">Voltar ao
                                     Login
                                 </vs-button>
-                                <vs-button class="float-right px-4 w-full md:w-auto mt-3 mb-8 md:mt-0 md:mb-0"
+                                <vs-button v-show="!enviado" class="float-right px-4 w-full md:w-auto mt-3 mb-8 md:mt-0 md:mb-0"
                                            @click="solicitar">Solicitar
                                 </vs-button>
                             </div>
@@ -48,6 +48,7 @@
         data() {
             return {
                 email: '',
+                enviado: false
             }
         },
         methods: {
@@ -62,13 +63,14 @@
                         iconPack: 'feather',
                         icon: 'icon-check-circle',
                         color: 'success'
-                    })
+                    });
+                    this.enviado = true;
                 }).catch(erro => {
                     this.$vs.loading.close();
                     console.log(erro);
                     this.$vs.notify({
                         title: 'Erro',
-                        text: "Não conseguimos encontrar um usuário com esse endereço de email.",
+                        text: "Houve um problema com o servidor, favor contate o suporte.",
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'

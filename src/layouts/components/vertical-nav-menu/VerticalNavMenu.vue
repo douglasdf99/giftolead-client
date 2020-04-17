@@ -59,6 +59,13 @@
         },
         created() {
             console.log('items', navMenuItems)
+            let submenu = JSON.parse(localStorage.getItem('submenu'));
+            console.log('submenu', submenu)
+            if(submenu.name){
+                this.$store.dispatch('submenu', submenu)
+                this.icone_destaque = submenu.icon
+                this.ativarMenu(false);
+            }
         },
         methods: {
             ativarMenu(e, obj = null) {
@@ -90,15 +97,9 @@
 <style lang="scss">
     @import "@/assets/scss/vuexy/pages/sidebar.scss";
 </style>
-
 <style>
-    .vs-sidebar--background {
-        background: unset !important;
-        z-index: 1000 !important;
-    }
-
     .main-menu {
-        z-index: 55000;
+        z-index: 50000;
         position: fixed;
         width: 13vw;
         height: 100vh;

@@ -321,26 +321,5 @@
 </script>
 
 <style>
-    .navbar-floating .vx-navbar-wrapper {
-        padding: 0;
-    }
-    .main-vertical .vx-navbar-wrapper {
-        width: 85%;
-    }
-    .navbar-floating .vx-navbar {
-        border-radius: 0;
-        padding: .8rem 10% .8rem 1rem;
-    }
-    .navbar-floating .router-content {
-        margin-top: 7.5rem;
-        margin-left: 7rem;
-    }
-    .router-view .content-area__heading h2 {
-        color: #4A4A4A;
-        font-family: "Poppins", sans-serif;
-        font-weight: 700;
-    }
-    .router-header {
-        margin-bottom: 6rem !important;
-    }
+
 </style>
