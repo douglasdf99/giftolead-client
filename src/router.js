@@ -1328,7 +1328,7 @@ const router = new Router({
                 {
                     path: '/configuracoes/empresa',
                     name: 'dados-empresa',
-                    component: () => import('@/views/configuracoes/DadosEmpresa.vue'),
+                    component: () => import('@/views/empresa/Show.vue'),
                     meta: {
                         breadcrumb: [
                             {title: 'Home', url: '/'},

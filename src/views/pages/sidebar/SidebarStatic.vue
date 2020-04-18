@@ -25,11 +25,11 @@
                 </vs-row>
                 <vs-row>
                     <vs-col vs-w="12">
-                        <ul id="submenu">
-                            <li v-for="item in submenu">
+                        <ul id="submenu"><!--
+                          <li v-for="item in submenu" :key="item.id">
                                 <vs-icon icon-pack="material-icons" :icon="item.icon"/>
                                 <router-link :to="item.slug"><span class="menu-name">{{item.name}}</span></router-link>
-                            </li>
+                            </li>-->
                         </ul>
                     </vs-col>
                 </vs-row>

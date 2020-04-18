@@ -88,7 +88,6 @@ require('vue-tour/dist/vue-tour.css')
 import VeeValidate from 'vee-validate';
 Vue.use(VeeValidate);
 
-
 // Google Maps
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
@@ -98,6 +97,16 @@ Vue.use(VueGoogleMaps, {
         libraries: 'places', // This is required if you use the Auto complete plug-in
     },
 })
+Vue.mixin({
+  methods: {
+    url_redirect: function (local) {
+      return window.location.protocol + '//' + window.location.host + '/' + local;
+    },
+    url_api: function (local) {
+      return 'http://127.0.0.1:8000/' + local;
+    }
+  }
+});
 
 // Vuejs - Vue wrapper for hammerjs
 import { VueHammer } from 'vue2-hammer'

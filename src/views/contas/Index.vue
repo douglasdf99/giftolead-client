@@ -10,13 +10,14 @@
             </vs-col>
             <vs-col vs-w="2" vs-offset="5" class="relative">
                 <vs-button color="primary" type="filled" class="btn-incluir" @click="addNewData">Incluir conta</vs-button>
-                <img src="@/assets/images/util/check-incluir.svg" class="check-incluir">
+                <img :src="url_api('images/check-incluir.svg') " class="check-incluir">
+                <!--<img src="@/assets/images/util/check-incluir.svg" >-->
             </vs-col>
         </vs-row>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="sem-item">
-                    <img src="@/assets/images/util/sem-item-cadastrado.png">
+                    <img :src="url_api('images/sem-item-cadastrado.png')">
                     <p class="text-sem-item">
                         Para inserir novos registros você <br> pode clicar em incluir conta.
                     </p>
