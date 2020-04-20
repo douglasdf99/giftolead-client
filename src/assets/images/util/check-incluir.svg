@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="55" height="55" viewBox="0 0 55 55">
+  <defs>
+    <filter id="Retângulo_98" x="0" y="0" width="55" height="55" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feFlood flood-opacity="0.051"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="check-incluir" transform="translate(-1426.5 -69.5)">
+    <g transform="matrix(1, 0, 0, 1, 1426.5, 69.5)" filter="url(#Retângulo_98)">
+      <rect id="Retângulo_98-2" data-name="Retângulo 98" width="40" height="40" rx="12" transform="translate(7.5 7.5)" fill="#fff"/>
+    </g>
+    <path id="Icon_awesome-check" data-name="Icon awesome-check" d="M6.679,18.953.288,12.562a.983.983,0,0,1,0-1.39l1.39-1.39a.983.983,0,0,1,1.39,0l4.305,4.305,9.221-9.221a.983.983,0,0,1,1.39,0l1.39,1.39a.983.983,0,0,1,0,1.39L8.069,18.953A.983.983,0,0,1,6.679,18.953Z" transform="translate(1443.62 84.923)" fill="#9344c4"/>
+  </g>
+</svg>
