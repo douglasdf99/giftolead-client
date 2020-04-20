@@ -44,6 +44,9 @@ Vue.use(AuthPlugin);
 // ACL
 import acl from './acl/acl'
 
+//maks
+import VueTheMask from 'vue-the-mask'
+Vue.use(VueTheMask)
 
 // Globally Registered Components
 import './globalComponents.js'
