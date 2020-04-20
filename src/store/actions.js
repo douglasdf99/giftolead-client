@@ -70,9 +70,33 @@ const actions = {
     },
 
     /* CRUD básico */
+    getVarios({commit}, rota){
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/${rota}`)
+                .then((response) => {
+                    console.log('retorno', response)
+                    commit('SET_VARIOS', response.data.data);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     addItem({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/${dados.rota}`, dados.item)
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    updateItem({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.put(`/api/${dados.rota}/${dados.item.id}`, dados.item)
                 .then((response) => {
                     resolve(response)
                 })

@@ -129,6 +129,9 @@ const mutations = {
   SET_OBJ_SUBMENU(state, obj){
       state.menuSelecionado = obj.name;
       state.submenu = obj.submenu;
+  },
+  SET_VARIOS(state, obj){
+      state.items = obj;
   }
 }
 

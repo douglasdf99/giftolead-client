@@ -17,14 +17,14 @@
         <vs-divider class="mb-0"></vs-divider>
 
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
-
             <div class="p-6">
+                <v-select id="integracao" v-model="conta.integracao" label="Integracao" :options="opcoesIntegracao"/>
                 <!-- NAME -->
-                <vs-input label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full" name="nome" v-validate="'required'" />
+                <vs-input size="large" label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full" name="nome" v-validate="'required'" />
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
 
                 <!-- NAME -->
-                <vs-input label="Token da conta no Hotmart" autocomplete="off" v-model="conta.token" class="mt-5 w-full" name="token" v-validate="'required'" />
+                <vs-input size="large" label="Token da conta no Hotmart" autocomplete="off" v-model="conta.token" class="mt-5 w-full" name="token" v-validate="'required'" />
                 <span class="text-danger text-sm" v-show="errors.has('token')">Este campo é obrigatório</span>
             </div>
         </VuePerfectScrollbar>
@@ -38,6 +38,7 @@
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import vSelect from 'vue-select'
 
     export default {
         props: {
@@ -67,7 +68,8 @@
             return {
                 conta: {
                     empresa_id: 1
-                }
+                },
+                opcoesIntegracao: []
             }
         },
         computed: {
@@ -96,15 +98,24 @@
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
+                        this.$vs.loading()
                         const obj = {...this.conta};
-
                         if(this.conta.id !== null && this.conta.id >= 0) {
                             obj._method = 'PUT';
-                            this.$store.dispatch("updateItem", obj).catch(err => { console.error(err) })
+                            this.$store.dispatch("updateItem", {rota: 'contas', item: obj}).then(() => {
+                                this.$vs.loading.close()
+                                this.$vs.notify({
+                                    title: 'Sucesso',
+                                    text: "A conta foi atualizada com sucesso.",
+                                    iconPack: 'feather',
+                                    icon: 'icon-check-circle',
+                                    color: 'success'
+                                });
+                                this.$store.dispatch('getVarios', 'contas');
+                            }).catch(err => { console.error(err) })
                         }else{
                             delete obj.id
                             console.log('obj', obj)
-                            this.$vs.loading()
                             this.$store.dispatch("addItem", {rota: 'contas', item: obj}).then(() => {
                                 this.$vs.loading.close()
                                 this.$vs.notify({
@@ -131,21 +142,22 @@
                     }
                 })
             },
-            updateCurrImg(input) {
-                if (input.target.files && input.target.files[0]) {
-                    var reader = new FileReader()
-                    reader.onload = e => {
-                        this.dataImg = e.target.result
-                    }
-                    reader.readAsDataURL(input.target.files[0])
-                }
+            getOpcoes(){
+                this.$store.dispatch('contas/getOpcoes').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.opcoesIntegracao.push({text: item.descricao, value: item.id})
+                    });
+                    console.log('af', this.opcoesIntegracao)
+                })
             }
         },
         components: {
             VuePerfectScrollbar,
+            'v-select': vSelect
         },
         created() {
-
+            this.getOpcoes();
         }
     }
 </script>

@@ -1,4 +1,7 @@
 /* Layout Base */
+body {
+    background-color: #f4f4f4;
+}
 .navbar-floating .vx-navbar-wrapper {
     padding: 0;
 }
@@ -64,4 +67,44 @@
     position: absolute;
     top: 47%;
     left: 30%;
+}
+
+.com-item .table-items {
+    margin-top: 5rem;
+    width: 100%;
+}
+
+.com-item .table-items th {
+    font-family: "Lato", sans-serif;
+    font-weight: 300;
+    font-size: 1.3rem;
+}
+
+.com-item .tr-values {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+[dir] .com-item .vs-con-table .vs-con-tbody .vs-table--tbody-table .tr-values .vs-table--td {
+    padding: 1rem;
+    background-color: white;
+    border: none;
+}
+
+[dir] .vs-con-table .vs-con-tbody {
+    background-color: #f4f4f4 !important;
+    border: none !important;
+}
+
+.table-items .vs-table--thead tr {
+    background-color: transparent !important;
+}
+
+.btn-more-icon {
+    color: black;
+}
+
+.add-new-data-sidebar[data-v-19dba1ea] .vs-sidebar {
+    width: 40%;
 }
