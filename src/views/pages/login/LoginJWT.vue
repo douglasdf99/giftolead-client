@@ -1,5 +1,6 @@
 <template>
     <div>
+      <div class="mb-8">
         <vs-input size="large"
                   v-validate="'required|email|min:3'"
                   data-vv-validate-on="blur"
@@ -10,7 +11,9 @@
                   label-placeholder="E-mail"
                   v-model="email"
                   class="w-full"/>
-
+        <span class="text-danger text-sm"
+              v-show="errors.has('email')">{{ errors.first('email') }}</span>
+      </div>
         <vs-input size="large"
                   data-vv-validate-on="blur"
                   v-validate="'required|min:6|'"
@@ -22,6 +25,8 @@
                   label-placeholder="Senha"
                   v-model="password"
                   class="w-full mt-6"/>
+      <span class="text-danger text-sm"
+            v-show="errors.has('password')">{{ errors.first('password') }}</span>
 
         <div class="flex flex-wrap justify-between my-5">
             <vs-checkbox v-model="show_password" @click="mostrar_senha" class="show_password mb-3">Mostrar senha
@@ -36,6 +41,23 @@
 </template>
 
 <script>
+  import {Validator} from 'vee-validate';
+
+  const dict = {
+    custom: {
+      email: {
+        required: 'Por favor, insira o seu email para acessar o sistema',
+        email: 'O email informado está com formato inválido',
+        min: 'O limite mínimo são de 3 caractérs'
+
+      },
+      password: {
+        required: 'Por favor, insira a senha para acessar o sistema',
+        min: 'O tamanho mínimo da senha são de 3 caractérs'
+      }
+    }
+  };
+  Validator.localize('pt-br', dict);
     export default {
         data() {
             return {
@@ -94,10 +116,11 @@
                         });
                     })
                     .catch(error => {
+                      console.log(error.response);
                         this.$vs.loading.close()
                         this.$vs.notify({
                             title: 'Error',
-                            text: error.message,
+                            text: error.response.data,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'

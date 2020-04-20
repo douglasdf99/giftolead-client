@@ -6,19 +6,20 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full mb-2">
             <span class="font-regular mb-2">Razão Social</span>
-            <vs-input class="w-full" v-validate="'required'" name="razao_social" v-model="empresa.razao_social" size="large"/>
-            <span class="text-danger text-sm" v-show="errors.has('razao_social')">{{ errors.first('razao_social') }}</span>
+            <input class="vs-inputx vs-input--input large hasValue" size="large"  v-validate="'required'"  name="razao_social" v-model="empresa.razao_social"  type="text"  />
+            <span class="text-danger text-sm"
+                  v-show="errors.has('razao_social')">{{ errors.first('razao_social') }}</span>
           </div>
         </div>
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/2 w-full mb-2">
             <span class="font-regular mb-2">CNPJ</span>
-            <vs-input class="w-full" v-validate="'required'" name="cnpj" v-model="empresa.cnpj" size="large"/>
-            <span class="text-danger text-sm" v-show="errors.has('cnpj')">{{ errors.first('cnpj') }}</span>
+            <vs-input class="w-full" v-validate="'required'" v-mask="'##.###.###/####-##'" name="cnpj" v-model="empresa.cnpj" size="large"/>
+            <span class="text-danger text-sm"  v-show="errors.has('cnpj')">{{ errors.first('cnpj') }}</span>
           </div>
           <div class="vx-col sm:w-1/2 w-full mb-2">
             <span class="font-regular mb-2">Email Comercial</span>
-            <vs-input class="w-full"  v-validate="'required|email'" name="email"  v-model="empresa.email" size="large"/>
+            <vs-input class="w-full"  v-validate="'required|email'" name="email" v-model="empresa.email" size="large"/>
             <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
 
           </div>
@@ -26,7 +27,7 @@
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/2 w-full mb-2">
             <span class="font-regular mb-2">Website</span>
-            <vs-input class="w-full" v-validate="'required'" name="site" v-model="empresa.site" size="large"/>
+            <vs-input class="w-full "  v-validate="'required'" name="site" v-model="empresa.site" size="large"/>
             <span class="text-danger text-sm" v-show="errors.has('site')">{{ errors.first('site') }}</span>
 
           </div>
@@ -35,49 +36,63 @@
       <div class="vx-col sm:w-1/3 w-full mb-2">
         <div class="">
           <div class="vx-row mb-6">
-          <span class="font-regular mb-2 ml-2">Logotipo da etiqueta</span>
+            <span class="font-regular mb-2 ml-2">Logotipo da etiqueta</span>
 
-            <div class="uploader"
-                 @dragenter="OnDragEnter"
+            <div style="width: 100%" @dragenter="OnDragEnter"
                  @dragleave="OnDragLeave"
                  @dragover.prevent
                  @drop="onDrop"
                  :class="{ dragging: isDragging }">
-              <div class="images-preview flex justify-center align-center"
-                   v-if="empresa.logo && !images.length">
-                <div class="img-wrapper">
-                  <vs-avatar size="120px" :src="url_api(empresa.logo)"/>
-                  <div class="details flex justify-center align-center">
-                    <div class="upload-control">
-                      <label for="file">Alterar Arquivo</label>
-                    </div>
+              <vx-card class="grid-view-item mb-base overflow-hidden" v-if="empresa.logo && !images.length">
+                <template slot="no-body">
+                  <!-- ITEM IMAGE -->
+                  <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
+                    <img :src="url_api(empresa.logo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
                   </div>
-                </div>
-              </div>
-              <div v-show="!empresa.logo">
+                  <div class="item-details px-4">
+                  </div>
+                  <div class="flex flex-wrap">
+                    <label  class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer" for="file">
+                        <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
+                        <label class="text-sm font-semibold ml-2" for="file">Alterar Logotipo</label>
+                    </label>
+                  </div>
+                </template>
+              </vx-card>
+
+              <vx-card class="grid-view-item mb-base overflow-hidden" v-show="images.length">
+                <template slot="no-body">
+                  <!-- ITEM IMAGE -->
+                  <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
+                       v-for="(image, index) in images" :key="index">
+                    <img :src="image" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
+                  </div>
+                  <div class="item-details px-4">
+                  </div>
+                  <div class="flex flex-wrap">
+                    <label  class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer" for="file">
+                      <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
+                      <label class="text-sm font-semibold ml-2" for="file">Alterar Logotipo</label>
+                    </label>
+                  </div>
+                </template>
+              </vx-card>
+              <div class="uploader" v-show="!empresa.logo">
                 <div v-show="!images.length">
                   <label for="file">
                     <i class="fa fa-cloud-upload"></i>
                     <img :src="url_api('images/upload.png')">
-                  <p class="text-lg">Arraste e solte ou clique aqui</p>
-                  <div class="file-input">
-                    <input type="file" id="file" @change="onInputChange">
-                  </div>
+                    <p class="text-lg">Arraste e solte ou clique aqui</p>
+                    <div class="file-input">
+                      <input type="file" id="file" @change="onInputChange">
+                    </div>
                   </label>
                 </div>
               </div>
-              <div class="images-preview flex justify-center align-center"
-                   v-show="images.length">
-                <div class="img-wrapper" v-for="(image, index) in images" :key="index">
-                  <vs-avatar size="120px" :src="image"/>
-                  <div class="details flex justify-center align-center">
-                    <div class="upload-control">
-                      <label for="file">Alterar Arquivo</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+
             </div>
+
           </div>
         </div>
       </div>
@@ -89,7 +104,8 @@
           <div class="vx-col w-full mb-2">
             <span class="font-regular mb-2">Descrição da ordem de pagamento</span>
             <div>
-              <vs-textarea counter="20" label="Tamanho: 20"  v-validate="'max:20'" name="descricao"  :counter-danger.sync="counterDanger" v-model="empresa.descricao" />
+              <vs-textarea counter="20" label="Tamanho: 20" v-validate="'max:20'" name="descricao"
+                           :counter-danger.sync="counterDanger" v-model="empresa.descricao"/>
               <span class="text-danger text-sm" v-show="errors.has('descricao')">{{ errors.first('descricao') }}</span>
             </div>
           </div>
@@ -97,15 +113,18 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full mb-2">
             <span class="font-regular mb-2">Nota de rodapé da ordem</span>
-              <vs-textarea counter="20" label="Tamanho: 20" v-validate="'max:20'"  name="rodape"  :counter-danger.sync="counterDanger" v-model="empresa.rodape" />
+            <vs-textarea counter="20" label="Tamanho: 20" v-validate="'max:20'" name="rodape"
+                         :counter-danger.sync="counterDanger" v-model="empresa.rodape"/>
             <span class="text-danger text-sm" v-show="errors.has('rodape')">{{ errors.first('rodape') }}</span>
 
           </div>
         </div>
       </div>
     </div>
-    <div v-if="edited">
-      <footer-doug>
+
+
+    <transition name="fade">
+      <footer-doug v-if="edited">
         <div class="container">
           <div class="vx-row mb-2">
             <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
@@ -113,8 +132,7 @@
           </div>
         </div>
       </footer-doug>
-    </div>
-
+    </transition>
   </div>
 
 </template>
@@ -122,7 +140,8 @@
 <script>
   import moduleEmpresa from "@/store/empresa/moduleEmpresa.js"
   // register custom messages
-  import { Validator } from 'vee-validate';
+  import {Validator} from 'vee-validate';
+
   const dict = {
     custom: {
       razao_social: {
@@ -133,7 +152,7 @@
       },
       email: {
         required: 'Por favor, insira o email comercial',
-        email:'O email informado está com formato inválido'
+        email: 'O email informado está com formato inválido'
       },
       site: {
         required: 'Por favor, insira o website da empresa',
@@ -148,25 +167,25 @@
   };
   Validator.localize('pt-br', dict);
   export default {
-    data:()=>({
+    data: () => ({
       name: "DadosEmpresa",
-      empresa : {
+      empresa: {
         razao: '',
         cnpj: '',
         email: '',
         site: '',
         descricao: '',
         rodape: '',
-
       },
+      empresaOld: {},
       files: [],
       images: [],
       isDragging: false,
       error: 0,
-      edited:false,
+      edited: false,
       counterDanger: false
     }),
-    beforeCreate(){
+    beforeCreate() {
       if (!moduleEmpresa.isRegistered) {
         this.$store.registerModule('empresa', moduleEmpresa)
         moduleEmpresa.isRegistered = true
@@ -177,17 +196,17 @@
       this.getEmpresa();
     },
 
-    computed:{
+    computed: {
       empresaDb() {
-          return this.$store.state.empresa.empresa;
+        return this.$store.state.empresa.empresa;
       }
     },
-    mounted(){
+    mounted() {
       this.verifica();
-      },
+    },
     watch: {
       empresa: {
-        handler(val){
+        handler(val) {
           console.log('mudou');
           if (val) {
             this.verifica();
@@ -196,33 +215,30 @@
         deep: true
       },
     },
-    methods:{
-      successUpload(event){
-        console.log('evento sucesso',event);
+    methods: {
+      successUpload(event) {
+        console.log('evento sucesso', event);
 
-        this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
+        this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
       },
-      errorUpload(event){
-        console.log('evento error',event);
-        this.$vs.notify({color:'success',title:'Upload Success',text:'Lorem ipsum dolor sit amet, consectetur'})
+      errorUpload(event) {
+        console.log('evento error', event);
+        this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
       },
-      verifica(){
-        if (JSON.stringify(this.empresaDb) === JSON.stringify(this.empresa)) {
-          console.log('empresa1',this.empresa)
-          console.log('empresa2',this.empresaDb)
+      verifica() {
+        if (JSON.stringify(this.empresaOld) === JSON.stringify(this.empresa)) {
           this.edited = false;
-        }else{
-          console.log('empresa1',this.empresa)
-          console.log('empresa2',this.empresaDb)
+        } else {
           this.edited = true;
         }
       },
-      getEmpresa(){
+      getEmpresa() {
         this.$vs.loading();
         this.$store.dispatch('empresa/getEmpresa')
           .then((response) => {
             this.$vs.loading.close();
             this.empresa = response;
+            this.empresaOld = JSON.parse(JSON.stringify(response));
           })
           .catch(error => {
             this.$vs.loading.close();
@@ -236,9 +252,9 @@
           })
       },
 
-      updateEmpresa(){
+      updateEmpresa() {
         this.$validator.validateAll().then(result => {
-          if(result) {
+          if (result) {
             this.$vs.loading();
             const formData = new FormData();
             this.files.forEach(file => {
@@ -252,11 +268,12 @@
             formData.append('descricao', this.empresa.descricao);
             formData.append('rodape', this.empresa.rodape);
 
-            this.$store.dispatch('empresa/updateEmpresa',{id: 1, dados: formData} )
+            this.$store.dispatch('empresa/updateEmpresa', {id: 1, dados: formData})
               .then(() => {
                 console.log('enviou')
                 this.$vs.loading.close();
-                this.$vs.notify({color:'success',title:'Sucesso!',text:'Dados alterados com sucesso'})
+                this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
+
               })
               .catch(error => {
                 this.$vs.loading.close();
@@ -268,7 +285,7 @@
                   color: 'danger'
                 })
               })
-          }else{
+          } else {
             this.$vs.notify({
               title: 'Error',
               text: 'verifique os erros específicos',
@@ -312,7 +329,7 @@
           return;
         }
         this.files.push(file);
-        this.empresa.logo =file;
+        this.empresa.logo = file;
         const img = new Image(),
           reader = new FileReader();
         this.images.pop();
@@ -335,9 +352,19 @@
 </script>
 
 <style>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+  {
+    opacity: 0;
+  }
+
   .con-input-upload.disabled-upload {
     display: none;
   }
+
   .con-img-upload {
     width: 100%;
     background: unset;
@@ -349,6 +376,7 @@
     -moz-column-gap: 5px;
     column-gap: 5px;
   }
+
   .con-input-upload {
     background: #ffffff;
     width: 300px;
@@ -359,7 +387,7 @@
     position: relative;
     -webkit-transition: all .25s ease;
     transition: all .25s ease;
-    border: 1px dashed rgba(0,0,0,.1);
+    border: 1px dashed rgba(0, 0, 0, .1);
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -375,13 +403,14 @@
     flex-direction: column;
     margin: 0px;
   }
+
   .con-img-upload .img-upload {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    background: rgba(0,80,0,.5);
+    background: rgba(0, 80, 0, .5);
     background: #fff;
-    -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,.1);
-    box-shadow: 0 5px 20px 0 rgba(0,0,0,.1);
+    -webkit-box-shadow: 0 5px 20px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0 5px 20px 0 rgba(0, 0, 0, .1);
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
     display: -webkit-box;
@@ -402,18 +431,19 @@
     margin: 5px;
     cursor: pointer;
   }
+
   .vs-con-textarea {
     background: white;
     width: 100%;
     position: relative;
-    border: 1px solid rgba(0,0,0,.08);
+    border: 1px solid rgba(0, 0, 0, .08);
     -webkit-box-shadow: 0 0 0 0 transparent;
     box-shadow: 0 0 0 0 transparent;
     border-radius: 6px;
-    -webkit-transition: boxShadow .25s ease,border .25s ease,-webkit-transform .25s ease;
-    transition: boxShadow .25s ease,border .25s ease,-webkit-transform .25s ease;
-    transition: boxShadow .25s ease,border .25s ease,transform .25s ease;
-    transition: boxShadow .25s ease,border .25s ease,transform .25s ease,-webkit-transform .25s ease;
+    -webkit-transition: boxShadow .25s ease, border .25s ease, -webkit-transform .25s ease;
+    transition: boxShadow .25s ease, border .25s ease, -webkit-transform .25s ease;
+    transition: boxShadow .25s ease, border .25s ease, transform .25s ease;
+    transition: boxShadow .25s ease, border .25s ease, transform .25s ease, -webkit-transform .25s ease;
     -webkit-transform: translate(0);
     transform: translate(0);
     margin-bottom: 16px;
