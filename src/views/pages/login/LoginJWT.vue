@@ -1,63 +1,65 @@
 <template>
     <div>
-      <div class="mb-8">
-        <vs-input size="large"
-                  v-validate="'required|email|min:3'"
-                  data-vv-validate-on="blur"
-                  name="email"
-                  icon-no-border
-                  icon="icon icon-user"
-                  icon-pack="feather"
-                  label-placeholder="E-mail"
-                  v-model="email"
-                  class="w-full"/>
-        <span class="text-danger text-sm"
-              v-show="errors.has('email')">{{ errors.first('email') }}</span>
-      </div>
-        <vs-input size="large"
-                  data-vv-validate-on="blur"
-                  v-validate="'required|min:6|'"
-                  :type="tipo"
-                  name="password"
-                  icon-no-border
-                  icon="icon icon-lock"
-                  icon-pack="feather"
-                  label-placeholder="Senha"
-                  v-model="password"
-                  class="w-full mt-6"/>
-      <span class="text-danger text-sm"
-            v-show="errors.has('password')">{{ errors.first('password') }}</span>
+        <form @submit="loginJWT">
+            <div class="mb-8">
+                <vs-input size="large"
+                          v-validate="'required|email|min:3'"
+                          data-vv-validate-on="blur"
+                          name="email"
+                          icon-no-border
+                          icon="icon icon-user"
+                          icon-pack="feather"
+                          label-placeholder="E-mail"
+                          v-model="email"
+                          class="w-full"/>
+                <span class="text-danger text-sm"
+                      v-show="errors.has('email')">{{ errors.first('email') }}</span>
+            </div>
+            <vs-input size="large"
+                      data-vv-validate-on="blur"
+                      v-validate="'required|min:6|'"
+                      :type="tipo"
+                      name="password"
+                      icon-no-border
+                      icon="icon icon-lock"
+                      icon-pack="feather"
+                      label-placeholder="Senha"
+                      v-model="password"
+                      class="w-full mt-6"/>
+            <span class="text-danger text-sm"
+                  v-show="errors.has('password')">{{ errors.first('password') }}</span>
 
-        <div class="flex flex-wrap justify-between my-5">
-            <vs-checkbox v-model="show_password" @click="mostrar_senha" class="show_password mb-3">Mostrar senha
-            </vs-checkbox>
-            <router-link to="/esqueceu-a-senha">Esqueceu a senha?</router-link>
-        </div>
-        <div class="flex flex-wrap items-center justify-between mb-3 buttons-login">
-            <a href="#" class="registrar">Não tenho conta!</a>
-            <vs-button :disabled="!validateForm" @click="loginJWT">Entrar</vs-button>
-        </div>
+            <div class="flex flex-wrap justify-between my-5">
+                <vs-checkbox v-model="show_password" @click="mostrar_senha" class="show_password mb-3">Mostrar senha
+                </vs-checkbox>
+                <router-link to="/esqueceu-a-senha">Esqueceu a senha?</router-link>
+            </div>
+            <div class="flex flex-wrap items-center justify-between mb-3 buttons-login">
+                <a href="#" class="registrar">Não tenho conta!</a>
+                <button type="submit" class="btn-entrar bg-primary" :disabled="!validateForm">Entrar</button>
+            </div>
+        </form>
     </div>
 </template>
 
 <script>
-  import {Validator} from 'vee-validate';
+    import {Validator} from 'vee-validate';
 
-  const dict = {
-    custom: {
-      email: {
-        required: 'Por favor, insira o seu email para acessar o sistema',
-        email: 'O email informado está com formato inválido',
-        min: 'O limite mínimo são de 3 caractérs'
+    const dict = {
+        custom: {
+            email: {
+                required: 'Por favor, insira o seu email para acessar o sistema',
+                email: 'O email informado está com formato inválido',
+                min: 'O limite mínimo são de 3 caractérs'
 
-      },
-      password: {
-        required: 'Por favor, insira a senha para acessar o sistema',
-        min: 'O tamanho mínimo da senha são de 3 caractérs'
-      }
-    }
-  };
-  Validator.localize('pt-br', dict);
+            },
+            password: {
+                required: 'Por favor, insira a senha para acessar o sistema',
+                min: 'O tamanho mínimo da senha são de 3 caractérs'
+            }
+        }
+    };
+    Validator.localize('pt-br', dict);
     export default {
         data() {
             return {
@@ -92,8 +94,8 @@
                 }
                 return true
             },
-            loginJWT() {
-
+            loginJWT(e) {
+                e.preventDefault();
                 if (!this.checkLogin()) return
 
                 // Loading
@@ -116,7 +118,7 @@
                         });
                     })
                     .catch(error => {
-                      console.log(error.response);
+                        console.log(error.response);
                         this.$vs.loading.close()
                         this.$vs.notify({
                             title: 'Error',
@@ -133,7 +135,7 @@
                 })
             },
             mostrar_senha() {
-                this.tipo = (!this.show_password ? 'text': 'password')
+                this.tipo = (!this.show_password ? 'text' : 'password')
             }
         }
     }
@@ -149,5 +151,16 @@
         color: #9344C4;
         font-weight: bold;
         cursor: pointer;
+    }
+
+    .btn-entrar {
+        padding: 1rem 4rem;
+        background-color: #9344C4;
+        font-family: "Poppins", sans-serif;
+        color: white;
+        border-radius: 10px;
+        border: none;
+        font-weight: bold;
+        font-size: 1.2rem;
     }
 </style>
