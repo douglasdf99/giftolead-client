@@ -18,7 +18,8 @@
 
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
-                <v-select id="integracao" v-model="conta.integracao" label="Integracao" :options="opcoesIntegracao"/>
+
+              <v-select id="integracao" v-model="selected"   :options="opcoesIntegracao"/>
                 <!-- NAME -->
                 <vs-input size="large" label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full" name="nome" v-validate="'required'" />
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
@@ -49,7 +50,9 @@
             data: {
                 type: Object,
                 default: () => {},
-            }
+            },
+          selected: {},
+
         },
         watch: {
             isSidebarActive(val) {
@@ -60,6 +63,8 @@
                 }else {
                     console.log('entrou aqui')
                     this.conta = JSON.parse(JSON.stringify(this.data))
+                  this.selected.value = this.conta.integracao_id
+                  this.selected.label = this.conta.descricao
                 }
                 // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
             }
@@ -146,9 +151,10 @@
                 this.$store.dispatch('contas/getOpcoes').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
-                        this.opcoesIntegracao.push({text: item.descricao, value: item.id})
+                        this.opcoesIntegracao.push({label: item.descricao, value: item.id})
                     });
                     console.log('af', this.opcoesIntegracao)
+                    console.log('af2', [{label: 'Foo', value: 'foo'}])
                 })
             }
         },
