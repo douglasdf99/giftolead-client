@@ -33,7 +33,7 @@ export default {
     right: 0;
     position: fixed;
     bottom: 0;
-    width: calc(100% - 265px);
+    width: calc(100% - 15.2vw);
     color: #494949;
     background-color: #f8f8f8;
     text-align: center;

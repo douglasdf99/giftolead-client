@@ -103,7 +103,8 @@ Vue.mixin({
       return window.location.protocol + '//' + window.location.host + '/' + local;
     },
     url_api: function (local) {
-      return 'http://127.0.0.1:8000/' + local;
+      return 'https://api.saveleads.com.br/' + local;
+      //return 'http://127.0.0.1:8000/' + local;
     }
   }
 });
