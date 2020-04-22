@@ -29,7 +29,7 @@
     export default {
         name: 'v-nav-menu-item',
         props: {
-            icon: {type: String, default: ""},
+            icon:  {type: String, default: ""},
             iconSmall: {type: Boolean, default: false},
             iconPack: {type: String, default: 'material-icons'},
             href: {type: [String, null], default: '#'},
