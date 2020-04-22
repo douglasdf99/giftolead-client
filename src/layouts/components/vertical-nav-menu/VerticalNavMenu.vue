@@ -1,216 +1,376 @@
 <!-- =========================================================================================
-    File Name: Sidebar.vue
-    Description: Sidebar - Imports all page portions
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-      Author: Pixinvent
-    Author URL: http://www.themeforest.net/user/pixinvent
+  File Name: VerticalNavMenu.vue
+  Description: Vertical NavMenu Component
+  Component Name: VerticalNavMenu
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
+    Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
 ========================================================================================== -->
 
 
 <template>
-    <div id="sidebar-demo">
-        <!--<sidebar-parent></sidebar-parent>-->
-        <div class="main-menu" v-bind:style="{animationName: animacao}">
-            <!--<img src="@/assets/images/sidebar/seta-esquerda.svg" class="seta" v-if="menuAtivo">-->
-            <img src="@/assets/images/sidebar/seta-direita.svg" class="seta" v-if="!menuAtivo">
-            <vs-icon icon-pack="material-icons" :icon="icone_destaque" class="icone-destaque" v-if="!menuAtivo"/>
-            <div class="header-sidebar" slot="header">
-                <div class="text-center">
-                    <img src="@/assets/images/sidebar/logo-1.png" alt="" class="logo" v-if="menuAtivo">
+    <div class="parentx">
+
+        <vs-sidebar
+                class="v-nav-menu items-no-padding main-menu"
+                v-model="isVerticalNavMenuActive"
+                ref="verticalNavMenu"
+                default-index="-1"
+                :click-not-close="clickNotClose"
+                :reduce-not-rebound="reduceNotRebound"
+                :parent="parent"
+                :hiddenBackground="clickNotClose"
+                :reduce="reduce"
+                v-hammer:swipe.left="onSwipeLeft">
+
+            <div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+
+                <!-- Header -->
+                <div class="header-sidebar flex items-end justify-between" slot="header">
+
+                    <!-- Logo -->
+                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">
+                        <logo class="w-10 mr-4 fill-current text-primary"/>
+                        <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>
+                    </router-link>
+                    <!-- /Logo -->
+
+                    <!-- Menu Buttons -->
+                    <div>
+                        <!-- Close Button -->
+                        <template v-if="showCloseButton">
+                            <feather-icon icon="XIcon" class="m-0 cursor-pointer"
+                                          @click="$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)"/>
+                        </template>
+
+                        <!-- Toggle Buttons -->
+                        <template v-else-if="!showCloseButton && !verticalNavMenuItemsMin">
+                            <feather-icon
+                                    id="btnVNavMenuMinToggler"
+                                    class="mr-0 cursor-pointer"
+                                    :icon="reduce ? 'CircleIcon' : 'DiscIcon'"
+                                    svg-classes="stroke-current text-primary"
+                                    @click="toggleReduce(!reduce)"/>
+                        </template>
+                    </div>
+                    <!-- /Menu Toggle Buttons -->
                 </div>
-            </div>
+                <!-- /Header -->
 
-            <!-- Menu Items -->
-            <ul id="MainMenu" v-if="menuAtivo">
-                <li v-for="item in navMenuItems" @click="ativarMenu(false, item)">
-                    <vs-icon icon-pack="material-icons" :icon="item.icon"/>
-                    <span class="menu-name">{{item.name}}</span>
-                </li>
-            </ul>
-            <!-- Fim Menu Items -->
+                <!-- Header Shadow -->
+                <div class="shadow-bottom" v-show="showShadowBottom"/>
 
-            <div class="clickavel" @click="ativarMenu(false)">
-                <img src="@/assets/images/sidebar/seta-menu-esquerda.svg" class="seta-menu" v-if="menuAtivo">
-                <img src="@/assets/images/sidebar/menu-voltar.svg" class="menu-icon" v-if="menuAtivo">
+                <!-- Menu Items -->
+                <VuePerfectScrollbar ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings"
+                                     @ps-scroll-y="psSectionScroll" :key="$vs.rtl">
+                    <template v-for="(item, index) in menuItemsUpdated">
+
+                        <!-- Group Header -->
+                        <span v-if="item.header && !verticalNavMenuItemsMin" class="navigation-header truncate"
+                              :key="`header-${index}`">
+              {{ $t(item.i18n) || item.header }}
+            </span>
+                        <!-- /Group Header -->
+
+                        <template v-else-if="!item.header">
+
+                            <!-- Nav-Item -->
+                            <v-nav-menu-item
+                                    v-if="!item.submenu"
+                                    :key="`item-${index}`"
+                                    :index="index"
+                                    :to="item.slug !== 'external' ? item.url : null"
+                                    :href="item.slug === 'external' ? item.url : null"
+                                    :icon="item.icon" :target="item.target"
+                                    :isDisabled="item.isDisabled"
+                                    :slug="item.slug">
+                                <span v-show="!verticalNavMenuItemsMin" class="truncate">{{ $t(item.i18n) || item.name }}</span>
+                                <vs-chip class="ml-auto" :color="item.tagColor"
+                                         v-if="item.tag && (isMouseEnter || !reduce)">{{ item.tag }}
+                                </vs-chip>
+                            </v-nav-menu-item>
+
+                            <!-- Nav-Group -->
+                            <template v-else>
+                                <v-nav-menu-group
+                                        :key="`group-${index}`"
+                                        :openHover="openGroupHover"
+                                        :group="item"
+                                        :groupIndex="index"
+                                        :open="isGroupActive(item)"/>
+                            </template>
+                            <!-- /Nav-Group -->
+                        </template>
+                    </template>
+                </VuePerfectScrollbar>
+                <!-- /Menu Items -->
             </div>
-            <div class="clickavel" @click="ativarMenu(true)">
-                <img src="@/assets/images/sidebar/seta-menu-direita.svg" class="seta-menu" v-if="!menuAtivo">
-                <img src="@/assets/images/sidebar/menu-abrir.svg" class="menu-icon menu-icon-abrir" v-if="!menuAtivo">
-            </div>
-        </div>
-        <sidebar-static></sidebar-static>
+        </vs-sidebar>
+
+        <!-- Swipe Gesture -->
+        <div
+                v-if="!isVerticalNavMenuActive"
+                class="v-nav-menu-swipe-area"
+                v-hammer:swipe.right="onSwipeAreaSwipeRight"/>
+        <!-- /Swipe Gesture -->
     </div>
 </template>
 
+
 <script>
-    import SidebarStatic from "./SidebarStatic";
-    import navMenuItems from "./navMenuItems.js";
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import VNavMenuGroup from './VerticalNavMenuGroup.vue'
+    import VNavMenuItem from './VerticalNavMenuItem.vue'
+
+    import Logo from "../Logo.vue"
 
     export default {
+        name: 'v-nav-menu',
         components: {
-            SidebarStatic,
+            VNavMenuGroup,
+            VNavMenuItem,
+            VuePerfectScrollbar,
+            Logo
         },
-        data() {
-            return {
-                navMenuItems: navMenuItems,
-                icone_destaque: ''
+        props: {
+            logo: {type: String},
+            openGroupHover: {type: Boolean, default: false},
+            parent: {type: String},
+            reduceNotRebound: {type: Boolean, default: true},
+            navMenuItems: {type: Array, required: true},
+            title: {type: String},
+        },
+        data: () => ({
+            clickNotClose: false, // disable close navMenu on outside click
+            isMouseEnter: false,
+            reduce: false, // determines if navMenu is reduce - component property
+            showCloseButton: false, // show close button in smaller devices
+            settings: {      // perfectScrollbar settings
+                maxScrollbarLength: 60,
+                wheelSpeed: 1,
+                swipeEasing: true
+            },
+            showShadowBottom: false,
+        }),
+        computed: {
+            isGroupActive() {
+                return (item) => {
+                    const path = this.$route.fullPath
+                    const routeParent = this.$route.meta ? this.$route.meta.parent : undefined
+                    let open = false
+
+                    let func = (item) => {
+                        if (item.submenu) {
+                            item.submenu.forEach((item) => {
+                                if (item.url && (path === item.url || routeParent === item.slug)) {
+                                    open = true
+                                } else if (item.submenu) {
+                                    func(item)
+                                }
+                            })
+                        }
+                    }
+                    func(item)
+                    return open
+                }
+            },
+            menuItemsUpdated() {
+                let clone = this.navMenuItems.slice()
+
+                for (let [index, item] of this.navMenuItems.entries()) {
+                    if (item.header && item.items.length && (index || 1)) {
+                        let i = clone.findIndex(ix => ix.header === item.header)
+                        for (let [subIndex, subItem] of item.items.entries()) {
+                            clone.splice(i + 1 + subIndex, 0, subItem)
+                        }
+                    }
+                }
+
+                return clone
+            },
+            isVerticalNavMenuActive: {
+                get() {
+                    return this.$store.state.isVerticalNavMenuActive
+                },
+                set(val) {
+                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', val)
+                }
+            },
+            layoutType() {
+                return this.$store.state.mainLayoutType
+            },
+            reduceButton: {
+                get() {
+                    return this.$store.state.reduceButton
+                },
+                set(val) {
+                    this.$store.commit('TOGGLE_REDUCE_BUTTON', val)
+                }
+            },
+            isVerticalNavMenuReduced() {
+                return Boolean(this.reduce && this.reduceButton)
+            },
+            verticalNavMenuItemsMin() {
+                return this.$store.state.verticalNavMenuItemsMin
+            },
+            windowWidth() {
+                return this.$store.state.windowWidth
             }
         },
-        created() {
-            console.log('items', navMenuItems)
-            let submenu = JSON.parse(localStorage.getItem('submenu'));
-            console.log('submenu', submenu)
-            if(submenu.name){
-                this.$store.dispatch('submenu', submenu)
-                this.icone_destaque = submenu.icon
-                this.ativarMenu(false);
+        watch: {
+            '$route'() {
+                if (this.isVerticalNavMenuActive && this.showCloseButton) this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
+            },
+            reduce(val) {
+                const verticalNavMenuWidth = val ? "reduced" : this.$store.state.windowWidth < 1200 ? "no-nav-menu" : "default"
+                this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth)
+
+                setTimeout(function () {
+                    window.dispatchEvent(new Event('resize'))
+                }, 100)
+            },
+            layoutType() {
+                this.setVerticalNavMenuWidth()
+            },
+            reduceButton() {
+                this.setVerticalNavMenuWidth()
+            },
+            windowWidth() {
+                this.setVerticalNavMenuWidth()
             }
         },
         methods: {
-            ativarMenu(e, obj = null) {
-                if(obj != null) {
-                    if (obj.submenu) {
-                        this.icone_destaque = obj.icon;
-                        this.$store.dispatch('ativarMenu', e);
-                        this.$store.dispatch('submenu', obj);
-                    } else {
-                        this.$router.push({name: obj.slug});
-                    }
-                } else {
-                    this.$store.dispatch('ativarMenu', e);
-                }
-            }
-        },
-        computed: {
-            animacao() {
-                return this.$store.state.animacaoMenu;
+            // handleWindowResize(event) {
+            //   this.windowWidth = event.currentTarget.innerWidth;
+            //   this.setVerticalNavMenuWidth()
+            // },
+            onSwipeLeft() {
+                if (this.isVerticalNavMenuActive && this.showCloseButton) this.isVerticalNavMenuActive = false
             },
-            menuAtivo() {
-                return this.$store.state.menuAtivo;
-            }
-        }
+            onSwipeAreaSwipeRight() {
+                if (!this.isVerticalNavMenuActive && this.showCloseButton) this.isVerticalNavMenuActive = true
+            },
+            psSectionScroll() {
+                this.showShadowBottom = this.$refs.verticalNavMenuPs.$el.scrollTop > 0 ? true : false
+            },
+            mouseEnter() {
+                if (this.reduce) this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false)
+                this.isMouseEnter = true
+            },
+            mouseLeave() {
+                if (this.reduce) this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', true)
+                this.isMouseEnter = false;
+            },
+            setVerticalNavMenuWidth() {
+
+                if (this.windowWidth > 1200) {
+                    if (this.layoutType === 'vertical') {
+
+                        // Set reduce
+                        this.reduce = this.reduceButton ? true : false
+
+                        // Open NavMenu
+                        this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
+
+                        // Set Menu Items Only Icon Mode
+                        const verticalNavMenuItemsMin = (this.reduceButton && !this.isMouseEnter) ? true : false
+                        this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', verticalNavMenuItemsMin)
+
+                        // Menu Action buttons
+                        this.clickNotClose = true
+                        this.showCloseButton = false
+
+                        const verticalNavMenuWidth = this.isVerticalNavMenuReduced ? "reduced" : "default"
+                        this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth)
+
+                        return
+                    }
+                }
+
+                // Close NavMenu
+                this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
+
+                // Reduce button
+                if (this.reduceButton) this.reduce = false
+
+                // Menu Action buttons
+                this.showCloseButton = true
+                this.clickNotClose = false
+
+                // Update NavMenu Width
+                this.$store.dispatch('updateVerticalNavMenuWidth', 'no-nav-menu')
+
+                // Remove Only Icon in Menu
+                this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false)
+
+
+                // if(this.layoutType === 'vertical' || (this.layoutType === 'horizontal' && this.windowWidth < 1200))
+                // if (this.windowWidth < 1200) {
+
+                //   // Close NavMenu
+                //   this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
+
+                //   // Reduce button
+                //   if (this.reduceButton) this.reduce = false
+
+                //   // Menu Action buttons
+                //   this.showCloseButton = true
+                //   this.clickNotClose   = false
+
+                //   // Update NavMenu Width
+                //   this.$store.dispatch('updateVerticalNavMenuWidth', 'no-nav-menu')
+
+                //   // Remove Only Icon in Menu
+                //   this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false)
+
+                // } else {
+
+                //   // Set reduce
+                //   this.reduce = this.reduceButton ? true : false
+
+                //   // Open NavMenu
+                //   this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
+
+                //   // Set Menu Items Only Icon Mode
+                //   const verticalNavMenuItemsMin = (this.reduceButton && !this.isMouseEnter) ? true : false
+                //   this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', verticalNavMenuItemsMin)
+
+                //   // Menu Action buttons
+                //   this.clickNotClose   = true
+                //   this.showCloseButton = false
+
+                //   const verticalNavMenuWidth   = this.isVerticalNavMenuReduced ? "reduced" : "default"
+                //   this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth)
+                // }
+            },
+            toggleReduce(val) {
+                this.reduceButton = val
+                this.setVerticalNavMenuWidth()
+            },
+        },
+        mounted() {
+            this.setVerticalNavMenuWidth()
+        },
     }
 
 </script>
 
 <style lang="scss">
-    @import "@/assets/scss/vuexy/pages/sidebar.scss";
+    @import "@/assets/scss/vuexy/components/verticalNavMenu.scss"
 </style>
+
 <style>
-    .main-menu {
-        z-index: 50000;
-        position: fixed;
-        width: 13vw;
-        height: 100vh;
-        background-color: #2B2B2B;
-        padding: 2rem;
-        animation-direction: normal;
-        animation-duration: .5s;
-        animation-fill-mode: forwards;
-    }
-
-    .seta, .seta-menu {
-        position: absolute;
-        z-index: 55000;
-        right: -15px;
-        top: 15%;
-        animation-direction: normal;
-        animation-duration: .5s;
-        animation-fill-mode: forwards;
-    }
-
-    .seta-menu {
-        top: 77%;
-    }
-
-    .menu-icon {
-        position: absolute;
-        z-index: 55000;
-        right: -10px;
-        top: 82%;
-        animation-direction: normal;
-        animation-duration: .5s;
-        animation-fill-mode: forwards;
-    }
-
-    .menu-icon-abrir {
-        right: 0 !important;
-    }
-
-    .header-sidebar {
-        margin: 15% 0;
-    }
-
-    #menuButton {
-        position: absolute;
-        bottom: 10px;
-    }
-
-    .clickavel {
-        cursor: pointer;
-    }
-
-    #MainMenu {
-        margin-top: 4rem;
-    }
-
-    #MainMenu li {
-        display: flex;
-        align-items: center;
-        font-size: 1.3rem;
+    .main-menu .vs-sidebar{
+        background: #2B2B2B;
         color: white;
-        margin-bottom: 1rem;
-        cursor: pointer;
-        transition-duration: .3s;
     }
-
-    #MainMenu li:hover {
-        transition-duration: .3s;
-        padding-left: 5%;
-    }
-
-    .vs-icon {
-        margin-right: 10px;
-        font-size: 1.4rem;
-    }
-
-    .menu-name {
-        font-family: "Poppins", sans-serif;
-    }
-
-    .icone-destaque {
+    [dir] .v-nav-menu .vs-sidebar--item a > *, .main-menu .v-nav-menu .feather-icon {
         color: white;
-        font-size: 2rem;
-        position: absolute;
-        top: 16.6%;
-        left: 10px;
-        z-index: 90000;
+    } {
+        color: white;
     }
-
-    @keyframes recolher {
-        from {
-            width: 12vw;
-        }
-        to {
-            width: 2vw;
-            padding: 0;
-        }
-    }
-
-    @keyframes expandir {
-        from {
-            width: 2vw;
-        }
-        to {
-            width: 13vw;
-            padding: 25px;
-        }
-    }
-
-    @media (max-width: 690px) {
-        #MainMenu {
-            display: none;
-        }
+    [dir=ltr] .v-nav-menu .shadow-bottom  {
+        display: none;
     }
 </style>

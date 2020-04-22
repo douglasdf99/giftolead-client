@@ -108,3 +108,16 @@ body {
 .add-new-data-sidebar[data-v-19dba1ea] .vs-sidebar {
     width: 40%;
 }
+
+@media (max-width: 1100px) {
+    .navbar-floating .router-content {
+        margin: 5rem 0;
+    }
+
+    .main-vertical .vx-navbar-wrapper {
+        width: 100%;
+    }
+    [dir=ltr] .router-content {
+        padding-right: 0;
+    }
+}

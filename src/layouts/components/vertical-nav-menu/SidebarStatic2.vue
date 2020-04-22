@@ -41,10 +41,10 @@
 <script>
     export default {
         data() {
-            return {
-                active: false,
-                rota: this.$route
-            }
+         return {
+             active: false,
+             rota: this.$route
+         }
         },
         methods: {
             ativarMenu(e) {
