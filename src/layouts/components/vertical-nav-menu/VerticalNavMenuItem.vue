@@ -10,18 +10,35 @@
 
 <template>
     <div v-if="canSee" class="vs-sidebar--item"
-         :class="[{'vs-sidebar-item-active' : false},{'disabled-item pointer-events-none' : isDisabled}]">
-        <router-link tabindex="-1" v-if="to" :class="[{'router-link-active': false}]" :to="to" :target="target">
-            <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
-            <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
-            <slot/>
-        </router-link>
+         :class="[{'vs-sidebar-item-active' : activeLink},{'disabled-item pointer-events-none' : isDisabled}]">
+        <div v-if="grande">
+            <router-link tabindex="-1" v-if="to" exact :class="[{'router-link-active': activeLink}]" :to="to"
+                         :target="target">
+                <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
+                <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
+                <slot/>
+            </router-link>
 
-        <a v-else :target="target" :href="href" tabindex="-1">
-            <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
-            <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
-            <slot/>
-        </a>
+            <a v-else :target="target" :href="href" tabindex="-1">
+                <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
+                <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
+                <slot/>
+            </a>
+        </div>
+        <div v-else>
+            <router-link tabindex="-1" v-if="to" exact :class="[activeLink ? 'show' : 'hide']" :to="to"
+                         :target="target">
+                <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
+                <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
+                <slot/>
+            </router-link>
+
+            <a v-else :target="target" :href="href" tabindex="-1">
+                <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
+                <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
+                <slot/>
+            </a>
+        </div>
     </div>
 </template>
 
@@ -29,7 +46,7 @@
     export default {
         name: 'v-nav-menu-item',
         props: {
-            icon:  {type: String, default: ""},
+            icon: {type: String, default: ""},
             iconSmall: {type: Boolean, default: false},
             iconPack: {type: String, default: 'material-icons'},
             href: {type: [String, null], default: '#'},
@@ -39,6 +56,7 @@
             featherIcon: {type: Boolean, default: false},
             target: {type: String, default: '_self'},
             isDisabled: {type: Boolean, default: false},
+            grande: {type: Boolean}
         },
         computed: {
             canSee() {
@@ -46,10 +64,20 @@
                 return this.to ? this.$acl.check(this.$router.match(this.to).meta.rule) : true
             },
             activeLink() {
-                return ((this.to == this.$route.path) || (this.$route.meta.parent == this.slug) && this.to) ? true : false
+                console.log('rota', this.$route.meta)
+                console.log('slug', this.slug)
+                return ((this.to == this.$route.path) || (this.$route.meta.pai == this.slug) && this.to) ? true : false
             }
         }
     }
 
 </script>
+<style>
+    .show {
+        display: block !important;
+    }
 
+    .hide {
+        display: none !important;
+    }
+</style>

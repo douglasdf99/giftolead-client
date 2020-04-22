@@ -45,14 +45,14 @@
                         </template>
 
                         <!-- Toggle Buttons -->
-                        <template v-else-if="!showCloseButton && !verticalNavMenuItemsMin">
+                        <!--<template v-else-if="!showCloseButton && !verticalNavMenuItemsMin">
                             <feather-icon
                                     id="btnVNavMenuMinToggler"
                                     class="mr-0 cursor-pointer"
                                     :icon="reduce ? 'CircleIcon' : 'DiscIcon'"
                                     svg-classes="stroke-current text-primary"
                                     @click="toggleReduce(!reduce)"/>
-                        </template>
+                        </template>-->
                     </div>
                     <!-- /Menu Toggle Buttons -->
                 </div>
@@ -80,17 +80,28 @@
                                     :href="item.slug === 'external' ? item.url : null"
                                     :icon="item.icon" :target="item.target"
                                     :isDisabled="item.isDisabled"
-                                    :slug="item.slug">
-                                <span v-show="!verticalNavMenuItemsMin" class="truncate">{{ $t(item.i18n) || item.name }}</span>
-                                <vs-chip class="ml-auto" :color="item.tagColor"
-                                         v-if="item.tag && (isMouseEnter || !reduce)">{{ item.tag }}
-                                </vs-chip>
+                                    :slug="item.slug" v-if="verticalNavMenuItemsMin"
+                                    :grande="false">
+                            </v-nav-menu-item>
+                            <v-nav-menu-item
+                                    :key="`item-${index}`"
+                                    :index="index"
+                                    :to="item.slug !== 'external' ? item.url : null"
+                                    :href="item.slug === 'external' ? item.url : null"
+                                    :icon="item.icon" :target="item.target"
+                                    :isDisabled="item.isDisabled"
+                                    :grande="true"
+                                    :slug="item.slug" v-else>
+                                <span class="truncate">{{ $t(item.i18n) || item.name }}</span>
                             </v-nav-menu-item>
                             <!-- /Nav-Group -->
                         </template>
                     </template>
                 </VuePerfectScrollbar>
                 <!-- /Menu Items -->
+                <div class="flex justify-center" v-if="verticalNavMenuItemsMin">
+                    <vs-icon :icon-pack="'material-icons'" icon="unfold_more" style="transform: rotate(90deg);"/>
+                </div>
             </div>
         </vs-sidebar>
 
@@ -371,6 +382,7 @@
     .main-menu .router-link-exact-active {
         padding: 0 !important;
     }
+
     .main-menu .vs-sidebar.vs-sidebar-reduce .vs-sidebar--item i {
         padding: unset !important;
     }

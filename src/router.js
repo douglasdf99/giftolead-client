@@ -1352,7 +1352,8 @@ const router = new Router({
                             {title: 'Contas', active: true},
                         ],
                         pageTitle: 'Contas',
-                        rule: 'editor'
+                        rule: 'editor',
+                        pai: 'configuracoes'
                     },
                 }
             ]

@@ -87,7 +87,7 @@
     position: relative;
     margin: auto;
     width: 100%;
-    height: calc(var(--vh, 1vh) * 100 - 69px);
+    height: calc(var(--vh, 1vh) * 80 - 69px);
 
     > .vs-sidebar-group{
       padding: 0 15px;
@@ -179,9 +179,10 @@
 
 
     .router-link-active{
-      background: linear-gradient(118deg, rgba(var(--vs-primary),1), rgba(var(--vs-primary),.7));
-      box-shadow: 0px 0px 10px 1px rgba(var(--vs-primary),.7);
-      // font-weight: 400;
+      //background: linear-gradient(118deg, rgba(var(--vs-primary),1), rgba(var(--vs-primary),.7));
+      //box-shadow: 0px 0px 10px 1px rgba(var(--vs-primary),.7);
+      font-weight: 400;
+      padding: 10px 15px !important;
       .feather-icon{
         color: $white;
       }

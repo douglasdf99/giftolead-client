@@ -36,46 +36,49 @@ export default [
         slug: 'dashboard'
     },
     {
-        url: null,
+        url: '/tickets/atender',
         name: "Tickets",
+        slug: 'tickets',
         icon: "all_inbox",
         submenu: [
             {
                 url: '/tickets/atender',
                 name: "Atender",
-                slug: "ticket-atender",
+                slug: "tickets",
                 icon: 'call'
             },
             {
                 url: '/tickets/minhas-comissoes',
                 name: "Minhas Comissões",
-                slug: "ticket-minhas-comissoes",
+                slug: "ticket",
                 icon: 'monetization_on'
             },
         ]
     },
     {
-        url: null,
+        url: '/planos/meus-planos',
         name: "Planos",
+        slug: 'planos',
         icon: "extension",
         submenu: [
             {
                 url: '/planos/meus-planos',
                 name: "Meus Planos",
-                slug: "planos-meus-planos",
+                slug: "planos",
                 icon: 'apps'
             },
         ]
     },
     {
-        url: null,
+        url: '/configuracoes/geral',
         name: "Configurações",
         icon: "toggle_off",
+        slug: 'configuracoes',
         submenu: [
             {
                 url: '/configuracoes/geral',
                 name: "Geral",
-                slug: "configuracoes-geral",
+                slug: "configuracoes",
                 icon: 'view_module'
             },
         ]
