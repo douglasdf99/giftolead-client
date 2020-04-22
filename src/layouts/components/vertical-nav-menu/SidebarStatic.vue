@@ -24,7 +24,7 @@
                 :reduce="false"
                 v-hammer:swipe.left="onSwipeLeft">
 
-            <div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
+            <div>
 
                 <!-- Header -->
                 <div class="header-sidebar flex items-end justify-between" slot="header">
@@ -58,50 +58,13 @@
                 </div>
                 <!-- /Header -->
 
-                <!-- Header Shadow -->
-                <div class="shadow-bottom" v-show="showShadowBottom"/>
-
                 <!-- Menu Items -->
                 <VuePerfectScrollbar ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings"
                                      @ps-scroll-y="psSectionScroll" :key="$vs.rtl">
-                    <template v-for="(item, index) in menuItemsUpdated">
+                    <template>
 
-                        <!-- Group Header -->
-                        <span v-if="item.header && !verticalNavMenuItemsMin" class="navigation-header truncate"
-                              :key="`header-${index}`">
-              {{ $t(item.i18n) || item.header }}
-            </span>
-                        <!-- /Group Header -->
+                        <h6>Teste</h6>
 
-                        <template v-else-if="!item.header">
-
-                            <!-- Nav-Item -->
-                            <v-nav-menu-item
-                                    v-if="!item.submenu"
-                                    :key="`item-${index}`"
-                                    :index="index"
-                                    :to="item.slug !== 'external' ? item.url : null"
-                                    :href="item.slug === 'external' ? item.url : null"
-                                    :icon="item.icon" :target="item.target"
-                                    :isDisabled="item.isDisabled"
-                                    :slug="item.slug">
-                                <span v-show="!verticalNavMenuItemsMin" class="truncate">{{ $t(item.i18n) || item.name }}</span>
-                                <vs-chip class="ml-auto" :color="item.tagColor"
-                                         v-if="item.tag && (isMouseEnter || !reduce)">{{ item.tag }}
-                                </vs-chip>
-                            </v-nav-menu-item>
-
-                            <!-- Nav-Group -->
-                            <template v-else>
-                                <v-nav-menu-group
-                                        :key="`group-${index}`"
-                                        :openHover="openGroupHover"
-                                        :group="item"
-                                        :groupIndex="index"
-                                        :open="isGroupActive(item)"/>
-                            </template>
-                            <!-- /Nav-Group -->
-                        </template>
                     </template>
                 </VuePerfectScrollbar>
                 <!-- /Menu Items -->
@@ -359,4 +322,12 @@
 
 <style lang="scss">
     @import "@/assets/scss/vuexy/components/verticalNavMenu.scss"
+</style>
+
+
+<style>
+    .secundary-menu .vs-sidebar {
+        margin-left: 80px;
+        max-width: 210px;
+    }
 </style>

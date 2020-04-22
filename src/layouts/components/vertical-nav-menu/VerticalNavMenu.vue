@@ -13,7 +13,7 @@
     <div class="parentx">
 
         <vs-sidebar
-                class="v-nav-menu items-no-padding main-menu"
+                class="main-menu v-nav-menu items-no-padding"
                 v-model="isVerticalNavMenuActive"
                 ref="verticalNavMenu"
                 default-index="-1"
@@ -58,9 +58,6 @@
                 </div>
                 <!-- /Header -->
 
-                <!-- Header Shadow -->
-                <div class="shadow-bottom" v-show="showShadowBottom"/>
-
                 <!-- Menu Items -->
                 <VuePerfectScrollbar ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings"
                                      @ps-scroll-y="psSectionScroll" :key="$vs.rtl">
@@ -77,7 +74,6 @@
 
                             <!-- Nav-Item -->
                             <v-nav-menu-item
-                                    v-if="!item.submenu"
                                     :key="`item-${index}`"
                                     :index="index"
                                     :to="item.slug !== 'external' ? item.url : null"
@@ -90,16 +86,6 @@
                                          v-if="item.tag && (isMouseEnter || !reduce)">{{ item.tag }}
                                 </vs-chip>
                             </v-nav-menu-item>
-
-                            <!-- Nav-Group -->
-                            <template v-else>
-                                <v-nav-menu-group
-                                        :key="`group-${index}`"
-                                        :openHover="openGroupHover"
-                                        :group="item"
-                                        :groupIndex="index"
-                                        :open="isGroupActive(item)"/>
-                            </template>
                             <!-- /Nav-Group -->
                         </template>
                     </template>
@@ -363,18 +349,34 @@
 <style>
     .main-menu .vs-sidebar {
         background: #2B2B2B;
-        color: white;
     }
 
-    [dir] .v-nav-menu .vs-sidebar--item a > *, .main-menu .v-nav-menu .feather-icon {
-        color: white;
-    }
-
-    {
-        color: white
-    ;
-    }
-    [dir=ltr] .v-nav-menu .shadow-bottom {
+    .main-menu [dir=ltr] .v-nav-menu .shadow-bottom {
         display: none;
+    }
+
+    .main-menu span {
+        color: white !important;
+    }
+
+    .main-menu .scroll-area-v-nav-menu {
+        margin-top: 3rem !important;
+    }
+
+    .main-menu .vs-icon {
+        font-size: 1.5rem !important;
+        color: white;
+    }
+
+    .main-menu .router-link-exact-active {
+        padding: 0 !important;
+    }
+    .main-menu .vs-sidebar.vs-sidebar-reduce .vs-sidebar--item i {
+        padding: unset !important;
+    }
+
+    .main-menu .router-link-exact-active .router-link-active .router-link-active {
+        background: unset !important;
+        box-shadow: unset !important;
     }
 </style>
