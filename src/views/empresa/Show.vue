@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4 class="font-bold mb-8">Informações sobre a empresa</h4>
+    <h4 class="font-bold mb-12">Informações sobre a empresa</h4>
     <div class="vx-row mb-6">
       <div class="vx-col sm:w-2/3 w-full mb-2">
         <div class="vx-row mb-6">
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="vx-row mb-6">
-          <div class="vx-col sm:w-1/2 w-full mb-2">
+          <div class="vx-col w-full mb-2">
             <span class="font-regular mb-2">Website</span>
             <vs-input class="w-full "  v-validate="'required'" name="site" v-model="empresa.site" size="large"/>
             <span class="text-danger text-sm" v-show="errors.has('site')">{{ errors.first('site') }}</span>
@@ -34,11 +34,9 @@
         </div>
       </div>
       <div class="vx-col sm:w-1/3 w-full mb-2">
-        <div class="">
-          <div class="vx-row mb-6">
-            <span class="font-regular mb-2 ml-2">Logotipo da etiqueta</span>
-
-            <div style="width: 100%" @dragenter="OnDragEnter"
+        <div class="mb-6 p-5 pt-0">
+            <span class="font-regular mb-3 ml-2">Logotipo da empresa</span>
+            <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter"
                  @dragleave="OnDragLeave"
                  @dragover.prevent
                  @drop="onDrop"
@@ -92,8 +90,6 @@
 
 
             </div>
-
-          </div>
         </div>
       </div>
     </div>
@@ -125,8 +121,14 @@
 
     <transition name="fade">
       <footer-doug v-if="edited">
+        <div class="relative">
+
+        </div>
         <div class="container">
-          <div class="vx-row mb-2">
+          <div class="vx-row mb-2 relative">
+            <div class="seta-footer" style="">
+              <feather-icon icon="CornerLeftUpIcon" svgClasses="stroke-current text-dark-50 w-6 h-6" class="ml-2" />
+            </div>
             <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">Cancelar</vs-button>
           </div>

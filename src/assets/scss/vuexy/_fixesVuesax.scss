@@ -302,8 +302,10 @@
   }
 
   &.large {
-    padding: 1rem !important;
-    font-size: 1.2rem !important;
+    font-family: "Poppins", sans-serif;
+    padding: 1rem 2rem 1rem 2rem !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
 
     &.hasIcon {
       padding: 1rem 0.8rem 1rem 3rem !important;
@@ -694,15 +696,16 @@
 // ======================================================================================
 
 .vs-textarea {
-  font-size: 1rem;
-  color: inherit;
-  font-family: $font-family-sans-serif;
+  color: #000000;
+  font-family: 'Lato', sans-serif;
+  font-size: 18px;
   line-height: 1.6;
+  padding: 1rem 2rem 1rem 2rem !important;
+
 }
 
 .vs-con-textarea {
   border: 1px solid rgba(0, 0, 0, .2) !important;
-
   > h4 {
     color: inherit;
   }

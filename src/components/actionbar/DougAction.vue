@@ -9,8 +9,8 @@
 ========================================================================================== -->
 
 <template>
-  <div class="footerbar">
-    <slot></slot>
+  <div class="footerbar content-area-reduced">
+      <slot></slot>
   </div>
 </template>
 
@@ -27,16 +27,21 @@ export default {
 }
 </script>
 
+
+
 <style>
   .footerbar {
-    padding: 5px;
-    right: 0;
     position: fixed;
+    padding: 26px;
+    right: 0;
     bottom: 0;
     width: calc(100% - 15.2vw);
     color: #494949;
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     text-align: center;
-    border-top: 2px solid #626262;
+    border-top: 2px solid #e5e5e5;
+  }
+  .seta-footer {
+    position: absolute; left: -104px; top:30%
   }
 </style>
