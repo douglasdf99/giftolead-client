@@ -39,17 +39,15 @@
                 <img src="@/assets/images/sidebar/menu-abrir.svg" class="menu-icon menu-icon-abrir" v-if="!menuAtivo">
             </div>
         </div>
-        <sidebar-static></sidebar-static>
     </div>
 </template>
 
 <script>
-    import SidebarStatic from "./SidebarStatic";
+    //import SidebarStatic from "./SidebarStatic";
     import navMenuItems from "./navMenuItems.js";
 
     export default {
         components: {
-            SidebarStatic,
         },
         data() {
             return {

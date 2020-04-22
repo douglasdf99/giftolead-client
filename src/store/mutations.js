@@ -20,6 +20,10 @@ const mutations = {
   TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE(state, value) {
     state.isVerticalNavMenuActive = value
   },
+
+  TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE(state, value) {
+    state.isVerticalNavMenuActive = value
+  },
   TOGGLE_REDUCE_BUTTON(state, val) {
     state.reduceButton = val
   },

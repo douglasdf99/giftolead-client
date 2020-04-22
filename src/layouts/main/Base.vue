@@ -14,6 +14,10 @@
                 :navMenuItems="navMenuItems"
                 title="Vuexy"
                 parent=".layout--main"/>
+        <v-nav-menu-2
+                :navMenuItems="navMenuItems"
+                title="Vuexy"
+                parent=".layout--main"/>
 
         <div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]" style="margin-left: 15.2vw">
             <div id="content-overlay"/>
@@ -38,6 +42,12 @@
             </template>
 
             <template v-else>
+                <the-navbar-vertical
+                        :navbarColor="navbarColor"
+                        :class="[
+          {'text-white' : isNavbarDark  && !isThemeDark},
+          {'text-base'  : !isNavbarDark && isThemeDark}
+        ]"/>
                 <the-navbar-vertical
                         :navbarColor="navbarColor"
                         :class="[
@@ -133,11 +143,13 @@
     import TheFooter from '@/layouts/components/TheFooter.vue'
     import themeConfig from '@/../themeConfig.js'
     import VNavMenu from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
+    import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue";
 
     const VxTour = () => import('@/components/VxTour.vue')
 
     export default {
         components: {
+            VNavMenu2,
             BackToTop,
             HNavMenu,
             TheCustomizer,

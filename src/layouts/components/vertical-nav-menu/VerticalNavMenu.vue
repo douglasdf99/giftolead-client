@@ -122,7 +122,6 @@
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import VNavMenuGroup from './VerticalNavMenuGroup.vue'
     import VNavMenuItem from './VerticalNavMenuItem.vue'
-
     import Logo from "../Logo.vue"
 
     export default {
@@ -351,6 +350,7 @@
         },
         mounted() {
             this.setVerticalNavMenuWidth()
+            this.toggleReduce(true)
         },
     }
 
@@ -361,16 +361,20 @@
 </style>
 
 <style>
-    .main-menu .vs-sidebar{
+    .main-menu .vs-sidebar {
         background: #2B2B2B;
         color: white;
     }
+
     [dir] .v-nav-menu .vs-sidebar--item a > *, .main-menu .v-nav-menu .feather-icon {
         color: white;
-    } {
-        color: white;
     }
-    [dir=ltr] .v-nav-menu .shadow-bottom  {
+
+    {
+        color: white
+    ;
+    }
+    [dir=ltr] .v-nav-menu .shadow-bottom {
         display: none;
     }
 </style>
