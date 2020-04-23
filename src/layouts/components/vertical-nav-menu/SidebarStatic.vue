@@ -14,7 +14,7 @@
 
         <vs-sidebar
                 class="v-nav-menu items-no-padding secundary-menu"
-                v-model="isVerticalNavMenuActive"
+                v-model="isVerticalNavMenuActive2"
                 ref="verticalNavMenu"
                 default-index="-1"
                 :click-not-close="clickNotClose"
@@ -30,11 +30,11 @@
                 <div class="header-sidebar flex items-end justify-between" slot="header">
 
                     <!-- Logo -->
-                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/" >
-                      <img :src="url_api('images/logo2.svg')" >
+                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/">
+                        <img :src="url_api('images/logo2.svg')">
 
-                      <!-- <logo class="w-10 mr-4 fill-current text-primary"/>
-                       <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->
+                        <!-- <logo class="w-10 mr-4 fill-current text-primary"/>
+                         <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->
                     </router-link>
                     <!-- /Logo -->
 
@@ -48,21 +48,23 @@
                 <VuePerfectScrollbar ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings"
                                      @ps-scroll-y="psSectionScroll" :key="$vs.rtl">
                     <template>
-                      <vs-row class="mt-12" >
-                        <vs-col vs-w="12">
-                          <span class="menuSelected">{{titlesub}}</span>
-                        </vs-col>
-                      </vs-row>
-                      <vs-row>
-                        <vs-col vs-w="12">
-                          <ul id="submenu">
-                            <li v-for="item in menus" :key="item.name">
-                              <vs-icon icon-pack="material-icons" :icon="item.icon"/>
-                              <router-link :to="item.url"><span class="ml-3 menu-name">{{item.name}}</span></router-link>
-                            </li>
-                          </ul>
-                        </vs-col>
-                      </vs-row>
+                        <vs-row class="mt-12">
+                            <vs-col vs-w="12">
+                                <span class="menuSelected">{{titlesub}}</span>
+                            </vs-col>
+                        </vs-row>
+                        <vs-row>
+                            <vs-col vs-w="12">
+                                <ul id="submenu">
+                                    <li v-for="item in menus" :key="item.name">
+                                        <vs-icon icon-pack="material-icons" :icon="item.icon"/>
+                                        <router-link :to="item.url"><span class="ml-3 menu-name"
+                                                                          :class="{'menu-ativo' : activeLink(item.url)}">{{item.name}}</span>
+                                        </router-link>
+                                    </li>
+                                </ul>
+                            </vs-col>
+                        </vs-row>
 
                     </template>
                 </VuePerfectScrollbar>
@@ -72,7 +74,7 @@
 
         <!-- Swipe Gesture -->
         <div
-                v-if="!isVerticalNavMenuActive"
+                v-if="!isVerticalNavMenuActive2"
                 class="v-nav-menu-swipe-area"
                 v-hammer:swipe.right="onSwipeAreaSwipeRight"/>
         <!-- /Swipe Gesture -->
@@ -100,7 +102,7 @@
             openGroupHover: {type: Boolean, default: false},
             parent: {type: String},
             reduceNotRebound: {type: Boolean, default: true},
-            navMenuItems: {type: Array, required: true},
+            navMenuItems: {type: Array, required: false},
             title: {type: String},
         },
         data: () => ({
@@ -114,18 +116,19 @@
                 swipeEasing: true
             },
             showShadowBottom: false,
+            showSidebarStatic: true
         }),
         computed: {
-          titlesub (){
+            titlesub() {
 
-            return this.$route.meta.subTitle;
+                return this.$route.meta.subTitle;
 
-          },
-          menus (){
+            },
+            menus() {
 
-            return this.$route.meta.submenu;
+                return this.$route.meta.submenu;
 
-          },
+            },
             isGroupActive() {
                 return (item) => {
                     const path = this.$route.fullPath
@@ -161,12 +164,12 @@
 
                 return clone
             },
-            isVerticalNavMenuActive: {
+            isVerticalNavMenuActive2: {
                 get() {
-                    return this.$store.state.isVerticalNavMenuActive
+                    return this.$store.state.isVerticalNavMenuActive2
                 },
                 set(val) {
-                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', val)
+                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', val)
                 }
             },
             layoutType() {
@@ -188,11 +191,11 @@
             },
             windowWidth() {
                 return this.$store.state.windowWidth
-            }
+            },
         },
         watch: {
             '$route'() {
-                if (this.isVerticalNavMenuActive && this.showCloseButton) this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
+                if (this.isVerticalNavMenuActive2 && this.showCloseButton) this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
             },
             reduce(val) {
                 const verticalNavMenuWidth = val ? "reduced" : this.$store.state.windowWidth < 1200 ? "no-nav-menu" : "default"
@@ -217,11 +220,14 @@
             //   this.windowWidth = event.currentTarget.innerWidth;
             //   this.setVerticalNavMenuWidth()
             // },
+            activeLink(url) {
+                return url === this.$route.path;
+            },
             onSwipeLeft() {
-                if (this.isVerticalNavMenuActive && this.showCloseButton) this.isVerticalNavMenuActive = false
+                if (this.isVerticalNavMenuActive2 && this.showCloseButton) this.isVerticalNavMenuActive2 = false
             },
             onSwipeAreaSwipeRight() {
-                if (!this.isVerticalNavMenuActive && this.showCloseButton) this.isVerticalNavMenuActive = true
+                if (!this.isVerticalNavMenuActive2 && this.showCloseButton) this.isVerticalNavMenuActive2 = true
             },
             psSectionScroll() {
                 this.showShadowBottom = this.$refs.verticalNavMenuPs.$el.scrollTop > 0 ? true : false
@@ -321,17 +327,16 @@
                 this.setVerticalNavMenuWidth()
             },
         },
-      created()
-      {
-        let submenu = JSON.parse(localStorage.getItem('submenu'));
-        console.log('submenu', submenu)
-        if(submenu.name){
-          this.$store.dispatch('submenu', submenu)
-          this.icone_destaque = submenu.icon
-          this.ativarMenu(false);
-        }
-      },
-      mounted() {
+        created() {
+            let submenu = JSON.parse(localStorage.getItem('submenu'));
+            console.log('submenu', submenu)
+            if (submenu.name) {
+                this.$store.dispatch('submenu', submenu)
+                this.icone_destaque = submenu.icon
+                this.ativarMenu(false);
+            }
+        },
+        mounted() {
             this.setVerticalNavMenuWidth()
         },
     }
@@ -349,37 +354,45 @@
         margin-left: 50px;
         max-width: 240px;
     }
+
     .menuSelected {
-      font-family: "Poppins", sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #4A4A4A;
-      padding: 20px 19px 16px 23px;
+        font-family: "Poppins", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #4A4A4A;
+        padding: 20px 19px 16px 23px;
     }
 
-    #submenu  {
-      font-family: "Poppins", sans-serif;
-      padding: 20px 19px 16px 23px;
+    #submenu {
+        font-family: "Poppins", sans-serif;
+        padding: 20px 19px 16px 23px;
     }
+
     #submenu li {
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      transition-duration: .3s;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition-duration: .3s;
     }
 
     #submenu li:hover {
-      padding-left: 5%;
-      transition-duration: .3s;
+    /* padding-left: 5 %;*/
+        transition-duration: .3s;
     }
 
     #submenu span {
-      color: #797979;
+        color: #797979;
+        transition-duration: .3s;
     }
 
     #submenu li:hover span {
-      font-weight: 800;
+        font-weight: 800;
+        transition-duration: .3s;
+    }
+
+    .menu-ativo {
+        font-weight: 800;
     }
 </style>

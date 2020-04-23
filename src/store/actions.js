@@ -105,10 +105,12 @@ const actions = {
                 })
         })
     },
-    delete({commit}, dados){
-        let obj = {id: dados.id, _method: 'DELETE'}
+    deleteItem({commit}, dados){
+        const formData = new FormData();
+        formData.append('_method', 'DELETE');
+        formData.append('id', dados.id);
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${dados.rota}/${dados.id}`, obj)
+            axios.post(`/api/${dados.rota}/${dados.id}`, formData)
                 .then(response => resolve(response)).catch(erro => reject(erro))
         });
     }

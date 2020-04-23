@@ -59,8 +59,6 @@
                 return this.to ? this.$acl.check(this.$router.match(this.to).meta.rule) : true
             },
             activeLink() {
-                console.log('rota', this.$route.meta)
-                console.log('slug', this.slug)
                 return ((this.to == this.$route.path) || (this.$route.meta.pai == this.slug) && this.to) ? true : false
             }
         },

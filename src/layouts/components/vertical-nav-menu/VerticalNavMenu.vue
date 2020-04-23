@@ -365,7 +365,8 @@
     .main-menu .vs-sidebar {
         background: #2B2B2B;
     }
-    .main-menu *{
+
+    .main-menu * {
         overflow: unset !important;
         overflow-y: unset !important;
     }

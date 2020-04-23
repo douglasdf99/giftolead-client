@@ -56,7 +56,7 @@
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="delete(data[indextr)">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
@@ -115,14 +115,14 @@
                     this.$vs.loading.close()
                 });
             },
-            delete(id){
+            deletar(id){
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
                     text: 'Deseja deletar esta Conta? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
-                        this.$vs.loading()
+                        this.$vs.loading();
                         this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',

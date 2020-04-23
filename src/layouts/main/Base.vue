@@ -17,7 +17,6 @@
                 parent=".layout--main"
                />
         <v-nav-menu-2
-                :navMenuItems="navMenuItems2"
                 title="Vuexy"
                 parent=".layout--main"/>
 
@@ -285,9 +284,11 @@
             setNavMenuVisibility(layoutType) {
                 if ((layoutType === 'horizontal' && this.windowWidth >= 1200) || (layoutType === "vertical" && this.windowWidth < 1200)) {
                     this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
+                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', false)
                     this.$store.dispatch('updateVerticalNavMenuWidth', 'no-nav-menu')
                 } else {
                     this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', true)
+                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', true)
                 }
             },
             toggleHideScrollToTop(val) {

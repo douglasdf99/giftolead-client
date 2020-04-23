@@ -1336,7 +1336,7 @@ const router = new Router({
                         ],
                         pageTitle: 'Configurações Gerais',
                         rule: 'editor',
-                        subTitle: 'Configurações Gerais',
+                        subTitle: 'Configurações',
                         submenu: subconfiguracoes
                     },
                 },

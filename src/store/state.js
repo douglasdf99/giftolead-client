@@ -54,6 +54,7 @@ const state = {
     AppActiveUser           : getUserInfo(),
     bodyOverlay             : false,
     isVerticalNavMenuActive : true,
+    isVerticalNavMenuActive2 : true,
     mainLayoutType          : themeConfig.mainLayoutType || "vertical",
     navbarSearchAndPinList  : navbarSearchAndPinList,
     reduceButton            : themeConfig.sidebarCollapsed,
