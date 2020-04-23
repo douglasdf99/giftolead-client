@@ -72,7 +72,7 @@ export default [
     {
         url: '/configuracoes/geral',
         name: "Configurações",
-        icon: "toggle_off",
+        icon: "settings",
         slug: 'configuracoes',
         submenu: [
             {

@@ -24,13 +24,13 @@
                 :reduce="false"
                 v-hammer:swipe.left="onSwipeLeft">
 
-            <div>
+            <div v-if="verticalNavMenuItemsMin">
 
                 <!-- Header -->
                 <div class="header-sidebar flex items-end justify-between" slot="header">
 
                     <!-- Logo -->
-                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/"  v-if="verticalNavMenuItemsMin">
+                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/" >
                       <img :src="url_api('images/logo2.svg')" >
 
                       <!-- <logo class="w-10 mr-4 fill-current text-primary"/>
@@ -346,8 +346,8 @@
 
 <style>
     .secundary-menu .vs-sidebar {
-        margin-left: 80px;
-        max-width: 210px;
+        margin-left: 65px;
+        max-width: 225px;
     }
     .menuSelected {
       font-family: "Poppins", sans-serif;
