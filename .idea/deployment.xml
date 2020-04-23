@@ -16,6 +16,13 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="Casal Bem Resolvido">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="Decifrando">
         <serverdata>
           <mappings>
@@ -24,6 +31,13 @@
         </serverdata>
       </paths>
       <paths name="Live Class">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Lp Ítalo Ventura">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
@@ -59,6 +73,13 @@
         </serverdata>
       </paths>
       <paths name="Semana MBR">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Termometro">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

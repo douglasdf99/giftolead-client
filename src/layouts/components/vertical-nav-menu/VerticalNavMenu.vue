@@ -101,11 +101,11 @@
                             <!-- /Nav-Group -->
                         </template>
                     </template>
+                    <div class="flex justify-center div-icon-open-menu" v-if="verticalNavMenuItemsMin">
+                        <vs-icon :icon-pack="'material-icons'" icon="unfold_more" class="icone-controle" />
+                    </div><!-- /Menu Items -->
                 </VuePerfectScrollbar>
                 <!-- /Menu Items -->
-                <div class="flex justify-center" v-if="verticalNavMenuItemsMin">
-                    <vs-icon :icon-pack="'material-icons'" icon="unfold_more" class="icone-controle" />
-                </div><!-- /Menu Items -->
 
             </div>
         </vs-sidebar>
@@ -413,4 +413,10 @@
     transform: rotate(180deg);
     border-radius: 0 0 25% 148%;
   }
+
+    .div-icon-open-menu {
+        position: absolute;
+        bottom: 20vh;
+        left: 35%;
+    }
 </style>
