@@ -13,7 +13,6 @@
   <div class="relative">
 
     <div class="vx-navbar-wrapper" :class="classObj">
-
       <vs-navbar class="vx-navbar navbar-custom navbar-skelton" :color="navbarColorLocal" :class="textColor">
 
         <!-- SM - OPEN SIDEBAR BUTTON -->
@@ -79,7 +78,7 @@ export default {
 
     // NAVBAR STYLE
     classObj() {
-      if (this.verticalNavMenuWidth == "default")      return "navbar-default"
+      if (this.verticalNavMenuWidth == "default")      return "navbar-reduced"
       else if (this.verticalNavMenuWidth == "reduced") return "navbar-reduced"
       else if (this.verticalNavMenuWidth)              return "navbar-full"
     },

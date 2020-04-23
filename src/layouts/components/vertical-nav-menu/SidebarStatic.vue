@@ -30,30 +30,16 @@
                 <div class="header-sidebar flex items-end justify-between" slot="header">
 
                     <!-- Logo -->
-                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">
-                        <logo class="w-10 mr-4 fill-current text-primary"/>
-                        <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>
+                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/"  v-if="verticalNavMenuItemsMin">
+                      <img :src="url_api('images/logo2.svg')" >
+
+                      <!-- <logo class="w-10 mr-4 fill-current text-primary"/>
+                       <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->
                     </router-link>
                     <!-- /Logo -->
 
                     <!-- Menu Buttons -->
-                    <div>
-                        <!-- Close Button -->
-                        <template v-if="showCloseButton">
-                            <feather-icon icon="XIcon" class="m-0 cursor-pointer"
-                                          @click="$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)"/>
-                        </template>
 
-                        <!-- Toggle Buttons -->
-                        <template v-else-if="!showCloseButton && !verticalNavMenuItemsMin">
-                            <feather-icon
-                                    id="btnVNavMenuMinToggler"
-                                    class="mr-0 cursor-pointer"
-                                    :icon="reduce ? 'CircleIcon' : 'DiscIcon'"
-                                    svg-classes="stroke-current text-primary"
-                                    @click="toggleReduce(!reduce)"/>
-                        </template>
-                    </div>
                     <!-- /Menu Toggle Buttons -->
                 </div>
                 <!-- /Header -->
@@ -62,8 +48,21 @@
                 <VuePerfectScrollbar ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings"
                                      @ps-scroll-y="psSectionScroll" :key="$vs.rtl">
                     <template>
-
-                        <h6>Teste</h6>
+                      <vs-row class="mt-12" >
+                        <vs-col vs-w="12">
+                          <span class="menuSelected">{{titlesub}}</span>
+                        </vs-col>
+                      </vs-row>
+                      <vs-row>
+                        <vs-col vs-w="12">
+                          <ul id="submenu">
+                            <li v-for="item in menus" :key="item.name">
+                              <vs-icon icon-pack="material-icons" :icon="item.icon"/>
+                              <router-link :to="item.url"><span class="ml-3 menu-name">{{item.name}}</span></router-link>
+                            </li>
+                          </ul>
+                        </vs-col>
+                      </vs-row>
 
                     </template>
                 </VuePerfectScrollbar>
@@ -117,6 +116,16 @@
             showShadowBottom: false,
         }),
         computed: {
+          titlesub (){
+
+            return this.$route.meta.pageTitle;
+
+          },
+          menus (){
+
+            return this.$route.meta.submenu;
+
+          },
             isGroupActive() {
                 return (item) => {
                     const path = this.$route.fullPath
@@ -312,7 +321,17 @@
                 this.setVerticalNavMenuWidth()
             },
         },
-        mounted() {
+      created()
+      {
+        let submenu = JSON.parse(localStorage.getItem('submenu'));
+        console.log('submenu', submenu)
+        if(submenu.name){
+          this.$store.dispatch('submenu', submenu)
+          this.icone_destaque = submenu.icon
+          this.ativarMenu(false);
+        }
+      },
+      mounted() {
             this.setVerticalNavMenuWidth()
         },
     }
@@ -329,5 +348,38 @@
     .secundary-menu .vs-sidebar {
         margin-left: 80px;
         max-width: 210px;
+    }
+    .menuSelected {
+      font-family: "Poppins", sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #4A4A4A;
+      padding: 20px 19px 16px 23px;
+    }
+
+    #submenu  {
+      font-family: "Poppins", sans-serif;
+      padding: 20px 19px 16px 23px;
+    }
+    #submenu li {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition-duration: .3s;
+    }
+
+    #submenu li:hover {
+      padding-left: 5%;
+      transition-duration: .3s;
+    }
+
+    #submenu span {
+      color: #797979;
+    }
+
+    #submenu li:hover span {
+      font-weight: 800;
     }
 </style>

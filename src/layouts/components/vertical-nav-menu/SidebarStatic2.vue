@@ -18,7 +18,7 @@
                         <img src="@/assets/images/sidebar/logo-2.png" alt="" class="logo" v-if="!menuAtivo">
                     </div>
                 </div>
-                <vs-row style="margin: .3rem 0 2rem">
+                <vs-row >
                     <vs-col vs-w="12">
                         <span class="menuSelected">{{menuSelecionado}}</span>
                     </vs-col>

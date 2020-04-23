@@ -27,12 +27,13 @@
             <div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
 
                 <!-- Header -->
-                <div class="header-sidebar flex items-end justify-between" slot="header">
+                <div class="header-sidebar flex items-end justify-center" slot="header">
 
                     <!-- Logo -->
-                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">
-                        <logo class="w-10 mr-4 fill-current text-primary"/>
-                        <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>
+                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/" v-show="!verticalNavMenuItemsMin">
+                      <img :src="url_api('images/logo.svg')" v-show="!verticalNavMenuItemsMin" >
+                      <!--<logo class="w-10 mr-4 fill-current text-primary"/>
+                        <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->
                     </router-link>
                     <!-- /Logo -->
 
@@ -76,6 +77,8 @@
                             <v-nav-menu-item
                                     :key="`item-${index}`"
                                     :index="index"
+
+                                    :submenu="item.submenu"
                                     :to="item.slug !== 'external' ? item.url : null"
                                     :href="item.slug === 'external' ? item.url : null"
                                     :icon="item.icon" :target="item.target"
@@ -86,6 +89,7 @@
                             <v-nav-menu-item
                                     :key="`item-${index}`"
                                     :index="index"
+                                    :submenu="item.submenu"
                                     :to="item.slug !== 'external' ? item.url : null"
                                     :href="item.slug === 'external' ? item.url : null"
                                     :icon="item.icon" :target="item.target"

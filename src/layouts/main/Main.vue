@@ -32,7 +32,8 @@
                 title="Vuexy"
                 parent=".layout--main"/>
 
-        <div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]" style="margin-left: 15.2vw">
+       <!-- <div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]" style="margin-left: 15.2vw">-->
+      <div id="content-area" class="content-area-reduced">
             <div id="content-overlay"/>
 
             <!-- Navbar -->

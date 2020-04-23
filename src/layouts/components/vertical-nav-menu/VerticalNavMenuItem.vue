@@ -12,14 +12,14 @@
     <div v-if="canSee" class="vs-sidebar--item"
          :class="[{'vs-sidebar-item-active' : activeLink},{'disabled-item pointer-events-none' : isDisabled}]">
         <div v-if="grande">
-            <router-link tabindex="-1" v-if="to" exact :class="[{'router-link-active': activeLink}]" :to="to"
+            <router-link v-on:click.native="teste(submenu)" tabindex="-1" v-if="to" exact :class="[{'router-link-active': activeLink}]" :to="to"
                          :target="target">
                 <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
                 <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
                 <slot/>
             </router-link>
 
-            <a v-else :target="target" :href="href" tabindex="-1">
+            <a v-else  v-on:click.native="console.log('cliclou')" :target="target" :href="href" tabindex="-1">
                 <vs-icon v-if="!featherIcon" :icon-pack="'material-icons'" :icon="icon"/>
                 <!--<feather-icon v-else :class="{'w-3 h-3': iconSmall}" :icon="icon"/>-->
                 <slot/>
@@ -56,7 +56,8 @@
             featherIcon: {type: Boolean, default: false},
             target: {type: String, default: '_self'},
             isDisabled: {type: Boolean, default: false},
-            grande: {type: Boolean}
+            grande: {type: Boolean},
+            submenu: {type: Array},
         },
         computed: {
             canSee() {
@@ -68,6 +69,14 @@
                 console.log('slug', this.slug)
                 return ((this.to == this.$route.path) || (this.$route.meta.pai == this.slug) && this.to) ? true : false
             }
+        },
+        methods: {
+          teste(submenu)
+          {
+            console.log(submenu);
+            this.$store.dispatch('submenu', submenu);
+            localStorage.setItem("submenu", JSON.stringify(submenu));
+          }
         }
     }
 

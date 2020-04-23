@@ -10,16 +10,18 @@
 
 <template>
     <div class="layout--main" :class="[layoutTypeClass, navbarClasses, footerClasses, {'no-scroll': isAppPage}]">
+
         <v-nav-menu
                 :navMenuItems="navMenuItems"
                 title="Vuexy"
-                parent=".layout--main"/>
+                parent=".layout--main"
+               />
         <v-nav-menu-2
-                :navMenuItems="navMenuItems"
+                :navMenuItems="navMenuItems2"
                 title="Vuexy"
                 parent=".layout--main"/>
 
-        <div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]" style="margin-left: 15.2vw">
+        <div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]" >
             <div id="content-overlay"/>
 
             <!-- Navbar -->
@@ -42,12 +44,6 @@
             </template>
 
             <template v-else>
-                <the-navbar-vertical
-                        :navbarColor="navbarColor"
-                        :class="[
-          {'text-white' : isNavbarDark  && !isThemeDark},
-          {'text-base'  : !isNavbarDark && isThemeDark}
-        ]"/>
                 <the-navbar-vertical
                         :navbarColor="navbarColor"
                         :class="[
@@ -170,7 +166,7 @@
                 hideScrollToTop: themeConfig.hideScrollToTop,
                 isNavbarDark: false,
                 navbarColor: themeConfig.navbarColor || '#fff',
-                navbarType: themeConfig.navbarType || 'floating',
+                navbarType: themeConfig.navbarType || 'sticky',
                 navMenuItems: navMenuItems,
                 routerTransition: themeConfig.routerTransition || 'none',
                 routeTitle: this.$route.meta.pageTitle,
@@ -227,7 +223,7 @@
             contentAreaClass() {
                 if (this.mainLayoutType === "vertical") {
                     if (this.verticalNavMenuWidth == "default") return "content-area-reduced"
-                    else if (this.verticalNavMenuWidth == "reduced") return "content-area-lg"
+                    else if (this.verticalNavMenuWidth == "reduced") return "content-area-reduced"
                     else return "content-area-full"
                 }
                 // else if(this.mainLayoutType === "boxed") return "content-area-reduced"

@@ -2,7 +2,7 @@
 body {
     background-color: #f4f4f4;
 }
-.navbar-floating .vx-navbar-wrapper {
+/*.navbar-floating .vx-navbar-wrapper {
     padding: 0;
 }
 .main-vertical .vx-navbar-wrapper {
@@ -15,7 +15,7 @@ body {
 .navbar-floating .router-content {
     margin-top: 7.5rem;
     margin-left: 7rem;
-}
+}*/
 .router-view .content-area__heading h2 {
     color: #4A4A4A;
     font-family: "Poppins", sans-serif;

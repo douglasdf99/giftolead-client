@@ -12,6 +12,7 @@
 <template>
     <div class="relative">
         <div class="vx-navbar-wrapper navbar-full p-0">
+
             <vs-navbar class="navbar-custom navbar-skelton" :class="navbarClasses" :style="navbarStyle"
                        :color="navbarColor">
 
