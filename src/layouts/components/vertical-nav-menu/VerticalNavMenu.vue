@@ -104,14 +104,14 @@
                 </VuePerfectScrollbar>
                 <!-- /Menu Items -->
                 <div class="flex justify-center" v-if="verticalNavMenuItemsMin">
-                    <vs-icon :icon-pack="'material-icons'" icon="unfold_more" style="transform: rotate(90deg);"/>
-                </div>
+                    <vs-icon :icon-pack="'material-icons'" icon="unfold_more" class="icone-controle" />
+                </div><!-- /Menu Items -->
+
             </div>
         </vs-sidebar>
 
         <!-- Swipe Gesture -->
-        <div
-                v-if="!isVerticalNavMenuActive"
+        <div v-if="!isVerticalNavMenuActive"
                 class="v-nav-menu-swipe-area"
                 v-hammer:swipe.right="onSwipeAreaSwipeRight"/>
         <!-- /Swipe Gesture -->
@@ -365,6 +365,10 @@
     .main-menu .vs-sidebar {
         background: #2B2B2B;
     }
+    .main-menu *{
+        overflow: unset !important;
+        overflow-y: unset !important;
+    }
 
     .main-menu [dir=ltr] .v-nav-menu .shadow-bottom {
         display: none;
@@ -395,4 +399,18 @@
         background: unset !important;
         box-shadow: unset !important;
     }
+    .icone-controle{
+      transform: rotate(90deg);
+    }
+    .icone-controle2:before {
+    top: 2rem;
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 19px 14px 19px 0;
+    right: -12px;
+    border-color: transparent #2b2b2b transparent transparent;
+    transform: rotate(180deg);
+    border-radius: 0 0 25% 148%;
+  }
 </style>
