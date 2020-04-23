@@ -105,6 +105,13 @@ const actions = {
                 })
         })
     },
+    delete({commit}, dados){
+        let obj = {id: dados.id, _method: 'DELETE'}
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/${dados.rota}/${dados.id}`, obj)
+                .then(response => resolve(response)).catch(erro => reject(erro))
+        });
+    }
     /* Fim*/
 };
 

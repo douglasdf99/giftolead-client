@@ -1,21 +1,23 @@
 <template>
     <div>
         <side-bar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
-        <vs-row class="mb-3">
-            <vs-col vs-w="5">
-                <vs-col vs-type="flex">
+        <div class="vx-row mb-3">
+            <div class="sm:w-8/12 lg:w-5/12">
+                <div class="flex">
                     <vs-input type="text" placeholder="Pesquisar por contas" class="w-full"/>
                     <vs-button radius color="primary" type="border" icon-pack="feather" icon="icon-search"
                                class="btn-search"></vs-button>
-                </vs-col>
-            </vs-col>
-            <vs-col vs-w="2" vs-offset="5" class="relative">
-                <vs-button color="primary" type="filled" class="btn-incluir" @click="addNewData">Incluir conta
+                </div>
+            </div>
+            <div class="lg:w-5/12 sm:w-0"></div>
+            <div class="relative lg:w-2/12">
+
+                <vs-button color="primary" type="filled" class="btn-incluir" @click="addNewData">
+                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-check-btn-incluir"></vs-icon>    Incluir Conta
                 </vs-button>
-                <img :src="url_api('images/check-incluir.svg') " class="check-incluir">
                 <!--<img src="@/assets/images/util/check-incluir.svg" >-->
-            </vs-col>
-        </vs-row>
+            </div>
+        </div>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="sem-item" v-show="items.length === 0">
@@ -54,7 +56,7 @@
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item>
+                                            <vs-dropdown-item @click="delete(data[indextr)">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
@@ -112,6 +114,32 @@
                     console.log('retornado com sucesso', this.items)
                     this.$vs.loading.close()
                 });
+            },
+            delete(id){
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar conta id: ${id}`,
+                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading()
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: 'Sucesso',
+                                text: 'A URL foi deletada com sucesso'
+                            });
+                            this.getContas();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                            })
+                        })
+                    }
+                })
             }
         },
         computed: {

@@ -109,6 +109,13 @@ body {
     width: 40%;
 }
 
+.icon-check-btn-incluir {
+    font-size: 2rem;
+    position: absolute;
+    left: -45%;
+    top: -5px;
+}
+
 @media (max-width: 1100px) {
     .navbar-floating .router-content {
         margin: 5rem 0;
