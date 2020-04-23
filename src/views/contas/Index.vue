@@ -3,11 +3,27 @@
         <side-bar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row mb-3">
             <div class="sm:w-8/12 lg:w-5/12">
-                <div class="flex">
-                    <vs-input type="text" placeholder="Pesquisar por contas" class="w-full"/>
+                <div class="flex items-center">
+                    <!--<vs-input icon="search" placeholder="Pesquisar por contas" size="large" icon-after="true" label-placeholder="icon-after" class="w-full"/>-->
+                    <!--<vs-input type="text" class="w-full" size="large"/>
                     <vs-button radius color="primary" type="border" icon-pack="feather" icon="icon-search"
-                               class="btn-search"></vs-button>
+                               class="btn-search"></vs-button>-->
+                    <div class="relative mb-8 w-full">
+                        <!-- SEARCH INPUT -->
+                        <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" placeholder="Search here" @ size="large" />
+                        <!-- SEARCH LOADING -->
+                        <p class="mt-4 text-grey">
+                            <feather-icon icon="ClockIcon" svgClasses="w-4 h-4" class="mr-2 align-middle" />
+                            <span>Loading...</span>
+                        </p>
+                        <!-- SEARCH ICON -->
+                        <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6" >
+                            <feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />
+                        </div>
+                    </div>
+
                 </div>
+                <!-- SEARCH INPUT -->
             </div>
             <div class="lg:w-5/12 sm:w-0"></div>
             <div class="relative lg:w-2/12">

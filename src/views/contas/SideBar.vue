@@ -19,14 +19,15 @@
 
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
-                <label for="integracao">Integração</label>
-                <v-select id="integracao" v-model="selected" :options="opcoesIntegracao"/>
-                <!-- NAME -->
-                <vs-input size="large" label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full"
-                          name="nome" v-validate="'required'"/>
+                <!--<v-select id="integracao" v-validate="'required'" v-model="selected" :options="opcoesIntegracao"/>-->
+                <vs-select  v-validate="'required'" @input="mudou" @focus="mudou" v-model="selected" name="integracao" label="Integração" class="select-large mt-5 w-full">
+                    <vs-select-item :key="index" :value="item.id" :text="item.label" v-for="(item,index) in opcoesIntegracao" />
+                </vs-select>
+                <span class="text-danger text-sm" v-show="!(this.selected > 0 || this.selected != null)">Este campo é obrigatório</span>
+                <vs-input size="large" v-validate="'required'" label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full"
+                          name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
 
-                <!-- NAME -->
                 <vs-input size="large" label="Token da conta" autocomplete="off" v-model="conta.token"
                           class="mt-5 w-full" name="token" v-validate="'required'"/>
                 <span class="text-danger text-sm" v-show="errors.has('token')">Este campo é obrigatório</span>
@@ -69,10 +70,11 @@
                     this.initValues()
                     this.$validator.reset()
                 } else {
-                    console.log('entrou aqui')
-                    this.conta = JSON.parse(JSON.stringify(this.data))
-                    this.selected.id = this.conta.integracao_id;
-                    this.selected.label = this.conta.integracao.descricao;
+                    console.log('entrou aqui', this.data);
+                    this.conta = JSON.parse(JSON.stringify(this.data));
+                    this.selected = this.conta.integracao_id;
+                    //this.selected.label = this.conta.integracao.descricao;
+
                 }
                 // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
             }
@@ -84,10 +86,7 @@
                     integracao: {}
                 },
                 opcoesIntegracao: [],
-                selected: {
-                    id: '',
-                    label: ''
-                }
+                selected: null
             }
         },
         computed: {
@@ -104,7 +103,7 @@
                 }
             },
             isFormValid() {
-                return !this.errors.any() && this.conta.nome && this.conta.token;
+                return !this.errors.any() && (this.selected > 0 || this.selected != null);
             }
         },
         methods: {
@@ -121,7 +120,6 @@
                         if (this.conta.id !== null && this.conta.id >= 0) {
                             obj._method = 'PUT';
                             this.$store.dispatch("updateItem", {rota: 'contas', item: obj}).then(() => {
-                                this.$vs.loading.close()
                                 this.$vs.notify({
                                     title: 'Sucesso',
                                     text: "A conta foi atualizada com sucesso.",
@@ -129,15 +127,17 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', 'contas');
+                                this.$store.dispatch('getVarios', 'contas').then(() => {
+                                    this.$vs.loading.close()
+                                });
                             }).catch(err => {
                                 console.error(err)
                             })
                         } else {
                             delete obj.id
                             console.log('obj', obj)
+                            obj.integracao_id = this.selected;
                             this.$store.dispatch("addItem", {rota: 'contas', item: obj}).then(() => {
-                                this.$vs.loading.close()
                                 this.$vs.notify({
                                     title: 'Sucesso',
                                     text: "A conta foi criada com sucesso.",
@@ -145,7 +145,10 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 })
-                            }).catch(err => {
+                                this.$store.dispatch('getVarios', 'contas').then(() => {
+                                    this.$vs.loading.close()
+                                });
+                            }).catch(error => {
                                 console.error(err)
                                 this.$vs.notify({
                                     title: 'Error',
@@ -171,6 +174,9 @@
                     console.log('af', this.opcoesIntegracao)
                     console.log('af2', [{label: 'Foo', value: 'foo'}])
                 })
+            },
+            mudou(){
+                console.log(this.selected)
             }
         },
         components: {
