@@ -118,7 +118,7 @@
         computed: {
           titlesub (){
 
-            return this.$route.meta.pageTitle;
+            return this.$route.meta.subTitle;
 
           },
           menus (){
@@ -346,8 +346,8 @@
 
 <style>
     .secundary-menu .vs-sidebar {
-        margin-left: 65px;
-        max-width: 225px;
+        margin-left: 50px;
+        max-width: 240px;
     }
     .menuSelected {
       font-family: "Poppins", sans-serif;

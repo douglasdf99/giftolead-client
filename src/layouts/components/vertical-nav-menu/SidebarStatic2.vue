@@ -69,8 +69,10 @@
 </script>
 
 <style>
+
     .sidebarpage {
         height: 100vh !important;
+
     }
 
     .vs-sidebar--header {

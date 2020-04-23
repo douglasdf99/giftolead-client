@@ -16,6 +16,12 @@ body {
     margin-top: 7.5rem;
     margin-left: 7rem;
 }*/
+h4 {
+  font-family: 'Lato', sans-serif !important;
+  color: #888888 !important
+}
+
+
 .router-view .content-area__heading h2 {
     color: #4A4A4A;
     font-family: "Poppins", sans-serif;
@@ -26,7 +32,8 @@ body {
 }
 
 .router-content {
-    padding-right: 5rem;
+    padding-right: 3rem;
+    padding-left: 3rem;
 }
 /* ------------------------ */
 /* Inputs */

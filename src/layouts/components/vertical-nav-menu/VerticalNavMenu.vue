@@ -102,7 +102,7 @@
                         </template>
                     </template>
                     <div class="flex justify-center div-icon-open-menu" v-if="verticalNavMenuItemsMin">
-                        <vs-icon :icon-pack="'material-icons'" icon="unfold_more" class="icone-controle" />
+                        <vs-icon :icon-pack="'material-icons'" icon="menu_open" class="icone-controle" />
                     </div><!-- /Menu Items -->
                 </VuePerfectScrollbar>
                 <!-- /Menu Items -->
@@ -400,7 +400,7 @@
         box-shadow: unset !important;
     }
     .icone-controle{
-      transform: rotate(90deg);
+      transform: rotate(180deg);
     }
     .icone-controle2:before {
     top: 2rem;
