@@ -1336,6 +1336,7 @@ const router = new Router({
                         ],
                         pageTitle: 'Configurações Gerais',
                         rule: 'editor',
+                        subTitle: 'Configurações Gerais',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1353,6 +1354,7 @@ const router = new Router({
                         pageTitle: 'Dados da Empresa',
                         rule: 'editor',
                         pai: 'configuracoes',
+                        subTitle: 'Configurações',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1370,6 +1372,7 @@ const router = new Router({
                         pageTitle: 'Contas',
                         rule: 'editor',
                         pai: 'configuracoes',
+                        subTitle: 'Configurações',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1386,6 +1389,7 @@ const router = new Router({
                         pageTitle: 'Tickets',
                         rule: 'editor',
                         pai: 'configuracoes',
+                        subTitle: 'Configurações',
                         submenu: subconfiguracoes
                     },
                 }

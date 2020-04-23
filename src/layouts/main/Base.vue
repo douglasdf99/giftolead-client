@@ -63,7 +63,7 @@
                             <div v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
                                  class="items-center mb-20">
                               <!-- BREADCRUMB -->
-                              <vx-breadcrumb class="md:block hidden mb-6" v-if="$route.meta.breadcrumb"
+                              <vx-breadcrumb class="md:block hidden mb-12" v-if="$route.meta.breadcrumb"
                                              :route="$route" :isRTL="$vs.rtl"/>
 
                               <div
