@@ -10,16 +10,19 @@
                                class="btn-search"></vs-button>-->
                     <div class="relative mb-8 w-full">
                         <!-- SEARCH INPUT -->
-                        <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" placeholder="Search here" @ size="large" />
-                        <!-- SEARCH LOADING -->
-                        <p class="mt-4 text-grey">
-                            <feather-icon icon="ClockIcon" svgClasses="w-4 h-4" class="mr-2 align-middle" />
-                            <span>Loading...</span>
-                        </p>
-                        <!-- SEARCH ICON -->
-                        <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6" >
-                            <feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />
-                        </div>
+                        <form @submit="pesquisar">
+                            <vs-input autocomplete
+                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                                      v-model="dados.search" id="search_input" size="large"/>
+                            <!-- SEARCH LOADING -->
+                            <!-- SEARCH ICON -->
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                                <button type="submit" style="border: none; background: transparent; cursor: pointer;">
+                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                </button>
+                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
+                            </div>
+                        </form>
                     </div>
 
                 </div>
@@ -29,7 +32,8 @@
             <div class="relative lg:w-2/12">
 
                 <vs-button color="primary" type="filled" class="btn-incluir" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-check-btn-incluir"></vs-icon>    Incluir Conta
+                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-check-btn-incluir"></vs-icon>
+                    Incluir Conta
                 </vs-button>
                 <!--<img src="@/assets/images/util/check-incluir.svg" >-->
             </div>
@@ -84,6 +88,7 @@
                         </template>
 
                     </vs-table>
+                    <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
             </vs-col>
         </vs-row>
@@ -102,6 +107,17 @@
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
+                dados: {
+                    search: '',
+                    page: 1
+                },
+                pagination: {
+                    last_page: 1,
+                    page: 1,
+                    current_page: 1
+                },
+                currentx: 1
+                //items: {}
             }
         },
         created() {
@@ -126,12 +142,15 @@
                 this.addNewDataSidebar = val
             },
             getContas() {
-                this.$store.dispatch('getVarios', 'contas').then(() => {
-                    console.log('retornado com sucesso', this.items)
+                this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
+                    console.log('retornado com sucesso', response)
+                    this.pagination = response;
+                    //this.items = response.data
+                    //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close()
                 });
             },
-            deletar(id){
+            deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
@@ -156,12 +175,28 @@
                         })
                     }
                 })
+            },
+            pesquisar(e) {
+                e.preventDefault();
+                this.$vs.loading();
+                this.getContas();
+            }
+        },
+        watch: {
+            currentx(val) {
+                this.$vs.loading();
+                console.log('val', val);
+                this.dados.page = this.currentx;
+                this.getContas();
             }
         },
         computed: {
             items() {
                 return this.$store.state.items;
-            }
-        }
+            },
+            /*pagination() {
+                return this.$store.state.pagination;
+            },*/
+        },
     }
 </script>

@@ -197,7 +197,7 @@
 
         ::v-deep .vs-sidebar {
             z-index: 52010;
-            width: 400px;
+            width: 750px;
             max-width: 90vw;
 
             .img-upload {
