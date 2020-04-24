@@ -13,7 +13,7 @@
     <div class="parentx">
 
         <vs-sidebar
-                class="v-nav-menu items-no-padding secundary-menu"
+                class="v-nav-menu items-no-padding secundary-menu menu-statico"
                 v-model="isVerticalNavMenuActive2"
                 ref="verticalNavMenu"
                 default-index="-1"
@@ -24,7 +24,8 @@
                 :reduce="false"
                 v-hammer:swipe.left="onSwipeLeft">
 
-            <div v-if="verticalNavMenuItemsMin">
+           <!-- <div v-if="verticalNavMenuItemsMin">-->
+            <div>
 
                 <!-- Header -->
                 <div class="header-sidebar flex items-end justify-between" slot="header">
@@ -350,10 +351,19 @@
 
 
 <style>
+  .secundary-menu .vs-sidebar {
+    margin-left: 50px;
+    max-width: 240px;
+  }
+
+  @media (max-width: 1200px){
     .secundary-menu .vs-sidebar {
-        margin-left: 50px;
-        max-width: 240px;
+      margin-left: unset;
+      margin-top: 62px;
+      max-width: 240px;
     }
+  }
+
 
     .menuSelected {
         font-family: "Poppins", sans-serif;
