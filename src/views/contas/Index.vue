@@ -1,8 +1,8 @@
 <template>
     <div>
         <side-bar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
-        <div class="vx-row mb-3">
-            <div class="sm:w-8/12 lg:w-5/12">
+        <div class="vx-row mb-3 row-reverse-mobile">
+            <div class="w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <!--<vs-input icon="search" placeholder="Pesquisar por contas" size="large" icon-after="true" label-placeholder="icon-after" class="w-full"/>-->
                     <!--<vs-input type="text" class="w-full" size="large"/>
@@ -28,9 +28,7 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="lg:w-5/12 sm:w-0"></div>
-            <div class="relative lg:w-2/12">
-
+            <div class="relative w-full sm:w-1/2 md:w-full lg:w-6/12  xlg:w-2/12 mb-3">
                 <vs-button color="primary" type="filled" class="btn-incluir" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-check-btn-incluir"></vs-icon>
                     Incluir Conta
@@ -40,11 +38,15 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="sem-item" v-show="items.length === 0">
-                    <img :src="url_api('images/sem-item-cadastrado.png')">
-                    <p class="text-sem-item">
-                        Para inserir novos registros você <br> pode clicar em incluir conta.
-                    </p>
+                <div class="vx-row mt-2" v-show="items.length === 0">
+                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                        <div class="w-8/12">
+                            <p class="span-sem-item">Você não possui nenhum item cadastrado</p> <br>
+                            <p class="text-sem-item">
+                                Para inserir novos registros você <br> pode clicar em incluir conta.
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items">
