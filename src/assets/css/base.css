@@ -95,8 +95,9 @@ h4 {
 }
 
 .btn-incluir {
-    padding-left: 25% !important;
+    padding-left: 10% !important;
     font-weight: 700;
+    float: right;
 }
 
 .check-incluir {
@@ -109,17 +110,29 @@ h4 {
 .sem-item {
     display: flex;
     justify-content: center;
-    padding: 10rem;
+    padding: 2rem;
     position: relative;
+    background-image: url("https://api.saveleads.com.br/images/sem-item.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-wrap: wrap;
+    margin-left: 20vw;
+    height: 330px;
+    align-items: center;
+}
+
+.span-sem-item {
+    font-family: "Poppins", sans-serif;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    line-height: 1.1;
 }
 
 .text-sem-item {
     font-family: "Poppins", sans-serif;
     font-size: 1.2rem;
     color: white;
-    position: absolute;
-    top: 47%;
-    left: 30%;
 }
 
 .com-item .table-items {
@@ -169,6 +182,12 @@ h4 {
     top: -5px;
 }
 
+@media (max-width: 768px){
+    .row-reverse-mobile {
+        flex-direction: column-reverse;
+    }
+}
+
 @media (max-width: 1100px) {
     .navbar-floating .router-content {
         margin: 5rem 0;
@@ -177,9 +196,26 @@ h4 {
     .main-vertical .vx-navbar-wrapper {
         width: 100%;
     }
+
     [dir=ltr] .router-content {
         paddaing-right: 0;
-        paddaing-right: 0;
+    }
 
+    .com-item .table-items {
+        margin-top: 1rem;
+    }
+
+    .sem-item {
+        padding: 0;
+        margin-left: 0;
+        height: 23vh;
+    }
+
+    .text-sem-item {
+        font-size: 1rem;
+    }
+
+    .span-sem-item {
+        font-size: 1.2rem;
     }
 }
