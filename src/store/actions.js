@@ -70,9 +70,9 @@ const actions = {
     },
 
     /* CRUD básico */
-    getVarios({commit}, rota){
+    getVarios({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/${rota}`)
+            axios.get(`/api/${dados.rota}`, {params: dados.params})
                 .then((response) => {
                     console.log('retorno', response)
                     commit('SET_VARIOS', response.data.data);
