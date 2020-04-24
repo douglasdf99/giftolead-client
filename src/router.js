@@ -1337,6 +1337,7 @@ const router = new Router({
                         pageTitle: 'Configurações Gerais',
                         rule: 'editor',
                         subTitle: 'Configurações',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1355,6 +1356,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
+                      subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1373,6 +1375,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
+                      subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1390,6 +1393,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
+                      subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 }

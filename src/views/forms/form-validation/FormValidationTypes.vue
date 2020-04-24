@@ -10,7 +10,6 @@
 
 <template>
     <vx-card title="Validation types" code-toggler>
-
         <p>VeeValidate comes with a bunch of validation rules out of the box and cover most validation needs</p>
         <div class="mt-5">
             <form>

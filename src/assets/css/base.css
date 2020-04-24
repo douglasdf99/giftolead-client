@@ -20,6 +20,27 @@ h4 {
   font-family: 'Lato', sans-serif !important;
   color: #888888 !important
 }
+.menu-statico-2{
+  position: relative;
+  top: 50px;
+}
+.menu-statico-2 a{
+  color: #000;
+}
+.menu-statico-2-link .vs-list--item{
+  font-family: "Lato", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: .3 ;
+  color: #000;
+}
+.menu-statico-2-link .vs-list--item:hover{
+  color: #000;
+  opacity: 1;
+}
+.menu-ativo .vs-list--item{
+  opacity: 1 !important;
+}
 
 
 .router-view .content-area__heading h2 {
@@ -42,6 +63,14 @@ h4 {
     padding-left: 0;
   }
   .menu-statico{
+    display: none;
+  }
+  .menu-statico-2{
+    display: block;
+  }
+}
+@media (min-width: 1200px){
+  .menu-statico-2{
     display: none;
   }
 }

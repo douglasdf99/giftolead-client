@@ -53,11 +53,39 @@
             <!-- /Navbar -->
 
             <div class="content-wrapper">
+              <transition :name="routerTransition">
+                <div class="menu-statico-2">
+                  <vx-card >
 
+                    <vs-collapse>
+
+                      <vs-collapse-item>
+
+                        <div slot="header"><span class="menuSelected"><vs-icon icon-pack="material-icons" :icon="$route.meta.subIcon"/> {{$route.meta.subTitle}}</span></div>
+
+                        <div class="ml-10">
+                          <vs-list>
+                            <router-link v-for="item in $route.meta.submenu" :key="item.name" :to="item.url" class="menu-statico-2-link" :class="{'menu-ativo' : activeLink(item.url)}">
+                              <vs-list-item  icon-pack="material-icons" :icon="item.icon" :title="item.name" ></vs-list-item>
+                            </router-link>
+                          </vs-list>
+                        </div>
+
+
+                      </vs-collapse-item>
+
+                    </vs-collapse>
+
+
+
+                  </vx-card>
+                </div>
+              </transition>
                 <div class="router-view">
                     <div class="router-content">
 
-                        <transition :name="routerTransition">
+
+                      <transition :name="routerTransition">
 
                             <div v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
                                  class="items-center mb-20">
@@ -106,6 +134,7 @@
                                 </vs-dropdown>-->
 
                             </div>
+
                         </transition>
 
                         <div class="content-area__content">
@@ -216,6 +245,7 @@
             }
         },
         computed: {
+
             bodyOverlay() {
                 return this.$store.state.bodyOverlay
             },
@@ -263,6 +293,9 @@
             }
         },
         methods: {
+          activeLink(url) {
+            return url === this.$route.path;
+          },
             changeRouteTitle(title) {
                 this.routeTitle = title
             },
