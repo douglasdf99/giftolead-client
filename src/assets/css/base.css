@@ -35,6 +35,16 @@ h4 {
     padding-right: 3rem;
     padding-left: 3rem;
 }
+
+@media (max-width: 1200px){
+  .router-content {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  .menu-statico{
+    display: none;
+  }
+}
 /* ------------------------ */
 /* Inputs */
 .input-span-placeholder {
@@ -132,6 +142,8 @@ h4 {
         width: 100%;
     }
     [dir=ltr] .router-content {
-        padding-right: 0;
+        paddaing-right: 0;
+        paddaing-right: 0;
+
     }
 }

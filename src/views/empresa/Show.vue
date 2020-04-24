@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <h4 class="font-bold mb-12">Informações sobre a empresa</h4>
     <div class="vx-row mb-6">
       <div class="vx-col sm:w-2/3 w-full mb-2">
