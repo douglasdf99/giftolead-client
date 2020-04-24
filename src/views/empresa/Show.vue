@@ -120,7 +120,6 @@
     <transition name="fade">
       <footer-doug v-if="edited">
         <div class="relative">
-
         </div>
         <div class="container">
           <div class="vx-row mb-2 relative">

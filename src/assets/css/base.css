@@ -22,10 +22,17 @@ h4 {
 }
 .menu-statico-2{
   position: relative;
-  top: 50px;
+  top: 60px;
+  z-index: 10000;
 }
 .menu-statico-2 a{
   color: #000;
+}
+.menu-statico-2 .vx-card__body{
+  padding: 0.6rem !important;
+}
+.menu-statico-2 .vs-collapse-item--icon-header .vs-icon{
+  font-size: 30px;
 }
 .menu-statico-2-link .vs-list--item{
   font-family: "Lato", sans-serif;
