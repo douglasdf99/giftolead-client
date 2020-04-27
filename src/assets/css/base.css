@@ -112,7 +112,7 @@ h4 {
 
 .btn-incluir {
     padding-left: 10% !important;
-    font-weight: 700;
+    font-weight: 800 !important;
     float: right;
 }
 
@@ -196,6 +196,28 @@ h4 {
     position: absolute;
     left: -45%;
     top: -5px;
+}
+
+.subtitulo {
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: black;
+}
+
+.switch {
+    border: 1px solid rgb(154, 170, 190);
+    zoom: 1.5;
+}
+
+.switch .vs-switch--circle {
+    top: 1px !important;
+}
+
+.span-padrao {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 @media (max-width: 768px){

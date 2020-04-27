@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h2 class="mb-3 title">Empresa{{ routeTitle }}</h2>
-
-    <h4 class="font-bold mb-12">Informações sobre a empresa</h4>
+    <h4 class="font-bold mb-10 mt-20">Informações sobre a empresa</h4>
     <div class="vx-row mb-6">
       <div class="vx-col sm:w-2/3 w-full mb-2">
         <div class="vx-row mb-6">

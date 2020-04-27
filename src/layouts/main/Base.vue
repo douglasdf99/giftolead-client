@@ -88,7 +88,7 @@
                       <transition :name="routerTransition">
 
                             <div v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
-                                 class="items-center mb-20">
+                                 class="items-center mb-5">
                               <!-- BREADCRUMB -->
                               <vx-breadcrumb class="md:block hidden mb-12" v-if="$route.meta.breadcrumb"
                                              :route="$route" :isRTL="$vs.rtl"/>
