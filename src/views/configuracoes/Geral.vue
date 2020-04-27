@@ -1,12 +1,9 @@
 <template>
     <div>
         <ul>
-            <div v-for="line in lista" :key="line.nome">
-                <li>
+                <li class="line" v-for="line in lista" :key="line.nome">
                     <router-link :to="{name: line.routername}">{{line.nome}}</router-link>
                 </li>
-                <hr class="line">
-            </div>
         </ul>
     </div>
 </template>
@@ -50,9 +47,19 @@
     }
 
     .line {
-        width: 40%;
-        margin: 1rem 0;
-        border-width: 2px;
-        opacity: 25%;
+
+      border-bottom: #7070704a  solid;
+      border-width: 1px;
+      width: 60%;
+      padding-bottom: 15px
+    }
+    .line:hover {
+      border-bottom: #707070  solid;
+      border-width: 1px;
+      width: 60%;
+      padding-bottom: 15px
+    }
+    .line a{
+      color: #000;
     }
 </style>
