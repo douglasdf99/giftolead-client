@@ -8,7 +8,8 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full mb-2">
             <span class="font-regular mb-2">Razão Social</span>
-            <input class="vs-inputx vs-input--input large hasValue" size="large"  v-validate="'required'"  name="razao_social" v-model="empresa.razao_social"  type="text"  />
+            <input class="vs-inputx vs-input--input large hasValue" size="large" v-validate="'required'"
+                   name="razao_social" v-model="empresa.razao_social" type="text"/>
             <span class="text-danger text-sm"
                   v-show="errors.has('razao_social')">{{ errors.first('razao_social') }}</span>
           </div>
@@ -16,12 +17,13 @@
         <div class="vx-row mb-6">
           <div class="vx-col sm:w-1/2 w-full mb-2">
             <span class="font-regular mb-2">CNPJ</span>
-            <vs-input class="w-full" v-validate="'required'" v-mask="'##.###.###/####-##'" name="cnpj" v-model="empresa.cnpj" size="large"/>
-            <span class="text-danger text-sm"  v-show="errors.has('cnpj')">{{ errors.first('cnpj') }}</span>
+            <vs-input class="w-full" v-validate="'required'" v-mask="'##.###.###/####-##'" name="cnpj"
+                      v-model="empresa.cnpj" size="large"/>
+            <span class="text-danger text-sm" v-show="errors.has('cnpj')">{{ errors.first('cnpj') }}</span>
           </div>
           <div class="vx-col sm:w-1/2 w-full mb-2">
             <span class="font-regular mb-2">Email Comercial</span>
-            <vs-input class="w-full"  v-validate="'required|email'" name="email" v-model="empresa.email" size="large"/>
+            <vs-input class="w-full" v-validate="'required|email'" name="email" v-model="empresa.email" size="large"/>
             <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
 
           </div>
@@ -29,7 +31,7 @@
         <div class="vx-row mb-6">
           <div class="vx-col w-full mb-2">
             <span class="font-regular mb-2">Website</span>
-            <vs-input class="w-full "  v-validate="'required'" name="site" v-model="empresa.site" size="large"/>
+            <vs-input class="w-full " v-validate="'required'" name="site" v-model="empresa.site" size="large"/>
             <span class="text-danger text-sm" v-show="errors.has('site')">{{ errors.first('site') }}</span>
 
           </div>
@@ -37,61 +39,65 @@
       </div>
       <div class="vx-col sm:w-1/3 w-full mb-2">
         <div class="mb-6 p-5 pt-0">
-            <span class="font-regular mb-3 ml-2">Logotipo da empresa</span>
-            <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter"
-                 @dragleave="OnDragLeave"
-                 @dragover.prevent
-                 @drop="onDrop"
-                 :class="{ dragging: isDragging }">
-              <vx-card class="grid-view-item mb-base overflow-hidden" v-if="empresa.logo && !images.length">
-                <template slot="no-body">
-                  <!-- ITEM IMAGE -->
-                  <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                    <img :src="url_api(empresa.logo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
-                  </div>
-                  <div class="item-details px-4">
-                  </div>
-                  <div class="flex flex-wrap">
-                    <label  class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer" for="file">
-                        <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
-                        <label class="text-sm font-semibold ml-2" for="file">Alterar Logotipo</label>
-                    </label>
-                  </div>
-                </template>
-              </vx-card>
-
-              <vx-card class="grid-view-item mb-base overflow-hidden" v-show="images.length">
-                <template slot="no-body">
-                  <!-- ITEM IMAGE -->
-                  <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
-                       v-for="(image, index) in images" :key="index">
-                    <img :src="image" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
-                  </div>
-                  <div class="item-details px-4">
-                  </div>
-                  <div class="flex flex-wrap">
-                    <label  class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer" for="file">
-                      <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
-                      <label class="text-sm font-semibold ml-2" for="file">Alterar Logotipo</label>
-                    </label>
-                  </div>
-                </template>
-              </vx-card>
-              <div class="uploader" v-show="!empresa.logo">
-                <div v-show="!images.length">
-                  <label for="file">
-                    <i class="fa fa-cloud-upload"></i>
-                    <img :src="url_api('images/upload.png')">
-                    <p class="text-lg">Arraste e solte ou clique aqui</p>
-                    <div class="file-input">
-                      <input type="file" id="file" @change="onInputChange">
-                    </div>
+          <span class="font-regular mb-3 ml-2">Logotipo da empresa</span>
+          <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter"
+               @dragleave="OnDragLeave"
+               @dragover.prevent
+               @drop="onDrop"
+               :class="{ dragging: isDragging }">
+            <vx-card class="grid-view-item mb-base overflow-hidden" v-if="empresa.logo && !images.length">
+              <template slot="no-body">
+                <!-- ITEM IMAGE -->
+                <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
+                  <img :src="url_api(empresa.logo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
+                </div>
+                <div class="item-details px-4">
+                </div>
+                <div class="flex flex-wrap">
+                  <label
+                    class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                    for="file">
+                    <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
+                    <label class="text-sm font-semibold ml-2" for="file">Alterar Logotipo</label>
                   </label>
                 </div>
+              </template>
+            </vx-card>
+
+            <vx-card class="grid-view-item mb-base overflow-hidden" v-show="images.length">
+              <template slot="no-body">
+                <!-- ITEM IMAGE -->
+                <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
+                     v-for="(image, index) in images" :key="index">
+                  <img :src="image" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
+                </div>
+                <div class="item-details px-4">
+                </div>
+                <div class="flex flex-wrap">
+                  <label
+                    class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                    for="file">
+                    <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
+                    <label class="text-sm font-semibold ml-2" for="file">Alterar Logotipo</label>
+                  </label>
+                </div>
+              </template>
+            </vx-card>
+            <div class="uploader" v-show="!empresa.logo">
+              <div v-show="!images.length">
+                <label for="file">
+                  <i class="fa fa-cloud-upload"></i>
+                  <img :src="url_api('images/upload.png')">
+                  <p class="text-lg">Arraste e solte ou clique aqui</p>
+                  <div class="file-input">
+                    <input type="file" id="file" @change="onInputChange">
+                  </div>
+                </label>
               </div>
-
-
             </div>
+
+
+          </div>
         </div>
       </div>
     </div>
@@ -121,15 +127,12 @@
     </div>
     <transition name="fade">
       <footer-doug v-if="edited">
-        <div class="relative">
-        </div>
-        <div class="container">
-          <div class="vx-row mb-2 relative">
-            <div class="seta-footer" style="">
-              <feather-icon icon="CornerLeftUpIcon" svgClasses="stroke-current text-dark-50 w-6 h-6" class="ml-2" />
+        <div class="vx-col sm:w-11/12 mb-2">
+          <div class="container">
+            <div class="vx-row mb-2 relative">
+              <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
+              <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">Cancelar</vs-button>
             </div>
-            <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
-            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">Cancelar</vs-button>
           </div>
         </div>
       </footer-doug>
