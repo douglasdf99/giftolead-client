@@ -1380,6 +1380,45 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/produtos',
+                    name: 'produtos',
+                    component: () => import('@/views/produtos/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Produtos', active: true},
+                        ],
+                        pageTitle: 'Produtos',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                      subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/produtos/criar',
+                    name: 'produto-criar',
+                    component: () => import('@/views/produtos/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Produtos', url: '/configuracoes/produtos'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurar novo produto',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                      subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/tickets',
                     name: 'configuracoes-tickets',
                     component: () => import('@/views/contas/Index.vue'),

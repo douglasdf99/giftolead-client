@@ -24,6 +24,10 @@
                     {
                         nome: 'Cadastrar ou alterar contas de produtos',
                         routername: 'contas'
+                    },
+                    {
+                        nome: 'Cadastrar ou alterar produtos',
+                        routername: 'produtos'
                     }
                 ]
             }
