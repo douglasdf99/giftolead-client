@@ -1,41 +1,47 @@
 <template>
     <div>
         <side-bar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
-        <div class="vx-row mb-3 row-reverse-mobile">
+      <vs-row>
+        <vs-col vs-w="12" class="mb-6">
+            <vs-button color="primary" class="float-right botao-incluir" type="filled"  @click="addNewData">
+              <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
+              Incluir Conta
+            </vs-button>
+            <!--<img src="@/assets/images/util/check-incluir.svg" >-->
+        </vs-col>
+      </vs-row>
+
+      <vs-row>
+          <vs-col vs-w="12">
             <div class="w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
+
                     <!--<vs-input icon="search" placeholder="Pesquisar por contas" size="large" icon-after="true" label-placeholder="icon-after" class="w-full"/>-->
                     <!--<vs-input type="text" class="w-full" size="large"/>
                     <vs-button radius color="primary" type="border" icon-pack="feather" icon="icon-search"
                                class="btn-search"></vs-button>-->
-                    <div class="relative mb-8 w-full">
+                    <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.search" id="search_input" size="large"/>
                             <!-- SEARCH LOADING -->
-                            <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                <button type="submit" style="border: none; background: transparent; cursor: pointer;">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
-                                </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
-                            </div>
+                          <!-- SEARCH ICON -->
+                          <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                            <button type="submit" style="border: none; background: transparent; cursor: pointer;">
+                              <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                            </button>
+                            <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
+                          </div>
                         </form>
                     </div>
 
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="relative w-full sm:w-1/2 md:w-full lg:w-6/12  xlg:w-2/12 mb-3">
-                <vs-button color="primary" type="filled" class="btn-incluir" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-check-btn-incluir"></vs-icon>
-                    Incluir Conta
-                </vs-button>
-                <!--<img src="@/assets/images/util/check-incluir.svg" >-->
-            </div>
-        </div>
+          </vs-col>
+      </vs-row>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-2" v-show="items.length === 0">
@@ -52,14 +58,32 @@
                     <vs-table :data="items" class="table-items">
 
                         <template slot="thead">
+                          <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
                             <vs-th>Token</vs-th>
-                            <vs-th></vs-th>
+
                         </template>
 
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                              <vs-td class="flex justify-center items-center">
+                                <vs-dropdown vs-trigger-click>
+                                  <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
+                                             icon-pack="feather" icon="icon-more-horizontal"></vs-button>
+                                  <vs-dropdown-menu>
+                                    <vs-dropdown-item @click="updateData(data[indextr])">
+                                      <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                      Editar
+                                    </vs-dropdown-item>
 
+                                    <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                      <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                                      Deletar
+                                    </vs-dropdown-item>
+
+                                  </vs-dropdown-menu>
+                                </vs-dropdown>
+                              </vs-td>
                                 <vs-td :data="data[indextr].nome">
                                     {{ data[indextr].nome }}
                                 </vs-td>
@@ -68,24 +92,7 @@
                                     {{ data[indextr].token }}
                                 </vs-td>
 
-                                <vs-td class="flex justify-center items-center">
-                                    <vs-dropdown>
-                                        <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
-                                                   icon-pack="feather" icon="icon-more-horizontal"></vs-button>
-                                        <vs-dropdown-menu>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
-                                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                                Editar
-                                            </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                                Deletar
-                                            </vs-dropdown-item>
-
-                                        </vs-dropdown-menu>
-                                    </vs-dropdown>
-                                </vs-td>
                             </vs-tr>
                         </template>
 
@@ -109,6 +116,7 @@
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
+              routeTitle:'Contas',
                 dados: {
                     search: '',
                     page: 1
@@ -190,9 +198,14 @@
                 console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getContas();
-            }
+            },
+          "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
+          },
         },
+
         computed: {
+
             items() {
                 return this.$store.state.items;
             },
@@ -200,5 +213,6 @@
                 return this.$store.state.pagination;
             },*/
         },
+
     }
 </script>

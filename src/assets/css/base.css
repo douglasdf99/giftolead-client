@@ -16,10 +16,26 @@ body {
     margin-top: 7.5rem;
     margin-left: 7rem;
 }*/
+.title {
+  font-family: 'Poppinso', sans-serif;
+  font-size: 28px;
+  font-weight: 600;
+}
+
 h4 {
   font-family: 'Lato', sans-serif !important;
   color: #888888 !important
 }
+.icon-grande{
+  font-size: 20px;
+  margin-right: 10px;
+}
+.botao-incluir .vs-button--text{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .menu-statico-2{
   position: relative;
   top: 60px;
