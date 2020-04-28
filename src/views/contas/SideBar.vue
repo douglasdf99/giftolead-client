@@ -9,7 +9,7 @@
 
 
 <template>
-    <vs-sidebar v-if="isSidebarActive" click-not-close position-right parent="body" default-index="1" color="primary"
+    <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
             <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Conta</h4>
@@ -68,7 +68,7 @@
             isSidebarActive(val) {
                 if (!val) return
                 if (Object.entries(this.data).length === 0) {
-                    this.initValues()
+                    //this.initValues()
                     this.$validator.reset()
                 } else {
                     console.log('entrou aqui', this.data);
@@ -112,11 +112,12 @@
             initValues() {
                 if (this.data.id) {
                     console.log(this.data)
+                    return
                 } else {
                     this.conta.id = null
                     this.conta.nome = ''
                     this.conta.token = ''
-                    this.selected = {id: '', descricao: ''}
+                    this.selected = null
                 }
             },
             submitData() {
@@ -191,7 +192,19 @@
             'v-select': vSelect
         },
         created() {
+            if (Object.entries(this.data).length === 0) {
+                //this.initValues()
+                this.$validator.reset()
+            } else {
+                console.log('entrou aqui', this.data);
+                this.conta = JSON.parse(JSON.stringify(this.data));
+                //this.selected = this.conta.integracao_id;
+                this.selected = {id: this.conta.integracao_id, label: this.conta.integracao.descricao};
+                //this.selected.label = this.conta.integracao.descricao;
+
+            }
             this.getOpcoes();
+            this.initValues();
         }
     }
 </script>

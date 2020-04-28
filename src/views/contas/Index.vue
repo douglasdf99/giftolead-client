@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
       <vs-row>
         <vs-col vs-w="12" class="mb-6">
             <vs-button color="primary" class="float-right botao-incluir" type="filled"  @click="addNewData">
