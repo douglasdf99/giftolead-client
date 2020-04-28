@@ -1593,6 +1593,7 @@ router.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.authRequired)) {
             console.log('auth', auth.isAuthenticated())
             console.log('firebase', firebaseCurrentUser)
+            console.log('userinbfo', localStorage.getItem('userInfo'))
             if (!localStorage.getItem('userInfo')) {
                 router.push({path: '/login', query: {to: to.path}})
             }
