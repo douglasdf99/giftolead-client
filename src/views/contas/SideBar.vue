@@ -9,7 +9,7 @@
 
 
 <template>
-    <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
+    <vs-sidebar v-if="isSidebarActive" click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
             <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Conta</h4>
@@ -20,10 +20,11 @@
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
                 <!--<v-select id="integracao" v-validate="'required'" v-model="selected" :options="opcoesIntegracao"/>-->
-                <vs-select  v-validate="'required'" @input="mudou" @focus="mudou" v-model="selected" name="integracao" label="Integração" class="select-large mt-5 w-full">
-                    <vs-select-item :key="index" :value="item.id" :text="item.label" v-for="(item,index) in opcoesIntegracao" />
-                </vs-select>
-                <span class="text-danger text-sm" v-show="!(this.selected > 0 || this.selected != null)">Este campo é obrigatório</span>
+                <div class="mt-4">
+                    <label class="vs-input--label">Integração</label>
+                    <v-select v-model="selected" :class="'select-large-base'" :clearable="false" :options="opcoesIntegracao" v-validate="'required'" name="integracao" />
+                    <span class="text-danger text-sm"  v-show="errors.has('integracao')">{{ errors.first('integracao') }}</span>
+                </div>
                 <vs-input size="large" v-validate="'required'" label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full"
                           name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
@@ -72,7 +73,8 @@
                 } else {
                     console.log('entrou aqui', this.data);
                     this.conta = JSON.parse(JSON.stringify(this.data));
-                    this.selected = this.conta.integracao_id;
+                    //this.selected = this.conta.integracao_id;
+                    this.selected = {id: this.conta.integracao_id, label: this.conta.integracao.descricao};
                     //this.selected.label = this.conta.integracao.descricao;
 
                 }
@@ -108,17 +110,24 @@
         },
         methods: {
             initValues() {
-                if (this.data.id) return
-                this.conta.nome = ''
-                this.conta.token = ''
+                if (this.data.id) {
+                    console.log(this.data)
+                } else {
+                    this.conta.id = null
+                    this.conta.nome = ''
+                    this.conta.token = ''
+                    this.selected = {id: '', descricao: ''}
+                }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading()
                         const obj = {...this.conta};
+                        obj.integracao_id = this.selected.id;
                         if (this.conta.id !== null && this.conta.id >= 0) {
                             obj._method = 'PUT';
+                            console.log('obj atualizando', obj)
                             this.$store.dispatch("updateItem", {rota: 'contas', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -127,15 +136,15 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', 'contas').then(() => {
-                                    this.$vs.loading.close()
+                                this.$store.dispatch('getVarios', {rota: 'contas', params: {}}).then(() => {
+                                    this.$vs.loading.close();
                                 });
                             }).catch(err => {
                                 console.error(err)
                             })
                         } else {
                             delete obj.id
-                            console.log('obj', obj)
+                            console.log('obj criando', obj)
                             obj.integracao_id = this.selected;
                             this.$store.dispatch("addItem", {rota: 'contas', item: obj}).then(() => {
                                 this.$vs.notify({
@@ -171,8 +180,6 @@
                     arr.forEach(item => {
                         this.opcoesIntegracao.push({id: item.id, label: item.descricao})
                     });
-                    console.log('af', this.opcoesIntegracao)
-                    console.log('af2', [{label: 'Foo', value: 'foo'}])
                 })
             },
             mudou(){

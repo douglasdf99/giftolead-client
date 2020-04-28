@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div class="vx-row mb-4">
+            <div class="vx-col lg:w-full w-full">
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">{{produto.status ? 'Ativado' : 'Desativado'}}</span>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="produto.status" class="float-right switch"/>
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>
+            </div>
+        </div>
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Nome do produto</span>
@@ -127,23 +134,21 @@
                 <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"/>
             </div>
         </div>
-        <!--<transition name="fade">
-            <footer-doug>
-                <div class="relative">
-                </div>
-                <div class="container">
-                    <div class="vx-row mb-2 relative">
-                        <div class="seta-footer" style="">
-                            <feather-icon icon="CornerLeftUpIcon" svgClasses="stroke-current text-dark-50 w-6 h-6"
-                                          class="ml-2"/>
+        <transition name="fade">
+            <footer-doug >
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar">Salvar
+                            </vs-button>
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">
+                                Cancelar
+                            </vs-button>
                         </div>
-                        <vs-button class="mr-3" color="primary" type="filled" @click="salvar">Salvar</vs-button>
-                        <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">Cancelar
-                        </vs-button>
                     </div>
                 </div>
             </footer-doug>
-        </transition>-->
+        </transition>
     </div>
 </template>
 
@@ -165,7 +170,8 @@
                     comi_valor: 0,
                     comi_per_valor: 0,
                     comi_percent: 0,
-                    comi_per_percent: 0
+                    comi_per_percent: 0,
+                    status: true
                 },
                 contaSelected: null,
                 cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',

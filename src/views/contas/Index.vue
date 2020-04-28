@@ -61,7 +61,7 @@
                           <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
                             <vs-th>Token</vs-th>
-
+                            <vs-th>Integração</vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -87,12 +87,12 @@
                                 <vs-td :data="data[indextr].nome">
                                     {{ data[indextr].nome }}
                                 </vs-td>
-
                                 <vs-td :data="data[indextr].token">
                                     {{ data[indextr].token }}
                                 </vs-td>
-
-
+                                <vs-td :data="data[indextr].integracao.descricao">
+                                    {{ data[indextr].integracao.descricao }}
+                                </vs-td>
                             </vs-tr>
                         </template>
 

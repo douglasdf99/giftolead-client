@@ -142,6 +142,10 @@ h4 {
     width: 2.7rem;
 }
 
+[dir] .con-select .vs-select--input {
+    padding: 1.4rem 2rem !important;
+}
+
 .sem-item {
     display: flex;
     justify-content: center;
@@ -239,7 +243,7 @@ h4 {
     font-weight: 700;
 }
 
-.select-large-base  vs__selected-options{
+.select-large-base  .vs__selected-options {
   padding: 0.6rem 2rem;
 }
 .select-large-base  ul li{

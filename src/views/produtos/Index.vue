@@ -59,9 +59,11 @@
 
                         <template slot="thead">
                             <vs-th></vs-th>
-                            <vs-th>Nome</vs-th>
-                            <vs-th>Token</vs-th>
-
+                            <vs-th>Produto</vs-th>
+                            <vs-th>Cor</vs-th>
+                            <vs-th>Conta</vs-th>
+                            <vs-th>Preço</vs-th>
+                            <vs-th></vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -87,12 +89,20 @@
                                 <vs-td :data="data[indextr].nome">
                                     {{ data[indextr].nome }}
                                 </vs-td>
-
-                                <vs-td :data="data[indextr].token">
-                                    {{ data[indextr].token }}
+                                <vs-td :data="data[indextr].cor">
+                                    <div class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left"
+                                        :style="{backgroundColor: data[indextr].cor}" style="cursor: default !important;">
+                                    </div>
                                 </vs-td>
-
-
+                                <vs-td :data="data[indextr].conta.nome">
+                                    {{ data[indextr].conta.nome }}
+                                </vs-td>
+                                <vs-td :data="data[indextr].preco">
+                                    R$ {{data[indextr].preco}}
+                                </vs-td>
+                                <vs-td :data="data[indextr].status">
+                                    <div class="w-10 h-10 rounded"></div>
+                                </vs-td>
                             </vs-tr>
                         </template>
 
@@ -124,7 +134,15 @@
                     page: 1,
                     current_page: 1
                 },
-                currentx: 1
+                currentx: 1,
+                money: {
+                    decimal: ',',
+                    thousands: '.',
+                    prefix: 'R$ ',
+                    suffix: '',
+                    precision: 2,
+                    masked: false /* doesn't work with directive */
+                },
                 //items: {}
             }
         },
@@ -149,7 +167,7 @@
                 this.addNewDataSidebar = val
             },
             getProdutos() {
-                this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
+                this.$store.dispatch('getVarios', {rota: 'produtos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
