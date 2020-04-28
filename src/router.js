@@ -1438,6 +1438,26 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/produtos/editar/:id',
+                    name: 'produto-editar',
+                    component: () => import('@/views/produtos/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Produtos', url: '/configuracoes/produtos'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurar novo produto',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                      subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/tickets',
                     name: 'configuracoes-tickets',
                     component: () => import('@/views/contas/Index.vue'),

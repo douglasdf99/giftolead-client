@@ -146,7 +146,6 @@
                               });
 
                             }).catch(error => {
-                                console.error(err)
                                 this.$vs.notify({
                                     title: 'Error',
                                     text: error.message,

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vs-row>
+        <div class="vx-row sm:w-full md:w-full lg:w-0 xlg:w-0" style="display: none">
             <vs-col vs-w="12" class="mb-6">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -8,40 +8,40 @@
                 </vs-button>
                 <!--<img src="@/assets/images/util/check-incluir.svg" >-->
             </vs-col>
-        </vs-row>
+        </div>
 
-        <vs-row>
-            <vs-col vs-w="12">
-                <div class="w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
-                    <div class="flex items-center">
-
-                        <!--<vs-input icon="search" placeholder="Pesquisar por contas" size="large" icon-after="true" label-placeholder="icon-after" class="w-full"/>-->
-                        <!--<vs-input type="text" class="w-full" size="large"/>
-                        <vs-button radius color="primary" type="border" icon-pack="feather" icon="icon-search"
-                                   class="btn-search"></vs-button>-->
-                        <div class="relative w-full">
-                            <!-- SEARCH INPUT -->
-                            <form @submit="pesquisar">
-                                <vs-input autocomplete
-                                          class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                          v-model="dados.search" id="search_input" size="large"/>
-                                <!-- SEARCH LOADING -->
-                                <!-- SEARCH ICON -->
-                                <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                    <button type="submit"
-                                            style="border: none; background: transparent; cursor: pointer;">
-                                        <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
-                                    </button>
-                                    <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
-                                </div>
-                            </form>
-                        </div>
-
+        <div class="vx-row flex items-center mt-20">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+                <div class="flex items-center">
+                    <div class="relative w-full">
+                        <!-- SEARCH INPUT -->
+                        <form @submit="pesquisar">
+                            <vs-input autocomplete
+                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                                      v-model="dados.search" id="search_input" size="large"/>
+                            <!-- SEARCH LOADING -->
+                            <!-- SEARCH ICON -->
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                                <button type="submit"
+                                        style="border: none; background: transparent; cursor: pointer;">
+                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                </button>
+                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
+                            </div>
+                        </form>
                     </div>
-                    <!-- SEARCH INPUT -->
+
                 </div>
-            </vs-col>
-        </vs-row>
+                <!-- SEARCH INPUT -->
+            </div>
+            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12">
+                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
+                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
+                    Incluir Produto
+                </vs-button>
+                <!-- SEARCH INPUT -->
+            </div>
+        </div>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-2" v-show="items.length === 0">
@@ -73,7 +73,7 @@
                                         <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
                                                    icon-pack="feather" icon="icon-more-horizontal"></vs-button>
                                         <vs-dropdown-menu>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
+                                            <vs-dropdown-item @click="updateData(data[indextr].id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
@@ -91,7 +91,8 @@
                                 </vs-td>
                                 <vs-td :data="data[indextr].cor">
                                     <div class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left"
-                                        :style="{backgroundColor: data[indextr].cor}" style="cursor: default !important;">
+                                         :style="{backgroundColor: data[indextr].cor}"
+                                         style="cursor: default !important;">
                                     </div>
                                 </vs-td>
                                 <vs-td :data="data[indextr].conta.nome">
@@ -159,9 +160,8 @@
             addNewData() {
                 this.$router.push({name: 'produto-criar'});
             },
-            updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+            updateData(id) {
+                this.$router.push({path: '/configuracoes/produtos/editar/' + id});
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val

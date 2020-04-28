@@ -16,6 +16,17 @@ import router from '@/router'
 import axios from "@/axios.js"
 
 export default {
+    get(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/contas`, {params: {all: true}})
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     getOpcoes({commit}){
         return new Promise((resolve, reject) => {
             axios.get(`/api/integracoes`)
