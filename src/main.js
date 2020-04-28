@@ -48,6 +48,10 @@ import acl from './acl/acl'
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
 
+import money from 'v-money'
+// register directive v-money and component <money>
+Vue.use(money, {precision: 4})
+
 // Globally Registered Components
 import './globalComponents.js'
 
