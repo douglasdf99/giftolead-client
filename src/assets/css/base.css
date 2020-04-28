@@ -239,6 +239,14 @@ h4 {
     font-weight: 700;
 }
 
+.select-large-base  vs__selected-options{
+  padding: 0.6rem 2rem;
+}
+.select-large-base  ul li{
+
+  padding: 0.6rem 2rem;
+}
+
 @media (max-width: 768px) {
     .row-reverse-mobile {
         flex-direction: column-reverse;

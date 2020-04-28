@@ -1380,6 +1380,25 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/brindes',
+                    name: 'brindes',
+                    component: () => import('@/views/brindes/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Brindes', active: true},
+                        ],
+                        pageTitle: 'Brindes',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/produtos',
                     name: 'produtos',
                     component: () => import('@/views/produtos/Index.vue'),

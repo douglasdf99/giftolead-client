@@ -25,6 +25,10 @@
                     {
                         nome: 'Cadastrar ou alterar produtos',
                         routername: 'produtos'
+                    },
+                    {
+                        nome: 'Cadastrar ou alterar brindes',
+                        routername: 'brindes'
                     }
                 ]
             }
