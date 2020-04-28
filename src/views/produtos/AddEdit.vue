@@ -10,21 +10,23 @@
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Nome do produto</span>
-                <vs-input class="w-full" v-model="produto.nome" size="large"/>
+                <vs-input class="w-full" v-model="produto.nome" size="large" v-validate="'required'" name="nome"/>
+                <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Conta atribuída no Hotmart</span>
-                <vs-select v-validate="'required'" v-model="contaSelected" name="conta"
-                           class="select-large-produto w-full">
-                    <!--<vs-select-item :key="index" :value="item.id" :text="item.label" v-for="(item,index) in opcoesIntegracao" />-->
-                    <vs-select-item key="1" value="1" text="MBR Editora"/>
-                </vs-select>
+                <label class="vs-input--label">Conta atribuída no Hotmart</label>
+                <v-select v-model="contaSelected" :class="'select-large-base'" :clearable="false" style="background-color: white"
+                          :options="opcoesIntegracao" v-validate="'required'" name="integracao"/>
+                <span class="text-danger text-sm"
+                      v-show="errors.has('integracao')">{{ errors.first('integracao') }}</span>
             </div>
         </div>
         <div class="vx-row mb-6">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Preço</span>
-                <vs-input class="w-full" v-model="produto.preco" size="large" v-money="money"/>
+                <vs-input class="w-full" v-model="produto.preco" size="large" v-validate="'required'" v-money="money" name="preco"/>
+                <span class="text-danger text-sm"
+                      v-show="errors.has('preco')">{{ errors.first('preco') }}</span>
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">Código ID do produto no Hotmart</span>
@@ -41,7 +43,7 @@
             </div>
             <div class="vx-col w-full">
                 <ul class="clearfix">
-                    <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" v-for="(cor, index) in cores"
+                    <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" v-for="cor in cores"
                         :style="{backgroundColor: cor}" @click="selecionaCor(cor)">
                         <vs-icon icon="done" icon-pack="material-icons" style="color: white;font-size: 2.5rem;"
                                  v-if="produto.cor === cor"></vs-icon>
@@ -64,12 +66,12 @@
                             <span class="span-destaque">Tipo de Comissão</span>
                             <ul class="list-tipo-comissao mt-10">
                                 <li class="my-3">
-                                    <vs-radio color="dark" v-model="produto.comissao_partilhada" vs-value="individual">
+                                    <vs-radio color="dark" v-model="produto.comissao_partilhada" vs-value="0">
                                         Individual
                                     </vs-radio>
                                 </li>
                                 <li>
-                                    <vs-radio color="dark" v-model="produto.comissao_partilhada" vs-value="partilhada">
+                                    <vs-radio color="dark" v-model="produto.comissao_partilhada" vs-value="1">
                                         Partilhada
                                     </vs-radio>
                                 </li>
@@ -89,7 +91,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="vx-row mt-10" v-if="produto.comissao_partilhada === 'partilhada'">
+                    <div class="vx-row mt-10" v-if="produto.comissao_partilhada == 1">
                         <div class="vx-col w-full xlg:w-1/2 lg:w-1/2" v-if="produto.comissao_tipo === 'valor'">
                             <span class="font-regular mb-2">Comissão para quem <b>insere</b> o Ticket</span>
                             <vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>
@@ -109,7 +111,7 @@
                             <vs-input class="w-full" v-model="produto.comi_per_percent" size="large" v-money="percent"/>
                         </div>
                     </div>
-                    <div class="vx-row mt-10" v-if="produto.comissao_partilhada === 'individual'">
+                    <div class="vx-row mt-10" v-if="produto.comissao_partilhada == 0">
                         <div class="vx-col w-full xlg:w-3/12 lg:w-1/2" v-if="produto.comissao_tipo === 'valor'">
                             <span class="font-regular mb-2">Comissão em reais</span>
                             <vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>
@@ -123,7 +125,7 @@
             </transition>
         </div>
         <vs-divider class="mb-20"/>
-        <div class="vx-row mb-20 flex items-center">
+        <div class="vx-row flex items-center" style="margin-bottom: 10rem">
             <div class="vx-col w-full mb-4">
                 <h2 class="subtitulo">Url de integração com o Hotmart</h2>
             </div>
@@ -131,15 +133,16 @@
                 <vs-input class="w-full" size="large" value="https://api.saveleads.com.br" disabled></vs-input>
             </div>
             <div class="vx-col w-full lg:w-2/12">
-                <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"/>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="produto.integracao" class="float-right switch"/>
             </div>
         </div>
         <transition name="fade">
-            <footer-doug >
+            <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar">Salvar
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                                Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">
                                 Cancelar
@@ -154,29 +157,44 @@
 
 <script>
     import vSelect from 'vue-select'
+    import moduleContas from '@/store/contas/moduleContas.js'
+    import moduleProdutos from '@/store/produtos/moduleProdutos.js'
 
     export default {
         name: "Edit",
         components: {
             'v-select': vSelect
         },
+        created() {
+            if (!moduleContas.isRegistered) {
+                this.$store.registerModule('contas', moduleContas)
+                moduleContas.isRegistered = true
+            }
+            if (!moduleProdutos.isRegistered) {
+                this.$store.registerModule('produtos', moduleProdutos)
+                moduleProdutos.isRegistered = true
+            }
+            this.getOpcoes();
+        },
         data() {
             return {
                 produto: {
                     cor: '',
                     comissao_tipo: 'valor',
-                    comissao_partilhada: 'individual',
+                    comissao_partilhada: 0,
                     preco: 0,
                     comi_valor: 0,
                     comi_per_valor: 0,
                     comi_percent: 0,
                     comi_per_percent: 0,
-                    status: true
+                    status: true,
+                    integracao: true
                 },
                 contaSelected: null,
                 cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',
                     '#3D556E', '#222F3D', '#F2C512', '#F39C1A', '#E84B3C', '#C0382B', '#DDE6E8', '#BDC3C8'],
-                configComissao: true,
+                configComissao: false,
+                opcoesIntegracao: [],
                 money: {
                     decimal: ',',
                     thousands: '.',
@@ -197,7 +215,8 @@
         },
         methods: {
             salvar() {
-                return true;
+                console.log('produto', this.produto)
+                console.log('contaSelected', this.contaSelected)
             },
             selecionaCor(cor) {
                 this.produto.cor = cor
@@ -205,8 +224,21 @@
             selecionaTipoComissao(val) {
                 this.produto.comissao_tipo = val;
                 console.log(this.produto.comissao_tipo)
-            }
+            },
+            getOpcoes() {
+                this.$store.dispatch('contas/getOpcoes').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.opcoesIntegracao.push({id: item.id, label: item.descricao})
+                    });
+                })
+            },
         },
+        computed: {
+            isValid() {
+                return this.errors.any() && this.produto.cor !== '';
+            },
+        }
     }
 </script>
 
