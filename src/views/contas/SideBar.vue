@@ -42,7 +42,7 @@
         </VuePerfectScrollbar>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData" :disabled="!isFormValid">Salvar</vs-button>
+            <vs-button class="mr-6" @click="submitData" >Salvar</vs-button>
             <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
         </div>
     </vs-sidebar>
@@ -65,27 +65,15 @@
             },
         },
         watch: {
-            isSidebarActive(val) {
-                if (!val) return
-                if (Object.entries(this.data).length === 0) {
-                    //this.initValues()
-                    this.$validator.reset()
-                } else {
-                    console.log('entrou aqui', this.data);
-                    this.conta = JSON.parse(JSON.stringify(this.data));
-                    //this.selected = this.conta.integracao_id;
-                    this.selected = {id: this.conta.integracao_id, label: this.conta.integracao.descricao};
-                    //this.selected.label = this.conta.integracao.descricao;
 
-                }
-                // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
-            }
         },
         data() {
             return {
                 conta: {
                     empresa_id: 1,
-                    integracao: {}
+                    integracao: {},
+                  nome : '',
+                  token : '',
                 },
                 opcoesIntegracao: [],
                 selected: null
@@ -104,12 +92,11 @@
                     }
                 }
             },
-            isFormValid() {
-                return !this.errors.any() && (this.selected > 0 || this.selected != null);
-            }
+
         },
         methods: {
             initValues() {
+              console.log('chamou init');
                 if (this.data.id) {
                     console.log(this.data)
                     return
@@ -146,7 +133,6 @@
                         } else {
                             delete obj.id
                             console.log('obj criando', obj)
-                            obj.integracao_id = this.selected;
                             this.$store.dispatch("addItem", {rota: 'contas', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -155,9 +141,10 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 })
-                                this.$store.dispatch('getVarios', 'contas').then(() => {
-                                    this.$vs.loading.close()
-                                });
+                              this.$store.dispatch('getVarios', {rota: 'brindes', params: {}}).then(() => {
+                                this.$vs.loading.close()
+                              });
+
                             }).catch(error => {
                                 console.error(err)
                                 this.$vs.notify({
@@ -192,6 +179,7 @@
             'v-select': vSelect
         },
         created() {
+          this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
                 this.$validator.reset()
@@ -204,7 +192,7 @@
 
             }
             this.getOpcoes();
-            this.initValues();
+
         }
     }
 </script>

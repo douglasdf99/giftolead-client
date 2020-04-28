@@ -132,9 +132,10 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', 'contas').then(() => {
-                                    this.$vs.loading.close()
-                                });
+                              this.$store.dispatch('getVarios', {rota: 'brindes', params: {}}).then(() => {
+                                this.$vs.loading.close()
+                              });
+
                             }).catch(err => {
                                 console.error(err)
                             })
