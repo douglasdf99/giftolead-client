@@ -1,9 +1,12 @@
 <template>
     <div>
         <ul>
-                <li class="line" v-for="line in lista" :key="line.nome">
-                    <router-link :to="{name: line.routername}">{{line.nome}}</router-link>
-                </li>
+
+          <router-link :to="{name: line.routername}" :class="'line'"  tag="li" v-for="line in lista" :key="line.nome">
+
+                  {{line.nome}}
+
+          </router-link>
         </ul>
     </div>
 </template>
@@ -67,7 +70,11 @@
       width: 60%;
       padding-bottom: 15px
     }
-    .line a{
+    .line {
+      font-family: "Poppins", sans-serif;
+      font-size: 1.2rem;
+      font-weight: normal;
       color: #000;
+      cursor: pointer;
     }
 </style>
