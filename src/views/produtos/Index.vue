@@ -1,16 +1,13 @@
 <template>
     <div>
-        <div class="vx-row sm:w-full md:w-full lg:w-0 xlg:w-0" style="display: none">
-            <vs-col vs-w="12" class="mb-6">
+        <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
+            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Produto
                 </vs-button>
-                <!--<img src="@/assets/images/util/check-incluir.svg" >-->
-            </vs-col>
-        </div>
-
-        <div class="vx-row flex items-center mt-20">
+                <!-- SEARCH INPUT -->
+            </div>
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -34,7 +31,7 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12">
+            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Produto
@@ -67,11 +64,11 @@
                         </template>
 
                         <template slot-scope="{data}">
-                            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
                                 <vs-td class="flex justify-center items-center">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
-                                                   icon-pack="feather" icon="icon-more-horizontal"></vs-button>
+                                                   icon-pack="material-icons" icon="more_horiz"></vs-button>
                                         <vs-dropdown-menu>
                                             <vs-dropdown-item @click="updateData(data[indextr].id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
@@ -87,7 +84,7 @@
                                     </vs-dropdown>
                                 </vs-td>
                                 <vs-td :data="data[indextr].nome">
-                                    {{ data[indextr].nome }}
+                                    <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].cor">
                                     <div class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left"
@@ -99,7 +96,7 @@
                                     {{ data[indextr].conta.nome }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].preco">
-                                    R$ {{data[indextr].preco}}
+                                    <span class="destaque"> R$ {{data[indextr].preco}}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].status">
                                     <div class="w-10 h-10 rounded"></div>

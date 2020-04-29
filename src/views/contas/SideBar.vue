@@ -13,36 +13,43 @@
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
             <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Conta</h4>
-            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+            <!--<feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>-->
+            <div class="flex items-center cursor-pointer" @click.stop="isSidebarActiveLocal = false">
+                <vs-icon icon-pack="material-icons" icon="clear" class="mr-2 icon-cancelar"/>
+                Cancelar
+            </div>
         </div>
-        <vs-divider class="mb-0"></vs-divider>
-
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
                 <!--<v-select id="integracao" v-validate="'required'" v-model="selected" :options="opcoesIntegracao"/>-->
                 <div class="mt-4">
                     <label class="vs-input--label">Integração</label>
-                    <v-select v-model="selected" :class="'select-large-base'" :clearable="false" :options="opcoesIntegracao" v-validate="'required'" name="integracao" />
-                    <span class="text-danger text-sm"  v-show="errors.has('integracao')">{{ errors.first('integracao') }}</span>
+                    <v-select v-model="selected" :class="'select-large-base'" :clearable="false"
+                              :options="opcoesIntegracao" v-validate="'required'" name="integracao"/>
+                    <span class="text-danger text-sm"
+                          v-show="errors.has('integracao')">{{ errors.first('integracao') }}</span>
                 </div>
-                <vs-input size="large" v-validate="'required'" label="Nome da conta" autocomplete="off" v-model="conta.nome" class="mt-5 w-full"
+                <vs-input size="large" v-validate="'required'" label="Nome da conta" autocomplete="off"
+                          v-model="conta.nome" class="mt-5 w-full"
                           name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
 
                 <vs-input size="large" label="Token da conta" autocomplete="off" v-model="conta.token"
                           class="mt-5 w-full" name="token" v-validate="'required'"/>
                 <span class="text-danger text-sm" v-show="errors.has('token')">Este campo é obrigatório</span>
-                <vs-input v-if="conta.integracao.need === 2" size="large" label="Token 2 da conta" autocomplete="off" v-model="conta.token2"
+                <vs-input v-if="conta.integracao.need === 2" size="large" label="Token 2 da conta" autocomplete="off"
+                          v-model="conta.token2"
                           class="mt-5 w-full" name="token" v-validate="'required'"/>
                 <span class="text-danger text-sm" v-show="errors.has('token2')">Este campo é obrigatório</span>
-                <vs-input v-if="conta.integracao.need >= 2" size="large" label="Token 3 da conta" autocomplete="off" v-model="conta.toke3"
+                <vs-input v-if="conta.integracao.need >= 2" size="large" label="Token 3 da conta" autocomplete="off"
+                          v-model="conta.toke3"
                           class="mt-5 w-full" name="token" v-validate="'required'"/>
                 <span class="text-danger text-sm" v-show="errors.has('token3')">Este campo é obrigatório</span>
             </div>
         </VuePerfectScrollbar>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData" >Salvar</vs-button>
+            <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
             <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
         </div>
     </vs-sidebar>
@@ -64,16 +71,14 @@
                 },
             },
         },
-        watch: {
-
-        },
+        watch: {},
         data() {
             return {
                 conta: {
                     empresa_id: 1,
                     integracao: {},
-                  nome : '',
-                  token : '',
+                    nome: '',
+                    token: '',
                 },
                 opcoesIntegracao: [],
                 selected: null
@@ -96,7 +101,7 @@
         },
         methods: {
             initValues() {
-              console.log('chamou init');
+                console.log('chamou init');
                 if (this.data.id) {
                     console.log(this.data)
                     return
@@ -141,9 +146,9 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 })
-                              this.$store.dispatch('getVarios', {rota: 'brindes', params: {}}).then(() => {
-                                this.$vs.loading.close()
-                              });
+                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {}}).then(() => {
+                                    this.$vs.loading.close()
+                                });
 
                             }).catch(error => {
                                 this.$vs.notify({
@@ -169,7 +174,7 @@
                     });
                 })
             },
-            mudou(){
+            mudou() {
                 console.log(this.selected)
             }
         },
@@ -178,7 +183,7 @@
             'v-select': vSelect
         },
         created() {
-          this.initValues();
+            this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
                 this.$validator.reset()

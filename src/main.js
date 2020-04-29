@@ -52,6 +52,9 @@ import money from 'v-money'
 // register directive v-money and component <money>
 Vue.use(money, {precision: 4})
 
+import VueSimpleContextMenu from 'vue-simple-context-menu'
+Vue.component('vue-simple-context-menu', VueSimpleContextMenu)
+
 // Globally Registered Components
 import './globalComponents.js'
 

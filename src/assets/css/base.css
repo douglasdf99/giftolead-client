@@ -124,8 +124,8 @@ h4 {
     right: 7%;
 }
 
-.btn-incluir {
-    padding-left: 10% !important;
+.botao-incluir {
+    padding: 1.2rem 2rem !important;
     font-weight: 800 !important;
     float: right;
 }
@@ -187,8 +187,7 @@ h4 {
 
 .com-item .tr-values {
     font-family: "Poppins", sans-serif;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1rem;
 }
 
 [dir] .com-item .vs-con-table .vs-con-tbody .vs-table--tbody-table .tr-values .vs-table--td {
@@ -206,8 +205,33 @@ h4 {
     background-color: transparent !important;
 }
 
+.vs-table {
+    border-spacing: 0 8px;
+    border-collapse: separate !important;
+}
+
 .btn-more-icon {
     color: black;
+}
+
+.dropdown-menu-list {
+    z-index: 218;
+    top: 2%;
+    left: 28%;
+}
+
+.dropdown-menu-list:hover {
+    cursor: pointer;
+}
+
+.dropdown-menu-list:hover .btn-more-icon {
+    transition-duration: .3s;
+    box-shadow: 1px 3px 4px .5px #00000066
+}
+
+.btn-more-icon i {
+    font-size: 1.5rem;
+    margin-top: -1px;
 }
 
 .add-new-data-sidebar[data-v-19dba1ea] .vs-sidebar {
@@ -249,6 +273,7 @@ h4 {
   font-size: 18px;
   font-weight: 600;
 }
+
 .select-large-base  ul li{
   padding: 0.6rem 2rem;
 }
@@ -260,13 +285,56 @@ h4 {
   text-decoration: underline;
 }
 
+.col-btn-incluir-mobile {
+    display: none;
+}
+
+.col-btn-incluir-desktop {
+    display: block;
+}
+
+.vs-input--input:focus {
+    box-shadow: none !important;
+}
+
+.vs-input-primary .vs-input--input:focus {
+    border-color: black !important;
+}
+
+.vs-input-primary.isFocus .vs-input--label {
+    color: black !important;
+}
+
+.destaque {
+    font-weight: 600 !important;
+}
+
+[dir] .vs-input--input.large {
+    padding: 0.8rem 2rem!important;
+    font-size: 14px !important;
+}
+
+h4 {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: black !important;
+}
+
+.icon-cancelar {
+    background: #B1B1B1;
+    color: white;
+    font-size: 1.3rem;
+    border-radius: 20px;
+}
+
 @media (max-width: 768px) {
     .row-reverse-mobile {
         flex-direction: column-reverse;
     }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1024px) {
     .navbar-floating .router-content {
         margin: 5rem 0;
     }
@@ -276,7 +344,7 @@ h4 {
     }
 
     [dir=ltr] .router-content {
-        paddaing-right: 0;
+        padding-right: 0;
     }
 
     .com-item .table-items {
@@ -295,5 +363,17 @@ h4 {
 
     .span-sem-item {
         font-size: 1.2rem;
+    }
+
+    .row-botao-incluir-lg {
+        display: flex;
+    }
+
+    .col-btn-incluir-mobile {
+        display: block;
+    }
+
+    .col-btn-incluir-desktop {
+        display: none;
     }
 }

@@ -36,7 +36,7 @@
             </div>
             <div class="flex flex-wrap items-center justify-between mb-3 buttons-login">
                 <a href="#" class="registrar">Não tenho conta!</a>
-                <button type="submit" class="btn-entrar bg-primary" :disabled="!validateForm">Entrar</button>
+                <button type="submit" class="btn-entrar bg-primary cursor-pointer" :disabled="!validateForm">Entrar</button>
             </div>
         </form>
     </div>
@@ -155,12 +155,18 @@
 
     .btn-entrar {
         padding: 1rem 4rem;
-        background-color: #9344C4;
+        background-color: #9344C4 !important;
         font-family: "Poppins", sans-serif;
         color: white;
         border-radius: 10px;
         border: none;
         font-weight: bold;
         font-size: 1.2rem;
+        transition-duration: .3s;
+    }
+
+    .btn-entrar:hover {
+        transition-duration: .3s;
+        background-color: #7d31bc !important;
     }
 </style>

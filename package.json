@@ -54,6 +54,7 @@
     "vue-router": "^3.0.6",
     "vue-select": "^3.1.0",
     "vue-simple-calendar": "^4.2.2",
+    "vue-simple-context-menu": "^3.1.10",
     "vue-simple-suggest": "^1.9.5",
     "vue-star-rating": "^1.6.1",
     "vue-the-mask": "^0.11.1",

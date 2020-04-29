@@ -58,8 +58,7 @@
     }
 
     .line {
-
-      border-bottom: #7070704a  solid;
+      border-bottom: #70707024  solid;
       border-width: 1px;
       width: 60%;
       padding-bottom: 15px
