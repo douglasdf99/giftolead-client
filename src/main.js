@@ -17,7 +17,6 @@ import 'material-icons/iconfont/material-icons.css' //Material Icons
 import 'vuesax/dist/vuesax.css'; // Vuesax
 Vue.use(Vuesax)
 
-
 // axios
 import axios from "./axios.js"
 Vue.prototype.$http = axios

@@ -83,12 +83,16 @@
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td class="flex justify-center items-center relative">
-                                    <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
+                                <vs-td class="flex justify-center items-center relative" >
+
+                                   <vs-dropdown vs-trigger-click class="dropdown-menu-list" @click="handleClick" @change="handleClick">
+                                     <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon relative botao-menu"
                                                icon-pack="material-icons" icon="more_horiz"
-                                               @click.prevent.stop="handleClick($event, tr)"></vs-button>
-                                    <!--<vs-dropdown vs-trigger-click class="dropdown-menu-list">
-                                        <vs-dropdown-menu>
+                                               ></vs-button>
+                                        <vs-dropdown-menu >
+                                          <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon relative"
+                                                     icon-pack="material-icons" icon="more_horiz"
+                                          ></vs-button>
                                             <vs-dropdown-item @click="updateData(data[indextr])">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
@@ -100,7 +104,7 @@
                                             </vs-dropdown-item>
 
                                         </vs-dropdown-menu>
-                                    </vs-dropdown>-->
+                                    </vs-dropdown>
                                 </vs-td>
                                 <vs-td :data="data[indextr].nome" class="relative">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
@@ -128,7 +132,6 @@
 </template>
 
 <script>
-    import 'vue-simple-context-menu/dist/vue-simple-context-menu.css'
     import SideBar from './SideBar'
     import moduleContas from '@/store/contas/moduleContas.js'
 
@@ -165,8 +168,8 @@
         },
         methods: {
             handleClick(event, item) {
+                console.log('event tr', event)
                 console.log('item tr', item)
-                this.$refs.vueSimpleContextMenu.showMenu(event, item)
             },
             optionClicked(event) {
                 window.alert(JSON.stringify(event))

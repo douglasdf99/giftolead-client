@@ -38,7 +38,7 @@
     "vue-backtotop": "^1.6.1",
     "vue-chartjs": "^3.4.2",
     "vue-clipboard2": "^0.3.0",
-    "vue-context": "4.0.0",
+    "vue-context": "^4.0.0",
     "vue-echarts": "^4.0.3",
     "vue-feather-icons": "^5.0.0",
     "vue-filepond": "^6.0.2",
