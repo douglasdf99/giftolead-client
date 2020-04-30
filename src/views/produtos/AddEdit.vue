@@ -24,7 +24,7 @@
         </div>
         <div class="vx-row mb-6">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2" v-if="produto.preco">
-                <span class="font-regular mb-2">Preço</span>
+                <span class="font-regular mb-2">Preço </span>
                 <vs-input class="w-full" v-model="produto.preco"  size="large" v-money="money"/>
                 <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
             </div>
