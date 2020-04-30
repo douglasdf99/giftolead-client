@@ -285,14 +285,14 @@ h4 {
 }
 
 .select-large-base  .vs__selected-options {
-  padding: 0.6rem 2rem;
+  padding: 0.3rem 2rem;
   font-family: "Poppins", sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .select-large-base  ul li{
-  padding: 0.6rem 2rem;
+  padding: 0.3rem 2rem;
 }
 .label-bold-underline {
   font-family: "Poppins", sans-serif;

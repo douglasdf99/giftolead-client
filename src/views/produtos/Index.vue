@@ -41,16 +41,34 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-2" v-show="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <p class="span-sem-item">Você não possui nenhum item cadastrado</p> <br>
-                            <p class="text-sem-item">
-                                Para inserir novos registros você <br> pode clicar em incluir conta.
-                            </p>
-                        </div>
+              <div class="vx-row mt-20" v-show="items.length === 0">
+                <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                  <div class="w-8/12">
+                    <div v-if="dados.search">
+                      <p class="span-sem-item">Nenhum item foi encontrado</p>
+                      <p class="text-sem-item mt-6">
+                        Para inserir novos registros você <br> pode clicar em incluir conta.
+                      </p>
                     </div>
+                    <div v-else>
+                      <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
+                      <p class="text-sem-item">
+                        Para inserir novos registros você <br> pode clicar em incluir conta.
+                      </p>
+                    </div>
+                    <br>
+
+                    <p>
+                      <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
+                                 @click="addNewData">
+                        <vs-icon icon-pack="material-icons" icon="check_circle"
+                                 class="icon-grande"></vs-icon>
+                        Incluir Produto
+                      </vs-button>
+                    </p>
+                  </div>
                 </div>
+              </div>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items">
 
@@ -101,6 +119,11 @@
                                 <vs-td :data="data[indextr].status">
                                     <div class="w-10 h-10 rounded"></div>
                                 </vs-td>
+                              <vs-td :data="data[indextr].status">
+                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-success"
+                                         v-if="data[indextr].status"></vs-icon>
+                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande" v-else></vs-icon>
+                              </vs-td>
                             </vs-tr>
                         </template>
 
@@ -176,11 +199,11 @@
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    text: 'Deseja deletar este Produto? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
@@ -192,7 +215,7 @@
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
                             })
                         })
                     }

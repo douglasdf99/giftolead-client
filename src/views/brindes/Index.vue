@@ -2,55 +2,71 @@
   <div>
     <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
               :data="sidebarData"/>
-    <vs-row>
-      <vs-col vs-w="12" class="mb-6">
+    <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
+      <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
         <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
           <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
           Incluir Brinde
         </vs-button>
-        <!--<img src="@/assets/images/util/check-incluir.svg" >-->
-      </vs-col>
-    </vs-row>
-
-    <vs-row>
-      <vs-col vs-w="12">
-        <div class="w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
-          <div class="flex items-center">
-
-            <!--<vs-input icon="search" placeholder="Pesquisar por contas" size="large" icon-after="true" label-placeholder="icon-after" class="w-full"/>-->
-            <!--<vs-input type="text" class="w-full" size="large"/>
-            <vs-button radius color="primary" type="border" icon-pack="feather" icon="icon-search"
-                       class="btn-search"></vs-button>-->
-            <div class="relative w-full">
-              <!-- SEARCH INPUT -->
-              <form @submit="pesquisar">
-                <vs-input autocomplete
-                          class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                          v-model="dados.search" id="search_input" size="large"/>
-                <!-- SEARCH LOADING -->
-                <!-- SEARCH ICON -->
-                <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                  <button type="submit" style="border: none; background: transparent; cursor: pointer;">
-                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
-                  </button>
-                  <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
-                </div>
-              </form>
-            </div>
-
+        <!-- SEARCH INPUT -->
+      </div>
+      <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+        <div class="flex items-center">
+          <div class="relative w-full">
+            <!-- SEARCH INPUT -->
+            <form @submit="pesquisar">
+              <vs-input autocomplete
+                        class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                        v-model="dados.search" id="search_input" size="large"/>
+              <!-- SEARCH LOADING -->
+              <!-- SEARCH ICON -->
+              <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                <button type="submit"
+                        style="border: none; background: transparent; cursor: pointer;">
+                  <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                </button>
+                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
+              </div>
+            </form>
           </div>
-          <!-- SEARCH INPUT -->
+
         </div>
-      </vs-col>
-    </vs-row>
+        <!-- SEARCH INPUT -->
+      </div>
+      <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+        <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
+          <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
+          Incluir Brinde
+        </vs-button>
+        <!-- SEARCH INPUT -->
+      </div>
+    </div>
     <vs-row>
       <vs-col vs-w="12">
-        <div class="vx-row mt-2" v-show="items.length === 0">
+        <div class="vx-row mt-20" v-show="items.length === 0">
           <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
             <div class="w-8/12">
-              <p class="span-sem-item">Você não possui nenhum item cadastrado</p> <br>
-              <p class="text-sem-item">
-                Para inserir novos registros você <br> pode clicar em incluir brinde.
+              <div v-if="dados.search === null">
+                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
+                <p class="text-sem-item">
+                  Para inserir novos registros você <br> pode clicar em incluir conta.
+                </p>
+              </div>
+              <div v-else>
+                <p class="span-sem-item">Nenhum item foi encontrado</p>
+                <p class="text-sem-item mt-6">
+                  Para inserir novos registros você <br> pode clicar em incluir conta.
+                </p>
+
+              </div>
+              <br>
+              <p>
+                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
+                           @click="addNewData">
+                  <vs-icon icon-pack="material-icons" icon="check_circle"
+                           class="icon-grande"></vs-icon>
+                  Incluir Brinde
+                </vs-button>
               </p>
             </div>
           </div>
@@ -138,7 +154,7 @@
         sidebarData: {},
         routeTitle: 'Contas',
         dados: {
-          search: '',
+          search: null,
           page: 1
         },
         pagination: {
