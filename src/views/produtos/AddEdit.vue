@@ -23,12 +23,10 @@
             </div>
         </div>
         <div class="vx-row mb-6">
-            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
+            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2" v-if="produto.preco">
                 <span class="font-regular mb-2">Preço</span>
-                <vs-input class="w-full" v-model="produto.preco" size="large" v-validate="'required'" v-money="money"
-                          name="preco"/>
-                <span class="text-danger text-sm"
-                      v-show="errors.has('preco')">{{ errors.first('preco') }}</span>
+                <vs-input class="w-full" v-model="produto.preco"  size="large" v-money="money"/>
+                <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">Código ID do produto no Hotmart</span>
@@ -146,7 +144,7 @@
                             <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
                                 Salvar
                             </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle">
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle" @click="$router.push({name: 'produtos'})">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -288,11 +286,11 @@
                         this.produto.comi_percent !== 0 || this.produto.comi_per_valor !== 0) {
                         this.configComissao = true;
                     }
-                    this.produto.preco = Number(this.produto.preco) * 100;
                     this.produto.comi_valor *= 100;
                     this.produto.comi_percent *= 100;
                     this.produto.comi_per_valor *= 100;
                     this.produto.comi_per_percent *= 100;
+                    this.produto.preco *= 100;
                     let {id, nome} = this.produto.conta;
                     this.contaSelected.id = id;
                     this.contaSelected.label = nome;
