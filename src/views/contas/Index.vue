@@ -223,6 +223,7 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
+
         },
 
         computed: {
