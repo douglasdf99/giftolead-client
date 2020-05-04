@@ -90,7 +90,7 @@
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
-                                            <div class="flex items-center mb-10">
+                                            <div class="flex items-center mb-5">
                                                 <vs-button radius color="#EDEDED" type="filled"
                                                            class="btn-more-icon relative btn-more-icon-open"
                                                            icon-pack="material-icons" icon="more_horiz"

@@ -292,14 +292,14 @@ h4 {
 .dropdown-menu-list .vs-dropdown--menu {
     padding: 1rem 2rem !important;
     border-radius: 17px;
-    min-width: 350px;
-    max-width: 470px;
+    min-width: 250px;
+    max-width: 370px;
 }
 
 .dropdown-menu-list .vs-dropdown--item {
-    margin: 1rem 0 !important;
+    margin: .5rem 0 !important;
     font-family: Poppins, sans-serif;
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     font-weight: 500 !important;
 }
 
@@ -308,8 +308,14 @@ h4 {
     color: white;
 }
 
+.dropdown-menu-list .vs-dropdown--item-link {
+    display: flex;
+    align-items: center;
+}
+
 .dropdown-menu-list .vs-icon {
     font-size: 1.5rem;
+    margin-right: .5rem;
 }
 
 .span-destaque {
