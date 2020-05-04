@@ -260,46 +260,56 @@ h4 {
 .switch .vs-switch--circle {
     top: 1px !important;
 }
-.botao-menu{
-  z-index: 550000;
+
+.botao-menu {
+    z-index: 550000;
 }
-.con-vs-dropdown--menu {
-  padding-top: unset;
-  /*margin-left: -44px;*/
-  /*margin-top: -33px;*/
-  position: absolute;
-  height: auto;
-  width: auto;
-  z-index: 40000;
-  -webkit-transform: unset;
-  transform: unset;
-  -webkit-transition: opacity .25s,width .3s ease,-webkit-transform .25s;
-  transition: opacity .25s,width .3s ease,-webkit-transform .25s;
-  transition: opacity .25s,transform .25s,width .3s ease;
-  transition: opacity .25s,transform .25s,width .3s ease,-webkit-transform .25s;
+
+.dropdown-menu-list {
+    padding-top: unset;
+    /*margin-left: -44px;*/
+    /*margin-top: -33px;*/
+    position: absolute;
+    height: auto;
+    width: auto;
+    z-index: 40000;
+    -webkit-transform: unset;
+    transform: unset;
+    -webkit-transition: opacity .25s, width .3s ease, -webkit-transform .25s;
+    transition: opacity .25s, width .3s ease, -webkit-transform .25s;
+    transition: opacity .25s, transform .25s, width .3s ease;
+    transition: opacity .25s, transform .25s, width .3s ease, -webkit-transform .25s;
+    margin-top: -3%;
+    left: 20% !important;
 }
+
+.dropdown-menu-list .vs-dropdown--menu {
+    padding: 1.5rem !important;
+}
+
 .span-destaque {
     font-family: "Poppins", sans-serif;
     font-size: 1.2rem;
     font-weight: 700;
 }
 
-.select-large-base  .vs__selected-options {
-  padding: 0.6rem 2rem;
-  font-family: "Poppins", sans-serif;
-  font-size: 18px;
-  font-weight: 600;
+.select-large-base .vs__selected-options {
+    padding: 0.6rem 2rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.select-large-base  ul li{
-  padding: 0.6rem 2rem;
+.select-large-base ul li {
+    padding: 0.6rem 2rem;
 }
+
 .label-bold-underline {
-  font-family: "Poppins", sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #4A4A4A;
-  text-decoration: underline;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #4A4A4A;
+    text-decoration: underline;
 }
 
 .col-btn-incluir-mobile {
@@ -327,7 +337,7 @@ h4 {
 }
 
 [dir] .vs-input--input.large {
-    padding: 0.8rem 2rem!important;
+    padding: 0.8rem 2rem !important;
     font-size: 14px !important;
 }
 

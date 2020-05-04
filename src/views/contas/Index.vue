@@ -85,11 +85,11 @@
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative" >
 
-                                   <vs-dropdown vs-trigger-click class="dropdown-menu-list" @click="handleClick" @change="handleClick">
+                                   <vs-dropdown vs-trigger-click>
                                      <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon relative botao-menu"
                                                icon-pack="material-icons" icon="more_horiz"
                                                ></vs-button>
-                                        <vs-dropdown-menu >
+                                        <vs-dropdown-menu class="dropdown-menu-list">
                                           <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon relative"
                                                      icon-pack="material-icons" icon="more_horiz"
                                           ></vs-button>
@@ -119,12 +119,6 @@
                         </template>
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
-                    <vue-simple-context-menu
-                            :elementId="'myUniqueId'"
-                            :options="[{name: 'teste'}, {name: 'teste2'}]"
-                            :ref="'vueSimpleContextMenu'"
-                            @option-clicked="optionClicked"
-                    />
                 </div>
             </vs-col>
         </vs-row>
@@ -167,13 +161,6 @@
             this.getContas();
         },
         methods: {
-            handleClick(event, item) {
-                console.log('event tr', event)
-                console.log('item tr', item)
-            },
-            optionClicked(event) {
-                window.alert(JSON.stringify(event))
-            },
             addNewData() {
                 this.sidebarData = {}
                 this.toggleDataSidebar(true)
