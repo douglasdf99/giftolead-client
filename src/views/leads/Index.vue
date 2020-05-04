@@ -4,7 +4,7 @@
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Produto
+                    Incluir Lead
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -34,7 +34,7 @@
             <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Produto
+                    Incluir Lead
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -63,7 +63,7 @@
                                            @click="addNewData">
                                     <vs-icon icon-pack="material-icons" icon="check_circle"
                                              class="icon-grande"></vs-icon>
-                                    Incluir Produto
+                                    Incluir Lead
                                 </vs-button>
                             </p>
                         </div>
@@ -74,11 +74,10 @@
 
                         <template slot="thead">
                             <vs-th></vs-th>
-                            <vs-th>Produto</vs-th>
-                            <vs-th>Cor</vs-th>
-                            <vs-th>Conta</vs-th>
-                            <vs-th>Preço</vs-th>
-                            <vs-th></vs-th>
+                            <vs-th>Nome</vs-th>
+                            <vs-th>E-mail</vs-th>
+                            <vs-th>Telefone</vs-th>
+                            <vs-th>CPF</vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -113,27 +112,14 @@
                                 <vs-td :data="data[indextr].nome">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
-                                <vs-td :data="data[indextr].cor">
-                                    <div class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left"
-                                         :style="{backgroundColor: data[indextr].cor}"
-                                         style="cursor: default !important;">
-                                    </div>
+                                <vs-td>
+                                    <span class="destaque">{{data[indextr].email}}</span>
                                 </vs-td>
-                                <vs-td :data="data[indextr].conta.nome">
-                                    {{ data[indextr].conta.nome }}
+                                <vs-td :data="data[indextr].telefone">
+                                    {{ (tr.ddd+tr.telefone || '') | VMask('(##) #####-####')}}
                                 </vs-td>
-                                <vs-td :data="data[indextr].preco">
-                                    <span class="destaque"> R$ {{data[indextr].preco}}</span>
-                                </vs-td>
-                                <vs-td :data="data[indextr].status">
-                                    <div class="w-10 h-10 rounded"></div>
-                                </vs-td>
-                                <vs-td :data="data[indextr].status">
-                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                             class="icon-grande text-success"
-                                             v-if="data[indextr].status"></vs-icon>
-                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
-                                             v-else></vs-icon>
+                                <vs-td :data="data[indextr].cpf">
+                                    <span>{{(tr.cpf || '') | VMask('###.###.###-##')}}</span>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -156,7 +142,7 @@
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
-                routeTitle: 'Produtos',
+                routeTitle: 'Leads',
                 dados: {
                     search: '',
                     page: 1
@@ -167,14 +153,6 @@
                     current_page: 1
                 },
                 currentx: 1,
-                money: {
-                    decimal: ',',
-                    thousands: '.',
-                    prefix: 'R$ ',
-                    suffix: '',
-                    precision: 2,
-                    masked: false /* doesn't work with directive */
-                },
                 //items: {}
             }
         },
@@ -185,7 +163,7 @@
                 moduleContas.isRegistered = true
             }
 
-            this.getProdutos();
+            this.getLeads();
         },
         methods: {
             addNewData() {
@@ -197,8 +175,8 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getProdutos() {
-                this.$store.dispatch('getVarios', {rota: 'produtos', params: this.dados}).then(response => {
+            getLeads() {
+                this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
@@ -210,7 +188,7 @@
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar este Produto? Procedimento irreversível',
+                    text: 'Deseja deletar este Lead? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
@@ -220,7 +198,7 @@
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getProdutos();
+                            this.getLeads();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -235,7 +213,8 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getProdutos();
+                this.dados.page = 1;
+                this.getLeads();
             }
         },
         watch: {
@@ -243,7 +222,7 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getProdutos();
+                this.getLeads();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle

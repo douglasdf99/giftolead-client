@@ -83,16 +83,20 @@
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td class="flex justify-center items-center relative" >
-
-                                   <vs-dropdown vs-trigger-click>
-                                     <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon relative botao-menu"
-                                               icon-pack="material-icons" icon="more_horiz"
-                                               ></vs-button>
+                                <vs-td class="flex justify-center items-center relative">
+                                    <vs-dropdown vs-trigger-click>
+                                        <vs-button radius color="#EDEDED" type="filled"
+                                                   class="btn-more-icon relative botao-menu"
+                                                   icon-pack="material-icons" icon="more_horiz"
+                                        ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
-                                          <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon relative"
-                                                     icon-pack="material-icons" icon="more_horiz"
-                                          ></vs-button>
+                                            <div class="flex items-center mb-10">
+                                                <vs-button radius color="#EDEDED" type="filled"
+                                                           class="btn-more-icon relative btn-more-icon-open"
+                                                           icon-pack="material-icons" icon="more_horiz"
+                                                ></vs-button>
+                                                <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                            </div>
                                             <vs-dropdown-item @click="updateData(data[indextr])">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
