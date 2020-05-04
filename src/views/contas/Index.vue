@@ -90,13 +90,7 @@
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
-                                            <div class="flex items-center mb-5">
-                                                <vs-button radius color="#EDEDED" type="filled"
-                                                           class="btn-more-icon relative btn-more-icon-open"
-                                                           icon-pack="material-icons" icon="more_horiz"
-                                                ></vs-button>
-                                                <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            </div>
+                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
                                             <vs-dropdown-item @click="updateData(data[indextr])">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
