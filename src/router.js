@@ -39,6 +39,14 @@ const subconfiguracoes = [
         icon: 'view_module'
     },
 ];
+const subleads = [
+    {
+        url: '/leads/listagem',
+        name: "Listagem",
+        slug: "leads-list",
+        icon: 'people_outline'
+    },
+];
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
@@ -1356,7 +1364,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
-                      subIcon: 'settings',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1375,7 +1383,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
-                      subIcon: 'settings',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1413,7 +1421,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
-                      subIcon: 'settings',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1433,7 +1441,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
-                      subIcon: 'settings',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1453,7 +1461,7 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
-                      subIcon: 'settings',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
                 },
@@ -1471,8 +1479,26 @@ const router = new Router({
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
-                      subIcon: 'settings',
+                        subIcon: 'settings',
                         submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/leads/listagem',
+                    name: 'leads-list',
+                    component: () => import('@/views/leads/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Leads'},
+                            {title: 'Listagem', active: true},
+                        ],
+                        pageTitle: 'Listagem de Leads',
+                        rule: 'editor',
+                        pai: 'leads',
+                        subTitle: 'Leads',
+                        //subIcon: 'settings',
+                        submenu: subleads
                     },
                 }
             ]

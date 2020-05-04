@@ -1,12 +1,10 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Produto
+                    Incluir Lead
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -36,7 +34,7 @@
             <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Produto
+                    Incluir Lead
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -65,24 +63,25 @@
                                            @click="addNewData">
                                     <vs-icon icon-pack="material-icons" icon="check_circle"
                                              class="icon-grande"></vs-icon>
-                                    Incluir Conta
+                                    Incluir Lead
                                 </vs-button>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
-                    <vs-table :data="items" class="table-items"
-                              style="border-spacing: 0 8px;border-collapse: separate;">
+                    <vs-table :data="items" class="table-items">
 
                         <template slot="thead">
                             <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
-                            <vs-th>Token</vs-th>
-                            <vs-th>Integração</vs-th>
+                            <vs-th>E-mail</vs-th>
+                            <vs-th>Telefone</vs-th>
+                            <vs-th>CPF</vs-th>
                         </template>
+
                         <template slot-scope="{data}">
-                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
+                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
                                 <vs-td class="flex justify-center items-center relative">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
@@ -110,17 +109,21 @@
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
-                                <vs-td :data="data[indextr].nome" class="relative">
+                                <vs-td :data="data[indextr].nome">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
-                                <vs-td :data="data[indextr].token" class="relative">
-                                    {{ data[indextr].token }}
+                                <vs-td>
+                                    <span class="destaque">{{data[indextr].email}}</span>
                                 </vs-td>
-                                <vs-td :data="data[indextr].integracao.descricao" class="relative">
-                                    {{ data[indextr].integracao.descricao }}
+                                <vs-td :data="data[indextr].telefone">
+                                    {{ (tr.ddd+tr.telefone || '') | VMask('(##) #####-####')}}
+                                </vs-td>
+                                <vs-td :data="data[indextr].cpf">
+                                    <span>{{(tr.cpf || '') | VMask('###.###.###-##')}}</span>
                                 </vs-td>
                             </vs-tr>
                         </template>
+
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
@@ -130,18 +133,16 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
     import moduleContas from '@/store/contas/moduleContas.js'
 
     export default {
         name: "Index",
-        components: {SideBar},
         data() {
             return {
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
-                routeTitle: 'Contas',
+                routeTitle: 'Leads',
                 dados: {
                     search: '',
                     page: 1
@@ -151,7 +152,7 @@
                     page: 1,
                     current_page: 1
                 },
-                currentx: 1
+                currentx: 1,
                 //items: {}
             }
         },
@@ -162,22 +163,20 @@
                 moduleContas.isRegistered = true
             }
 
-            this.getContas();
+            this.getLeads();
         },
         methods: {
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.$router.push({name: 'produto-criar'});
             },
-            updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+            updateData(id) {
+                this.$router.push({path: '/configuracoes/produtos/editar/' + id});
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getContas() {
-                this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
+            getLeads() {
+                this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
@@ -189,23 +188,23 @@
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    text: 'Deseja deletar este Lead? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getContas();
+                            this.getLeads();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
                             })
                         })
                     }
@@ -214,7 +213,8 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getContas();
+                this.dados.page = 1;
+                this.getLeads();
             }
         },
         watch: {
@@ -222,12 +222,11 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getContas();
+                this.getLeads();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-
         },
 
         computed: {

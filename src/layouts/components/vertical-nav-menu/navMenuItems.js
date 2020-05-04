@@ -70,18 +70,16 @@ export default [
         ]
     },
     {
+        url: '/leads/listagem',
+        name: "Leads",
+        slug: 'leads',
+        icon: "person_outline",
+    },
+    {
         url: '/configuracoes/geral',
         name: "Configurações",
         icon: "settings",
         slug: 'configuracoes',
-        submenu: [
-            {
-                url: '/configuracoes/geral',
-                name: "Geral",
-                slug: "configuracoes",
-                icon: 'view_module'
-            },
-        ]
     },
 ]
 

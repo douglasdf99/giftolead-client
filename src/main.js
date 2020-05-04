@@ -47,6 +47,10 @@ import acl from './acl/acl'
 import VueTheMask from 'vue-the-mask'
 Vue.use(VueTheMask)
 
+// only as a filter
+import { VueMaskFilter } from 'v-mask'
+Vue.filter('VMask', VueMaskFilter)
+
 import money from 'v-money'
 // register directive v-money and component <money>
 Vue.use(money, {precision: 4})

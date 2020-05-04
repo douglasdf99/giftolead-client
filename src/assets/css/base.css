@@ -220,11 +220,11 @@ h4 {
     left: 28%;
 }
 
-.dropdown-menu-list:hover {
+.vs-con-dropdown:hover {
     cursor: pointer;
 }
 
-.dropdown-menu-list:hover .btn-more-icon {
+.vs-con-dropdown:hover .btn-more-icon {
     transition-duration: .3s;
     box-shadow: 1px 3px 4px .5px #00000066
 }
@@ -232,6 +232,12 @@ h4 {
 .btn-more-icon i {
     font-size: 1.5rem;
     margin-top: -1px;
+}
+
+.span-identifica-item-dropdown {
+    margin-left: 4%;
+    font-size: 1.3rem;
+    font-weight: 800;
 }
 
 .add-new-data-sidebar[data-v-19dba1ea] .vs-sidebar {
@@ -260,24 +266,52 @@ h4 {
 .switch .vs-switch--circle {
     top: 1px !important;
 }
-.botao-menu{
-  z-index: 550000;
+
+.botao-menu {
+    z-index: 550000;
 }
-.con-vs-dropdown--menu {
-  padding-top: unset;
-  /*margin-left: -44px;*/
-  /*margin-top: -33px;*/
-  position: absolute;
-  height: auto;
-  width: auto;
-  z-index: 40000;
-  -webkit-transform: unset;
-  transform: unset;
-  -webkit-transition: opacity .25s,width .3s ease,-webkit-transform .25s;
-  transition: opacity .25s,width .3s ease,-webkit-transform .25s;
-  transition: opacity .25s,transform .25s,width .3s ease;
-  transition: opacity .25s,transform .25s,width .3s ease,-webkit-transform .25s;
+
+.dropdown-menu-list {
+    padding-top: unset;
+    /*margin-left: -44px;*/
+    /*margin-top: -33px;*/
+    position: absolute;
+    height: auto;
+    width: auto;
+    z-index: 40000;
+    -webkit-transform: unset;
+    transform: unset;
+    -webkit-transition: opacity .25s, width .3s ease, -webkit-transform .25s;
+    transition: opacity .25s, width .3s ease, -webkit-transform .25s;
+    transition: opacity .25s, transform .25s, width .3s ease;
+    transition: opacity .25s, transform .25s, width .3s ease, -webkit-transform .25s;
+    margin-top: -3%;
+    left: 20% !important;
 }
+
+.dropdown-menu-list .vs-dropdown--menu {
+    padding: 1rem 2rem !important;
+    border-radius: 17px;
+    min-width: 350px;
+    max-width: 470px;
+}
+
+.dropdown-menu-list .vs-dropdown--item {
+    margin: 1rem 0 !important;
+    font-family: Poppins, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500 !important;
+}
+
+.dropdown-menu-list .btn-more-icon-open {
+    background-color: #9344C4 !important;
+    color: white;
+}
+
+.dropdown-menu-list .vs-icon {
+    font-size: 1.5rem;
+}
+
 .span-destaque {
     font-family: "Poppins", sans-serif;
     font-size: 1.2rem;
@@ -294,12 +328,13 @@ h4 {
 .select-large-base  ul li{
   padding: 0.3rem 2rem;
 }
+
 .label-bold-underline {
-  font-family: "Poppins", sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: #4A4A4A;
-  text-decoration: underline;
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #4A4A4A;
+    text-decoration: underline;
 }
 
 .col-btn-incluir-mobile {
@@ -327,7 +362,7 @@ h4 {
 }
 
 [dir] .vs-input--input.large {
-    padding: 0.8rem 2rem!important;
+    padding: 0.8rem 2rem !important;
     font-size: 14px !important;
 }
 
