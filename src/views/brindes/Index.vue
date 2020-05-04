@@ -90,9 +90,9 @@
                 <vs-td class="flex justify-center items-center">
                   <vs-dropdown vs-trigger-click>
                     <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
-                               icon-pack="feather" icon="icon-more-horizontal"></vs-button>
+                               icon-pack="material-icons" icon="more_horiz"></vs-button>
                     <vs-dropdown-menu>
-                      <vs-dropdown-item @click="updateData(data[indextr])">
+                      <vs-dropdown-item @click="updateData(data[indextr].id)">
                         <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                         Editar
                       </vs-dropdown-item>
@@ -169,7 +169,7 @@
     created() {
       this.$vs.loading()
       // if (!moduleBrindes.isRegistered) {
-      //     this.$store.registerModule('brindes', moduleBrindes)
+           this.$store.registerModule('brindes', moduleBrindes)
       //   moduleBrindes.isRegistered = true
       // }
 

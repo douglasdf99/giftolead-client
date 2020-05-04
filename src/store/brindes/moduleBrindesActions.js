@@ -7,16 +7,14 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-import jwt from "../../http/requests/auth/jwt/index.js"
-
 
 import 'firebase/auth'
 import axios from "@/axios.js"
 
 export default {
-    getOpcoes({commit}){
+    getEmbalagems(){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/integracoes`)
+            axios.get(`/api/embalagems`)
                 .then((response) => {
                     resolve(response.data.data)
                 })

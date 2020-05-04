@@ -44,17 +44,18 @@
               <div class="vx-row mt-20" v-show="items.length === 0">
                 <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                   <div class="w-8/12">
-                    <div v-if="dados.search">
-                      <p class="span-sem-item">Nenhum item foi encontrado</p>
-                      <p class="text-sem-item mt-6">
-                        Para inserir novos registros você <br> pode clicar em incluir conta.
-                      </p>
-                    </div>
-                    <div v-else>
+                    <div v-if="dados.search === null">
                       <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
                       <p class="text-sem-item">
                         Para inserir novos registros você <br> pode clicar em incluir conta.
                       </p>
+                    </div>
+                    <div v-else>
+                      <p class="span-sem-item">Nenhum item foi encontrado</p>
+                      <p class="text-sem-item mt-6">
+                        Para inserir novos registros você <br> pode clicar em incluir conta.
+                      </p>
+
                     </div>
                     <br>
 
@@ -147,7 +148,7 @@
                 sidebarData: {},
                 routeTitle: 'Produtos',
                 dados: {
-                    search: '',
+                    search: null,
                     page: 1
                 },
                 pagination: {
@@ -173,7 +174,6 @@
                 this.$store.registerModule('contas', moduleContas)
                 moduleContas.isRegistered = true
             }
-
             this.getProdutos();
         },
         methods: {
