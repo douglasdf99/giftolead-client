@@ -235,7 +235,7 @@ h4 {
 }
 
 .span-identifica-item-dropdown {
-    margin-left: 4%;
+    /*margin-left: 4%;*/
     font-size: 1.3rem;
     font-weight: 800;
 }
@@ -297,12 +297,13 @@ h4 {
     border-radius: 17px;
     min-width: 250px;
     max-width: 370px;
+    text-align: center;
 }
 
 .dropdown-menu-list .vs-dropdown--item {
     margin: .5rem 0 !important;
     font-family: Poppins, sans-serif;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500 !important;
 }
 

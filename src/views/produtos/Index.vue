@@ -41,35 +41,34 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-              <div class="vx-row mt-20" v-show="items.length === 0">
-                <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                  <div class="w-8/12">
-                    <div v-if="dados.search === null">
-                      <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                      <p class="text-sem-item">
-                        Para inserir novos registros você <br> pode clicar em incluir conta.
-                      </p>
-                    </div>
-                    <div v-else>
-                      <p class="span-sem-item">Nenhum item foi encontrado</p>
-                      <p class="text-sem-item mt-6">
-                        Para inserir novos registros você <br> pode clicar em incluir conta.
-                      </p>
+                <div class="vx-row mt-20" v-show="items.length === 0">
+                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                        <div class="w-8/12">
+                            <div v-if="dados.search">
+                                <p class="span-sem-item">Nenhum item foi encontrado</p>
+                                <p class="text-sem-item mt-6">
+                                    Para inserir novos registros você <br> pode clicar em incluir conta.
+                                </p>
+                            </div>
+                            <div v-else>
+                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
+                                <p class="text-sem-item">
+                                    Para inserir novos registros você <br> pode clicar em incluir conta.
+                                </p>
+                            </div>
+                            <br>
 
+                            <p>
+                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
+                                           @click="addNewData">
+                                    <vs-icon icon-pack="material-icons" icon="check_circle"
+                                             class="icon-grande"></vs-icon>
+                                    Incluir Produto
+                                </vs-button>
+                            </p>
+                        </div>
                     </div>
-                    <br>
-
-                    <p>
-                      <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                 @click="addNewData">
-                        <vs-icon icon-pack="material-icons" icon="check_circle"
-                                 class="icon-grande"></vs-icon>
-                        Incluir Produto
-                      </vs-button>
-                    </p>
-                  </div>
                 </div>
-              </div>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items">
 
@@ -84,12 +83,15 @@
 
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
-                                <vs-td class="flex justify-center items-center">
+                                <vs-td class="flex justify-center items-center relative">
                                     <vs-dropdown vs-trigger-click>
-                                        <vs-button radius color="#EDEDED" type="filled" class="btn-more-icon"
-                                                   icon-pack="material-icons" icon="more_horiz"></vs-button>
-                                        <vs-dropdown-menu>
-                                            <vs-dropdown-item @click="updateData(data[indextr].id)">
+                                        <vs-button radius color="#EDEDED" type="filled"
+                                                   class="btn-more-icon relative botao-menu"
+                                                   icon-pack="material-icons" icon="more_horiz"
+                                        ></vs-button>
+                                        <vs-dropdown-menu class="dropdown-menu-list">
+                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                            <vs-dropdown-item @click="updateData(data[indextr])">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
@@ -120,11 +122,13 @@
                                 <vs-td :data="data[indextr].status">
                                     <div class="w-10 h-10 rounded"></div>
                                 </vs-td>
-                              <vs-td :data="data[indextr].status">
-                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-success"
-                                         v-if="data[indextr].status"></vs-icon>
-                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande" v-else></vs-icon>
-                              </vs-td>
+                                <vs-td :data="data[indextr].status">
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-success"
+                                             v-if="data[indextr].status"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                             v-else></vs-icon>
+                                </vs-td>
                             </vs-tr>
                         </template>
 
@@ -148,7 +152,7 @@
                 sidebarData: {},
                 routeTitle: 'Produtos',
                 dados: {
-                    search: null,
+                    search: '',
                     page: 1
                 },
                 pagination: {
@@ -174,6 +178,7 @@
                 this.$store.registerModule('contas', moduleContas)
                 moduleContas.isRegistered = true
             }
+
             this.getProdutos();
         },
         methods: {
