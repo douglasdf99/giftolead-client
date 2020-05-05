@@ -235,9 +235,11 @@ h4 {
 }
 
 .span-identifica-item-dropdown {
-    /*margin-left: 4%;*/
+    margin-left: 5%;
     font-size: 1.3rem;
     font-weight: 800;
+    display: block;
+    margin-bottom: 1.5rem;
 }
 
 .add-new-data-sidebar[data-v-19dba1ea] .vs-sidebar {
@@ -294,10 +296,10 @@ h4 {
 
 .dropdown-menu-list .vs-dropdown--menu {
     padding: 1rem !important;
-    border-radius: 17px;
+    border-radius: 7px;
     min-width: 250px;
     max-width: 370px;
-    text-align: center;
+    text-align: left;
 }
 
 .dropdown-menu-list .vs-dropdown--item {
@@ -305,6 +307,7 @@ h4 {
     font-family: Poppins, sans-serif;
     font-size: 1rem;
     font-weight: 500 !important;
+    border-bottom: 1px solid #d0d0d059;
 }
 
 .dropdown-menu-list .btn-more-icon-open {
