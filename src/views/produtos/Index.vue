@@ -91,7 +91,7 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
+                                            <vs-dropdown-item @click="updateData(tr.id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
