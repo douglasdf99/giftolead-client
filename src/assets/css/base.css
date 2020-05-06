@@ -260,6 +260,15 @@ h4 {
     color: black;
 }
 
+.unidade {
+    background-color: #F4f4f4;
+    border-radius: 20px;
+    color: #4A4A4A;
+    font-weight: 600;
+    top: 50% !important;
+    right: 20px !important;
+}
+
 .switch {
     border: 1px solid rgb(154, 170, 190);
     zoom: 1.5;
@@ -395,6 +404,12 @@ h4 {
 
 #search_input {
     padding: 1.2rem 2rem !important;
+    box-shadow: unset;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+#search_input:focus {
+    border-color: black !important;
 }
 
 @media (max-width: 450px) {

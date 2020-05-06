@@ -1407,6 +1407,25 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/embalagens',
+                    name: 'embalagens',
+                    component: () => import('@/views/embalagens/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Embalagens', active: true},
+                        ],
+                        pageTitle: 'Embalagens',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/produtos',
                     name: 'produtos',
                     component: () => import('@/views/produtos/Index.vue'),
