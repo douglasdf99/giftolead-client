@@ -22,5 +22,16 @@ export default {
                     reject(error)
                 })
         })
+    },
+    getProdutos(){
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/produtos`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
     }
 }

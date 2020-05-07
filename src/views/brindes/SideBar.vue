@@ -19,15 +19,19 @@
 
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
-
                 <vs-input size="large " v-validate="'required'" label="Nome da brinde" autocomplete="off"
                           v-model="brinde.nome"
                           class="mt-5 w-full"
                           name="nome"/>
-                <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
-
-
+                <div class="mt-4">
+                    <label class="vs-input--label">Selecione o produto</label>
+                    <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false"
+                              :options="produtos"
+                              v-validate="'required'" name="produto"/>
+                    <span class="text-danger text-sm"
+                          v-show="errors.has('produto')">{{ errors.first('produto') }}</span>
+                </div>
                 <div class="mt-4">
                     <label class="vs-input--label">Selecione o contrato de entrega deste brinde</label>
                     <v-select v-model="selected" :class="'select-large-base'" :clearable="false"
@@ -37,26 +41,29 @@
                           v-show="errors.has('contrato')">{{ errors.first('contrato') }}</span>
                 </div>
                 <div class="" v-if="!brinde.hasembalagem">
-                    <div class="p-10" style="display: flex; justify-content: center; align-content: center">
+
+                    <!-- AQUI EMBAIXO É DOIDERA -->
+                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                         v-if="tipo_envelope">
                         <img src="@/assets/images/util/medidas.svg">
                     </div>
+                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                         v-if="tipo_caixa">
+                        <img src="@/assets/images/util/medidas.svg">
+                    </div>
+                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                         v-if="tipo_cilindro">
+                        <img src="@/assets/images/util/medidas.svg">
+                    </div>
+                    <!-- FIM DA DOIDERA -->
 
-                    <div class="vx-row">
+                    <div class="vx-row mt-5">
                         <div class="vx-col  w-full mb-2">
                             <label class="vs-input--label">Tipo de caixa</label>
-                            <v-select v-model="brinde.tipoDeCaixa" :class="'select-large-base'" :clearable="false"
+                            <v-select v-model="brinde.tipo_de_caixa" :class="'select-large-base'" :clearable="false"
                                       :options="opcoesTipoCaixa"
-                                      v-validate="'required'" name="tipoDeCaixa"/>
-                            <span class="text-danger text-sm" v-show="errors.has('tipoDeCaixa')">{{ errors.first('tipoDeCaixa') }}</span>
-                        </div>
-                        <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                            <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
-                                      v-model="brinde.largura" class="mt-5 w-full"
-                                      name="largura"/>
-                            <div class="unidade absolute p-2">
-                                <span>cm</span>
-                            </div>
-                            <span class="text-danger text-sm" v-show="errors.has('largura')">{{ errors.first('largura') }}</span>
+                                      v-validate="'required'" name="tipo_de_caixa"/>
+                            <span class="text-danger text-sm" v-show="errors.has('tipo_de_caixa')">{{ errors.first('tipo_de_caixa') }}</span>
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2 relative">
                             <vs-input size="large " v-validate="'required'" label="Altura" autocomplete="off"
@@ -66,7 +73,15 @@
                             </div>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('altura')">{{ errors.first('altura') }}</span>
-
+                        </div>
+                        <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                            <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
+                                      v-model="brinde.largura" class="mt-5 w-full"
+                                      name="largura"/>
+                            <div class="unidade absolute p-2">
+                                <span>cm</span>
+                            </div>
+                            <span class="text-danger text-sm" v-show="errors.has('largura')">{{ errors.first('largura') }}</span>
                         </div>
                     </div>
 
@@ -94,7 +109,6 @@
                         </div>
                     </div>
                 </div>
-                opcoesTipoCaixa
                 <div class="mt-8">
                     <vs-checkbox color="dark" v-model="brinde.hasembalagem"><span class="label-bold-underline">Usar embalagem padrão</span>
                     </vs-checkbox>
@@ -134,7 +148,7 @@
             largura: {
                 required: 'Por favor, insira a largura',
             },
-            tipoDeCaixa: {
+            tipo_de_caixa: {
                 required: 'Por favor, insira a tipo de caixa',
             },
             comprimento: {
@@ -148,6 +162,9 @@
             },
             embalagem: {
                 required: 'Por favor, insira a embalagem padrão',
+            },
+            produto: {
+                required: 'Por favor, selecione o produto',
             },
         }
     };
@@ -171,13 +188,34 @@
                     this.initValues()
                     this.$validator.reset()
                 } else {
-                    console.log('entrou aqui', this.data);
                     this.brinde = JSON.parse(JSON.stringify(this.data));
-                    this.selected = this.brinde.integracao_id;
-                    this.embalagem = this.brinde.embalagem_id;
-                    //this.selected.label = this.brinde.integracao.descricao;
+                    /*this.selected = this.brinde.integracao_id;
+                    this.embalagem = this.brinde.embalagem_id;*/
                 }
                 // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
+            },
+            brinde: {
+                handler(val) {
+                    console.log('val', val);
+                    switch (val.tipo_de_caixa.id) {
+                        case '001':
+                            this.tipo_envelope = true;
+                            this.tipo_caixa = false;
+                            this.tipo_cilindro = false;
+                            break;
+                        case '002':
+                            this.tipo_caixa = true;
+                            this.tipo_envelope = false;
+                            this.tipo_cilindro = false;
+                            break;
+                        case '003':
+                            this.tipo_cilindro = true;
+                            this.tipo_caixa = false;
+                            this.tipo_envelope = false;
+                            break;
+                    }
+                },
+                deep: true
             }
         },
         data() {
@@ -188,15 +226,20 @@
                     largura: '',
                     comprimento: '',
                     peso: '',
-                    integracao: {}
+                    integracao: {},
                 },
-                opcoesTipoCaixa: [{id: '001', label: 'TIPO ENVELOPE'}, {
+                tipo_caixa: false,
+                tipo_envelope: false,
+                tipo_cilindro: false,
+                opcoesTipoCaixa: [{id: '001', label: 'ENVELOPE'}, {
                     id: '002',
-                    label: 'TIPO PACOTE CAIXA'
-                }, {id: '003', label: 'TIPO ROLO CILINDRO'}],
-                opcoesContrato: [{id: 'Foo', label: 'foo'}, {id: 'Foo2', label: 'foo2'}],
+                    label: 'PACOTE CAIXA'
+                }, {id: '003', label: 'ROLO CILINDRO'}],
+                opcoesContrato: [{id: 1, label: 'foo'}, {id: 2, label: 'foo2'}],
                 opcoesEmbalagem: [],
+                produtos: [],
                 selected: null,
+                selectedProduto: null,
                 embalagem: null
             }
         },
@@ -228,6 +271,12 @@
                     if (result) {
                         this.$vs.loading()
                         const obj = {...this.brinde};
+                        obj.produto_id = this.selectedProduto.id;
+                        if(this.selected)
+                            obj.embalagem_id = this.selected.id || '';
+                        if(this.brinde.tipo_de_caixa)
+                            obj.tipo_de_caixa = this.brinde.tipo_de_caixa.id || '';
+
                         if (this.brinde.id !== null && this.brinde.id >= 0) {
                             obj._method = 'PUT';
                             this.$store.dispatch("updateItem", {rota: 'brindes', item: obj}).then(() => {
@@ -238,7 +287,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {}}).then(() => {
+                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
 
@@ -246,9 +295,8 @@
                                 console.error(err)
                             })
                         } else {
-                            delete obj.id
-                            console.log('obj', obj)
-                            obj.integracao_id = this.selected;
+                            delete obj.id;
+                            obj.integracao_id = this.selected.id;
                             this.$store.dispatch("addItem", {rota: 'brindes', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -256,8 +304,8 @@
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
-                                })
-                                this.$store.dispatch('getVarios', 'brindes').then(() => {
+                                });
+                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
                             }).catch(error => {
@@ -281,8 +329,15 @@
                     arr.forEach(item => {
                         this.opcoesEmbalagem.push({id: item.id, label: item.nome})
                     });
-                    console.log('af', this.opcoesEmbalagem)
-                    console.log('af2', [{id: 'Foo', label: 'foo'}])
+                })
+            },
+            getProdutos() {
+                this.$store.dispatch('brindes/getProdutos').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.produtos.push({id: item.id, label: item.nome})
+                    });
+                    console.log('prods', this.produtos)
                 })
             },
             mudou() {
@@ -294,6 +349,8 @@
             'v-select': vSelect
         },
         created() {
+            this.getEmbalagems();
+            this.getProdutos();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
                 this.$validator.reset()
@@ -301,12 +358,36 @@
                 console.log('entrou aqui', this.data);
                 this.brinde = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.brinde.integracao_id;
-                this.selected = {id: this.brinde.integracao_id, label: this.brinde.integracao.descricao};
-                this.embalagem = {id: this.brinde.emabalgem_id, label: this.brinde.embalagem.descricao};
-                //this.selected.label = this.brinde.integracao.descricao;
-            }
-            this.getEmbalagems();
+                /*if(this.brinde.contrato.id)
+                    this.selected = {id: this.brinde.contrato_id, label: this.brinde.contrato.descricao};*/
+                if(this.brinde.embalagem)
+                    this.embalagem = {id: this.brinde.embalagem_id, label: this.brinde.embalagem.nome};
 
+                if(this.brinde.tipo_de_caixa) {
+                    switch (this.brinde.tipo_de_caixa) {
+                        case '001':
+                            this.brinde.tipo_de_caixa = {id: '001', label: 'ENVELOPE'}
+                            this.tipo_envelope = true;
+                            this.tipo_caixa = false;
+                            this.tipo_cilindro = false;
+                            break;
+                        case '002':
+                            this.brinde.tipo_de_caixa = {id: '002', label: 'CAIXA'}
+                            this.tipo_caixa = true;
+                            this.tipo_envelope = false;
+                            this.tipo_cilindro = false;
+                            break;
+                        case '003':
+                            this.brinde.tipo_de_caixa = {id: '003', label: 'CILINDRO'}
+                            this.tipo_cilindro = true;
+                            this.tipo_caixa = false;
+                            this.tipo_envelope = false;
+                            break;
+                    }
+                }
+
+                this.selectedProduto = {id: this.brinde.produto_id, label: this.brinde.produto.nome};
+            }
         }
     }
 </script>

@@ -30,6 +30,9 @@ import "./fake-db/index.js"
 // Theme Configurations
 import '../themeConfig.js'
 
+// Configurações gerais
+import '../saveleadsConfig.js'
+
 
 // Firebase
 import '@/firebase/firebaseConfig'

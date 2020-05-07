@@ -172,11 +172,11 @@
             }
         },
         created() {
-            this.$vs.loading()
-            // if (!moduleBrindes.isRegistered) {
-            //     this.$store.registerModule('brindes', moduleBrindes)
-            //   moduleBrindes.isRegistered = true
-            // }
+            this.$vs.loading();
+            if (!moduleBrindes.isRegistered) {
+                this.$store.registerModule('brindes', moduleBrindes);
+                moduleBrindes.isRegistered = true;
+            }
 
             this.getBrindes();
         },

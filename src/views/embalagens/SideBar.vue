@@ -40,22 +40,13 @@
                 </div>
                 <!-- FIM DA DOIDERA -->
 
-                <div class="mt-4">
+                <div class="mt-5">
                     <label class="vs-input--label">Tipo de Embalgem</label>
                     <v-select v-model="embalagem.tipo_de_caixa" :class="'select-large-base'" :clearable="false"
-                              :options="opcoesTipoCaixa" v-validate="'required'" name="contrato"/>
+                              :options="opcoesTipoCaixa" v-validate="'required'" name="tipo_de_caixa"/>
                     <span class="text-danger text-sm" v-show="errors.has('tipo_de_caixa')">{{ errors.first('tipo_de_caixa') }}</span>
                 </div>
                 <div class="vx-row">
-                    <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                        <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
-                                  v-model="embalagem.largura" class="mt-5 w-full"
-                                  name="largura"/>
-                        <div class="unidade absolute p-2">
-                            <span>cm</span>
-                        </div>
-                        <span class="text-danger text-sm" v-show="errors.has('largura')">Este campo é obrigatório</span>
-                    </div>
                     <div class="vx-col sm:w-1/2 w-full mb-2 relative">
                         <vs-input size="large " v-validate="'required'" label="Altura" autocomplete="off"
                                   v-model="embalagem.altura" class="mt-5 w-full"
@@ -64,6 +55,15 @@
                             <span>cm</span>
                         </div>
                         <span class="text-danger text-sm" v-show="errors.has('altura')">Este campo é obrigatório</span>
+                    </div>
+                    <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                        <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
+                                  v-model="embalagem.largura" class="mt-5 w-full"
+                                  name="largura"/>
+                        <div class="unidade absolute p-2">
+                            <span>cm</span>
+                        </div>
+                        <span class="text-danger text-sm" v-show="errors.has('largura')">Este campo é obrigatório</span>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                         <div class="unidade absolute p-2">
                             <span>cm</span>
                         </div>
-                        <span class="text-danger text-sm" v-show="errors.has('largura')">Este campo é obrigatório</span>
+                        <span class="text-danger text-sm" v-show="errors.has('comprimento')">Este campo é obrigatório</span>
                     </div>
                     <div class="vx-col sm:w-1/2 w-full mb-2 relative">
                         <vs-input size="large " v-validate="'required'" label="Peso" autocomplete="off"
@@ -100,6 +100,31 @@
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import vSelect from 'vue-select'
+    import {Validator} from 'vee-validate';
+
+    const dict = {
+        custom: {
+            nome: {
+                required: 'Por favor, insira o nome do brinde'
+            },
+            largura: {
+                required: 'Por favor, insira a largura',
+            },
+            tipo_de_caixa: {
+                required: 'Por favor, insira a tipo de caixa',
+            },
+            comprimento: {
+                required: 'Por favor, insira o comprimento',
+            },
+            altura: {
+                required: 'Por favor, insira a altura',
+            },
+            peso: {
+                required: 'Por favor, insira o peso',
+            },
+        }
+    };
+    Validator.localize('pt-br', dict);
 
     export default {
         props: {
