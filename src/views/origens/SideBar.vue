@@ -12,7 +12,7 @@
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
-            <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Conta</h4>
+            <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Origem</h4>
             <!--<feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>-->
             <div class="flex items-center cursor-pointer" @click.stop="isSidebarActiveLocal = false">
                 <vs-icon icon-pack="material-icons" icon="clear" class="mr-2 icon-cancelar"/>
@@ -21,30 +21,10 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
-                <!--<v-select id="integracao" v-validate="'required'" v-model="selected" :options="opcoesIntegracao"/>-->
-                <div class="mt-4">
-                    <label class="vs-input--label">Integração</label>
-                    <v-select v-model="selected" :class="'select-large-base'" :clearable="false"
-                              :options="opcoesIntegracao" v-validate="'required'" name="integracao"/>
-                    <span class="text-danger text-sm"
-                          v-show="errors.has('integracao')">{{ errors.first('integracao') }}</span>
-                </div>
-                <vs-input size="large" v-validate="'required'" label="Nome da conta" autocomplete="off"
-                          v-model="conta.nome" class="mt-5 w-full"
+                <vs-input size="large" v-validate="'required'" label="Nome da origem" autocomplete="off"
+                          v-model="origem.nome" class="mt-5 w-full"
                           name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>
-
-                <vs-input size="large" label="Token da conta" autocomplete="off" v-model="conta.token"
-                          class="mt-5 w-full" name="token" v-validate="'required'"/>
-                <span class="text-danger text-sm" v-show="errors.has('token')">Este campo é obrigatório</span>
-                <vs-input v-if="conta.integracao.need === 2" size="large" label="Token 2 da conta" autocomplete="off"
-                          v-model="conta.token2"
-                          class="mt-5 w-full" name="token" v-validate="'required'"/>
-                <span class="text-danger text-sm" v-show="errors.has('token2')">Este campo é obrigatório</span>
-                <vs-input v-if="conta.integracao.need >= 2" size="large" label="Token 3 da conta" autocomplete="off"
-                          v-model="conta.toke3"
-                          class="mt-5 w-full" name="token" v-validate="'required'"/>
-                <span class="text-danger text-sm" v-show="errors.has('token3')">Este campo é obrigatório</span>
             </div>
         </VuePerfectScrollbar>
 
@@ -74,14 +54,10 @@
         watch: {},
         data() {
             return {
-                conta: {
+                origem: {
                     empresa_id: 1,
-                    integracao: {},
                     nome: '',
-                    token: '',
                 },
-                opcoesIntegracao: [],
-                selected: null
             }
         },
         computed: {
@@ -106,30 +82,26 @@
                     console.log(this.data)
                     return
                 } else {
-                    this.conta.id = null
-                    this.conta.nome = ''
-                    this.conta.token = ''
-                    this.selected = null
+                    this.origem.id = null
+                    this.origem.nome = ''
                 }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading()
-                        const obj = {...this.conta};
-                        obj.integracao_id = this.selected.id;
-                        if (this.conta.id !== null && this.conta.id >= 0) {
+                        const obj = {...this.origem};
+                        if (this.origem.id !== null && this.origem.id >= 0) {
                             obj._method = 'PUT';
-                            console.log('obj atualizando', obj)
-                            this.$store.dispatch("updateItem", {rota: 'contas', item: obj}).then(() => {
+                            this.$store.dispatch("updateItem", {rota: 'origems', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
-                                    text: "A conta foi atualizada com sucesso.",
+                                    text: "A origem foi atualizada com sucesso.",
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', {rota: 'contas', params: {page: 1}}).then(() => {
+                                this.$store.dispatch('getVarios', {rota: 'origems', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close();
                                 });
                             }).catch(err => {
@@ -137,16 +109,15 @@
                             })
                         } else {
                             delete obj.id
-                            console.log('obj criando', obj)
-                            this.$store.dispatch("addItem", {rota: 'contas', item: obj}).then(() => {
+                            this.$store.dispatch("addItem", {rota: 'origems', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
-                                    text: "A conta foi criada com sucesso.",
+                                    text: "A origem foi criada com sucesso.",
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 })
-                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
+                                this.$store.dispatch('getVarios', {rota: 'origems', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
 
@@ -178,10 +149,10 @@
                 this.$validator.reset()
             } else {
                 console.log('entrou aqui', this.data);
-                this.conta = JSON.parse(JSON.stringify(this.data));
-                //this.selected = this.conta.integracao_id;
-                this.selected = {id: this.conta.integracao_id, label: this.conta.integracao.descricao};
-                //this.selected.label = this.conta.integracao.descricao;
+                this.origem = JSON.parse(JSON.stringify(this.data));
+                //this.selected = this.origem.integracao_id;
+                this.selected = {id: this.origem.integracao_id, label: this.origem.integracao.descricao};
+                //this.selected.label = this.origem.integracao.descricao;
 
             }
             this.getOpcoes();

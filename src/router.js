@@ -1350,6 +1350,23 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/tickets',
+                    name: 'configuracoes-tickets',
+                    component: () => import('@/views/configuracoes/Tickets.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Tickets', active: true},
+                        ],
+                        pageTitle: 'Configurações de Tickets',
+                        rule: 'editor',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/empresa',
                     name: 'dados-empresa',
                     component: () => import('@/views/empresa/Show.vue'),
@@ -1485,16 +1502,17 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/configuracoes/tickets',
-                    name: 'configuracoes-tickets',
-                    component: () => import('@/views/contas/Index.vue'),
+                    path: '/configuracoes/origens',
+                    name: 'origens',
+                    component: () => import('@/views/origens/Index.vue'),
                     meta: {
                         breadcrumb: [
                             {title: 'Home', url: '/'},
                             {title: 'Configurações'},
-                            {title: 'Tickets', url: '/configuracoes/tickets', active: true},
+                            {title: 'Tickets', url: '/configuracoes/tickets'},
+                            {title: 'Origens', active: true},
                         ],
-                        pageTitle: 'Tickets',
+                        pageTitle: 'Origens',
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
