@@ -1521,6 +1521,25 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/tipo-de-duvida',
+                    name: 'TipoDeDuvida',
+                    component: () => import('@/views/tipoDuvida/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Tickets', url: '/configuracoes/tickets'},
+                            {title: 'Origens', active: true},
+                        ],
+                        pageTitle: 'Tipo De Dúvida',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/leads/listagem',
                     name: 'leads-list',
                     component: () => import('@/views/leads/Index.vue'),

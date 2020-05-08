@@ -20,6 +20,10 @@
                     {
                         nome: 'Cadastrar ou alterar Origens',
                         routername: 'origens'
+                    },
+                    {
+                        nome: 'Cadastrar ou alterar tipos de dúvidas',
+                        routername: 'TipoDeDuvida'
                     }
                 ]
             }
