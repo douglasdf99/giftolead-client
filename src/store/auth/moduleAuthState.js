@@ -13,6 +13,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 export default {
+    token: localStorage.getItem('accessToken') || null,
     isUserLoggedIn: () => {
         let isAuthenticated = false
 

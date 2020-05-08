@@ -70,7 +70,7 @@ const state = {
     submenu                 : {},
     items                   : {},
     pagination              : {},
-
+    urlBack: 'home',
     // Can be used to get current window with
     // Note: Above breakpoint state is for internal use of sidebar & navbar component
     windowWidth: null,

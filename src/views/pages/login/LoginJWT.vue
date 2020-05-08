@@ -111,15 +111,13 @@
 
                 this.$store.dispatch('auth/loginJWT', payload)
                     .then(() => {
-                        this.$store.dispatch('auth/getUser').then(() => {
-                            this.$vs.loading.close();
-                            // Navigate User to homepage
-                            this.$router.push(this.$router.currentRoute.query.to || '/');
-                        });
+                      this.$store.dispatch('auth/getUser').then(() => {
+                        this.$router.push(this.$router.currentRoute.query.to || '/');
+                      });
+
                     })
                     .catch(error => {
                         console.log(error.response);
-                        this.$vs.loading.close()
                         this.$vs.notify({
                             title: 'Error',
                             text: error.response.data,
@@ -127,7 +125,9 @@
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         })
-                    })
+                    }).finally(()=>{
+                  this.$vs.loading.close();
+                })
             },
             registerUser() {
                 if (!this.checkLogin()) return

@@ -1677,7 +1677,6 @@ router.beforeEach((to, from, next) => {
 
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
-
         // if (
         //     to.path === "/pages/login" ||
         //     to.path === "/pages/forgot-password" ||
@@ -1707,6 +1706,7 @@ router.beforeEach((to, from, next) => {
         // auth.login({ target: to.path });
 
     });
+
 
 });
 

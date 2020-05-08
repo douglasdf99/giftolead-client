@@ -7,6 +7,5 @@ export default axios.create({
   baseURL: domain,
   headers: { Authorization: `Bearer ${token}` }
 
-  // You can add your headers here
 })
 

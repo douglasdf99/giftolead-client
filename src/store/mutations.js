@@ -85,7 +85,9 @@ const mutations = {
     // ////////////////////////////////////////////
     // UI
     // ////////////////////////////////////////////
-
+  CHANGE_URL_BACK (state, url) {
+    state.urlBack = url
+  },
     TOGGLE_CONTENT_OVERLAY(state, val) {
         state.bodyOverlay = val
     },

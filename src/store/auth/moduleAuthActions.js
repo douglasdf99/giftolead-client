@@ -326,8 +326,13 @@ export default {
     },
     getUser({commit}) {
         return new Promise((resolve, reject) => {
-            //Getting user data
+          console.log('chamoou getUser');
+          const token = localStorage.getItem('accessToken');
+          if (!token)
+            return reject();
+          //Getting user data
             axios.get("/api/user").then(response => {
+              console.log('retonou getUser');
                 // Update user details
                 const usuario = {}
                 usuario.uid = response.data.id;
@@ -341,10 +346,12 @@ export default {
                 commit('UPDATE_USER_INFO', usuario, {root: true});
                 resolve(response)
             }).catch(erro => {
-                reject(erro)
+              localStorage.removeItem('userInfo');
+              reject(erro)
             });
         });
     },
+
     registerUserJWT({commit}, payload) {
 
         const {displayName, email, password, confirmPassword} = payload.userDetails
