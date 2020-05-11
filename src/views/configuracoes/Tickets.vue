@@ -22,9 +22,13 @@
                         routername: 'origens'
                     },
                     {
-                        nome: 'Cadastrar ou alterar tipos de dúvidas',
+                        nome: 'Cadastrar ou alterar Tipo de Dúvidas',
                         routername: 'TipoDeDuvida'
-                    }
+                    },
+                    {
+                        nome: 'Cadastrar ou alterar Motivos de Perda',
+                        routername: 'motivoDePerda'
+                    },
                 ]
             }
         },
