@@ -10,6 +10,10 @@
 import navbarSearchAndPinList from "@/layouts/components/navbar/navbarSearchAndPinList"
 import themeConfig from "@/../themeConfig.js"
 import colors from "@/../themeConfig.js"
+import auth from "@/auth/authService";
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
 
 // /////////////////////////////////////////////
 // Helper
@@ -74,6 +78,18 @@ const state = {
     // Can be used to get current window with
     // Note: Above breakpoint state is for internal use of sidebar & navbar component
     windowWidth: null,
+  token : localStorage.getItem("accessToken")|| null,
+  isUserLoggedIn: () => {
+    let isAuthenticated = false
+
+    // get firebase current user
+    const firebaseCurrentUser = firebase.auth().currentUser
+
+    if (auth.isAuthenticated() || firebaseCurrentUser) isAuthenticated = true
+    else isAuthenticated = false
+
+    return (localStorage.getItem('userInfo') && isAuthenticated)
+  },
 }
 
 export default state

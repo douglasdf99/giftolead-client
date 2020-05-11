@@ -9,10 +9,13 @@
 
 //import axios from "../../http/axios/index.js"
 import axios from "@/axios.js"
+import saveleadsConfig from "../../../saveleadsConfig";
+
 
 export default {
   SET_BEARER(state, accessToken) {
     state.token = accessToken;
+    saveleadsConfig.token = accessToken;
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken
   }
 }

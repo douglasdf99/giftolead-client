@@ -156,7 +156,6 @@
 
             }
             this.getOpcoes();
-
         }
     }
 </script>

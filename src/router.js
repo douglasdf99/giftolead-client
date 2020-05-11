@@ -24,6 +24,8 @@ import auth from "@/auth/authService";
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
+import store from './store/store.js'
+import moduleAuth from './store/auth/moduleAuth'
 Vue.use(Router)
 const subconfiguracoes = [
     {
@@ -1696,28 +1698,22 @@ router.beforeEach((to, from, next) => {
 
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
-        // if (
-        //     to.path === "/pages/login" ||
-        //     to.path === "/pages/forgot-password" ||
-        //     to.path === "/pages/error-404" ||
-        //     to.path === "/pages/error-500" ||
-        //     to.path === "/pages/register" ||
-        //     to.path === "/callback" ||
-        //     to.path === "/pages/comingsoon" ||
-        //     (auth.isAuthenticated() || firebaseCurrentUser)
-        // ) {
-        //     return next();
-        // }
+      if (to.matched.some(record => record.meta.authRequired)) {
+        console.log('auth', auth.isAuthenticated());
+        console.log('firebase', firebaseCurrentUser);
+        console.log('userinbfo', localStorage.getItem('userInfo'));
+        console.log('token', store.state.token);
+        store.dispatch('auth/getUser')
+          .then(() => {
+            console.log('logado')
+          }).catch( () =>{
+          console.log('deu erro')
+          router.push({path: '/login', query: {to: to.path}})
 
-        // If auth required, check login. If login fails redirect to login page
-        if (to.matched.some(record => record.meta.authRequired)) {
-            console.log('auth', auth.isAuthenticated());
-            console.log('firebase', firebaseCurrentUser);
-            console.log('userinbfo', localStorage.getItem('userInfo'));
-            if (!localStorage.getItem('userInfo')) {
-                router.push({path: '/login', query: {to: to.path}})
-            }
         }
+      );
+      }
+      // If auth required, check login. If login fails redirect to login page
 
         return next()
         // Specify the current path as the customState parameter, meaning it

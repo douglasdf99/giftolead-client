@@ -313,7 +313,7 @@ export default {
                         localStorage.setItem("accessToken", response.data.access_token);
                         // Set bearer token in axios
                         commit("SET_BEARER", response.data.access_token);
-                        resolve(response)
+                        resolve(response.data.access_token)
                     } else {
                         reject({message: "E-mail ou senha incorretos."})
                     }
