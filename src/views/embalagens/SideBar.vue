@@ -28,15 +28,15 @@
                 <!-- AQUI EMBAIXO É DOIDERA -->
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_envelope">
-                    <img src="@/assets/images/util/medidas.svg">
+                    <img src="@/assets/images/util/envelope.svg">
                 </div>
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_caixa">
-                    <img src="@/assets/images/util/medidas.svg">
+                    <img src="@/assets/images/util/pacote_caixa.svg">
                 </div>
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_cilindro">
-                    <img src="@/assets/images/util/medidas.svg">
+                    <img src="@/assets/images/util/rolo_cilindro.svg">
                 </div>
                 <!-- FIM DA DOIDERA -->
 
@@ -48,7 +48,7 @@
                 </div>
                 <div class="vx-row">
                     <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                        <vs-input size="large " v-validate="'required'" label="Altura" autocomplete="off"
+                        <vs-input type="number" size="large " v-validate="'required'" label="Altura" autocomplete="off"
                                   v-model="embalagem.altura" class="mt-5 w-full"
                                   name="altura"/>
                         <div class="unidade absolute p-2">
@@ -57,7 +57,7 @@
                         <span class="text-danger text-sm" v-show="errors.has('altura')">Este campo é obrigatório</span>
                     </div>
                     <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                        <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
+                        <vs-input type="number" size="large " v-validate="'required'" label="Largura" autocomplete="off"
                                   v-model="embalagem.largura" class="mt-5 w-full"
                                   name="largura"/>
                         <div class="unidade absolute p-2">
@@ -69,7 +69,7 @@
 
                 <div class="vx-row ">
                     <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                        <vs-input size="large " v-validate="'required'" label="Comprimento" autocomplete="off"
+                        <vs-input type="number" size="large " v-validate="'required'" label="Comprimento" autocomplete="off"
                                   v-model="embalagem.comprimento" class="mt-5 w-full"
                                   name="comprimento"/>
                         <div class="unidade absolute p-2">
@@ -78,7 +78,7 @@
                         <span class="text-danger text-sm" v-show="errors.has('comprimento')">Este campo é obrigatório</span>
                     </div>
                     <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                        <vs-input size="large " v-validate="'required'" label="Peso" autocomplete="off"
+                        <vs-input type="number" size="large " v-validate="'required'" label="Peso" autocomplete="off"
                                   v-model="embalagem.peso" class="mt-5 w-full"
                                   name="peso"/>
                         <div class="unidade absolute p-2">

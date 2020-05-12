@@ -329,13 +329,13 @@
             },
         },
         created() {
-            let submenu = JSON.parse(localStorage.getItem('submenu'));
+            /*let submenu = JSON.parse(localStorage.getItem('submenu'));
             console.log('submenu', submenu)
             if (submenu.name) {
                 this.$store.dispatch('submenu', submenu)
                 this.icone_destaque = submenu.icon
                 this.ativarMenu(false);
-            }
+            }*/
         },
         mounted() {
             this.setVerticalNavMenuWidth()

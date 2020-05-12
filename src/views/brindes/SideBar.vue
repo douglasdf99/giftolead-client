@@ -49,21 +49,19 @@
                 </div>
                 <div class="" v-if="!brinde.hasembalagem">
 
-                    <!-- AQUI EMBAIXO É DOIDERA -->
-                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
-                         v-if="tipo_envelope">
-                        <img src="@/assets/images/util/medidas.svg">
-                    </div>
-                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
-                         v-if="tipo_caixa">
-                        <img src="@/assets/images/util/medidas.svg">
-                    </div>
-                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
-                         v-if="tipo_cilindro">
-                        <img src="@/assets/images/util/medidas.svg">
-                    </div>
-                    <!-- FIM DA DOIDERA -->
-
+                  <!-- AQUI EMBAIXO É DOIDERA -->
+                  <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                       v-if="tipo_envelope">
+                    <img src="@/assets/images/util/envelope.svg" height="200">
+                  </div>
+                  <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                       v-if="tipo_caixa">
+                    <img src="@/assets/images/util/pacote_caixa.svg" height="200">
+                  </div>
+                  <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                       v-if="tipo_cilindro">
+                    <img src="@/assets/images/util/rolo_cilindro.svg" height="200">
+                  </div>
                     <div class="vx-row mt-5">
                         <div class="vx-col  w-full mb-2">
                             <label class="vs-input--label">Tipo de caixa</label>
