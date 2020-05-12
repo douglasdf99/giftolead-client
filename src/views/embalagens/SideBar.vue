@@ -28,15 +28,15 @@
                 <!-- AQUI EMBAIXO É DOIDERA -->
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_envelope">
-                    <img src="@/assets/images/util/envelope.svg">
+                    <img src="@/assets/images/util/envelope.svg" height="200">
                 </div>
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_caixa">
-                    <img src="@/assets/images/util/pacote_caixa.svg">
+                    <img src="@/assets/images/util/pacote_caixa.svg" height="200">
                 </div>
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_cilindro">
-                    <img src="@/assets/images/util/rolo_cilindro.svg">
+                    <img src="@/assets/images/util/rolo_cilindro.svg" height="200">
                 </div>
                 <!-- FIM DA DOIDERA -->
 
@@ -92,7 +92,7 @@
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>
