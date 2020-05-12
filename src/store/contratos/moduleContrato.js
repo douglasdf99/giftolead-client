@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from '../state.js'
-import mutations from './moduleAuthMutations.js'
-import actions from './moduleAuthActions.js'
-import getters from './moduleAuthGetters.js'
+import state from './moduleContrato.js'
+import mutations from './moduleContratoMutations.js'
+import actions from './moduleContratoActions.js'
+import getters from './moduleContratoGetters.js'
 
 export default {
 	namespaced: true,

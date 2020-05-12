@@ -1,6 +1,6 @@
 /*=========================================================================================
-  File Name: moduleAuth.js
-  Description: Auth Module
+  File Name: moduleAuthGetters.js
+  Description: Auth Module Getters
   ----------------------------------------------------------------------------------------
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
@@ -8,15 +8,4 @@
 ==========================================================================================*/
 
 
-import state from '../state.js'
-import mutations from './moduleAuthMutations.js'
-import actions from './moduleAuthActions.js'
-import getters from './moduleAuthGetters.js'
-
-export default {
-	namespaced: true,
-    state: state,
-    mutations: mutations,
-    actions: actions,
-    getters: getters
-}
+export default {}

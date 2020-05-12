@@ -169,6 +169,8 @@
     import themeConfig from '@/../themeConfig.js'
     import VNavMenu from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
     import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue";
+    import axios from 'axios'
+
 
     const VxTour = () => import('@/components/VxTour.vue')
 
@@ -245,7 +247,9 @@
             }
         },
         computed: {
-
+            setToken(){
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.$store.state.token
+            },
             bodyOverlay() {
                 return this.$store.state.bodyOverlay
             },

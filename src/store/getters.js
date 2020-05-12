@@ -23,7 +23,8 @@ const getters = {
     else if (state.windowWidth >= 768) return "md"
     else if (state.windowWidth >= 576) return "sm"
     else return "xs"
-  }
+  },
+  getToken: state => state.token
 }
 
 export default getters

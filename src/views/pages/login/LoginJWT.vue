@@ -44,6 +44,7 @@
 
 <script>
     import {Validator} from 'vee-validate';
+    import saveleadsConfig from "../../../../saveleadsConfig";
 
     const dict = {
         custom: {
@@ -110,10 +111,10 @@
                 };
 
                 this.$store.dispatch('auth/loginJWT', payload)
-                    .then(() => {
-                      this.$store.dispatch('auth/getUser').then(() => {
-                        this.$router.push(this.$router.currentRoute.query.to || '/');
-                      });
+                    .then((response) => {
+                      saveleadsConfig.token = response;
+                      console.log(saveleadsConfig);
+                      window.location.href = window.location.protocol + '//' + window.location.host + (this.$router.currentRoute.query.to || '/');
 
                     })
                     .catch(error => {

@@ -9,6 +9,7 @@
 
 // CONFIGS
 const saveleadsConfig = {
+    token : localStorage.getItem("accessToken")|| null,
     url_api: 'https://api.saveleads.com.br',
 };
 

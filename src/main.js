@@ -155,8 +155,5 @@ new Vue({
 }).$mount('#app')
 
 /*
-store.dispatch('auth/getUser')
-  .then(() => {
-    router.push(this.$router.currentRoute.query.to || '/');
-  })
+
 */

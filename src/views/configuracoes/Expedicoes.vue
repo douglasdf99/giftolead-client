@@ -13,33 +13,25 @@
 
 <script>
     export default {
-        name: "Geral",
+        name: "Tickets",
         data() {
             return {
-                lista: [
-                    {
-                        nome: 'Dados da Empresa',
-                        routername: 'dados-empresa'
-                    },
-                    {
-                        nome: 'Cadastrar ou alterar contas de produtos',
-                        routername: 'contas'
-                    },
-                    {
-                        nome: 'Cadastrar ou alterar produtos',
-                        routername: 'produtos'
-                    },
-                    {
-                        nome: 'Cadastrar ou alterar brindes',
-                        routername: 'brindes'
-                    },
-
-                ]
+              lista: [
+                {
+                  nome: 'Cadastrar ou alterar contrato dos Correios',
+                  routername: 'contratos'
+                },
+                {
+                  nome: 'Cadastrar ou alterar embalagens',
+                  routername: 'embalagens'
+                },
+                {
+                  nome: 'Alterar e-mail de rastreio do objeto',
+                  routername: ''
+                },
+              ]
             }
         },
-        created() {
-            console.log('rota', this.$route);
-        }
     }
 </script>
 

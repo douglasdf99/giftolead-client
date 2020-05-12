@@ -1,22 +1,18 @@
 /*=========================================================================================
-  File Name: moduleAuth.js
-  Description: Auth Module
+  File Name: moduleAuthMutations.js
+  Description: Auth Module Mutations
   ----------------------------------------------------------------------------------------
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-
-import state from '../state.js'
-import mutations from './moduleAuthMutations.js'
-import actions from './moduleAuthActions.js'
-import getters from './moduleAuthGetters.js'
-
 export default {
-	namespaced: true,
-    state: state,
-    mutations: mutations,
-    actions: actions,
-    getters: getters
+  SET_EMPRESA(state, empresa) {
+    console.log('colocando emrepsa no state');
+    state.empresa = empresa
+  },
+  UPDATE_EMPRESA(state, empresa) {
+    state.empresa = empresa
+  }
 }
