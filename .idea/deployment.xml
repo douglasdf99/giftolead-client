@@ -65,6 +65,20 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="Ramires">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Saveleads 3.0">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="Semana MAV">
         <serverdata>
           <mappings>
