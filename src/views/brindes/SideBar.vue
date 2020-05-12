@@ -19,6 +19,13 @@
 
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
+                <div class="p-5">
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">
+                    {{brinde.ativo ? 'Ativado' : 'Desativado'}}
+                </span>
+                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="brinde.ativo" class="float-right switch"/>
+                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do Brinde</span>
+                </div>
                 <vs-input size="large " v-validate="'required'" label="Nome da brinde" autocomplete="off"
                           v-model="brinde.nome"
                           class="mt-5 w-full"
@@ -61,13 +68,12 @@
                         <div class="vx-col  w-full mb-2">
                             <label class="vs-input--label">Tipo de caixa</label>
                             <v-select v-model="brinde.tipo_de_caixa" :class="'select-large-base'" :clearable="false"
-                                      :options="opcoesTipoCaixa"
-                                      v-validate="'required'" name="tipo_de_caixa"/>
+                                      :options="opcoesTipoCaixa" v-validate="'required'" name="tipo_de_caixa"/>
                             <span class="text-danger text-sm" v-show="errors.has('tipo_de_caixa')">{{ errors.first('tipo_de_caixa') }}</span>
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2 relative">
-                            <vs-input size="large " v-validate="'required'" label="Altura" autocomplete="off"
-                                      v-model="brinde.altura" class="mt-5 w-full" name="altura"/>
+                            <vs-input size="large" v-validate="'required'" label="Altura" autocomplete="off"
+                                      v-model="brinde.altura" class="mt-5 w-full" name="altura" type="number"/>
                             <div class="unidade absolute p-2">
                                 <span>cm</span>
                             </div>
@@ -76,8 +82,7 @@
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2 relative">
                             <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
-                                      v-model="brinde.largura" class="mt-5 w-full"
-                                      name="largura"/>
+                                      v-model="brinde.largura" class="mt-5 w-full" type="number" name="largura"/>
                             <div class="unidade absolute p-2">
                                 <span>cm</span>
                             </div>
@@ -88,7 +93,7 @@
                     <div class="vx-row ">
                         <div class="vx-col sm:w-1/2 w-full mb-2 relative">
                             <vs-input size="large " v-validate="'required'" label="Comprimento" autocomplete="off"
-                                      v-model="brinde.comprimento" class="mt-5 w-full"
+                                      v-model="brinde.comprimento" class="mt-5 w-full" type="number"
                                       name="comprimento"/>
                             <div class="unidade absolute p-2">
                                 <span>cm</span>
@@ -98,9 +103,7 @@
                         </div>
                         <div class="vx-col sm:w-1/2 w-full mb-2 relative">
                             <vs-input size="large " v-validate="'required'" label="Peso" autocomplete="off"
-                                      v-model="brinde.peso"
-                                      class="mt-5 w-full"
-                                      name="peso"/>
+                                      v-model="brinde.peso" class="mt-5 w-full" type="number" name="peso"/>
                             <div class="unidade absolute p-2">
                                 <span>Kg</span>
                             </div>
@@ -227,6 +230,7 @@
                     comprimento: '',
                     peso: '',
                     integracao: {},
+                    tipo: true
                 },
                 tipo_caixa: false,
                 tipo_envelope: false,
@@ -235,7 +239,7 @@
                     id: '002',
                     label: 'PACOTE CAIXA'
                 }, {id: '003', label: 'ROLO CILINDRO'}],
-                opcoesContrato: [{id: 1, label: 'foo'}, {id: 2, label: 'foo2'}],
+                opcoesContrato: [],
                 opcoesEmbalagem: [],
                 produtos: [],
                 selected: null,
@@ -272,10 +276,13 @@
                         this.$vs.loading()
                         const obj = {...this.brinde};
                         obj.produto_id = this.selectedProduto.id;
-                        if(this.selected)
-                            obj.embalagem_id = this.selected.id || '';
-                        if(this.brinde.tipo_de_caixa)
+
+                        if (this.selected)
+                            obj.contrato_id = this.selected.id || '';
+                        if (this.brinde.tipo_de_caixa)
                             obj.tipo_de_caixa = this.brinde.tipo_de_caixa.id || '';
+                        if (this.embalagem)
+                            obj.embalagem_id = this.embalagem.id || '';
 
                         if (this.brinde.id !== null && this.brinde.id >= 0) {
                             obj._method = 'PUT';
@@ -331,6 +338,15 @@
                     });
                 })
             },
+            getContratos() {
+                this.$store.dispatch('getVarios', {rota: 'correios'}).then(response => {
+                    console.log('correios', response)
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.opcoesContrato.push({id: item.id, label: item.nome})
+                    });
+                })
+            },
             getProdutos() {
                 this.$store.dispatch('brindes/getProdutos').then(response => {
                     let arr = [...response];
@@ -351,6 +367,7 @@
         created() {
             this.getEmbalagems();
             this.getProdutos();
+            this.getContratos();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
                 this.$validator.reset()
@@ -358,12 +375,12 @@
                 console.log('entrou aqui', this.data);
                 this.brinde = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.brinde.integracao_id;
-                /*if(this.brinde.contrato.id)
-                    this.selected = {id: this.brinde.contrato_id, label: this.brinde.contrato.descricao};*/
-                if(this.brinde.embalagem)
+                if (this.brinde.contrato.id)
+                    this.selected = {id: this.brinde.contrato_id, label: this.brinde.contrato.nome};
+                if (this.brinde.embalagem)
                     this.embalagem = {id: this.brinde.embalagem_id, label: this.brinde.embalagem.nome};
 
-                if(this.brinde.tipo_de_caixa) {
+                if (this.brinde.tipo_de_caixa) {
                     switch (this.brinde.tipo_de_caixa) {
                         case '001':
                             this.brinde.tipo_de_caixa = {id: '001', label: 'ENVELOPE'}
@@ -372,7 +389,7 @@
                             this.tipo_cilindro = false;
                             break;
                         case '002':
-                            this.brinde.tipo_de_caixa = {id: '002', label: 'CAIXA'}
+                            this.brinde.tipo_de_caixa = {id: '002', label: 'PACOTE CAIXA'}
                             this.tipo_caixa = true;
                             this.tipo_envelope = false;
                             this.tipo_cilindro = false;

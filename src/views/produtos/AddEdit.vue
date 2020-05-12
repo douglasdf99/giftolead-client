@@ -2,8 +2,8 @@
     <div>
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
-        <span class="float-right mt-1 mx-4"
-              style="font-weight: bold">{{produto.status ? 'Ativado' : 'Desativado'}}</span>
+            <span class="float-right mt-1 mx-4"
+                  style="font-weight: bold">{{produto.status ? 'Ativado' : 'Desativado'}}</span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="produto.status" class="float-right switch"/>
                 <span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>
             </div>
@@ -403,7 +403,7 @@
             },
             copyText() {
                 const thisIns = this;
-                this.$copyText(this.url).then(function() {
+                this.$copyText(this.url).then(function () {
                     thisIns.$vs.notify({
                         title: 'Success',
                         text: 'URL copiada para sua área de transferência',
@@ -411,7 +411,7 @@
                         iconPack: 'feather',
                         icon: 'icon-check-circle'
                     })
-                }, function() {
+                }, function () {
                     thisIns.$vs.notify({
                         title: 'Failed',
                         text: 'Erro ao copiar link',
