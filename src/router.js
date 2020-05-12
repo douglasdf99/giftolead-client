@@ -40,6 +40,12 @@ const subconfiguracoes = [
         slug: "configuracoes",
         icon: 'view_module'
     },
+    {
+        url: '/configuracoes/expedicoes',
+        name: "Expedições",
+        slug: "configuracoes",
+        icon: 'view_module'
+    },
 ];
 const subleads = [
     {
@@ -1369,6 +1375,23 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/expedicoes',
+                    name: 'configuracoes-expedicoes',
+                    component: () => import('@/views/configuracoes/Expedicoes.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Expedições', active: true},
+                        ],
+                        pageTitle: 'Configurações de Expedições',
+                        rule: 'editor',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/empresa',
                     name: 'dados-empresa',
                     component: () => import('@/views/empresa/Show.vue'),
@@ -1527,13 +1550,13 @@ const router = new Router({
                     name: 'TipoDeDuvida',
                     component: () => import('@/views/tipoDuvida/Index.vue'),
                     meta: {
-                        breadcrumb: [
-                            {title: 'Home', url: '/'},
-                            {title: 'Configurações'},
-                            {title: 'Tickets', url: '/configuracoes/tickets'},
-                            {title: 'Tipo de Perda', active: true},
-                        ],
-                        pageTitle: 'Tipo De Dúvida',
+                      breadcrumb: [
+                        {title: 'Home', url: '/'},
+                        {title: 'Configurações'},
+                        {title: 'Tickets', url: '/configuracoes/tickets'},
+                        {title: 'Tipo de Dúvidas', active: true},
+                      ],
+                        pageTitle: 'Tipo de Dúvidas',
                         rule: 'editor',
                         pai: 'configuracoes',
                         subTitle: 'Configurações',
@@ -1577,7 +1600,66 @@ const router = new Router({
                         //subIcon: 'settings',
                         submenu: subleads
                     },
-                }
+                },
+                {
+                  path: '/configuracoes/contratos',
+                  name: 'contratos',
+                  component: () => import('@/views/contratos/Index.vue'),
+                  meta: {
+                    breadcrumb: [
+                      {title: 'Home', url: '/'},
+                      {title: 'Configurações'},
+                      {title: 'Expedições', url: '/configuracoes/contratos'},
+                      {title: 'Contrato', active: true},
+                    ],
+                    pageTitle: 'Contrato',
+                    rule: 'editor',
+                    pai: 'configuracoes',
+                    subTitle: 'Configurações',
+                    subIcon: 'settings',
+                    submenu: subconfiguracoes
+                  },
+                },
+                {
+                  path: '/configuracoes/contratos/criar',
+                  name: 'contratos-criar',
+                  component: () => import('@/views/contratos/AddEdit.vue'),
+                  meta: {
+                    breadcrumb: [
+                      {title: 'Home', url: '/'},
+                      {title: 'Configurações'},
+                      {title: 'Geral', url: '/configuracoes/geral'},
+                      {title: 'Produtos', url: '/configuracoes/produtos'},
+                      {title: 'Criar', active: true},
+                    ],
+                    pageTitle: 'Configurar novo Contrato',
+                    rule: 'editor',
+                    pai: 'configuracoes',
+                    subTitle: 'Configurações',
+                    subIcon: 'settings',
+                    submenu: subconfiguracoes
+                  },
+                },
+                {
+                  path: '/configuracoes/contratos/editar/:id',
+                  name: 'contratos-editar',
+                  component: () => import('@/views/contratos/AddEdit.vue'),
+                  meta: {
+                    breadcrumb: [
+                      {title: 'Home', url: '/'},
+                      {title: 'Configurações'},
+                      {title: 'Geral', url: '/configuracoes/geral'},
+                      {title: 'Produtos', url: '/configuracoes/produtos'},
+                      {title: 'Criar', active: true},
+                    ],
+                    pageTitle: 'Configurar novo Contrato',
+                    rule: 'editor',
+                    pai: 'configuracoes',
+                    subTitle: 'Configurações',
+                    subIcon: 'settings',
+                    submenu: subconfiguracoes
+                  },
+                },
             ]
         },
         // =============================================================================
@@ -1728,7 +1810,6 @@ router.beforeEach((to, from, next) => {
           }).catch( () =>{
           console.log('deu erro')
           router.push({path: '/login', query: {to: to.path}})
-
         }
       );
       }

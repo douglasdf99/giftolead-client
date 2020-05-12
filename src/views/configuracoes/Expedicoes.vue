@@ -3,7 +3,9 @@
         <ul>
 
             <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome">
+
                 {{line.nome}}
+
             </router-link>
         </ul>
     </div>
@@ -14,19 +16,18 @@
         name: "Tickets",
         data() {
             return {
-
               lista: [
                 {
-                  nome: 'Cadastrar ou alterar Origens',
-                  routername: 'origens'
+                  nome: 'Cadastrar ou alterar contrato dos Correios',
+                  routername: 'contratos'
                 },
                 {
-                  nome: 'Cadastrar ou alterar Tipo de Dúvidas',
-                  routername: 'TipoDeDuvida'
+                  nome: 'Cadastrar ou alterar embalagens',
+                  routername: 'embalagens'
                 },
                 {
-                  nome: 'Cadastrar ou alterar Motivos de Perda',
-                  routername: 'motivoDePerda'
+                  nome: 'Alterar e-mail de rastreio do objeto',
+                  routername: ''
                 },
               ]
             }

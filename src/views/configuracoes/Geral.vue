@@ -33,10 +33,7 @@
                         nome: 'Cadastrar ou alterar brindes',
                         routername: 'brindes'
                     },
-                    {
-                        nome: 'Cadastrar ou alterar embalagens',
-                        routername: 'embalagens'
-                    }
+
                 ]
             }
         },
