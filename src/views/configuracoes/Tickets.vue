@@ -29,6 +29,10 @@
                         nome: 'Cadastrar ou alterar Motivos de Perda',
                         routername: 'motivoDePerda'
                     },
+                    {
+                        nome: 'Cadastrar ou alterar Status de Finalização',
+                        routername: 'statusDeFinalizacao'
+                    },
                 ]
             }
         },

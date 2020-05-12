@@ -1559,6 +1559,25 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/status-de-finalizacao',
+                    name: 'statusDeFinalizacao',
+                    component: () => import('@/views/statusFinalizacao/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Tickets', url: '/configuracoes/tickets'},
+                            {title: 'Status de Finalização', active: true},
+                        ],
+                        pageTitle: 'Status de Finalização',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/leads/listagem',
                     name: 'leads-list',
                     component: () => import('@/views/leads/Index.vue'),
