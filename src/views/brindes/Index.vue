@@ -116,16 +116,16 @@
                                     {{ data[indextr].produto.nome }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].peso">
-                                    {{ data[indextr].peso || tr.embalagem.peso }}
+                                    {{ tr.hasembalagem ? tr.embalagem.peso :  data[indextr].peso }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].largura">
-                                    {{ data[indextr].largura || tr.embalagem.largura }}
+                                    {{ tr.hasembalagem ? tr.embalagem.largura :  data[indextr].largura }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].altura">
-                                    {{ data[indextr].altura || tr.embalagem.altura }}
+                                    {{ tr.hasembalagem ? tr.embalagem.altura :  data[indextr].altura }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].comprimento">
-                                    {{ data[indextr].comprimento || tr.embalagem.comprimento }}
+                                    {{ tr.hasembalagem ? tr.embalagem.comprimento :  data[indextr].comprimento }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].ativo">
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
