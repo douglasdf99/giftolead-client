@@ -121,31 +121,42 @@
         </vs-alert>
       </div>
     </div>
-    <div class="col-12" v-if="item.servicos.length > 0">
-      <div class="card-box mb-0" v-for="servico in item.servicos">
-        <div class="row align-items-center">
-          <div class="col-sm-8">
-            <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark"><i
-              class="mdi mdi-email mr-1"></i>
-              {{servico.descricao}}</p>
+    <div class="col-12 mb-20" v-if="item.servicos.length > 0">
+      <div class="com-item">
+        <vs-table :data="item" class="table-items  mt-4">
 
+          <template slot="thead">
+            <vs-th>Descricao</vs-th>
+            <vs-th>Código do serviço</vs-th>
+            <vs-th>Padrão</vs-th>
+          </template>
 
-          </div>
-          <div class="col-sm-3">
-            <p class="mb-1 mt-2 mt-sm-0 text-dark"><i class="mdi mdi-email mr-1"></i>
-              {{servico.codigo}}</p>
-          </div>
-          <div class="col-sm-1">
-            <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark" v-if="item.config_padrao">
-              <a v-if="servico.codigo === item.config_padrao.servico"><i class="fe-star-on" ></i></a>
-              <a v-else class="" :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;"><i class="fe-star" ></i></a>
-            </p>
-            <a v-else class="" :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;"><i class="fe-star" ></i></a>
-          </div>
-        </div> <!-- end row -->
+          <template slot-scope="{}">
+            <vs-tr :key="servico.id" v-for="servico in item.servicos" class="mb-3">
+              <vs-td :data="servico.descricao">
+                <span class="destaque">{{servico.descricao }}</span>
+              </vs-td>
+              <vs-td :data="servico.codigo">
+                <span class="destaque">{{servico.codigo}}</span>
+              </vs-td>
+              <vs-td >
+                <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark" v-if="item.config_padrao">
+                  <a v-if="servico.codigo === item.config_padrao.servico" class="text-dark"><span class="material-icons">star</span></a>
+                  <a v-else  :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;" class="text-dark">
+                    <span class="material-icons">star_outline</span>
+                  </a>
+                </p>
+                <a v-else class="" :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;">
+                  <span class="material-icons">star_outline</span>
+                </a>
+              </vs-td>
+            </vs-tr>
+          </template>
+
+        </vs-table>
       </div>
     </div>
-    <div class="col-12" v-else>
+    <div class="col-12 mb-20" v-else>
       <div class="card-box mb-0">
         <div class="row align-items-center">
           <div class="col-sm-12">
@@ -155,6 +166,52 @@
         </div> <!-- end row -->
       </div>
     </div>
+    <div class="vx-row mb-6">
+      <div class="vx-col w-full mb-2">
+        <div class="vx-row mb-6">
+          <div class="vx-col w-full mb-2">
+            <h4 class="font-bold mb-8">Exceções</h4>
+            <span class="font-regular mb-2">Nome de Contrato</span>
+            <input class="vs-inputx vs-input--input large hasValue" size="large" v-validate="'required'"
+                   name="nome" v-model="item.nome" type="text"/>
+            <span class="text-danger text-sm"
+                  v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
+          </div>
+        </div>
+        <div class="vx-row mb-6">
+          <div class="vx-col sm:w-1/2 w-full mb-2">
+            <span class="font-regular mb-2">Cartão de postagem</span>
+            <vs-input class="w-full" v-validate="'required'" name="cartaoPostagem"
+                      v-model="item.cartaoPostagem" size="large"/>
+            <span class="text-danger text-sm" v-show="errors.has('cartaoPostagem')">{{ errors.first('cartaoPostagem') }}</span>
+          </div>
+          <div class="vx-col sm:w-1/2 w-full mb-2">
+            <span class="font-regular mb-2">Número do contrato</span>
+            <vs-input class="w-full" v-validate="'required'" name="contrato" v-model="item.contrato" size="large"/>
+            <span class="text-danger text-sm" v-show="errors.has('contrato')">{{ errors.first('contrato') }}</span>
+
+          </div>
+        </div>
+        <div class="vx-row mb-6">
+          <div class="vx-col sm:w-1/2 w-full mb-2">
+            <span class="font-regular mb-2">Usuário SIGEP WEB</span>
+            <vs-input class="w-full" v-validate="'required'" name="usuario" v-model="item.usuario" size="large"/>
+            <span class="text-danger text-sm" v-show="errors.has('usuario')">{{ errors.first('usuario') }}</span>
+          </div>
+          <div class="vx-col sm:w-1/2 w-full mb-2">
+            <span class="font-regular mb-2">Senha SIGEP WEB</span>
+            <vs-input class="w-full" v-validate="'required'" name="senha" v-model="item.senha" size="large"/>
+            <span class="text-danger text-sm" v-show="errors.has('senha')">{{ errors.first('senha') }}</span>
+          </div>
+        </div>
+        <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
+          <u class="py-2"><span class="font-14 text-primary font-bold ml-2 mr-2">Logar no sistema do correios </span></u>
+          <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync"></vs-button>
+        </div>
+      </div>
+      <vs-divider></vs-divider>
+    </div>
+
 
     <transition name="fade">
       <footer-doug v-if="edited">
@@ -284,8 +341,11 @@
       getContrato(id) {
         this.$vs.loading()
         this.$store.dispatch('contratos/getId', id).then(data => {
+
           this.item = {...data};
+          console.log(this.item)
           this.$vs.loading.close();
+
         })
       },
       updateEmpresa() {

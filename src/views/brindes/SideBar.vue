@@ -188,12 +188,10 @@
                 if (Object.entries(this.data).length === 0) {
                     this.initValues()
                     this.$validator.reset()
-                } else {
-                    this.brinde = JSON.parse(JSON.stringify(this.data));
-                    /*this.selected = this.brinde.integracao_id;
-                    this.embalagem = this.brinde.embalagem_id;*/
                 }
-                // Object.entries(this.data).length === 0 ? this.initValues() : { this.dataId, this.dataName, this.dataCategory, this.dataOrder_status, this.dataPrice } = JSON.parse(JSON.stringify(this.data))
+                else {
+                    this.brinde = JSON.parse(JSON.stringify(this.data));
+                }
             },
             brinde: {
                 handler(val) {
@@ -251,8 +249,11 @@
                     return this.isSidebarActive
                 },
                 set(val) {
+                  console.log('valor side', val);
                     if (!val) {
-                        this.$emit('closeSidebar')
+                      console.log('entou no emit side', val);
+
+                      this.$emit('closeSidebar')
                         // this.$validator.reset()
                         // this.initValues()
                     }

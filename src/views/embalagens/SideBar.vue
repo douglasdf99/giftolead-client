@@ -140,13 +140,13 @@
         },
         watch: {
             isSidebarActive(val) {
-                if (!val) return
+              if (!val) return
                 if (Object.entries(this.data).length === 0) {
                     this.initValues()
-                    this.$validator.reset()
+                    this.$validator.reset();
                 } else {
-                    console.log('entrou aqui', this.data);
                     this.embalagem = JSON.parse(JSON.stringify(this.data));
+
                     //this.selected.label = this.embalagem.integracao.descricao;
 
                 }
@@ -189,10 +189,11 @@
                 tipo_envelope: false,
                 tipo_cilindro: false,
                 selected: null,
-                opcoesTipoCaixa: [{id: '001', label: 'TIPO ENVELOPE'}, {
-                    id: '002',
-                    label: 'TIPO PACOTE CAIXA'
-                }, {id: '003', label: 'TIPO ROLO CILINDRO'}],
+                opcoesTipoCaixa: [
+                  {id: '001', label: 'TIPO ENVELOPE'},
+                  {id: '002', label: 'TIPO PACOTE CAIXA'},
+                  {id: '003', label: 'TIPO ROLO CILINDRO'}
+                  ],
                 imagem: ''
             }
         },
@@ -303,6 +304,12 @@
             } else {
                 console.log('entrou aqui', this.data);
                 this.embalagem = JSON.parse(JSON.stringify(this.data));
+              this.opcoesTipoCaixa.forEach(item=>{
+                if (item.id == this.data.tipo_de_caixa){
+                  this.embalagem.tipo_de_caixa = item;
+                }
+                console.log('item', item);
+              });
                 //this.selected = this.embalagem.integracao_id;
                 //this.selected = {id: this.embalagem.integracao_id, label: this.embalagem.integracao.descricao};
                 //this.selected.label = this.embalagem.integracao.descricao;
