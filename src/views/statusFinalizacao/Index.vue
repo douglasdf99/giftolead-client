@@ -157,7 +157,7 @@
                 this.addNewDataSidebar = val
             },
             getItems() {
-                this.$store.dispatch('getVarios', {rota: 'tipo_de_perdas', params: this.dados}).then(response => {
+                this.$store.dispatch('getVarios', {rota: 'status_de_finalizacaos', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
@@ -172,7 +172,7 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'tipo_de_perdas'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'status_de_finalizacaos'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
