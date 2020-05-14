@@ -326,12 +326,12 @@ export default {
     },
     getUser({commit}) {
         return new Promise((resolve, reject) => {
-          console.log('chamoou getUser');
+          console.log('chamoou getUser novo');
           const token = localStorage.getItem('accessToken');
           if (!token)
             return reject();
           //Getting user data
-            axios.get("/api/user").then(response => {
+            axios.get("/api/user").then((response) => {
               console.log('retonou getUser');
                 // Update user details
                 const usuario = {}
@@ -342,12 +342,15 @@ export default {
                 usuario.status = response.data.status ? "online" : "offline";
                 usuario.userRole = "admin";
                 usuario.autenticado = true;
-
                 commit('UPDATE_USER_INFO', usuario, {root: true});
                 resolve(response)
-            }).catch(erro => {
+            }).catch((error) => {
+              console.log('retonou erro getUser');
               localStorage.removeItem('userInfo');
-              reject(erro)
+              reject(error)
+            }).finally(()=>{
+              console.log('final getUser');
+
             });
         });
     },

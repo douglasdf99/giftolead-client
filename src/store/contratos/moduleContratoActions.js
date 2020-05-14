@@ -11,12 +11,12 @@
 import axios from "@/axios.js"
 
 export default {
-    updateProduto({commit}, dados) {
+    update({commit}, dados) {
         return new Promise((resolve, reject) => {
             dados._method = 'PUT';
-            axios.post(`/api/produtos/${dados.id}`, dados)
+            axios.post(`/api/correios/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('empresa alterada', response);
+                    console.log('contrato alterada', response);
                     commit('UPDATE_EMPRESA', response.data.data);
                     resolve(response)
                 })
@@ -25,11 +25,11 @@ export default {
                 })
         })
     },
-    storeProduto({commit}, dados) {
+    store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/produtos/`, dados)
+            axios.post(`/api/correios/`, dados.dados)
                 .then((response) => {
-                    console.log('produto criado', response);
+                    console.log('contrato criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
