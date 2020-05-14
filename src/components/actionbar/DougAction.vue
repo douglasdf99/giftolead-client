@@ -51,6 +51,7 @@ export default {
       background-color: #ffffff;
       text-align: center;
       border-top: 2px solid #e5e5e5;
+      z-index: 9999999;
     }
   }
   @media (max-width: 1199px){
