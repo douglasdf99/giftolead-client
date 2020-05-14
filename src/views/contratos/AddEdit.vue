@@ -376,7 +376,8 @@
       isDragging: false,
       error: 0,
       edited: false,
-      counterDanger: false
+      counterDanger: false,
+      salvando: false
     }),
 
     created() {
@@ -465,12 +466,13 @@
         })
       },
       updateEmpresa() {
+        this.salvando=true;
         this.$validator.validateAll().then(result => {
           if (result) {
             this.$vs.loading();
             const formData = new FormData();
             this.files.forEach(file => {
-              formData.append('logo', file, file.name);
+              formData.append('logotipo', file, file.name);
             });
             formData.append('_method', 'PUT');
             formData.append('nome', this.item.nome);
@@ -493,7 +495,6 @@
                 console.log('enviou')
                 this.$vs.loading.close();
                 this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
-
               })
               .catch(error => {
                 this.$vs.loading.close();
@@ -504,7 +505,9 @@
                   icon: 'icon-alert-circle',
                   color: 'danger'
                 })
-              })
+              }).finally(()=>{
+              this.salvando=false;
+            })
           } else {
             this.$vs.notify({
               title: 'Error',
@@ -515,7 +518,7 @@
             })
           }
         })
-
+        this.salvando = false;
       },
 
       //drag
@@ -549,7 +552,7 @@
           return;
         }
         this.files.push(file);
-        this.empresa.logo = file;
+        this.item.logotipo = file;
         const img = new Image(),
           reader = new FileReader();
         this.images.pop();
