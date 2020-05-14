@@ -21,8 +21,7 @@
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                <button type="submit"
-                                        style="border: none; background: transparent; cursor: pointer;">
+                                <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
                                 <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->

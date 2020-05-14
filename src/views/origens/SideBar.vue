@@ -21,6 +21,13 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
+                <div class="p-5">
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">
+                    {{origem.status ? 'Ativado' : 'Desativado'}}
+                </span>
+                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="origem.status" class="float-right switch"/>
+                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>
+                </div>
                 <vs-input size="large" v-validate="'required'" label="Nome da origem" autocomplete="off"
                           v-model="origem.nome" class="mt-5 w-full"
                           name="nome"/>

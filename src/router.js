@@ -54,6 +54,12 @@ const subleads = [
         slug: "leads-list",
         icon: 'people_outline'
     },
+    {
+        url: '/leads/transacoes',
+        name: "Transações",
+        slug: "transacoes",
+        icon: 'label'
+    },
 ];
 const router = new Router({
     mode: 'history',
@@ -1613,6 +1619,24 @@ const router = new Router({
                             {title: 'Listagem', active: true},
                         ],
                         pageTitle: 'Listagem de Leads',
+                        rule: 'editor',
+                        pai: 'leads',
+                        subTitle: 'Leads',
+                        //subIcon: 'settings',
+                        submenu: subleads
+                    },
+                },
+                {
+                    path: '/leads/transacoes',
+                    name: 'transacoes',
+                    component: () => import('@/views/transacoes/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Leads'},
+                            {title: 'Transações', active: true},
+                        ],
+                        pageTitle: 'Listagem de Transações',
                         rule: 'editor',
                         pai: 'leads',
                         subTitle: 'Leads',

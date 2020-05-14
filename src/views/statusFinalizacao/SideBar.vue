@@ -21,6 +21,13 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
+                <div class="p-5">
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">
+                    {{status.status ? 'Ativado' : 'Desativado'}}
+                </span>
+                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="status.status" class="float-right switch"/>
+                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do Status</span>
+                </div>
                 <vs-input size="large" v-validate="'required'" label="Nome do Status" autocomplete="off"
                           v-model="status.nome" class="mt-5 w-full" name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">Este campo é obrigatório</span>

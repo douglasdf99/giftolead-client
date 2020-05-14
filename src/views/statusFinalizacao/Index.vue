@@ -21,8 +21,7 @@
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                <button type="submit"
-                                        style="border: none; background: transparent; cursor: pointer;">
+                                <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
                                 <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
@@ -76,12 +75,13 @@
                               style="border-spacing: 0 8px;border-collapse: separate;">
 
                         <template slot="thead">
-                            <vs-th class="w-2/12"></vs-th>
-                            <vs-th class="w-7/12">Nome</vs-th>
+                            <vs-th></vs-th>
+                            <vs-th>Nome</vs-th>
+                            <vs-th>Tipo</vs-th>
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td class="flex justify-center items-center relative w-2/12">
+                                <vs-td class="flex justify-center items-center relative">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
@@ -102,8 +102,13 @@
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
-                                <vs-td :data="data[indextr].nome" class="relative w-7/12">
+                                <vs-td :data="data[indextr].nome" class="relative">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
+                                </vs-td>
+                                <vs-td :data="tr.tipo" class="relative">
+                                    <img src="@/assets/images/util/ganhou.svg" v-if="tr.tipo === 0">
+                                    <img src="@/assets/images/util/aguardando.svg" v-if="tr.tipo === 1">
+                                    <img src="@/assets/images/util/perdeu.svg" v-if="tr.tipo === 2">
                                 </vs-td>
                             </vs-tr>
                         </template>

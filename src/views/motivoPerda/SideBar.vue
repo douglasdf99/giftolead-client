@@ -21,6 +21,13 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
+                <div class="p-5">
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">
+                    {{motivo.status ? 'Ativado' : 'Desativado'}}
+                </span>
+                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="motivo.status" class="float-right switch"/>
+                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do motivo de perda</span>
+                </div>
                 <vs-input size="large" v-validate="'required'" label="Nome do motivo de perda" autocomplete="off"
                           v-model="motivo.nome" class="mt-5 w-full"
                           name="nome"/>

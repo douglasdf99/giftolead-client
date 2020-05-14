@@ -33,5 +33,16 @@ export default {
                     reject(error)
                 })
         })
+    },
+    getContratos() {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/correios`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
     }
 }
