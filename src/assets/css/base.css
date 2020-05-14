@@ -212,6 +212,7 @@ h4 {
 
 .btn-more-icon {
     color: black;
+    border: 1px solid #00000038 !important
 }
 
 .dropdown-menu-list {
@@ -224,10 +225,17 @@ h4 {
     cursor: pointer;
 }
 
-.vs-con-dropdown:hover .btn-more-icon {
+.btn-search-bar {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    margin-top: 3px;
+}
+
+/*.vs-con-dropdown:hover .btn-more-icon {
     transition-duration: .3s;
     box-shadow: 1px 3px 5px .5px #00000026
-}
+}*/
 
 .btn-more-icon i {
     font-size: 1.5rem;
@@ -292,10 +300,11 @@ h4 {
     z-index: 40000;
     -webkit-transform: translate(-20%);
     transform: translate(-20%);
-    -webkit-transition: opacity .25s, width .3s ease, -webkit-transform .25s;
+    /*-webkit-transition: opacity .25s, width .3s ease, -webkit-transform .25s;
     transition: opacity .25s, width .3s ease, -webkit-transform .25s;
     transition: opacity .25s, transform .25s, width .3s ease;
-    transition: opacity .25s, transform .25s, width .3s ease, -webkit-transform .25s;
+    transition: opacity .25s, transform .25s, width .3s ease, -webkit-transform .25s;*/
+    transition: unset !important;
 }
 
 .dropdown-menu-list .vs-dropdown--menu--after {
@@ -340,15 +349,15 @@ h4 {
     font-weight: 700;
 }
 
-.select-large-base  .vs__selected-options {
-  padding: 0.3rem 2rem;
-  font-family: "Poppins", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
+.select-large-base .vs__selected-options {
+    padding: 0.3rem 2rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
 }
 
-.select-large-base  ul li{
-  padding: 0.3rem 2rem;
+.select-large-base ul li {
+    padding: 0.3rem 2rem;
 }
 
 .label-bold-underline {
@@ -410,6 +419,12 @@ h4 {
 
 #search_input:focus {
     border-color: black !important;
+}
+
+.preco {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #434343;
 }
 
 @media (max-width: 450px) {

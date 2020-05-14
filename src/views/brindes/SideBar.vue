@@ -338,7 +338,7 @@
                 })
             },
             getContratos() {
-                this.$store.dispatch('getVarios', {rota: 'correios'}).then(response => {
+                this.$store.dispatch('brindes/getContratos').then(response => {
                     console.log('correios', response)
                     let arr = [...response];
                     arr.forEach(item => {
@@ -371,7 +371,6 @@
                 //this.initValues()
                 this.$validator.reset()
             } else {
-                console.log('entrou aqui', this.data);
                 this.brinde = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.brinde.integracao_id;
                 if (this.brinde.contrato.id)

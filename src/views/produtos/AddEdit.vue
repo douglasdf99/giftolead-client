@@ -33,7 +33,7 @@
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">Código ID do produto no Hotmart</span>
-                <vs-input class="w-full" type="number" v-validate="'required'" v-model="produto.cod_produto"
+                <vs-input class="w-full" type="text" @keypress="isNumber($event)" v-validate="'required'" v-model="produto.cod_produto"
                           size="large" name="codigo"/>
                 <span class="text-danger text-sm" v-show="errors.has('codigo')">{{ errors.first('codigo') }}</span>
 

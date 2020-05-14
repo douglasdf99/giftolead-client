@@ -1,15 +1,13 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
+            <!--<div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Conta
+                    Incluir Lead
                 </vs-button>
-                <!-- SEARCH INPUT -->
-            </div>
+                &lt;!&ndash; SEARCH INPUT &ndash;&gt;
+            </div>-->
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -32,13 +30,13 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+            <!--<div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Conta
+                    Incluir Lead
                 </vs-button>
-                <!-- SEARCH INPUT -->
-            </div>
+                &lt;!&ndash; SEARCH INPUT &ndash;&gt;
+            </div>-->
         </div>
         <vs-row>
             <vs-col vs-w="12">
@@ -64,25 +62,28 @@
                                            @click="addNewData">
                                     <vs-icon icon-pack="material-icons" icon="check_circle"
                                              class="icon-grande"></vs-icon>
-                                    Incluir Conta
+                                    Incluir Lead
                                 </vs-button>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
-                    <vs-table :data="items" class="table-items"
-                              style="border-spacing: 0 8px;border-collapse: separate;">
+                    <vs-table :data="items" class="table-items">
 
                         <template slot="thead">
-                            <vs-th></vs-th>
-                            <vs-th>Nome</vs-th>
-                            <vs-th>Token</vs-th>
-                            <vs-th>Integração</vs-th>
+                            <!--<vs-th></vs-th>-->
+                            <vs-th>Transação</vs-th>
+                            <vs-th>Produto</vs-th>
+                            <vs-th>Data e Hora</vs-th>
+                            <vs-th>Comissão do Hotmart</vs-th>
+                            <vs-th>Comissão Cadastrada</vs-th>
+                            <vs-th>Status</vs-th>
                         </template>
+
                         <template slot-scope="{data}">
-                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td class="flex justify-center items-center relative">
+                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
+                                <!--<vs-td class="flex justify-center items-center relative">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
@@ -102,18 +103,32 @@
 
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
+                                </vs-td>-->
+                                <vs-td :data="tr.transaction">
+                                    {{ tr.transaction }}
                                 </vs-td>
-                                <vs-td :data="data[indextr].nome" class="relative">
-                                    <span class="destaque">{{ data[indextr].nome }}</span>
+                                <vs-td>
+                                    <vs-chip :color="tr.produto.cor" class="product-order-status">
+                                        {{ tr.produto.nome}}
+                                    </vs-chip>
                                 </vs-td>
-                                <vs-td :data="data[indextr].token" class="relative">
-                                    {{ data[indextr].token }}
+                                <vs-td :data="tr.confirmation_purchase_date">
+                                    <span class="destaque">{{ tr.confirmation_purchase_date | formatDate}}</span>
                                 </vs-td>
-                                <vs-td :data="data[indextr].integracao.descricao" class="relative">
-                                    {{ data[indextr].integracao.descricao }}
+                                <vs-td>
+                                    <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
+                                </vs-td>
+                                <vs-td>
+                                    <span class="preco">R$ {{formatPrice(tr.produto.preco)}}</span>
+                                </vs-td>
+                                <vs-td>
+                                    <vs-chip v-for="(status, index) in hotmartStatus" v-if="index === tr.status" :color="status[1]" class="product-order-status">
+                                        {{ status[0]}}
+                                    </vs-chip>
                                 </vs-td>
                             </vs-tr>
                         </template>
+
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
@@ -123,18 +138,14 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleContas from '@/store/contas/moduleContas.js'
-
     export default {
         name: "Index",
-        components: {SideBar},
         data() {
             return {
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
-                routeTitle: 'Contas',
+                routeTitle: 'Leads',
                 dados: {
                     search: '',
                     page: 1
@@ -144,33 +155,42 @@
                     page: 1,
                     current_page: 1
                 },
-                currentx: 1
+                currentx: 1,
                 //items: {}
+                hotmartStatus: {
+                    started: ['Iniciado', '#3498db'],
+                    billet_printed: ['Boleto Impresso', '#848a91'],
+                    expired: ['Expirado', '#848a91'],
+                    pending_analysis: ['Pendente', '#848a91'],
+                    delayed: ['Atrasado', '#e74c3c'],
+                    canceled: ['Cancelado', '#e74c3c'],
+                    approved: ['Aprovado', '#2ecc71'],
+                    completed: ['Concluído', '#2ecc71'],
+                    chargeback: ['Chargeback', '#e74c3c'],
+                    blocked: ['Bloqueado', '#848a91'],
+                    refunded: ['Devolvido', '#e74c3c'],
+                    admin_free: ['Cadastrado', '#848a91'],
+                    dispute: ['Disputa', '#e74c3c']
+                },
             }
         },
         created() {
             this.$vs.loading()
-            if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contas', moduleContas)
-                moduleContas.isRegistered = true
-            }
 
-            this.getContas();
+            this.getTransacoes();
         },
         methods: {
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                //this.$router.push({name: 'produto-criar'});
             },
-            updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+            updateData(id) {
+                //this.$router.push({path: '/configuracoes/produtos/editar/' + id});
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getContas() {
-                this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
+            getTransacoes() {
+                this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
@@ -178,27 +198,31 @@
                     this.$vs.loading.close()
                 });
             },
+            formatPrice(value) {
+                let val = (value/1).toFixed(2).replace('.', ',')
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            },
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    text: 'Deseja deletar este Lead? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'transacaos'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getContas();
+                            this.getTransacoes();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
                             })
                         })
                     }
@@ -207,7 +231,8 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getContas();
+                this.dados.page = 1;
+                this.getTransacoes();
             }
         },
         watch: {
@@ -215,12 +240,11 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getContas();
+                this.getTransacoes();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-
         },
 
         computed: {
@@ -235,3 +259,8 @@
 
     }
 </script>
+<style scoped>
+    .con-vs-chip {
+        border-radius: 5px !important;
+    }
+</style>

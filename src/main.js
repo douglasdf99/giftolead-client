@@ -19,6 +19,7 @@ Vue.use(Vuesax)
 
 // axios
 import axios from "./axios.js"
+
 Vue.prototype.$http = axios
 
 // API Calls
@@ -40,6 +41,7 @@ import '@/firebase/firebaseConfig'
 
 // Auth0 Plugin
 import AuthPlugin from "./plugins/auth";
+
 Vue.use(AuthPlugin);
 
 
@@ -48,10 +50,12 @@ import acl from './acl/acl'
 
 //maks
 import VueTheMask from 'vue-the-mask'
+
 Vue.use(VueTheMask)
 
 // only as a filter
-import { VueMaskFilter } from 'v-mask'
+import {VueMaskFilter} from 'v-mask'
+
 Vue.filter('VMask', VueMaskFilter)
 
 import money from 'v-money'
@@ -59,6 +63,7 @@ import money from 'v-money'
 Vue.use(money, {precision: 4})
 
 import VueSimpleContextMenu from 'vue-simple-context-menu'
+
 Vue.component('vue-simple-context-menu', VueSimpleContextMenu)
 
 // Globally Registered Components
@@ -91,21 +96,25 @@ import './filters/filters'
 
 // Clipboard
 import VueClipboard from 'vue-clipboard2'
+
 Vue.use(VueClipboard);
 
 
 // Tour
 import VueTour from 'vue-tour'
+
 Vue.use(VueTour)
 require('vue-tour/dist/vue-tour.css')
 
 
 // VeeValidate
 import VeeValidate from 'vee-validate';
+
 Vue.use(VeeValidate);
 
 // Google Maps
 import * as VueGoogleMaps from 'vue2-google-maps'
+
 Vue.use(VueGoogleMaps, {
     load: {
         // Add your API key here
@@ -114,19 +123,29 @@ Vue.use(VueGoogleMaps, {
     },
 })
 Vue.mixin({
-  methods: {
-    url_redirect: function (local) {
-      return window.location.protocol + '//' + window.location.host + '/' + local;
-    },
-    url_api: function (local) {
-      return 'https://api.saveleads.com.br/' + local;
-      //return 'http://127.0.0.1:8000/' + local;
+    methods: {
+        url_redirect: function (local) {
+            return window.location.protocol + '//' + window.location.host + '/' + local;
+        },
+        url_api: function (local) {
+            return 'https://api.saveleads.com.br/' + local;
+            //return 'http://127.0.0.1:8000/' + local;
+        },
+        isNumber: function (evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+                evt.preventDefault();
+            } else {
+                return true;
+            }
+        }
     }
-  }
 });
 
 // Vuejs - Vue wrapper for hammerjs
-import { VueHammer } from 'vue2-hammer'
+import {VueHammer} from 'vue2-hammer'
+
 Vue.use(VueHammer)
 
 
@@ -134,6 +153,19 @@ Vue.use(VueHammer)
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
+import VueMoment from 'vue-moment'
+
+const moment = require('moment/moment');
+require('moment/locale/pt-br');
+Vue.use(VueMoment, {
+    moment
+});
+
+Vue.filter('formatDate', function (value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY')
+    }
+});
 
 // Feather font icon
 require('./assets/css/iconfont.css')

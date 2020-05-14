@@ -21,8 +21,7 @@
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                <button type="submit"
-                                        style="border: none; background: transparent; cursor: pointer;">
+                                <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
                                 <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
@@ -43,7 +42,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-              <div class="com-item" v-if="items.length > 0" >
+              <div class="com-item" v-show="items.length > 0">
                 <vs-table :data="items" class="table-items">
 
                   <template slot="thead">
@@ -112,8 +111,7 @@
                 </vs-table>
                 <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
               </div>
-
-              <div class="vx-row mt-20" v-else>
+              <div class="vx-row mt-20" v-show="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div v-if="dados.search === null">
@@ -158,7 +156,7 @@
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
-                routeTitle: 'Contas',
+                routeTitle: 'Brindes',
                 dados: {
                     search: null,
                     page: 1
@@ -210,7 +208,7 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'brindes'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
@@ -245,9 +243,7 @@
                 this.routeTitle = this.$route.meta.pageTitle
             },
         },
-
         computed: {
-
             items() {
                 return this.$store.state.items;
             },
