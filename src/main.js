@@ -145,7 +145,23 @@ require('./assets/css/iconfont.css')
 
 
 Vue.config.productionTip = false
-
+axios.interceptors.response.use((response) => { // intercept the global error
+  return response
+}, function (error) {
+  let originalRequest = error.config
+  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
+    console.log('entrou no errro 401' );
+    originalRequest._retry = true // now it can be retried
+    return
+  }
+  if (error.response.status === 404 && !originalRequest._retry) {
+    originalRequest._retry = true
+    window.location.href = '/'
+    return
+  }
+  // Do something with response error
+  return Promise.reject(error)
+})
 new Vue({
     router,
     store,

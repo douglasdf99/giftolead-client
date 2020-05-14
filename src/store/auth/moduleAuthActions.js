@@ -350,7 +350,6 @@ export default {
               reject(error)
             }).finally(()=>{
               console.log('final getUser');
-
             });
         });
     },

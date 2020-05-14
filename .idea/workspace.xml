@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="tentativa e erro brinde">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/actionbar/DougAction.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/actionbar/DougAction.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/auth/moduleAuthActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/auth/moduleAuthActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/contratos/moduleContratoActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/contratos/moduleContratoActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/router.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="1829" column="31" selection-start-line="1829" selection-start-column="27" selection-end-line="1829" selection-end-column="31" />
+            <state relative-caret-position="-37107">
+              <caret line="261" column="44" selection-start-line="261" selection-start-column="40" selection-end-line="261" selection-end-column="44" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#923#944#0" expanded="true" />
@@ -52,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/auth/moduleAuthActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="339" column="50" selection-start-line="339" selection-start-column="41" selection-end-line="339" selection-end-column="50" />
+            <state relative-caret-position="384">
+              <caret line="351" column="43" selection-start-line="351" selection-start-column="43" selection-end-line="351" selection-end-column="43" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#490#545#0" expanded="true" />
@@ -68,6 +66,19 @@
                 <element signature="e#7440#8361#0" />
                 <element signature="e#8401#9400#0" />
                 <element signature="e#9440#10356#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="249">
+              <caret line="154" column="11" selection-start-line="154" selection-start-column="11" selection-end-line="154" selection-end-column="11" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#476#497#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -123,7 +134,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>items</find>
       <find>servicos</find>
       <find>submenu</find>
       <find>tipo_cilindro</find>
@@ -142,7 +152,6 @@
       <find>this.data</find>
       <find>propo</find>
       <find>isSidebarActive</find>
-      <find>data</find>
       <find>addNewDataSidebar</find>
       <find>text-ou</find>
       <find>enum</find>
@@ -153,6 +162,8 @@
       <find>updateEmpresa</find>
       <find>contratos</find>
       <find>footerbar</find>
+      <find>axios</find>
+      <find>data</find>
     </findStrings>
     <replaceStrings>
       <replace>Brindes</replace>
@@ -197,7 +208,6 @@
         <option value="$PROJECT_DIR$/src/store/auth/moduleAuthMutations.js" />
         <option value="$PROJECT_DIR$/src/axios.js" />
         <option value="$PROJECT_DIR$/src/layouts/main/Base.vue" />
-        <option value="$PROJECT_DIR$/src/main.js" />
         <option value="$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue" />
         <option value="$PROJECT_DIR$/src/store/contratos/moduleContrato.js" />
         <option value="$PROJECT_DIR$/src/views/configuracoes/Geral.vue" />
@@ -216,6 +226,7 @@
         <option value="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" />
         <option value="$PROJECT_DIR$/src/components/actionbar/DougAction.vue" />
         <option value="$PROJECT_DIR$/src/store/auth/moduleAuthActions.js" />
+        <option value="$PROJECT_DIR$/src/main.js" />
       </list>
     </option>
   </component>
@@ -354,7 +365,7 @@
       <workItem from="1589284550657" duration="11336000" />
       <workItem from="1589302965280" duration="11976000" />
       <workItem from="1589372368582" duration="23535000" />
-      <workItem from="1589477750651" duration="1333000" />
+      <workItem from="1589477750651" duration="1995000" />
     </task>
     <task id="LOCAL-00001" summary="crud empresa com todas validações">
       <created>1587173367381</created>
@@ -601,14 +612,21 @@
       <option name="project" value="LOCAL" />
       <updated>1589376179834</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="tentativa e erro brinde">
+      <created>1589479285225</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1589479285225</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="293873000" />
+    <option name="totallyTimeSpent" value="294535000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -873,17 +891,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="118" column="82" selection-start-line="118" selection-start-column="13" selection-end-line="118" selection-end-column="82" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#476#497#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -1138,21 +1145,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/router.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="1829" column="31" selection-start-line="1829" selection-start-column="27" selection-end-line="1829" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#923#944#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/store/auth/moduleAuthActions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="339" column="50" selection-start-line="339" selection-start-column="41" selection-end-line="339" selection-end-column="50" />
+        <state relative-caret-position="384">
+          <caret line="351" column="43" selection-start-line="351" selection-start-column="43" selection-end-line="351" selection-end-column="43" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#490#545#0" expanded="true" />
@@ -1164,6 +1160,28 @@
             <element signature="e#7440#8361#0" />
             <element signature="e#8401#9400#0" />
             <element signature="e#9440#10356#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-37107">
+          <caret line="261" column="44" selection-start-line="261" selection-start-column="40" selection-end-line="261" selection-end-column="44" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#923#944#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="154" column="11" selection-start-line="154" selection-start-column="11" selection-end-line="154" selection-end-column="11" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#476#497#0" expanded="true" />
           </folding>
         </state>
       </provider>
