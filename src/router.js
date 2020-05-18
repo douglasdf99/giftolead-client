@@ -25,7 +25,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 import store from './store/store.js'
-import moduleAuth from './store/auth/moduleAuth'
+//import moduleAuth from './store/auth/moduleAuth'
+
 Vue.use(Router)
 const subconfiguracoes = [
     {
@@ -45,6 +46,12 @@ const subconfiguracoes = [
         name: "Expedições",
         slug: "configuracoes",
         icon: 'view_module'
+    },
+    {
+        url: '/configuracoes/usuarios',
+        name: "Usuários",
+        slug: "configuracoes",
+        icon: 'account_box'
     },
 ];
 const subleads = [
@@ -1381,6 +1388,23 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/usuarios',
+                    name: 'configuracoes-usuarios',
+                    component: () => import('@/views/configuracoes/Usuarios.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Usuários', active: true},
+                        ],
+                        pageTitle: 'Configurações de Usuários',
+                        rule: 'editor',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/expedicoes',
                     name: 'configuracoes-expedicoes',
                     component: () => import('@/views/configuracoes/Expedicoes.vue'),
@@ -1556,12 +1580,12 @@ const router = new Router({
                     name: 'TipoDeDuvida',
                     component: () => import('@/views/tipoDuvida/Index.vue'),
                     meta: {
-                      breadcrumb: [
-                        {title: 'Home', url: '/'},
-                        {title: 'Configurações'},
-                        {title: 'Tickets', url: '/configuracoes/tickets'},
-                        {title: 'Tipo de Dúvidas', active: true},
-                      ],
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Tickets', url: '/configuracoes/tickets'},
+                            {title: 'Tipo de Dúvidas', active: true},
+                        ],
                         pageTitle: 'Tipo de Dúvidas',
                         rule: 'editor',
                         pai: 'configuracoes',
@@ -1645,63 +1669,122 @@ const router = new Router({
                     },
                 },
                 {
-                  path: '/configuracoes/contratos',
-                  name: 'contratos',
-                  component: () => import('@/views/contratos/Index.vue'),
-                  meta: {
-                    breadcrumb: [
-                      {title: 'Home', url: '/'},
-                      {title: 'Configurações'},
-                      {title: 'Expedições', url: '/configuracoes/contratos'},
-                      {title: 'Contrato', active: true},
-                    ],
-                    pageTitle: 'Contrato',
-                    rule: 'editor',
-                    pai: 'configuracoes',
-                    subTitle: 'Configurações',
-                    subIcon: 'settings',
-                    submenu: subconfiguracoes
-                  },
+                    path: '/configuracoes/contratos',
+                    name: 'contratos',
+                    component: () => import('@/views/contratos/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Expedições', url: '/configuracoes/contratos'},
+                            {title: 'Contrato', active: true},
+                        ],
+                        pageTitle: 'Contrato',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
                 },
                 {
-                  path: '/configuracoes/contratos/criar',
-                  name: 'contratos-criar',
-                  component: () => import('@/views/contratos/AddEdit.vue'),
-                  meta: {
-                    breadcrumb: [
-                      {title: 'Home', url: '/'},
-                      {title: 'Configurações'},
-                      {title: 'Geral', url: '/configuracoes/geral'},
-                      {title: 'Produtos', url: '/configuracoes/produtos'},
-                      {title: 'Criar', active: true},
-                    ],
-                    pageTitle: 'Configurar novo Contrato',
-                    rule: 'editor',
-                    pai: 'configuracoes',
-                    subTitle: 'Configurações',
-                    subIcon: 'settings',
-                    submenu: subconfiguracoes
-                  },
+                    path: '/configuracoes/contratos/criar',
+                    name: 'contratos-criar',
+                    component: () => import('@/views/contratos/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Produtos', url: '/configuracoes/produtos'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurar novo Contrato',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
                 },
                 {
-                  path: '/configuracoes/contratos/editar/:id',
-                  name: 'contratos-editar',
-                  component: () => import('@/views/contratos/AddEdit.vue'),
-                  meta: {
-                    breadcrumb: [
-                      {title: 'Home', url: '/'},
-                      {title: 'Configurações'},
-                      {title: 'Geral', url: '/configuracoes/geral'},
-                      {title: 'Produtos', url: '/configuracoes/produtos'},
-                      {title: 'Criar', active: true},
-                    ],
-                    pageTitle: 'Configurar novo Contrato',
-                    rule: 'editor',
-                    pai: 'configuracoes',
-                    subTitle: 'Configurações',
-                    subIcon: 'settings',
-                    submenu: subconfiguracoes
-                  },
+                    path: '/configuracoes/contratos/editar/:id',
+                    name: 'contratos-editar',
+                    component: () => import('@/views/contratos/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Produtos', url: '/configuracoes/produtos'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurar novo Contrato',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/usuarios/list',
+                    name: 'usuarios',
+                    component: () => import('@/views/usuarios/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Usuários', active: true},
+                        ],
+                        pageTitle: 'Listagem de Usuários',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/usuarios/criar',
+                    name: 'usuario-criar',
+                    component: () => import('@/views/usuarios/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Usuários', url: '/configuracoes/usuarios'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurar novo usuário',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/usuarios/editar/:id',
+                    name: 'usuario-editar',
+                    component: () => import('@/views/usuarios/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Usuários', url: '/configuracoes/usuarios'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Editar usuário',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
                 },
             ]
         },
@@ -1842,21 +1925,21 @@ router.beforeEach((to, from, next) => {
 
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
-      if (to.matched.some(record => record.meta.authRequired)) {
-        console.log('auth', auth.isAuthenticated());
-        console.log('firebase', firebaseCurrentUser);
-        console.log('userinbfo', localStorage.getItem('userInfo'));
-        console.log('token', store.state.token);
-        store.dispatch('auth/getUser')
-          .then(() => {
-            console.log('logado')
-          }).catch( () =>{
-          console.log('deu erro')
-          router.push({path: '/login', query: {to: to.path}})
+        if (to.matched.some(record => record.meta.authRequired)) {
+            console.log('auth', auth.isAuthenticated());
+            console.log('firebase', firebaseCurrentUser);
+            console.log('userinbfo', localStorage.getItem('userInfo'));
+            console.log('token', store.state.token);
+            store.dispatch('auth/getUser')
+                .then(() => {
+                    console.log('logado')
+                }).catch(() => {
+                    console.log('deu erro')
+                    router.push({path: '/login', query: {to: to.path}})
+                }
+            );
         }
-      );
-      }
-      // If auth required, check login. If login fails redirect to login page
+        // If auth required, check login. If login fails redirect to login page
 
         return next()
         // Specify the current path as the customState parameter, meaning it

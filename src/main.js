@@ -131,6 +131,10 @@ Vue.mixin({
             return 'https://api.saveleads.com.br/' + local;
             //return 'http://127.0.0.1:8000/' + local;
         },
+        get_img_api: function (local) {
+            return 'https://api.saveleads.com.br' + local;
+            //return 'http://127.0.0.1:8000/' + local;
+        },
         isNumber: function (evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
