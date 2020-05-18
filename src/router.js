@@ -1633,6 +1633,65 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/mensagem-padrao',
+                    name: 'mensagemPadrao',
+                    component: () => import('@/views/mensagemPadrao/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Tickets', url: '/configuracoes/tickets'},
+                            {title: 'Mensagem Padrão', active: true},
+                        ],
+                        pageTitle: 'Mensagem Padrão',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/mensagem-padrao/criar',
+                    name: 'mensagem-padrao-criar',
+                    component: () => import('@/views/mensagemPadrao/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Mensagem Padrão', url: '/configuracoes/mensagem-padrao'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurar mensagem padrão',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/mensagem-padrao/editar/:id',
+                    name: 'mensagem-padrao-editar',
+                    component: () => import('@/views/mensagemPadrao/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Mensagem Padrão', url: '/configuracoes/mensagem-padrao'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Editar usuário',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/leads/listagem',
                     name: 'leads-list',
                     component: () => import('@/views/leads/Index.vue'),

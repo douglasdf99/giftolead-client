@@ -33,6 +33,10 @@
                         nome: 'Cadastrar ou alterar Status de Finalização',
                         routername: 'statusDeFinalizacao'
                     },
+                    {
+                        nome: 'Cadastrar ou alterar Mensagem Padrão',
+                        routername: 'mensagemPadrao'
+                    },
                 ]
             }
         },

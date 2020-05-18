@@ -100,6 +100,14 @@
 
         },
         methods: {
+            getOpcoes() {
+                this.$store.dispatch('contas/getOpcoes').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.opcoesIntegracao.push({id: item.id, label: item.descricao})
+                    });
+                })
+            },
             initValues() {
                 console.log('chamou init');
                 if (this.data.id) {
@@ -185,7 +193,6 @@
 
             }
             this.getOpcoes();
-
         }
     }
 </script>

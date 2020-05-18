@@ -427,6 +427,21 @@ h4 {
     color: #434343;
 }
 
+.variaveis-msg {
+    max-width: 400px;
+    text-align: left;
+    margin: 1rem auto;
+}
+
+.variavel {
+    padding: 1rem;
+    background: white;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin: 1rem 0 !important;
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);
