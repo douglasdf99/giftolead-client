@@ -74,8 +74,9 @@
 
                         <template slot="thead">
                             <vs-th></vs-th>
-                            <vs-th>Tipo</vs-th>
                             <vs-th>Título</vs-th>
+                            <vs-th>Tipo</vs-th>
+                            <vs-th></vs-th>
                             <!--<vs-th>Mensagem</vs-th>-->
                         </template>
                         <template slot-scope="{data}">
@@ -100,15 +101,21 @@
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
-                                <vs-td :data="tr.tipo" class="relative">
-                                    <span class="destaque">{{ tr.tipo }}</span>
-                                </vs-td>
                                 <vs-td :data="tr.titulo" class="relative">
                                     <span class="destaque">{{ tr.titulo }}</span>
                                 </vs-td>
-                                <!--<vs-td :data="tr.mensagem" class="relative">
-                                    <span class="destaque">{{ tr.mensagem }}</span>
-                                </vs-td>-->
+                                <vs-td :data="tr.tipo" class="relative">
+                                    <!--<span class="destaque">{{ tr.tipo }}</span>-->
+                                    <i v-if="tr.tipo === 'whatsapp'" class="fab fa-2x fa-whatsapp" style="color: green"></i>
+                                    <i v-else class="far fa-2x fa-envelope"></i>
+                                </vs-td>
+                                <vs-td :data="data[indextr].status">
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-success"
+                                             v-if="data[indextr].status"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                             v-else></vs-icon>
+                                </vs-td>
                             </vs-tr>
                         </template>
                     </vs-table>

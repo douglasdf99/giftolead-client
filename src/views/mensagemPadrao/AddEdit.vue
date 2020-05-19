@@ -1,5 +1,13 @@
 <template>
     <div>
+        <div class="vx-row mb-4">
+            <div class="vx-col lg:w-full w-full">
+            <span class="float-right mt-1 mx-4"
+                  style="font-weight: bold">{{mensagem.status ? 'Ativado' : 'Desativado'}}</span>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="mensagem.status" class="float-right switch"/>
+                <span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>
+            </div>
+        </div>
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-8/12 lg:w-8/12">
                 <div class="vx-row mb-3">
@@ -32,7 +40,7 @@
                     </div>
                     <div class="vx-col w-full" v-else>
                         <span class="font-regular mb-2">Mensagem</span>
-                        <quill-editor v-model="mensagem.mensagem" class="bg-white"></quill-editor>
+                        <quill-editor v-model="mensagem.mensagem_email" class="bg-white"></quill-editor>
                     </div>
                 </div>
             </div>
@@ -42,6 +50,9 @@
                     <ul class="variaveis-msg">
                         <li class="variavel">
                             <span>Nome do Cliente</span>
+                        </li>
+                        <li class="variavel">
+                            <span>Nome do Usuário/Atendente</span>
                         </li>
                         <li class="variavel">
                             <span>Nome do Brinde</span>
@@ -78,7 +89,7 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleUsuario from '@/store/usuarios/moduleUsuario.js'
+    import moduleMensagem from '@/store/mensagemPadrao/moduleMensagem.js'
     import {Validator} from 'vee-validate';
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
@@ -109,15 +120,15 @@
             quillEditor
         },
         created() {
-            if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuarios', moduleUsuario)
-                moduleUsuario.isRegistered = true
+            if (!moduleMensagem.isRegistered) {
+                this.$store.registerModule('mensagem', moduleMensagem)
+                moduleMensagem.isRegistered = true
             }
             this.getOpcoes();
 
-            if (this.$route.name === 'usuario-editar') {
+            if (this.$route.name === 'mensagem-padrao-editar') {
                 this.funcaoSelected = {id: null, label: ''};
-                this.getUsuario(this.$route.params.id);
+                this.getMensagem(this.$route.params.id);
             }
         },
         data() {
@@ -128,6 +139,8 @@
                     titulo: '',
                     assunto: '',
                     mensagem: '',
+                    mensagem_email: '',
+                    status: true
                 },
                 selectTipo: {id: 'whatsapp', label: 'WhatsApp'},
                 tipos: [{id: 'whatsapp', label: 'WhatsApp'}, {id: 'email', label: 'E-mail'}]
@@ -138,24 +151,23 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading();
-                        //this.usuario.role_id = this.funcaoSelected.id;
                         const formData = new FormData();
-                        this.files.forEach(file => {
-                            formData.append('avatar', file, file.name);
-                        });
-                        formData.append('name', this.usuario.name);
-                        formData.append('email', this.usuario.email);
-                        formData.append('role_id', 1);
-                        formData.append('status', (this.usuario.status ? 1 : 0));
+                        formData.append('tipo', this.mensagem.tipo);
+                        formData.append('titulo', this.mensagem.titulo);
+                        if(this.mensagem.assunto)
+                            formData.append('assunto', this.mensagem.assunto);
+                        if(this.mensagem.tipo === 'whatsapp')
+                            formData.append('mensagem', this.mensagem.mensagem);
+                        else
+                            formData.append('mensagem', this.mensagem.mensagem_email);
 
-                        if (this.usuario.password)
-                            formData.append('password', this.usuario.password);
+                        formData.append('status', (this.mensagem.status ? 1 : 0));
 
-                        if (this.usuario.id !== undefined) {
+                        if (this.mensagem.id !== undefined) {
                             formData.append('_method', 'PUT');
-                            this.$store.dispatch('usuarios/update', {
+                            this.$store.dispatch('mensagem/update', {
                                 dados: formData,
-                                id: this.usuario.id
+                                id: this.mensagem.id
                             }).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
@@ -165,7 +177,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({name: 'usuarios'});
+                                this.$router.push({name: 'mensagem-padrao'});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -185,7 +197,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({name: 'usuarios'});
+                                this.$router.push({name: 'mensagem-padrao'});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -208,12 +220,6 @@
                 })
 
             },
-            enableValidate() {
-                if (this.$route.name === 'usuario-editar')
-                    return ''
-                else
-                    return 'required'
-            },
             getOpcoes() {
                 this.opcoesFuncoes = [];
                 /*this.$store.dispatch('contas/get').then(response => {
@@ -223,12 +229,13 @@
                     });
                 })*/
             },
-            getUsuario(id) {
+            getMensagem(id) {
                 this.$vs.loading()
-                this.$store.dispatch('usuarios/getId', id).then(data => {
-                    this.usuario = {...data};
-                    this.usuario.password = ''
-                    this.usuario.password_confirmed = ''
+                this.$store.dispatch('mensagem/getId', id).then(data => {
+                    this.mensagem = {...data};
+                    if(this.mensagem.tipo === 'email')
+                        this.mensagem.mensagem_email = this.mensagem.mensagem;
+                    this.selectTipo = {id: this.mensagem.tipo, label: this.mensagem.tipo}
                     this.$vs.loading.close();
 
                 })
