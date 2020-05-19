@@ -189,12 +189,12 @@ axios.interceptors.response.use((response) => { // intercept the global error
     console.log('entrou no errro 401' );
     originalRequest._retry = true // now it can be retried
     return
-  }
+  }/*
   if (error.response.status === 404 && !originalRequest._retry) {
     originalRequest._retry = true
     window.location.href = '/'
     return
-  }
+  }*/
   // Do something with response error
   return Promise.reject(error)
 })

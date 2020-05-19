@@ -41,7 +41,7 @@
         </div>
         <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
           <u class="py-2"><span class="font-14 text-primary font-bold ml-2 mr-2">Logar no sistema do correios </span></u>
-          <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync"></vs-button>
+          <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync" @click="correiosLogar"></vs-button>
         </div>
       </div>
       <div class="vx-col sm:w-1/3 w-full mb-2">
@@ -106,119 +106,124 @@
       </div>
       <vs-divider></vs-divider>
     </div>
-
-    <h4 class="font-bold mb-8">Configurações das formas de frete</h4>
-
-    <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
-      <u class="py-2"><span class="font-14 text-black font-bold ml-2 mr-2">Buscar formas de frete deste contrato </span></u>
-      <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync"></vs-button>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <vs-alert :active="true" color="danger" icon-pack="feather" icon="icon-info">
-          <span>Atenção, é nescessário selecionar o serviço padrão do Contrato</span>
-        </vs-alert>
+    <div class="" v-if="item.id">
+      <h4 class="font-bold mb-8">Configurações das formas de frete</h4>
+      <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
+        <u class="py-2"><span class="font-14 text-black font-bold ml-2 mr-2">Buscar formas de frete deste contrato </span></u>
+        <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync" @click="correiosservicos"></vs-button>
       </div>
-    </div>
-    <div class="col-12 mb-20" v-if="item.servicos.length > 0">
-      <div class="com-item">
-        <vs-table :data="item" class="table-items  mt-4" style="z-index: 2">
+      <div class="row">
+        <div class="col-12">
+          <vs-alert :active="!item.config_padrao" color="danger" icon-pack="feather" icon="icon-info">
+            <span>Atenção, é nescessário selecionar o serviço padrão do Contrato</span>
+          </vs-alert>
+        </div>
+      </div>
+      <div id="div-servicos" class="col-12 mb-20 vs-con-loading__container"  v-if="item.servicos && item.servicos.length > 0">
+        <div class="com-item">
+          <vs-table :data="item" class="table-items  mt-4" style="z-index: 2">
 
-          <template slot="thead">
-            <vs-th>Descricao</vs-th>
-            <vs-th>Código do serviço</vs-th>
-            <vs-th>Padrão</vs-th>
-          </template>
+            <template slot="thead">
+              <vs-th>Descricao</vs-th>
+              <vs-th>Código do serviço</vs-th>
+              <vs-th>Padrão</vs-th>
+            </template>
 
-          <template slot-scope="{}">
-            <vs-tr :key="servico.id" v-for="servico in item.servicos" class="mb-3">
-              <vs-td :data="servico.descricao">
-                <span class="destaque">{{servico.descricao }}</span>
-              </vs-td>
-              <vs-td :data="servico.codigo">
-                <span class="destaque">{{servico.codigo}}</span>
-              </vs-td>
-              <vs-td >
-                <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark" v-if="item.config_padrao">
-                  <a v-if="servico.codigo === item.config_padrao.servico" class="text-dark"><span class="material-icons">star</span></a>
-                  <a v-else  :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;" class="text-dark">
+            <template slot-scope="{}">
+              <vs-tr :key="servico.id" v-for="servico in item.servicos" class="mb-3">
+                <vs-td :data="servico.descricao">
+                  <span class="destaque">{{servico.descricao }}</span>
+                </vs-td>
+                <vs-td :data="servico.codigo">
+                  <span class="destaque">{{servico.codigo}}</span>
+                </vs-td>
+                <vs-td >
+                  <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark" v-if="item.config_padrao">
+                    <a v-if="servico.codigo === item.config_padrao.servico" class="text-dark"><span class="material-icons">star</span></a>
+                    <a v-else  :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;" class="text-dark">
+                      <span class="material-icons">star_outline</span>
+                    </a>
+                  </p>
+                  <a v-else class="" :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;">
                     <span class="material-icons">star_outline</span>
                   </a>
-                </p>
-                <a v-else class="" :class="{'disabled' : salvando}"  @click="setPadrao(servico)" style="cursor: pointer;">
-                  <span class="material-icons">star_outline</span>
-                </a>
-              </vs-td>
-            </vs-tr>
-          </template>
+                </vs-td>
+              </vs-tr>
+            </template>
 
-        </vs-table>
+          </vs-table>
+        </div>
       </div>
-    </div>
-    <div class="col-12 mb-20" v-else>
-      <div class="card-box mb-0">
-        <div class="row align-items-center">
-          <div class="col-sm-12">
-            <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-center text-dark">
-              Nenhum serviço encontrado</p>
+      <div class="col-12 mb-20" v-else>
+        <div class="card-box mb-0">
+          <div class="row align-items-center">
+            <div class="col-sm-12">
+              <p class="mb-1 mt-2 mt-sm-0 font-bold text-center text-dark">
+                Nenhum serviço encontrado</p>
+            </div>
+          </div> <!-- end row -->
+        </div>
+      </div>
+
+      <div id="div-excecao" class="vs-con-loading__container">
+        <h4 class="font-bold mb-2">Exceções</h4>
+        <h6 class="font-regular mb-8">Voocê pode criar regras alternativas de serviço postal para entregas diferenciadas</h6>
+        <vx-card :key="config.id"  class="mb-10" v-for="(config, index) in item.configs">
+          <span class="btn btn-dark btn-rounded font-13 text-white font-weight-bold text-ou" v-if="index > 0"><vs-button size="small" color="dark">OU</vs-button></span>
+          <div class="vx-row">
+            <div class="vx-col sm:w-1/12 w-full mb-2">
+              <vs-dropdown vs-trigger-click>
+                <vs-button radius color="#EDEDED" type="filled"
+                           class="btn-more-icon relative botao-menu"
+                           icon-pack="material-icons" icon="more_horiz"
+                ></vs-button>
+                <vs-dropdown-menu class="dropdown-menu-list">
+                  <vs-dropdown-item  @click="showEditarExcecao(config)">
+                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                    Editar
+                  </vs-dropdown-item>
+
+                  <vs-dropdown-item @click="showRemoverExcecao(config.id)">
+                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                    Deletar
+                  </vs-dropdown-item>
+
+                </vs-dropdown-menu>
+              </vs-dropdown>
+            </div>
+            <div class="vx-col sm:w-1/12 w-full mb-2">
+              <span class="rounded-full bg-primary py-2 px-2 text-enum text-white font-bold">{{index + 1}}</span>
+            </div>
+            <div class="vx-col sm:w-4/12 w-full mb-2">
+              <p class="mb-0 text-base font-bold">Tipo</p>
+              {{selectedtipo(config.tipo)}}
+            </div>
+            <div class="vx-col sm:w-3/12 w-full mb-2" v-if="config.tipo == 'estado'">
+              <p class="mb-0 text-base font-bold">Variável</p>
+              {{config.variavel}}
+            </div>
+            <div class="vx-col sm:w-3/12 w-full mb-2" v-else>
+              <p class="mb-0 text-base font-bold">Variável</p>
+              {{selectedBrinde(config.variavel)}}
+            </div>
+            <div class="vx-col sm:w-3/12 w-full mb-2">
+              <p class="mb-0 text-base font-bold">Serviço Aplicado</p>
+              <span class="font-15 font-weight-bold">{{servicoconfig(config.servico)}}</span>
+            </div>
           </div>
-        </div> <!-- end row -->
-      </div>
-    </div>
+          <!-- end row -->
+        </vx-card>
 
-    <h4 class="font-bold mb-2">Exceções</h4>
-    <h6 class="font-regular mb-8">Voocê pode criar regras alternativas de serviço postal para entregas diferenciadas</h6>
-    <vx-card :key="config.id" v-for="(config, index) in item.configs">
-      <span class="btn btn-dark btn-rounded font-13 text-white font-weight-bold text-ou" v-if="index > 0"><vs-button size="small" color="dark">OU</vs-button></span>
-      <div class="vx-row">
-        <div class="vx-col sm:w-1/12 w-full mb-2">
-          <vs-dropdown vs-trigger-click>
-            <vs-button radius color="#EDEDED" type="filled"
-                       class="btn-more-icon relative botao-menu"
-                       icon-pack="material-icons" icon="more_horiz"
-            ></vs-button>
-            <vs-dropdown-menu class="dropdown-menu-list">
-              <vs-dropdown-item @click="updateData(config.id)">
-                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                Editar
-              </vs-dropdown-item>
-
-              <vs-dropdown-item @click="deletar(config.id)">
-                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                Deletar
-              </vs-dropdown-item>
-
-            </vs-dropdown-menu>
-          </vs-dropdown>
+        <div class="vx-row justify-center align-center mt-10">
+          <vs-button color="primary" type="filled" icon-pack="material-icons" icon="control_point" class="font-bold"  @click="showAdicionarExcecao" >Adicionar Exceção</vs-button>
         </div>
-        <div class="vx-col sm:w-1/12 w-full mb-2">
-          <span class="rounded-full bg-primary py-2 px-2 text-enum text-white font-bold">{{index + 1}}</span>
-        </div>
-        <div class="vx-col sm:w-4/12 w-full mb-2">
-          <p class="mb-0 text-base font-bold">Tipo</p>
-          {{selectedtipo(config.tipo)}}
-        </div>
-        <div class="vx-col sm:w-3/12 w-full mb-2">
-        <p class="mb-0 text-base font-bold">Variável</p>
-          {{config.variavel}}
-        </div>
-        <div class="vx-col sm:w-3/12 w-full mb-2">
-        <p class="mb-0 text-base font-bold">Serviço Aplicado</p>
-          <span class="font-15 font-weight-bold">{{config.servico}}</span>
+        <div class="mt-20">
+          <vs-divider></vs-divider>
+          <h4 class="font-bold mt-8 mb-8">Configurações de remetente do contrato</h4>
         </div>
       </div>
-      <!-- end row -->
-    </vx-card>
-
-    <div class="vx-row justify-center align-center mt-10">
-      <vs-button color="primary" type="filled" icon-pack="material-icons" icon="control_point" class="font-bold">Adicionar Exceção</vs-button>
-
     </div>
 
-    <div class="mt-20">
-      <vs-divider></vs-divider>
-      <h4 class="font-bold mt-8 mb-8">Configurações de remetente do contrato</h4>
-    </div>
 
     <div class="vx-row mb-6">
       <div class="vx-col w-full mb-2">
@@ -277,29 +282,58 @@
       </div>
     </div>
 
-
     <transition name="fade">
       <footer-doug >
         <div class="vx-col sm:w-11/12 mb-2">
           <div class="container">
             <div class="vx-row mb-2 relative">
-              <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
+              <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa" v-if="item.id">Salvar</vs-button>
+              <vs-button class="mr-3" color="primary" type="filled" @click="salvarEmpresa" v-else>Salvar</vs-button>
               <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"  @click="$router.push({name: 'contratos'})">Cancelar</vs-button>
             </div>
           </div>
         </div>
       </footer-doug>
     </transition>
+    <vs-prompt
+      @cancel="clearValMultiple"
+      @accept="sendexcecao"
+      @close="close"
+      :title="'Adicionar exceção'"
+      :max-width="'600px'"
+      :active.sync="modalexcecao">
+      <div class="con-exemple-prompt">
+        Entre com os dados da configuração...
+        <div class="">
+          <span class="font-regular mb-2">Tipo</span>
+          <v-select v-model="val.tipo" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                    :options="opcoesTipo" v-validate="'required'" name="tipo"/>
+        </div>
+        <div class="">
+          <span class="font-regular mb-2">Variavel</span>
+          <v-select v-model="val.variavel" class="mt-4 mb-2" label="text" v-if="val.tipo.id == 'estado'" :class="'select-large-base'" :clearable="false"
+                    :options="estados"  v-validate="'required'" name="variavel"/>
+          <v-select v-model="val.variavel" class="mt-4 mb-2" v-else :class="'select-large-base'" :clearable="false"
+                    :options="optionBrindes"  v-validate="'required'" name="variavel"/>
+        </div>
+        <div class="">
+          <span class="font-regular mb-2">Serviço</span>
+          <v-select v-model="val.servico"  class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                    :options="optionServicos" v-validate="'required'" name="variavel"/>
+        </div>
+      </div>
+    </vs-prompt>
   </div>
 
 </template>
 
 <script>
-  import moduleContrato from '@/store/contratos/moduleContrato.js'
+  import moduleContrato from '@/store/contratos/moduleContrato.js';
+  import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+
   // register custom messages
   import {Validator} from 'vee-validate';
   import vSelect from 'vue-select'
-
 
   const dict = {
     custom: {
@@ -332,12 +366,19 @@
     data: () => ({
       name: "DadosEmpresa",
       item: {
-        razao: '',
-        cnpj: '',
-        email: '',
-        site: '',
-        descricao: '',
-        rodape: '',
+        nome: '',
+        cartaoPostagem: '',
+        contrato: '',
+        usuario: '',
+        senha: '',
+        remetenteNome: '',
+        remetenteCep: '',
+        remetenteCidade: '',
+        remetenteEndereco: '',
+        remetenteBairro: '',
+        remetenteEstado: '',
+        remetenteNumero: '',
+        remetenteComplemento: '',
       },
       estados: [
         { value: '', text: "Selecione um estado" },
@@ -369,18 +410,39 @@
         { value: "SE", text: "Sergipe" },
         { value: "TO", text: "Tocantins" }
       ],
+      opcoesTipo: [
+        { id: 'estado', label: "Quando o estado for"},
+        { id: "brinde", label: "Quando o brinde for" },
+      ],
+      opcoesServico: [
+        { id: '', label: "Selecione um estado" },
+        { id: "AC", label: "Acre" },
+        { id: "AL", label: "Alagoas" },
+      ],
+      opcoesVariavel: [
+      ],
       brindes: {},
       empresaOld: {},
       files: [],
       images: [],
       isDragging: false,
       error: 0,
+      configExclud: null,
       edited: false,
       counterDanger: false,
-      salvando: false
+      salvando: false,
+      modalexcecao: false,
+      val:{
+        tipo:'',
+        variavel:'',
+        servico:'',
+      },
     }),
-
     created() {
+      if (!moduleBrindes.isRegistered) {
+        this.$store.registerModule('brindes', moduleBrindes);
+        moduleBrindes.isRegistered = true;
+      }
       this.getBrindes();
       if (!moduleContrato.isRegistered) {
         this.$store.registerModule('contratos', moduleContrato)
@@ -389,15 +451,28 @@
       if (this.$route.name === 'contratos-editar') {
         this.getContrato(this.$route.params.id);
       }
-      else {
-
-      }
     },
-
     computed: {
-
       empresaDb() {
         return this.$store.state.empresa.empresa;
+      },
+      optionBrindes(){
+        let option =[];
+        if (this.brindes && this.brindes.length > 0){
+          this.brindes.forEach(item=> {
+            option.push({id: item.id, label: item.nome});
+          })
+        }
+        return option;
+      },
+      optionServicos(){
+        let option =[];
+        if (this.item.servicos && this.item.servicos.length > 0){
+          this.item.servicos.forEach(item=> {
+            option.push({id: item.codigo, label: item.descricao});
+          })
+        }
+        return option;
       }
     },
     mounted() {
@@ -425,17 +500,119 @@
     },
     methods: {
       getBrindes(){
+        this.$store.dispatch('getVarios', {rota: 'brindes'}).then(response => {
+          console.log('retornado com sucesso', response)
+          this.brindes = response;
+          console.log('brindes',this.brindes);
+          //this.dados.page = this.pagination.current_page
+        });
+      },
+      acceptAlert(){
 
+        this.$vs.notify({
+          color:'success',
+          title:'Accept Selected',
+          text:'Lorem ipsum dolor sit amet, consectetur'
+        })
+      },
+      close(){
+        this.$vs.notify({
+          color:'danger',
+          title:'Closed',
+          text:'You close a dialog!'
+        })
+      },
+      clearValMultiple() {
+        this.val.tipo = "";
+        this.val.variavel = "";
+        this.val.servico = "";
+      },
+      initVal(){
+        this.val.id = '';
+        this.val.tipo = '';
+        this.val.variavel = '';
+        this.val.servico = '';
+      },
+      showAdicionarExcecao() {
+        this.initVal();
+        //this.itemedit = JSON.parse(JSON.stringify(this.item));
+        this.modalexcecao = true;
+      },
+      showRemoverExcecao(item) {
+        this.configExclud = item;
+          this.$vs.dialog({
+            type: 'confirm',
+            color: 'danger',
+            title: `Deletar exceção`,
+            text: 'Você realmente gostaria de deletar essa exceção desse contrato?',
+            acceptText	: 'Deletar',
+            cancelText	: 'Caneclar',
+            accept: this.deleteExcexao,
+          })
+      },
+      showEditarExcecao(item) {
+        console.log('servico',item);
+        this.val.id = item.id;
+        let val = JSON.parse(JSON.stringify(item));
+        let nome = this.selectedtipo(val.tipo);
+        let estado = this.selectedEstado(val.variavel);
+        let brinde = this.selectedBrinde(val.variavel);
+        console.log('capiturado', estado);
+        this.val.tipo = {id: val.tipo, label: nome};
+        if (val.tipo == 'estado'){
+          this.val.variavel = {value: val.variavel, text: estado};
+        }
+        else{
+          this.val.variavel = {id: val.variavel, label: brinde};
+        }
+        this.val.servico = {id: val.servico, label: this.servicoconfig( val.servico)};
+        this.modalexcecao = true;
+      },
+      servicoconfig(servico){
+        let serv =false;
+        this.item.servicos.forEach(item =>{
+          if (item.codigo == servico) {
+            console.log(item.descricao);
+            serv= item.descricao;
+          }
+        });
+        if (serv) {
+          return serv;
+        }
+        else{
+          return 'Serviço não encontrado'
+        }
       },
       selectedtipo(config) {
+        let retorno = '';
         if (config == 'estado') {
-          return 'Quando o estado for';
-
+          retorno = 'Quando o estado for';
         }
         if (config == 'brinde'){
-          return 'Quando o brinde for';
-
+          retorno = 'Quando o brinde for';
         }
+        return retorno;
+      },
+      selectedEstado(estado) {
+        let item2 = '';
+        this.estados.forEach(item => {
+         if (item.value == estado){
+           console.log('retorno', item.text)
+           item2 = item.text;
+          }
+        });
+        return item2;
+      },
+      selectedBrinde(brinde) {
+        let item2 = '';
+        this.brindes.forEach(item => {
+          console.log('retorno brinde', item)
+          if (item.id == brinde){
+           console.log('retorno', item.nome)
+           item2 = item.nome;
+          }
+        });
+        return item2;
       },
       successUpload(event) {
         console.log('evento sucesso', event);
@@ -446,24 +623,182 @@
         console.log('evento error', event);
         this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
       },
-      verifica() {/*
-        if (JSON.stringify(this.empresaOld) === JSON.stringify(this.empresa)) {
-          this.edited = false;
-        } else {
-          this.edited = true;
-        }*/
+      verifica() {
         console.log('funcao de verificacao')
-
       },
       getContrato(id) {
         this.$vs.loading()
         this.$store.dispatch('contratos/getId', id).then(data => {
-
           this.item = {...data};
           console.log(this.item)
           this.$vs.loading.close();
-
         })
+      },
+      correiosLogar() {
+        this.$vs.loading();
+        console.log('chama etiquetas');
+        this.$store.dispatch('contratos/logar', this.item)
+          .then(() => {
+            console.log('login contrato')
+            this.$vs.loading.close();
+            this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Login realizado com sucesso'})
+          })
+          .catch(() => {
+            this.$vs.loading.close();
+            this.$vs.notify({
+              title: 'Falha',
+              text: 'Não foi possível realizar o login com os dados acima.',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }).finally(()=>{
+          this.salvando=false;
+        });
+      },
+      openLoadingInDiv(){
+        this.$vs.loading({
+          container: '#div-with-loading',
+          scale: 0.6
+        })
+      },
+      correiosservicos() {
+        this.$vs.loading({
+          container: '#div-servicos',
+          scale: 0.6
+        });
+        this.$store.dispatch('contratos/servicos', this.item)
+          .then(() => {
+            console.log('login contrato')
+            this.$vs.loading.close('#div-servicos > .con-vs-loading');
+            this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
+          })
+          .catch(error => {
+            this.$vs.loading.close('#div-servicos > .con-vs-loading');
+            this.$vs.notify({
+              title: 'Error',
+              text: error.message,
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }).finally(()=>{
+          this.salvando=false;
+        });
+      },
+      sendexcecao() {
+        this.$vs.loading({
+          container: '#div-excecao',
+          scale: 0.6
+        });
+        let obj = {};
+        obj.tipo = this.val.tipo.id;
+        if (this.val.tipo.id == 'estado') {
+          obj.variavel = this.val.variavel.value;
+        }else{
+          obj.variavel = this.val.variavel.id;
+        }
+        obj.servico = this.val.servico.id;
+        obj.correio_id = this.item.id;
+        if (this.val.id > 0){
+          obj.id =this.val.id;
+            this.$store.dispatch('contratos/editexcecao', obj)
+            .then(() => {
+              console.log('add excecao');
+              this.getContrato(this.item.id);
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção adicionada com sucesso'})
+            })
+            .catch(error => {
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({
+                title: 'Error',
+                text: error.message,
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            }).finally(()=>{
+            this.salvando=false;
+          });
+        } else{
+          this.$store.dispatch('contratos/addexcecao', obj)
+            .then(() => {
+              console.log('editar excecao');
+              this.getContrato(this.item.id);
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'})
+            })
+            .catch(error => {
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({
+                title: 'Error',
+                text: error.message,
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            }).finally(()=>{
+            this.salvando=false;
+          });
+        }
+
+      },
+      setPadrao(item) {
+        this.$vs.loading({
+          container: '#div-excecao',
+          scale: 0.6
+        });
+        let obj = {};
+        obj.tipo = 'padrao';
+        obj.variavel = 'padrao';
+        obj.servico = item.codigo;
+        obj.correio_id = this.item.id;
+          this.$store.dispatch('contratos/addexcecao', obj)
+            .then(() => {
+              console.log('editar excecao');
+              this.getContrato(this.item.id);
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'});
+            })
+            .catch(error => {
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({
+                title: 'Error',
+                text: error.message,
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            }).finally(()=>{
+            this.salvando=false;
+          });
+      },
+      deleteExcexao() {
+        this.$vs.loading({
+          container: '#div-excecao',
+          scale: 0.6
+        });
+          this.$store.dispatch('contratos/removeexcecao', this.configExclud)
+            .then(() => {
+              console.log('remover excecao');
+              this.getContrato(this.item.id);
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção deleta com sucesso'})
+            })
+            .catch(error => {
+              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.notify({
+                title: 'Error',
+                text: error.message,
+                iconPack: 'feather',
+                icon: 'icon-alert-circle',
+                color: 'danger'
+              })
+            }).finally(()=>{
+            this.salvando=false;
+          });
+
       },
       updateEmpresa() {
         this.salvando=true;
@@ -490,7 +825,7 @@
             formData.append('remetenteNumero', this.item.remetenteNumero);
             formData.append('remetenteComplemento', this.item.remetenteComplemento);
 
-            this.$store.dispatch('contratos/update', {id: 1, dados: formData})
+            this.$store.dispatch('contratos/update', {id: this.item.id, dados: formData})
               .then(() => {
                 console.log('enviou')
                 this.$vs.loading.close();
@@ -520,7 +855,61 @@
         })
         this.salvando = false;
       },
+      salvarEmpresa() {
+        this.salvando=true;
+        this.$validator.validateAll().then(result => {
+          if (result) {
+            this.$vs.loading();
+            const formData = new FormData();
+            this.files.forEach(file => {
+              formData.append('logotipo', file, file.name);
+            });
+            formData.append('nome', this.item.nome);
+            formData.append('cartaoPostagem', this.item.cartaoPostagem);
+            formData.append('contrato', this.item.contrato);
+            formData.append('usuario', this.item.usuario);
+            formData.append('senha', this.item.senha);
+            formData.append('cnpj', this.item.cnpj);
+            formData.append('remetenteNome', this.item.remetenteNome);
+            formData.append('remetenteCep', this.item.remetenteCep);
+            formData.append('remetenteCidade', this.item.remetenteCidade);
+            formData.append('remetenteEndereco', this.item.remetenteEndereco);
+            formData.append('remetenteBairro', this.item.remetenteBairro);
+            formData.append('remetenteEstado', this.item.remetenteEstado);
+            formData.append('remetenteNumero', this.item.remetenteNumero);
+            formData.append('remetenteComplemento', this.item.remetenteComplemento);
 
+            this.$store.dispatch('contratos/store', formData)
+              .then(() => {
+                console.log('enviou')
+                this.$vs.loading.close();
+                this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
+                this.$router.push({name: 'contratos'})
+              })
+              .catch(error => {
+                this.$vs.loading.close();
+                this.$vs.notify({
+                  title: 'Error',
+                  text: error.message,
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                })
+              }).finally(()=>{
+              this.salvando=false;
+            })
+          } else {
+            this.$vs.notify({
+              title: 'Error',
+              text: 'verifique os erros específicos',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }
+        })
+        this.salvando = false;
+      },
       //drag
       OnDragEnter(e) {
         e.preventDefault();
@@ -570,11 +959,24 @@
         return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
       },
     }
-
   }
 </script>
 
-<style>
+<style scoped>
+  .con-vs-dialog .vs-dialog {
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    z-index: 100;
+    width: calc(100% - 20px);
+    margin: 10px;
+    max-width: 800px !important;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 20px 0 rgba(0,0,0,.1);
+    box-shadow: 0 5px 20px 0 rgba(0,0,0,.1);
+    background: #fff;
+    -webkit-animation: rebound .3s;
+    animation: rebound .3s;
+  }
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
   }

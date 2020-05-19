@@ -83,8 +83,11 @@
                         {{ data[indextr].nome }}
                       </vs-td>
 
-                      <vs-td :data="data[indextr].produto.nome">
+                      <vs-td v-if="data[indextr].produto && data[indextr].produto.nome" :data="data[indextr].produto.nome">
                         {{ data[indextr].produto.nome }}
+                      </vs-td>
+                      <vs-td v-else>
+                        produto indefinido
                       </vs-td>
                       <vs-td :data="data[indextr].peso">
                         {{ tr.hasembalagem ? tr.embalagem.peso :  data[indextr].peso }}

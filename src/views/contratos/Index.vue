@@ -55,7 +55,6 @@
                                 </p>
                             </div>
                             <br>
-
                             <p>
                                 <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
                                            @click="addNewData">
@@ -188,17 +187,17 @@
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar este Produto? Procedimento irreversível',
+                    text: 'Deseja deletar este Contrato? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'correios'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getProdutos();
+                            this.getItems();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({

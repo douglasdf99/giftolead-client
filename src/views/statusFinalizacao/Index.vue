@@ -73,11 +73,11 @@
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items"
                               style="border-spacing: 0 8px;border-collapse: separate;">
-
                         <template slot="thead">
                             <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
                             <vs-th>Tipo</vs-th>
+                            <vs-th>Status</vs-th>
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
@@ -106,10 +106,26 @@
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
                                 <vs-td :data="tr.tipo" class="relative">
-                                    <img src="@/assets/images/util/ganhou.svg" v-if="tr.tipo === 0">
-                                    <img src="@/assets/images/util/aguardando.svg" v-if="tr.tipo === 1">
-                                    <img src="@/assets/images/util/perdeu.svg" v-if="tr.tipo === 2">
+                                  <div class="emoticon">
+                                    <vs-chip color="#4DE98A" class="product-order-status p-0 m-0" v-if="tr.tipo === 0">
+                                      <img src="@/assets/images/util/ganhou.svg">
+                                    </vs-chip>
+                                    <vs-chip color="#E7BE00" class="product-order-status p-0 m-0" v-if="tr.tipo === 1">
+                                      <img src="@/assets/images/util/aguardando.svg" >
+                                    </vs-chip>
+                                    <vs-chip color="#F03165" class="product-order-status p-0 m-0" v-if="tr.tipo === 2">
+                                      <img src="@/assets/images/util/perdeu.svg">
+                                    </vs-chip>
+                                  </div>
+
                                 </vs-td>
+                              <vs-td :data="data[indextr].status">
+                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                         class="icon-grande text-success"
+                                         v-if="data[indextr].status"></vs-icon>
+                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                         v-else></vs-icon>
+                              </vs-td>
                             </vs-tr>
                         </template>
                     </vs-table>
@@ -226,3 +242,8 @@
 
     }
 </script>
+<style>
+  .emoticon * {
+    margin: 0 !important;
+  }
+</style>

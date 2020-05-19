@@ -59,7 +59,7 @@
                             <template slot="no-body">
                                 <!-- ITEM IMAGE -->
                                 <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                    <img :src="get_img_api(usuario.avatar)" style="width: 200px" alt="avatar"
+                                    <img :src="url_api(usuario.avatar)" style="width: 200px" alt="avatar"
                                          class="grid-view-img px-4">
                                 </div>
                                 <div class="item-details px-4">
