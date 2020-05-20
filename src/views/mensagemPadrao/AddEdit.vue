@@ -36,11 +36,12 @@
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full" v-if="selectTipo.id == 'whatsapp'">
                         <span class="font-regular mb-2">Mensagem</span>
-                        <vs-textarea v-model="mensagem.mensagem" class="w-full bg-white"/>
+                        <vs-textarea v-model="mensagem.mensagem" id="text-area" class="w-full bg-white"/>
                     </div>
                     <div class="vx-col w-full" v-else>
                         <span class="font-regular mb-2">Mensagem</span>
-                        <quill-editor v-model="mensagem.mensagem_email" class="bg-white"></quill-editor>
+                        <quill-editor id="quill-editor" v-model="mensagem.mensagem_email" class="bg-white"
+                                      @ready="onEditorReady($event)"></quill-editor>
                     </div>
                 </div>
             </div>
@@ -48,19 +49,19 @@
                 <div class="mb-3 p-5 pt-0">
                     <span class="font-regular">Inserir no corpo da mensagem:</span>
                     <ul class="variaveis-msg">
-                        <li class="variavel">
-                            <span>Nome do Cliente</span>
+                        <li class="variavel" @click="addVarText('[NOME_LEAD]')">
+                            <span>Nome do Lead</span>
                         </li>
-                        <li class="variavel">
-                            <span>Nome do Usuário/Atendente</span>
+                        <li class="variavel" @click="addVarText('[NOME_ATENDENTE]')">
+                            <span>Nome do Atendente</span>
                         </li>
-                        <li class="variavel">
+                        <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
                             <span>Nome do Brinde</span>
                         </li>
-                        <li class="variavel">
+                        <li class="variavel" @click="addVarText('[CODIGO_RASTREIO]')">
                             <span>Código de Rastreio</span>
                         </li>
-                        <li class="variavel">
+                        <li class="variavel" @click="addVarText('[LINK_RASTREIO_CORREIOS]')">
                             <span>Link rastreio dos Correios</span>
                         </li>
                     </ul>
@@ -142,6 +143,7 @@
                     mensagem_email: '',
                     status: true
                 },
+                editor: '',
                 selectTipo: {id: 'whatsapp', label: 'WhatsApp'},
                 tipos: [{id: 'whatsapp', label: 'WhatsApp'}, {id: 'email', label: 'E-mail'}]
             }
@@ -154,9 +156,9 @@
                         const formData = new FormData();
                         formData.append('tipo', this.mensagem.tipo);
                         formData.append('titulo', this.mensagem.titulo);
-                        if(this.mensagem.assunto)
+                        if (this.mensagem.assunto)
                             formData.append('assunto', this.mensagem.assunto);
-                        if(this.mensagem.tipo === 'whatsapp')
+                        if (this.mensagem.tipo === 'whatsapp')
                             formData.append('mensagem', this.mensagem.mensagem);
                         else
                             formData.append('mensagem', this.mensagem.mensagem_email);
@@ -233,12 +235,34 @@
                 this.$vs.loading()
                 this.$store.dispatch('mensagem/getId', id).then(data => {
                     this.mensagem = {...data};
-                    if(this.mensagem.tipo === 'email')
+                    if (this.mensagem.tipo === 'email')
                         this.mensagem.mensagem_email = this.mensagem.mensagem;
                     this.selectTipo = {id: this.mensagem.tipo, label: this.mensagem.tipo}
                     this.$vs.loading.close();
 
                 })
+            },
+            addVarText(value) {
+                if (this.mensagem.tipo == 'whatsapp') {
+                    //Text Area
+                    var $txt = document.getElementById('text-area');
+                    var textAreaTxt = $txt.value;
+                    var caretPos = $txt.selectionStart;
+                    console.log(caretPos)
+                    $txt.value = (textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos));
+                } else {
+                    //Quill Editor
+                    console.log('selecao', this.editor.getSelection(true));
+                    //var $txt2 = document.getElementsByClassName("ql-editor");
+                    var $txt2 = this.editor.getSelection(true);
+                    console.log($txt2)
+                    this.editor.insertText($txt2.index, value, '', true);
+                    console.log(this.mensagem.mensagem_email)
+                }
+            },
+            onEditorReady(editor) {
+                console.log('editor', editor.getSelection());
+                this.editor = editor;
             },
         },
         computed: {
@@ -392,5 +416,9 @@
         position: absolute;
         right: 30px;
         cursor: pointer;
+    }
+
+    .ql-editor {
+        min-height: 10vh;
     }
 </style>
