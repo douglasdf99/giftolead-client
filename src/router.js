@@ -1795,7 +1795,7 @@ const router = new Router({
                           {title: 'Configurações'},
                           {title: 'Expedições', url: '/configuracoes/expedicoes'},
                           {title: 'Contratos', url: '/configuracoes/contratos'},
-                          {title: 'Servicos', active: true},
+                          {title: 'Serviços', active: true},
                         ],
                         pageTitle: 'Configurar Contrato',
                         rule: 'editor',

@@ -74,7 +74,7 @@
                             <vs-th>Contrato</vs-th>
                             <vs-th>Numero do Contrato</vs-th>
                             <vs-th>Cartão de postagem</vs-th>
-                            <vs-th>Código</vs-th>
+                            <vs-th>Código Adm</vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -87,6 +87,11 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                            <vs-dropdown-item @click="configData(tr.id)">
+                                                <vs-icon icon-pack="material-icons" icon="directions_bus"></vs-icon>
+                                                Formas de frete
+                                            </vs-dropdown-item>
+                                          <vs-divider></vs-divider>
                                             <vs-dropdown-item @click="updateData(tr.id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
@@ -167,6 +172,9 @@
         methods: {
             addNewData() {
                 this.$router.push({name: 'contratos-criar'});
+            },
+            configData(id) {
+                this.$router.push({path: '/configuracoes/contratos/servicos/' + id});
             },
             updateData(id) {
                 this.$router.push({path: '/configuracoes/contratos/editar/' + id});
