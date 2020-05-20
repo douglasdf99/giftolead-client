@@ -196,11 +196,18 @@
       @cancel="clearValMultiple"
       @accept="sendexcecao"
       @close="close"
+      :acceptText="'Salvar'"
+      :cancelText="'Caneclar'"
+      :is-valid="validExcecao"
       :title="'Adicionar exceção'"
       :max-width="'600px'"
       :active.sync="modalexcecao">
       <div class="con-exemple-prompt">
         Entre com os dados da configuração...
+
+        <vs-alert v-show="!validExcecao" color="danger" vs-icon="new_releases" >
+          Os campos não podem ficar vazios
+        </vs-alert>
         <div class="">
           <span class="font-regular mb-2">Tipo</span>
           <v-select v-model="val.tipo" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
@@ -369,6 +376,15 @@
           })
         }
         return option;
+      },
+      validExcecao(){
+        let igual = false;
+        console.log('computed',this.val)
+        if (this.val.tipo !== ""  && this.val.variavel !== "" && this.val.servico !== ""){
+          console.log('computed entrou',this.val)
+          igual = true
+        }
+        return igual
       }
     },
     mounted() {
@@ -642,7 +658,7 @@
       },
       setPadrao(item) {
         this.$vs.loading({
-          container: '#div-excecao',
+          container: '#div-servicos',
           scale: 0.6
         });
         let obj = {};
@@ -654,11 +670,11 @@
             .then(() => {
               console.log('editar excecao');
               this.getContrato(this.item.id);
-              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.loading.close('#div-servicos > .con-vs-loading');
               this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'});
             })
             .catch(error => {
-              this.$vs.loading.close('#div-excecao > .con-vs-loading');
+              this.$vs.loading.close('#div-servicos > .con-vs-loading');
               this.$vs.notify({
                 title: 'Error',
                 text: error.message,

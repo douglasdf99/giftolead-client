@@ -128,7 +128,7 @@
         </VuePerfectScrollbar>
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>
