@@ -77,7 +77,6 @@
                             <v-nav-menu-item
                                     :key="`item-${index}`"
                                     :index="index"
-
                                     :submenu="item.submenu"
                                     :to="item.slug !== 'external' ? item.url : null"
                                     :href="item.slug === 'external' ? item.url : null"
