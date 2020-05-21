@@ -7,7 +7,7 @@
 }
 .loading-logo{
   position: absolute;
-  left: calc(50% - 45px);
+  left: calc(50% - 99px);
   top: 40%;
 }
 .loading {

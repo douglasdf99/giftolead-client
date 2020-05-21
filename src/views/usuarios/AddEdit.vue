@@ -85,8 +85,7 @@
                                 <div class="item-details px-4">
                                 </div>
                                 <div class="flex flex-wrap">
-                                    <label
-                                            class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                                    <label class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
                                             for="file">
                                         <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
                                         <label class="text-sm font-semibold ml-2" for="file">Alterar avatar</label>

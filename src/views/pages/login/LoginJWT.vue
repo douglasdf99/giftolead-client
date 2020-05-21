@@ -115,9 +115,9 @@
                       saveleadsConfig.token = response;
                       console.log(saveleadsConfig);
                       window.location.href = window.location.protocol + '//' + window.location.host + (this.$router.currentRoute.query.to || '/');
-
                     })
                     .catch(error => {
+                      this.$vs.loading.close();
                         console.log(error.response);
                         this.$vs.notify({
                             title: 'Error',
@@ -127,7 +127,7 @@
                             color: 'danger'
                         })
                     }).finally(()=>{
-                  this.$vs.loading.close();
+
                 })
             },
             registerUser() {
