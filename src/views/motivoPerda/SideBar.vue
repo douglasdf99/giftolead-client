@@ -14,10 +14,6 @@
         <div class="mt-6 flex items-center justify-between px-6">
             <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Motivo</h4>
             <!--<feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>-->
-            <div class="flex items-center cursor-pointer" @click.stop="isSidebarActiveLocal = false">
-                <vs-icon icon-pack="material-icons" icon="clear" class="mr-2 icon-cancelar"/>
-                Cancelar
-            </div>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
@@ -26,7 +22,6 @@
                     {{motivo.status ? 'Ativado' : 'Desativado'}}
                 </span>
                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="motivo.status" class="float-right switch"/>
-                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do motivo de perda</span>
                 </div>
                 <vs-input size="large" v-validate="'required'" label="Nome do motivo de perda" autocomplete="off"
                           v-model="motivo.nome" class="mt-5 w-full"
@@ -37,7 +32,7 @@
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>

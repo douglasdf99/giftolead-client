@@ -24,7 +24,6 @@
                     {{brinde.ativo ? 'Ativado' : 'Desativado'}}
                 </span>
                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="brinde.ativo" class="float-right switch"/>
-                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do Brinde</span>
                 </div>
                 <vs-input size="large " v-validate="'required'" label="Nome da brinde" autocomplete="off"
                           v-model="brinde.nome"

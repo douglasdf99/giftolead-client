@@ -22,7 +22,6 @@
                     {{status.status ? 'Ativado' : 'Desativado'}}
                 </span>
                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="status.status" class="float-right switch"/>
-                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do Status</span>
                 </div>
                 <vs-input size="large" v-validate="'required'" label="Nome do Status" autocomplete="off"
                           v-model="status.nome" class="mt-5 w-full" name="nome"/>
@@ -54,10 +53,8 @@
                 </div>
                 <div class="mt-10" v-if="status.tipo == 1">
                     <label class="destaque">Número de vezes desta ocorrência para finalizar o ticket</label>
-                    <v-select v-model="status.fechamento" :class="'select-large-base'" :clearable="false"
-                              class="w-full lg:w-1/7 md:w-2/6 sm:w-1/3 mt-3"
-                              :options="[{id: 1, label: '1', selected: true}, {id:2,label:'2'}, {id:3,label:'3'}]"
-                              name="tipo_de_caixa"/>
+                    <vs-input size="large" autocomplete="off"
+                              v-model="status.fechamento" class="mt-5 w-full sm:w-full md:w-4/12 lg:w-2/12" type="number"/>
                     <div class="mt-5">
                         <vs-checkbox color="dark" v-model="status.espera"><span class="label-bold-underline">
                             Habilitar espera do sistema para finalizar o ticket</span>
@@ -74,7 +71,7 @@
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>
@@ -105,7 +102,8 @@
                     hab_perda: 0,
                     hab_brinde: 0,
                     hab_comissao: 0,
-                    espera: 0
+                    espera: 0,
+                    fechamento: 1
                 },
             }
         },
@@ -141,8 +139,6 @@
                         this.$vs.loading()
                         const obj = {...this.status};
                         obj.hab_comissao = (obj.tipo == 0 ?  true : false); //Habilitando comissão
-                        if(obj.fechamento)
-                            obj.fechamento = obj.fechamento.id;
                         if (this.status.id !== null && this.status.id >= 0) {
                             obj._method = 'PUT';
                             this.$store.dispatch("updateItem", {rota: 'status_de_finalizacaos', item: obj}).then(() => {
@@ -208,10 +204,6 @@
             } else {
                 console.log('entrou aqui', this.data);
                 this.status = JSON.parse(JSON.stringify(this.data));
-                if(this.status.fechamento){
-                    let val = this.status.fechamento;
-                    this.status.fechamento = {id: val, label: val};
-                }
             }
         }
     }

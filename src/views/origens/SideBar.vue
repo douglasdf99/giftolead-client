@@ -26,7 +26,7 @@
                     {{origem.status ? 'Ativado' : 'Desativado'}}
                 </span>
                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="origem.status" class="float-right switch"/>
-                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>
+                    <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>-->
                 </div>
                 <vs-input size="large" v-validate="'required'" label="Nome da origem" autocomplete="off"
                           v-model="origem.nome" class="mt-5 w-full"
@@ -37,7 +37,7 @@
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>

@@ -5,7 +5,7 @@
             <span class="float-right mt-1 mx-4"
                   style="font-weight: bold">{{mensagem.status ? 'Ativado' : 'Desativado'}}</span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="mensagem.status" class="float-right switch"/>
-                <span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>
+                <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>-->
             </div>
         </div>
         <div class="vx-row mb-3">

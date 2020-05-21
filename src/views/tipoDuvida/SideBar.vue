@@ -14,10 +14,6 @@
         <div class="mt-6 flex items-center justify-between px-6">
             <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Tipo de dúvida</h4>
             <!--<feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>-->
-            <div class="flex items-center cursor-pointer" @click.stop="isSidebarActiveLocal = false">
-                <vs-icon icon-pack="material-icons" icon="clear" class="mr-2 icon-cancelar"/>
-                Cancelar
-            </div>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
@@ -26,7 +22,7 @@
                     {{tipoDuvida.status ? 'Ativado' : 'Desativado'}}
                 </span>
                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="tipoDuvida.status" class="float-right switch"/>
-                    <span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do tipo de dúvida</span>
+                    <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação do tipo de dúvida</span>-->
                 </div>
                 <vs-input size="large" v-validate="'required'" label="Nome do tipo de dúvida" autocomplete="off"
                           v-model="tipoDuvida.nome" class="mt-5 w-full"
@@ -37,7 +33,7 @@
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancela</vs-button>
+            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>

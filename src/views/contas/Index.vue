@@ -175,7 +175,7 @@
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {

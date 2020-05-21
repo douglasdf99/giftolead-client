@@ -87,9 +87,10 @@
         position: absolute;
         border-style: solid;
         border-width: 19px 14px 19px 0;
-        right: -12px;
-        border-color: transparent #2b2b2b transparent transparent;
-        transform: rotate(180deg);
-      border-radius: 0 0 25% 148%;
+        right: -5px;
+        border-color: transparent white transparent transparent;
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+        border-radius: 0 0 25% 148%;
     }
 </style>
