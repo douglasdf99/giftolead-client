@@ -273,7 +273,7 @@
                 this.dados.search = url;*/
                 this.dados.pesquisa = this.search;
                 if (this.selectedProduto)
-                    this.dados.produto = this.selectedProduto.label;
+                    this.dados.produto = this.selectedProduto.id;
                 if (this.selectedStatus)
                     this.dados.status = this.selectedStatus.id;
                 if(this.dt_inicio)
