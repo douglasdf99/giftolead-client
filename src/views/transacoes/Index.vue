@@ -8,7 +8,7 @@
                 </vs-button>
                 &lt;!&ndash; SEARCH INPUT &ndash;&gt;
             </div>-->
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-5/12 xlg:w-5/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-3/12 xlg:w-3/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
@@ -33,6 +33,11 @@
                 <label class="vs-input--label">Produto</label>
                 <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="produtos"/>
+            </div>
+            <div class="vx-col w-full lg:w-2/12 sm:w-full">
+                <label class="vs-input--label">Status</label>
+                <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="status"/>
             </div>
             <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
                 <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent" @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i></vs-button>
@@ -181,6 +186,7 @@
                 dt_fim: '',
                 languages: lang,
                 selectedProduto: null,
+                selectedStatus: null,
                 search: '',
                 pagination: {
                     last_page: 1,
@@ -188,6 +194,7 @@
                     current_page: 1
                 },
                 produtos: [],
+                status: [],
                 currentx: 1,
                 //items: {}
                 hotmartStatus: {
@@ -213,8 +220,8 @@
                 this.$store.registerModule('produtos', moduleProdutos)
                 moduleProdutos.isRegistered = true
             }
-            console.log('linguagem', this.languages)
-            this.getProdutos();
+            console.log('linguagem', this.languages);
+            this.getOpcoes();
             this.getTransacoes();
 
         },
@@ -245,8 +252,17 @@
                     url += 'produto.nome:' + this.selectedProduto.label;
                     control++;
                 }
+
+                if(this.selectedStatus){
+                    if(control)
+                        url += ';'
+
+                    url += 'status:' + this.selectedStatus.id;
+                    control++;
+                }
+
                 if(control >= 2)
-                    url += 'searchJoin=and';
+                    url += '&searchJoin=and';
 
                 this.dados.search = url;
                 this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
@@ -295,13 +311,21 @@
                 this.currentx = 1;
                 this.getTransacoes();
             },
-            getProdutos(){
+            getOpcoes(){
+                //Produtos
                 this.$store.dispatch('produtos/get').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
                         this.produtos.push({id: item.id, label: item.nome})
                     });
                 });
+
+                //Status
+                for(let item in this.hotmartStatus){
+                    this.status.push({id: item, label: this.hotmartStatus[item][0]})
+                }
+
+                console.log(this.status)
             },
         },
         watch: {
@@ -316,6 +340,11 @@
             },
             selectedProduto(val){
                 console.log('teste', val)
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getTransacoes();
+            },
+            selectedStatus(val){
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getTransacoes();

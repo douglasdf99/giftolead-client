@@ -455,6 +455,16 @@ th > .vs-table-text {
     padding: 1rem !important;
 }
 
+.text-enum{
+    height: 3rem;
+    width: 3rem;
+    font-size: 2rem;
+    line-height: 26px;
+    display: inline-block;
+    text-align: center;
+    margin-right: 6px;
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);
