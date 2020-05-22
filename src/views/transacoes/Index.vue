@@ -185,8 +185,8 @@
                     status: '',
                     produto: ''
                 },
-                dt_inicio: moment().subtract(30, 'days'),
-                dt_fim: moment(),
+                dt_inicio: '',
+                dt_fim: '',
                 languages: lang,
                 selectedProduto: null,
                 selectedStatus: null,
