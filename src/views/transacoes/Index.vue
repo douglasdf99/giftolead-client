@@ -73,21 +73,9 @@
                                 </p>
                             </div>
                             <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
+                                <p class="span-sem-item">Você não possui nenhum item cadastrado neste período</p>
                             </div>
                             <br>
-
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Lead
-                                </vs-button>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -134,8 +122,8 @@
                                 <vs-td :data="tr.lead.nome">
                                     {{ tr.lead.nome }}
                                 </vs-td>
-                                <vs-td>
-                                    <vs-chip :color="tr.produto.cor" class="product-order-status">
+                                <vs-td v-if="tr.produto">
+                                    <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
                                         {{ tr.produto.nome}}
                                     </vs-chip>
                                 </vs-td>
@@ -145,7 +133,7 @@
                                 <vs-td>
                                     <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
                                 </vs-td>
-                                <vs-td>
+                                <vs-td v-if="tr.produto">
                                     <span class="preco">R$ {{formatPrice(tr.produto.preco)}}</span>
                                 </vs-td>
                                 <vs-td>
@@ -169,12 +157,18 @@
     import moduleProdutos from '@/store/produtos/moduleProdutos.js'
     import Datepicker from 'vuejs-datepicker';
     import * as lang from 'vuejs-datepicker/src/locale';
+    import VueMoment from 'vue-moment'
+
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
 
     export default {
         name: "Index",
         components: {
             'v-select': vSelect,
-            Datepicker
+            Datepicker,
+            VueMoment,
+            moment
         },
         data() {
             return {
@@ -230,6 +224,9 @@
                 moduleProdutos.isRegistered = true
             }
             console.log('linguagem', this.languages);
+            console.log('moment', moment("subtract", "30 days").format('DD-MM-YYYY'))
+            /*this.dt_inicio = moment().format('DD-MM-YYYY');
+            console.log(this.dt_inicio)*/
             this.getOpcoes();
             this.getTransacoes();
 
