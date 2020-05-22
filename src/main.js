@@ -143,6 +143,11 @@ Vue.mixin({
             } else {
                 return true;
             }
+        },
+        formatDateBanco: function (value) {
+            if (value) {
+                return moment(String(value)).format('YYYY-MM-DD')
+            }
         }
     }
 });

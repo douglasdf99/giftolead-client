@@ -451,6 +451,10 @@ th > .vs-table-text {
     background-color: white !important;
 }
 
+.datepicker-input input {
+    padding: 1rem !important;
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);

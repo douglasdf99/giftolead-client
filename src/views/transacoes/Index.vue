@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
+        <div class="vx-row flex items-end lg:mt-20 sm:mt-6">
             <!--<div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -8,14 +8,14 @@
                 </vs-button>
                 &lt;!&ndash; SEARCH INPUT &ndash;&gt;
             </div>-->
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-5/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"/>
+                                      v-model="search" id="search_input" size="large"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -28,7 +28,19 @@
                     </div>
 
                 </div>
-                <!-- SEARCH INPUT -->
+            </div>
+            <div class="vx-col w-full lg:w-3/12 sm:w-full">
+                <label class="vs-input--label">Produto</label>
+                <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="produtos"/>
+            </div>
+            <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
+                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent" @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i></vs-button>
+                <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input" :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
+            </div>
+            <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
+                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent" @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i></vs-button>
+                <datepicker placeholder="Até" ref="programaticOpen2"  v-model="dt_fim" class="datepicker-input" :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
             </div>
             <!--<div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -74,6 +86,7 @@
                         <template slot="thead">
                             <!--<vs-th></vs-th>-->
                             <vs-th>Transação</vs-th>
+                            <vs-th>Lead</vs-th>
                             <vs-th>Produto</vs-th>
                             <vs-th>Data e Hora</vs-th>
                             <vs-th>Comissão do Hotmart</vs-th>
@@ -107,6 +120,9 @@
                                 <vs-td :data="tr.transaction">
                                     {{ tr.transaction }}
                                 </vs-td>
+                                <vs-td :data="tr.lead.nome">
+                                    {{ tr.lead.nome }}
+                                </vs-td>
                                 <vs-td>
                                     <vs-chip :color="tr.produto.cor" class="product-order-status">
                                         {{ tr.produto.nome}}
@@ -122,13 +138,13 @@
                                     <span class="preco">R$ {{formatPrice(tr.produto.preco)}}</span>
                                 </vs-td>
                                 <vs-td>
-                                    <vs-chip v-for="(status, index) in hotmartStatus" v-if="index === tr.status" :color="status[1]" class="product-order-status">
+                                    <vs-chip v-for="(status, index) in hotmartStatus" v-if="index === tr.status"
+                                             :color="status[1]" class="product-order-status">
                                         {{ status[0]}}
                                     </vs-chip>
                                 </vs-td>
                             </vs-tr>
                         </template>
-
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
@@ -138,8 +154,17 @@
 </template>
 
 <script>
+    import vSelect from 'vue-select'
+    import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+    import Datepicker from 'vuejs-datepicker';
+    import * as lang from 'vuejs-datepicker/src/locale';
+
     export default {
         name: "Index",
+        components: {
+            'v-select': vSelect,
+            Datepicker
+        },
         data() {
             return {
                 // Data Sidebar
@@ -148,13 +173,21 @@
                 routeTitle: 'Leads',
                 dados: {
                     search: '',
-                    page: 1
+                    page: 1,
+                    dt_inicio: '',
+                    dt_fim: '',
                 },
+                dt_inicio: '',
+                dt_fim: '',
+                languages: lang,
+                selectedProduto: null,
+                search: '',
                 pagination: {
                     last_page: 1,
                     page: 1,
                     current_page: 1
                 },
+                produtos: [],
                 currentx: 1,
                 //items: {}
                 hotmartStatus: {
@@ -176,8 +209,14 @@
         },
         created() {
             this.$vs.loading()
-
+            if (!moduleProdutos.isRegistered) {
+                this.$store.registerModule('produtos', moduleProdutos)
+                moduleProdutos.isRegistered = true
+            }
+            console.log('linguagem', this.languages)
+            this.getProdutos();
             this.getTransacoes();
+
         },
         methods: {
             addNewData() {
@@ -190,16 +229,36 @@
                 this.addNewDataSidebar = val
             },
             getTransacoes() {
+                let url = '';
+                let control = 0;//Controla entradas em cada condição
+                if(this.search !== ''){
+                    url += 'lead.nome:' + this.search + ';';
+                    url += 'transaction:' + this.search + ';';
+                    url += 'produto.preco:' + this.search ;
+                    control++;
+                }
+
+                if(this.selectedProduto){
+                    if(control)
+                        url += ';'
+
+                    url += 'produto.nome:' + this.selectedProduto.label;
+                    control++;
+                }
+                if(control >= 2)
+                    url += 'searchJoin=and';
+
+                this.dados.search = url;
                 this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             formatPrice(value) {
-                let val = (value/1).toFixed(2).replace('.', ',')
+                let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             },
             deletar(id) {
@@ -232,8 +291,18 @@
                 e.preventDefault();
                 this.$vs.loading();
                 this.dados.page = 1;
+                this.pagination.current_page = 1;
+                this.currentx = 1;
                 this.getTransacoes();
-            }
+            },
+            getProdutos(){
+                this.$store.dispatch('produtos/get').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.produtos.push({id: item.id, label: item.nome})
+                    });
+                });
+            },
         },
         watch: {
             currentx(val) {
@@ -245,10 +314,19 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
+            selectedProduto(val){
+                console.log('teste', val)
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getTransacoes();
+            },
+            dt_inicio(val){
+                console.log('alou', val)
+                let teste = this.formatDateBanco(val);
+                console.log(teste)
+            }
         },
-
         computed: {
-
             items() {
                 return this.$store.state.items;
             },

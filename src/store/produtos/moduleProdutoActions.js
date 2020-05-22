@@ -48,6 +48,18 @@ export default {
                     reject(error)
                 })
         })
-    }
+    },
+    get({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/produtos`, {params: {}})
+                .then((response) => {
+                    console.log('produtos resgatado', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 
 }
