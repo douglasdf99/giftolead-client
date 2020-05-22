@@ -1382,6 +1382,7 @@ const router = new Router({
                         ],
                         pageTitle: 'Configurações de Tickets',
                         rule: 'editor',
+                        pai: 'configuracoes',
                         subTitle: 'Configurações',
                         subIcon: 'settings',
                         submenu: subconfiguracoes
@@ -1399,6 +1400,7 @@ const router = new Router({
                         ],
                         pageTitle: 'Configurações de Usuários',
                         rule: 'editor',
+                      pai: 'configuracoes',
                         subTitle: 'Configurações',
                         subIcon: 'settings',
                         submenu: subconfiguracoes
@@ -1416,6 +1418,7 @@ const router = new Router({
                         ],
                         pageTitle: 'Configurações de Expedições',
                         rule: 'editor',
+                        pai: 'configuracoes',
                         subTitle: 'Configurações',
                         subIcon: 'settings',
                         submenu: subconfiguracoes
