@@ -40,12 +40,18 @@
                           :options="status"/>
             </div>
             <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
-                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent" @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i></vs-button>
-                <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input" :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
+                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent"
+                           @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i>
+                </vs-button>
+                <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input"
+                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
             </div>
             <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
-                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent" @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i></vs-button>
-                <datepicker placeholder="Até" ref="programaticOpen2"  v-model="dt_fim" class="datepicker-input" :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
+                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent"
+                           @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i>
+                </vs-button>
+                <datepicker placeholder="Até" ref="programaticOpen2" v-model="dt_fim" class="datepicker-input"
+                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
             </div>
             <!--<div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -178,9 +184,12 @@
                 routeTitle: 'Leads',
                 dados: {
                     search: '',
+                    pesquisa: '',
                     page: 1,
                     dt_inicio: '',
                     dt_fim: '',
+                    status: '',
+                    produto: ''
                 },
                 dt_inicio: '',
                 dt_fim: '',
@@ -236,7 +245,7 @@
                 this.addNewDataSidebar = val
             },
             getTransacoes() {
-                let url = '';
+                /*let url = '';
                 let control = 0;//Controla entradas em cada condição
                 if(this.search !== ''){
                     url += 'lead.nome:' + this.search + ';';
@@ -264,7 +273,16 @@
                 if(control >= 2)
                     url += '&searchJoin=and';
 
-                this.dados.search = url;
+                this.dados.search = url;*/
+                this.dados.pesquisa = this.search;
+                if (this.selectedProduto)
+                    this.dados.produto = this.selectedProduto.label;
+                if (this.selectedStatus)
+                    this.dados.status = this.selectedStatus.id;
+                if(this.dt_inicio)
+                    this.dados.dt_inicio = this.formatDateBanco(this.dt_inicio);
+                if(this.dt_fim)
+                    this.dados.dt_fim = this.formatDateBanco(this.dt_fim);
                 this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
@@ -311,7 +329,7 @@
                 this.currentx = 1;
                 this.getTransacoes();
             },
-            getOpcoes(){
+            getOpcoes() {
                 //Produtos
                 this.$store.dispatch('produtos/get').then(response => {
                     let arr = [...response];
@@ -321,7 +339,7 @@
                 });
 
                 //Status
-                for(let item in this.hotmartStatus){
+                for (let item in this.hotmartStatus) {
                     this.status.push({id: item, label: this.hotmartStatus[item][0]})
                 }
 
@@ -338,21 +356,26 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-            selectedProduto(val){
+            selectedProduto(val) {
                 console.log('teste', val)
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getTransacoes();
             },
-            selectedStatus(val){
+            selectedStatus(val) {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getTransacoes();
             },
-            dt_inicio(val){
-                console.log('alou', val)
-                let teste = this.formatDateBanco(val);
-                console.log(teste)
+            dt_inicio(val) {
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getTransacoes();
+            },
+            dt_fim(val) {
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getTransacoes();
             }
         },
         computed: {

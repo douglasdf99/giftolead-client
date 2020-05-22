@@ -146,7 +146,7 @@ Vue.mixin({
         },
         formatDateBanco: function (value) {
             if (value) {
-                return moment(String(value)).format('YYYY-MM-DD')
+                return moment(String(value)).format('DD-MM-YYYY')
             }
         }
     }
