@@ -1,7 +1,7 @@
 <template>
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+                  :data="sidebarData" @paginate="paginate"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -168,6 +168,9 @@
             this.getBrindes();
         },
         methods: {
+            paginate() {
+                this.currentx = 1;
+            },
             addNewData() {
                 this.sidebarData = {}
                 this.toggleDataSidebar(true)

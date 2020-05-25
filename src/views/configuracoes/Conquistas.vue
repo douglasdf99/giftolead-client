@@ -39,19 +39,24 @@
                     <div class="vx-row">
                         <div class="vx-col w-full lg:w-3/12 md:w-4/12">
                             <div class="conquista nova">
-                                <div class="img-plus">
-                                    <i class="material-icons">add</i>
+                                <div class="img-plus" @click="$router.push({path: '/configuracoes/conquistas/nova'})">
+                                        <i class="material-icons">add</i>
                                 </div>
                                 <p class="nome-conq">
                                     Adicionar Nova Conquista
                                 </p>
                             </div>
                         </div>
-                        <div class="vx-col w-full lg:w-3/12 md:w-4/12">
+                        <div class="vx-col w-full lg:w-3/12 md:w-4/12" v-for="item in items">
                             <div class="conquista">
-                                <img src="" class="img-conquista" alt="">
+                                <div class="py-2 w-full">
+                                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo"
+                                               class="float-right switch"/>
+                                    <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>-->
+                                </div>
+                                <img :src="url_api(item.imagem)" class="img-conquista" alt="">
                                 <p class="nome-conq">
-                                    Adicionar Nova Conquista
+                                    {{item.nome}}
                                 </p>
                             </div>
                         </div>
@@ -90,11 +95,11 @@
         },
         methods: {
             getItems() {
-                this.$store.dispatch('getVarios', {rota: 'origems', params: this.dados}).then(response => {
+                this.$store.dispatch('getVarios', {rota: 'conquistas', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.dados.page = this.pagination.current_page
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {
@@ -105,7 +110,7 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'origems'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'conquistas'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',

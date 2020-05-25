@@ -30,10 +30,15 @@
                     </div>
                 </div>
                 <div class="vx-row mb-3">
-                    <div class="vx-col w-full">
+                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <span class="font-regular mb-2">E-mail</span>
                         <vs-input class="w-full" v-model="usuario.email" size="large" type="email" v-validate="'required'"/>
                         <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                    </div>
+                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
+                        <span class="font-regular mb-2">Origem (sck) do usuário</span>
+                        <vs-input class="w-full" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
+                        <span class="text-danger text-sm" v-show="errors.has('sck')">{{ errors.first('sck') }}</span>
                     </div>
                 </div>
                 <div class="vx-row mb-3">
@@ -105,8 +110,6 @@
                                 </label>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -150,6 +153,9 @@
             password_confirmed: {
                 required: 'Por favor, confirme a senha',
             },
+            sck: {
+                required: 'Por favor, insira a origem do usuário',
+            },
         }
     };
     Validator.localize('pt-br', dict);
@@ -179,7 +185,8 @@
                     status: true,
                     password: '',
                     password_confirmed: '',
-                    avatar: ''
+                    avatar: '',
+                    sck: ''
                 },
                 opcoesFuncoes: [],
                 funcaoSelected: null,
@@ -200,6 +207,7 @@
                         });
                         formData.append('name', this.usuario.name);
                         formData.append('email', this.usuario.email);
+                        formData.append('sck', this.usuario.sck);
                         formData.append('role_id', 1);
                         formData.append('status', (this.usuario.status ? 1 : 0));
 

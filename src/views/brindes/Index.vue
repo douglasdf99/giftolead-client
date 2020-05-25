@@ -1,7 +1,8 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData" />
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate"
+                  @closeSidebar="toggleDataSidebar"
+                  :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -42,79 +43,80 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-              <div class="com-item" v-show="items.length > 0">
-                <vs-table :data="items" class="table-items">
+                <div class="com-item" v-show="items.length > 0">
+                    <vs-table :data="items" class="table-items">
 
-                  <template slot="thead">
-                    <vs-th></vs-th>
-                    <vs-th>Brinde</vs-th>
-                    <vs-th>Produto</vs-th>
-                    <vs-th>Peso (Kg)</vs-th>
-                    <vs-th>Largura (cm)</vs-th>
-                    <vs-th>Altura (cm)</vs-th>
-                    <vs-th>Comprimento (cm)</vs-th>
+                        <template slot="thead">
+                            <vs-th></vs-th>
+                            <vs-th>Brinde</vs-th>
+                            <vs-th>Produto</vs-th>
+                            <vs-th>Peso (Kg)</vs-th>
+                            <vs-th>Largura (cm)</vs-th>
+                            <vs-th>Altura (cm)</vs-th>
+                            <vs-th>Comprimento (cm)</vs-th>
 
-                  </template>
+                        </template>
 
-                  <template slot-scope="{data}">
-                    <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-                      <vs-td class="flex justify-center items-center">
-                        <vs-dropdown vs-trigger-click>
-                          <vs-button radius color="#EDEDED" type="filled"
-                                     class="btn-more-icon relative botao-menu"
-                                     icon-pack="material-icons" icon="more_horiz"
-                          ></vs-button>
-                          <vs-dropdown-menu class="dropdown-menu-list">
-                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                            <vs-dropdown-item @click="updateData(data[indextr])">
-                              <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                              Editar
-                            </vs-dropdown-item>
+                        <template slot-scope="{data}">
+                            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
+                                <vs-td class="flex justify-center items-center">
+                                    <vs-dropdown vs-trigger-click>
+                                        <vs-button radius color="#EDEDED" type="filled"
+                                                   class="btn-more-icon relative botao-menu"
+                                                   icon-pack="material-icons" icon="more_horiz"
+                                        ></vs-button>
+                                        <vs-dropdown-menu class="dropdown-menu-list">
+                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                            <vs-dropdown-item @click="updateData(data[indextr])">
+                                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                                Editar
+                                            </vs-dropdown-item>
 
-                            <vs-dropdown-item @click="deletar(data[indextr].id)">
-                              <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                              Deletar
-                            </vs-dropdown-item>
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                                                Deletar
+                                            </vs-dropdown-item>
 
-                          </vs-dropdown-menu>
-                        </vs-dropdown>
-                      </vs-td>
-                      <vs-td :data="data[indextr].nome">
-                        {{ data[indextr].nome }}
-                      </vs-td>
+                                        </vs-dropdown-menu>
+                                    </vs-dropdown>
+                                </vs-td>
+                                <vs-td :data="data[indextr].nome">
+                                    {{ data[indextr].nome }}
+                                </vs-td>
 
-                      <vs-td v-if="data[indextr].produto && data[indextr].produto.nome" :data="data[indextr].produto.nome">
-                        {{ data[indextr].produto.nome }}
-                      </vs-td>
-                      <vs-td v-else>
-                        produto indefinido
-                      </vs-td>
-                      <vs-td :data="data[indextr].peso">
-                        {{ tr.hasembalagem ? tr.embalagem.peso :  data[indextr].peso }}
-                      </vs-td>
-                      <vs-td :data="data[indextr].largura">
-                        {{ tr.hasembalagem ? tr.embalagem.largura :  data[indextr].largura }}
-                      </vs-td>
-                      <vs-td :data="data[indextr].altura">
-                        {{ tr.hasembalagem ? tr.embalagem.altura :  data[indextr].altura }}
-                      </vs-td>
-                      <vs-td :data="data[indextr].comprimento">
-                        {{ tr.hasembalagem ? tr.embalagem.comprimento :  data[indextr].comprimento }}
-                      </vs-td>
-                      <vs-td :data="data[indextr].ativo">
-                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                 class="icon-grande text-success"
-                                 v-if="data[indextr].ativo"></vs-icon>
-                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
-                                 v-else></vs-icon>
-                      </vs-td>
-                    </vs-tr>
-                  </template>
+                                <vs-td v-if="data[indextr].produto && data[indextr].produto.nome"
+                                       :data="data[indextr].produto.nome">
+                                    {{ data[indextr].produto.nome }}
+                                </vs-td>
+                                <vs-td v-else>
+                                    produto indefinido
+                                </vs-td>
+                                <vs-td :data="data[indextr].peso">
+                                    {{ tr.hasembalagem ? tr.embalagem.peso : data[indextr].peso }}
+                                </vs-td>
+                                <vs-td :data="data[indextr].largura">
+                                    {{ tr.hasembalagem ? tr.embalagem.largura : data[indextr].largura }}
+                                </vs-td>
+                                <vs-td :data="data[indextr].altura">
+                                    {{ tr.hasembalagem ? tr.embalagem.altura : data[indextr].altura }}
+                                </vs-td>
+                                <vs-td :data="data[indextr].comprimento">
+                                    {{ tr.hasembalagem ? tr.embalagem.comprimento : data[indextr].comprimento }}
+                                </vs-td>
+                                <vs-td :data="data[indextr].ativo">
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-success"
+                                             v-if="data[indextr].ativo"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                             v-else></vs-icon>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
 
-                </vs-table>
-                <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
-              </div>
-              <div class="vx-row mt-20" v-show="items.length === 0">
+                    </vs-table>
+                    <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                </div>
+                <div class="vx-row mt-20" v-show="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div v-if="dados.search === null">
@@ -148,10 +150,10 @@
 </template>
 
 <script>
-  import SideBar from './SideBar'
-  import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import SideBar from './SideBar'
+    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
 
-  export default {
+    export default {
         name: "Index",
         components: {SideBar},
         data() {
@@ -182,10 +184,9 @@
             this.getBrindes();
         },
         methods: {
-            paginate(){
-              console.log('resetou');
-            this.currentx = 1;
-          },
+            paginate() {
+                this.currentx = 1;
+            },
             addNewData() {
                 this.sidebarData = {}
                 this.toggleDataSidebar(true)
