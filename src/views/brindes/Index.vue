@@ -1,7 +1,7 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate" @closeSidebar="toggleDataSidebar"
+                  :data="sidebarData" />
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -148,10 +148,10 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+  import SideBar from './SideBar'
+  import moduleBrindes from '@/store/brindes/moduleBrindes.js'
 
-    export default {
+  export default {
         name: "Index",
         components: {SideBar},
         data() {
@@ -179,10 +179,13 @@
                 this.$store.registerModule('brindes', moduleBrindes);
                 moduleBrindes.isRegistered = true;
             }
-
             this.getBrindes();
         },
         methods: {
+            paginate(){
+              console.log('resetou');
+            this.currentx = 1;
+          },
             addNewData() {
                 this.sidebarData = {}
                 this.toggleDataSidebar(true)

@@ -303,9 +303,11 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
+
                                 this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
+
 
                             }).catch(err => {
                                 console.error(err)
@@ -324,6 +326,7 @@
                                 this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
+
                             }).catch(error => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -334,6 +337,8 @@
                                 })
                             })
                         }
+                        console.log('chegou no emit')
+                        this.$emit('paginate');
                         this.$emit('closeSidebar');
                         this.initValues()
                     }
