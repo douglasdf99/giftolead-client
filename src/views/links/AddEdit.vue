@@ -1,0 +1,324 @@
+<template>
+  <div>
+    <div class="vx-row mt-20 mb-3">
+      <div class="vx-col w-full mb-6">
+        <span class="font-regular ">Descrição</span>
+        <vs-input class="w-full" v-model="link.descricao" size="large" v-validate="'required', 'max:20'" name="descricao"/>
+        <span class="text-danger text-sm" v-show="errors.has('descricao')">{{ errors.first('descricao') }}</span>
+      </div>
+    </div>
+
+    <div class="vx-row mb-6">
+      <div class="vx-col w-full xlg:w-4/12 lg:w-4/12">
+        <span class="font-regular mb-2">Código da oferta</span>
+        <vs-input class="w-full" v-model="link.codigo_oferta" size="large" v-validate="'required'"
+                  name="codigo_oferta"/>
+        <span class="text-danger text-sm"
+              v-show="errors.has('codigo_oferta')">{{ errors.first('codigo_oferta') }}</span>
+      </div>
+      <div class="vx-col w-full xlg:w-6/12 lg:w-6/12">
+        <span class="font-regular mb-2">Código da origem (scr) </span>
+        <vs-input class="w-full" v-model="link.scr" v-validate="'required'" size="large" name="scr"/>
+        <span class="text-danger text-sm" v-show="errors.has('scr')">{{ errors.first('scr') }}</span>
+        <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
+      </div>
+      <div class="vx-col w-full xlg:w-2/12 lg:w-2/12">
+        <span class="font-regular mb-2">Parcelas (até 12 vezes)</span>
+        <vs-input class="w-full" type="number" v-validate="'required'" v-model="link.split" size="large" name="split"/>
+        <span class="text-danger text-sm" v-show="errors.has('split')">{{ errors.first('split') }}</span>
+      </div>
+    </div>
+    <div class="vx-row mt-10 mb-4">
+      <div class="vx-col lg:w-full w-full mb-2">
+        <vs-switch vs-icon-on="check" color="#0FB599" v-model="link.builder" class="float-left switch"/>
+        <span class="float-left mt-1 mx-4" style="font-weight: bold">Checkout Builder</span>
+      </div>
+      <div class="vx-col lg:w-full w-full mb-2">
+        <vs-switch vs-icon-on="check" color="#0FB599" v-model="link.boleto" class="float-left switch"/>
+        <span class="float-left mt-1 mx-4" style="font-weight: bold">Boleto bancário</span>
+      </div>
+      <div class="vx-col lg:w-full w-full mb-2">
+        <vs-switch vs-icon-on="check" color="#0FB599" v-model="link.paypal" class="float-left switch"/>
+        <span class="float-left mt-1 mx-4" style="font-weight: bold">Paypal</span>
+      </div>
+      <div class="vx-col lg:w-full w-full mb-2">
+        <vs-switch vs-icon-on="check" color="#0FB599" v-model="link.debito" class="float-left switch"/>
+        <span class="float-left mt-1 mx-4" style="font-weight: bold">Débito bancário</span>
+      </div>
+      <div class="vx-col lg:w-full w-full mb-2">
+        <vs-switch vs-icon-on="check" color="#0FB599" v-model="link.two_cart" class="float-left switch"/>
+        <span class="float-left mt-1 mx-4"
+              style="font-weight: bold">Opção de parcelamento em dois cartões de crédito</span>
+      </div>
+    </div>
+    <vs-divider class="mb-20"/>
+
+    <transition name="fade">
+      <footer-doug>
+        <div class="vx-col sm:w-11/12 mb-2">
+          <div class="container">
+            <div class="vx-row mb-2 relative">
+              <vs-button class="mr-3" color="primary" type="filled" @click="salvar">
+                Salvar
+              </vs-button>
+              <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                         @click="$router.push({name: 'links-produto', params:produto.id})">
+                Cancelar
+              </vs-button>
+            </div>
+          </div>
+        </div>
+      </footer-doug>
+    </transition>
+  </div>
+</template>
+
+<script>
+  import vSelect from 'vue-select'
+  import moduleLinks from '@/store/links/moduleLinks.js'
+  import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+  import {Validator} from 'vee-validate';
+  import themeConfig from "../../../themeConfig";
+  import saveleadsConfig from "../../../saveleadsConfig";
+
+  const dict = {
+    custom: {
+      descricao: {
+        required: 'Por favor, insira o nome do produto',
+        max: 'Por favor, maximo 50',
+      },
+      codigo_oferta: {
+        required: 'Por favor, selecione a conta que pertence esse produto',
+      },
+      scr: {
+        required: 'Por favor, insira o código',
+      },
+      split: {
+        required: 'Por favor, insira o código',
+      },
+    }
+  };
+  Validator.localize('pt-br', dict);
+  export default {
+    name: "Edit",
+    components: {
+      'v-select': vSelect
+    },
+    created() {
+      if (!moduleLinks.isRegistered) {
+        this.$store.registerModule('links', moduleLinks)
+        moduleLinks.isRegistered = true
+      }
+      if (!moduleProdutos.isRegistered) {
+        this.$store.registerModule('produtos', moduleProdutos)
+        moduleProdutos.isRegistered = true
+      }
+      if (this.$route.name === 'links-produto-editar') {
+        this.getProduto(this.$route.params.id);
+        this.getLink(this.$route.params.link);
+      }
+
+      console.log('mudando nome da rota')
+      //this.$route.meta.pageTitle = "Link do curso:"+ this.produto.nome;
+
+    },
+    mounted() {
+
+    },
+    updated() {
+    },
+    data() {
+      return {
+        customcor: '',
+        produto: {},
+        link: {
+          indent: '',
+          identidade: 'valor',
+          descricao: '',
+          codigo_oferta: '',
+          builder: '',
+          scr: '',
+          split: '',
+          paypal: '',
+          debito: '',
+          two_cart: '',
+        },
+        url: saveleadsConfig.url_api,
+        contaSelected: null,
+        cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',
+          '#3D556E', '#222F3D', '#F2C512', '#F39C1A', '#E84B3C', '#C0382B', '#DDE6E8', '#BDC3C8'],
+        configComissao: false,
+        opcoesContas: [],
+        money: {
+          decimal: ',',
+          thousands: '.',
+          prefix: 'R$ ',
+          suffix: '',
+          precision: 2,
+          masked: false /* doesn't work with directive */
+        },
+        percent: {
+          decimal: ',',
+          thousands: '.',
+          prefix: '',
+          suffix: '%',
+          precision: 2,
+          masked: false /* doesn't work with directive */
+        },
+      }
+    },
+    methods: {
+      salvar() {
+        this.$validator.validateAll().then(result => {
+          if (result) {
+            this.$vs.loading();
+            this.link.produto_id = this.produto.id;
+            if (this.link.id !== undefined) {
+
+              this.$store.dispatch('links/update', this.link).then(response => {
+                console.log('response', response);
+                this.$vs.notify({
+                  title: 'Sucesso',
+                  text: "O link foi atualizado com sucesso.",
+                  iconPack: 'feather',
+                  icon: 'icon-check-circle',
+                  color: 'success'
+                });
+
+               this.$router.push({name: 'links-produto',params:this.produto.id});
+              }).catch(erro => {
+                this.$vs.notify({
+                  title: 'Error',
+                  text: erro.message,
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                })
+              }).finally(()=>{
+                this.$vs.loading.close();
+              })
+            } else {
+              this.$store.dispatch('links/store', this.link).then(response => {
+                console.log('response', response);
+                this.$vs.notify({
+                  title: 'Sucesso',
+                  text: "O link foi criado com sucesso.",
+                  iconPack: 'feather',
+                  icon: 'icon-check-circle',
+                  color: 'success'
+                });
+                this.$router.push({name: 'links-produto',params:this.produto.id});
+              }).catch(erro => {
+                this.$vs.notify({
+                  title: 'Error',
+                  text: erro.message,
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                })
+              }).finally(()=>{
+                this.$vs.loading.close();
+              })
+            }
+          } else {
+            this.$vs.notify({
+              title: 'Error',
+              text: 'verifique os erros específicos',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          }
+        })
+
+      },
+      selecionaCor(cor) {
+        if (cor) {
+          this.produto.cor = cor
+        } else {
+          this.produto.cor = this.customcor;
+        }
+        this.errors.remove('cor');
+      },
+      selecionaTipoComissao(val) {
+        this.produto.comissao_tipo = val;
+        console.log(this.produto.comissao_tipo)
+      },
+      getProduto(id) {
+        this.$vs.loading()
+        this.$store.dispatch('produtos/getId', id).then(data => {
+          this.produto = {...data};
+          this.$vs.loading.close();
+        })
+      },
+      getLink(id) {
+        this.$vs.loading()
+        this.$store.dispatch('links/getId', id).then(data => {
+          this.link = {...data};
+          this.$vs.loading.close();
+        })
+      },
+      copyText() {
+        const thisIns = this;
+        this.$copyText(this.url).then(function () {
+          thisIns.$vs.notify({
+            title: 'Success',
+            text: 'URL copiada para sua área de transferência',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check-circle'
+          })
+        }, function () {
+          thisIns.$vs.notify({
+            title: 'Failed',
+            text: 'Erro ao copiar link',
+            color: 'danger',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon: 'icon-alert-circle'
+          })
+        })
+      }
+    },
+    computed: {
+      isValid() {
+        return this.errors.any() && this.produto.cor !== '';
+      },
+    },
+    watch: {
+      currentx(val) {
+        this.$vs.loading();
+        console.log('val', val);
+        this.dados.page = this.currentx;
+      },
+      produto: {
+        handler(val) {
+          console.log('mudou');
+          if (val) {
+            console.log('watch', val);
+          }
+        },
+        deep: true
+      },
+    },
+  }
+</script>
+
+<style>
+  [dir] .con-select .vs-select--input {
+    padding: 1.4rem 2rem !important;
+  }
+
+  .list-tipo-comissao .vs-radio--label {
+    font-weight: 600;
+    margin-left: 2rem;
+  }
+
+  #copy-icon {
+    position: absolute;
+    top: 0.7rem;
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+  }
+</style>

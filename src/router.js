@@ -1560,6 +1560,64 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/links',
+                    name: 'links',
+                    component: () => import('@/views/links/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Links', active: true},
+                        ],
+                        pageTitle: 'Configurações de links e ofertas',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/links/produto/:id',
+                    name: 'links-produto',
+                    component: () => import('@/views/links/Lista.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Links', active: true},
+                        ],
+                        pageTitle: 'Configurações de links e ofertas',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/links/produto/:id/editar/:link',
+                    name: 'links-produto-editar',
+                    component: () => import('@/views/links/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Links', url: '/configuracoes/links'},
+                            {title: 'Editar', active: true},
+                        ],
+                        pageTitle: 'Configurações de links e ofertas',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/origens',
                     name: 'origens',
                     component: () => import('@/views/origens/Index.vue'),
