@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row flex items-end lg:mt-20 sm:mt-6">
+        <div class="vx-row flex items-end lg:mt-10 sm:mt-6 mb-4">
             <!--<div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -8,7 +8,7 @@
                 </vs-button>
                 &lt;!&ndash; SEARCH INPUT &ndash;&gt;
             </div>-->
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-3/12 xlg:w-3/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-6/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
@@ -34,24 +34,10 @@
                 <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="produtos"/>
             </div>
-            <div class="vx-col w-full lg:w-2/12 sm:w-full">
+            <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <label class="vs-input--label">Status</label>
                 <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="status"/>
-            </div>
-            <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
-                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent"
-                           @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i>
-                </vs-button>
-                <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input"
-                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
-            </div>
-            <div class="vx-col w-full lg:w-2/12 sm:w-1/2">
-                <vs-button class="mb-3 px-3 py-2" style="border: 1px solid #C7C7C7; color: #C7C7C7;" color="transparent"
-                           @click="$refs.programaticOpen.showCalendar()"><i class="material-icons">calendar_today</i>
-                </vs-button>
-                <datepicker placeholder="Até" ref="programaticOpen2" v-model="dt_fim" class="datepicker-input"
-                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
             </div>
             <!--<div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -61,19 +47,25 @@
                 &lt;!&ndash; SEARCH INPUT &ndash;&gt;
             </div>-->
         </div>
+        <div class="vx-row flex items-end">
+            <div class="vx-col w-full relative lg:w-2/12 sm:w-1/2">
+                <i class="material-icons calendar-icon-input">calendar_today</i>
+                <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input"
+                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
+            </div>
+            <div class="vx-col w-full relative lg:w-2/12 sm:w-1/2">
+                <i class="material-icons calendar-icon-input">calendar_today</i>
+                <datepicker placeholder="Até" ref="programaticOpen2" v-model="dt_fim" class="datepicker-input"
+                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
+            </div>
+        </div>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20" v-show="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado neste período</p>
+                            <div>
+                                <p class="span-sem-item">Nenhuma transação encontrada</p>
                             </div>
                             <br>
                         </div>
@@ -272,10 +264,15 @@
 
                 this.dados.search = url;*/
                 this.dados.pesquisa = this.search;
-                if (this.selectedProduto)
+
+                if (this.selectedProduto !== null)
                     this.dados.produto = this.selectedProduto.id;
-                if (this.selectedStatus)
+                else this.dados.produto = '';
+
+                if (this.selectedStatus !== null)
                     this.dados.status = this.selectedStatus.id;
+                else this.dados.status = '';
+
                 if(this.dt_inicio)
                     this.dados.dt_inicio = this.formatDateBanco(this.dt_inicio);
                 if(this.dt_fim)

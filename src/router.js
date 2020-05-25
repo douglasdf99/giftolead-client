@@ -53,6 +53,12 @@ const subconfiguracoes = [
         slug: "configuracoes",
         icon: 'account_box'
     },
+    {
+        url: '/configuracoes/conquistas',
+        name: "Conquistas",
+        slug: "configuracoes",
+        icon: 'account_box'
+    },
 ];
 const subleads = [
     {
@@ -1399,6 +1405,24 @@ const router = new Router({
                             {title: 'Usuários', active: true},
                         ],
                         pageTitle: 'Configurações de Usuários',
+                        rule: 'editor',
+                      pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/conquistas',
+                    name: 'configuracoes-conquistas',
+                    component: () => import('@/views/configuracoes/Conquistas.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Conquistas', active: true},
+                        ],
+                        pageTitle: 'Conquistas',
                         rule: 'editor',
                       pai: 'configuracoes',
                         subTitle: 'Configurações',
