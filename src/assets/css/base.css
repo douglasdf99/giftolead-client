@@ -465,6 +465,54 @@ th > .vs-table-text {
     margin-right: 6px;
 }
 
+.calendar-icon-input {
+    position: absolute;
+    z-index: 5;
+    top: 10px;
+    right: 10%;
+}
+
+.conquista {
+    background-color: white;
+    text-align: center;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 10px;
+    padding: 4rem 5rem;
+}
+
+.conquista.nova {
+    background-color: transparent;
+    border: 2px dashed #9AAABE;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.nome-conq {
+    font-weight: bold;
+    font-size: 1.5rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.img-plus {
+    background-color: white;
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 0.4rem 3rem;
+    margin: 2rem 0;
+    color: #10CFAE;
+    font-size: 3rem;
+}
+
+.img-plus i {
+    font-size: 5rem;
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);

@@ -68,7 +68,7 @@
                                       :options="opcoesTipoCaixa" v-validate="'required'" name="tipo_de_caixa"/>
                             <span class="text-danger text-sm" v-show="errors.has('tipo_de_caixa')">{{ errors.first('tipo_de_caixa') }}</span>
                         </div>
-                        <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                        <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_caixa">
                             <vs-input size="large" v-validate="'required'" label="Altura" autocomplete="off"
                                       v-model="brinde.altura" class="mt-5 w-full" name="altura" type="number"/>
                             <div class="unidade absolute p-2">
@@ -77,7 +77,7 @@
                             <span class="text-danger text-sm"
                                   v-show="errors.has('altura')">{{ errors.first('altura') }}</span>
                         </div>
-                        <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                        <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_caixa">
                             <vs-input size="large " v-validate="'required'" label="Largura" autocomplete="off"
                                       v-model="brinde.largura" class="mt-5 w-full" type="number" name="largura"/>
                             <div class="unidade absolute p-2">
@@ -86,9 +86,18 @@
                             <span class="text-danger text-sm" v-show="errors.has('largura')">{{ errors.first('largura') }}</span>
                         </div>
                     </div>
-
-                    <div class="vx-row ">
-                        <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                    <div class="vx-row">
+                        <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_cilindro">
+                            <vs-input size="large " v-validate="'required'" label="Diâmetro" autocomplete="off"
+                                      v-model="brinde.diametro" class="mt-5 w-full" type="number"
+                                      name="diametro"/>
+                            <div class="unidade absolute p-2">
+                                <span>cm</span>
+                            </div>
+                            <span class="text-danger text-sm"
+                                  v-show="errors.has('diametro')">{{ errors.first('diametro') }}</span>
+                        </div>
+                        <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_caixa || tipo_cilindro">
                             <vs-input size="large " v-validate="'required'" label="Comprimento" autocomplete="off"
                                       v-model="brinde.comprimento" class="mt-5 w-full" type="number"
                                       name="comprimento"/>
@@ -221,9 +230,11 @@
                 brinde: {
                     nome: '',
                     detal: '',
-                    largura: '',
-                    comprimento: '',
-                    peso: '',
+                    largura: 0,
+                    altura: 0,
+                    comprimento: 0,
+                    diametro: 0,
+                    peso: 0,
                     integracao: {},
                     tipo: true
                 },
