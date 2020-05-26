@@ -90,6 +90,11 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                            <vs-dropdown-item @click="showLink(tr.id)">
+                                                <vs-icon icon-pack="material-icons" icon="link"></vs-icon>
+                                                Links
+                                            </vs-dropdown-item>
+                                            <vs-divider></vs-divider>
                                             <vs-dropdown-item @click="updateData(tr.id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
@@ -141,10 +146,12 @@
 
 <script>
     import moduleContas from '@/store/contas/moduleContas.js'
+    import Divider from "../components/vuesax/divider/Divider";
 
     export default {
         name: "Index",
-        data() {
+      components: {Divider},
+      data() {
             return {
                 // Data Sidebar
                 addNewDataSidebar: false,
@@ -183,6 +190,9 @@
         methods: {
             addNewData() {
                 this.$router.push({name: 'produto-criar'});
+            },
+            showLink(id) {
+                this.$router.push({path: '/configuracoes/links/produto/' + id});
             },
             updateData(id) {
                 this.$router.push({path: '/configuracoes/produtos/editar/' + id});

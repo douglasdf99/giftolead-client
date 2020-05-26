@@ -184,8 +184,8 @@
         methods: {
             paginate(){
               console.log('resetou');
-            this.currentx = 1;
-          },
+              this.currentx = 1;
+            },
             addNewData() {
                 this.sidebarData = {}
                 this.toggleDataSidebar(true)
@@ -248,6 +248,15 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
+          dados: {
+            handler(val) {
+              console.log('mudou');
+              if (val.search) {
+                this.paginate()
+              }
+            },
+            deep: true
+          },
         },
         computed: {
             items() {

@@ -2,32 +2,12 @@
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
-        <div class="vx-row flex items-center mt-20">
-          <div class="vx-col w-full lg:w-3/12 sm:w-full mb-10">
-            <label class="destaque">Produto</label>
-            <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false" class="bg-white"
-                      :options="produtos"/>
-          </div>
-        <vx-card  class=" mb-10">
-          <div class="vx-row">
-            <div class="vx-col sm:w-1/12 w-full">
-              <span class="rounded-full bg-primary py-2 px-2 text-enum text-white font-bold"><i class="material-icons">star</i></span>
-            </div>
-            <div class="vx-col sm:w-1/12 w-full py-2 px-2">
-              <p class="mb-0 text-base font-bold">Checkout:</p>
-            </div>
-            <div class="vx-col sm:w-10/12 w-full py-2 px-2">
-              <p class="mb-0 text-base font-bold text-dark-50">{{produto.conta.integracao.checkout_base}}{{produto.checkout}}</p>
-            </div>
-          </div>
-          <!-- end row -->
-        </vx-card>
-      </div>
+
         <div class="vx-row flex items-center lg:mt-10 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir link
+                    <vs-icon icon-pack="material-icons" icon="keyboard_backspace" class="icon-grande"></vs-icon>
+                    Voltar
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -37,19 +17,9 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                             <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"/>
-                            <!-- SEARCH LOADING -->
-                            <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                <button type="submit" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
-                                </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
-                            </div>
-                        </form>
+                      <label class="destaque">Selecione o produto</label>
+                      <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false" class="bg-white"
+                                :options="produtos"/>
                     </div>
 
                 </div>
@@ -57,8 +27,8 @@
             </div>
             <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir link
+                    <vs-icon icon-pack="material-icons" icon="keyboard_backspace" class="icon-grande"></vs-icon>
+                  Voltar
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -82,12 +52,7 @@
                             </div>
                             <br>
                             <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir link
-                                </vs-button>
+
                             </p>
                         </div>
                     </div>
@@ -95,43 +60,22 @@
                 <div class="com-item mt-20" v-show="items.length > 0">
                   <vx-card :key="link.id"  class=" mb-10" v-for="(link, index) in items">
                     <div class="vx-row">
-                      <div class="vx-col sm:w-1/12 w-full mb-2">
-                          <vs-dropdown vs-trigger-click>
-                            <vs-button radius color="#EDEDED" type="filled"
-                                       class="btn-more-icon relative botao-menu"
-                                       icon-pack="material-icons" icon="more_horiz"
-                            ></vs-button>
-                            <vs-dropdown-menu class="dropdown-menu-list">
-                              <span class="span-identifica-item-dropdown">Nº {{link.id}}</span>
-                              <vs-dropdown-item @click="updateData(link.id)">
-                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                Editar
-                              </vs-dropdown-item>
+                      <div class="vx-col sm:w-8/12 w-full">
+                        <p class="mb-0 text-base font-bold pt-4"> {{link.descricao}}</p>
+                      </div>
+                      <div class="vx-col sm:w-4/12 w-full">
+                        <div class="vx-col w-full lg:w-10/12 relative py-2">
+                          <vx-input-group >
+                            <vs-input :value="getlink(link)" disabled  />
 
-                              <vs-dropdown-item @click="deletar(link.id)">
-                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                Deletar
-                              </vs-dropdown-item>
-
-                            </vs-dropdown-menu>
-                          </vs-dropdown>
-
-                      </div>
-                      <div class="vx-col sm:w-3/12 w-full mb-2">
-                        <p class="mb-0 text-base font-bold">Descrição {{link.id}}</p>
-                       {{link.descricao}}
-                      </div>
-                      <div class="vx-col sm:w-3/12 w-full mb-2">
-                        <p class="mb-0 text-base font-bold">SCR</p>
-                        {{link.scr}}
-                      </div>
-                      <div class="vx-col sm:w-3/12 w-full mb-2" >
-                        <p class="mb-0 text-base font-bold">Oferta</p>
-                        {{link.codigo_oferta}}
-                      </div>
-                      <div class="vx-col sm:w-2/12 w-full mb-2">
-                        <p class="mb-0 text-base font-bold">Parcelas</p>
-                        <span class="font-15 font-weight-bold">{{link.split}}x</span>
+                            <template slot="append">
+                              <div class="append-text btn-addon">
+                                <vs-button color="primary" type="border"> <i class="material-icons"  @click="copyText(getlink(link))">file_copy</i></vs-button>
+                                <vs-button color="primary" type="border"> <i class="material-icons"  @click="goto(getlink(link))">trending_flat</i></vs-button>
+                              </div>
+                            </template>
+                          </vx-input-group>
+                        </div>
                       </div>
                     </div>
                     <!-- end row -->
@@ -206,11 +150,39 @@
               this.produto = {...data};
             })
           },
+          getlink(link){
+            let user = JSON.parse(localStorage.getItem("userInfo"));
+            return this.url_redirect('savelink/'+user.uid+'/'+link.identidade);
+          },
+          copyText(text){
+            const thisIns = this;
+            this.$copyText(text).then(function () {
+              thisIns.$vs.notify({
+                title: 'Success',
+                text: 'URL copiada para sua área de transferência',
+                color: 'success',
+                iconPack: 'feather',
+                icon: 'icon-check-circle'
+              })
+            }, function () {
+              thisIns.$vs.notify({
+                title: 'Failed',
+                text: 'Erro ao copiar link',
+                color: 'danger',
+                iconPack: 'feather',
+                position: 'top-center',
+                icon: 'icon-alert-circle'
+              })
+            })
+          },
+          goto(text){
+            window.open(text, '_blank');
+          },
             addNewData() {
-              this.$router.push({path: '/configuracoes/links/produto/'+ this.produto.id + '/criar'});
+             //this.$router.push({path: '/configuracoes/links/produto/'+ this.produto.id + '/criar'});
             },
             updateData(id) {
-              this.$router.push({path: '/configuracoes/links/produto/'+ this.produto.id + '/editar/' + id});
+              //this.$router.push({path: '/configuracoes/links/produto/'+ this.produto.id + '/editar/' + id});
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
@@ -266,7 +238,7 @@
             },
           selectedProduto: function (val) {
             console.log('val', val);
-            this.$router.push({path: '/configuracoes/links/produto/'+ val.id});
+            this.$router.push({path: '/meuslinks/produto/'+ val.id});
             this.dados.produto = val.id;
             this.getProduto(val.id);
             this.getItems();

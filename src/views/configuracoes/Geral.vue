@@ -30,6 +30,10 @@
                         routername: 'produtos'
                     },
                     {
+                        nome: 'Administrar links de vendas',
+                        routername: 'links'
+                    },
+                    {
                         nome: 'Cadastrar ou alterar brindes',
                         routername: 'brindes'
                     },
