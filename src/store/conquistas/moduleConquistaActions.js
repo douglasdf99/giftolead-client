@@ -11,13 +11,12 @@
 import axios from "@/axios.js"
 
 export default {
-    updateProduto({commit}, dados) {
+    update({commit}, dados) {
         return new Promise((resolve, reject) => {
             dados._method = 'PUT';
-            axios.post(`/api/produtos/${dados.id}`, dados)
+            axios.post(`/api/conquistas/${dados.id}`, dados)
                 .then((response) => {
-                    console.log('empresa alterada', response);
-                    commit('UPDATE_EMPRESA', response.data.data);
+                    console.log('conquista alterada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -25,11 +24,11 @@ export default {
                 })
         })
     },
-    storeProduto({commit}, dados) {
+    store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/produtos/`, dados)
+            axios.post(`/api/conquistas/`, dados)
                 .then((response) => {
-                    console.log('produto criado', response);
+                    console.log('conquista criada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -39,7 +38,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/produtos/${id}`)
+            axios.get(`/api/conquistas/${id}`)
                 .then((response) => {
                     console.log('produto resgatado', response);
                     resolve(response.data.data)
@@ -51,7 +50,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/produtos`, {params: {}})
+            axios.get(`/api/conquistas`, {params: {}})
                 .then((response) => {
                     console.log('produtos resgatado', response);
                     resolve(response.data.data)

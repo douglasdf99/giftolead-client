@@ -21,7 +21,10 @@
                         nome: 'Cadastrar ou alterar usuários',
                         routername: 'usuarios'
                     },
-
+                    {
+                        nome: 'Cadastrar ou alterar conquistas',
+                        routername: 'conquistas'
+                    },
                 ]
             }
         },

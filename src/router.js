@@ -53,12 +53,12 @@ const subconfiguracoes = [
         slug: "configuracoes",
         icon: 'account_box'
     },
-    {
+    /*{
         url: '/configuracoes/conquistas',
         name: "Conquistas",
         slug: "configuracoes",
         icon: 'emoji_events'
-    },
+    },*/
 ];
 const subleads = [
     {
