@@ -15,10 +15,10 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="search" id="search_input" size="large"/>
+                                      v-model="search" id="search_input_trans" size="large"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
                                 <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>

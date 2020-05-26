@@ -182,7 +182,6 @@
     import moduleContas from '@/store/contas/moduleContas.js'
     import moduleProdutos from '@/store/produtos/moduleProdutos.js'
     import {Validator} from 'vee-validate';
-    import themeConfig from "../../../themeConfig";
     import saveleadsConfig from "../../../saveleadsConfig";
 
     const dict = {

@@ -47,7 +47,7 @@
                     <span class="text-danger text-sm" v-show="errors.has('tipo_de_caixa')">{{ errors.first('tipo_de_caixa') }}</span>
                 </div>
                 <div class="vx-row">
-                    <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                    <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_caixa">
                         <vs-input type="number" size="large " v-validate="'required'" label="Altura" autocomplete="off"
                                   v-model="embalagem.altura" class="mt-5 w-full"
                                   name="altura"/>
@@ -56,7 +56,7 @@
                         </div>
                         <span class="text-danger text-sm" v-show="errors.has('altura')">Este campo é obrigatório</span>
                     </div>
-                    <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                    <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_caixa">
                         <vs-input type="number" size="large " v-validate="'required'" label="Largura" autocomplete="off"
                                   v-model="embalagem.largura" class="mt-5 w-full"
                                   name="largura"/>
@@ -66,9 +66,18 @@
                         <span class="text-danger text-sm" v-show="errors.has('largura')">Este campo é obrigatório</span>
                     </div>
                 </div>
-
-                <div class="vx-row ">
-                    <div class="vx-col sm:w-1/2 w-full mb-2 relative">
+                <div class="vx-row">
+                    <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_cilindro">
+                        <vs-input size="large " v-validate="'required'" label="Diâmetro" autocomplete="off"
+                                  v-model="embalagem.diametro" class="mt-5 w-full" type="number"
+                                  name="diametro"/>
+                        <div class="unidade absolute p-2">
+                            <span>cm</span>
+                        </div>
+                        <span class="text-danger text-sm"
+                              v-show="errors.has('diametro')">{{ errors.first('diametro') }}</span>
+                    </div>
+                    <div class="vx-col sm:w-1/2 w-full mb-2 relative" v-if="tipo_caixa || tipo_cilindro">
                         <vs-input type="number" size="large " v-validate="'required'" label="Comprimento" autocomplete="off"
                                   v-model="embalagem.comprimento" class="mt-5 w-full"
                                   name="comprimento"/>
@@ -180,9 +189,11 @@
             return {
                 embalagem: {
                     nome: '',
-                    largura: '',
-                    comprimento: '',
-                    peso: '',
+                    largura: 0,
+                    altura: 0,
+                    comprimento: 0,
+                    peso: 0,
+                    diametro: 0,
                     tipo_de_caixa: ''
                 },
                 tipo_caixa: false,
@@ -274,6 +285,7 @@
                                 })
                             })
                         }
+                        this.$emit('pagiante')
                         this.$emit('closeSidebar')
                         this.initValues()
                     }

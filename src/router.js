@@ -57,7 +57,7 @@ const subconfiguracoes = [
         url: '/configuracoes/conquistas',
         name: "Conquistas",
         slug: "configuracoes",
-        icon: 'account_box'
+        icon: 'emoji_events'
     },
 ];
 const subleads = [
@@ -1414,7 +1414,7 @@ const router = new Router({
                 },
                 {
                     path: '/configuracoes/conquistas',
-                    name: 'configuracoes-conquistas',
+                    name: 'conquistas',
                     component: () => import('@/views/configuracoes/Conquistas.vue'),
                     meta: {
                         breadcrumb: [
@@ -1423,6 +1423,25 @@ const router = new Router({
                             {title: 'Conquistas', active: true},
                         ],
                         pageTitle: 'Conquistas',
+                        rule: 'editor',
+                      pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/conquistas/nova',
+                    name: 'configuracoes-conquistas-nova',
+                    component: () => import('@/views/conquistas/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Conquistas', url: '/configuracoes/conquistas'},
+                            {title: 'Nova Conquista', active: true},
+                        ],
+                        pageTitle: 'Nova Conquista',
                         rule: 'editor',
                       pai: 'configuracoes',
                         subTitle: 'Configurações',

@@ -411,13 +411,17 @@ h4 {
     border-radius: 20px;
 }
 
-#search_input {
+#search_input, #search_input_trans {
     padding: 1.2rem 2rem !important;
     box-shadow: unset;
     border: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
 
-#search_input:focus {
+#search_input_trans {
+    padding: .8rem 2rem !important;
+}
+
+#search_input:focus, #search_input_trans:focus {
     border-color: black !important;
 }
 
@@ -502,15 +506,31 @@ th > .vs-table-text {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 0.4rem 3rem;
     margin: 2rem 0;
     color: #10CFAE;
     font-size: 3rem;
+    cursor: pointer;
 }
 
 .img-plus i {
     font-size: 5rem;
+}
+
+.tipo-conquista {
+    border: 1px solid #9344C4;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.conquista-ativa {
+    background-color: #9344C4;
+    color: white !important;
+}
+
+.conquista-ativa p {
+    color: white !important;
 }
 
 @media (max-width: 450px) {
