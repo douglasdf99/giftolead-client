@@ -83,17 +83,89 @@
                 </div>
             </div>
             <div class="vx-row">
-                <div class="vx-col w-full xlg:w-3/12 lg:w-1/2" v-if="conquista.tipo === 'valor'">
-                    <span class="font-regular mb-2">Aumento em reais</span>
-                    <vs-input class="w-full" v-model="conquista.valor" size="large" v-money="money" v-validate="'required'"/>
+                <div class="vx-col w-full lg:w-8/12 sm:w-full">
+                    <div class="vx-row">
+                        <div class="vx-col w-full xlg:w-3/12 lg:w-1/2" v-if="conquista.tipo === 'valor'">
+                            <span class="font-regular mb-2">Aumento em reais</span>
+                            <vs-input class="w-full" v-model="conquista.valor" size="large" v-money="money"
+                                      v-validate="'required'"/>
+                        </div>
+                        <div class="vx-col w-full xlg:w-3/12 lg:w-1/2" v-if="conquista.tipo === 'percentual'">
+                            <span class="font-regular mb-2">Aumento percentual</span>
+                            <vs-input class="w-full" v-model="conquista.porcentagem" size="large" v-money="percent"
+                                      v-validate="'required'"/>
+                        </div>
+                        <div class="vx-col w-full xlg:w-3/12 lg:w-1/2">
+                            <span class="font-regular mb-2">Nº de vendas</span>
+                            <vs-input class="w-full" v-model="conquista.quantidade" size="large"
+                                      v-validate="'required'" @keypress="isNumber"/>
+                        </div>
+                        <div class="vx-col w-full mt-10">
+                            <span class="font-regular mb-2">Descrição da conquista</span>
+                            <vs-textarea v-model="conquista.descricao" id="text-area" class="w-full bg-white"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="vx-col w-full xlg:w-3/12 lg:w-1/2" v-if="conquista.tipo === 'percentual'">
-                    <span class="font-regular mb-2">Aumento percentual</span>
-                    <vs-input class="w-full" v-model="conquista.porcentagem" size="large" v-money="percent" v-validate="'required'"/>
-                </div>
-                <div class="vx-col w-full xlg:w-3/12 lg:w-1/2">
-                    <span class="font-regular mb-2">Nº de vendas</span>
-                    <vs-input class="w-full" v-model="conquista.quantidade" size="large" v-validate="'required'"/>
+                <div class="vx-col w-full lg:w-4/12 sm:w-full">
+                    <div class="mb-6 p-5 pt-0">
+                        <span class="font-regular mb-3 ml-2">Selo do Reconhecimento</span>
+                        <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter"
+                             @dragleave="OnDragLeave"
+                             @dragover.prevent
+                             @drop="onDrop"
+                             :class="{ dragging: isDragging }">
+                            <vx-card class="grid-view-item mb-base overflow-hidden" v-if="conquista.imagem && !images.length">
+                                <template slot="no-body">
+                                    <!-- ITEM IMAGE -->
+                                    <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
+                                        <img :src="url_api(conquista.imagem)" style="width: 200px" alt="avatar"
+                                             class="grid-view-img px-4">
+                                    </div>
+                                    <div class="item-details px-4">
+                                    </div>
+                                    <div class="flex flex-wrap">
+                                        <label
+                                                class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                                                for="file">
+                                            <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
+                                            <label class="text-sm font-semibold ml-2" for="file">Alterar avatar</label>
+                                        </label>
+                                    </div>
+                                </template>
+                            </vx-card>
+
+                            <vx-card class="grid-view-item mb-base overflow-hidden" v-show="images.length">
+                                <template slot="no-body">
+                                    <!-- ITEM IMAGE -->
+                                    <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
+                                         v-for="(image, index) in images" :key="index">
+                                        <img :src="image" style="width: 200px" alt="avatar" class="grid-view-img px-4">
+                                    </div>
+                                    <div class="item-details px-4">
+                                    </div>
+                                    <div class="flex flex-wrap">
+                                        <label class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                                               for="file">
+                                            <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
+                                            <label class="text-sm font-semibold ml-2" for="file">Alterar Selo</label>
+                                        </label>
+                                    </div>
+                                </template>
+                            </vx-card>
+                            <div class="uploader" v-show="!conquista.imagem">
+                                <div v-show="!images.length">
+                                    <label for="file">
+                                        <i class="fa fa-cloud-upload"></i>
+                                        <img :src="url_api('images/upload.png')">
+                                        <p class="text-lg">Arraste e solte ou clique aqui</p>
+                                        <div class="file-input">
+                                            <input type="file" id="file" @change="onInputChange">
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -150,7 +222,7 @@
 
             /*if (this.$route.name === 'produto-editar') {
                 this.contaSelected = {id: null, label: ''};
-                this.getProduto(this.$route.params.id);
+                this.getId(this.$route.params.id);
             } else {
                 this.conquista.preco = true;
             }*/
@@ -166,8 +238,12 @@
                     perfil: 'atendente',
                     valor: 0,
                     porcentagem: 0,
-                    quantidade: null
+                    quantidade: 0,
+                    imagem: null
                 },
+                images: [],
+                files: [],
+                isDragging: false,
                 prosseguiu: false,
                 money: {
                     decimal: ',',
@@ -195,13 +271,29 @@
                             this.prosseguiu = true;
                         } else {
                             this.$vs.loading();
-                            this.conquista.produto = this.produtoSelected.id;
+                            const formData = new FormData();
+                            this.files.forEach(file => {
+                                formData.append('imagem', file, file.name);
+                            });
+                            if(this.produtoSelected != null)
+                                formData.append('produto', this.produtoSelected.id);
+
+                            formData.append('nome', this.conquista.nome);
+                            formData.append('descricao', this.conquista.descricao);
+                            formData.append('quantidade', this.conquista.quantidade);
+                            formData.append('valor', this.conquista.valor);
+                            formData.append('porcentagem', this.conquista.porcentagem);
+                            formData.append('tipo', this.conquista.tipo);
+                            formData.append('perfil', this.conquista.perfil);
+                            formData.append('global', this.conquista.global);
+                            formData.append('ativo', this.conquista.ativo);
+
                             if (this.conquista.id !== undefined) {
-                                this.$store.dispatch('conquistas/updateProduto', this.produto).then(response => {
+                                this.$store.dispatch('conquistas/update', formData).then(response => {
                                     console.log('response', response);
                                     this.$vs.notify({
                                         title: 'Sucesso',
-                                        text: "O produto foi atualizado com sucesso.",
+                                        text: "Atualizada com sucesso.",
                                         iconPack: 'feather',
                                         icon: 'icon-check-circle',
                                         color: 'success'
@@ -217,11 +309,11 @@
                                     })
                                 })
                             } else {
-                                this.$store.dispatch('conquistas/storeProduto', this.produto).then(response => {
+                                this.$store.dispatch('conquistas/store', formData).then(response => {
                                     console.log('response', response);
                                     this.$vs.notify({
                                         title: 'Sucesso',
-                                        text: "O produto foi criado com sucesso.",
+                                        text: "Criada com sucesso.",
                                         iconPack: 'feather',
                                         icon: 'icon-check-circle',
                                         color: 'success'
@@ -248,7 +340,6 @@
                         })
                     }
                 })
-
             },
             selecionaTipoComissao(val) {
                 this.conquista.tipo = val;
@@ -262,13 +353,68 @@
                     });
                 })
             },
-            getProduto(id) {
+            getId(id) {
                 this.$vs.loading()
                 this.$store.dispatch('conquistas/getId', id).then(data => {
                     this.conquista = {...data};
                     this.$vs.loading.close();
 
                 })
+            },
+
+            //drag
+            OnDragEnter(e) {
+                e.preventDefault();
+                this.dragCount++;
+                this.isDragging = true;
+                return false;
+            },
+            OnDragLeave(e) {
+                e.preventDefault();
+                this.dragCount--;
+                if (this.dragCount <= 0)
+                    this.isDragging = false;
+            },
+            onInputChange(e) {
+                const files = e.target.files;
+                Array.from(files).forEach(file => this.addImage(file));
+            },
+            onDrop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.isDragging = false;
+                const files = e.dataTransfer.files;
+                Array.from(files).forEach(file => this.addImage(file));
+            },
+            addImage(file) {
+                this.files.pop();
+                if (!file.type.match('image.*')) {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: file.name + " não é uma imagem compatível",
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                    return;
+                }
+                this.files.push(file);
+                this.conquista.imagem = file;
+                const img = new Image(),
+                    reader = new FileReader();
+                this.images.pop();
+                reader.onload = (e) => this.images.push(e.target.result);
+                reader.readAsDataURL(file);
+            },
+            getFileSize(size) {
+                const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
+                let i = 0;
+
+                while (size > 900) {
+                    size /= 1024;
+                    i++;
+                }
+                return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
             },
         },
         computed: {
@@ -298,6 +444,113 @@
         },
     }
 </script>
+
+<style scoped lang="scss">
+    .uploader {
+        width: 100%;
+        background: #fff;
+        color: #0c0808;
+        padding: 40px 15px;
+        text-align: center;
+        border-radius: 10px;
+        border: 3px dashed #fff;
+        font-size: 20px;
+        position: relative;
+
+        &.dragging {
+            background: #fff;
+            color: #2196F3;
+            border: 3px dashed #e7e7e7;
+
+            .file-input label {
+                background: #f0f2f4;
+                color: #fff;
+            }
+        }
+
+        i {
+            font-size: 85px;
+        }
+
+        .file-input {
+            width: 200px;
+            margin: auto;
+            height: 68px;
+            position: relative;
+
+            label,
+            input {
+                background: #f1f5f7;
+                color: #0c0808;
+                width: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                font-size: 18px;
+                padding: 10px;
+                border-radius: 4px;
+                margin-top: 7px;
+                cursor: pointer;
+            }
+
+            input {
+                opacity: 0;
+                z-index: -2;
+            }
+        }
+
+        .images-preview {
+            display: flex;
+            flex-wrap: wrap;
+
+            .img-wrapper {
+                width: auto;
+                display: flex;
+                /*/flex-direction: column;*/
+                margin: 10px;
+
+                justify-content: space-between;
+                background: #fff0;
+                //box-shadow: 5px 5px 20px #3e3737;
+                img {
+                    max-height: 200px;
+                    max-width: 200px;
+                    width: 100%;
+                }
+            }
+
+            .details {
+                font-size: 12px;
+                background: #fff;
+                color: #000;
+                display: flex;
+                flex-direction: column;
+                padding: 3px 6px;
+
+                .name {
+                    overflow: hidden;
+                    height: 18px;
+                }
+            }
+        }
+
+        .upload-control {
+            button, label {
+                background: #7e57c2;
+                border: 2px solid #7e57c2;
+                border-radius: 3px;
+                color: #fff;
+                font-size: 15px;
+                cursor: pointer !important;
+            }
+
+            label {
+                padding: 2px 5px;
+            }
+        }
+
+    }
+</style>
 
 <style>
     [dir] .con-select .vs-select--input {
