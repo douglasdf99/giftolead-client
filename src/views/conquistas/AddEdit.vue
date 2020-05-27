@@ -27,7 +27,7 @@
             </div>
             <div class="vx-col w-full lg:w-5/12 sm:w-full text-center cursor-pointer tipo-conquista"
                  :class="{'conquista-ativa': (!conquista.global && conquista.global != null)}"
-                 @click="conquista.global = false">
+                 @click="conquista.global = 0">
                 <div class="vx-row py-5">
                     <div class="vx-col w-full">
                         <img src="@/assets/images/util/conquista-prod.svg" alt="">
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="vx-col w-full lg:w-5/12 sm:w-full text-center cursor-pointer tipo-conquista"
-                 :class="{'conquista-ativa': (conquista.global)}" @click="conquista.global = true">
+                 :class="{'conquista-ativa': (conquista.global)}" @click="conquista.global = 1">
                 <div class="vx-row py-5">
                     <div class="vx-col w-full">
                         <img src="@/assets/images/util/conquista-global.svg" alt="">
@@ -57,12 +57,12 @@
                     <span class="span-destaque">Perfil da Comissão</span>
                     <ul class="list-tipo-comissao mt-10">
                         <li class="my-3">
-                            <vs-radio color="dark" v-model="conquista.perfil" vs-value="atendente">
+                            <vs-radio color="dark" v-model="conquista.perfil" vs-value="Atendente">
                                 Atendente
                             </vs-radio>
                         </li>
                         <li>
-                            <vs-radio color="dark" v-model="conquista.perfil" vs-value="responsavel">
+                            <vs-radio color="dark" v-model="conquista.perfil" vs-value="Responsavel">
                                 Responsável
                             </vs-radio>
                         </li>
@@ -71,11 +71,11 @@
                 <div class="vx-col w-full lg:w-1/2">
                     <span class="span-destaque">Tipo de Comissão</span>
                     <div class="flex items-center mt-10">
-                        <vs-button color="primary" type="border" class="mr-6"
+                        <vs-button color="primary" type="border" class="mr-6 w-full py-4"
                                    v-bind:class="{'btn-selecionado' : (conquista.tipo === 'valor')}"
                                    @click="selecionaTipoComissao('valor')">Valor (R$)
                         </vs-button>
-                        <vs-button color="primary" type="border"
+                        <vs-button color="primary" type="border" class="w-full py-4"
                                    v-bind:class="{'btn-selecionado' : (conquista.tipo === 'percentual')}"
                                    @click="selecionaTipoComissao('percentual')">Percentual (%)
                         </vs-button>
@@ -102,7 +102,7 @@
                         </div>
                         <div class="vx-col w-full mt-10">
                             <span class="font-regular mb-2">Descrição da conquista</span>
-                            <vs-textarea v-model="conquista.descricao" id="text-area" class="w-full bg-white"/>
+                            <vs-textarea v-model="conquista.descricao" id="text-area" class="w-full bg-white" rows="5"/>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,8 @@
                              @dragover.prevent
                              @drop="onDrop"
                              :class="{ dragging: isDragging }">
-                            <vx-card class="grid-view-item mb-base overflow-hidden" v-if="conquista.imagem && !images.length">
+                            <vx-card class="grid-view-item mb-base overflow-hidden"
+                                     v-if="conquista.imagem && !images.length">
                                 <template slot="no-body">
                                     <!-- ITEM IMAGE -->
                                     <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
@@ -218,21 +219,19 @@
                 this.$store.registerModule('produtos', moduleProdutos)
                 moduleProdutos.isRegistered = true
             }
+
             this.getOpcoes();
 
-            /*if (this.$route.name === 'produto-editar') {
-                this.contaSelected = {id: null, label: ''};
+            if (this.$route.name === 'conquista-editar') {
                 this.getId(this.$route.params.id);
-            } else {
-                this.conquista.preco = true;
-            }*/
+            }
         },
         data() {
             return {
                 url: saveleadsConfig.url_api,
                 produtoSelected: null,
                 conquista: {
-                    ativo: true,
+                    ativo: 1,
                     tipo: 'valor',
                     global: null,
                     perfil: 'atendente',
@@ -241,6 +240,7 @@
                     quantidade: 0,
                     imagem: null
                 },
+                produtos: [],
                 images: [],
                 files: [],
                 isDragging: false,
@@ -275,8 +275,8 @@
                             this.files.forEach(file => {
                                 formData.append('imagem', file, file.name);
                             });
-                            if(this.produtoSelected != null)
-                                formData.append('produto', this.produtoSelected.id);
+                            if (this.produtoSelected != null)
+                                formData.append('produto_id', this.produtoSelected.id);
 
                             formData.append('nome', this.conquista.nome);
                             formData.append('descricao', this.conquista.descricao);
@@ -289,10 +289,14 @@
                             formData.append('ativo', this.conquista.ativo);
 
                             if (this.conquista.id !== undefined) {
-                                this.$store.dispatch('conquistas/update', formData).then(response => {
+                                formData.append('_method', 'PUT');
+                                this.$store.dispatch('conquistas/update', {
+                                    id: this.conquista.id,
+                                    dados: formData
+                                }).then(response => {
                                     console.log('response', response);
                                     this.$vs.notify({
-                                        title: 'Sucesso',
+                                        title: '',
                                         text: "Atualizada com sucesso.",
                                         iconPack: 'feather',
                                         icon: 'icon-check-circle',
@@ -301,7 +305,7 @@
                                     this.$router.push({name: 'conquistas'});
                                 }).catch(erro => {
                                     this.$vs.notify({
-                                        title: 'Error',
+                                        title: '',
                                         text: erro.message,
                                         iconPack: 'feather',
                                         icon: 'icon-alert-circle',
@@ -351,14 +355,19 @@
                     arr.forEach(item => {
                         this.produtos.push({id: item.id, label: item.nome})
                     });
-                })
+                });
             },
             getId(id) {
                 this.$vs.loading()
                 this.$store.dispatch('conquistas/getId', id).then(data => {
                     this.conquista = {...data};
+                    this.conquista.valor *= 100;
+                    this.conquista.porcentagem *= 100;
+                    console.log('conquista', this.conquista)
+                    if(this.conquista.produto)
+                        this.produtoSelected = {id: data.produto.id, label: data.produto.nome};
+                    this.prosseguiu = true;
                     this.$vs.loading.close();
-
                 })
             },
 

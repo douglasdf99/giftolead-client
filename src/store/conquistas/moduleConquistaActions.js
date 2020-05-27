@@ -12,9 +12,9 @@ import axios from "@/axios.js"
 
 export default {
     update({commit}, dados) {
+        console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            dados._method = 'PUT';
-            axios.post(`/api/conquistas/${dados.id}`, dados)
+            axios.post(`/api/conquistas/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('conquista alterada', response);
                     resolve(response)
