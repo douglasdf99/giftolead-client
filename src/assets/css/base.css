@@ -487,7 +487,7 @@ th > .vs-table-text {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 10px;
-    padding: 4rem 5rem;
+    padding: 2rem 5rem;
 }
 
 .conquista.nova {
@@ -497,6 +497,17 @@ th > .vs-table-text {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 4.5rem 5rem;
+    transition-duration: .3s;
+}
+
+.conquista-clicavel:hover {
+    opacity: .6;
+    transition-duration: .3s;
+}
+
+.conquista.nova:hover {
+    border: 2px solid #9AAABE;
 }
 
 .nome-conq {
@@ -536,6 +547,28 @@ th > .vs-table-text {
 
 .conquista-ativa p {
     color: white !important;
+}
+
+.calendars ul {
+    float: left !important;
+}
+
+.vue-daterange-picker[data-v-267f4ee2] {
+    min-width: 30px !important;
+    margin-left: 1rem;
+}
+
+[dir] .reportrange-text[data-v-267f4ee2] {
+    border: none !important;
+    color: #9344C4;
+}
+
+.vue-daterange-picker span {
+    display: none !important;
+}
+
+.yearselect {
+    max-width: 60px;
 }
 
 @media (max-width: 450px) {

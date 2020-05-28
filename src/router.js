@@ -1432,7 +1432,7 @@ const router = new Router({
                 },
                 {
                     path: '/configuracoes/conquistas/nova',
-                    name: 'configuracoes-conquistas-nova',
+                    name: 'conquista-nova',
                     component: () => import('@/views/conquistas/AddEdit.vue'),
                     meta: {
                         breadcrumb: [
@@ -1442,6 +1442,25 @@ const router = new Router({
                             {title: 'Nova Conquista', active: true},
                         ],
                         pageTitle: 'Nova Conquista',
+                        rule: 'editor',
+                      pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/configuracoes/conquistas/editar/:id',
+                    name: 'conquista-editar',
+                    component: () => import('@/views/conquistas/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Conquistas', url: '/configuracoes/conquistas'},
+                            {title: 'Editar Conquista', active: true},
+                        ],
+                        pageTitle: 'Editar Conquista',
                         rule: 'editor',
                       pai: 'configuracoes',
                         subTitle: 'Configurações',

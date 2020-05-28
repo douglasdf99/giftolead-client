@@ -38,9 +38,10 @@
                     </div>
                     <div class="vx-row">
                         <div class="vx-col w-full lg:w-3/12 md:w-4/12">
-                            <div class="conquista nova">
-                                <div class="img-plus" @click="$router.push({path: '/configuracoes/conquistas/nova'})">
-                                        <i class="material-icons">add</i>
+                            <div class="conquista nova cursor-pointer"
+                                 @click="$router.push({path: '/configuracoes/conquistas/nova'})">
+                                <div class="img-plus">
+                                    <i class="material-icons">add</i>
                                 </div>
                                 <p class="nome-conq">
                                     Adicionar Nova Conquista
@@ -51,13 +52,16 @@
                             <div class="conquista">
                                 <div class="py-2 w-full">
                                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo"
-                                               class="float-right switch"/>
+                                               class="float-right switch" @click="ativaConquista(item)"/>
                                     <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>-->
                                 </div>
-                                <img :src="url_api(item.imagem)" class="img-conquista" alt="">
-                                <p class="nome-conq">
-                                    {{item.nome}}
-                                </p>
+                                <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/configuracoes/conquistas/editar/' + item.id})">
+                                    <img :src="url_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
+                                    <p class="nome-conq">
+                                        {{item.nome}}
+                                    </p>
+                                    <p>{{item.global ? 'Global' : 'Produto'}} / {{item.perfil}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,6 +72,8 @@
 </template>
 
 <script>
+    import moduleConquistas from '@/store/conquistas/moduleConquistas.js'
+
     export default {
         name: "Index",
         data() {
@@ -90,6 +96,10 @@
             }
         },
         created() {
+            if (!moduleConquistas.isRegistered) {
+                this.$store.registerModule('conquistas', moduleConquistas)
+                moduleConquistas.isRegistered = true
+            }
             this.$vs.loading()
             this.getItems();
         },
@@ -132,6 +142,40 @@
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
+            },
+            ativaConquista(e) {
+                console.log(e)
+                const formData = new FormData();
+                let ativo = e.ativo ? 0 : 1;
+                let text = e.ativo ? 'Desativada' : 'Ativada';
+                formData.append('ativo', ativo);
+                formData.append('_method', 'PUT');
+
+                formData.append('nome', e.nome);
+                formData.append('descricao', e.descricao);
+                formData.append('quantidade', e.quantidade);
+                formData.append('valor', e.valor);
+                formData.append('porcentagem', e.porcentagem);
+                formData.append('tipo', e.tipo);
+                formData.append('perfil', e.perfil);
+                formData.append('global', e.global);
+                this.$store.dispatch('conquistas/update', {id: e.id, dados: formData}).then(() => {
+                    this.$vs.notify({
+                        title: '',
+                        text: text + " com sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                })
             }
         },
         watch: {
@@ -148,7 +192,6 @@
         },
 
         computed: {
-
             items() {
                 return this.$store.state.items;
             },

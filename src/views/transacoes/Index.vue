@@ -48,7 +48,7 @@
             </div>-->
         </div>
         <div class="vx-row flex items-end">
-            <div class="vx-col w-full relative lg:w-2/12 sm:w-1/2">
+            <!--<div class="vx-col w-full relative lg:w-2/12 sm:w-1/2">
                 <i class="material-icons calendar-icon-input">calendar_today</i>
                 <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input"
                             :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
@@ -57,6 +57,21 @@
                 <i class="material-icons calendar-icon-input">calendar_today</i>
                 <datepicker placeholder="Até" ref="programaticOpen2" v-model="dt_fim" class="datepicker-input"
                             :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
+            </div>-->
+            <div class="vx-col w-full lg:w-6/12">
+                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                </p>
+            </div>
+            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2">
+                <vs-button color="primary" type="flat" @click="setDate('hoje')">Hoje</vs-button>
+                <vs-button color="primary" type="flat" @click="setDate('7')">7 Dias</vs-button>
+                <vs-button color="primary" type="flat" @click="setDate('15')">15 Dias</vs-button>
+                <vs-button color="primary" type="flat" @click="setDate('30')">30 Dias</vs-button>
+                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                   :append-to-body="true">
+                </date-range-picker>
             </div>
         </div>
         <vs-row>
@@ -150,6 +165,8 @@
     import Datepicker from 'vuejs-datepicker';
     import * as lang from 'vuejs-datepicker/src/locale';
     import VueMoment from 'vue-moment'
+    import DateRangePicker from 'vue2-daterange-picker'
+    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -160,7 +177,8 @@
             'v-select': vSelect,
             Datepicker,
             VueMoment,
-            moment
+            moment,
+            DateRangePicker
         },
         data() {
             return {
@@ -188,6 +206,7 @@
                     page: 1,
                     current_page: 1
                 },
+                dateRange: {},
                 produtos: [],
                 status: [],
                 currentx: 1,
@@ -207,6 +226,20 @@
                     admin_free: ['Cadastrado', '#848a91'],
                     dispute: ['Disputa', '#e74c3c']
                 },
+                localeData: {
+                    direction: 'ltr',
+                    format: 'dd/mm/yyyy',
+                    separator: ' - ',
+                    applyLabel: 'Aplicar',
+                    cancelLabel: 'Cancelar',
+                    weekLabel: 'M',
+                    customRangeLabel: 'Período',
+                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    firstDay: 0,
+                    startDate: '05/26/2020',
+                    endDate: '05/26/2020',
+                }
             }
         },
         created() {
@@ -216,9 +249,11 @@
                 moduleProdutos.isRegistered = true
             }
             console.log('linguagem', this.languages);
-            console.log('moment', moment("subtract", "30 days").format('DD-MM-YYYY'))
-            /*this.dt_inicio = moment().format('DD-MM-YYYY');
-            console.log(this.dt_inicio)*/
+            console.log('moment', moment().subtract(30, 'days').format('DD-MM-YYYY'))
+            this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
+            this.dt_fim = moment().format('DD-MM-YYYY');
+            this.dateRange.startDate = moment().subtract(30, 'days')
+            this.dateRange.endDate = moment()
             this.getOpcoes();
             this.getTransacoes();
 
@@ -273,10 +308,11 @@
                     this.dados.status = this.selectedStatus.id;
                 else this.dados.status = '';
 
-                if(this.dt_inicio)
-                    this.dados.dt_inicio = this.formatDateBanco(this.dt_inicio);
-                if(this.dt_fim)
-                    this.dados.dt_fim = this.formatDateBanco(this.dt_fim);
+                if (this.dateRange.startDate)
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
+                if (this.dateRange.endDate)
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+
                 this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
@@ -339,6 +375,24 @@
 
                 console.log(this.status)
             },
+            setDate(val) {
+                this.$vs.loading();
+                switch (val) {
+                    case 'hoje':
+                        this.dateRange.startDate = moment();
+                        break;
+                    case '7':
+                        this.dateRange.startDate = moment().subtract(7, 'days');
+                        break;
+                    case '15':
+                        this.dateRange.startDate = moment().subtract(15, 'days');
+                        break;
+                    case '30':
+                        this.dateRange.startDate = moment().subtract(30, 'days');
+                        break;
+                }
+                this.getTransacoes();
+            }
         },
         watch: {
             currentx(val) {
@@ -369,6 +423,10 @@
             dt_fim(val) {
                 this.$vs.loading();
                 this.dados.page = 1;
+                this.getTransacoes();
+            },
+            dateRange(val) {
+                this.$vs.loading();
                 this.getTransacoes();
             }
         },
