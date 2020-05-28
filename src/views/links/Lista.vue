@@ -2,13 +2,17 @@
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
-        <div class="vx-row flex items-center mt-20">
-          <div class="vx-col w-full lg:w-3/12 sm:w-full mb-10">
-            <label class="destaque">Produto</label>
-            <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false" class="bg-white"
-                      :options="produtos"/>
+        <div class="vx-row">
+          <div class="vx-col w-full  mb-10">
+            <h4 class="text-black">Produto: {{produto.nome}}  <vs-button color="#423b3b" class="float-right botao-incluir" type="filled" @click="voltar">
+              <vs-icon icon-pack="material-icons" icon="keyboard_backspace" class="icon-grande"></vs-icon>
+              Voltar
+            </vs-button>
+            </h4>
+           <!-- <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false" class="bg-white"
+                      :options="produtos"/>-->
           </div>
-        <vx-card  class=" mb-10">
+        <vx-card  class="mb-10 unsetshadow-setborder">
           <div class="vx-row">
             <div class="vx-col sm:w-1/12 w-full">
               <span class="rounded-full bg-primary py-2 px-2 text-enum text-white font-bold"><i class="material-icons">star</i></span>
@@ -23,81 +27,27 @@
           <!-- end row -->
         </vx-card>
       </div>
-        <div class="vx-row flex items-center lg:mt-10 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir link
-                </vs-button>
-                <!-- SEARCH INPUT -->
-            </div>
+        <div class="vx-row flex items-center">
+            <div class="vx-col w-full ">
+                <div class="flex justify-center align-center">
 
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
-
-                <div class="flex items-center">
-                    <div class="relative w-full">
-                            <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"/>
-                            <!-- SEARCH LOADING -->
-                            <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
-                                <button type="submit" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
-                                </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
-                            </div>
-                        </form>
-                    </div>
-
+                    <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
+                      <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
+                      Adicionar variável de link
+                    </vs-button>
+                    <!-- SEARCH INPUT -->
                 </div>
-                <!-- SEARCH INPUT -->
-            </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir link
-                </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-10" v-show="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir link.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir link.
-                                </p>
-                            </div>
-                            <br>
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir link
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
                 <div class="com-item mt-20" v-show="items.length > 0">
-                  <vx-card :key="link.id"  class=" mb-10" v-for="(link, index) in items">
+                  <vx-card :key="link.id"  class="mb-1 unsetshadow-setborder bg-card-gray" v-for="(link, index) in items">
                     <div class="vx-row">
                       <div class="vx-col sm:w-1/12 w-full mb-2">
                           <vs-dropdown vs-trigger-click>
-                            <vs-button radius color="#EDEDED" type="filled"
+                            <vs-button radius color="#423b3b" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
@@ -118,7 +68,7 @@
 
                       </div>
                       <div class="vx-col sm:w-3/12 w-full mb-2">
-                        <p class="mb-0 text-base font-bold">Descrição {{link.id}}</p>
+                        <p class="mb-0 text-base font-bold">Descrição </p>
                        {{link.descricao}}
                       </div>
                       <div class="vx-col sm:w-3/12 w-full mb-2">
@@ -137,7 +87,6 @@
                     <!-- end row -->
                   </vx-card>
 
-                    <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
             </vs-col>
         </vs-row>
@@ -206,6 +155,9 @@
               this.produto = {...data};
             })
           },
+           voltar() {
+              this.$router.push({path: '/configuracoes/links/'});
+            },
             addNewData() {
               this.$router.push({path: '/configuracoes/links/produto/'+ this.produto.id + '/criar'});
             },
@@ -225,8 +177,8 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar origem id: ${id}`,
-                    text: 'Deseja deletar esta Origem? Procedimento irreversível',
+                    title: `Deletar Item`,
+                    text: 'Deseja deletar este Item? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
@@ -234,7 +186,7 @@
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
-                                text: 'A Origem foi deletada com sucesso'
+                                text: 'O item foi deletada com sucesso'
                             });
                             this.getItems();
                         }).catch(erro => {
@@ -242,7 +194,7 @@
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar o item. Contate o administrador.'
                             })
                         })
                     }
@@ -285,3 +237,8 @@
 
     }
 </script>
+<style scoped>
+  .botao-menu {
+    color: #FFFFFF;
+  }
+  </style>

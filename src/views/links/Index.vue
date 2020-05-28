@@ -77,7 +77,8 @@
                                   </vs-chip>
                                 </vs-td>
                                 <vs-td :data="data[indextr].status" >
-                                  <span class="destaque">{{data[indextr].links.length}} links</span>
+                                  <span class="destaque" v-if="data[indextr].links.length == 1">{{data[indextr].links.length}} link</span>
+                                  <span class="destaque" v-else>{{data[indextr].links.length}} links</span>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -212,3 +213,8 @@
 
     }
 </script>
+<style scoped>
+  .con-vs-chip {
+    border-radius: 5px !important;
+  }
+</style>

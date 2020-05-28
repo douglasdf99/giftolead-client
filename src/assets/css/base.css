@@ -286,10 +286,6 @@ h4 {
     top: 1px !important;
 }
 
-/*.botao-menu {
-    z-index: 550000;
-}*/
-
 .dropdown-menu-list {
     /*padding-top: 15px;*/
     /*margin-left: -44px;*/
@@ -445,6 +441,15 @@ h4 {
     font-size: 1.2rem;
     margin: 1rem 0 !important;
     cursor: pointer;
+}
+
+.unsetshadow-setborder{
+  box-shadow: unset;
+  border: #CBCBCB 1px solid;
+}
+.bg-card-gray{
+  background: #EDEDED;
+  color: black;
 }
 
 th > .vs-table-text {

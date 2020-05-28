@@ -61,5 +61,17 @@ export default {
                 })
         })
     },
+    gerarlink({commit}, dados) {
+        return new Promise((resolve, reject) => {
+          axios.post(`/api/link-store/`, dados)
+            .then((response) => {
+              console.log('link externo gerado', response);
+              resolve(response)
+            })
+            .catch((error) => {
+              reject(error)
+            })
+        })
+      },
 
 }

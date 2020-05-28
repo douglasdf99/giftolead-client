@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="vx-col w-full  mb-10">
+      <h4 class="text-black">Produto: {{produto.nome}}</h4>
+      <!-- <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false" class="bg-white"
+                 :options="produtos"/>-->
+    </div>
     <div class="vx-row mt-20 mb-3">
       <div class="vx-col w-full mb-6">
         <span class="font-regular ">Descrição</span>
@@ -18,13 +23,14 @@
       </div>
       <div class="vx-col w-full xlg:w-6/12 lg:w-6/12">
         <span class="font-regular mb-2">Código da origem (scr) </span>
-        <vs-input class="w-full" v-model="link.scr" v-validate="'required'" size="large" name="scr"/>
+        <vs-input disabled class="w-full" v-model="link.scr" v-validate="'required'" size="large" name="scr"/>
         <span class="text-danger text-sm" v-show="errors.has('scr')">{{ errors.first('scr') }}</span>
         <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
       </div>
       <div class="vx-col w-full xlg:w-2/12 lg:w-2/12">
         <span class="font-regular mb-2">Parcelas (até 12 vezes)</span>
-        <vs-input class="w-full" type="number" v-validate="'required|max_value:12|min_value:1'" v-model="link.split" size="large" name="split"/>
+        <v-select v-model="link.split" v-validate="'required|max_value:12|min_value:1'" :class="'select-large-base'" :clearable="false" class="bg-white"
+                  :options="parcelas"/>
         <span class="text-danger text-sm" v-show="errors.has('split')">{{ errors.first('split') }}</span>
       </div>
     </div>
@@ -133,13 +139,14 @@
       return {
         customcor: '',
         produto: {},
+        parcelas:['1','2','3','4','5','6','7','8','9','10','11','12'],
         link: {
           indent: '',
           identidade: 'valor',
           descricao: '',
           codigo_oferta: '',
           builder: '',
-          scr: '',
+          scr: 'saveleads-user',
           split: '',
           paypal: '',
           debito: '',
