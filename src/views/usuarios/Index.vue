@@ -40,7 +40,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20" v-show="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-show="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div v-if="dados.search">
@@ -81,10 +81,11 @@
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td :data="tr.avatar">
-                                    <img key="onlineImg" :src="url_api(tr.avatar)"
+                                <vs-td :data="tr.avatar" class="flex justify-center">
+                                    <!--<img key="onlineImg" :src="url_api(tr.avatar)"
                                          alt="user-img" width="50" height="50"
-                                         class="rounded-full shadow-md cursor-pointer block" style="margin: 0 auto"/>
+                                         class="rounded-full shadow-md cursor-pointer block" style="margin: 0 auto"/>-->
+                                    <div class="avatar-list" v-bind:style="{backgroundImage: 'url(' + url_api(tr.avatar) + ')'}"></div>
                                 </vs-td>
                                 <vs-td :data="tr.name">
                                     <span class="destaque">{{ tr.name }}</span>
@@ -95,13 +96,13 @@
                                 <vs-td :data="tr.role_name">
                                     {{tr.role_name}}
                                 </vs-td>
-                                <vs-td class="flex justify-center items-center relative">
+                                <vs-td class="relative">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
-                                        <vs-dropdown-menu class="dropdown-menu-list">
+                                        <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
                                             <vs-dropdown-item @click="updateData(tr.id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>

@@ -75,12 +75,13 @@
                               style="border-spacing: 0 8px;border-collapse: separate;">
 
                         <template slot="thead">
+                            <vs-th class="lg:w-1/12"></vs-th>
+                            <vs-th class="lg:w-10/12">Nome</vs-th>
                             <vs-th></vs-th>
-                            <vs-th>Nome</vs-th>
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td class="flex justify-center items-center relative">
+                                <vs-td class="flex justify-center items-center relative w-full">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
@@ -103,6 +104,13 @@
                                 </vs-td>
                                 <vs-td :data="data[indextr].nome" class="relative">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
+                                </vs-td>
+                                <vs-td :data="data[indextr].status">
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-success"
+                                             v-if="data[indextr].status"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                             v-else></vs-icon>
                                 </vs-td>
                             </vs-tr>
                         </template>

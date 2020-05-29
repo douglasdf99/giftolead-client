@@ -8,7 +8,7 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"/>
+                                      v-model="dados.search" id="search_input_trans" size="large"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -24,8 +24,8 @@
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <label class="vs-input--label">Tipo</label>
-                <!--<v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="status"/>-->
+                <v-select v-model="selectedTipo" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="[{id: '1', label: 'Global'}, {id: '0', label: 'Produto'}]"/>
             </div>
         </div>
         <vs-row>
@@ -73,9 +73,13 @@
 
 <script>
     import moduleConquistas from '@/store/conquistas/moduleConquistas.js'
+    import vSelect from 'vue-select'
 
     export default {
         name: "Index",
+        components: {
+            'v-select': vSelect
+        },
         data() {
             return {
                 // Data Sidebar
@@ -91,7 +95,8 @@
                     page: 1,
                     current_page: 1
                 },
-                currentx: 1
+                currentx: 1,
+                selectedTipo: {}
                 //items: {}
             }
         },
@@ -111,32 +116,6 @@
                     this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
-            },
-            deletar(id) {
-                this.$vs.dialog({
-                    color: 'danger',
-                    title: `Deletar origem id: ${id}`,
-                    text: 'Deseja deletar esta Origem? Procedimento irreversível',
-                    acceptText: 'Sim, deletar!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'conquistas'}).then(() => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: 'Sucesso',
-                                text: 'A Origem foi deletada com sucesso'
-                            });
-                            this.getItems();
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                            })
-                        })
-                    }
-                })
             },
             pesquisar(e) {
                 e.preventDefault();

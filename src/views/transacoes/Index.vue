@@ -8,7 +8,7 @@
                 </vs-button>
                 &lt;!&ndash; SEARCH INPUT &ndash;&gt;
             </div>-->
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-6/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-5/12 xlg:w-6/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
@@ -29,7 +29,7 @@
 
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-3/12 sm:w-full">
+            <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Produto</label>
                 <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="produtos"/>
@@ -76,7 +76,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20" v-show="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-show="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div>

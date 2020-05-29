@@ -73,7 +73,7 @@
                               style="border-spacing: 0 8px;border-collapse: separate;">
 
                         <template slot="thead">
-                            <vs-th></vs-th>
+                            <vs-th class="lg:w-1/12"></vs-th>
                             <vs-th>Título</vs-th>
                             <vs-th>Tipo</vs-th>
                             <vs-th></vs-th>
@@ -81,7 +81,7 @@
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                                <vs-td class="flex justify-center items-center relative=">
+                                <vs-td class="flex justify-center items-center relative w-full">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"

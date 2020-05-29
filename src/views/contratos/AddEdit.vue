@@ -453,7 +453,7 @@
             title: `Deletar exceção`,
             text: 'Você realmente gostaria de deletar essa exceção desse contrato?',
             acceptText	: 'Deletar',
-            cancelText	: 'Caneclar',
+            cancelText	: 'Cancelar',
             accept: this.deleteExcexao,
           })
       },

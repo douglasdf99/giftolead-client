@@ -36,7 +36,7 @@
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full" v-if="selectTipo.id == 'whatsapp'">
                         <span class="font-regular mb-2">Mensagem</span>
-                        <vs-textarea v-model="mensagem.mensagem" id="text-area" class="w-full bg-white"/>
+                        <vs-textarea v-model="mensagem.mensagem" id="text-area" class="w-full bg-white" rows="6"/>
                     </div>
                     <div class="vx-col w-full" v-else>
                         <span class="font-regular mb-2">Mensagem</span>
@@ -136,7 +136,7 @@
             return {
                 mensagem: {
                     empresa_id: 1,
-                    tipo: '',
+                    tipo: 'whatsapp',
                     titulo: '',
                     assunto: '',
                     mensagem: '',
@@ -248,14 +248,14 @@
                     var $txt = document.getElementById('text-area');
                     var textAreaTxt = $txt.value;
                     var caretPos = $txt.selectionStart;
-                    console.log(caretPos)
                     $txt.value = (textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos));
+                    this.mensagem.mensagem = $txt.value;
                 } else {
                     //Quill Editor
                     console.log('selecao', this.editor.getSelection(true));
                     //var $txt2 = document.getElementsByClassName("ql-editor");
                     var $txt2 = this.editor.getSelection(true);
-                    console.log($txt2)
+                    console.log('alou', $txt2)
                     this.editor.insertText($txt2.index, value, '', true);
                     console.log(this.mensagem.mensagem_email)
                 }
@@ -289,6 +289,9 @@
                 },
                 deep: true
             },
+            selectTipo(val){
+                this.mensagem.tipo = val.id
+            }
         },
     }
 </script>
@@ -419,6 +422,6 @@
     }
 
     .ql-editor {
-        min-height: 10vh;
+        min-height: 20vh;
     }
 </style>
