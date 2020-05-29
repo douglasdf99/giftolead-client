@@ -88,9 +88,9 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
-                                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                                Editar
+                                            <vs-dropdown-item @click="show(data[indextr].id)">
+                                                <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
+                                                Visualizar
                                             </vs-dropdown-item>
 
                                             <vs-dropdown-item @click="deletar(data[indextr].id)">
@@ -163,6 +163,9 @@
             },
             updateData(id) {
                 this.$router.push({path: '/configuracoes/produtos/editar/' + id});
+            },
+            show(id){
+                this.$router.push({path: '/leads/detalhe/' + id});
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val

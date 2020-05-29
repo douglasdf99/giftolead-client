@@ -238,6 +238,10 @@ h4 {
     margin-top: 3px;
 }
 
+.con-vs-chip {
+    border-radius: 5px !important;
+}
+
 /*.vs-con-dropdown:hover .btn-more-icon {
     transition-duration: .3s;
     box-shadow: 1px 3px 5px .5px #00000026
@@ -588,8 +592,20 @@ th > .vs-table-text {
 }
 
 [dir] .reportrange-text[data-v-267f4ee2] {
-    border: none !important;
-    color: #9344C4;
+    border: 2px solid #ababab5c !important;
+    background-color: #ffffff7a !important;
+    color: rgba(108, 108, 108, 0.93);
+    padding: .5rem 1rem !important;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+
+.btn-periodo {
+    margin: 0 1rem;
+}
+
+.btn-periodo:hover * {
+    color: white !important;
 }
 
 .vue-daterange-picker span {
@@ -609,6 +625,20 @@ th > .vs-table-text {
     height: 50px;
     display: flex;
     border-radius: 50px;
+}
+
+.vs-tabs-position-left .con-ul-tabs {
+    min-width: 12vw;
+    margin-right: 3rem;
+}
+
+.vs-tabs--btn {
+    text-align: left;
+}
+
+.vs-tabs-primary .con-ul-tabs .line-vs-tabs {
+    width: 5px !important;
+    background: #9344C4 !important;
 }
 
 @media (max-width: 450px) {

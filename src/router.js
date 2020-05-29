@@ -1863,7 +1863,7 @@ const router = new Router({
                             {title: 'Listagem', url: '/leads/listagem'},
                             {title: 'Detalhe', active: true},
                         ],
-                        pageTitle: 'Detalhamento',
+                        pageTitle: 'Detalhes do Lead',
                         rule: 'editor',
                         pai: 'leads',
                         subTitle: 'Leads',

@@ -1,13 +1,23 @@
 <template>
     <div>
-        <div class="vx-row flex items-end lg:mt-10 sm:mt-6 mb-4">
-            <!--<div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Lead
-                </vs-button>
-                &lt;!&ndash; SEARCH INPUT &ndash;&gt;
-            </div>-->
+        <div class="vx-row flex items-end">
+            <div class="vx-col w-full lg:w-6/12">
+                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                </p>
+            </div>
+            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
+                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                   :append-to-body="true">
+                </date-range-picker>
+            </div>
+        </div>
+        <div class="vx-row flex items-end mb-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-5/12 xlg:w-6/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -38,40 +48,6 @@
                 <label class="vs-input--label">Status</label>
                 <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="status"/>
-            </div>
-            <!--<div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Lead
-                </vs-button>
-                &lt;!&ndash; SEARCH INPUT &ndash;&gt;
-            </div>-->
-        </div>
-        <div class="vx-row flex items-end">
-            <!--<div class="vx-col w-full relative lg:w-2/12 sm:w-1/2">
-                <i class="material-icons calendar-icon-input">calendar_today</i>
-                <datepicker placeholder="De" ref="programaticOpen" v-model="dt_inicio" class="datepicker-input"
-                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
-            </div>
-            <div class="vx-col w-full relative lg:w-2/12 sm:w-1/2">
-                <i class="material-icons calendar-icon-input">calendar_today</i>
-                <datepicker placeholder="Até" ref="programaticOpen2" v-model="dt_fim" class="datepicker-input"
-                            :language="languages.ptBR" format="dd/MM/yyyy"></datepicker>
-            </div>-->
-            <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
-                </p>
-            </div>
-            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2">
-                <vs-button color="primary" type="flat" @click="setDate('hoje')">Hoje</vs-button>
-                <vs-button color="primary" type="flat" @click="setDate('7')">7 Dias</vs-button>
-                <vs-button color="primary" type="flat" @click="setDate('15')">15 Dias</vs-button>
-                <vs-button color="primary" type="flat" @click="setDate('30')">30 Dias</vs-button>
-                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
-                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
-                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
-                                   :append-to-body="true">
-                </date-range-picker>
             </div>
         </div>
         <vs-row>
@@ -442,9 +418,6 @@
     }
 </script>
 <style scoped>
-    .con-vs-chip {
-        border-radius: 5px !important;
-    }
     .input-span-placeholder {
         font-size: 1rem !important;
     }
