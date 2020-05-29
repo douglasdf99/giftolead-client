@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="com-item mt-20" v-show="items.length > 0">
-                  <vx-card :key="link.id"  class=" mb-1 unsetshadow-setborder p-0" v-for="(link, index) in items">
+                  <vx-card :key="link.id"  class=" mb-1 unsetshadow-setborder p-0" v-for="link in items">
                     <div class="vx-row">
                       <div class="vx-col sm:w-8/12 w-full">
                         <p class="mb-0 text-base font-bold pl-4 pt-2 "> {{link.descricao}}</p>
@@ -73,7 +73,7 @@
                               </div>
                             </template>
                           </vx-input-group>
-                          <a href="javascript:void(0)" class="mb-0 text-base font-bold pl-4 pt-2 " @click="gerarLink(link)" v-else> Gerar Link</a>
+                          <vs-button color="primary" type="flat" @click="gerarLink(link)" v-else><span class="font-bold">Gerar Link</span></vs-button>
                         </div>
                       </div>
                     </div>

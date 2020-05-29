@@ -75,6 +75,7 @@
                             <vs-th>Numero do Contrato</vs-th>
                             <vs-th>Cartão de postagem</vs-th>
                             <vs-th>Código Adm</vs-th>
+                          <vs-th></vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -116,6 +117,13 @@
                                 </vs-td>
                                 <vs-td :data="data[indextr].codAdministrativo">
                                     {{ data[indextr].codAdministrativo }}
+                                </vs-td>
+                                <vs-td :data="data[indextr].status">
+                                  <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                           class="icon-grande text-success"
+                                           v-if="data[indextr].status"></vs-icon>
+                                  <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                           v-else></vs-icon>
                                 </vs-td>
                             </vs-tr>
                         </template>
