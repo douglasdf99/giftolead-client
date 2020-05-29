@@ -115,7 +115,13 @@ h4 {
 /* Inputs */
 .input-span-placeholder {
     font-weight: 700;
+    font-size: 1.3rem;
     color: #CECECE;
+    margin-left: 1rem;
+}
+
+#search_input_trans + .input-span-placeholder {
+    font-size: 1rem;
 }
 
 .btn-search {
@@ -661,6 +667,10 @@ th > .vs-table-text {
     }
 
     .vs__selected {
-        font-size: .9rem;
+        font-size: .8rem;
+    }
+
+    [dir] .vs__search {
+        padding: 0;
     }
 }

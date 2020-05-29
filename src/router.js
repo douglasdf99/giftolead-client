@@ -1853,6 +1853,25 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/leads/detalhe/:id',
+                    name: 'leads-detalhe',
+                    component: () => import('@/views/leads/Detalhe.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Leads'},
+                            {title: 'Listagem', url: '/leads/listagem'},
+                            {title: 'Detalhe', active: true},
+                        ],
+                        pageTitle: 'Detalhamento',
+                        rule: 'editor',
+                        pai: 'leads',
+                        subTitle: 'Leads',
+                        //subIcon: 'settings',
+                        submenu: subleads
+                    },
+                },
+                {
                     path: '/leads/transacoes',
                     name: 'transacoes',
                     component: () => import('@/views/transacoes/Index.vue'),

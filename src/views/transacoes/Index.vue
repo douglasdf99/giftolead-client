@@ -15,7 +15,7 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="search" id="search_input_trans" size="large"/>
+                                      v-model="search" id="search_input_trans" size="large" placeholder="Pesquisar por nome do Lead ou transação"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
@@ -76,7 +76,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20 flex justify-center" v-show="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="com-item" v-show="items.length > 0">
+                <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items">
 
                         <template slot="thead">
@@ -444,5 +444,8 @@
 <style scoped>
     .con-vs-chip {
         border-radius: 5px !important;
+    }
+    .input-span-placeholder {
+        font-size: 1rem !important;
     }
 </style>
