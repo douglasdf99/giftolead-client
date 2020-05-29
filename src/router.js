@@ -1680,6 +1680,26 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/configuracoes/links/produto/:id/criar',
+                    name: 'links-produto-criar',
+                    component: () => import('@/views/links/AddEdit.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Configurações'},
+                            {title: 'Geral', url: '/configuracoes/geral'},
+                            {title: 'Links', url: '/configuracoes/links'},
+                            {title: 'Criar', active: true},
+                        ],
+                        pageTitle: 'Configurações de links e ofertas',
+                        rule: 'editor',
+                        pai: 'configuracoes',
+                        subTitle: 'Configurações',
+                        subIcon: 'settings',
+                        submenu: subconfiguracoes
+                    },
+                },
+                {
                     path: '/configuracoes/origens',
                     name: 'origens',
                     component: () => import('@/views/origens/Index.vue'),
@@ -1987,6 +2007,45 @@ const router = new Router({
                         submenu: subconfiguracoes
                     },
                 },
+              {
+                path: '/meuslinks/produto/:id',
+                name: 'meuslinks-produto',
+                component: () => import('@/views/links/MeusLinks.vue'),
+                meta: {
+                  breadcrumb: [
+                    {title: 'Home', url: '/'},
+                    {title: 'Configurações'},
+                    {title: 'Geral', url: '/configuracoes/geral'},
+                    {title: 'Links', url: '/configuracoes/links'},
+                    {title: 'Editar', active: true},
+                  ],
+                  pageTitle: 'Savelinks',
+                  rule: 'editor',
+                  pai: 'configuracoes',
+                  subTitle: 'Savelinks',
+                  subIcon: 'settings',
+                  submenu: subconfiguracoes
+                },
+              },{
+                path: '/savelink/:usuario/:codigo',
+                name: 'meuslinks-produto',
+                component: () => import('@/views/links/MeusLinks.vue'),
+                meta: {
+                  breadcrumb: [
+                    {title: 'Home', url: '/'},
+                    {title: 'Configurações'},
+                    {title: 'Geral', url: '/configuracoes/geral'},
+                    {title: 'Links', url: '/configuracoes/links'},
+                    {title: 'Editar', active: true},
+                  ],
+                  pageTitle: 'Savelinks',
+                  rule: 'editor',
+                  pai: 'configuracoes',
+                  subTitle: 'Savelinks',
+                  subIcon: 'settings',
+                  submenu: subconfiguracoes
+                },
+              },
             ]
         },
         // =============================================================================

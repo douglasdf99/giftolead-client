@@ -1,9 +1,14 @@
 <template>
   <div>
+    <div class="vx-col w-full  mb-10">
+      <h4 class="text-black">Produto: {{produto.nome}}</h4>
+      <!-- <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="false" class="bg-white"
+                 :options="produtos"/>-->
+    </div>
     <div class="vx-row mt-20 mb-3">
       <div class="vx-col w-full mb-6">
         <span class="font-regular ">Descrição</span>
-        <vs-input class="w-full" v-model="link.descricao" size="large" v-validate="'required', 'max:20'" name="descricao"/>
+        <vs-input class="w-full" v-model="link.descricao" size="large" v-validate="'required|max:20'" name="descricao"/>
         <span class="text-danger text-sm" v-show="errors.has('descricao')">{{ errors.first('descricao') }}</span>
       </div>
     </div>
@@ -18,13 +23,14 @@
       </div>
       <div class="vx-col w-full xlg:w-6/12 lg:w-6/12">
         <span class="font-regular mb-2">Código da origem (scr) </span>
-        <vs-input class="w-full" v-model="link.scr" v-validate="'required'" size="large" name="scr"/>
+        <vs-input disabled class="w-full" v-model="link.scr" v-validate="'required'" size="large" name="scr"/>
         <span class="text-danger text-sm" v-show="errors.has('scr')">{{ errors.first('scr') }}</span>
         <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
       </div>
       <div class="vx-col w-full xlg:w-2/12 lg:w-2/12">
         <span class="font-regular mb-2">Parcelas (até 12 vezes)</span>
-        <vs-input class="w-full" type="number" v-validate="'required'" v-model="link.split" size="large" name="split"/>
+        <v-select v-model="link.split" v-validate="'required|max_value:12|min_value:1'" :class="'select-large-base'" :clearable="false" class="bg-white"
+                  :options="parcelas"/>
         <span class="text-danger text-sm" v-show="errors.has('split')">{{ errors.first('split') }}</span>
       </div>
     </div>
@@ -78,14 +84,13 @@
   import moduleLinks from '@/store/links/moduleLinks.js'
   import moduleProdutos from '@/store/produtos/moduleProdutos.js'
   import {Validator} from 'vee-validate';
-  import themeConfig from "../../../themeConfig";
   import saveleadsConfig from "../../../saveleadsConfig";
 
   const dict = {
     custom: {
       descricao: {
         required: 'Por favor, insira o nome do produto',
-        max: 'Por favor, maximo 50',
+        max: 'Limite máximo é de 50 caracters',
       },
       codigo_oferta: {
         required: 'Por favor, selecione a conta que pertence esse produto',
@@ -95,6 +100,8 @@
       },
       split: {
         required: 'Por favor, insira o código',
+        max_value: 'Maximo é o numero 12',
+        min_value: 'Minimo é o numero 1',
       },
     }
   };
@@ -113,8 +120,9 @@
         this.$store.registerModule('produtos', moduleProdutos)
         moduleProdutos.isRegistered = true
       }
+      this.getProduto(this.$route.params.id);
+
       if (this.$route.name === 'links-produto-editar') {
-        this.getProduto(this.$route.params.id);
         this.getLink(this.$route.params.link);
       }
 
@@ -131,13 +139,14 @@
       return {
         customcor: '',
         produto: {},
+        parcelas:['1','2','3','4','5','6','7','8','9','10','11','12'],
         link: {
           indent: '',
           identidade: 'valor',
           descricao: '',
           codigo_oferta: '',
           builder: '',
-          scr: '',
+          scr: 'saveleads-user',
           split: '',
           paypal: '',
           debito: '',
@@ -169,13 +178,14 @@
     },
     methods: {
       salvar() {
+        this.link.produto_id = this.produto.id;
+        console.log('link montado =',this.link);
+        var self = this;
         this.$validator.validateAll().then(result => {
           if (result) {
             this.$vs.loading();
-            this.link.produto_id = this.produto.id;
-            if (this.link.id !== undefined) {
-
-              this.$store.dispatch('links/update', this.link).then(response => {
+            if (self.link.id !== undefined) {
+              this.$store.dispatch('links/update', self.link).then(response => {
                 console.log('response', response);
                 this.$vs.notify({
                   title: 'Sucesso',
@@ -184,7 +194,6 @@
                   icon: 'icon-check-circle',
                   color: 'success'
                 });
-
                this.$router.push({name: 'links-produto',params:this.produto.id});
               }).catch(erro => {
                 this.$vs.notify({
@@ -198,7 +207,8 @@
                 this.$vs.loading.close();
               })
             } else {
-              this.$store.dispatch('links/store', this.link).then(response => {
+              console.log('store', self.produto.id)
+              this.$store.dispatch('links/store', self.link).then(response => {
                 console.log('response', response);
                 this.$vs.notify({
                   title: 'Sucesso',
@@ -248,6 +258,7 @@
         this.$vs.loading()
         this.$store.dispatch('produtos/getId', id).then(data => {
           this.produto = {...data};
+          console.log('chamou produto', this.produto);
           this.$vs.loading.close();
         })
       },

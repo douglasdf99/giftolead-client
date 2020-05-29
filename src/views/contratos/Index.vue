@@ -170,6 +170,10 @@
             this.getItems();
         },
         methods: {
+          paginate(){
+            console.log('resetou');
+            this.currentx = 1;
+          },
             addNewData() {
                 this.$router.push({name: 'contratos-criar'});
             },
@@ -233,6 +237,15 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
+          dados: {
+            handler(val) {
+              console.log('mudou');
+              if (val.search) {
+                this.paginate()
+              }
+            },
+            deep: true
+          },
         },
 
         computed: {

@@ -666,7 +666,7 @@
               console.log('editar excecao');
               this.getContrato(this.item.id);
               this.$vs.loading.close('#div-servicos > .con-vs-loading');
-              this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'});
+              this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Serviço padrão alterado com sucesso'});
             })
             .catch(error => {
               this.$vs.loading.close('#div-servicos > .con-vs-loading');

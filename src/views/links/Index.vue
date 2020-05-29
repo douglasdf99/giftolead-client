@@ -62,44 +62,23 @@
                     </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
-                    <vs-table :data="items" class="table-items">
+                    <vs-table :data="items" v-model="selected" @selected="handleSelected" class="table-items">
 
                         <template slot="thead">
-                            <vs-th></vs-th>
                             <vs-th>Produto</vs-th>
                             <vs-th>Savelinks</vs-th>
                         </template>
 
                         <template slot-scope="{data}">
-                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
-                                <vs-td class="flex justify-center items-center relative">
-                                    <vs-dropdown vs-trigger-click>
-                                        <vs-button radius color="#EDEDED" type="filled"
-                                                   class="btn-more-icon relative botao-menu"
-                                                   icon-pack="material-icons" icon="more_horiz"
-                                        ></vs-button>
-                                        <vs-dropdown-menu class="dropdown-menu-list">
-                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="updateData(tr.id)">
-                                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                                Editar
-                                            </vs-dropdown-item>
-
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                                Deletar
-                                            </vs-dropdown-item>
-
-                                        </vs-dropdown-menu>
-                                    </vs-dropdown>
-                                </vs-td>
-                                <vs-td :data="data[indextr].nome">
+                            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
+                                <vs-td :data="data[indextr].nome" >
                                   <vs-chip :color="data[indextr].cor" class="product-order-status" >
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                   </vs-chip>
                                 </vs-td>
-                                <vs-td :data="data[indextr].status">
-                                  <span class="destaque">{{data[indextr].links.length}} links</span>
+                                <vs-td :data="data[indextr].status" >
+                                  <span class="destaque" v-if="data[indextr].links.length == 1">{{data[indextr].links.length}} link</span>
+                                  <span class="destaque" v-else>{{data[indextr].links.length}} links</span>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -154,10 +133,15 @@
             this.getProdutos(this.$route.params.id);
         },
         methods: {
+            handleSelected(tr) {
+              console.log('clicou',tr);
+              this.$router.push({path: '/configuracoes/links/produto/' + tr.id});
+            },
             addNewData() {
                 this.$router.push({name: 'produto-criar'});
             },
             updateData(id) {
+
                 this.$router.push({path: '/configuracoes/links/produto/' + id});
             },
             toggleDataSidebar(val = false) {
@@ -229,3 +213,8 @@
 
     }
 </script>
+<style scoped>
+  .con-vs-chip {
+    border-radius: 5px !important;
+  }
+</style>
