@@ -197,7 +197,7 @@
       @accept="sendexcecao"
       @close="close"
       :acceptText="'Salvar'"
-      :cancelText="'Caneclar'"
+      :cancelText="'Cancelar'"
       :is-valid="validExcecao"
       :title="'Adicionar exceção'"
       :max-width="'600px'"
@@ -458,7 +458,7 @@
             title: `Deletar exceção`,
             text: 'Você realmente gostaria de deletar essa exceção desse contrato?',
             acceptText	: 'Deletar',
-            cancelText	: 'Caneclar',
+            cancelText	: 'Cancelar',
             accept: this.deleteExcexao,
           })
       },

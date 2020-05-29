@@ -115,7 +115,13 @@ h4 {
 /* Inputs */
 .input-span-placeholder {
     font-weight: 700;
+    font-size: 1.3rem;
     color: #CECECE;
+    margin-left: 1rem;
+}
+
+#search_input_trans + .input-span-placeholder {
+    font-size: 1rem;
 }
 
 .btn-search {
@@ -155,7 +161,7 @@ h4 {
     background-repeat: no-repeat;
     background-size: cover;
     flex-wrap: wrap;
-    margin-left: 20vw;
+    /*margin-left: 20vw;*/
     height: 330px;
     align-items: center;
 }
@@ -303,9 +309,18 @@ h4 {
     transition: unset !important;
 }
 
+.dropdown-usuario {
+    transform: translate(-100%);
+}
+
 .dropdown-menu-list .vs-dropdown--menu--after {
     right: unset;
     left: 33px;
+}
+
+.dropdown-usuario .vs-dropdown--menu--after {
+    left: unset;
+    right: 10px;
 }
 
 .dropdown-menu-list .vs-dropdown--menu {
@@ -487,7 +502,7 @@ th > .vs-table-text {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 10px;
-    padding: 2rem 5rem;
+    padding: 2rem;
 }
 
 .conquista.nova {
@@ -501,6 +516,13 @@ th > .vs-table-text {
     transition-duration: .3s;
 }
 
+.conquista-clicavel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .conquista-clicavel:hover {
     opacity: .6;
     transition-duration: .3s;
@@ -512,8 +534,15 @@ th > .vs-table-text {
 
 .nome-conq {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-family: "Poppins", sans-serif;
+    line-height: 1.4;
+}
+
+.vs-table--tbody-table .tr-values:not(.activeEdit):not(.tr-expandedx):not(.hoverFlat):hover {
+    transform: unset !important;
+    /*opacity: 0.4;*/
+    filter: brightness(0.95);
 }
 
 .img-plus {
@@ -571,6 +600,17 @@ th > .vs-table-text {
     max-width: 60px;
 }
 
+.avatar-list {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 20;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    border-radius: 50px;
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);
@@ -624,5 +664,13 @@ th > .vs-table-text {
 
     .col-btn-incluir-desktop {
         display: none;
+    }
+
+    .vs__selected {
+        font-size: .8rem;
+    }
+
+    [dir] .vs__search {
+        padding: 0;
     }
 }

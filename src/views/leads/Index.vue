@@ -15,7 +15,7 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"/>
+                                      v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome, e-mail, telefone ou CPF"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -40,7 +40,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20" v-show="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div v-if="dados.search">
@@ -56,7 +56,6 @@
                                 </p>
                             </div>
                             <br>
-
                             <p>
                                 <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
                                            @click="addNewData">
@@ -68,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="com-item" v-show="items.length > 0">
+                <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items">
 
                         <template slot="thead">

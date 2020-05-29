@@ -182,6 +182,10 @@
                                        @click="$router.push({name: 'conquistas'})">
                                 Cancelar
                             </vs-button>
+                            <vs-button class="mr-3" color="warning" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="deletar(conquista.id)">
+                                Deletar
+                            </vs-button>
                         </div>
                     </div>
                 </div>
@@ -368,6 +372,33 @@
                         this.produtoSelected = {id: data.produto.id, label: data.produto.nome};
                     this.prosseguiu = true;
                     this.$vs.loading.close();
+                })
+            },
+
+            deletar(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'conquistas'}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Deletado com sucesso'
+                            });
+                            this.$router.push({name: 'conquistas'})
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar registro. Contate o suporte.'
+                            })
+                        })
+                    }
                 })
             },
 
