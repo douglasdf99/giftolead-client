@@ -7,6 +7,16 @@
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
+import VueEcho from 'vue-echo-laravel';
+import * as io from 'socket.io-client'
+window.io = io
+
+
+Vue.use(VueEcho, {
+  broadcaster: 'socket.io',
+  host: 'https://api.saveleads.com.br:2083',
+  keyPrefix: "saveleads_database_"
+});
 
 import Vue from 'vue'
 import App from './App.vue'

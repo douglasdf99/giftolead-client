@@ -72,10 +72,10 @@
             jwt.init()
 
             let dir = this.$vs.rtl ? "rtl" : "ltr"
-            document.documentElement.setAttribute("dir", dir)
+            document.documentElement.setAttribute("dir", dir);
 
-            window.addEventListener('resize', this.handleWindowResize)
-            window.addEventListener('scroll', this.handleScroll)
+            window.addEventListener('resize', this.handleWindowResize);
+            window.addEventListener('scroll', this.handleScroll);
 
             // Auth0
             try {
