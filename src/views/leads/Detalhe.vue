@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="vx-row">
-            <vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="tabs-leads tabs-shadow-none" id="profile-tabs"
+            <vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="tabs-leads tabs-shadow-none tabs-detalhe" id="profile-tabs"
                      :key="isSmallerScreen">
 
                 <!-- GENERAL -->

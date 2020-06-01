@@ -36,24 +36,10 @@ export default [
         slug: 'dashboard'
     },
     {
-        url: '/tickets/atender',
+        url: '/tickets/listagem',
         name: "Tickets",
         slug: 'tickets',
         icon: "all_inbox",
-        submenu: [
-            {
-                url: '/tickets/atender',
-                name: "Atender",
-                slug: "tickets",
-                icon: 'call'
-            },
-            {
-                url: '/tickets/minhas-comissoes',
-                name: "Minhas Comissões",
-                slug: "ticket",
-                icon: 'monetization_on'
-            },
-        ]
     },
     {
         url: '/planos/meus-planos',

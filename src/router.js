@@ -74,6 +74,15 @@ const subleads = [
         icon: 'label'
     },
 ];
+
+const subtickets = [
+    {
+        url: '/tickets/listagem',
+        name: "Listagem",
+        slug: "tickets-list",
+        icon: 'confirmation_number'
+    }
+];
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
@@ -1832,6 +1841,24 @@ const router = new Router({
                         subTitle: 'Configurações',
                         subIcon: 'settings',
                         submenu: subconfiguracoes
+                    },
+                },
+                {
+                    path: '/tickets/listagem',
+                    name: 'tickets-list',
+                    component: () => import('@/views/tickets/Index.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Tickets'},
+                            {title: 'Listagem', active: true},
+                        ],
+                        pageTitle: 'Tickets de Recuperação',
+                        rule: 'editor',
+                        pai: 'tickets',
+                        subTitle: 'Tickets',
+                        //subIcon: 'settings',
+                        submenu: subtickets
                     },
                 },
                 {

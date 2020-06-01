@@ -636,8 +636,12 @@ th > .vs-table-text {
     text-align: left;
 }
 
-.vs-tabs-primary .con-ul-tabs .line-vs-tabs {
+.tabs-detalhe .con-ul-tabs .line-vs-tabs {
     width: 5px !important;
+
+}
+
+.vs-tabs-primary .con-ul-tabs .line-vs-tabs {
     background: #9344C4 !important;
 }
 
