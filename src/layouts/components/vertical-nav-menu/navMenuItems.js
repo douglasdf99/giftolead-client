@@ -36,7 +36,7 @@ export default [
         slug: 'dashboard'
     },
     {
-        url: '/tickets/listagem',
+        url: '/tickets',
         name: "Tickets",
         slug: 'tickets',
         icon: "all_inbox",

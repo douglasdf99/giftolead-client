@@ -1,8 +1,9 @@
 <template>
     <div>
+
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
-        <div class="vx-row flex items-center lg:mt-20 sm:mt-6 mb-5">
+        <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -38,94 +39,112 @@
                     Incluir Ticket
                 </vs-button>
                 <!-- SEARCH INPUT -->
+
             </div>
         </div>
+
         <vs-row>
-            <vs-col vs-w="12">
-                <vs-tabs>
-                    <vs-tab label="abertos">
-                        <div class="tab-text">
-                            <div class="vx-row mt-6 flex justify-center" v-if="items.length === 0">
-                                <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                                    <div class="w-8/12">
-                                        <div v-if="dados.search">
-                                            <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                            <p class="text-sem-item mt-6">
-                                                Para inserir novos registros você <br> pode clicar em incluir conta.
-                                            </p>
-                                        </div>
-                                        <div v-else>
-                                            <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                            <p class="text-sem-item">
-                                                Para inserir novos registros você <br> pode clicar em incluir conta.
-                                            </p>
-                                        </div>
-                                        <br>
-                                        <p>
-                                            <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                                       @click="addNewData">
-                                                <vs-icon icon-pack="material-icons" icon="check_circle"
-                                                         class="icon-grande"></vs-icon>
-                                                Incluir Ticket
-                                            </vs-button>
-                                        </p>
-                                    </div>
-                                </div>
+
+          <vs-col vs-w="12">
+            <div class="mt-20">
+              <vs-tabs :color="colorx" v-if="items.length > 0">
+                <vs-tab @click="colorx = 'rgb(16, 233, 179)'" icon-pack="material-icons" icon="fiber_manual_record" color="success" value="10" :label="'abertos ( ' + items.length + ' )'"   >
+                  <vs-table :data="items" class="table-items"
+                            style="border-spacing: 0 8px;border-collapse: separate;">
+
+                    <template slot="thead">
+                      <vs-th></vs-th>
+                      <vs-th>Nome</vs-th>
+                      <vs-th>Token</vs-th>
+                      <vs-th>Integração</vs-th>
+                    </template>
+                    <template slot-scope="{data}">
+                      <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
+                        <vs-td class="flex justify-center items-center relative">
+                          <vs-dropdown vs-trigger-click>
+                            <vs-button radius color="#EDEDED" type="filled"
+                                       class="btn-more-icon relative botao-menu"
+                                       icon-pack="material-icons" icon="more_horiz"
+                            ></vs-button>
+                            <vs-dropdown-menu class="dropdown-menu-list">
+                              <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                              <vs-dropdown-item @click="updateData(data[indextr])">
+                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                Editar
+                              </vs-dropdown-item>
+
+                              <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                                Deletar
+                              </vs-dropdown-item>
+
+                            </vs-dropdown-menu>
+                          </vs-dropdown>
+                        </vs-td>
+                        <vs-td :data="data[indextr].nome" class="relative">
+                          <span class="destaque">{{ data[indextr].nome }}</span>
+                        </vs-td>
+                        <vs-td :data="data[indextr].token" class="relative">
+                          {{ data[indextr].token }}
+                        </vs-td>
+                        <vs-td :data="data[indextr].integracao.descricao" class="relative">
+                          {{ data[indextr].integracao.descricao }}
+                        </vs-td>
+                      </vs-tr>
+                    </template>
+                  </vs-table>
+                  <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                </vs-tab>
+
+                <vs-tab @click="colorx = 'rgb(51, 51, 51)'" label="fechados"  icon-pack="material-icons" icon="fiber_manual_record">
+                  <div class="con-tab-ejemplo" >
+                    <p>Biscuit macaroon sugar plum sesame snaps oat cake halvah fruitcake pudding cotton candy. Cheesecake tart wafer soufflé. Chocolate marzipan donut pie soufflé dragée cheesecake. Gummi bears dessert croissant chocolate jujubes fruitcake. Pie cupcake halvah. </p>
+                    <p class="mt-2">Tiramisu carrot cake marzipan sugar plum powder marzipan sugar plum bonbon powder. Macaroon jujubes ice cream sugar plum lollipop wafer caramels. Cheesecake chocolate tart cake gingerbread fruitcake cake candy jelly-o. Candy cookie lollipop. Wafer lemon drops chocolate cake gummi bears.</p>
+                  </div>
+                </vs-tab>
+
+                <vs-tab @click="colorx = 'warning'" label="todos">
+                  <div class="con-tab-ejemplo">
+                    <p>Brownie ice cream biscuit candy biscuit jujubes. Dessert cake gummies fruitcake chocolate cake sweet roll pastry croissant danish. Pudding chocolate bar sweet roll muffin cake tootsie roll biscuit pastry. Chupa chups dessert donut. Pastry gummi bears tart cookie apple pie sugar plum bear claw.</p>
+                    <p class="mt-2">Pudding jelly chocolate powder jelly beans icing candy soufflé sweet. Cotton candy sugar plum fruitcake dessert dragée. Toffee chocolate cake chocolate cake oat cake topping macaroon caramels cotton candy. Ice cream lemon drops lollipop.</p>
+                  </div>
+                </vs-tab>
+
+
+              </vs-tabs>
+            </div>
+                <div class="vx-row mt-20" v-show="items.length === 0">
+
+                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                        <div class="w-8/12">
+                            <div v-if="dados.search">
+                                <p class="span-sem-item">Nenhum item foi encontrado</p>
+                                <p class="text-sem-item mt-6">
+                                    Para inserir novos registros você <br> pode clicar em incluir conta.
+                                </p>
                             </div>
-                            <div class="com-item" v-else>
-                                <vs-table :data="items" class="table-items mt-0">
-                                    <template slot="thead">
-                                        <vs-th></vs-th>
-                                        <vs-th>Nome</vs-th>
-                                        <vs-th>E-mail</vs-th>
-                                        <vs-th>Telefone</vs-th>
-                                        <vs-th>CPF</vs-th>
-                                    </template>
-
-                                    <template slot-scope="{data}">
-                                        <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
-                                            <vs-td class="flex justify-center items-center relative">
-                                                <vs-dropdown vs-trigger-click>
-                                                    <vs-button radius color="#EDEDED" type="filled"
-                                                               class="btn-more-icon relative botao-menu"
-                                                               icon-pack="material-icons" icon="more_horiz"
-                                                    ></vs-button>
-                                                    <vs-dropdown-menu class="dropdown-menu-list">
-                                                        <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                                        <vs-dropdown-item @click="show(data[indextr].id)">
-                                                            <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
-                                                            Visualizar
-                                                        </vs-dropdown-item>
-
-                                                        <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                                            <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                                            Deletar
-                                                        </vs-dropdown-item>
-
-                                                    </vs-dropdown-menu>
-                                                </vs-dropdown>
-                                            </vs-td>
-                                            <vs-td :data="data[indextr].nome">
-                                                <span class="destaque">{{ data[indextr].nome }}</span>
-                                            </vs-td>
-                                            <vs-td>
-                                                <span class="destaque">{{data[indextr].email}}</span>
-                                            </vs-td>
-                                            <vs-td :data="data[indextr].telefone">
-                                                {{ (tr.ddd+tr.telefone || '') | VMask('(##) #####-####')}}
-                                            </vs-td>
-                                            <vs-td :data="data[indextr].cpf">
-                                                <span>{{(tr.cpf || '') | VMask('###.###.###-##')}}</span>
-                                            </vs-td>
-                                        </vs-tr>
-                                    </template>
-                                </vs-table>
-                                <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                            <div v-else>
+                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
+                                <p class="text-sem-item">
+                                    Para inserir novos registros você <br> pode clicar em incluir conta.
+                                </p>
                             </div>
+                            <br>
+
+                            <p>
+                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
+                                           @click="addNewData">
+                                    <vs-icon icon-pack="material-icons" icon="check_circle"
+                                             class="icon-grande"></vs-icon>
+                                    Incluir Conta
+                                </vs-button>
+                            </p>
                         </div>
-                    </vs-tab>
-                    <vs-tab label="teste"></vs-tab>
-                </vs-tabs>
+                    </div>
+                </div>
+                <div class="com-item" v-show="items.length > 0">
+
+                </div>
             </vs-col>
         </vs-row>
     </div>
@@ -138,12 +157,23 @@
     export default {
         name: "Index",
         components: {SideBar},
+
+      channel: 'saveleads_database_lista-ticket',
+      echo: {
+        'ListaTicket': (payload, vm) => {
+          console.log('new message from team', payload);
+        }
+      },
         data() {
             return {
+                colorx: 'rgb(16, 233, 179)',
+                iconsucess: '<vs-icon icon-pack="material-icons" icon="fiber_manual_record"\n' +
+                  '                                           class="icon-grande text-success"\n' +
+                  '                                           ></vs-icon>',
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
-                routeTitle: 'Leads',
+                routeTitle: 'Contas',
                 dados: {
                     search: '',
                     page: 1
@@ -153,7 +183,7 @@
                     page: 1,
                     current_page: 1
                 },
-                currentx: 1,
+                currentx: 1
                 //items: {}
             }
         },
@@ -164,51 +194,50 @@
                 moduleContas.isRegistered = true
             }
 
-            this.getLeads();
+            this.getContas();
         },
         methods: {
             addNewData() {
-                this.$router.push({name: 'produto-criar'});
+                this.sidebarData = {}
+                this.toggleDataSidebar(true)
             },
-            updateData(id) {
-                this.$router.push({path: '/configuracoes/produtos/editar/' + id});
-            },
-            show(id){
-                this.$router.push({path: '/leads/detalhe/' + id});
+            updateData(obj) {
+                this.sidebarData = obj
+                this.toggleDataSidebar(true)
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getLeads() {
-                this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
+            getContas() {
+                this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar este Lead? Procedimento irreversível',
+                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getLeads();
+                            this.getContas();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
                             })
                         })
                     }
@@ -217,8 +246,7 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.dados.page = 1;
-                this.getLeads();
+                this.getContas();
             }
         },
         watch: {
@@ -226,11 +254,12 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getLeads();
+                this.getContas();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
+
         },
 
         computed: {

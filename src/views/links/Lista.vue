@@ -102,7 +102,6 @@
         name: "Index",
 
         components: {SideBar,  'v-select': vSelect,},
-
         data() {
             return {
                 // Data Sidebar
@@ -136,6 +135,13 @@
             this.getOpcoes();
             this.getItems();
 
+        },
+        mounted() {
+
+       /*   Echo.channel('lista-ticket')
+            .listen('ListaTicket',(e) => {
+              this.getProjects();
+            });*/
         },
         methods: {
           getOpcoes() {

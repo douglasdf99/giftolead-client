@@ -74,14 +74,19 @@ const subleads = [
         icon: 'label'
     },
 ];
-
-const subtickets = [
+const subTcikets = [
     {
-        url: '/tickets/listagem',
+        url: '/leads/listagem',
         name: "Listagem",
-        slug: "tickets-list",
-        icon: 'confirmation_number'
-    }
+        slug: "leads-list",
+        icon: 'people_outline'
+    },
+    {
+        url: '/leads/transacoes',
+        name: "Transações",
+        slug: "transacoes",
+        icon: 'label'
+    },
 ];
 const router = new Router({
     mode: 'history',
@@ -2072,24 +2077,22 @@ const router = new Router({
                   subIcon: 'settings',
                   submenu: subconfiguracoes
                 },
-              },{
-                path: '/savelink/:usuario/:codigo',
-                name: 'meuslinks-produto',
-                component: () => import('@/views/links/MeusLinks.vue'),
+              },
+              {
+                path: '/tickets',
+                name: 'tickets',
+                component: () => import('@/views/tickets/Index.vue'),
                 meta: {
                   breadcrumb: [
                     {title: 'Home', url: '/'},
-                    {title: 'Configurações'},
-                    {title: 'Geral', url: '/configuracoes/geral'},
-                    {title: 'Links', url: '/configuracoes/links'},
-                    {title: 'Editar', active: true},
+                    {title: 'Tcikets', active: true},
                   ],
-                  pageTitle: 'Savelinks',
+                  pageTitle: 'Tcikets de recuperação',
                   rule: 'editor',
-                  pai: 'configuracoes',
-                  subTitle: 'Savelinks',
+                  pai: 'tickets',
+                  subTitle: 'Tickets',
                   subIcon: 'settings',
-                  submenu: subconfiguracoes
+                  submenu: subTcikets
                 },
               },
             ]
