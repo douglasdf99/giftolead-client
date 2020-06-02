@@ -58,28 +58,41 @@ export default {
     },
     getTickets({commit}, dados) {
         let rota = '';
-        switch (dados.tipo) {
-            case 'abertos':
-                rota = 'ticketsAbertos';
-                break;
-            case 'fechados':
-                rota = 'ticketsFechados';
-                break;
-            default:
-                rota = 'ticketsAbertos'
+        if (dados.tipo == 'todos') {
+            return new Promise((resolve, reject) => {
+                axios.get(`/api/tickets`, {params: dados.params})
+                    .then((response) => {
+                        console.log('todos', response.data)
+                        resolve(response.data.data)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+            })
+        } else {
+            switch (dados.tipo) {
+                case 'abertos':
+                    rota = 'ticketsAbertos';
+                    break;
+                case 'fechados':
+                    rota = 'ticketsFechados';
+                    break;
+                default:
+                    rota = 'ticketsAbertos'
+            }
+            return new Promise((resolve, reject) => {
+                axios.get(`/api/${rota}`, {params: dados.params})
+                    .then((response) => {
+                        console.log('abertos', response.data)
+                        resolve(response.data.data)
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+            })
         }
-        return new Promise((resolve, reject) => {
-            axios.get(`/api/${rota}`, {params: dados.params})
-                .then((response) => {
-                    console.log('abertos', response.data)
-                    resolve(response.data.data)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
     },
-    getNums({commit}){
+    getNums({commit}) {
         return new Promise((resolve, reject) => {
             axios.get('/api/ticketsNum').then(response => {
                 resolve(response.data)

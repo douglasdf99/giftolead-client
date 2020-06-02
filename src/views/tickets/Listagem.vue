@@ -17,6 +17,10 @@
                          class="icon-grande text-success" v-if="ticket.status == 0"></vs-icon>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
                          class="icon-grande text-black" v-if="ticket.status == 2"></vs-icon>
+                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                         class="icon-grande text-warning" v-if="ticket.status == 1"></vs-icon>
+                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                         class="icon-grande text-blue" v-if="ticket.status == 3"></vs-icon>
             </div>
             <div class="vx-col w-2/12 flex justify-around items-center">
                 <i class="material-icons" v-if="ticket.status != 2">call</i>

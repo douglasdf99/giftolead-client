@@ -48,7 +48,7 @@
 
             <vs-col vs-w="12">
                 <div class="mt-20">
-                    <vs-tabs :color="colorx">
+                    <vs-tabs :color="colorx" v-if="nums.abertos">
                         <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" icon-pack="material-icons"
                                 icon="fiber_manual_record" color="success" value="10"
                                 :label="'abertos ( ' + nums.abertos + ' )'">
@@ -64,17 +64,10 @@
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
 
-                        <vs-tab @click="colorx = 'warning'" label="todos">
-                            <div class="con-tab-ejemplo">
-                                <p>Brownie ice cream biscuit candy biscuit jujubes. Dessert cake gummies fruitcake
-                                    chocolate cake sweet roll pastry croissant danish. Pudding chocolate bar sweet roll
-                                    muffin cake tootsie roll biscuit pastry. Chupa chups dessert donut. Pastry gummi
-                                    bears tart cookie apple pie sugar plum bear claw.</p>
-                                <p class="mt-2">Pudding jelly chocolate powder jelly beans icing candy soufflé sweet.
-                                    Cotton candy sugar plum fruitcake dessert dragée. Toffee chocolate cake chocolate
-                                    cake oat cake topping macaroon caramels cotton candy. Ice cream lemon drops
-                                    lollipop.</p>
-                            </div>
+                        <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
+                            <listagem :items="tickets" :pagination="pagination"></listagem>
+                            <vs-pagination class="mt-2" :total="pagination.last_page"
+                                           v-model="currentx"></vs-pagination>
                         </vs-tab>
 
 

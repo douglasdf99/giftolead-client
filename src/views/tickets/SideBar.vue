@@ -98,7 +98,7 @@
                     <div class="vx-row mt-5">
                         <div class="vx-col w-full">
                             <span class="font-regular mb-2">Detalhamento da solicitação</span>
-                            <vs-textarea v-model="ticket.detalhamento" id="text-area" class="w-full bg-white" rows="6"/>
+                            <vs-textarea name="detalhamento" v-validate="'required'" v-model="ticket.detalhamento" id="text-area" class="w-full bg-white" rows="6"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('detalhamento')">{{ errors.first('detalhamento') }}</span>
                         </div>
@@ -130,6 +130,21 @@
             },
             duvida: {
                 required: 'Por favor, selecione uma dúvida',
+            },
+            lead_nome: {
+                required: 'Por favor, insira o nome',
+            },
+            lead_email: {
+                required: 'Por favor, insira o e-mail',
+            },
+            lead_ddd: {
+                required: 'Insira o DDD',
+            },
+            lead_telefone: {
+                required: 'Por favor, insira o Telefone',
+            },
+            detalhamento: {
+                required: 'Por favor, insira detalhamento do ticket',
             },
         }
     };
