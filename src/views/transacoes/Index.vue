@@ -102,8 +102,8 @@
                                 <vs-td :data="tr.transaction">
                                     {{ tr.transaction }}
                                 </vs-td>
-                                <vs-td :data="tr.lead.nome">
-                                    {{ tr.lead.nome }}
+                                <vs-td :data="tr.lead.nome" class="cursor-pointer">
+                                    <router-link :to="{name: 'leads-detalhe', params: {id: tr.lead.id}}">{{ tr.lead.nome }}</router-link>
                                 </vs-td>
                                 <vs-td v-if="tr.produto">
                                     <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
