@@ -196,7 +196,7 @@
                     this.nums = response
                 });
                 this.$store.dispatch('tickets/getTickets', {tipo: tipo, params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
+                    console.log('retornado com sucessso', response)
                     this.pagination = response;
                     this.tickets = response.data
                     //this.dados.page = this.pagination.current_page
