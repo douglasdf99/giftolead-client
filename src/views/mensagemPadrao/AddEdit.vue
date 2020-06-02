@@ -77,7 +77,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'mensagem-padrao'})">
+                                       @click="$router.push({name: 'mensagemPadrao'})">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -190,7 +190,7 @@
                                 })
                             })
                         } else {
-                            this.$store.dispatch('addItem', {item: formData, rota: 'users'}).then(response => {
+                            this.$store.dispatch('addItem', {item: formData, rota: 'mensagem_padraos'}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: 'Sucesso',
