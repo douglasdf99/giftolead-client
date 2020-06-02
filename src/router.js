@@ -60,6 +60,8 @@ const subconfiguracoes = [
         icon: 'emoji_events'
     },*/
 ];
+
+
 const subleads = [
     {
         url: '/leads/listagem',
@@ -74,18 +76,12 @@ const subleads = [
         icon: 'label'
     },
 ];
-const subTcikets = [
+const subtickets = [
     {
-        url: '/leads/listagem',
+        url: '/tickets',
         name: "Listagem",
         slug: "leads-list",
         icon: 'people_outline'
-    },
-    {
-        url: '/leads/transacoes',
-        name: "Transações",
-        slug: "transacoes",
-        icon: 'label'
     },
 ];
 const router = new Router({
@@ -1849,7 +1845,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/tickets/listagem',
+                    path: '/tickets',
                     name: 'tickets-list',
                     component: () => import('@/views/tickets/Index.vue'),
                     meta: {
@@ -2092,7 +2088,7 @@ const router = new Router({
                   pai: 'tickets',
                   subTitle: 'Tickets',
                   subIcon: 'settings',
-                  submenu: subTcikets
+                  submenu: subtickets
                 },
               },
             ]

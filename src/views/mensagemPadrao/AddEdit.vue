@@ -289,7 +289,7 @@
                 },
                 deep: true
             },
-            selectTipo(val){
+            selectTipo(val) {
                 this.mensagem.tipo = val.id
             }
         },

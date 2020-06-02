@@ -18,7 +18,8 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por n de ticket ou e-mail do lead"/>
+                                      v-model="dados.search" id="search_input" size="large"
+                                      placeholder="Pesquisar por n de ticket ou e-mail do lead"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -45,74 +46,40 @@
 
         <vs-row>
 
-          <vs-col vs-w="12">
-            <div class="mt-20">
-              <vs-tabs :color="colorx" v-if="items.length > 0">
-                <vs-tab @click="colorx = 'rgb(16, 233, 179)'" icon-pack="material-icons" icon="fiber_manual_record" color="success" value="10" :label="'abertos ( ' + items.length + ' )'"   >
-                  <vs-table :data="items" class="table-items"
-                            style="border-spacing: 0 8px;border-collapse: separate;">
+            <vs-col vs-w="12">
+                <div class="mt-20">
+                    <vs-tabs :color="colorx">
+                        <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" icon-pack="material-icons"
+                                icon="fiber_manual_record" color="success" value="10"
+                                :label="'abertos ( ' + nums.abertos + ' )'">
+                            <listagem :items="tickets"></listagem>
+                            <vs-pagination class="mt-2" :total="pagination.last_page"
+                                           v-model="currentx"></vs-pagination>
+                        </vs-tab>
 
-                    <template slot="thead">
-                      <vs-th></vs-th>
-                      <vs-th>Nome</vs-th>
-                      <vs-th>Token</vs-th>
-                      <vs-th>Integração</vs-th>
-                    </template>
-                    <template slot-scope="{data}">
-                      <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
-                        <vs-td class="flex justify-center items-center relative">
-                          <vs-dropdown vs-trigger-click>
-                            <vs-button radius color="#EDEDED" type="filled"
-                                       class="btn-more-icon relative botao-menu"
-                                       icon-pack="material-icons" icon="more_horiz"
-                            ></vs-button>
-                            <vs-dropdown-menu class="dropdown-menu-list">
-                              <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                              <vs-dropdown-item @click="updateData(data[indextr])">
-                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                Editar
-                              </vs-dropdown-item>
+                        <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" icon-pack="material-icons"
+                                icon="fiber_manual_record" color="black" :label="'fechados ( ' + nums.fechados + ' )'">
+                            <listagem :items="tickets" :pagination="pagination"></listagem>
+                            <vs-pagination class="mt-2" :total="pagination.last_page"
+                                           v-model="currentx"></vs-pagination>
+                        </vs-tab>
 
-                              <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                Deletar
-                              </vs-dropdown-item>
-
-                            </vs-dropdown-menu>
-                          </vs-dropdown>
-                        </vs-td>
-                        <vs-td :data="data[indextr].nome" class="relative">
-                          <span class="destaque">{{ data[indextr].nome }}</span>
-                        </vs-td>
-                        <vs-td :data="data[indextr].token" class="relative">
-                          {{ data[indextr].token }}
-                        </vs-td>
-                        <vs-td :data="data[indextr].integracao.descricao" class="relative">
-                          {{ data[indextr].integracao.descricao }}
-                        </vs-td>
-                      </vs-tr>
-                    </template>
-                  </vs-table>
-                  <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
-                </vs-tab>
-
-                <vs-tab @click="colorx = 'rgb(51, 51, 51)'" label="fechados"  icon-pack="material-icons" icon="fiber_manual_record">
-                  <div class="con-tab-ejemplo" >
-                    <p>Biscuit macaroon sugar plum sesame snaps oat cake halvah fruitcake pudding cotton candy. Cheesecake tart wafer soufflé. Chocolate marzipan donut pie soufflé dragée cheesecake. Gummi bears dessert croissant chocolate jujubes fruitcake. Pie cupcake halvah. </p>
-                    <p class="mt-2">Tiramisu carrot cake marzipan sugar plum powder marzipan sugar plum bonbon powder. Macaroon jujubes ice cream sugar plum lollipop wafer caramels. Cheesecake chocolate tart cake gingerbread fruitcake cake candy jelly-o. Candy cookie lollipop. Wafer lemon drops chocolate cake gummi bears.</p>
-                  </div>
-                </vs-tab>
-
-                <vs-tab @click="colorx = 'warning'" label="todos">
-                  <div class="con-tab-ejemplo">
-                    <p>Brownie ice cream biscuit candy biscuit jujubes. Dessert cake gummies fruitcake chocolate cake sweet roll pastry croissant danish. Pudding chocolate bar sweet roll muffin cake tootsie roll biscuit pastry. Chupa chups dessert donut. Pastry gummi bears tart cookie apple pie sugar plum bear claw.</p>
-                    <p class="mt-2">Pudding jelly chocolate powder jelly beans icing candy soufflé sweet. Cotton candy sugar plum fruitcake dessert dragée. Toffee chocolate cake chocolate cake oat cake topping macaroon caramels cotton candy. Ice cream lemon drops lollipop.</p>
-                  </div>
-                </vs-tab>
+                        <vs-tab @click="colorx = 'warning'" label="todos">
+                            <div class="con-tab-ejemplo">
+                                <p>Brownie ice cream biscuit candy biscuit jujubes. Dessert cake gummies fruitcake
+                                    chocolate cake sweet roll pastry croissant danish. Pudding chocolate bar sweet roll
+                                    muffin cake tootsie roll biscuit pastry. Chupa chups dessert donut. Pastry gummi
+                                    bears tart cookie apple pie sugar plum bear claw.</p>
+                                <p class="mt-2">Pudding jelly chocolate powder jelly beans icing candy soufflé sweet.
+                                    Cotton candy sugar plum fruitcake dessert dragée. Toffee chocolate cake chocolate
+                                    cake oat cake topping macaroon caramels cotton candy. Ice cream lemon drops
+                                    lollipop.</p>
+                            </div>
+                        </vs-tab>
 
 
-              </vs-tabs>
-            </div>
+                    </vs-tabs>
+                </div>
                 <div class="vx-row mt-20" v-show="items.length === 0">
 
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
@@ -152,24 +119,27 @@
 
 <script>
     import SideBar from './SideBar'
-    import moduleContas from '@/store/contas/moduleContas.js'
+    import listagem from './Listagem'
+    import moduleTickets from '@/store/tickets/moduleTickets.js'
+    import moduleOrigens from '@/store/origens/moduleOrigens.js'
+    import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js'
+    import moduleProdutos from '@/store/produtos/moduleProdutos.js'
 
     export default {
         name: "Index",
-        components: {SideBar},
-
-      channel: 'saveleads_database_lista-ticket',
-      echo: {
-        'ListaTicket': (payload, vm) => {
-          console.log('new message from team', payload);
-        }
-      },
+        components: {SideBar, listagem},
+        channel: 'saveleads_database_lista-ticket',
+        echo: {
+            'ListaTicket': (payload, vm) => {
+                console.log('evento disparado', payload);
+            }
+        },
         data() {
             return {
                 colorx: 'rgb(16, 233, 179)',
                 iconsucess: '<vs-icon icon-pack="material-icons" icon="fiber_manual_record"\n' +
-                  '                                           class="icon-grande text-success"\n' +
-                  '                                           ></vs-icon>',
+                    '                                           class="icon-grande text-success"\n' +
+                    '                                           ></vs-icon>',
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
@@ -183,18 +153,35 @@
                     page: 1,
                     current_page: 1
                 },
-                currentx: 1
-                //items: {}
+                currentx: 1,
+                tickets: [],
+                tipoTicket: 'abertos',
+                nums: {}
             }
         },
         created() {
             this.$vs.loading()
-            if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contas', moduleContas)
-                moduleContas.isRegistered = true
+            if (!moduleTickets.isRegistered) {
+                this.$store.registerModule('tickets', moduleTickets)
+                moduleTickets.isRegistered = true
             }
 
-            this.getContas();
+            if (!moduleProdutos.isRegistered) {
+                this.$store.registerModule('produtos', moduleProdutos)
+                moduleProdutos.isRegistered = true
+            }
+
+            if (!moduleOrigens.isRegistered) {
+                this.$store.registerModule('origens', moduleOrigens)
+                moduleOrigens.isRegistered = true
+            }
+
+            if (!moduleDuvidas.isRegistered) {
+                this.$store.registerModule('duvidas', moduleDuvidas)
+                moduleDuvidas.isRegistered = true
+            }
+
+            this.getTickets();
         },
         methods: {
             addNewData() {
@@ -208,14 +195,21 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getContas() {
-                this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
+            getTickets(tipo = this.tipoTicket) {
+                this.$vs.loading();
+                this.tipoTicket = tipo;
+                this.$store.dispatch('tickets/getNums').then(response => {
+                    console.log('nums', response)
+                    this.nums = response
+                });
+                this.$store.dispatch('tickets/getTickets', {tipo: tipo, params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
-                    //this.items = response.data
+                    this.tickets = response.data
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
+
             },
             deletar(id) {
                 this.$vs.dialog({
@@ -231,7 +225,7 @@
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getContas();
+                            this.getTickets();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -246,7 +240,7 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getContas();
+                this.getTickets();
             }
         },
         watch: {
@@ -254,14 +248,19 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getContas();
+                this.getTickets();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
 
         },
-
+        mounted(){
+            this.channel.listen('ListaTicket', (payload) => {
+                console.log('evento echo')
+                //this.getTickets(;
+            });
+        },
         computed: {
 
             items() {
