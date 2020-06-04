@@ -460,6 +460,12 @@ h4 {
     font-size: 1.2rem;
     margin: 1rem 0 !important;
     cursor: pointer;
+    transition-duration: .2s;
+}
+
+.hover-opacidade:hover, .variavel:hover, .uploader:hover {
+    opacity: .5;
+    transition-duration: .2s;
 }
 
 .unsetshadow-setborder{
@@ -483,6 +489,10 @@ th > .vs-table-text {
     padding: 1rem !important;
 }
 
+[dir] .daterangepicker td.active, [dir] .daterangepicker td.active:hover {
+    background-color: #767676 !important;
+}
+
 .text-enum{
     height: 3rem;
     width: 3rem;
@@ -498,6 +508,10 @@ th > .vs-table-text {
     z-index: 5;
     top: 10px;
     right: 10%;
+}
+
+.col-conquista {
+    width: 25%;
 }
 
 .conquista {
@@ -534,6 +548,8 @@ th > .vs-table-text {
 
 .conquista.nova:hover {
     border: 2px solid #9AAABE;
+    background-color: white;
+    transition-duration: .3s;
 }
 
 .nome-conq {
@@ -561,6 +577,10 @@ th > .vs-table-text {
     color: #10CFAE;
     font-size: 3rem;
     cursor: pointer;
+}
+
+.img-conquista {
+    border-radius: 50%;
 }
 
 .img-plus i {
@@ -686,11 +706,19 @@ th > .vs-table-text {
     .dropdown-menu-list {
         transform: translate(-100%);
     }
+    
+    .col-conquista {
+        width: 100%;
+    }
 }
 
 @media (max-width: 768px) {
     .row-reverse-mobile {
         flex-direction: column-reverse;
+    }
+    
+    .col-conquista {
+        width: 50%;
     }
 }
 
@@ -737,11 +765,19 @@ th > .vs-table-text {
         display: none;
     }
 
-    .vs__selected {
-        font-size: .8rem;
-    }
-
     [dir] .vs__search {
         padding: 0;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1366px) {
+    .col-conquista {
+        width: 33.33333%;
+    }
+}
+
+@media (max-width: 1440px) {
+    .vs__selected {
+        font-size: .8rem;
     }
 }

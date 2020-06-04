@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row flex items-end lg:mt-20 sm:mt-6">
+        <div class="vx-row flex items-end lg:mt-10 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -11,7 +11,7 @@
                                       v-model="dados.search" id="search_input_trans" size="large" placeholder="Pesquisar por título"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
                                 <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="vx-row">
-                        <div class="vx-col w-full lg:w-3/12 md:w-4/12">
+                        <div class="vx-col col-conquista mb-10">
                             <div class="conquista nova cursor-pointer"
                                  @click="$router.push({path: '/configuracoes/conquistas/nova'})">
                                 <div class="img-plus">
@@ -48,7 +48,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="vx-col w-full lg:w-3/12 md:w-4/12" v-for="item in items">
+                        <div class="vx-col col-conquista mb-10" v-for="item in items">
                             <div class="conquista">
                                 <div class="py-2 w-full">
                                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo"
@@ -96,7 +96,8 @@
                     current_page: 1
                 },
                 currentx: 1,
-                selectedTipo: {}
+                selectedTipo: {},
+                countSwitch: []
                 //items: {}
             }
         },
@@ -110,6 +111,10 @@
         },
         methods: {
             getItems() {
+                if (this.selectedTipo !== null)
+                    this.dados.global = this.selectedTipo.id;
+                else this.dados.global = '';
+
                 this.$store.dispatch('getVarios', {rota: 'conquistas', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
@@ -123,38 +128,49 @@
                 this.getItems();
             },
             ativaConquista(e) {
-                console.log(e)
-                const formData = new FormData();
-                let ativo = e.ativo ? 0 : 1;
-                let text = e.ativo ? 'Desativada' : 'Ativada';
-                formData.append('ativo', ativo);
-                formData.append('_method', 'PUT');
-
-                formData.append('nome', e.nome);
-                formData.append('descricao', e.descricao);
-                formData.append('quantidade', e.quantidade);
-                formData.append('valor', e.valor);
-                formData.append('porcentagem', e.porcentagem);
-                formData.append('tipo', e.tipo);
-                formData.append('perfil', e.perfil);
-                formData.append('global', e.global);
-                this.$store.dispatch('conquistas/update', {id: e.id, dados: formData}).then(() => {
+                console.log(this.countSwitch)
+                if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     this.$vs.notify({
                         title: '',
-                        text: text + " com sucesso.",
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle',
-                        color: 'success'
-                    });
-                }).catch(erro => {
-                    this.$vs.notify({
-                        title: 'Error',
-                        text: erro.message,
+                        text: 'Muitas tentativas de ativação',
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
                     })
-                })
+                } else {
+                    console.log(e)
+                    const formData = new FormData();
+                    let ativo = e.ativo ? 0 : 1;
+                    let text = e.ativo ? 'Desativada' : 'Ativada';
+                    formData.append('ativo', ativo);
+                    formData.append('_method', 'PUT');
+                    formData.append('nome', e.nome);
+                    formData.append('descricao', e.descricao);
+                    formData.append('quantidade', e.quantidade);
+                    formData.append('valor', e.valor);
+                    formData.append('porcentagem', e.porcentagem);
+                    formData.append('tipo', e.tipo);
+                    formData.append('perfil', e.perfil);
+                    formData.append('global', e.global);
+                    this.$store.dispatch('conquistas/update', {id: e.id, dados: formData}).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
+                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
             }
         },
         watch: {
@@ -167,7 +183,11 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-
+            selectedTipo(){
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getItems();
+            }
         },
 
         computed: {

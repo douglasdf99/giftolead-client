@@ -44,7 +44,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="com-item" v-show="items.length > 0">
+                <div class="com-item" v-if="items.length > 0">
                     <vs-table :data="items" class="table-items">
 
                         <template slot="thead">
@@ -117,7 +117,7 @@
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
-                <div class="vx-row mt-20 flex justify-center" v-show="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-else>
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div v-if="dados.search === null">

@@ -25,28 +25,30 @@
             <div class="vx-col w-full mb-10">
                 <h2 class="subtitulo">Escolha o tipo de conquista</h2>
             </div>
-            <div class="vx-col w-full lg:w-5/12 sm:w-full text-center cursor-pointer tipo-conquista"
-                 :class="{'conquista-ativa': (!conquista.global && conquista.global != null)}"
+            <div class="vx-col w-full lg:w-1/2 sm:w-full text-center hover-opacidade cursor-pointer"
                  @click="conquista.global = 0">
-                <div class="vx-row py-5">
-                    <div class="vx-col w-full">
-                        <img src="@/assets/images/util/conquista-prod.svg" alt="">
-                    </div>
-                    <div class="vx-col w-full text-center">
-                        <p class="destaque mb-3">Conquista Produto</p>
-                        <p>Gamefication e bonificações por <br> vendas vinculadas a um produto</p>
+                <div class="tipo-conquista" :class="{'conquista-ativa': (!conquista.global && conquista.global != null)}">
+                    <div class="vx-row py-5">
+                        <div class="vx-col w-full">
+                            <img src="@/assets/images/util/conquista-prod.svg" alt="">
+                        </div>
+                        <div class="vx-col w-full text-center">
+                            <p class="destaque mb-3">Conquista Produto</p>
+                            <p>Gamefication e bonificações por <br> vendas vinculadas a um produto</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-5/12 sm:w-full text-center cursor-pointer tipo-conquista"
-                 :class="{'conquista-ativa': (conquista.global)}" @click="conquista.global = 1">
-                <div class="vx-row py-5">
-                    <div class="vx-col w-full">
-                        <img src="@/assets/images/util/conquista-global.svg" alt="">
-                    </div>
-                    <div class="vx-col w-full">
-                        <p class="destaque mb-3">Conquista Global</p>
-                        <p>Gamefication e bonificações por <br> vendas de qualquer produto</p>
+            <div class="vx-col w-full lg:w-1/2 sm:w-full text-center hover-opacidade cursor-pointer">
+                <div class="tipo-conquista" :class="{'conquista-ativa': (conquista.global)}" @click="conquista.global = 1">
+                    <div class="vx-row py-5">
+                        <div class="vx-col w-full">
+                            <img src="@/assets/images/util/conquista-global.svg" alt="">
+                        </div>
+                        <div class="vx-col w-full">
+                            <p class="destaque mb-3">Conquista Global</p>
+                            <p>Gamefication e bonificações por <br> vendas de qualquer produto</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,7 +121,8 @@
                                 <template slot="no-body">
                                     <!-- ITEM IMAGE -->
                                     <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                        <img :src="url_api(conquista.imagem)" style="width: 200px" alt="avatar"
+                                        <img :src="url_api(conquista.imagem)" style="width: 200px; border-radius: 50%"
+                                             alt="avatar"
                                              class="grid-view-img px-4">
                                     </div>
                                     <div class="item-details px-4">
@@ -140,7 +143,8 @@
                                     <!-- ITEM IMAGE -->
                                     <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
                                          v-for="(image, index) in images" :key="index">
-                                        <img :src="image" style="width: 200px" alt="avatar" class="grid-view-img px-4">
+                                        <img :src="image" style="width: 200px; border-radius: 50%" alt="avatar"
+                                             class="grid-view-img px-4">
                                     </div>
                                     <div class="item-details px-4">
                                     </div>
@@ -183,7 +187,7 @@
                                 Cancelar
                             </vs-button>
                             <vs-button class="mr-3" color="warning" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="deletar(conquista.id)">
+                                       @click="deletar(conquista.id)" v-if="$route.name === 'conquista-editar'">
                                 Deletar
                             </vs-button>
                         </div>
@@ -368,7 +372,7 @@
                     this.conquista.valor *= 100;
                     this.conquista.porcentagem *= 100;
                     console.log('conquista', this.conquista)
-                    if(this.conquista.produto)
+                    if (this.conquista.produto)
                         this.produtoSelected = {id: data.produto.id, label: data.produto.nome};
                     this.prosseguiu = true;
                     this.$vs.loading.close();

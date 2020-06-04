@@ -118,7 +118,7 @@
                                     </div>
                                 </vs-td>
                                 <vs-td :data="data[indextr].conta.nome">
-                                    {{ data[indextr].conta.nome }}
+                                    {{ data[indextr].conta.nome || ''}}
                                 </vs-td>
                                 <vs-td :data="data[indextr].preco">
                                     <span class="destaque"> R$ {{data[indextr].preco}}</span>
@@ -135,7 +135,6 @@
                                 </vs-td>
                             </vs-tr>
                         </template>
-
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>

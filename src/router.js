@@ -1787,7 +1787,7 @@ const router = new Router({
                 },
                 {
                     path: '/configuracoes/mensagem-padrao',
-                    name: 'mensagemPadrao',
+                    name: 'mensagem-padrao',
                     component: () => import('@/views/mensagemPadrao/Index.vue'),
                     meta: {
                         breadcrumb: [

@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="vx-row">
-            <vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="tabs-leads tabs-shadow-none tabs-detalhe" id="profile-tabs"
+            <vs-tabs :position="isSmallerScreen ? 'top' : 'left'" class="tabs-leads tabs-shadow-none tabs-detalhe"
+                     id="profile-tabs"
                      :key="isSmallerScreen">
 
                 <!-- GENERAL -->
@@ -16,18 +17,20 @@
                             </div>
                         </div>
                         <div class="vx-row mb-4">
-                            <div class="vx-col w-full lg:w-4/12">
+                            <div class="vx-col w-full lg:w-6/12">
                                 <p class="font-regular mb-2">Telefone</p>
                                 <div class="vx-row">
-                                    <div class="vx-col w-3/12">
-                                        <vs-input class="w-full" v-model="lead.ddd" size="large"/>
+                                    <div class="vx-col w-4/12">
+                                        <vs-input class="w-full" v-model="lead.ddd" size="large" @keypress="isNumber"
+                                                  v-mask="'(##)'"/>
                                     </div>
-                                    <div class="vx-col w-9/12">
-                                        <vs-input class="w-full" v-model="lead.telefone" size="large"/>
+                                    <div class="vx-col w-8/12">
+                                        <vs-input class="w-full" v-model="lead.telefone" size="large"
+                                                  v-mask="'#####-####'" @keypress="isNumber"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="vx-col w-full lg:w-8/12">
+                            <div class="vx-col w-full lg:w-6/12">
                                 <p class="font-regular mb-2">E-mail</p>
                                 <vs-input class="w-full" v-model="lead.email" size="large" v-validate="'required'"/>
                                 <span class="text-danger text-sm"

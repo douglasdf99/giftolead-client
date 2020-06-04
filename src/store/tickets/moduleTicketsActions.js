@@ -98,6 +98,12 @@ export default {
                 resolve(response.data)
             })
         })
-
+    },
+    verificaLead({commit}, dados){
+        return new Promise((resolve, reject) => {
+            axios.get('/api/verificaTicketProduto', {params: dados}).then(response => {
+                resolve(response.data)
+            })
+        })
     }
 }

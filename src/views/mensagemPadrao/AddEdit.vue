@@ -11,7 +11,7 @@
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-8/12 lg:w-8/12">
                 <div class="vx-row mb-3">
-                    <div class="vx-col w-full lg:w-3/12">
+                    <div class="vx-col w-full lg:w-5/12 md:w-1/2">
                         <span class="font-regular mb-2">Selecione o tipo</span>
                         <v-select v-model="selectTipo" :class="'select-large-base'" :clearable="false"
                                   :options="tipos" v-validate="'required'" name="tipo" style="background-color: white"/>
@@ -77,7 +77,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'mensagemPadrao'})">
+                                       @click="$router.push({name: 'mensagem-padrao'})">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -423,5 +423,9 @@
 
     .ql-editor {
         min-height: 20vh;
+    }
+
+    .ql-snow .ql-tooltip {
+        z-index: 99999;
     }
 </style>

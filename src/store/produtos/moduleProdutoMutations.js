@@ -8,11 +8,9 @@
 ==========================================================================================*/
 
 export default {
-  SET_EMPRESA(state, empresa) {
-    console.log('colocando emrepsa no state');
-    state.empresa = empresa
-  },
-  UPDATE_EMPRESA(state, empresa) {
-    state.empresa = empresa
+  SET_VARIOS(state, obj) {
+    console.log('obj', obj)
+    state.items = obj.data;
+    state.pagination = obj;
   }
 }

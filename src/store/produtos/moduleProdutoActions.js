@@ -61,15 +61,4 @@ export default {
                 })
         })
     },
-    getPaginated({commit}, dados) {
-        axios.get(`/api/produtos`, {params: dados.params})
-            .then((response) => {
-                console.log('produtos resgatado', response);
-                resolve(response.data.data)
-            })
-            .catch((error) => {
-                reject(error)
-            })
-    }
-
 }

@@ -13,19 +13,20 @@
                 <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
                                    :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
                                    v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
-                                   :append-to-body="true">
+                                   :append-to-body="true" :ranges="ranges">
                 </date-range-picker>
             </div>
         </div>
         <div class="vx-row flex items-end mb-4">
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-5/12 xlg:w-6/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="search" id="search_input_trans" size="large" placeholder="Pesquisar por nome do Lead ou transação"/>
+                                      v-model="search" id="search_input_trans" size="large"
+                                      placeholder="Pesquisar por nome do Lead ou transação"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
@@ -44,7 +45,7 @@
                 <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="produtos"/>
             </div>
-            <div class="vx-col w-full lg:w-3/12 sm:w-full">
+            <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Status</label>
                 <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="status"/>
@@ -103,7 +104,9 @@
                                     {{ tr.transaction }}
                                 </vs-td>
                                 <vs-td :data="tr.lead.nome" class="cursor-pointer">
-                                    <router-link :to="{name: 'leads-detalhe', params: {id: tr.lead.id}}">{{ tr.lead.nome }}</router-link>
+                                    <router-link :to="{name: 'leads-detalhe', params: {id: tr.lead.id}}">{{ tr.lead.nome
+                                        }}
+                                    </router-link>
                                 </vs-td>
                                 <vs-td v-if="tr.produto">
                                     <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
@@ -215,6 +218,14 @@
                     firstDay: 0,
                     startDate: '05/26/2020',
                     endDate: '05/26/2020',
+                },
+                ranges: {
+                    //Definindo ranges padronizados
+                    'Hoje': [this.getDay(true), this.getDay(true)],
+                    'Ontem': [this.getDay(false), this.getDay(false)],
+                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 }
             }
         },
@@ -224,8 +235,7 @@
                 this.$store.registerModule('produtos', moduleProdutos)
                 moduleProdutos.isRegistered = true
             }
-            console.log('linguagem', this.languages);
-            console.log('moment', moment().subtract(30, 'days').format('DD-MM-YYYY'))
+
             this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
             this.dt_fim = moment().format('DD-MM-YYYY');
             this.dateRange.startDate = moment().subtract(30, 'days')
@@ -296,6 +306,16 @@
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
+            },
+            getDay(dia) {
+                //Definindo datas usadas nos ranges padronizados
+                let today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                let yesterday = new Date()
+                yesterday.setDate(today.getDate() - 1)
+                yesterday.setHours(0, 0, 0, 0);
+                return (dia ? today : yesterday)
             },
             formatPrice(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')

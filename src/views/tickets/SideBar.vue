@@ -19,13 +19,15 @@
             <div class="p-6">
                 <div class="wizard-ticket"></div>
                 <div class="vx-row flex relative justify-around">
-                    <div class="vx-col w-3/12 flex items-center justify-center flex-col relative">
+                    <div class="vx-col w-3/12 flex items-center justify-center flex-col relative cursor-pointer"
+                         @click="prosseguiu = false">
                         <div class="wizard-atual" v-if="!prosseguiu"></div>
                         <i class="material-icons wizard-ticket-icon">people_out</i>
                         <span class="wizard-ticket-span"
                               v-bind:class="{'text-white': !prosseguiu}">Dados do Ticket</span>
                     </div>
-                    <div class="vx-col w-3/12 flex items-center justify-center flex-col relative">
+                    <div class="vx-col w-3/12 flex items-center justify-center flex-col relative"
+                         v-bind:class="{'cursor-pointer': validado}" @click="validado ? prosseguiu = true : ''">
                         <div class="wizard-atual" v-if="prosseguiu"></div>
                         <i class="material-icons wizard-ticket-icon">favorite</i>
                         <span class="wizard-ticket-span"
@@ -37,15 +39,14 @@
                         <div class="vx-col w-full lg:w-1/2">
                             <span class="font-regular mb-2">Origem</span>
                             <v-select id="origem" name="origem" class="bg-white" v-validate="'required'"
-                                      v-model="selectedOrigem"
-                                      :options="origens"/>
+                                      v-model="selectedOrigem" :options="origens" :clearable="false"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('origem')">{{ errors.first('origem') }}</span>
                         </div>
                         <div class="vx-col w-full lg:w-1/2">
                             <span class="font-regular mb-2">Dúvida</span>
                             <v-select id="duvida" name="duvida" v-validate="'required'" v-model="selectedDuvida"
-                                      :options="duvidas"/>
+                                      :options="duvidas" :clearable="false"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('duvida')">{{ errors.first('duvida') }}</span>
                         </div>
@@ -54,7 +55,7 @@
                         <div class="vx-col w-full">
                             <span class="font-regular mb-2">Produto</span>
                             <v-select id="produto" name="produto" v-validate="'required'" v-model="selectedProduto"
-                                      :options="produtos"/>
+                                      :options="produtos" :clearable="false"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('produto')">{{ errors.first('produto') }}</span>
                         </div>
@@ -63,20 +64,23 @@
                 <div v-else>
                     <div class="vx-row mt-10">
                         <div class="vx-col w-full">
+                            <span class="font-regular mb-2">E-mail</span>
+                            <vs-input class="w-full" type="email" v-model="ticket.lead_email" size="large"
+                                      name="lead_email"
+                                      v-validate="'required'" @blur="verificaLead"/>
+                            <span class="text-danger text-sm"
+                                  v-show="errors.has('lead_email')">{{ errors.first('lead_email') }}</span>
+                            <span class="text-danger text-sm"
+                                  v-show="verificaLeadEmail">Já existe um ticket para este Lead vinculado a este Produto.</span>
+                        </div>
+                    </div>
+                    <div class="vx-row mt-5">
+                        <div class="vx-col w-full">
                             <span class="font-regular mb-2">Lead</span>
                             <vs-input class="w-full" v-model="ticket.lead_nome" size="large" name="lead_nome"
                                       v-validate="'required'"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('lead_nome')">{{ errors.first('lead_nome') }}</span>
-                        </div>
-                    </div>
-                    <div class="vx-row mt-5">
-                        <div class="vx-col w-full">
-                            <span class="font-regular mb-2">E-mail</span>
-                            <vs-input class="w-full" type="email" v-model="ticket.lead_email" size="large" name="lead_email"
-                                      v-validate="'required'"/>
-                            <span class="text-danger text-sm"
-                                  v-show="errors.has('lead_email')">{{ errors.first('lead_email') }}</span>
                         </div>
                     </div>
                     <div class="vx-row mt-5">
@@ -89,7 +93,8 @@
                         </div>
                         <div class="vx-col w-10/12">
                             <span class="font-regular mb-2">Telefone</span>
-                            <vs-input class="w-full" v-model="ticket.lead_telefone" size="large" v-mask="'#####-####'" name="lead_telefone"
+                            <vs-input class="w-full" v-model="ticket.lead_telefone" size="large" v-mask="'#####-####'"
+                                      name="lead_telefone"
                                       v-validate="'required'" @keypress="isNumber"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('lead_telefone')">{{ errors.first('lead_telefone') }}</span>
@@ -98,7 +103,8 @@
                     <div class="vx-row mt-5">
                         <div class="vx-col w-full">
                             <span class="font-regular mb-2">Detalhamento da solicitação</span>
-                            <vs-textarea name="detalhamento" v-validate="'required'" v-model="ticket.detalhamento" id="text-area" class="w-full bg-white" rows="6"/>
+                            <vs-textarea name="detalhamento" v-validate="'required'" v-model="ticket.detalhamento"
+                                         id="text-area" class="w-full bg-white" rows="6"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('detalhamento')">{{ errors.first('detalhamento') }}</span>
                         </div>
@@ -108,7 +114,7 @@
         </VuePerfectScrollbar>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData" :disabled="isValid">{{!prosseguiu ? 'Prosseguir' : 'Salvar'}}
+            <vs-button class="mr-6" @click="submitData" :disabled="verificaLeadEmail">{{!prosseguiu ? 'Prosseguir' : 'Salvar'}}
             </vs-button>
             <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
@@ -172,7 +178,9 @@
                 selectedOrigem: null,
                 selectedProduto: null,
                 selectedDuvida: null,
-                ticket: {}
+                ticket: {},
+                validado: false,
+                verificaLeadEmail: false
             }
         },
         computed: {
@@ -187,9 +195,6 @@
                         // this.initValues()
                     }
                 }
-            },
-            isValid() {
-                return this.errors.any();
             },
         },
         methods: {
@@ -213,8 +218,15 @@
                     });
                 });
             },
+            verificaLead() {
+                this.$store.dispatch('tickets/verificaLead', {
+                    email: this.ticket.lead_email,
+                    produto_id: this.selectedProduto.id
+                }).then(response => {
+                    this.verificaLeadEmail = response.verificacao;
+                });
+            },
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
                     console.log(this.data)
                     return
@@ -230,66 +242,73 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         if (!this.prosseguiu) {
+                            this.validado = true;
                             this.prosseguiu = true;
                         } else {
-                            this.$vs.loading()
-                            const obj = {};
-                            if(this.selectedDuvida != null)
-                                obj.tipo_duvida_id = this.selectedDuvida.id;
+                            if (!this.verificaLeadEmail) {
+                                this.$vs.loading()
+                                const obj = {};
+                                if (this.selectedDuvida != null)
+                                    obj.tipo_duvida_id = this.selectedDuvida.id;
 
-                            if(this.selectedProduto != null)
-                                obj.produto_id = this.selectedProduto.id;
+                                if (this.selectedProduto != null)
+                                    obj.produto_id = this.selectedProduto.id;
 
-                            if(this.selectedOrigem != null)
-                                obj.origem_id = this.selectedOrigem.id;
+                                if (this.selectedOrigem != null)
+                                    obj.origem_id = this.selectedOrigem.id;
 
-                            obj.nome = this.ticket.lead_nome;
-                            obj.email = this.ticket.lead_email;
-                            obj.ddd = this.ticket.lead_ddd;
-                            obj.telefone = this.ticket.lead_telefone;
-                            obj.detalhamento = this.ticket.detalhamento;
+                                obj.nome = this.ticket.lead_nome;
+                                obj.email = this.ticket.lead_email;
+                                obj.ddd = this.ticket.lead_ddd;
+                                obj.telefone = this.ticket.lead_telefone;
+                                obj.detalhamento = this.ticket.detalhamento;
 
-                            if (this.ticket.id !== null && this.ticket.id >= 0) {
-                                obj._method = 'PUT';
-                                console.log('obj atualizando', obj)
-                                this.$store.dispatch("updateItem", {rota: 'contas', item: obj}).then(() => {
-                                    this.$vs.notify({
-                                        title: 'Sucesso',
-                                        text: "A conta foi atualizada com sucesso.",
-                                        iconPack: 'feather',
-                                        icon: 'icon-check-circle',
-                                        color: 'success'
-                                    });
-                                    this.$store.dispatch('getVarios', {rota: 'contas', params: {page: 1}}).then(() => {
+                                if (this.ticket.id !== null && this.ticket.id >= 0) {
+                                    obj._method = 'PUT';
+                                    console.log('obj atualizando', obj)
+                                    this.$store.dispatch("updateItem", {rota: 'tickets', item: obj}).then(() => {
+                                        this.$vs.notify({
+                                            title: 'Sucesso',
+                                            text: "A conta foi atualizada com sucesso.",
+                                            iconPack: 'feather',
+                                            icon: 'icon-check-circle',
+                                            color: 'success'
+                                        });
+                                        this.$store.dispatch('getVarios', {
+                                            rota: 'tickets',
+                                            params: {page: 1}
+                                        }).then(() => {
+                                            this.$vs.loading.close();
+                                        });
+                                    }).catch(err => {
+                                        console.error(err)
+                                    })
+                                } else {
+                                    delete obj.id
+                                    console.log('obj criando', obj)
+                                    this.$store.dispatch("addItem", {rota: 'tickets', item: obj}).then(() => {
+                                        this.$vs.notify({
+                                            title: '',
+                                            text: "Ticket criado com sucesso.",
+                                            iconPack: 'feather',
+                                            icon: 'icon-check-circle',
+                                            color: 'success'
+                                        })
                                         this.$vs.loading.close();
-                                    });
-                                }).catch(err => {
-                                    console.error(err)
-                                })
-                            } else {
-                                delete obj.id
-                                console.log('obj criando', obj)
-                                this.$store.dispatch("addItem", {rota: 'tickets', item: obj}).then(() => {
-                                    this.$vs.notify({
-                                        title: '',
-                                        text: "Ticket criado com sucesso.",
-                                        iconPack: 'feather',
-                                        icon: 'icon-check-circle',
-                                        color: 'success'
+                                    }).catch(error => {
+                                        this.$vs.notify({
+                                            title: '',
+                                            text: error.message,
+                                            iconPack: 'feather',
+                                            icon: 'icon-alert-circle',
+                                            color: 'danger'
+                                        })
                                     })
-                                }).catch(error => {
-                                    this.$vs.notify({
-                                        title: '',
-                                        text: error.message,
-                                        iconPack: 'feather',
-                                        icon: 'icon-alert-circle',
-                                        color: 'danger'
-                                    })
-                                })
-                            }
+                                }
 
-                            this.$emit('closeSidebar')
-                            this.initValues()
+                                this.$emit('closeSidebar')
+                                this.initValues()
+                            }
                         }
                     } else {
                         this.$vs.notify({
@@ -316,8 +335,14 @@
                 console.log('entrou aqui', this.data);
                 this.conta = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.ticket.integracao_id;
-                this.selected = {id: this.ticket.integracao_id, label: this.ticket.integracao.descricao};
-                //this.selected.label = this.ticket.integracao.descricao;
+                this.selectedProduto = {id: this.data.produto.id, label: this.data.produto.nome};
+                //this.selectedDuvida = {id: this.data.produto.id, label: this.data.produto.nome};
+                this.selectedOrigem = {id: this.data.origem.id, label: this.data.origem.nome};
+                this.ticket.lead_nome = this.data.lead.nome;
+                this.ticket.lead_email = this.data.lead.email;
+                this.ticket.lead_ddd = this.data.lead.ddd;
+                this.ticket.lead_telefone = this.data.lead.telefone;
+                this.ticket.detalhamento = this.data.detalhamento;
 
             }
             this.getOpcoes();

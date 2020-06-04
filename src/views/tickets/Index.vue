@@ -3,7 +3,7 @@
 
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
-        <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
+        <div class="vx-row flex items-end lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -18,11 +18,11 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"
+                                      v-model="search" id="search_input_trans" size="large"
                                       placeholder="Pesquisar por n de ticket ou e-mail do lead"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
                                 <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
@@ -34,7 +34,12 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+            <div class="vx-col w-full lg:w-4/12 sm:w-full">
+                <label class="vs-input--label">Produto</label>
+                <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="produtos"/>
+            </div>
+            <div class="vx-col w-full lg:w-2/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Ticket
@@ -52,7 +57,7 @@
                         <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" icon-pack="material-icons"
                                 icon="fiber_manual_record" color="success" value="10"
                                 :label="'abertos ( ' + nums.abertos + ' )'">
-                            <listagem :items="tickets"></listagem>
+                            <listagem @update="updateData" :items="tickets"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
@@ -101,6 +106,12 @@
                             </p>
                         </div>
                     </div>
+                    <div class="vx-col w-full lg:w-4/12 sm:w-full">
+                        <label class="vs-input--label">Produto</label>
+                        <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true"
+                                  class="bg-white"
+                                  :options="produtos"/>
+                    </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
 
@@ -113,6 +124,7 @@
 <script>
     import SideBar from './SideBar'
     import listagem from './Listagem'
+    import vSelect from 'vue-select'
     import moduleTickets from '@/store/tickets/moduleTickets.js'
     import moduleOrigens from '@/store/origens/moduleOrigens.js'
     import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js'
@@ -120,7 +132,7 @@
 
     export default {
         name: "Index",
-        components: {SideBar, listagem},
+        components: {SideBar, listagem, 'v-select': vSelect},
         channel: 'saveleads_database_lista-ticket',
         echo: {
             'ListaTicket': (payload, vm) => {
@@ -137,6 +149,7 @@
                 addNewDataSidebar: false,
                 sidebarData: {},
                 routeTitle: 'Contas',
+                search: '',
                 dados: {
                     search: '',
                     page: 1
@@ -149,7 +162,9 @@
                 currentx: 1,
                 tickets: [],
                 tipoTicket: 'abertos',
-                nums: {}
+                nums: {},
+                selectedProduto: null,
+                produtos: []
             }
         },
         created() {
@@ -174,6 +189,7 @@
                 moduleDuvidas.isRegistered = true
             }
 
+            this.getProdutos();
             this.getTickets();
         },
         methods: {
@@ -182,6 +198,7 @@
                 this.toggleDataSidebar(true)
             },
             updateData(obj) {
+                console.log('editando', obj)
                 this.sidebarData = obj
                 this.toggleDataSidebar(true)
             },
@@ -189,12 +206,33 @@
                 this.addNewDataSidebar = val
             },
             getTickets(tipo = this.tipoTicket) {
-                this.$vs.loading();
                 this.tipoTicket = tipo;
                 this.$store.dispatch('tickets/getNums').then(response => {
                     console.log('nums', response)
                     this.nums = response
                 });
+
+                let url = '';
+                let control = 0;//Controla entradas em cada condição
+                if(this.search !== ''){
+                    url += 'lead.email:' + this.search + ';';
+                    url += 'ticket.id:' + this.search ;
+                    control++;
+                }
+
+                if(this.selectedProduto){
+                    if(control)
+                        url += ';'
+
+                    url += 'produto_id:' + this.selectedProduto.id;
+                    control++;
+                }
+
+                if(control >= 2)
+                    url += '&searchJoin=and';
+
+                this.dados.search = url;
+
                 this.$store.dispatch('tickets/getTickets', {tipo: tipo, params: this.dados}).then(response => {
                     console.log('retornado com sucessso', response)
                     this.pagination = response;
@@ -203,6 +241,14 @@
                     this.$vs.loading.close();
                 });
 
+            },
+            getProdutos() {
+                this.$store.dispatch('produtos/get').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.produtos.push({id: item.id, label: item.nome})
+                    });
+                });
             },
             deletar(id) {
                 this.$vs.dialog({
@@ -246,12 +292,16 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-
+            selectedProduto(val) {
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getTickets();
+            },
         },
-        mounted(){
+        mounted() {
             this.channel.listen('ListaTicket', (payload) => {
                 console.log('evento echo')
-                //this.getTickets(;
+                this.getTickets();
             });
         },
         computed: {

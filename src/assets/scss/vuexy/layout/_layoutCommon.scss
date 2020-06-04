@@ -31,7 +31,7 @@ body {
 }
 
 .vx-logo {
-  .vx-logo-text{
+  .vx-logo-text {
     font-size: 22px;
     font-weight: 600;
     animation: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) 0s normal forwards 1 fadein;
@@ -49,6 +49,10 @@ body {
     .footer-sticky & {
       padding-bottom: 5rem !important;
     }
+  }
+
+  @media (min-width: 1200px) and (max-width: 1500px) {
+    padding: 2.2rem 0;
   }
 
   .content-area__heading {
@@ -107,6 +111,9 @@ body {
 
   &.content-area-reduced {
     margin-left: 290px;
+    @media (min-width: 1200px) and (max-width: 1500px) {
+      margin-left: 17.6vw !important;
+    }
   }
 
   &.content-area-lg {
@@ -157,7 +164,7 @@ div[id$="demo"] {
   justify-content: flex-start;
   align-items: center;
 
-  &>* {
+  & > * {
     margin-right: 1.5rem;
     margin-top: 1.5rem;
   }

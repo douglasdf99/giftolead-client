@@ -35,7 +35,7 @@
                     },
                     {
                         nome: 'Cadastrar ou alterar Mensagem Padrão',
-                        routername: 'mensagemPadrao'
+                        routername: 'mensagem-padrao'
                     },
                 ]
             }

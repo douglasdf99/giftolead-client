@@ -61,6 +61,14 @@
   }
 }
 
+@media (min-width: 1200px) and (max-width: 1500px) {
+  .main-vertical {
+    .vx-navbar-wrapper {
+      width: calc(100% - 17.6vw);
+    }
+  }
+}
+
 .content-area-lg {
   .vx-navbar-wrapper {
     width: calc(100% - 80px);
