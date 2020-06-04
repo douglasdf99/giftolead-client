@@ -54,23 +54,22 @@
             <vs-col vs-w="12">
                 <div class="mt-20">
                     <vs-tabs :color="colorx" v-if="nums.abertos">
-                        <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" icon-pack="material-icons"
-                                icon="fiber_manual_record" color="success" value="10"
+                        <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
                                 :label="'abertos ( ' + nums.abertos + ' )'">
-                            <listagem @update="updateData" :items="tickets"></listagem>
+                            <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
 
-                        <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" icon-pack="material-icons"
-                                icon="fiber_manual_record" color="black" :label="'fechados ( ' + nums.fechados + ' )'">
-                            <listagem :items="tickets" :pagination="pagination"></listagem>
+                        <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black"
+                                :label="'fechados ( ' + nums.fechados + ' )'">
+                            <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
 
                         <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
-                            <listagem :items="tickets" :pagination="pagination"></listagem>
+                            <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
@@ -214,21 +213,21 @@
 
                 let url = '';
                 let control = 0;//Controla entradas em cada condição
-                if(this.search !== ''){
+                if (this.search !== '') {
                     url += 'lead.email:' + this.search + ';';
-                    url += 'ticket.id:' + this.search ;
+                    url += 'ticket.id:' + this.search;
                     control++;
                 }
 
-                if(this.selectedProduto){
-                    if(control)
+                if (this.selectedProduto) {
+                    if (control)
                         url += ';'
 
                     url += 'produto_id:' + this.selectedProduto.id;
                     control++;
                 }
 
-                if(control >= 2)
+                if (control >= 2)
                     url += '&searchJoin=and';
 
                 this.dados.search = url;
@@ -253,18 +252,18 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    title: `Deletar registro`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'contas'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'tickets'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getTickets();
+                            this.$vs.loading.close()
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({

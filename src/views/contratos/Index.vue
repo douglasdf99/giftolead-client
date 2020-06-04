@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
-                    <vs-table :data="items" class="table-items">
+                    <vs-table :data="items" class="table-items vs-con-loading__container" id="div-contrato-list">
 
                         <template slot="thead">
                             <vs-th></vs-th>
@@ -75,7 +75,7 @@
                             <vs-th>Numero do Contrato</vs-th>
                             <vs-th>Cartão de postagem</vs-th>
                             <vs-th>Código Adm</vs-th>
-                          <vs-th></vs-th>
+                            <vs-th></vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -92,7 +92,7 @@
                                                 <vs-icon icon-pack="material-icons" icon="directions_bus"></vs-icon>
                                                 Formas de frete
                                             </vs-dropdown-item>
-                                          <vs-divider></vs-divider>
+                                            <vs-divider></vs-divider>
                                             <vs-dropdown-item @click="updateData(tr.id)">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
@@ -102,7 +102,11 @@
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
-
+                                            <vs-dropdown-item>
+                                                <vs-button type="filled" color="primary" @click="ativaContrato(tr)">
+                                                    {{tr.status ? 'Desativar' : 'Ativar'}}
+                                                </vs-button>
+                                            </vs-dropdown-item>
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
@@ -110,20 +114,25 @@
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].contrato">
-                                  <span class="destaque">{{data[indextr].contrato}}</span>
+                                    <span class="destaque">{{data[indextr].contrato}}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].cartaoPostagem">
-                                  <span class="destaque">{{ data[indextr].cartaoPostagem }}</span>
+                                    <span class="destaque">{{ data[indextr].cartaoPostagem }}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].codAdministrativo">
                                     {{ data[indextr].codAdministrativo }}
                                 </vs-td>
-                                <vs-td :data="data[indextr].status">
-                                  <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                           class="icon-grande text-success"
-                                           v-if="data[indextr].status"></vs-icon>
-                                  <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
-                                           v-else></vs-icon>
+                                <vs-td :data="data[indextr].status" class="td-icons flex flex-col items-center justify-center">
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-success"
+                                             v-if="data[indextr].status"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                             v-else></vs-icon>
+                                    <vx-tooltip :text="tr.erros" position="top">
+                                        <vs-icon icon-pack="material-icons" icon="cancel"
+                                                 class="icon-grande text-danger"
+                                                 v-if="tr.erros"></vs-icon>
+                                    </vx-tooltip>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -137,7 +146,7 @@
 </template>
 
 <script>
-    import moduleContas from '@/store/contas/moduleContas.js'
+    import moduleContrato from '@/store/contratos/moduleContrato.js'
 
     export default {
         name: "Index",
@@ -165,23 +174,24 @@
                     precision: 2,
                     masked: false /* doesn't work with directive */
                 },
+                countSwitch: []
                 //items: {}
             }
         },
         created() {
             this.$vs.loading()
-            if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contratos', moduleContas)
-                moduleContas.isRegistered = true
+            if (!moduleContrato.isRegistered) {
+                this.$store.registerModule('contratos', moduleContrato)
+                moduleContrato.isRegistered = true
             }
 
             this.getItems();
         },
         methods: {
-          paginate(){
-            console.log('resetou');
-            this.currentx = 1;
-          },
+            paginate() {
+                console.log('resetou');
+                this.currentx = 1;
+            },
             addNewData() {
                 this.$router.push({name: 'contratos-criar'});
             },
@@ -233,6 +243,65 @@
                 e.preventDefault();
                 this.$vs.loading();
                 this.getProdutos();
+            },
+            ativaContrato(e) {
+                console.log(this.countSwitch)
+                if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Muitas tentativas de ativação',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                } else {
+                    console.log(e)
+                    this.$vs.loading({
+                        container: '#div-contrato-list',
+                        scale: 0.6
+                    });
+                    this.$vs.notify({
+                        title: 'Aguarde',
+                        text: "Conctando no sistema dos correios",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'warning',
+                        time: 8000,
+                    });
+                    let rota = e.status ? 'desativar' : 'ativar';
+                    this.$store.dispatch('contratos/ativar', {id: e.id, rota: rota}).then(response => {
+                        console.log(response)
+                        if(response.data.data.ativo){
+                            this.$vs.notify({
+                                title: '',
+                                text: "Sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+                        } else {
+                            this.$vs.notify({
+                                title: '',
+                                text: response.data.message,
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'danger'
+                            });
+                        }
+                        this.$vs.loading.close('#div-contrato-list > .con-vs-loading');
+                        this.getItems();
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    });
+                    this.$vs.loading.close();
+                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
             }
         },
         watch: {
@@ -245,15 +314,15 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-          dados: {
-            handler(val) {
-              console.log('mudou');
-              if (val.search) {
-                this.paginate()
-              }
+            dados: {
+                handler(val) {
+                    console.log('mudou');
+                    if (val.search) {
+                        this.paginate()
+                    }
+                },
+                deep: true
             },
-            deep: true
-          },
         },
 
         computed: {
@@ -268,3 +337,8 @@
 
     }
 </script>
+<style>
+    .td-icons > span {
+        display: flex;
+    }
+</style>

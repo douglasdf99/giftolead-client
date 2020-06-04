@@ -24,9 +24,9 @@
             </div>
             <div class="vx-col w-2/12 flex justify-around items-center">
                 <i class="material-icons" v-if="ticket.status != 2">call</i>
-                <i class="material-icons">visibility</i>
+                <i class="material-icons ">visibility</i>
                 <i class="material-icons cursor-pointer" @click="$emit('update', ticket)">edit</i>
-                <i class="material-icons">delete</i>
+                <i class="material-icons cursor-pointer" @click="$emit('delete', ticket.id)">delete</i>
             </div>
         </div>
     </div>

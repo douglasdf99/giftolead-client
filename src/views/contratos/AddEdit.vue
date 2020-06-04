@@ -7,7 +7,6 @@
             <span class="float-right mt-1 mx-4"
                   style="font-weight: bold">{{item.status ? 'Ativado' : 'Desativado'}}</span>
         <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.status" class="float-right switch"/>
-
       </div>
     </div>
     <div class="vx-row mb-6">
@@ -50,7 +49,7 @@
         </div>
         <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
           <u class="py-2"><span class="font-14 text-primary font-bold ml-2 mr-2">Logar no sistema do correios </span></u>
-          <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync" @click="correiosLogar"></vs-button>
+          <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="vpn_key" @click="correiosLogar"></vs-button>
         </div>
       </div>
       <div class="vx-col sm:w-1/3 w-full mb-2">

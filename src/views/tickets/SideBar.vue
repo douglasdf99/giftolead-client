@@ -65,7 +65,7 @@
                     <div class="vx-row mt-10">
                         <div class="vx-col w-full">
                             <span class="font-regular mb-2">E-mail</span>
-                            <vs-input class="w-full" type="email" v-model="ticket.lead_email" size="large"
+                            <vs-input class="w-full" type="email" v-model="ticket.lead.email" size="large"
                                       name="lead_email"
                                       v-validate="'required'" @blur="verificaLead"/>
                             <span class="text-danger text-sm"
@@ -77,7 +77,7 @@
                     <div class="vx-row mt-5">
                         <div class="vx-col w-full">
                             <span class="font-regular mb-2">Lead</span>
-                            <vs-input class="w-full" v-model="ticket.lead_nome" size="large" name="lead_nome"
+                            <vs-input class="w-full" v-model="ticket.lead.nome" size="large" name="lead_nome"
                                       v-validate="'required'"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('lead_nome')">{{ errors.first('lead_nome') }}</span>
@@ -86,14 +86,14 @@
                     <div class="vx-row mt-5">
                         <div class="vx-col w-2/12">
                             <span class="font-regular mb-2">DDD</span>
-                            <vs-input class="w-full" v-model="ticket.lead_ddd" size="large" name="lead_ddd"
+                            <vs-input class="w-full" v-model="ticket.lead.ddd" size="large" name="lead_ddd"
                                       v-validate="'required'" @keypress="isNumber" v-mask="'(##)'"/>
                             <span class="text-danger text-sm"
                                   v-show="errors.has('lead_ddd')">{{ errors.first('lead_ddd') }}</span>
                         </div>
                         <div class="vx-col w-10/12">
                             <span class="font-regular mb-2">Telefone</span>
-                            <vs-input class="w-full" v-model="ticket.lead_telefone" size="large" v-mask="'#####-####'"
+                            <vs-input class="w-full" v-model="ticket.lead.telefone" size="large" v-mask="'#####-####'"
                                       name="lead_telefone"
                                       v-validate="'required'" @keypress="isNumber"/>
                             <span class="text-danger text-sm"
@@ -114,7 +114,8 @@
         </VuePerfectScrollbar>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData" :disabled="verificaLeadEmail">{{!prosseguiu ? 'Prosseguir' : 'Salvar'}}
+            <vs-button class="mr-6" @click="submitData" :disabled="verificaLeadEmail">{{!prosseguiu ? 'Prosseguir' :
+                'Salvar'}}
             </vs-button>
             <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
@@ -178,7 +179,14 @@
                 selectedOrigem: null,
                 selectedProduto: null,
                 selectedDuvida: null,
-                ticket: {},
+                ticket: {
+                    lead: {
+                        nome: '',
+                        email: '',
+                        ddd: '',
+                        telefone: '',
+                    }
+                },
                 validado: false,
                 verificaLeadEmail: false
             }
@@ -219,12 +227,16 @@
                 });
             },
             verificaLead() {
-                this.$store.dispatch('tickets/verificaLead', {
-                    email: this.ticket.lead_email,
-                    produto_id: this.selectedProduto.id
-                }).then(response => {
-                    this.verificaLeadEmail = response.verificacao;
-                });
+                if (this.ticket.lead.email !== this.data.lead.email) {
+                    this.$store.dispatch('tickets/verificaLead', {
+                        email: this.ticket.lead.email,
+                        produto_id: this.selectedProduto.id
+                    }).then(response => {
+                        this.verificaLeadEmail = response.verificacao;
+                    });
+                } else {
+                    this.verificaLeadEmail = false;
+                }
             },
             initValues() {
                 if (this.data.id) {
@@ -232,7 +244,7 @@
                     return
                 } else {
                     this.ticket.id = null
-                    this.ticket.nome = ''
+                    this.ticket.lead.nome = ''
                     this.selectedDuvida = null
                     this.selectedProduto = null
                     this.selectedOrigem = null
@@ -257,13 +269,13 @@
                                 if (this.selectedOrigem != null)
                                     obj.origem_id = this.selectedOrigem.id;
 
-                                obj.nome = this.ticket.lead_nome;
-                                obj.email = this.ticket.lead_email;
-                                obj.ddd = this.ticket.lead_ddd;
-                                obj.telefone = this.ticket.lead_telefone;
+                                obj.nome = this.ticket.lead.nome;
+                                obj.email = this.ticket.lead.email;
+                                obj.ddd = this.ticket.lead.ddd;
+                                obj.telefone = this.ticket.lead.telefone;
                                 obj.detalhamento = this.ticket.detalhamento;
-
-                                if (this.ticket.id !== null && this.ticket.id >= 0) {
+                                if (this.data.id) {
+                                    obj.id = this.data.id;
                                     obj._method = 'PUT';
                                     console.log('obj atualizando', obj)
                                     this.$store.dispatch("updateItem", {rota: 'tickets', item: obj}).then(() => {
@@ -333,17 +345,11 @@
                 this.$validator.reset()
             } else {
                 console.log('entrou aqui', this.data);
-                this.conta = JSON.parse(JSON.stringify(this.data));
+                this.ticket = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.ticket.integracao_id;
                 this.selectedProduto = {id: this.data.produto.id, label: this.data.produto.nome};
-                //this.selectedDuvida = {id: this.data.produto.id, label: this.data.produto.nome};
+                this.selectedDuvida = {id: this.data.tipoduvida.id, label: this.data.tipoduvida.nome};
                 this.selectedOrigem = {id: this.data.origem.id, label: this.data.origem.nome};
-                this.ticket.lead_nome = this.data.lead.nome;
-                this.ticket.lead_email = this.data.lead.email;
-                this.ticket.lead_ddd = this.data.lead.ddd;
-                this.ticket.lead_telefone = this.data.lead.telefone;
-                this.ticket.detalhamento = this.data.detalhamento;
-
             }
             this.getOpcoes();
         }
