@@ -12,13 +12,15 @@
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
-            <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Brinde</h4>
+            <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Brinde </h4>
             <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
         <vs-divider class="mb-0"></vs-divider>
-
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
+                <vs-alert color="danger" v-if="!brinde.contrato.status" icon-pack="material-icons" icon="cancel" class="w-full">
+                    <span>Contrato desativado</span>
+                </vs-alert>
                 <div class="p-5">
                 <span class="float-right mt-1 mx-4" style="font-weight: bold">
                     {{brinde.ativo ? 'Ativado' : 'Desativado'}}
@@ -42,25 +44,24 @@
                     <label class="vs-input--label">Selecione o contrato de entrega deste brinde</label>
                     <v-select v-model="selected" :class="'select-large-base'" :clearable="false"
                               :options="opcoesContrato"
-                              v-validate="'required'" name="contrato"/>
+                              v-validate="'required'" name="contrato" v-bind:style="{border: (!brinde.contrato.status ? '2px solid #ff000066' : '')}"/>
                     <span class="text-danger text-sm"
                           v-show="errors.has('contrato')">{{ errors.first('contrato') }}</span>
                 </div>
                 <div class="" v-if="!brinde.hasembalagem">
-
-                  <!-- AQUI EMBAIXO É DOIDERA -->
-                  <div class="p-10" style="display: flex; justify-content: center; align-content: center"
-                       v-if="tipo_envelope">
-                    <img src="@/assets/images/util/envelope.svg" height="200">
-                  </div>
-                  <div class="p-10" style="display: flex; justify-content: center; align-content: center"
-                       v-if="tipo_caixa">
-                    <img src="@/assets/images/util/pacote_caixa.svg" height="200">
-                  </div>
-                  <div class="p-10" style="display: flex; justify-content: center; align-content: center"
-                       v-if="tipo_cilindro">
-                    <img src="@/assets/images/util/rolo_cilindro.svg" height="200">
-                  </div>
+                    <!-- AQUI EMBAIXO É DOIDERA -->
+                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                         v-if="tipo_envelope">
+                        <img src="@/assets/images/util/envelope.svg" height="200">
+                    </div>
+                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                         v-if="tipo_caixa">
+                        <img src="@/assets/images/util/pacote_caixa.svg" height="200">
+                    </div>
+                    <div class="p-10" style="display: flex; justify-content: center; align-content: center"
+                         v-if="tipo_cilindro">
+                        <img src="@/assets/images/util/rolo_cilindro.svg" height="200">
+                    </div>
                     <div class="vx-row mt-5">
                         <div class="vx-col  w-full mb-2">
                             <label class="vs-input--label">Tipo de caixa</label>
@@ -196,8 +197,7 @@
                 if (Object.entries(this.data).length === 0) {
                     this.initValues()
                     this.$validator.reset()
-                }
-                else {
+                } else {
                     this.brinde = JSON.parse(JSON.stringify(this.data));
                 }
             },
@@ -259,11 +259,11 @@
                     return this.isSidebarActive
                 },
                 set(val) {
-                  console.log('valor side', val);
+                    console.log('valor side', val);
                     if (!val) {
-                      console.log('entou no emit side', val);
+                        console.log('entou no emit side', val);
 
-                      this.$emit('closeSidebar')
+                        this.$emit('closeSidebar')
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -388,7 +388,7 @@
             } else {
                 this.brinde = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.brinde.integracao_id;
-                if (this.brinde.contrato.id)
+                if (this.brinde.contrato.id && this.brinde.contrato.status)
                     this.selected = {id: this.brinde.contrato_id, label: this.brinde.contrato.nome};
                 if (this.brinde.embalagem)
                     this.embalagem = {id: this.brinde.embalagem_id, label: this.brinde.embalagem.nome};

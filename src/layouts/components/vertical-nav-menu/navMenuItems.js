@@ -46,14 +46,6 @@ export default [
         name: "Planos",
         slug: 'planos',
         icon: "extension",
-        submenu: [
-            {
-                url: '/planos/meus-planos',
-                name: "Meus Planos",
-                slug: "planos",
-                icon: 'apps'
-            },
-        ]
     },
     {
         url: '/leads/listagem',

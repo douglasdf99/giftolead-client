@@ -88,6 +88,10 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                            <vs-dropdown-item @click="ativaContrato(tr)">
+                                                <vs-icon icon-pack="material-icons" :icon="tr.status ? 'toggle_on' : 'toggle_off'"></vs-icon>
+                                                {{tr.status ? 'Desativar' : 'Ativar'}}
+                                            </vs-dropdown-item>
                                             <vs-dropdown-item @click="configData(tr.id)">
                                                 <vs-icon icon-pack="material-icons" icon="directions_bus"></vs-icon>
                                                 Formas de frete
@@ -97,15 +101,9 @@
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
-
                                             <vs-dropdown-item @click="deletar(data[indextr].id)">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
-                                            </vs-dropdown-item>
-                                            <vs-dropdown-item>
-                                                <vs-button type="filled" color="primary" @click="ativaContrato(tr)">
-                                                    {{tr.status ? 'Desativar' : 'Ativar'}}
-                                                </vs-button>
                                             </vs-dropdown-item>
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
@@ -285,7 +283,7 @@
                                 text: response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-check-circle',
-                                color: 'danger'
+                                color: 'success'
                             });
                         }
                         this.$vs.loading.close('#div-contrato-list > .con-vs-loading');

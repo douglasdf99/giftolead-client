@@ -32,11 +32,6 @@
             <vs-col vs-w="12">
                 <div class="mt-20">
                     <div class="vx-row">
-                        <div class="vx-col w-full mb-10">
-                            <p class="destaque">Configure a estrutura do seu plano de recuperação</p>
-                        </div>
-                    </div>
-                    <div class="vx-row">
                         <div class="vx-col col-conquista mb-10">
                             <div class="conquista nova cursor-pointer"
                                  @click="$router.push({path: '/configuracoes/conquistas/nova'})">

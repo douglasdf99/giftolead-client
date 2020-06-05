@@ -2,13 +2,6 @@
   <div>
     <h4 class="font-bold mb-10 mt-20">Dados do contrato
     </h4>
-    <div class="vx-row mb-4">
-      <div class="vx-col lg:w-full w-full">
-            <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{item.status ? 'Ativado' : 'Desativado'}}</span>
-        <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.status" class="float-right switch"/>
-      </div>
-    </div>
     <div class="vx-row mb-6">
 
       <div class="vx-col sm:w-2/3 w-full mb-2">
@@ -740,12 +733,6 @@
             formData.append('remetenteEstado', this.item.remetenteEstado);
             formData.append('remetenteNumero', this.item.remetenteNumero);
             formData.append('remetenteComplemento', this.item.remetenteComplemento);
-            if ( this.item.status) {
-              formData.append('status', 1);
-            }else{
-              formData.append('status', 0);
-
-            }
 
             this.$store.dispatch('contratos/update', {id: this.item.id, dados: formData})
               .then(() => {

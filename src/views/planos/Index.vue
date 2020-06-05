@@ -1,13 +1,10 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate"
-                  @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Brinde
+                    Incluir Plano
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -19,7 +16,7 @@
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.search" id="search_input" size="large"
-                                      placeholder="Pesquisar por nome do brinde, nome do produto ou medidas"/>
+                                      placeholder="Pesquisar por nome"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -37,30 +34,53 @@
             <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Brinde
+                    Incluir Plano
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="com-item" v-if="items.length > 0">
-                    <vs-table :data="items" class="table-items">
+                <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
+                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                        <div class="w-8/12">
+                            <div v-if="dados.search">
+                                <p class="span-sem-item">Nenhum item foi encontrado</p>
+                                <p class="text-sem-item mt-6">
+                                    Para inserir novos registros você <br> pode clicar em incluir conta.
+                                </p>
+                            </div>
+                            <div v-else>
+                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
+                                <p class="text-sem-item">
+                                    Para inserir novos registros você <br> pode clicar em incluir conta.
+                                </p>
+                            </div>
+                            <br>
+
+                            <p>
+                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
+                                           @click="addNewData">
+                                    <vs-icon icon-pack="material-icons" icon="check_circle"
+                                             class="icon-grande"></vs-icon>
+                                    Incluir Plano
+                                </vs-button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="com-item" v-else>
+                    <vs-table :data="items" class="table-items"
+                              style="border-spacing: 0 8px;border-collapse: separate;">
 
                         <template slot="thead">
+                            <vs-th class="lg:w-1/12"></vs-th>
+                            <vs-th class="lg:w-10/12">Nome</vs-th>
                             <vs-th></vs-th>
-                            <vs-th>Brinde</vs-th>
-                            <vs-th>Produto</vs-th>
-                            <vs-th>Peso (Kg)</vs-th>
-                            <vs-th>Largura (cm)</vs-th>
-                            <vs-th>Altura (cm)</vs-th>
-                            <vs-th>Comprimento (cm)</vs-th>
-
                         </template>
-
                         <template slot-scope="{data}">
-                            <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-                                <vs-td class="flex justify-center items-center">
+                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
+                                <vs-td class="flex justify-center items-center relative w-full">
                                     <vs-dropdown vs-trigger-click>
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
@@ -68,14 +88,11 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="$router.push({path: '/configuracoes/contratos/editar/' + tr.contrato.id})">
-                                                <vs-icon icon-pack="feather" icon="icon-file-text"></vs-icon>
-                                                Editar Contrato
-                                            </vs-dropdown-item>
                                             <vs-dropdown-item @click="updateData(data[indextr])">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                                Editar
+                                                Gerenciar
                                             </vs-dropdown-item>
+
                                             <vs-dropdown-item @click="deletar(data[indextr].id)">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
@@ -84,74 +101,20 @@
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
-                                <vs-td :data="data[indextr].nome">
-                                    {{ data[indextr].nome }}
+                                <vs-td :data="data[indextr].nome" class="relative">
+                                    <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
-
-                                <vs-td v-if="data[indextr].produto && data[indextr].produto.nome"
-                                       :data="data[indextr].produto.nome">
-                                    {{ data[indextr].produto.nome }}
-                                </vs-td>
-                                <vs-td v-else>
-                                    produto indefinido
-                                </vs-td>
-                                <vs-td :data="data[indextr].peso">
-                                    {{ tr.hasembalagem ? tr.embalagem.peso : data[indextr].peso }}
-                                </vs-td>
-                                <vs-td :data="data[indextr].largura">
-                                    {{ tr.hasembalagem ? tr.embalagem.largura : data[indextr].largura }}
-                                </vs-td>
-                                <vs-td :data="data[indextr].altura">
-                                    {{ tr.hasembalagem ? tr.embalagem.altura : data[indextr].altura }}
-                                </vs-td>
-                                <vs-td :data="data[indextr].comprimento">
-                                    {{ tr.hasembalagem ? tr.embalagem.comprimento : data[indextr].comprimento }}
-                                </vs-td>
-                                <vs-td :data="data[indextr].ativo" class="td-icons flex flex-col items-center justify-center">
+                                <vs-td :data="data[indextr].status">
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
                                              class="icon-grande text-success"
-                                             v-if="data[indextr].ativo"></vs-icon>
+                                             v-if="data[indextr].status"></vs-icon>
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
                                              v-else></vs-icon>
-                                    <vx-tooltip text="Contrato desativado" position="top">
-                                        <vs-icon icon-pack="material-icons" icon="cancel"
-                                                 class="icon-grande text-danger"
-                                                 v-if="!tr.contrato.status"></vs-icon>
-                                    </vx-tooltip>
                                 </vs-td>
                             </vs-tr>
                         </template>
-
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
-                </div>
-                <div class="vx-row mt-20 flex justify-center" v-else>
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search === null">
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-
-                            </div>
-                            <br>
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Brinde
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </vs-col>
         </vs-row>
@@ -159,20 +122,15 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import modulePlanos from '@/store/planos/modulePlanos.js'
 
     export default {
         name: "Index",
-        components: {SideBar},
         data() {
             return {
-                // Data Sidebar
-                addNewDataSidebar: false,
-                sidebarData: {},
-                routeTitle: 'Brindes',
+                routeTitle: 'Contas',
                 dados: {
-                    search: null,
+                    search: '',
                     page: 1
                 },
                 pagination: {
@@ -185,32 +143,26 @@
             }
         },
         created() {
-            this.$vs.loading();
-            if (!moduleBrindes.isRegistered) {
-                this.$store.registerModule('brindes', moduleBrindes);
-                moduleBrindes.isRegistered = true;
+            this.$vs.loading()
+            if (!modulePlanos.isRegistered) {
+                this.$store.registerModule('planos', modulePlanos)
+                modulePlanos.isRegistered = true
             }
-            this.getBrindes();
+
+            this.getItems();
         },
         methods: {
-            paginate() {
-                console.log('resetou');
-                this.currentx = 1;
-            },
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.$router.push({name: 'planos-criar'});
             },
             updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.$router.push({path: '/planos/gerenciar/' + obj.id});
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getBrindes() {
-                this.$store.dispatch('getVarios', {rota: 'brindes', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
+            getItems() {
+                this.$store.dispatch('getVarios', {rota: 'planos', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
@@ -220,18 +172,18 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    title: `Deletar registro`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'brindes'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'planos'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
-                                title: 'Sucesso',
-                                text: 'A URL foi deletada com sucesso'
+                                title: '',
+                                text: 'O registro foi deletada com sucesso'
                             });
-                            this.getBrindes();
+                            this.getItems();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -246,7 +198,7 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getBrindes();
+                this.getItems();
             }
         },
         watch: {
@@ -254,13 +206,16 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getBrindes();
+                this.getItems();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
+
         },
+
         computed: {
+
             items() {
                 return this.$store.state.items;
             },
@@ -271,8 +226,3 @@
 
     }
 </script>
-<style>
-    .td-icons > span {
-        display: flex;
-    }
-</style>

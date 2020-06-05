@@ -552,6 +552,12 @@ th > .vs-table-text {
     transition-duration: .3s;
 }
 
+.conquista.nova.estatica:hover {
+    border: 2px dashed #9AAABE;
+    background-color: transparent;
+    transition-duration: .3s;
+}
+
 .nome-conq {
     font-weight: bold;
     font-size: 1.2rem;
@@ -576,7 +582,6 @@ th > .vs-table-text {
     margin: 2rem 0;
     color: #10CFAE;
     font-size: 3rem;
-    cursor: pointer;
 }
 
 .img-conquista {

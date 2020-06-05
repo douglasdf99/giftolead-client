@@ -9,7 +9,8 @@
         <vx-card class="grid-view-item mb-base overflow-hidden">
             <div class="vx-row mb-2">
                 <div class="vx-col w-full">
-                    <vs-button radius color="primary" type="border" icon-pack="material-icons" icon="edit" class="float-right"
+                    <vs-button radius color="primary" type="border" icon-pack="material-icons" icon="edit"
+                               class="float-right"
                                @click="$router.push({path: '/configuracoes/contratos/editar/' + item.id})"></vs-button>
                 </div>
             </div>
@@ -389,7 +390,6 @@
                 moduleContrato.isRegistered = true
             }
             this.getContrato(this.$route.params.id);
-
         },
         computed: {
             empresaDb() {
@@ -445,6 +445,11 @@
                 },
                 deep: true
             },
+            val: {
+                handler(val) {
+                    console.log('selecionado', val)
+                },
+            }
         },
         methods: {
             getBrindes() {
@@ -584,7 +589,7 @@
                 this.$vs.loading()
                 this.$store.dispatch('contratos/getId', id).then(data => {
                     this.item = {...data};
-                    console.log(this.item)
+                    console.log('item', this.item)
                     this.$vs.loading.close();
                 })
             },
@@ -640,11 +645,19 @@
                     this.salvando = false;
                 });
             },
-            sendexcecao() {
-                this.$vs.loading({
-                    container: '#div-excecao',
-                    scale: 0.6
+            verificaExcecao(obj) {
+                return new Promise((resolve, reject) => {
+                    console.log('configs novas', obj)
+                    let encontrado = false;
+                    this.item.configs.forEach(item => {
+                        if (item.tipo == obj.tipo && item.variavel == obj.variavel) {
+                            encontrado = true;
+                        }
+                    });
+                    resolve(encontrado)
                 });
+            },
+            sendexcecao() {
                 let obj = {};
                 obj.tipo = this.val.tipo.id;
                 if (this.val.tipo.id == 'estado') {
@@ -654,52 +667,74 @@
                 }
                 obj.servico = this.val.servico.id;
                 obj.correio_id = this.item.id;
-                if (this.val.id > 0) {
-                    obj.id = this.val.id;
-                    this.$store.dispatch('contratos/editexcecao', obj)
-                        .then(() => {
-                            console.log('add excecao');
-                            this.getContrato(this.item.id);
-                            this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                            this.$vs.notify({
-                                color: 'success',
-                                title: 'Sucesso!',
-                                text: 'Exceção adicionada com sucesso'
-                            })
+
+                this.verificaExcecao(obj).then(response => {
+                    if (response) {//encontrado igual
+                        this.$vs.notify({
+                            title: '',
+                            text: 'Já existe uma exceção cadastrada com este tipo e variável.',
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger',
+                            time: 5000
                         })
-                        .catch(error => {
-                            this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                            this.$vs.notify({
-                                title: 'Error',
-                                text: error.message,
-                                iconPack: 'feather',
-                                icon: 'icon-alert-circle',
-                                color: 'danger'
-                            })
-                        }).finally(() => {
-                        this.salvando = false;
-                    });
-                } else {
-                    this.$store.dispatch('contratos/addexcecao', obj)
-                        .then(() => {
-                            console.log('editar excecao');
-                            this.getContrato(this.item.id);
-                            this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                            this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'})
-                        })
-                        .catch(error => {
-                            this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                            this.$vs.notify({
-                                title: 'Error',
-                                text: error.message,
-                                iconPack: 'feather',
-                                icon: 'icon-alert-circle',
-                                color: 'danger'
-                            })
-                        }).finally(() => {
-                        this.salvando = false;
-                    });
-                }
+                    } else {
+                        this.$vs.loading({
+                            container: '#div-excecao',
+                            scale: 0.6
+                        });
+                        if (this.val.id > 0) {
+                            obj.id = this.val.id;
+                            this.$store.dispatch('contratos/editexcecao', obj)
+                                .then(() => {
+                                    console.log('add excecao');
+                                    this.getContrato(this.item.id);
+                                    this.$vs.loading.close('#div-excecao > .con-vs-loading');
+                                    this.$vs.notify({
+                                        color: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Exceção adicionada com sucesso'
+                                    })
+                                })
+                                .catch(error => {
+                                    this.$vs.loading.close('#div-excecao > .con-vs-loading');
+                                    this.$vs.notify({
+                                        title: 'Error',
+                                        text: error.message,
+                                        iconPack: 'feather',
+                                        icon: 'icon-alert-circle',
+                                        color: 'danger'
+                                    })
+                                }).finally(() => {
+                                this.salvando = false;
+                            });
+                        } else {
+                            this.$store.dispatch('contratos/addexcecao', obj)
+                                .then(() => {
+                                    console.log('editar excecao');
+                                    this.getContrato(this.item.id);
+                                    this.$vs.loading.close('#div-excecao > .con-vs-loading');
+                                    this.$vs.notify({
+                                        color: 'success',
+                                        title: 'Sucesso!',
+                                        text: 'Exceção alterada com sucesso'
+                                    })
+                                })
+                                .catch(error => {
+                                    this.$vs.loading.close('#div-excecao > .con-vs-loading');
+                                    this.$vs.notify({
+                                        title: 'Error',
+                                        text: error.message,
+                                        iconPack: 'feather',
+                                        icon: 'icon-alert-circle',
+                                        color: 'danger'
+                                    })
+                                }).finally(() => {
+                                this.salvando = false;
+                            });
+                        }
+                    }
+                });
 
             },
             setPadrao(item) {
