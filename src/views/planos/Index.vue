@@ -75,7 +75,8 @@
 
                         <template slot="thead">
                             <vs-th class="lg:w-1/12"></vs-th>
-                            <vs-th class="lg:w-10/12">Nome</vs-th>
+                            <vs-th class="lg:w-6/12">Nome</vs-th>
+                            <vs-th class="lg:w-4/12">N de Campanhas</vs-th>
                             <vs-th></vs-th>
                         </template>
                         <template slot-scope="{data}">
@@ -104,6 +105,9 @@
                                 <vs-td :data="data[indextr].nome" class="relative">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
+                                <vs-td :data="data[indextr].nome" class="relative">
+                                    <span class="destaque">{{ data[indextr].campanhas.length }}</span>
+                                </vs-td>
                                 <vs-td :data="data[indextr].status">
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
                                              class="icon-grande text-success"
@@ -128,7 +132,7 @@
         name: "Index",
         data() {
             return {
-                routeTitle: 'Contas',
+                routeTitle: 'Planos',
                 dados: {
                     search: '',
                     page: 1
