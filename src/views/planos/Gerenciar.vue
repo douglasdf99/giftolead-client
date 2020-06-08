@@ -33,9 +33,25 @@
                         </p>
                     </div>
                 </div>
+                <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
+                    <div class="conquista">
+                        <div class="py-2 w-full">
+                            <vs-switch vs-icon-on="check" color="#0FB599"
+                                       class="float-right switch" @click="ativaCampanha(campanha)"/>
+                        </div>
+                        <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
+                            <img src="@/assets/images/util/checkout.svg" class="img-conquista my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
+                            <!--<img src="@/assets/images/util/ticket.svg" class="img-conquista my-4" width="150">-->
+                            <p class="nome-conq">
+                                {{campanha.campanhable.nome}}
+                            </p>
+                            <small>{{campanha.campanhable.produto.nome}}</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <transition name="fade">
+        <transition name="fade" v-if="nomeAntigo != plano.nome">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
@@ -44,7 +60,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'produtos'})">
+                                       @click="$router.push({name: 'meus-planos'})">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -102,6 +118,7 @@
                     nome: '',
                     status: true,
                 },
+                nomeAntigo: '',
                 url: saveleadsConfig.url_api,
             }
         },
@@ -164,6 +181,20 @@
                 })
 
             },
+            ativaCampanha(val) {
+            },
+            configurarCampanha(item) {
+                let rota = '';
+                switch (item.campanhable_type) {
+                    case 'App\\Models\\CampanhaCarrinho':
+                        rota = 'configurar_checkout';
+                        break;
+                    case 'App\\Models\\CampanhaAgendamento':
+                        rota = 'campanha_checkout';
+                        break;
+                }
+                this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
+            },
             selecionaTipoComissao(val) {
                 this.plano.comissao_tipo = val;
                 console.log(this.plano.comissao_tipo)
@@ -172,6 +203,7 @@
                 this.$vs.loading()
                 this.$store.dispatch('planos/getId', id).then(data => {
                     this.plano = {...data};
+                    this.nomeAntigo = data.nome;
                     this.$vs.loading.close();
                 })
             },
@@ -223,7 +255,7 @@
         cursor: pointer;
     }
 
-    .list-campanha-plano.disabled{
+    .list-campanha-plano.disabled {
         opacity: .5;
         cursor: default !important;
     }

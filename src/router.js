@@ -1933,7 +1933,7 @@ const router = new Router({
                 {
                     path: '/planos/gerenciar/:id/campanha/criar',
                     name: 'campanha-criar',
-                    component: () => import('@/views/campanhas/AddEdit.vue'),
+                    component: () => import('@/views/campanhas/Add.vue'),
                     meta: {
                         breadcrumb: [
                             {title: 'Home', url: '/'},
@@ -1942,6 +1942,25 @@ const router = new Router({
                             {title: 'Criar Campanha', active: true},
                         ],
                         pageTitle: 'Nova Campanha de recuperação de venda',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar_checkout/:id',
+                    name: 'campanha-config-checkout',
+                    component: () => import('@/views/campanhas/Checkout.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar Campanha', active: true},
+                        ],
+                        pageTitle: 'Configuração da Campanha de recuperação',
                         rule: 'editor',
                         pai: 'planos',
                         subTitle: 'Planos',

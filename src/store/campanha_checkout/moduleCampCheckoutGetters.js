@@ -1,17 +1,11 @@
 /*=========================================================================================
-  File Name: moduleAuthMutations.js
-  Description: Auth Module Mutations
+  File Name: moduleAuthGetters.js
+  Description: Auth Module Getters
   ----------------------------------------------------------------------------------------
   Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-export default {
-  SET_CAMPANHA(state, item) {
-    state.campanha = item
-  },
-  UPDATE_EMPRESA(state, empresa) {
-    state.empresa = empresa
-  }
-}
+
+export default {}

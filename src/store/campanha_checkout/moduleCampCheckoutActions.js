@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanhas/${dados.id}`, dados.dados)
+            axios.post(`/api/campanha_carrinhos/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -25,17 +25,8 @@ export default {
         })
     },
     store({commit}, dados) {
-        let rota = '';
-        switch (dados.tipo) {
-            case 'checkout':
-                rota =  'campanha_carrinhos';
-                break;
-            case 'ticket':
-                rota = 'campanha_agendamentos';
-                break;
-        }
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${rota}`, dados)
+            axios.post(`/api/campanha_carrinhos`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -47,7 +38,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanhas/${id}`)
+            axios.get(`/api/campanha_carrinhos/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -59,7 +50,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanhas`, {params: {}})
+            axios.get(`/api/campanha_carrinhos`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)

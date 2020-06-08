@@ -18,8 +18,8 @@
 
                 <v-select v-model="produtoSelected" :class="'select-large-base'" :clearable="false"
                           style="background-color: white"
-                          :options="produtos" v-validate="'required'" name="conta"/>
-                <span class="text-danger text-sm" v-show="errors.has('conta')">{{ errors.first('conta') }}</span>
+                          :options="produtos" v-validate="'required'" name="produto"/>
+                <span class="text-danger text-sm" v-show="errors.has('produto')">{{ errors.first('produto') }}</span>
             </div>
         </div>
         <div class="vx-row mt-10 mb-3 justify-around flex">
@@ -43,6 +43,9 @@
                     </div>
                 </div>
             </div>
+            <div class="vx-col w-full">
+                <span class="text-danger text-sm" v-show="!campanhaSelected">Selecione um tipo de campanha</span>
+            </div>
         </div>
         <transition name="fade">
             <footer-doug>
@@ -53,7 +56,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'produtos'})">
+                                       @click="$router.push({name: 'meus-planos'})">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -75,6 +78,9 @@
         custom: {
             nome: {
                 required: 'Por favor, insira o nome do produto',
+            },
+            produto: {
+                required: 'Por favor, selecione um produto',
             },
         }
     };
@@ -107,7 +113,8 @@
                 customcor: '',
                 campanha: {
                     nome: '',
-                    produto_id: null
+                    produto_id: null,
+                    tipo: ''
                 },
                 campanhaSelected: null,
                 url: saveleadsConfig.url_api,
@@ -126,48 +133,61 @@
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading();
-                        this.campanha.produto_id = this.produtoSelected.id;
-                        if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('campanhas/update', this.produto).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Atualizado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
+                        if(this.campanhaSelected == null){
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: 'verifique os erros específicos',
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
                             })
                         } else {
-                            this.$store.dispatch('campanhas/store', this.produto).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: 'Sucesso',
-                                    text: "O produto foi criado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
+                            this.$vs.loading();
+                            this.campanha.produto_id = this.produtoSelected.id;
+                            this.campanha.tipo = this.campanhaSelected;
+                            this.campanha.plano_id = this.$route.params.id;
+                            if (this.campanha.id !== undefined) {
+                                this.$store.dispatch('campanhas/update', this.campanha).then(response => {
+                                    console.log('response', response);
+                                    this.$vs.notify({
+                                        title: '',
+                                        text: "Atualizado com sucesso.",
+                                        iconPack: 'feather',
+                                        icon: 'icon-check-circle',
+                                        color: 'success'
+                                    });
+                                    this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
+                                }).catch(erro => {
+                                    this.$vs.notify({
+                                        title: 'Error',
+                                        text: erro.message,
+                                        iconPack: 'feather',
+                                        icon: 'icon-alert-circle',
+                                        color: 'danger'
+                                    })
                                 })
-                            })
+                            } else {
+                                console.log('entrou no store')
+                                this.$store.dispatch('campanhas/store', this.campanha).then(response => {
+                                    console.log('response', response);
+                                    this.$vs.notify({
+                                        title: 'Sucesso',
+                                        text: "O produto foi criado com sucesso.",
+                                        iconPack: 'feather',
+                                        icon: 'icon-check-circle',
+                                        color: 'success'
+                                    });
+                                    this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
+                                }).catch(erro => {
+                                    this.$vs.notify({
+                                        title: 'Error',
+                                        text: erro.message,
+                                        iconPack: 'feather',
+                                        icon: 'icon-alert-circle',
+                                        color: 'danger'
+                                    })
+                                })
+                            }
                         }
                     } else {
                         this.$vs.notify({
@@ -205,9 +225,8 @@
             getId(id) {
                 this.$vs.loading()
                 this.$store.dispatch('campanhas/getId', id).then(data => {
-                    this.produto = {...data};
+                    this.campanha = {...data};
                     this.$vs.loading.close();
-
                 })
             },
             copyText() {
@@ -234,7 +253,7 @@
         },
         computed: {
             isValid() {
-                return this.errors.any() && this.campanha.cor !== '';
+                return this.errors.any();
             },
         },
         watch: {
@@ -267,7 +286,6 @@
     #copy-icon {
         position: absolute;
         top: 0.7rem;
-        position: absolute;
         right: 30px;
         cursor: pointer;
     }
