@@ -510,6 +510,14 @@ th > .vs-table-text {
     right: 10%;
 }
 
+.ql-editor {
+    min-height: 20vh;
+}
+
+.ql-snow .ql-tooltip {
+    z-index: 99999;
+}
+
 .col-conquista {
     width: 25%;
 }

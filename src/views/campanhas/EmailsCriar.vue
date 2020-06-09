@@ -5,20 +5,81 @@
                 <p class="destaque">Configure o período de envio</p>
             </div>
         </div>
-        <div class="vx-row">
+        <div class="vx-row mb-10">
             <div class="vx-col w-full">
-                <vx-card class="shadow-none flex items-center">
-                    <div class="row">
-                        <div class="vx-col lg:w-3/12">
-                            <i class="material-icons text-4xl primary">date_range</i>
-                        </div>
-                        <div class="vx-col lg:w-9/12">
-                            <v-select v-model="periodoSelected" :class="'select-large-base'" :clearable="false"
-                                      style="background-color: white"
-                                      :options="periodos" v-validate="'required'" name="produto"/>
+                <div class="shadow-none flex items-center justify-around w-full p-5 radius-lg bg-white">
+                    <div class="vx-col w-full lg:w-1/12 text-center calendar-col-email">
+                        <i class="material-icons primary" style="font-size: 8rem; color: #9344C4">date_range</i>
+                    </div>
+                    <div class="vx-col w-full lg:w-10/12">
+                        <div class="vx-row">
+                            <div class="vx-col w-1/2">
+                                <span class="font-regular mb-2">Unidade de Tempo</span>
+                                <vs-input type="text" @keypress="isNumber" name="periodo" class="w-full"
+                                          v-model="email.unidade_tempo" v-validate="'required'" size="large"/>
+                                <span class="text-danger text-sm" v-show="errors.has('periodo')">{{ errors.first('periodo') }}</span>
+                            </div>
+                            <div class="vx-col w-1/2">
+                                <span class="font-regular mb-2">Medido em</span>
+                                <v-select v-model="periodoSelected" :class="'select-large-base'"
+                                          :clearable="false" style="background-color: white; width: 100%"
+                                          :options="periodosTipo" v-validate="'required'" name="produto"/>
+                            </div>
                         </div>
                     </div>
-                </vx-card>
+                </div>
+            </div>
+        </div>
+        <div class="vx-row mb-2">
+            <div class="vx-col w-full mb-5">
+                <p class="destaque">Configure o e-mail que será enviado</p>
+            </div>
+        </div>
+        <div class="vx-row mb-6">
+            <div class="vx-col w-full lg:w-8/12">
+                <span class="font-regular mb-2">Assunto do e-mail que será enviado</span>
+                <vs-input type="text" name="assunto" class="w-full"
+                          v-model="email.assunto" v-validate="'required'" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('assunto')">{{ errors.first('assunto') }}</span>
+            </div>
+        </div>
+        <div class="vx-row">
+            <div class="vx-col w-full xlg:w-8/12 lg:w-8/12">
+                <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <span class="font-regular mb-2">Mensagem</span>
+                        <quill-editor id="quill-editor" v-model="email.corpo" class="bg-white"
+                                      @ready="onEditorReady($event)"></quill-editor>
+                    </div>
+                </div>
+            </div>
+            <div class="vx-col w-full xlg:w-4/12 lg:w-4/12">
+                <div class="mb-3 p-5 pt-0">
+                    <span class="font-regular">Inserir no corpo da mensagem:</span>
+                    <ul class="variaveis-msg">
+                        <li class="variavel" @click="addVarText('[NOME_LEAD]')">
+                            <span>Nome do Lead</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[NOME_ATENDENTE]')">
+                            <span>Nome do Atendente</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[NOME_PRODUTO]')">
+                            <span>Nome do Produto</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
+                            <span>Nome do Brinde</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[LINK_BOLETO]')">
+                            <span>Link do Boleto</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[LINK_WHATSAPP]')">
+                            <span>Link do Whatsapp</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[LINK_CHECKOUT]')">
+                            <span>Link do Checkout</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <transition name="fade">
@@ -26,17 +87,13 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <!--<vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
                                 Salvar
                             </vs-button>
-                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar_checkout/' + email.id})" v-if="email.id">
-                                Voltar
-                            </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/planos/gerenciar/' + email.campanhas[0].plano_id})">
+                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails'})">
                                 Cancelar
-                            </vs-button>-->
+                            </vs-button>
                         </div>
                     </div>
                 </div>
@@ -48,11 +105,29 @@
 <script>
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
+    import {Validator} from "vee-validate";
+    import 'quill/dist/quill.core.css'
+    import 'quill/dist/quill.snow.css'
+    import 'quill/dist/quill.bubble.css'
+    import {quillEditor} from 'vue-quill-editor'
+
+    const dict = {
+        custom: {
+            periodo: {
+                required: 'Por favor, insira o período que deseja enviar a mensagem',
+            },
+            assunto: {
+                required: 'Por favor, insira o assunto do e-mail',
+            },
+        }
+    };
+    Validator.localize('pt-br', dict);
 
     export default {
         name: "EmailsCriar",
         components: {
             'v-select': vSelect,
+            quillEditor
         },
         created() {
             if (!moduleCampCheckouts.isRegistered) {
@@ -64,17 +139,19 @@
         data() {
             return {
                 email: {
-                    periodo: '',
+                    periodo: 0,
                     assunto: '',
+                    corpo: '',
                     status: null,
+                    unidade_tempo: 0,
+                    unidade_medida: ''
                 },
-                periodoSelected: {},
-                periodos: [
-                    {id: 1, text: '1 dia após'},
-                    {id: 2, text: '2 dias após'},
-                    {id: 3, text: '3 dias após'},
-                    {id: 4, text: '4 dias após'},
-                    {id: 5, text: '5 dias após'},
+                periodoNum: '',
+                periodoSelected: {id: 1, label: 'minutos'},
+                periodosTipo: [
+                    {id: 1, label: 'minutos'},
+                    {id: 60, label: 'horas'},
+                    {id: 1440, label: 'dias'},
                 ]
             }
         },
@@ -83,10 +160,13 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading();
-                        this.email.plano_id = this.$route.params.id;
-                        this.email._method = 'PUT';
+                        this.email.campanha_id = this.$route.params.id;
+                        this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
+                        this.email.unidade_edida = this.periodoSelected.label;
+                        console.log('email aí', this.email)
                         if (this.email.id !== undefined) {
-                            this.$store.dispatch('checkout/update', {id: this.email.id, dados: this.campanha}).then(response => {
+                            this.email._method = 'PUT';
+                            this.$store.dispatch('checkout/updateEmail', {id: this.email.id, dados: this.email}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -95,7 +175,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.email.campanhas[0].plano_id});
+                                this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -106,7 +186,7 @@
                                 })
                             })
                         } else {
-                            this.$store.dispatch('checkout/store', this.campanha).then(response => {
+                            this.$store.dispatch('checkout/storeEmail', this.email).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -115,7 +195,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.email.campanhas[0].plano_id});
+                                this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -138,22 +218,13 @@
                 })
 
             },
-            selecionaCor(cor) {
-                if (cor) {
-                    this.email.cor = cor
-                } else {
-                    this.email.cor = this.customcor;
-                }
-                this.errors.remove('cor');
-            },
-            selecionaTipoComissao(val) {
-                this.email.comissao_tipo = val;
-                console.log(this.email.comissao_tipo)
+            onEditorReady(editor) {
+                this.editor = editor;
             },
             getId(id) {
                 this.$vs.loading();
                 this.$store.dispatch('checkout/getEmails', id).then(response => {
-                    this.campanha = {...response};
+                    this.email = {...response};
                     this.$vs.loading.close();
                 });
             },
@@ -161,27 +232,11 @@
                 let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             },
-            copyText() {
-                const thisIns = this;
-                this.$copyText(this.html).then(function () {
-                    thisIns.$vs.notify({
-                        title: '',
-                        text: 'Copiado para sua área de transferência',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle'
-                    })
-                }, function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
-            }
+            addVarText(value) {
+                //Quill Editor
+                var $txt2 = this.editor.getSelection(true);
+                this.editor.insertText($txt2.index, value, '', true);
+            },
         },
         computed: {
             isValid() {
@@ -215,5 +270,11 @@
         top: 0.7rem;
         right: 30px;
         cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        .calendar-col-email {
+            display: none;
+        }
     }
 </style>

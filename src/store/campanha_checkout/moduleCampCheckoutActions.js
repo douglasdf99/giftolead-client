@@ -24,6 +24,19 @@ export default {
                 })
         })
     },
+    updateEmail({commit}, dados) {
+        console.log('atualizando', dados)
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_carrinho_emails/${dados.id}`, dados.dados)
+                .then((response) => {
+                    console.log('email alterado', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/campanha_carrinhos`, dados)
@@ -38,7 +51,7 @@ export default {
     },
     storeEmail({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_carrinhos_emails`, dados)
+            axios.post(`/api/campanha_carrinho_emails`, dados)
                 .then((response) => {
                     console.log('email criado', response);
                     resolve(response)
