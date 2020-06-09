@@ -138,11 +138,11 @@ Vue.mixin({
             return window.location.protocol + '//' + window.location.host + '/' + local;
         },
         url_api: function (local) {
-            return 'https://api.saveleads.com.br/' + local;
+            return saveleadsConfig.url_api +'/'+ local;
             //return 'http://127.0.0.1:8000/' + local;
         },
         get_img_api: function (local) {
-            return 'https://api.saveleads.com.br' + local;
+          return saveleadsConfig.url_api + local;
             //return 'http://127.0.0.1:8000/' + local;
         },
         isNumber: function (evt) {
@@ -173,6 +173,7 @@ import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
 import VueMoment from 'vue-moment'
+import saveleadsConfig from "../saveleadsConfig";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');

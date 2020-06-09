@@ -26,20 +26,18 @@
                     </div>
                     <div class="vx-col w-full relative">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-                        <prism language="html" class="rounded-lg">
-                            {{html}}
+                        <prism language="html" class="rounded-lg" style=" max-height: 359px;}">
+                            {{formulario()}}
+
+                              &lt;script type="text/javascript"&gt;
+
                         </prism>
-                    </div>
-                    <div class="vx-col w-full">
-                        <div class="my-8">
-                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
-                            </vs-checkbox>
-                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
-                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="vx-col w-full lg:w-5/12">
+
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
                         <vx-card style="box-shadow: none">
@@ -61,7 +59,76 @@
                     </div>
                 </div>
             </div>
+
         </div>
+      <div class="vx-row ">
+          <div class="vx-col w-full">
+            <div class="my-8">
+              <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
+              </vs-checkbox>
+              <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
+            </div>
+          </div>
+      </div>
+      <vx-card>
+        <div class="vx-row mb-6" v-if="campanha.infusion">
+          <div class="vx-col w-full mb-6">
+            <h5 class="mb-4">Configuração do Formulário</h5>
+            <div class="vx-row">
+              <div class="vx-col sm:w-1/4 w-full mb-2">
+                <span class="font-regular mb-2">Form_id</span>
+                <vs-input class="w-full" v-validate="'required'" name="form_id"
+                          v-model="campanha.form_id" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('form_id')">{{ errors.first('form_id') }}</span>
+              </div>
+              <div class="vx-col sm:w-1/4 w-full mb-2">
+                <span class="font-regular mb-2">Form_name</span>
+                <vs-input class="w-full" v-validate="'required'" name="form_name" v-model="campanha.form_name" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('form_name')">{{ errors.first('form_name') }}</span>
+              </div>
+
+              <div class="vx-col sm:w-1/4 w-full mb-2">
+                <span class="font-regular mb-2">Form_conta</span>
+                <vs-input class="w-full" v-validate="'required'" name="form_conta" v-model="campanha.form_conta" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('form_conta')">{{ errors.first('form_conta') }}</span>
+              </div>
+
+              <div class="vx-col sm:w-1/4 w-full mb-2">
+                <span class="font-regular mb-2">Form_versão</span>
+                <vs-input class="w-full" v-validate="'required'" name="form_versao" v-model="campanha.form_versao" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('form_versao')">{{ errors.first('form_versao') }}</span>
+              </div>
+
+            </div>
+          </div>
+          <div class="vx-col w-full ">
+            <h5 class="mb-4">Campos do Formulário</h5>
+            <div class="vx-row">
+              <div class="vx-col sm:w-1/3 w-full mb-2">
+                <span class="font-regular mb-2">Campo_nome</span>
+                <vs-input class="w-full" v-validate="'required'" name="campo_nome" v-model="campanha.campo_nome" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
+              </div>
+
+              <div class="vx-col sm:w-1/3 w-full mb-2">
+                <span class="font-regular mb-2">Campo_email</span>
+                <vs-input class="w-full" v-validate="'required'" name="campo_email" v-model="campanha.campo_email" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
+              </div>
+
+              <div class="vx-col sm:w-1/3 w-full mb-2">
+                <span class="font-regular mb-2">Campo_whatsapp</span>
+                <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp" v-model="campanha.campo_whatsapp" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+
+      </vx-card>
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
@@ -124,6 +191,41 @@
             }
         },
         methods: {
+            formulario(){
+              if (this.campanha.infusion) {
+                return this.formularioinfusion();
+              }
+              else{
+                return this.formularioPadrao();
+              }
+            },
+            formularioPadrao(){
+              let form =`
+                <form accept-charset="UTF - 8" action="${this.url_api('recovery-cart')}" id="formulario-saveleads" method="POST">
+                    <label for="nome">Nome</label>
+                    <input type="text" name="nome" id="nome" placeholder="Nome completo">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
+                    <label for="email">Whatsapp</label>
+                    <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
+                </form>
+              `;
+              return form;
+            },
+            formularioinfusion(){
+              let form =`
+                <form>
+                    <label for="nome">Nome</label>
+                    <input type="text" name="${this.campanha.campo_nome}" id="nome" placeholder="Nome completo">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="${this.campanha.campo_email}" id="email" placeholder="Insira seu melhor email">
+                    <label for="email">Whatsapp</label>
+                    <input type="text" name="${this.campanha.campo_whatsapp}" id="whatsapp" placeholder="Insira seu whatsapp">
+                </form>
+                &lt;script type="text/javascript"&gt; &amp;
+              `;
+              return form;
+            },
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
@@ -182,14 +284,6 @@
                     }
                 })
 
-            },
-            selecionaCor(cor) {
-                if (cor) {
-                    this.campanha.cor = cor
-                } else {
-                    this.campanha.cor = this.customcor;
-                }
-                this.errors.remove('cor');
             },
             selecionaTipoComissao(val) {
                 this.campanha.comissao_tipo = val;
