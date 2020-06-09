@@ -1950,7 +1950,7 @@ const router = new Router({
                     },
                 },
                 {
-                    path: '/campanha/configurar_checkout/:id',
+                    path: '/campanha/configurar-checkout/:id',
                     name: 'campanha-config-checkout',
                     component: () => import('@/views/campanhas/Checkout.vue'),
                     meta: {
@@ -1960,7 +1960,65 @@ const router = new Router({
                             {title: 'Gerenciar'},
                             {title: 'Configurar Campanha', active: true},
                         ],
-                        pageTitle: 'Configuração da Campanha de recuperação',
+                        pageTitle: 'Configuração da Campanha de recuperação de carrinho',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-checkout/:id/emails',
+                    name: 'campanha-config-checkout-emails',
+                    component: () => import('@/views/campanhas/Emails.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar E-mails', active: true}
+                        ],
+                        pageTitle: 'Configuração de E-mails',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-checkout/:id/emails/criar',
+                    name: 'campanha-config-checkout-emails-criar',
+                    component: () => import('@/views/campanhas/EmailsCriar.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar E-mails'},
+                            {title: 'Criar configuração de e-mail', active: true},
+                        ],
+                        pageTitle: 'Configurar novo E-mails',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-agendamento/:id',
+                    name: 'campanha-config-checkout',
+                    component: () => import('@/views/campanhas/Agendamento.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar Campanha', active: true},
+                        ],
+                        pageTitle: 'Configuração da Campanha de agendamento',
                         rule: 'editor',
                         pai: 'planos',
                         subTitle: 'Planos',

@@ -1,64 +1,37 @@
 <template>
     <div>
-        <div class="vx-row mb-4">
-            <div class="vx-col lg:w-full w-full">
-            <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
+        <div class="vx-row">
+            <div class="vx-col w-full mb-10">
+                <p class="destaque">Configure a estrutura do seu plano de recuperação</p>
             </div>
         </div>
-        <div class="vx-row mb-3">
-            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Nome da campanha</span>
-                <vs-input class="w-full" v-model="campanha.nome" size="large" name="nome"/>
-            </div>
-            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Produto da campanha</span>
-                <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
-            </div>
-        </div>
-        <div class="vx-row my-10">
-            <div class="vx-col w-full lg:w-7/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <span class="font-regular mb-2">Checkout no Hotmart</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome"/>
+        <div class="vx-row">
+            <div class="vx-col col-conquista mb-10">
+                <div class="conquista nova cursor-pointer"
+                     @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails/criar'})">
+                    <div class="img-plus cursor-pointer">
+                        <i class="material-icons">add</i>
                     </div>
-                    <div class="vx-col w-full relative">
-                        <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-                        <prism language="html" class="rounded-lg">
-                            {{html}}
-                        </prism>
-                    </div>
-                    <div class="vx-col w-full">
-                        <div class="my-8">
-                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
-                            </vs-checkbox>
-                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
-                        </div>
-                    </div>
+                    <p class="nome-conq">
+                        Adicionar nova configuração
+                    </p>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-5/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Nº de contatos na campanha</span>
-                            <p class="font-bold text-3xl my-5">1456</p>
-                        </vx-card>
+            <div class="vx-col col-conquista mb-10">
+                <div class="conquista" style="opacity: .5; cursor: default !important;">
+                    <div class="py-2 w-full">
+                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"/>
                     </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">23</p>
-                        </vx-card>
+                    <div class="conquista-clicavel w-full">
+                        <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
+                        <!--<img src="@/assets/images/util/ticket.svg" class="img-conquista my-4" width="150">-->
+                        <p class="nome-conq mb-4">
+                            1 dia depois
+                        </p>
                     </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Valor recuperado</span>
-                            <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
-                        </vx-card>
-                    </div>
+                    <vs-button color="primary" type="border" @click="" class="font-bold">
+                        Editar tentativa
+                    </vs-button>
                 </div>
             </div>
         </div>
@@ -71,8 +44,8 @@
                                 Salvar
                             </vs-button>
                             <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
-                                Configurar e-mails da campanha
+                                       @click="$router.push({path: '/campanha/configurar_checkout/' + campanha.id})" v-if="campanha.id">
+                                Voltar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
@@ -89,13 +62,11 @@
 <script>
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
-    import Prism from 'vue-prism-component'
 
     export default {
-        name: "Checkout",
+        name: "Emails",
         components: {
             'v-select': vSelect,
-            Prism
         },
         created() {
             if (!moduleCampCheckouts.isRegistered) {
@@ -112,15 +83,6 @@
                     status: null,
                     checkout: ''
                 },
-                customcor: '',
-                html: `
-                <form>
-                    <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="input-nome" placeholder="Nome completo">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="email" id="input-email" placeholder="Insira seu melhor email">
-                </form>
-                `
             }
         },
         methods: {
@@ -197,7 +159,7 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getId', id).then(response => {
+                this.$store.dispatch('checkout/getEmails', id).then(response => {
                     this.campanha = {...response};
                     this.$vs.loading.close();
                 });

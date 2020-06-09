@@ -18,7 +18,7 @@
         <vs-divider class="mb-0"></vs-divider>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
-                <vs-alert color="danger" v-if="!brinde.contrato.status" icon-pack="material-icons" icon="cancel" class="w-full">
+                <vs-alert color="danger" v-if="!brinde.contrato.status && this.data.length > 0" icon-pack="material-icons" icon="cancel" class="w-full">
                     <span>Contrato desativado</span>
                 </vs-alert>
                 <div class="p-5">
@@ -44,7 +44,7 @@
                     <label class="vs-input--label">Selecione o contrato de entrega deste brinde</label>
                     <v-select v-model="selected" :class="'select-large-base'" :clearable="false"
                               :options="opcoesContrato"
-                              v-validate="'required'" name="contrato" v-bind:style="{border: (!brinde.contrato.status ? '2px solid #ff000066' : '')}"/>
+                              v-validate="'required'" name="contrato" v-bind:style="{border: (!brinde.contrato.status && this.data.length > 0 ? '2px solid #ff000066' : '')}"/>
                     <span class="text-danger text-sm"
                           v-show="errors.has('contrato')">{{ errors.first('contrato') }}</span>
                 </div>
@@ -123,7 +123,6 @@
                     <vs-checkbox color="dark" v-model="brinde.hasembalagem"><span class="label-bold-underline">Usar embalagem padrão</span>
                     </vs-checkbox>
                 </div>
-
                 <div class="mt-4" v-if="brinde.hasembalagem">
                     <label class="vs-input--label">Embalagem Padrão</label>
                     <v-select v-model="embalagem" :class="'select-large-base'" :clearable="false"
@@ -236,7 +235,8 @@
                     diametro: 0,
                     peso: 0,
                     integracao: {},
-                    tipo: true
+                    tipo: true,
+                    contrato: {}
                 },
                 tipo_caixa: false,
                 tipo_envelope: false,

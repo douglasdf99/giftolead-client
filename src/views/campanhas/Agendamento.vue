@@ -21,7 +21,11 @@
             <div class="vx-col w-full lg:w-7/12">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
-                        <span class="font-regular mb-2">Checkout no Hotmart</span>
+                        <span class="font-regular mb-2">Descrição</span>
+                        <vs-textarea v-model="campanha.descricao" id="text-area" class="w-full bg-white" rows="6"/>
+                    </div>
+                    <div class="vx-col w-full mb-4">
+                        <span class="font-regular mb-2">Página de Obrigado</span>
                         <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome"/>
                     </div>
                     <div class="vx-col w-full relative">
@@ -71,7 +75,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
+                                       @click="$router.push({path: '/campanha/configurar_checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
                                 Configurar e-mails da campanha
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -88,19 +92,19 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
+    import moduleCampAgendamentos from "@/store/campanha_agendamento/moduleCampAgendamentos";
     import Prism from 'vue-prism-component'
 
     export default {
-        name: "Checkout",
+        name: "Agendamento",
         components: {
             'v-select': vSelect,
             Prism
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampAgendamentos.isRegistered) {
+                this.$store.registerModule('agendamento', moduleCampAgendamentos)
+                moduleCampAgendamentos.isRegistered = true
             }
             this.getId(this.$route.params.id);
         },
@@ -131,7 +135,7 @@
                         this.campanha.plano_id = this.$route.params.id;
                         this.campanha._method = 'PUT';
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('checkout/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
+                            this.$store.dispatch('agendamento/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -151,7 +155,7 @@
                                 })
                             })
                         } else {
-                            this.$store.dispatch('checkout/store', this.campanha).then(response => {
+                            this.$store.dispatch('agendamento/store', this.campanha).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -197,7 +201,7 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getId', id).then(response => {
+                this.$store.dispatch('agendamento/getId', id).then(response => {
                     this.campanha = {...response};
                     this.$vs.loading.close();
                 });

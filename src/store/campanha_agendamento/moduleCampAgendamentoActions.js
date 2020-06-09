@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_carrinhos/${dados.id}`, dados.dados)
+            axios.post(`/api/campanha_agendamento/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -26,7 +26,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_carrinhos`, dados)
+            axios.post(`/api/campanha_agendamento`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -36,21 +36,9 @@ export default {
                 })
         })
     },
-    storeEmail({commit}, dados) {
-        return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_carrinhos_emails`, dados)
-                .then((response) => {
-                    console.log('email criado', response);
-                    resolve(response)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_carrinhos/${id}`)
+            axios.get(`/api/campanha_agendamento/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -60,21 +48,9 @@ export default {
                 })
         })
     },
-    getEmails({commit}, id) {
-        return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_carrinho_emails`, {params: {campanha_id: id}})
-                .then((response) => {
-                    console.log('emails resgatados', response);
-                    resolve(response.data.data)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_carrinhos`, {params: {}})
+            axios.get(`/api/campanha_agendamento`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)

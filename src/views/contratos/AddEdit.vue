@@ -172,8 +172,8 @@
             <div class="vx-row mb-2 relative">
               <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa" v-if="item.id">Salvar</vs-button>
               <vs-button class="mr-3" color="primary" type="filled" @click="salvarEmpresa" v-else>Salvar</vs-button>
-              <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"  @click="$router.push({name: 'contratos'})">Cancelar</vs-button>
               <vs-button icon-pack="material-icons" icon="directions_bus" class="mr-3" color="dark" type="flat" @click="configurar" v-if="item.id">Configurar formas de frete</vs-button>
+              <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"  @click="$router.push({name: 'contratos'})">Cancelar</vs-button>
             </div>
           </div>
         </div>

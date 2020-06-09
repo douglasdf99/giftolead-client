@@ -1,65 +1,24 @@
 <template>
     <div>
-        <div class="vx-row mb-4">
-            <div class="vx-col lg:w-full w-full">
-            <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
+        <div class="vx-row">
+            <div class="vx-col w-full mb-5">
+                <p class="destaque">Configure o período de envio</p>
             </div>
         </div>
-        <div class="vx-row mb-3">
-            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Nome da campanha</span>
-                <vs-input class="w-full" v-model="campanha.nome" size="large" name="nome"/>
-            </div>
-            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Produto da campanha</span>
-                <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
-            </div>
-        </div>
-        <div class="vx-row my-10">
-            <div class="vx-col w-full lg:w-7/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <span class="font-regular mb-2">Checkout no Hotmart</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome"/>
-                    </div>
-                    <div class="vx-col w-full relative">
-                        <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-                        <prism language="html" class="rounded-lg">
-                            {{html}}
-                        </prism>
-                    </div>
-                    <div class="vx-col w-full">
-                        <div class="my-8">
-                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
-                            </vs-checkbox>
-                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
+        <div class="vx-row">
+            <div class="vx-col w-full">
+                <vx-card class="shadow-none flex items-center">
+                    <div class="row">
+                        <div class="vx-col lg:w-3/12">
+                            <i class="material-icons text-4xl primary">date_range</i>
+                        </div>
+                        <div class="vx-col lg:w-9/12">
+                            <v-select v-model="periodoSelected" :class="'select-large-base'" :clearable="false"
+                                      style="background-color: white"
+                                      :options="periodos" v-validate="'required'" name="produto"/>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="vx-col w-full lg:w-5/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Nº de contatos na campanha</span>
-                            <p class="font-bold text-3xl my-5">1456</p>
-                        </vx-card>
-                    </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">23</p>
-                        </vx-card>
-                    </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Valor recuperado</span>
-                            <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
-                        </vx-card>
-                    </div>
-                </div>
+                </vx-card>
             </div>
         </div>
         <transition name="fade">
@@ -67,17 +26,17 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                            <!--<vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
                                 Salvar
                             </vs-button>
                             <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
-                                Configurar e-mails da campanha
+                                       @click="$router.push({path: '/campanha/configurar_checkout/' + email.id})" v-if="email.id">
+                                Voltar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                                       @click="$router.push({path: '/planos/gerenciar/' + email.campanhas[0].plano_id})">
                                 Cancelar
-                            </vs-button>
+                            </vs-button>-->
                         </div>
                     </div>
                 </div>
@@ -89,13 +48,11 @@
 <script>
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
-    import Prism from 'vue-prism-component'
 
     export default {
-        name: "Checkout",
+        name: "EmailsCriar",
         components: {
             'v-select': vSelect,
-            Prism
         },
         created() {
             if (!moduleCampCheckouts.isRegistered) {
@@ -106,21 +63,19 @@
         },
         data() {
             return {
-                campanha: {
-                    nome: '',
-                    produto: '',
+                email: {
+                    periodo: '',
+                    assunto: '',
                     status: null,
-                    checkout: ''
                 },
-                customcor: '',
-                html: `
-                <form>
-                    <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="input-nome" placeholder="Nome completo">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="email" id="input-email" placeholder="Insira seu melhor email">
-                </form>
-                `
+                periodoSelected: {},
+                periodos: [
+                    {id: 1, text: '1 dia após'},
+                    {id: 2, text: '2 dias após'},
+                    {id: 3, text: '3 dias após'},
+                    {id: 4, text: '4 dias após'},
+                    {id: 5, text: '5 dias após'},
+                ]
             }
         },
         methods: {
@@ -128,10 +83,10 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading();
-                        this.campanha.plano_id = this.$route.params.id;
-                        this.campanha._method = 'PUT';
-                        if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('checkout/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
+                        this.email.plano_id = this.$route.params.id;
+                        this.email._method = 'PUT';
+                        if (this.email.id !== undefined) {
+                            this.$store.dispatch('checkout/update', {id: this.email.id, dados: this.campanha}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -140,7 +95,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                                this.$router.push({path: '/planos/gerenciar/' + this.email.campanhas[0].plano_id});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -160,7 +115,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                                this.$router.push({path: '/planos/gerenciar/' + this.email.campanhas[0].plano_id});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -185,19 +140,19 @@
             },
             selecionaCor(cor) {
                 if (cor) {
-                    this.campanha.cor = cor
+                    this.email.cor = cor
                 } else {
-                    this.campanha.cor = this.customcor;
+                    this.email.cor = this.customcor;
                 }
                 this.errors.remove('cor');
             },
             selecionaTipoComissao(val) {
-                this.campanha.comissao_tipo = val;
-                console.log(this.campanha.comissao_tipo)
+                this.email.comissao_tipo = val;
+                console.log(this.email.comissao_tipo)
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getId', id).then(response => {
+                this.$store.dispatch('checkout/getEmails', id).then(response => {
                     this.campanha = {...response};
                     this.$vs.loading.close();
                 });

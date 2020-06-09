@@ -36,12 +36,15 @@
                 <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
                     <div class="conquista">
                         <div class="py-2 w-full">
-                            <vs-switch vs-icon-on="check" color="#0FB599"
-                                       class="float-right switch" @click="ativaCampanha(campanha)"/>
+                            <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
+                                       class="float-right switch" @click="ativaCampanha(campanha.campanhable)"/>
                         </div>
                         <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
                             <img src="@/assets/images/util/checkout.svg" class="img-conquista my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
-                            <!--<img src="@/assets/images/util/ticket.svg" class="img-conquista my-4" width="150">-->
+                            <img src="@/assets/images/util/ticket.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaAgendamento`">
+                            <img src="@/assets/images/util/boleto.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
+                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
+                            <img src="@/assets/images/util/hotmart.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCancelado`">
                             <p class="nome-conq">
                                 {{campanha.campanhable.nome}}
                             </p>
@@ -72,10 +75,10 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import moduleContas from '@/store/contas/moduleContas.js'
-    import moduleProdutos from '@/store/produtos/moduleProdutos.js'
-    import modulePlanos from '@/store/planos/modulePlanos.js'
+    import vSelect from 'vue-select';
+    import moduleContas from '@/store/contas/moduleContas.js';
+    import moduleProdutos from '@/store/produtos/moduleProdutos.js';
+    import modulePlanos from '@/store/planos/modulePlanos.js';
     import {Validator} from 'vee-validate';
     import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -187,10 +190,19 @@
                 let rota = '';
                 switch (item.campanhable_type) {
                     case 'App\\Models\\CampanhaCarrinho':
-                        rota = 'configurar_checkout';
+                        rota = 'configurar-checkout';
                         break;
                     case 'App\\Models\\CampanhaAgendamento':
-                        rota = 'campanha_checkout';
+                        rota = 'configurar-agendamento';
+                        break;
+                    case 'App\\Models\\CampanhaCancelado':
+                        rota = 'configurar-cancelados';
+                        break;
+                    case 'App\\Models\\CampanhaBoleto':
+                        rota = 'configurar-boletos';
+                        break;
+                    case 'App\\Models\\CampanhaWhatsapp':
+                        rota = 'configurar-whatsapps';
                         break;
                 }
                 this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
