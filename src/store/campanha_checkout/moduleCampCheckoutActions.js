@@ -85,6 +85,17 @@ export default {
                 })
         })
     },
+    getEmailId({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_carrinho_emails/${id}`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     get({commit}) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/campanha_carrinhos`, {params: {}})

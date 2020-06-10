@@ -1999,7 +1999,27 @@ const router = new Router({
                             {title: 'Configurar E-mails'},
                             {title: 'Criar configuração de e-mail', active: true},
                         ],
-                        pageTitle: 'Configurar novo E-mails',
+                        pageTitle: 'Configurar novo E-mail',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-checkout/:id/emails/editar/:idEmail',
+                    name: 'campanha-config-checkout-emails-editar',
+                    component: () => import('@/views/campanhas/EmailsCriar.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar E-mails'},
+                            {title: 'Criar configuração de e-mail', active: true},
+                        ],
+                        pageTitle: 'Editar configuração do E-mail',
                         rule: 'editor',
                         pai: 'planos',
                         subTitle: 'Planos',

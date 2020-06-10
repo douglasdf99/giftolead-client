@@ -5,6 +5,13 @@
                 <p class="destaque">Configure o período de envio</p>
             </div>
         </div>
+        <div class="vx-row mb-4">
+            <div class="vx-col lg:w-full w-full">
+            <span class="float-right mt-1 mx-4"
+                  style="font-weight: bold">{{email.status ? 'Ativado' : 'Desativado'}}</span>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="email.status" class="float-right switch"/>
+            </div>
+        </div>
         <div class="vx-row mb-10">
             <div class="vx-col w-full">
                 <div class="shadow-none flex items-center justify-around w-full p-5 radius-lg bg-white">
@@ -134,7 +141,8 @@
                 this.$store.registerModule('checkout', moduleCampCheckouts)
                 moduleCampCheckouts.isRegistered = true
             }
-            this.getId(this.$route.params.id);
+            if (this.$route.name === 'campanha-config-checkout-emails-editar');
+                this.getId(this.$route.params.idEmail);
         },
         data() {
             return {
@@ -162,11 +170,14 @@
                         this.$vs.loading();
                         this.email.campanha_id = this.$route.params.id;
                         this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
-                        this.email.unidade_edida = this.periodoSelected.label;
+                        this.email.unidade_medida = this.periodoSelected.label;
                         console.log('email aí', this.email)
                         if (this.email.id !== undefined) {
                             this.email._method = 'PUT';
-                            this.$store.dispatch('checkout/updateEmail', {id: this.email.id, dados: this.email}).then(response => {
+                            this.$store.dispatch('checkout/updateEmail', {
+                                id: this.email.id,
+                                dados: this.email
+                            }).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -223,8 +234,18 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getEmails', id).then(response => {
+                this.$store.dispatch('checkout/getEmailId', id).then(response => {
                     this.email = {...response};
+                    switch (this.email.unidade_medida) {
+                        case 'dias':
+                            this.periodoSelected = {id: 1440, label: 'dias'}
+                            break;
+                        case 'horas':
+                            this.periodoSelected = {id: 60, label: 'horas'}
+                            break;
+                        default:
+                            this.periodoSelected = {id: 1, label: 'minutos'}
+                    }
                     this.$vs.loading.close();
                 });
             },

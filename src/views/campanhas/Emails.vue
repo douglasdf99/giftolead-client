@@ -1,11 +1,6 @@
 <template>
     <div>
         <div class="vx-row">
-            <div class="vx-col w-full mb-10">
-                <p class="destaque">Configure a estrutura do seu plano de recuperação</p>
-            </div>
-        </div>
-        <div class="vx-row">
             <div class="vx-col col-conquista mb-10">
                 <div class="conquista nova cursor-pointer"
                      @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails/criar'})">
@@ -17,45 +12,25 @@
                     </p>
                 </div>
             </div>
-            <div class="vx-col col-conquista mb-10">
-                <div class="conquista" style="opacity: .5; cursor: default !important;">
+            <div class="vx-col col-conquista mb-10" v-for="email in emails">
+                <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}">
                     <div class="py-2 w-full">
-                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"/>
+                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
+                                   v-model="email.status" @click="ativaEmail(email)"/>
                     </div>
                     <div class="conquista-clicavel w-full">
                         <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
-                        <!--<img src="@/assets/images/util/ticket.svg" class="img-conquista my-4" width="150">-->
                         <p class="nome-conq mb-4">
-                            1 dia depois
+                            {{email.unidade_tempo}} {{email.unidade_medida}} depois
                         </p>
                     </div>
-                    <vs-button color="primary" type="border" @click="" class="font-bold">
+                    <vs-button color="primary" type="border" class="font-bold"
+                               @click="$router.push({path: '/campanha/configurar-checkout/' + email.campanha_id + '/emails/editar/' + email.id})">
                         Editar tentativa
                     </vs-button>
                 </div>
             </div>
         </div>
-        <transition name="fade">
-            <footer-doug>
-                <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
-                                Salvar
-                            </vs-button>
-                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id})" v-if="campanha.id">
-                                Voltar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
-                </div>
-            </footer-doug>
-        </transition>
     </div>
 </template>
 
@@ -83,6 +58,8 @@
                     status: null,
                     checkout: ''
                 },
+                emails: [],
+                countSwitch: []
             }
         },
         methods: {
@@ -143,51 +120,52 @@
                         })
                     }
                 })
-
-            },
-            selecionaCor(cor) {
-                if (cor) {
-                    this.campanha.cor = cor
-                } else {
-                    this.campanha.cor = this.customcor;
-                }
-                this.errors.remove('cor');
-            },
-            selecionaTipoComissao(val) {
-                this.campanha.comissao_tipo = val;
-                console.log(this.campanha.comissao_tipo)
             },
             getId(id) {
                 this.$vs.loading();
                 this.$store.dispatch('checkout/getEmails', id).then(response => {
-                    this.campanha = {...response};
+                    this.emails = response;
                     this.$vs.loading.close();
                 });
             },
-            formatPrice(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            },
-            copyText() {
-                const thisIns = this;
-                this.$copyText(this.html).then(function () {
-                    thisIns.$vs.notify({
+            ativaEmail(e) {
+                console.log(this.countSwitch)
+                if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    e.status = !e.status;
+                    this.$vs.notify({
                         title: '',
-                        text: 'Copiado para sua área de transferência',
-                        color: 'success',
+                        text: 'Muitas tentativas de ativação',
                         iconPack: 'feather',
-                        icon: 'icon-check-circle'
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                } else {
+                    console.log(e)
+                    const formData = new FormData();
+                    let ativo = e.status ? 0 : 1;
+                    let text = e.status ? 'Desativada' : 'Ativada';
+                    formData.append('status', ativo);
+                    formData.append('_method', 'PUT');
+                    formData.append('assunto', e.assunto);
+                    this.$store.dispatch('checkout/updateEmail', {id: e.id, dados: formData}).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
                     })
-                }, function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
+                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
             }
         },
         computed: {

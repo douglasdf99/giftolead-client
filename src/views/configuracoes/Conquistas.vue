@@ -125,13 +125,14 @@
             ativaConquista(e) {
                 console.log(this.countSwitch)
                 if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    e.status = !e.status;
                     this.$vs.notify({
                         title: '',
                         text: 'Muitas tentativas de ativação',
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 } else {
                     console.log(e)
                     const formData = new FormData();
