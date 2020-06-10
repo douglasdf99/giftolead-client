@@ -25,7 +25,7 @@
         </div>
         <div class="vx-row mb-6">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2" v-if="produto.preco">
-                <span class="font-regular mb-2">Preço </span>
+                <span class="font-regular mb-2">Preço</span>
                 <vs-input class="w-full" v-model="produto.preco" v-validate="'required'" size="large" v-money="money"
                           name="preco"/>
                 <span class="text-danger text-sm" v-show="errors.has('preco')">{{ errors.first('preco') }}</span>
@@ -40,7 +40,6 @@
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">REF produto no checkout</span>
-
                 <vs-input class="w-full" v-model="produto.checkout" size="large"/>
             </div>
         </div>

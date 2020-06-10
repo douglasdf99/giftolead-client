@@ -44,7 +44,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar_checkout/' + campanha.id})" v-if="campanha.id">
+                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id})" v-if="campanha.id">
                                 Voltar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"

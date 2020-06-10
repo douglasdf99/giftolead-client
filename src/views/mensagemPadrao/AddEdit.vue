@@ -55,6 +55,9 @@
                         <li class="variavel" @click="addVarText('[NOME_ATENDENTE]')">
                             <span>Nome do Atendente</span>
                         </li>
+                        <li class="variavel" @click="addVarText('[NOME_PRODUTO]')">
+                            <span>Nome do Produto</span>
+                        </li>
                         <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
                             <span>Nome do Brinde</span>
                         </li>
@@ -252,12 +255,8 @@
                     this.mensagem.mensagem = $txt.value;
                 } else {
                     //Quill Editor
-                    console.log('selecao', this.editor.getSelection(true));
-                    //var $txt2 = document.getElementsByClassName("ql-editor");
                     var $txt2 = this.editor.getSelection(true);
-                    console.log('alou', $txt2)
                     this.editor.insertText($txt2.index, value, '', true);
-                    console.log(this.mensagem.mensagem_email)
                 }
             },
             onEditorReady(editor) {
@@ -419,13 +418,5 @@
         position: absolute;
         right: 30px;
         cursor: pointer;
-    }
-
-    .ql-editor {
-        min-height: 20vh;
-    }
-
-    .ql-snow .ql-tooltip {
-        z-index: 99999;
     }
 </style>
