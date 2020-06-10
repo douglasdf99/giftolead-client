@@ -21,15 +21,42 @@
             <div class="vx-col w-full lg:w-7/12">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
-                        <span class="font-regular mb-2">Checkout no Hotmart</span>
+                        <span class="font-regular mb-2">Checkout no Hotmart (página de obrigado)</span>
                         <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome"/>
                     </div>
                     <div class="vx-col w-full relative">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-                        <prism language="html" class="rounded-lg" style=" max-height: 359px;}">
-                            {{formulario()}}
+                        <prism language="markup" class="rounded-lg">
+                          {{formularioinfusion()}}
 
-                              &lt;script type="text/javascript"&gt;
+&lt;script type="text/javascript" src="https://cr244.infusionsoft.app/app/webTracking/getTrackingCode"&gt; &lt;/script&gt;
+&lt;script type="text/javascript" src="https://cr244.infusionsoft.com/app/timezone/timezoneInputJs?xid={{campanha.form_id}}"&gt; &lt;/script&gt;
+
+
+&lt;script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"&gt; &lt;/script&gt;
+
+
+&lt;script&gt;
+$(document).ready(function() {
+  $('#{{campanha.form_id}}').submit(function(e) {
+    let serializeDados = $('#{{campanha.form_id}}').serialize();
+
+      $.ajax({
+        url: 'https://saveleads.com.br/form_brinde',
+        dataType: 'html',
+        type: 'POST',
+        data: serializeDados,
+        success: function(data, textStatus) {
+          console.log('enviou sistema');
+        },
+        error: function(xhr,er) {
+          console.log('erro sistema',v);
+        }
+      });
+
+  });
+})
+&lt;/script&gt;
 
                         </prism>
 
@@ -201,29 +228,40 @@
             },
             formularioPadrao(){
               let form =`
-                <form accept-charset="UTF - 8" action="${this.url_api('recovery-cart')}" id="formulario-saveleads" method="POST">
-                    <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="nome" placeholder="Nome completo">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
-                    <label for="email">Whatsapp</label>
-                    <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
-                </form>
+<form accept-charset="UTF - 8" action="${this.url_api('recovery-cart')}" id="formulario-saveleads" method="POST">
+    <label for="nome">Nome</label>
+    <input type="text" name="nome" id="nome" placeholder="Nome completo">
+    <label for="email">E-mail</label>
+    <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
+    <label for="email">Whatsapp</label>
+    <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
+</form>
               `;
               return form;
             },
             formularioinfusion(){
               let form =`
-                <form>
-                    <label for="nome">Nome</label>
-                    <input type="text" name="${this.campanha.campo_nome}" id="nome" placeholder="Nome completo">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="${this.campanha.campo_email}" id="email" placeholder="Insira seu melhor email">
-                    <label for="email">Whatsapp</label>
-                    <input type="text" name="${this.campanha.campo_whatsapp}" id="whatsapp" placeholder="Insira seu whatsapp">
-                </form>
-                &lt;script type="text/javascript"&gt; &amp;
-              `;
+<form accept-charset="UTF - 8" action="https://cr244.infusionsoft.com/app/form/process/${this.campanha.form_id}" class="mbr-class" id="${this.campanha.form_id}" method="POST">
+    <input name="token" value="${this.campanha.token}" type="hidden" />
+    <input name="inf_form_xid" type="hidden" value="${this.campanha.form_id}" />
+    <input name="inf_form_name" type="hidden" value="${this.campanha.form_name}" />
+    <div>
+        <label for="inf_field_FirstName">Nome Completo*</label>
+        <input class="mbr-class" id="${this.campanha.campo_nome}" name="${this.campanha.campo_nome}" placeholder="Nome Completo *" type="text" />
+    </div>
+    <div>
+        <label for="inf_field_Email">Email *</label>
+        <input class="mbr-class" id="${this.campanha.campo_email}" name="${this.campanha.campo_email}" placeholder="Email *" type="email" />
+    </div>
+    <div>
+        <label for="inf_custom_DDD">Whatsapp *</label>
+        <input class="mbr-class" id="${this.campanha.campo_whatsapp}" name="${this.campanha.campo_whatsapp}" placeholder="Whatsapp" type="text" />
+    </div>
+    <div>
+        <button type='submit' class='enviar'>Enviar</button>
+    </div>
+</form>
+`;
               return form;
             },
             salvar() {
