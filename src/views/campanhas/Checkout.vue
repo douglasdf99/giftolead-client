@@ -42,19 +42,24 @@
             <div class="vx-col w-full lg:w-5/12">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
-                            <span class="destaque">Nº de contatos na campanha</span>
-                            <p class="font-bold text-3xl my-5">1456</p>
+                        <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
+                            <span class="destaque">Histórico de envios</span>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
+                        <vx-card class="shadow-none">
+                            <span class="destaque">Nº de contatos na campanha</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
+                        </vx-card>
+                    </div>
+                    <div class="vx-col w-full mb-4">
+                        <vx-card class="shadow-none">
                             <span class="destaque">Vendas recuperadas</span>
                             <p class="font-bold text-3xl my-5">23</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
-                        <vx-card style="box-shadow: none">
+                        <vx-card class="shadow-none">
                             <span class="destaque">Valor recuperado</span>
                             <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
                         </vx-card>
@@ -289,6 +294,9 @@
                         icon: 'icon-alert-circle'
                     })
                 })
+            },
+            historico() {
+                this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`})
             }
         },
         computed: {

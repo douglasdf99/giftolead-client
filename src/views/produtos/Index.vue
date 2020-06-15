@@ -219,8 +219,8 @@
                         this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
-                                title: 'Sucesso',
-                                text: 'A URL foi deletada com sucesso'
+                                title: '',
+                                text: 'Deletado com sucesso'
                             });
                             this.getProdutos();
                         }).catch(erro => {

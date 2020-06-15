@@ -63,64 +63,6 @@
             }
         },
         methods: {
-            salvar() {
-                this.$validator.validateAll().then(result => {
-                    if (result) {
-                        this.$vs.loading();
-                        this.campanha.plano_id = this.$route.params.id;
-                        this.campanha._method = 'PUT';
-                        if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('checkout/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Atualizado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        } else {
-                            this.$store.dispatch('checkout/store', this.campanha).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Criado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        }
-                    } else {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: 'verifique os erros específicos',
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    }
-                })
-            },
             getId(id) {
                 this.$vs.loading();
                 this.$store.dispatch('checkout/getEmails', id).then(response => {

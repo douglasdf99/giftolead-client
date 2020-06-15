@@ -187,6 +187,12 @@ Vue.filter('formatDate', function (value) {
     }
 });
 
+Vue.filter('formatDateTime', function (value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY H:mm')
+    }
+});
+
 // Feather font icon
 require('./assets/css/iconfont.css')
 

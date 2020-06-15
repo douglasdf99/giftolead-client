@@ -108,4 +108,16 @@ export default {
                 })
         })
     },
+    getHistorico({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_carrinho_historicos`, {params: {campanha_id: dados.id, search: dados.search}})
+                .then((response) => {
+                    console.log('histórico resgatado', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

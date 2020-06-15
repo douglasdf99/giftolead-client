@@ -1969,6 +1969,25 @@ const router = new Router({
                     },
                 },
                 {
+                    path: '/campanha/configurar-checkout/:id/historico-envios',
+                    name: 'campanha-config-checkout-historico',
+                    component: () => import('@/views/campanhas/Historico.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Histórico de Envios', active: true}
+                        ],
+                        pageTitle: 'Histórico de envios dos e-mails',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
                     path: '/campanha/configurar-checkout/:id/emails',
                     name: 'campanha-config-checkout-emails',
                     component: () => import('@/views/campanhas/Emails.vue'),
