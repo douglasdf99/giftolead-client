@@ -131,7 +131,8 @@
                     url += 'contato.email:' + this.search + ';';
                     url += 'campanha.nome:' + this.search;
                 }
-                this.$store.dispatch('checkout/getHistorico', {id: id, search: url}).then(response => {
+                this.dados.search = url;
+                this.$store.dispatch('checkout/getHistorico', {id: id, params: this.dados}).then(response => {
                     this.historico = response.data;
                     this.pagination = response;
                     this.$vs.loading.close();
@@ -141,7 +142,7 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                this.dados.page = this.currentx;
+                this.dados.page = val;
                 this.getId(this.$route.params.id);
             }
         },

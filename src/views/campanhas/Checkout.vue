@@ -27,7 +27,16 @@
                     <div class="vx-col w-full relative" v-if="!campanha.infusion">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
                         <prism language="markup" class="rounded-lg">
-                          {{html}}
+                            <form accept-charset="UTF - 8" :action="url_api('campanhaCarrinho') + '/' + campanha.token"
+                                  id="formulario-saveleads" method="POST">
+                                <label for="nome">Nome</label>
+                                <input type="text" name="nome" id="nome" placeholder="Nome completo">
+                                <label for="email">E-mail</label>
+                                <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
+                                <label for="email">Telefone</label>
+                                <input type="text" name="telefone" id="telefone" placeholder="Insira seu whatsapp">
+                                <input type="hidden">
+                            </form>
                         </prism>
                     </div>
                     <div class="vx-col w-full" v-if="campanha.infusion">
@@ -68,74 +77,74 @@
             </div>
 
         </div>
-      <div class="vx-row ">
-          <div class="vx-col w-full">
-            <div class="my-8">
-              <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
-              </vs-checkbox>
-              <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
+        <div class="vx-row ">
+            <div class="vx-col w-full">
+                <div class="my-8">
+                    <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
+                    </vs-checkbox>
+                    <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
+                </div>
             </div>
-          </div>
-      </div>
-      <vx-card>
-        <div class="vx-row mb-6" v-if="campanha.infusion">
-          <div class="vx-col w-full mb-6">
-            <h5 class="mb-4">Configuração do Formulário</h5>
-            <div class="vx-row">
-              <div class="vx-col sm:w-1/4 w-full mb-2">
-                <span class="font-regular mb-2">Form_id</span>
-                <vs-input class="w-full" v-validate="'required'" name="form_id"
-                          v-model="campanha.form_id" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('form_id')">{{ errors.first('form_id') }}</span>
-              </div>
-              <div class="vx-col sm:w-1/4 w-full mb-2">
-                <span class="font-regular mb-2">Form_name</span>
-                <vs-input class="w-full" v-validate="'required'" name="form_name" v-model="campanha.form_name" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('form_name')">{{ errors.first('form_name') }}</span>
-              </div>
-
-              <div class="vx-col sm:w-1/4 w-full mb-2">
-                <span class="font-regular mb-2">Form_conta</span>
-                <vs-input class="w-full" v-validate="'required'" name="form_conta" v-model="campanha.form_conta" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('form_conta')">{{ errors.first('form_conta') }}</span>
-              </div>
-
-              <div class="vx-col sm:w-1/4 w-full mb-2">
-                <span class="font-regular mb-2">Form_versão</span>
-                <vs-input class="w-full" v-validate="'required'" name="form_versao" v-model="campanha.form_versao" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('form_versao')">{{ errors.first('form_versao') }}</span>
-              </div>
-
-            </div>
-          </div>
-          <div class="vx-col w-full ">
-            <h5 class="mb-4">Campos do Formulário</h5>
-            <div class="vx-row">
-              <div class="vx-col sm:w-1/3 w-full mb-2">
-                <span class="font-regular mb-2">Campo_nome</span>
-                <vs-input class="w-full" v-validate="'required'" name="campo_nome" v-model="campanha.campo_nome" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
-              </div>
-
-              <div class="vx-col sm:w-1/3 w-full mb-2">
-                <span class="font-regular mb-2">Campo_email</span>
-                <vs-input class="w-full" v-validate="'required'" name="campo_email" v-model="campanha.campo_email" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
-              </div>
-
-              <div class="vx-col sm:w-1/3 w-full mb-2">
-                <span class="font-regular mb-2">Campo_whatsapp</span>
-                <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp" v-model="campanha.campo_whatsapp" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
-              </div>
-
-            </div>
-          </div>
-
-
         </div>
+        <vx-card>
+            <div class="vx-row mb-6" v-if="campanha.infusion">
+                <div class="vx-col w-full mb-6">
+                    <h5 class="mb-4">Configuração do Formulário</h5>
+                    <div class="vx-row">
+                        <div class="vx-col sm:w-1/4 w-full mb-2">
+                            <span class="font-regular mb-2">Form_id</span>
+                            <vs-input class="w-full" v-validate="'required'" name="form_id"
+                                      v-model="campanha.form_id" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('form_id')">{{ errors.first('form_id') }}</span>
+                        </div>
+                        <div class="vx-col sm:w-1/4 w-full mb-2">
+                            <span class="font-regular mb-2">Form_name</span>
+                            <vs-input class="w-full" v-validate="'required'" name="form_name" v-model="campanha.form_name" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('form_name')">{{ errors.first('form_name') }}</span>
+                        </div>
 
-      </vx-card>
+                        <div class="vx-col sm:w-1/4 w-full mb-2">
+                            <span class="font-regular mb-2">Form_conta</span>
+                            <vs-input class="w-full" v-validate="'required'" name="form_conta" v-model="campanha.form_conta" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('form_conta')">{{ errors.first('form_conta') }}</span>
+                        </div>
+
+                        <div class="vx-col sm:w-1/4 w-full mb-2">
+                            <span class="font-regular mb-2">Form_versão</span>
+                            <vs-input class="w-full" v-validate="'required'" name="form_versao" v-model="campanha.form_versao" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('form_versao')">{{ errors.first('form_versao') }}</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="vx-col w-full ">
+                    <h5 class="mb-4">Campos do Formulário</h5>
+                    <div class="vx-row">
+                        <div class="vx-col sm:w-1/3 w-full mb-2">
+                            <span class="font-regular mb-2">Campo_nome</span>
+                            <vs-input class="w-full" v-validate="'required'" name="campo_nome" v-model="campanha.campo_nome" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
+                        </div>
+
+                        <div class="vx-col sm:w-1/3 w-full mb-2">
+                            <span class="font-regular mb-2">Campo_email</span>
+                            <vs-input class="w-full" v-validate="'required'" name="campo_email" v-model="campanha.campo_email" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
+                        </div>
+
+                        <div class="vx-col sm:w-1/3 w-full mb-2">
+                            <span class="font-regular mb-2">Campo_whatsapp</span>
+                            <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp" v-model="campanha.campo_whatsapp" size="large"/>
+                            <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </vx-card>
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
@@ -184,19 +193,10 @@
                     nome: '',
                     produto: '',
                     status: null,
-                    checkout: ''
+                    checkout: '',
+                    token: ''
                 },
                 customcor: '',
-                html: `
-                <form accept-charset="UTF - 8" action="${this.url_api('recovery-cart')}" id="formulario-saveleads" method="POST">
-    <label for="nome">Nome</label>
-    <input type="text" name="nome" id="nome" placeholder="Nome completo">
-    <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
-    <label for="email">Whatsapp</label>
-    <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
-</form>
-                `
             }
         },
         methods: {

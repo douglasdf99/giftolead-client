@@ -110,7 +110,7 @@ export default {
     },
     getHistorico({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_carrinho_historicos`, {params: {campanha_id: dados.id, search: dados.search}})
+            axios.get(`/api/campanha_carrinho_historicos`, {params: {campanha_id: dados.id, ...dados.params}})
                 .then((response) => {
                     console.log('histórico resgatado', response);
                     resolve(response.data.data)
