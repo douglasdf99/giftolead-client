@@ -23,7 +23,7 @@
                             <div class="vx-col w-1/2">
                                 <span class="font-regular mb-2">Unidade de Tempo</span>
                                 <vs-input type="text" @keypress="isNumber" name="periodo" class="w-full"
-                                          v-model="email.unidade_tempo" v-validate="'required'" size="large"/>
+                                          v-model="email.unidade_tempo" v-validate="'required|min_value:1'" size="large"/>
                                 <span class="text-danger text-sm" v-show="errors.has('periodo')">{{ errors.first('periodo') }}</span>
                             </div>
                             <div class="vx-col w-1/2">
@@ -40,6 +40,22 @@
         <div class="vx-row mb-2">
             <div class="vx-col w-full mb-5">
                 <p class="destaque">Configure o e-mail que será enviado</p>
+            </div>
+        </div>
+        <div class="vx-row mb-6">
+            <div class="vx-col w-full lg:w-8/12">
+                <span class="font-regular mb-2">Título:</span>
+                <vs-input type="text" name="titulo" class="w-full"
+                          v-model="email.titulo" v-validate="'required'" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('titulo')">{{ errors.first('titulo') }}</span>
+            </div>
+        </div>
+        <div class="vx-row mb-6">
+            <div class="vx-col w-full lg:w-8/12">
+                <span class="font-regular mb-2">Responder a:</span>
+                <vs-input type="text" name="responder" class="w-full"
+                          v-model="email.responder" v-validate="'required|email'" size="large"/>
+                <span class="text-danger text-sm" v-show="errors.has('responder')">{{ errors.first('responder') }}</span>
             </div>
         </div>
         <div class="vx-row mb-6">
@@ -67,17 +83,8 @@
                         <li class="variavel" @click="addVarText('[NOME_LEAD]')">
                             <span>Nome do Lead</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[NOME_ATENDENTE]')">
-                            <span>Nome do Atendente</span>
-                        </li>
                         <li class="variavel" @click="addVarText('[NOME_PRODUTO]')">
                             <span>Nome do Produto</span>
-                        </li>
-                        <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
-                            <span>Nome do Brinde</span>
-                        </li>
-                        <li class="variavel" @click="addVarText('[LINK_BOLETO]')">
-                            <span>Link do Boleto</span>
                         </li>
                         <li class="variavel" @click="addVarText('[LINK_WHATSAPP]')">
                             <span>Link do Whatsapp</span>
@@ -122,9 +129,17 @@
         custom: {
             periodo: {
                 required: 'Por favor, insira o período que deseja enviar a mensagem',
+               min_value: 'O valor minimo é de 1',
             },
             assunto: {
                 required: 'Por favor, insira o assunto do e-mail',
+            },
+            responder: {
+                required: 'Por favor, insira o email que irá receber a resposta',
+                email: 'Por favor, insira um email válido'
+            },
+            titulo: {
+                required: 'Por favor, insira o título do e-mail',
             },
         }
     };
@@ -141,13 +156,15 @@
                 this.$store.registerModule('checkout', moduleCampCheckouts)
                 moduleCampCheckouts.isRegistered = true
             }
-            if (this.$route.name === 'campanha-config-checkout-emails-editar');
+            if (this.$route.name === 'campanha-config-checkout-emails-editar')
                 this.getId(this.$route.params.idEmail);
         },
         data() {
             return {
                 email: {
                     periodo: 0,
+                    titulo: '',
+                    responder: '',
                     assunto: '',
                     corpo: '',
                     status: null,
@@ -196,7 +213,8 @@
                                     color: 'danger'
                                 })
                             })
-                        } else {
+                        }
+                    else {
                             this.$store.dispatch('checkout/storeEmail', this.email).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
