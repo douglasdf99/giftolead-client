@@ -1,6 +1,15 @@
 <template>
     <div>
-        <div class="vx-row">
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaEmails"/>
+        <div class="vx-row mt-10">
+            <div class="vx-col w-full float-right">
+                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="organizar">
+                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
+                    Reorganizar E-mails
+                </vs-button>
+            </div>
+        </div>
+        <div class="vx-row mt-10">
             <div class="vx-col col-conquista mb-10">
                 <div class="conquista nova cursor-pointer"
                      @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails/criar'})">
@@ -8,11 +17,11 @@
                         <i class="material-icons">add</i>
                     </div>
                     <p class="nome-conq">
-                        Adicionar nova configuração
+                        Adicionar <br> novo e-mail
                     </p>
                 </div>
             </div>
-            <div class="vx-col col-conquista mb-10" v-for="email in emails">
+            <div class="vx-col col-conquista mb-10" v-for="(email, index) in emails">
                 <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}">
                     <div class="py-2 w-full">
                         <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
@@ -20,8 +29,8 @@
                     </div>
                     <div class="conquista-clicavel w-full">
                         <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
-                        <p class="nome-conq mb-4">
-                            {{email.unidade_tempo}} {{email.unidade_medida}} depois
+                        <p class="nome-conq mb-4 text-base">
+                            {{email.unidade_tempo}} {{email.unidade_medida}} depois {{index === 0 ? 'da entrada' : 'do último envio'}}
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
@@ -37,11 +46,13 @@
 <script>
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
+    import SideBar from './Reorganizar'
 
     export default {
         name: "Emails",
         components: {
             'v-select': vSelect,
+            SideBar
         },
         created() {
             if (!moduleCampCheckouts.isRegistered) {
@@ -59,10 +70,24 @@
                     checkout: ''
                 },
                 emails: [],
-                countSwitch: []
+                listaEmails: [],
+                countSwitch: [],
+                addNewDataSidebar: false
             }
         },
         methods: {
+            organizar() {
+                this.listaEmails = [...this.emails];
+                this.toggleDataSidebar(true)
+            },
+            closeSidebar() {
+                console.log('ah mano')
+                this.toggleDataSidebar();
+                this.getId(this.$route.params.id)
+            },
+            toggleDataSidebar(val = false) {
+                this.addNewDataSidebar = val
+            },
             getId(id) {
                 this.$vs.loading();
                 this.$store.dispatch('checkout/getEmails', id).then(response => {
@@ -72,7 +97,7 @@
             },
             ativaEmail(e) {
                 console.log(this.countSwitch)
-                if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.status = !e.status;
                     this.$vs.notify({
                         title: '',

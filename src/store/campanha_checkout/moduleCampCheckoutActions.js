@@ -120,4 +120,16 @@ export default {
                 })
         })
     },
+    reorganizarEmails({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_carrinho_emails_posicao`, {posicoes: dados})
+                .then((response) => {
+                    console.log('posição atualizada', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

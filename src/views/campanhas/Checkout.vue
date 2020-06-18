@@ -27,18 +27,59 @@
                     <div class="vx-col w-full relative" v-if="!campanha.infusion">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
                         <prism language="markup" class="rounded-lg">
-                          {{codigohtml()}}
+                            {{codigohtml()}}
                         </prism>
                     </div>
+                </div>
+                <div class="vx-row">
+                    <div class="vx-col w-full">
+                        <div class="my-8">
+                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
+                            </vs-checkbox>
+                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
+                        </div>
+                    </div>
+                </div>
+                <vx-card class="mb-8">
+                    <div class="vx-row mb-6" v-if="campanha.infusion">
+                        <div class="vx-col w-full ">
+                            <h5 class="mb-4">Campos do Formulário</h5>
+                            <div class="vx-row">
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Nome</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_nome" v-model="campanha.campo_nome" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
+                                </div>
+
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Email</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_email" v-model="campanha.campo_email" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
+                                </div>
+
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Whatsapp</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp" v-model="campanha.campo_whatsapp" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </vx-card>
+                <div class="vx-row">
                     <div class="vx-col w-full" v-if="campanha.infusion">
+                        <img src="@/assets/images/util/infusion-help.png" class="border-dark shadow mb-3" width="100%">
                         <p class="flex mb-2 ml-3 font-bold text-warning">
                             <i class="material-icons text-base mr-2">info_outline</i>Insira esta URL como sua página de obrigado e
-                            marque o checkbox logo abaixo. Veja no exemplo:
+                            marque o checkbox que se encontra logo abaixo. Veja no exemplo acima.
                         </p>
-                      <span class="font-regular mb-2">Url Infusion:</span>
-                      <vs-input class="w-full mb-4" :value="this.url_api('campanhacarrinho/'+this.campanha.token)" placeholder="https://" size="large" name="nome" disabled/>
-
-                      <img src="@/assets/images/util/infusion-help.png" class="border-dark shadow " width="100%">
+                        <div class="w-full relative">
+                            <span class="font-regular mb-2">Url Infusion:</span>
+                            <vs-input class="w-full mb-4" :value="this.url_api('campanhacarrinho/'+this.campanha.token).substr(0, 65) + '...'" placeholder="https://" size="large" name="urlInfusion" id="urlInfusion" disabled/>
+                            <i class="material-icons" id="copy-icon-input" @click="copyUrl">file_copy</i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,12 +88,19 @@
                     <div class="vx-col w-full mb-4">
                         <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
                             <span class="destaque">Histórico de envios</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.historico_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
                         <vx-card class="shadow-none">
-                            <span class="destaque">Nº de contatos na campanha</span>
+                            <span class="destaque">Nº de contatos ativos</span>
                             <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
+                        </vx-card>
+                    </div>
+                    <div class="vx-col w-full mb-4">
+                        <vx-card class="shadow-none">
+                            <span class="destaque">Nº de contatos inativos</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
@@ -61,53 +109,28 @@
                             <p class="font-bold text-3xl my-5">23</p>
                         </vx-card>
                     </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card class="shadow-none">
-                            <span class="destaque">Valor recuperado</span>
-                            <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
-                        </vx-card>
+                    <div class="vx-col w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
+                        <p class="destaque text-primary">Ver mais</p>
                     </div>
+                    <transition name="fade">
+                        <div class="vx-col w-full mb-4" v-if="verMaisCards">
+                            <vx-card class="shadow-none">
+                                <span class="destaque">Nº total de contatos</span>
+                                <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
+                            </vx-card>
+                        </div>
+                    </transition>
+                    <transition name="fade">
+                        <div class="vx-col w-full mb-4" v-if="verMaisCards">
+                            <vx-card class="shadow-none">
+                                <span class="destaque">Valor recuperado</span>
+                                <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
+                            </vx-card>
+                        </div>
+                    </transition>
                 </div>
             </div>
-
         </div>
-      <div class="vx-row ">
-          <div class="vx-col w-full">
-            <div class="my-8">
-              <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
-              </vs-checkbox>
-              <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
-            </div>
-          </div>
-      </div>
-      <vx-card>
-        <div class="vx-row mb-6" v-if="campanha.infusion">
-          <div class="vx-col w-full ">
-            <h5 class="mb-4">Campos do Formulário</h5>
-            <div class="vx-row">
-              <div class="vx-col sm:w-1/3 w-full mb-2">
-                <span class="font-regular mb-2">Campo Nome</span>
-                <vs-input class="w-full" v-validate="'required'" name="campo_nome" v-model="campanha.campo_nome" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
-              </div>
-
-              <div class="vx-col sm:w-1/3 w-full mb-2">
-                <span class="font-regular mb-2">Campo Email</span>
-                <vs-input class="w-full" v-validate="'required'" name="campo_email" v-model="campanha.campo_email" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
-              </div>
-
-              <div class="vx-col sm:w-1/3 w-full mb-2">
-                <span class="font-regular mb-2">Campo Whatsapp</span>
-                <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp" v-model="campanha.campo_whatsapp" size="large"/>
-                <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-      </vx-card>
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
@@ -159,12 +182,13 @@
                     checkout: ''
                 },
                 customcor: '',
-                html: ''
+                html: '',
+                verMaisCards: false
             }
         },
-      mounted(){
+        mounted() {
 
-      },
+        },
         methods: {
             salvar() {
                 this.$validator.validateAll().then(result => {
@@ -241,8 +265,8 @@
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             },
             codigohtml(value) {
-              this.html =`
-<form accept-charset="UTF - 8" action="${this.url_api('campanhacarrinho/'+this.campanha.token)}" id="formulario-saveleads" method="POST">
+                this.html = `
+<form accept-charset="UTF - 8" action="${this.url_api('campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
     <input type="text" name="nome" id="nome" placeholder="Nome completo">
     <label for="email">E-mail</label>
@@ -251,11 +275,33 @@
     <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
 </form>
                 `;
-              return this.html;
+                return this.html;
             },
             copyText() {
                 const thisIns = this;
                 this.$copyText(this.html).then(function () {
+                    thisIns.$vs.notify({
+                        title: '',
+                        text: 'Copiado para sua área de transferência',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle'
+                    })
+                }, function () {
+                    thisIns.$vs.notify({
+                        title: 'Failed',
+                        text: 'Erro ao copiar',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        position: 'top-center',
+                        icon: 'icon-alert-circle'
+                    })
+                })
+            },
+            copyUrl() {
+                const thisIns = this;
+                let value = this.url_api('campanhacarrinho/'+this.campanha.token);
+                this.$copyText(value).then(function () {
                     thisIns.$vs.notify({
                         title: '',
                         text: 'Copiado para sua área de transferência',
@@ -307,7 +353,14 @@
 
     #copy-icon {
         position: absolute;
-        top: 0.7rem;
+        top: .7rem;
+        right: 30px;
+        cursor: pointer;
+    }
+
+    #copy-icon-input {
+        position: absolute;
+        top: 2.2rem;
         right: 30px;
         cursor: pointer;
     }

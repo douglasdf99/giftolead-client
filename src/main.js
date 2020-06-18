@@ -145,7 +145,7 @@ Vue.mixin({
           return saveleadsConfig.url_api + local;
             //return 'http://127.0.0.1:8000/' + local;
         },
-        isNumber: function (evt) {
+        isNumber: function (evt) {//Obriga o input aceitar apenas números
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;
             if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {

@@ -94,7 +94,7 @@
                                              :route="$route" :isRTL="$vs.rtl"/>
 
                               <div class="content-area__heading"
-                                    :class="{'pr-4 border-0 md:border-r border-solid border-grey-light' : $route.meta.breadcrumb}">
+                                    :class="{'pr-4 border-0' : $route.meta.breadcrumb}">
                                     <h2 class="mb-1">{{ $route.meta.pageTitle }}</h2>
                                 </div>
 

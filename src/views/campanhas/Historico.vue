@@ -1,5 +1,11 @@
 <template>
     <div>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
+        <div class="vx-row mb-3">
+            <div class="vx-col w-full" v-if="historico.length > 0">
+                <p class="destaque text-2xl">{{historico[0].campanha.nome}}</p>
+            </div>
+        </div>
         <div class="vx-row flex items-end lg:mt-10 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -26,7 +32,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-if="historico.length === 0">
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div>
@@ -37,7 +43,7 @@
                     </div>
                 </div>
                 <div class="com-item" v-else>
-                    <vs-table :data="historico" class="table-items">
+                    <vs-table v-model="selected" :data="historico" @selected="handleSelected" class="table-items">
 
                         <template slot="thead">
                             <!--<vs-th></vs-th>-->
@@ -48,15 +54,15 @@
                         </template>
 
                         <template slot-scope="{data}">
-                            <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
+                            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
                                 <vs-td>{{tr.contato ? tr.contato.email : ''}}</vs-td>
                                 <vs-td>{{tr.email.assunto}}</vs-td>
                                 <vs-td><span class="destaque">{{ tr.email.created_at | formatDateTime}}</span></vs-td>
                                 <vs-td>
                                     <vs-chip v-if="tr.eventos_entrega.length > 0"
-                                             :color="tr.eventos_entrega[tr.eventos_entrega.length - 1].resposta === 'success' ? '#2ecc71' : '#e74c3c'"
+                                             :color="tr.eventos_entrega[0].resposta === 'success' ? '#2ecc71' : '#e74c3c'"
                                              class="product-order-status">
-                                        {{ tr.eventos_entrega[tr.eventos_entrega.length - 1].evento }}
+                                        {{ tr.eventos_entrega[0].evento }}
                                     </vs-chip>
                                 </vs-td>
                             </vs-tr>
@@ -66,14 +72,32 @@
                 </div>
             </vs-col>
         </vs-row>
+        <transition name="fade">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="$router.push({path: '/campanha/configurar-checkout/' + historico[0].campanha_id})">
+                                Voltar
+                            </vs-button>
+                        </div>
+                    </div>
+                </div>
+            </footer-doug>
+        </transition>
     </div>
 </template>
 
 <script>
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
+    import SideBar from './DetalheHistorico'
 
     export default {
         name: "Historico",
+        components: {
+            SideBar
+        },
         computed: {
             items() {
                 return this.$store.state.items;
@@ -111,7 +135,10 @@
                     search: '',
                     page: 1,
                 },
-                historico: []
+                historico: [],
+                addNewDataSidebar: false,
+                sidebarData: {},
+                selected: []
             }
         },
         methods: {
@@ -122,6 +149,13 @@
                 this.pagination.current_page = 1;
                 this.currentx = 1;
                 this.getId(this.$route.params.id);
+            },
+            handleSelected(tr) {
+                this.sidebarData = tr;
+                this.toggleDataSidebar(true);
+            },
+            toggleDataSidebar(val = false) {
+                this.addNewDataSidebar = val
             },
             getId(id) {
                 this.$vs.loading();

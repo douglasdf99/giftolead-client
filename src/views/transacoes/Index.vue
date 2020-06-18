@@ -113,8 +113,8 @@
                                         {{ tr.produto.nome}}
                                     </vs-chip>
                                 </vs-td>
-                                <vs-td :data="tr.confirmation_purchase_date">
-                                    <span class="destaque">{{ tr.confirmation_purchase_date | formatDate}}</span>
+                                <vs-td :data="tr.created_at">
+                                    <span class="destaque">{{ tr.created_at | formatDate}}</span>
                                 </vs-td>
                                 <vs-td>
                                     <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>

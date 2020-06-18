@@ -223,7 +223,7 @@
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
-                                text: 'A URL foi deletada com sucesso'
+                                text: 'Deletado com sucesso'
                             });
                             this.getItems();
                         }).catch(erro => {
@@ -231,7 +231,7 @@
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
                         })
                     }
@@ -260,7 +260,7 @@
                     });
                     this.$vs.notify({
                         title: 'Aguarde',
-                        text: "Conctando no sistema dos correios",
+                        text: "Conectando no sistema dos correios",
                         iconPack: 'feather',
                         icon: 'icon-check-circle',
                         color: 'warning',

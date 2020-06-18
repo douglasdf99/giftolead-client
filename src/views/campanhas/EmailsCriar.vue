@@ -2,7 +2,7 @@
     <div>
         <div class="vx-row">
             <div class="vx-col w-full mb-5">
-                <p class="destaque">Configure o período de envio</p>
+                <p class="destaque">Configure o período de envio depois do último e-mail enviado</p>
             </div>
         </div>
         <div class="vx-row mb-4">
@@ -43,23 +43,19 @@
             </div>
         </div>
         <div class="vx-row mb-6">
-            <div class="vx-col w-full lg:w-8/12">
-                <span class="font-regular mb-2">Título:</span>
+            <div class="vx-col w-full lg:w-3/12">
+                <span class="font-regular mb-2">Nome do Remetente:</span>
                 <vs-input type="text" name="titulo" class="w-full"
                           v-model="email.titulo" v-validate="'required'" size="large"/>
                 <span class="text-danger text-sm" v-show="errors.has('titulo')">{{ errors.first('titulo') }}</span>
             </div>
-        </div>
-        <div class="vx-row mb-6">
-            <div class="vx-col w-full lg:w-8/12">
+            <div class="vx-col w-full lg:w-3/12">
                 <span class="font-regular mb-2">Responder a:</span>
-                <vs-input type="text" name="responder" class="w-full"
+                <vs-input type="email" name="responder" class="w-full"
                           v-model="email.responder" v-validate="'required|email'" size="large"/>
                 <span class="text-danger text-sm" v-show="errors.has('responder')">{{ errors.first('responder') }}</span>
             </div>
-        </div>
-        <div class="vx-row mb-6">
-            <div class="vx-col w-full lg:w-8/12">
+            <div class="vx-col w-full lg:w-6/12">
                 <span class="font-regular mb-2">Assunto do e-mail que será enviado</span>
                 <vs-input type="text" name="assunto" class="w-full"
                           v-model="email.assunto" v-validate="'required'" size="large"/>
@@ -101,7 +97,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -129,7 +125,7 @@
         custom: {
             periodo: {
                 required: 'Por favor, insira o período que deseja enviar a mensagem',
-               min_value: 'O valor minimo é de 1',
+                min_value: 'O valor minimo é de 1',
             },
             assunto: {
                 required: 'Por favor, insira o assunto do e-mail',
@@ -181,58 +177,20 @@
             }
         },
         methods: {
-            salvar() {
+            validar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading();
-                        this.email.campanha_id = this.$route.params.id;
-                        this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
-                        this.email.unidade_medida = this.periodoSelected.label;
-                        console.log('email aí', this.email)
-                        if (this.email.id !== undefined) {
-                            this.email._method = 'PUT';
-                            this.$store.dispatch('checkout/updateEmail', {
-                                id: this.email.id,
-                                dados: this.email
-                            }).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Atualizado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        }
-                    else {
-                            this.$store.dispatch('checkout/storeEmail', this.email).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Criado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
+                        if (this.email.campanha.contatos.length > 0) {
+                            this.$vs.dialog({
+                                color: 'primary',
+                                title: `Atenção`,
+                                type: 'alert',
+                                text: ' Este e-mail só será enviado ao contato caso o período selecionado seja maior do que o último e-mail que ele recebeu.',
+                                acceptText: 'Ok',
+                                buttonCancel: false,
+                                accept: () => {
+                                    this.salvar()
+                                },
                             })
                         }
                     } else {
@@ -247,11 +205,66 @@
                 })
 
             },
+            salvar() {
+                this.$vs.loading();
+                this.email.campanha_id = this.$route.params.id;
+                this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
+                this.email.unidade_medida = this.periodoSelected.label;
+                console.log('email aí', this.email)
+                if (this.email.id !== undefined) {
+                    this.email._method = 'PUT';
+                    this.$store.dispatch('checkout/updateEmail', {
+                        id: this.email.id,
+                        dados: this.email
+                    }).then(response => {
+                        console.log('response', response);
+                        this.$vs.notify({
+                            title: '',
+                            text: "Atualizado com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
+                } else {
+                    this.$store.dispatch('checkout/storeEmail', this.email).then(response => {
+                        console.log('response', response);
+                        this.$vs.notify({
+                            title: '',
+                            text: "Criado com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
+                }
+            },
             onEditorReady(editor) {
                 this.editor = editor;
             },
             getId(id) {
                 this.$vs.loading();
+                this.$store.dispatch('checkout/getEmails', id).then(response => {
+
+                });
                 this.$store.dispatch('checkout/getEmailId', id).then(response => {
                     this.email = {...response};
                     switch (this.email.unidade_medida) {
@@ -315,5 +328,9 @@
         .calendar-col-email {
             display: none;
         }
+    }
+
+    .ql-image {
+        display: none !important;
     }
 </style>

@@ -9,11 +9,15 @@
                 <vs-tab label="dados do contato">
                     <div class="tab-general md:ml-4 md:mt-0 mt-4 ml-0">
                         <div class="vx-row mb-4">
-                            <div class="vx-col w-full">
+                            <div class="vx-col w-1/2">
                                 <p class="font-regular mb-2">Nome</p>
                                 <vs-input class="w-full" v-model="lead.nome" size="large" v-validate="'required'"/>
                                 <span class="text-danger text-sm"
-                                      v-show="errors.has('email')">Preenchimento obrigatório</span>
+                                      v-show="errors.has('nome')">Preenchimento obrigatório</span>
+                            </div>
+                            <div class="vx-col w-1/2">
+                                <p class="font-regular mb-2">CPF</p>
+                                <vs-input class="w-full" v-model="lead.cpf" size="large" v-mask="'###.###.###-##'"/>
                             </div>
                         </div>
                         <div class="vx-row mb-4">
@@ -57,6 +61,7 @@
                                     <vs-th>Lead</vs-th>
                                     <vs-th>Data e Hora</vs-th>
                                     <vs-th>Comissão do Hotmart</vs-th>
+                                    <vs-th>Produto</vs-th>
                                     <vs-th>Status</vs-th>
                                 </template>
 
@@ -75,11 +80,21 @@
                                             <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
                                         </vs-td>
                                         <vs-td>
-                                            <vs-chip v-for="(status, index) in hotmartStatus" v-if="index === tr.status"
-                                                     :color="status[1]" class="product-order-status">
-                                                {{ status[0]}}
+                                            <vs-chip :color="tr.produto.cor" class="product-order-status">
+                                                {{ tr.produto.nome }}
                                             </vs-chip>
                                         </vs-td>
+                                        <vs-td class="flex justify-center">
+                                            <vx-tooltip :text="status[0]" position="top" v-for="(status, index) in hotmartStatus" v-if="index === tr.status">
+                                                <vs-chip :color="status[1]" class="product-order-status rounded-full"></vs-chip>
+                                            </vx-tooltip>
+                                        </vs-td>
+                                        <!--<vs-td>
+                                            <vs-chip :color="status[1]" v-for="(status, index) in hotmartStatus" v-if="index === tr.status"
+                                             class="product-order-status" >
+                                                {{ status[0] }}
+                                            </vs-chip>
+                                        </vs-td>-->
                                     </vs-tr>
                                 </template>
                             </vs-table>
