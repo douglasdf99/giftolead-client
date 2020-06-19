@@ -131,16 +131,17 @@
                     if (result) {
                         this.$vs.loading();
                         if (this.plano.id !== undefined) {
-                            this.$store.dispatch('planos/update', this.plano).then(response => {
-                                console.log('response', response);
+                            const obj = {...this.plano}
+                            obj._method = 'PUT'
+                            this.$store.dispatch("updateItem", {rota: 'planos', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
-                                    text: "O produto foi atualizado com sucesso.",
+                                    text: "Atualizado com sucesso.",
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({name: 'meus-planos'});
+                                this.$vs.loading.close();
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -155,7 +156,7 @@
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: 'Sucesso',
-                                    text: "O produto foi criado com sucesso.",
+                                    text: "Criado com sucesso.",
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'

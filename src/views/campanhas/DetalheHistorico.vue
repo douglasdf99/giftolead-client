@@ -17,7 +17,7 @@
                     <tbody>
                     <tr>
                         <td class="px-4 py-2 w-3/12"><span class="font-semibold text-black">Para</span></td>
-                        <td class="px-4 py-2 w-9/12"><span>{{data.contato.email}}</span></td>
+                        <td class="px-4 py-2 w-9/12"><span>{{data.contato ? data.contato.email : ''}}</span></td>
                     </tr>
                     <tr>
                         <td class="px-4 py-2 w-3/12"><span class="font-semibold text-black">De</span></td>

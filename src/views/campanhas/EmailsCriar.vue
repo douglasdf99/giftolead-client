@@ -24,6 +24,7 @@
                                 <span class="font-regular mb-2">Unidade de Tempo</span>
                                 <vs-input type="text" @keypress="isNumber" name="periodo" class="w-full"
                                           v-model="email.unidade_tempo" v-validate="'required|min_value:1'" size="large"/>
+                                <span class="text-primary text-xs">{{periodoDisponivel}}</span><br>
                                 <span class="text-danger text-sm" v-show="errors.has('periodo')">{{ errors.first('periodo') }}</span>
                             </div>
                             <div class="vx-col w-1/2">
@@ -163,7 +164,7 @@
                     responder: '',
                     assunto: '',
                     corpo: '',
-                    status: null,
+                    status: true,
                     unidade_tempo: 0,
                     unidade_medida: ''
                 },
@@ -173,14 +174,15 @@
                     {id: 1, label: 'minutos'},
                     {id: 60, label: 'horas'},
                     {id: 1440, label: 'dias'},
-                ]
+                ],
+                somaPeriodo: 0
             }
         },
         methods: {
             validar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        if (this.email.campanha.contatos.length > 0) {
+                        if (this.$route.name === 'campanha-config-checkout-emails-editar' && this.email.campanha.contatos.length > 0) {
                             this.$vs.dialog({
                                 color: 'primary',
                                 title: `Atenção`,
@@ -189,9 +191,11 @@
                                 acceptText: 'Ok',
                                 buttonCancel: false,
                                 accept: () => {
-                                    this.salvar()
+                                    this.validarPeriodo();
                                 },
                             })
+                        } else {
+                            this.validarPeriodo();
                         }
                     } else {
                         this.$vs.notify({
@@ -204,6 +208,22 @@
                     }
                 })
 
+            },
+            validarPeriodo() {
+                //Validando o período deste e-mail em relação aos já cadastrados, afim de barrar na excedência de 31 dias
+                let somaTotal = this.somaPeriodo + (this.email.unidade_tempo * this.periodoSelected.id)
+                if (somaTotal > 44640) {
+                    this.$vs.dialog({
+                        color: 'danger',
+                        title: `Salvamento interrompido`,
+                        type: 'alert',
+                        text: ' A somatória de todos os períodos cadastrados nos e-mails desta campanha não podem ultrapassar 31 dias (44.640 minutos). Reajuste o período desta configuração e tente novamente.',
+                        acceptText: 'Ok',
+                        buttonCancel: false,
+                    });
+                } else {
+                    this.salvar()
+                }
             },
             salvar() {
                 this.$vs.loading();
@@ -262,8 +282,19 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getEmails', id).then(response => {
-
+                this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
+                    let arr = response;
+                    arr.forEach(item => {
+                        //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
+                        if (this.$route.name === 'campanha-config-checkout-emails-editar') {
+                            if (item.id != this.$route.params.idEmail && item.status)
+                                this.somaPeriodo += item.periodo;
+                        } else {
+                            //Somando os períodos cadastrados nos outros e-mails
+                            this.somaPeriodo += item.periodo;
+                        }
+                    });
+                    console.log('somaperiodo', this.somaPeriodo)
                 });
                 this.$store.dispatch('checkout/getEmailId', id).then(response => {
                     this.email = {...response};
@@ -294,6 +325,24 @@
             isValid() {
                 return this.errors.any();
             },
+            periodoDisponivel() {
+                let dias = 0;
+                let horas = 0;
+                let mins = 0;
+                let periodoDisponivel = 44640 - this.somaPeriodo;
+
+                dias = (periodoDisponivel / 1440);//Descobrindo quantidade de dias
+                //Se existem minutos para serem calculados, considerando o período de minutos que está disponível
+                if ((periodoDisponivel - (parseInt(dias) * 1440)) > 0) {
+                    let restoDias = periodoDisponivel - (parseInt(dias) * 1440);
+                    horas = restoDias / 60;
+                    let restoHoras = horas - parseInt(horas);
+                    mins = restoHoras * 60;
+                }
+
+                //return parseInt(sobra / 1440);
+                return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`
+            }
         },
         watch: {
             "$route"() {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaEmails"/>
-        <div class="vx-row mt-10">
+        <div class="vx-row mt-10" v-if="emails.length > 0">
             <div class="vx-col w-full float-right">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="organizar">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>

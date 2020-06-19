@@ -6,19 +6,36 @@
                 <p class="destaque text-2xl">{{historico[0].campanha.nome}}</p>
             </div>
         </div>
-        <div class="vx-row flex items-end lg:mt-10 sm:mt-6">
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+        <div class="vx-row flex items-end">
+            <div class="vx-col w-full lg:w-6/12">
+                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                </p>
+            </div>
+            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
+                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                   :append-to-body="true" :ranges="ranges">
+                </date-range-picker>
+            </div>
+        </div>
+        <div class="vx-row flex items-end mb-4">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="search" id="search_input" size="large"
-                                      placeholder="Pesquisar por e-mail do lead"/>
+                                      v-model="search" id="search_input_trans" size="large"
+                                      placeholder="Pesquisar por nome do Lead ou transação"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
                                 <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
@@ -26,9 +43,14 @@
                             </div>
                         </form>
                     </div>
+
                 </div>
-                <!-- SEARCH INPUT -->
             </div>
+            <!--<div class="vx-col w-full lg:w-4/12 sm:w-full">
+                <label class="vs-input&#45;&#45;label">Status</label>
+                <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="status"/>
+            </div>-->
         </div>
         <vs-row>
             <vs-col vs-w="12">
@@ -92,11 +114,23 @@
 <script>
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import SideBar from './DetalheHistorico'
+    import Datepicker from 'vuejs-datepicker';
+    import * as lang from 'vuejs-datepicker/src/locale';
+    import VueMoment from 'vue-moment'
+    import DateRangePicker from 'vue2-daterange-picker'
+    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
 
     export default {
         name: "Historico",
         components: {
-            SideBar
+            SideBar,
+            Datepicker,
+            VueMoment,
+            moment,
+            DateRangePicker
         },
         computed: {
             items() {
@@ -108,6 +142,11 @@
                 this.$store.registerModule('checkout', moduleCampCheckouts)
                 moduleCampCheckouts.isRegistered = true
             }
+            this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
+            this.dt_fim = moment().format('DD-MM-YYYY');
+            this.dateRange.startDate = moment().subtract(30, 'days')
+            this.dateRange.endDate = moment()
+
             this.getId(this.$route.params.id);
         },
         data() {
@@ -134,6 +173,34 @@
                 dados: {
                     search: '',
                     page: 1,
+                    dt_inicio: '',
+                    dt_fim: '',
+                },
+                dt_inicio: '',
+                dt_fim: '',
+                languages: lang,
+                dateRange: {},
+                localeData: {
+                    direction: 'ltr',
+                    format: 'dd/mm/yyyy',
+                    separator: ' - ',
+                    applyLabel: 'Aplicar',
+                    cancelLabel: 'Cancelar',
+                    weekLabel: 'M',
+                    customRangeLabel: 'Período',
+                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    firstDay: 0,
+                    startDate: '05/26/2020',
+                    endDate: '05/26/2020',
+                },
+                ranges: {
+                    //Definindo ranges padronizados
+                    'Hoje': [this.getDay(true), this.getDay(true)],
+                    'Ontem': [this.getDay(false), this.getDay(false)],
+                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 },
                 historico: [],
                 addNewDataSidebar: false,
@@ -149,6 +216,34 @@
                 this.pagination.current_page = 1;
                 this.currentx = 1;
                 this.getId(this.$route.params.id);
+            },
+            getDay(dia) {
+                //Definindo datas usadas nos ranges padronizados
+                let today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                let yesterday = new Date()
+                yesterday.setDate(today.getDate() - 1)
+                yesterday.setHours(0, 0, 0, 0);
+                return (dia ? today : yesterday)
+            },
+            setDate(val) {
+                this.$vs.loading();
+                switch (val) {
+                    case 'hoje':
+                        this.dateRange.startDate = moment();
+                        break;
+                    case '7':
+                        this.dateRange.startDate = moment().subtract(7, 'days');
+                        break;
+                    case '15':
+                        this.dateRange.startDate = moment().subtract(15, 'days');
+                        break;
+                    case '30':
+                        this.dateRange.startDate = moment().subtract(30, 'days');
+                        break;
+                }
+                this.getTransacoes();
             },
             handleSelected(tr) {
                 this.sidebarData = tr;
@@ -166,6 +261,12 @@
                     url += 'campanha.nome:' + this.search;
                 }
                 this.dados.search = url;
+
+                if (this.dateRange.startDate)
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
+                if (this.dateRange.endDate)
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+
                 this.$store.dispatch('checkout/getHistorico', {id: id, params: this.dados}).then(response => {
                     this.historico = response.data;
                     this.pagination = response;
@@ -177,6 +278,20 @@
             currentx(val) {
                 this.$vs.loading();
                 this.dados.page = val;
+                this.getId(this.$route.params.id);
+            },
+            dt_inicio() {
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getId(this.$route.params.id);
+            },
+            dt_fim() {
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getId(this.$route.params.id);
+            },
+            dateRange() {
+                this.$vs.loading();
                 this.getId(this.$route.params.id);
             }
         },
