@@ -32,7 +32,7 @@
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="search" id="search_input_trans" size="large"
-                                      placeholder="Pesquisar por nome do Lead ou transação"/>
+                                      placeholder="Pesquisar por e-mail do contato"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
@@ -46,11 +46,16 @@
 
                 </div>
             </div>
-            <!--<div class="vx-col w-full lg:w-4/12 sm:w-full">
-                <label class="vs-input&#45;&#45;label">Status</label>
+            <div class="vx-col w-full lg:w-4/12 sm:w-full">
+                <label class="vs-input--label">Assunto</label>
+                <v-select v-model="selectedAssunto" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="assuntos"/>
+            </div>
+            <div class="vx-col w-full lg:w-4/12 sm:w-full">
+                <label class="vs-input--label">Status</label>
                 <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="status"/>
-            </div>-->
+                          :options="statusList"/>
+            </div>
         </div>
         <vs-row>
             <vs-col vs-w="12">
@@ -58,7 +63,7 @@
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
                             <div>
-                                <p class="span-sem-item">Nenhuma transação encontrada</p>
+                                <p class="span-sem-item">Nenhum dado encontrado</p>
                             </div>
                             <br>
                         </div>
@@ -79,7 +84,7 @@
                             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
                                 <vs-td>{{tr.contato ? tr.contato.email : ''}}</vs-td>
                                 <vs-td>{{tr.email.assunto}}</vs-td>
-                                <vs-td><span class="destaque">{{ tr.email.created_at | formatDateTime}}</span></vs-td>
+                                <vs-td><span class="destaque">{{ tr.created_at | formatDateTime}}</span></vs-td>
                                 <vs-td>
                                     <vs-chip v-if="tr.eventos_entrega.length > 0"
                                              :color="tr.eventos_entrega[0].resposta === 'success' ? '#2ecc71' : '#e74c3c'"
@@ -119,6 +124,7 @@
     import VueMoment from 'vue-moment'
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+    import vSelect from "vue-select";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -130,7 +136,8 @@
             Datepicker,
             VueMoment,
             moment,
-            DateRangePicker
+            DateRangePicker,
+            'v-select': vSelect
         },
         computed: {
             items() {
@@ -151,18 +158,25 @@
         },
         data() {
             return {
-                statusObj: {
-                    Processado: ['#2ecc71'],
-                    Cancelado: ['#e74c3c'],
-                    Entregue: ['#2ecc71'],
-                    Desistiu: ['#2ecc71'],
-                    Pulo: ['#2ecc71'],
-                    Bloqueado: ['#2ecc71'],
-                    Aberto: ['#2ecc71'],
-                    Clicou: ['#2ecc71'],
-                    Reportado: ['#2ecc71'],
-                    Cancelarsubscricao: ['#2ecc71'],
-                },
+                statusList: [
+                    {id: 'Processado', label: 'Processado'},
+                    {id: 'Entregue', label: 'Entregue'},
+                    {id: 'Desistiu', label: 'Desistiu'},
+                    {id: 'Diferido', label: 'Diferido'},
+                    {id: 'Bloqueado', label: 'Bloqueado'},
+                    {id: 'Bounce', label: 'Bounce'},
+                    {id: 'Aberto', label: 'Aberto'},
+                    {id: 'Clicou', label: 'Clicou'},
+                    {id: 'Reportado', label: 'Reportado'},
+                    {id: 'Cancelou subscrição', label: 'Cancelou subs...'},
+                    {id: 'Spam Reportado', label: 'Spam Reportado'},
+                    {id: 'Cancelou inscrição do grupo', label: 'Cancelou insc... do grupo'},
+                    {id: 'Se Reinscreveu no grupo', label: 'Se reins... no grupo'},
+                ],
+                emails: [],
+                assuntos: [],
+                selectedStatus: {},
+                selectedAssunto: {},
                 currentx: 1,
                 search: '',
                 pagination: {
@@ -175,6 +189,7 @@
                     page: 1,
                     dt_inicio: '',
                     dt_fim: '',
+                    email_id: ''
                 },
                 dt_inicio: '',
                 dt_fim: '',
@@ -243,7 +258,8 @@
                         this.dateRange.startDate = moment().subtract(30, 'days');
                         break;
                 }
-                this.getTransacoes();
+                this.dados.page = 1
+                this.getId(this.$route.params.id);
             },
             handleSelected(tr) {
                 this.sidebarData = tr;
@@ -262,10 +278,25 @@
                 }
                 this.dados.search = url;
 
+                if (this.selectedStatus !== null)
+                    this.dados.status = this.selectedStatus.id;
+                else this.dados.status = '';
+
+                if (this.selectedAssunto !== null)
+                    this.dados.email_id = this.selectedAssunto.id;
+                else this.dados.email_id = '';
+
                 if (this.dateRange.startDate)
                     this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
                 if (this.dateRange.endDate)
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+
+                this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
+                    this.emails = response;
+                    this.emails.forEach((item, index) => {
+                        this.assuntos.push({id: item.id, label: item.assunto});
+                    });
+                });
 
                 this.$store.dispatch('checkout/getHistorico', {id: id, params: this.dados}).then(response => {
                     this.historico = response.data;
@@ -280,12 +311,12 @@
                 this.dados.page = val;
                 this.getId(this.$route.params.id);
             },
-            dt_inicio() {
+            selectedStatus(val) {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getId(this.$route.params.id);
             },
-            dt_fim() {
+            selectedAssunto(val) {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getId(this.$route.params.id);

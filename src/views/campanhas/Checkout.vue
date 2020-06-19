@@ -273,6 +273,7 @@
     <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
     <label for="email">Whatsapp</label>
     <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
+    <button type="submit">Enviar</button>
 </form>
                 `;
                 return this.html;

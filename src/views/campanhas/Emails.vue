@@ -40,6 +40,20 @@
                 </div>
             </div>
         </div>
+        <transition name="fade">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id})">
+                                Voltar
+                            </vs-button>
+                        </div>
+                    </div>
+                </div>
+            </footer-doug>
+        </transition>
     </div>
 </template>
 
