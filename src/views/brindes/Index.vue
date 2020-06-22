@@ -220,24 +220,24 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar esta Conta? Procedimento irreversível',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
                         this.$store.dispatch('deleteItem', {id: id, rota: 'brindes'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
-                                title: 'Sucesso',
-                                text: 'A URL foi deletada com sucesso'
+                                title: '',
+                                text: 'Deletado com sucesso'
                             });
                             this.getBrindes();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                title: '',
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
                         })
                     }

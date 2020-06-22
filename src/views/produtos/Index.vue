@@ -211,8 +211,8 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar este Produto? Procedimento irreversível',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
@@ -228,7 +228,7 @@
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
                         })
                     }

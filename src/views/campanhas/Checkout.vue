@@ -22,7 +22,7 @@
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Checkout no Hotmart (página de obrigado)</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome"/>
+                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome" v-validate="'required'"/>
                     </div>
                     <div class="vx-col w-full relative" v-if="!campanha.infusion">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
@@ -266,13 +266,13 @@
             },
             codigohtml(value) {
                 this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+<form accept-charset="UTF - 8" action="${this.url_api('api/campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
     <input type="text" name="nome" id="nome" placeholder="Nome completo">
     <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" placeholder="Insira seu melhor email">
+    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
-    <input type="text" name="whatsapp" id="whatsapp" placeholder="Insira seu whatsapp">
+    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <button type="submit">Enviar</button>
 </form>
                 `;

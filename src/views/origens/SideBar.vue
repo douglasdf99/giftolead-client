@@ -13,11 +13,6 @@
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
             <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Origem</h4>
-            <!--<feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>-->
-            <div class="flex items-center cursor-pointer" @click.stop="isSidebarActiveLocal = false">
-                <vs-icon icon-pack="material-icons" icon="clear" class="mr-2 icon-cancelar"/>
-                Cancelar
-            </div>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6">
@@ -37,7 +32,7 @@
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
-            <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
+            <vs-button type="border" color="danger" @click="$emit('closeSidebar')">Cancelar</vs-button>
         </div>
     </vs-sidebar>
 </template>
@@ -157,13 +152,7 @@
             } else {
                 console.log('entrou aqui', this.data);
                 this.origem = JSON.parse(JSON.stringify(this.data));
-                //this.selected = this.origem.integracao_id;
-                this.selected = {id: this.origem.integracao_id, label: this.origem.integracao.descricao};
-                //this.selected.label = this.origem.integracao.descricao;
-
             }
-            this.getOpcoes();
-
         }
     }
 </script>

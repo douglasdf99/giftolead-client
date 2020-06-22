@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="vx-row">
+        <!--<div class="vx-row">
             <div class="vx-col w-full float-right">
                 <span class="float-right mt-1 mx-4" style="font-weight: bold">
                     {{item.status ? 'Ativado' : 'Desativado'}}
                 </span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.status" class="float-right switch"/>
             </div>
-        </div>
+        </div>-->
         <h4 class="font-bold mb-10">Dados do contrato
         </h4>
         <div class="vx-row mb-6">

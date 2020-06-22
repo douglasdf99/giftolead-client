@@ -23,7 +23,8 @@
             </div>
             <div class="vx-col col-conquista mb-10" v-for="(email, index) in emails">
                 <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}">
-                    <div class="py-2 w-full">
+                    <div class="py-2 w-full flex justify-between">
+                        <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
                         <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
                                    v-model="email.status" @click="ativaEmail(email)"/>
                     </div>
@@ -108,6 +109,32 @@
                     this.emails = response;
                     this.$vs.loading.close();
                 });
+            },
+            deletar(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_carrinho_emails'}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: 'Sucesso',
+                                text: 'Deletado com sucesso'
+                            });
+                            this.getItems();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
+                            })
+                        })
+                    }
+                })
             },
             ativaEmail(e) {
                 console.log(this.countSwitch)
