@@ -12,10 +12,11 @@ import axios from "@/axios.js"
 
 export default {
     update({commit}, dados) {
+        console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/users/${dados.id}`, dados.dados)
+            axios.post(`/api/campanha_cancelados/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('usuário alterado', response);
+                    console.log('campanha alterada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -25,9 +26,9 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/users/`, dados)
+            axios.post(`/api/campanha_cancelados`, dados)
                 .then((response) => {
-                    console.log('produto criado', response);
+                    console.log('campanha criada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -37,9 +38,9 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/users/${id}`)
+            axios.get(`/api/campanha_cancelados/${id}`)
                 .then((response) => {
-                    console.log('produto resgatado', response);
+                    console.log('campanha resgatada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -49,9 +50,9 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/users`, {params: {status: 1, admin: true}})
+            axios.get(`/api/campanha_cancelados`, {params: {}})
                 .then((response) => {
-                    console.log('usuários resgatados', response.data.data);
+                    console.log('campanhas', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

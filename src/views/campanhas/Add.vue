@@ -34,8 +34,8 @@
                             <img src="@/assets/images/util/checkout.svg" alt="" v-if="tipo.img == 'checkout'">
                             <img src="@/assets/images/util/boleto.svg" alt="" v-if="tipo.img == 'boleto'">
                             <img src="@/assets/images/util/whatsapp.svg" alt="" v-if="tipo.img == 'whatsapp'">
-                            <img src="@/assets/images/util/ticket.svg" alt="" v-if="tipo.img == 'ticket'">
-                            <img src="@/assets/images/util/hotmart.svg" alt="" v-if="tipo.img == 'hotmart'">
+                            <img src="@/assets/images/util/agendamento.svg" alt="" v-if="tipo.img == 'agendamento'">
+                            <img src="@/assets/images/util/cancelado.svg" alt="" v-if="tipo.img == 'cancelado'">
                         </div>
                         <div class="vx-col w-full text-center mt-5">
                             <p class="destaque mb-3" v-html="tipo.text"></p>
@@ -114,7 +114,8 @@
                 campanha: {
                     nome: '',
                     produto_id: null,
-                    tipo: ''
+                    tipo: '',
+                    status: true
                 },
                 campanhaSelected: null,
                 url: saveleadsConfig.url_api,
@@ -124,8 +125,8 @@
                     {img: 'checkout', text: 'Recuperação <br> de carrinho'},
                     {img: 'boleto', text: 'Recuperação <br> de boletos'},
                     {img: 'whatsapp', text: 'Recuperação <br> por whatsapp'},
-                    {img: 'ticket', text: 'Agendamento <br> de Ticket'},
-                    {img: 'hotmart', text: 'Ticket para <br> Vendas Canceladas'},
+                    {img: 'agendamento', text: 'Agendamento <br> de Ticket'},
+                    {img: 'cancelado', text: 'Ticket para <br> Vendas Canceladas'},
                 ]
             }
         },
@@ -133,7 +134,7 @@
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        if(this.campanhaSelected == null){
+                        if (this.campanhaSelected == null) {
                             this.$vs.notify({
                                 title: 'Error',
                                 text: 'verifique os erros específicos',
@@ -159,7 +160,7 @@
                                     this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
                                 }).catch(erro => {
                                     this.$vs.notify({
-                                        title: 'Error',
+                                        title: '',
                                         text: erro.message,
                                         iconPack: 'feather',
                                         icon: 'icon-alert-circle',
@@ -167,12 +168,11 @@
                                     })
                                 })
                             } else {
-                                console.log('entrou no store')
                                 this.$store.dispatch('campanhas/store', this.campanha).then(response => {
-                                    console.log('response', response);
+                                    this.$vs.loading.close();
                                     this.$vs.notify({
-                                        title: 'Sucesso',
-                                        text: "O produto foi criado com sucesso.",
+                                        title: '',
+                                        text: "Criada com sucesso.",
                                         iconPack: 'feather',
                                         icon: 'icon-check-circle',
                                         color: 'success'
@@ -180,7 +180,7 @@
                                     this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
                                 }).catch(erro => {
                                     this.$vs.notify({
-                                        title: 'Error',
+                                        title: '',
                                         text: erro.message,
                                         iconPack: 'feather',
                                         icon: 'icon-alert-circle',
@@ -200,18 +200,6 @@
                     }
                 })
 
-            },
-            selecionaCor(cor) {
-                if (cor) {
-                    this.campanha.cor = cor
-                } else {
-                    this.campanha.cor = this.customcor;
-                }
-                this.errors.remove('cor');
-            },
-            selecionaTipoComissao(val) {
-                this.campanha.comissao_tipo = val;
-                console.log(this.campanha.comissao_tipo)
             },
             getOpcoes() {
                 this.produtos = [];

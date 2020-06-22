@@ -121,15 +121,16 @@
                         this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_carrinho_emails'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
-                                title: 'Sucesso',
+                                title: '',
                                 text: 'Deletado com sucesso'
                             });
-                            this.getItems();
+                            if (this.$route.name === 'planos-gerenciar')
+                                this.getPlano(this.$route.params.id);
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
-                                title: 'Erro',
+                                title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
                         })

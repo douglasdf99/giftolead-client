@@ -28,10 +28,10 @@ export default {
         let rota = '';
         switch (dados.tipo) {
             case 'checkout':
-                rota =  'campanha_carrinhos';
+                rota = 'campanha_carrinhos';
                 break;
-            case 'ticket':
-                rota = 'campanha_agendamentos';
+            case 'cancelado':
+                rota = 'campanha_cancelados';
                 break;
         }
         return new Promise((resolve, reject) => {

@@ -194,7 +194,7 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading();
-                        this.campanha.plano_id = this.$route.params.id;
+                        this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
                         this.campanha._method = 'PUT';
                         if (this.campanha.id !== undefined) {
                             this.$store.dispatch('checkout/update', {id: this.campanha.id, dados: this.campanha}).then(response => {

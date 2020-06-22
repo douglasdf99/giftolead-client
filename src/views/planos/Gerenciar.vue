@@ -35,16 +35,17 @@
                 </div>
                 <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
                     <div class="conquista">
-                        <div class="py-2 w-full">
+                        <div class="py-2 w-full flex justify-between">
+                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
                             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
                                        class="float-right switch" @click="ativaCampanha(campanha.campanhable)"/>
                         </div>
                         <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
                             <img src="@/assets/images/util/checkout.svg" class="img-conquista my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
-                            <img src="@/assets/images/util/ticket.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaAgendamento`">
-                            <img src="@/assets/images/util/boleto.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
-                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
-                            <img src="@/assets/images/util/hotmart.svg" class="img-conquista my-4" width="150" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCancelado`">
+                            <img src="@/assets/images/util/agendamento.svg" class="img-conquista my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaAgendamento`">
+                            <img src="@/assets/images/util/boleto.svg" class="img-conquista my-4" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
+                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista my-4" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
+                            <img src="@/assets/images/util/cancelado.svg" class="img-conquista my-8" width="145" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCancelado`">
                             <p class="nome-conq">
                                 {{campanha.campanhable.nome}}
                             </p>
@@ -185,6 +186,32 @@
                 })
 
             },
+            deletar(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('deleteItem', {id: id, rota: ''}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: 'Sucesso',
+                                text: 'Deletado com sucesso'
+                            });
+                            this.getItems();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
+                            })
+                        })
+                    }
+                })
+            },
             ativaCampanha(val) {
             },
             configurarCampanha(item) {
@@ -197,7 +224,7 @@
                         rota = 'configurar-agendamento';
                         break;
                     case 'App\\Models\\CampanhaCancelado':
-                        rota = 'configurar-cancelados';
+                        rota = 'configurar-canceladas';
                         break;
                     case 'App\\Models\\CampanhaBoleto':
                         rota = 'configurar-boletos';
