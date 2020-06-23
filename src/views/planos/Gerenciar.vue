@@ -38,7 +38,7 @@
                         <div class="py-2 w-full flex justify-between">
                             <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
                             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
-                                       class="float-right switch" @click="ativaCampanha(campanha.campanhable)"/>
+                                       class="float-right switch" @click="ativaCampanha(campanha.campanhable, campanha.campanhable_type)"/>
                         </div>
                         <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
                             <img src="@/assets/images/util/checkout.svg" class="img-conquista my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
@@ -82,6 +82,7 @@
     import modulePlanos from '@/store/planos/modulePlanos.js';
     import {Validator} from 'vee-validate';
     import saveleadsConfig from "../../../saveleadsConfig";
+    import moduleCampanhas from "../../store/campanhas/moduleCampanhas";
 
     const dict = {
         custom: {
@@ -109,6 +110,10 @@
                 this.$store.registerModule('planos', modulePlanos)
                 modulePlanos.isRegistered = true
             }
+            if (!moduleCampanhas.isRegistered) {
+                this.$store.registerModule('campanhas', moduleCampanhas)
+                moduleCampanhas.isRegistered = true
+            }
 
             if (this.$route.name === 'planos-gerenciar') {
                 this.getPlano(this.$route.params.id);
@@ -122,6 +127,7 @@
                     nome: '',
                     status: true,
                 },
+                countSwitch: [],
                 nomeAntigo: '',
                 url: saveleadsConfig.url_api,
             }
@@ -212,7 +218,90 @@
                     }
                 })
             },
-            ativaCampanha(val) {
+            ativaCampanha(e, tipo) {
+                var dados = {
+                    status: !e.status,
+                    _method: 'PUT'
+                };
+                console.log(e.status)
+                if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Muitas tentativas de ativação',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                } else {
+                    this.$vs.notify({
+                        title: 'Aguarde',
+                        text: "Conectando no sistema dos correios",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'warning',
+                        time: 8000,
+                    });
+
+                    let rota = '';
+                    switch (tipo) {
+                        case 'App\\Models\\CampanhaCarrinho':
+                            rota = 'campanha_carrinhos';
+                            break;
+                        case 'App\\Models\\CampanhaAgendamento':
+                            rota = 'campanha_agendamento';
+                            break;
+                        case 'App\\Models\\CampanhaCancelado':
+                            rota = 'campanha_cancelados_ativar';
+                            return this.ativaCampanhaCanceladas(e.id, !e.status);
+                            break;
+                        case 'App\\Models\\CampanhaBoleto':
+                            rota = 'campanha_boletos';
+                            break;
+                        case 'App\\Models\\CampanhaWhatsapp':
+                            rota = 'campanha_whatsapps';
+                            break;
+                    }
+                    this.$store.dispatch('campanhas/update', {id: e.id, rota: rota, dados: dados}).then(response => {
+                        this.$vs.notify({
+                            title: '',
+                            text: "Sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    });
+                    this.$vs.loading.close();
+                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
+            },
+            ativaCampanhaCanceladas(id, status){
+                this.$store.dispatch('campanhas/ativaCanceladas', {id: id, status: status}).then(response => {
+                    this.$vs.notify({
+                        title: '',
+                        text: "Sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                });
             },
             configurarCampanha(item) {
                 let rota = '';

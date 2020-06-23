@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row mb-4">
+        <div class="vx-row mb-4" v-if="campanhaSelected != 'cancelado'">
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
                   style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
@@ -115,7 +115,7 @@
                     nome: '',
                     produto_id: null,
                     tipo: '',
-                    status: true
+                    status: false
                 },
                 campanhaSelected: null,
                 url: saveleadsConfig.url_api,

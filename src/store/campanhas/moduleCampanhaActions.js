@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanhas/${dados.id}`, dados.dados)
+            axios.post(`/api/${dados.rota}/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -31,6 +31,7 @@ export default {
                 rota = 'campanha_carrinhos';
                 break;
             case 'cancelado':
+                dados.status = 0;
                 rota = 'campanha_cancelados';
                 break;
         }
@@ -63,6 +64,18 @@ export default {
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    ativaCanceladas({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_cancelados_ativar/`, dados)
+                .then((response) => {
+                    console.log('campanha alterada', response);
+                    resolve(response)
                 })
                 .catch((error) => {
                     reject(error)

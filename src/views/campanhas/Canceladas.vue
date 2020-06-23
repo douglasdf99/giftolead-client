@@ -159,7 +159,7 @@
                 campanha: {
                     nome: '',
                     produto: '',
-                    status: null,
+                    status: 0,
                     checkout: '',
                     tipos: [],
                     origem_id: 1,
@@ -189,6 +189,8 @@
                     if (result) {
                         this.$vs.loading();
                         this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
+                        this.campanha.origem_id = 1;
+                        this.campanha.responsavel_id = 1;
                         this.campanha._method = 'PUT';
                         this.campanha.tipos = [];
                         this.campanha.tipo_duvida_id = this.duvidaSelected.id
