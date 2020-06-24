@@ -132,4 +132,13 @@ export default {
                 })
         })
     },
+    getContatos({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_carrinho_contatos`, {params: dados.params})
+                .then((response) => {
+                    console.log('contatos resgatado', response);
+                    resolve(response.data.data)
+                })
+        });
+    }
 }

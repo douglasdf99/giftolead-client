@@ -91,13 +91,13 @@
                             <p class="font-bold text-3xl my-5">{{campanha.historico_count}}</p>
                         </vx-card>
                     </div>
-                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatosAtivos">
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('ativos')">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos ativos</span>
                             <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
                         </vx-card>
                     </div>
-                    <div class="vx-col w-full mb-4">
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('inativos')">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos inativos</span>
                             <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
@@ -113,7 +113,7 @@
                         <p class="destaque text-primary">Ver mais</p>
                     </div>
                     <transition name="fade">
-                        <div class="vx-col w-full mb-4" v-if="verMaisCards">
+                        <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('todos')" v-if="verMaisCards">
                             <vx-card class="shadow-none">
                                 <span class="destaque">Nº total de contatos</span>
                                 <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
@@ -323,14 +323,11 @@
                 })
             },
             historico() {
-                this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`})
+                this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`});
             },
-            contatosAtivos(){
-                axios.get(`/api/campanha_carrinho_contatos`, {params: {}})
-                    .then((response) => {
-                        console.log('contatos resgatado', response);
-                    })
-            }
+            contatos(val){
+                this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/contatos-${val}`});
+            },
         },
         computed: {
             isValid() {

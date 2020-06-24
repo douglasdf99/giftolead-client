@@ -61,7 +61,7 @@
 <script>
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
-    import SideBar from './Reorganizar'
+    import SideBar from '../Reorganizar'
 
     export default {
         name: "Emails",
