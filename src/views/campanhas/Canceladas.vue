@@ -258,10 +258,12 @@
                     }else{
                         this.duvidaSelected = {id: 0, label: 'Dúvida'};
                     }
-
-                    this.campanha.tipos.forEach(item => {
+                    if (this.campanha.tipos){
+                      this.campanha.tipos.forEach(item => {
                         this.tipoSelected.push({id: item, label: this.hotmartStatus[item]});
-                    })
+                      })
+                    }
+
                     this.$vs.loading.close();
                 });
             },

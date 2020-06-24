@@ -77,7 +77,7 @@
                         </p>
                         <div class="w-full relative">
                             <span class="font-regular mb-2">Url Infusion:</span>
-                            <vs-input class="w-full mb-4" :value="this.url_api('api/campanhacarrinho/'+this.campanha.token).substr(0, 65) + '...'" placeholder="https://" size="large" name="urlInfusion" id="urlInfusion" disabled/>
+                            <vs-input class="w-full mb-4" :value="this.url_api('campanhacarrinho/'+this.campanha.token).substr(0, 65) + '...'" placeholder="https://" size="large" name="urlInfusion" id="urlInfusion" disabled/>
                             <i class="material-icons" id="copy-icon-input" @click="copyUrl">file_copy</i>
                         </div>
                     </div>

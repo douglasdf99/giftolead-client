@@ -233,14 +233,6 @@
                         color: 'danger'
                     })
                 } else {
-                    this.$vs.notify({
-                        title: 'Aguarde',
-                        text: "Conectando no sistema dos correios",
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle',
-                        color: 'warning',
-                        time: 8000,
-                    });
 
                     let rota = '';
                     switch (tipo) {
@@ -284,24 +276,38 @@
                 }
             },
             ativaCampanhaCanceladas(id, status){
-                this.$store.dispatch('campanhas/ativaCanceladas', {id: id, status: status}).then(response => {
+              this.$vs.dialog({
+                color: 'primary',
+                type: 'confirm',
+                title: `Deseja ativar essa campanha?`,
+                text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
+                acceptText: 'Sim, ativar!',
+                accept: () => {
+                  this.$store.dispatch('campanhas/ativaCanceladas', {id: id, status: status}).then(response => {
                     this.$vs.notify({
-                        title: '',
-                        text: "Sucesso.",
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle',
-                        color: 'success'
+                      title: '',
+                      text: "Sucesso.",
+                      iconPack: 'feather',
+                      icon: 'icon-check-circle',
+                      color: 'success'
                     });
 
-                }).catch(erro => {
+                  }).catch(erro => {
                     this.$vs.notify({
-                        title: 'Error',
-                        text: erro.message,
-                        iconPack: 'feather',
-                        icon: 'icon-alert-circle',
-                        color: 'danger'
+                      title: 'Error',
+                      text: erro.message,
+                      iconPack: 'feather',
+                      icon: 'icon-alert-circle',
+                      color: 'danger'
                     })
-                });
+                  }).finally(()=>{
+                    this.getPlano(this.$route.params.id);
+                  });
+                },
+                cancel: ()=>{
+                  this.getPlano(this.$route.params.id);
+                }
+              })
             },
             configurarCampanha(item) {
                 let rota = '';

@@ -1930,6 +1930,7 @@ const router = new Router({
                         submenu: subplanos
                     },
                 },
+              //campanha carrinho abandonado
                 {
                     path: '/planos/gerenciar/:id/campanha/criar',
                     name: 'campanha-criar',
@@ -2046,6 +2047,7 @@ const router = new Router({
                         submenu: subplanos
                     },
                 },
+                //campanha cancelas
                 {
                     path: '/campanha/configurar-canceladas/:id',
                     name: 'campanha-config-canceladas',
@@ -2065,10 +2067,31 @@ const router = new Router({
                         submenu: subplanos
                     },
                 },
+                //campanha agendamento
                 {
                     path: '/campanha/configurar-agendamento/:id',
-                    name: 'campanha-config-checkout',
+                    name: 'campanha-config-agendamento',
                     component: () => import('@/views/campanhas/Agendamento.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar Campanha', active: true},
+                        ],
+                        pageTitle: 'Configuração da Campanha de agendamento',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                //campanha boleto
+                {
+                    path: '/campanha/recuperacao-boleto/:id',
+                    name: 'campanha-recuperacao-boleto',
+                    component: () => import('@/views/campanhas/Boleto/Index.vue'),
                     meta: {
                         breadcrumb: [
                             {title: 'Home', url: '/'},
@@ -2215,7 +2238,8 @@ const router = new Router({
                         subIcon: 'settings',
                         submenu: subconfiguracoes
                     },
-                },  {
+                },
+                {
                     path: '/configuracoes/contratos/servicos/:id',
                     name: 'contratos-servicos',
                     component: () => import('@/views/contratos/Servicos.vue'),
@@ -2294,43 +2318,43 @@ const router = new Router({
                         submenu: subconfiguracoes
                     },
                 },
-              {
-                path: '/meuslinks/produto/:id',
-                name: 'meuslinks-produto',
-                component: () => import('@/views/links/MeusLinks.vue'),
-                meta: {
-                  breadcrumb: [
-                    {title: 'Home', url: '/'},
-                    {title: 'Configurações'},
-                    {title: 'Geral', url: '/configuracoes/geral'},
-                    {title: 'Links', url: '/configuracoes/links'},
-                    {title: 'Editar', active: true},
-                  ],
-                  pageTitle: 'Savelinks',
-                  rule: 'editor',
-                  pai: 'configuracoes',
-                  subTitle: 'Savelinks',
-                  subIcon: 'settings',
-                  submenu: subconfiguracoes
+                {
+                  path: '/meuslinks/produto/:id',
+                  name: 'meuslinks-produto',
+                  component: () => import('@/views/links/MeusLinks.vue'),
+                  meta: {
+                    breadcrumb: [
+                      {title: 'Home', url: '/'},
+                      {title: 'Configurações'},
+                      {title: 'Geral', url: '/configuracoes/geral'},
+                      {title: 'Links', url: '/configuracoes/links'},
+                      {title: 'Editar', active: true},
+                    ],
+                    pageTitle: 'Savelinks',
+                    rule: 'editor',
+                    pai: 'configuracoes',
+                    subTitle: 'Savelinks',
+                    subIcon: 'settings',
+                    submenu: subconfiguracoes
+                  },
                 },
-              },
-              {
-                path: '/tickets',
-                name: 'tickets',
-                component: () => import('@/views/tickets/Index.vue'),
-                meta: {
-                  breadcrumb: [
-                    {title: 'Home', url: '/'},
-                    {title: 'Tcikets', active: true},
-                  ],
-                  pageTitle: 'Tcikets de recuperação',
-                  rule: 'editor',
-                  pai: 'tickets',
-                  subTitle: 'Tickets',
-                  subIcon: 'settings',
-                  submenu: subtickets
+                {
+                  path: '/tickets',
+                  name: 'tickets',
+                  component: () => import('@/views/tickets/Index.vue'),
+                  meta: {
+                    breadcrumb: [
+                      {title: 'Home', url: '/'},
+                      {title: 'Tcikets', active: true},
+                    ],
+                    pageTitle: 'Tcikets de recuperação',
+                    rule: 'editor',
+                    pai: 'tickets',
+                    subTitle: 'Tickets',
+                    subIcon: 'settings',
+                    submenu: subtickets
+                  },
                 },
-              },
             ]
         },
         // =============================================================================

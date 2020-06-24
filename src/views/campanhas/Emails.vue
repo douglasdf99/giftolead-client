@@ -124,8 +124,7 @@
                                 title: '',
                                 text: 'Deletado com sucesso'
                             });
-                            if (this.$route.name === 'planos-gerenciar')
-                                this.getPlano(this.$route.params.id);
+                            this.getId(this.$route.params.id);
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -133,6 +132,8 @@
                                 title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
+                        }).finally(()=>{
+                          this.$vs.loading.close();
                         })
                     }
                 })
