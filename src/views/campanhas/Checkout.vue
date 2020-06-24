@@ -34,7 +34,7 @@
                 <div class="vx-row">
                     <div class="vx-col w-full">
                         <div class="my-8">
-                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
+                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Utilizar minha ferramenta de e-mail</span>
                             </vs-checkbox>
                             <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
                         </div>
@@ -91,7 +91,7 @@
                             <p class="font-bold text-3xl my-5">{{campanha.historico_count}}</p>
                         </vx-card>
                     </div>
-                    <div class="vx-col w-full mb-4">
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatosAtivos">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos ativos</span>
                             <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
@@ -159,6 +159,7 @@
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Prism from 'vue-prism-component'
+    import axios from "@/axios.js"
 
     export default {
         name: "Checkout",
@@ -323,6 +324,12 @@
             },
             historico() {
                 this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`})
+            },
+            contatosAtivos(){
+                axios.get(`/api/campanha_carrinho_contatos`, {params: {}})
+                    .then((response) => {
+                        console.log('contatos resgatado', response);
+                    })
             }
         },
         computed: {

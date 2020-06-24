@@ -104,7 +104,7 @@
                                     <i class="fa fa-cloud-upload"></i>
                                     <img :src="url_api('images/upload.png')">
                                     <p class="text-lg">Arraste e solte ou clique aqui</p>
-                                    <div class="file-input">
+                                    <div class="file-input" style="display: none">
                                         <input type="file" id="file" @change="onInputChange">
                                     </div>
                                 </label>

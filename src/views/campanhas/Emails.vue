@@ -28,7 +28,7 @@
                         <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
                                    v-model="email.status" @click="ativaEmail(email)"/>
                     </div>
-                    <div class="conquista-clicavel w-full">
+                    <div class="w-full">
                         <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
                         <p class="nome-conq mb-4 text-base">
                             {{email.unidade_tempo}} {{email.unidade_medida}} depois {{index === 0 ? 'da entrada' : 'do último envio'}}

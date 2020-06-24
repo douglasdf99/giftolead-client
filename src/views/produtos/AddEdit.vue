@@ -270,7 +270,7 @@
                     integracao: true,
                     checkout: '',
                 },
-                url: saveleadsConfig.url_api,
+                url: saveleadsConfig.url_api + '/hotmart',
                 contaSelected: null,
                 cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',
                     '#3D556E', '#222F3D', '#F2C512', '#F39C1A', '#E84B3C', '#C0382B', '#DDE6E8', '#BDC3C8'],
