@@ -43,8 +43,8 @@
                         <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
                             <img src="@/assets/images/util/checkout.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
                             <img src="@/assets/images/util/agendamento.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaAgendamento`">
-                            <img src="@/assets/images/util/boleto.svg" class="img-conquista rounded-none my-4" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
-                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista rounded-none my-4" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
+                            <img src="@/assets/images/util/boleto.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
+                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
                             <img src="@/assets/images/util/cancelado.svg" class="img-conquista rounded-none my-8" width="145" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCancelado`">
                             <p class="nome-conq">
                                 {{campanha.campanhable.nome}}
@@ -323,7 +323,7 @@
                         rota = 'configurar-canceladas';
                         break;
                     case 'App\\Models\\CampanhaBoleto':
-                        rota = 'configurar-boletos';
+                        rota = 'configurar-boleto';
                         break;
                     case 'App\\Models\\CampanhaWhatsapp':
                         rota = 'configurar-whatsapp';

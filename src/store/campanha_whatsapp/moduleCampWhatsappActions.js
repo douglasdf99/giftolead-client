@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${dados.rota}/${dados.id}`, dados.dados)
+            axios.post(`/api/campanha_whatsapps/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -24,25 +24,22 @@ export default {
                 })
         })
     },
-    store({commit}, dados) {
-        let rota = '';
-        switch (dados.tipo) {
-            case 'checkout':
-                rota = 'campanha_carrinhos';
-                break;
-            case 'cancelado':
-                dados.status = 0;
-                rota = 'campanha_cancelados';
-                break;
-            case 'whatsapp':
-                rota = 'campanha_whatsapps';
-                break;
-            case 'boleto':
-                rota = 'campanha_boletos';
-                break;
-        }
+    updateEmail({commit}, dados) {
+        console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${rota}`, dados)
+            axios.post(`/api/campanha_carrinho_emails/${dados.id}`, dados.dados)
+                .then((response) => {
+                    console.log('email alterado', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    store({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_whatsapps`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -52,9 +49,21 @@ export default {
                 })
         })
     },
+    storeEmail({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_carrinho_emails`, dados)
+                .then((response) => {
+                    console.log('email criado', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanhas/${id}`)
+            axios.get(`/api/campanha_whatsapps/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -66,7 +75,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanhas`, {params: {}})
+            axios.get(`/api/campanha_whatsapps`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)
@@ -76,16 +85,13 @@ export default {
                 })
         })
     },
-    ativaCanceladas({commit}, dados) {
+    getContatos({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_cancelados_ativar/`, dados)
+            axios.get(`/api/campanha_carrinho_contatos`, {params: dados.params})
                 .then((response) => {
-                    console.log('campanha alterada', response);
-                    resolve(response)
+                    console.log('contatos resgatado', response);
+                    resolve(response.data.data)
                 })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    },
+        });
+    }
 }

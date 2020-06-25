@@ -2146,8 +2146,8 @@ const router = new Router({
                 },
                 //campanha boleto
                 {
-                    path: '/campanha/recuperacao-boleto/:id',
-                    name: 'campanha-recuperacao-boleto',
+                    path: '/campanha/configurar-boleto/:id',
+                    name: 'campanha-configurar-boleto',
                     component: () => import('@/views/campanhas/boleto/Index.vue'),
                     meta: {
                         breadcrumb: [
@@ -2164,11 +2164,51 @@ const router = new Router({
                         submenu: subplanos
                     },
                 },
+                {
+                    path: '/campanha/configurar-boleto/:id/emails/criar',
+                    name: 'campanha-config-boleto-emails-criar',
+                    component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar E-mails'},
+                            {title: 'Criar configuração de e-mail', active: true},
+                        ],
+                        pageTitle: 'Configurar novo E-mail',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-boleto/:id/emails/editar/:idEmail',
+                    name: 'campanha-config-boleto-emails-editar',
+                    component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Configurar E-mails'},
+                            {title: 'Editar configuração de e-mail', active: true},
+                        ],
+                        pageTitle: 'Editar configuração do E-mail',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
                 //campanha whatsapp
                 {
                     path: '/campanha/configurar-whatsapp/:id',
                     name: 'campanha-config-whatsapp',
-                    component: () => import('@/views/campanhas/whatsapp/Whatsapp.vue'),
+                    component: () => import('@/views/campanhas/whatsapp/Index.vue'),
                     meta: {
                         breadcrumb: [
                             {title: 'Home', url: '/'},

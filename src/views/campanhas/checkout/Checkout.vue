@@ -312,7 +312,7 @@
             },
             copyUrl() {
                 const thisIns = this;
-                let value = this.url_api('campanhacarrinho/' + this.campanha.token);
+                let value = this.url_api('api/campanhacarrinho/' + this.campanha.token);
                 this.$copyText(value).then(function () {
                     thisIns.$vs.notify({
                         title: '',

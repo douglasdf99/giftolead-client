@@ -17,117 +17,35 @@
                 <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
             </div>
         </div>
-        <div class="vx-row my-10">
-            <div class="vx-col w-full lg:w-7/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <span class="font-regular mb-2">Checkout no Hotmart (página de obrigado)</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome" v-validate="'required'"/>
+        <div class="vx-row my-5">
+            <div class="vx-col col-conquista mb-10">
+                <div class="conquista nova cursor-pointer"
+                     @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id + '/emails/criar'})">
+                    <div class="img-plus cursor-pointer">
+                        <i class="material-icons">add</i>
                     </div>
-                    <div class="vx-col w-full relative" v-if="!campanha.infusion">
-                        <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-                        <prism language="markup" class="rounded-lg">
-                            {{codigohtml()}}
-                        </prism>
-                    </div>
-                </div>
-                <div class="vx-row">
-                    <div class="vx-col w-full">
-                        <div class="my-8">
-                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Utilizar minha ferramenta de e-mail</span>
-                            </vs-checkbox>
-                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
-                        </div>
-                    </div>
-                </div>
-                <vx-card class="mb-8">
-                    <div class="vx-row mb-6" v-if="campanha.infusion">
-                        <div class="vx-col w-full ">
-                            <h5 class="mb-4">Campos do Formulário</h5>
-                            <div class="vx-row">
-                                <div class="vx-col sm:w-1/3 w-full mb-2">
-                                    <span class="font-regular mb-2">Campo Nome</span>
-                                    <vs-input class="w-full" v-validate="'required'" name="campo_nome" v-model="campanha.campo_nome" size="large"/>
-                                    <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
-                                </div>
-
-                                <div class="vx-col sm:w-1/3 w-full mb-2">
-                                    <span class="font-regular mb-2">Campo Email</span>
-                                    <vs-input class="w-full" v-validate="'required'" name="campo_email" v-model="campanha.campo_email" size="large"/>
-                                    <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
-                                </div>
-
-                                <div class="vx-col sm:w-1/3 w-full mb-2">
-                                    <span class="font-regular mb-2">Campo Whatsapp</span>
-                                    <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp" v-model="campanha.campo_whatsapp" size="large"/>
-                                    <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </vx-card>
-                <div class="vx-row">
-                    <div class="vx-col w-full" v-if="campanha.infusion">
-                        <img src="@/assets/images/util/infusion-help.png" class="border-dark shadow mb-3" width="100%">
-                        <p class="flex mb-2 ml-3 font-bold text-warning">
-                            <i class="material-icons text-base mr-2">info_outline</i>Insira esta URL como sua página de obrigado e
-                            marque o checkbox que se encontra logo abaixo. Veja no exemplo acima.
-                        </p>
-                        <div class="w-full relative">
-                            <span class="font-regular mb-2">Url Infusion:</span>
-                            <vs-input class="w-full mb-4" :value="this.url_api('campanhacarrinho/'+this.campanha.token).substr(0, 65) + '...'" placeholder="https://" size="large" name="urlInfusion" id="urlInfusion" disabled/>
-                            <i class="material-icons" id="copy-icon-input" @click="copyUrl">file_copy</i>
-                        </div>
-                    </div>
+                    <p class="nome-conq">
+                        Adicionar <br> novo e-mail
+                    </p>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-5/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
-                            <span class="destaque">Histórico de envios</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.historico_count}}</p>
-                        </vx-card>
+            <div class="vx-col col-conquista mb-10" v-for="(email, index) in campanha.emails">
+                <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}" v-bind:class="{'desativado': !email.status}">
+                    <div class="py-2 w-full flex justify-between">
+                        <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
+                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
+                                   v-model="email.status" @click="ativaEmail(email)"/>
                     </div>
-                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatosAtivos">
-                        <vx-card class="shadow-none">
-                            <span class="destaque">Nº de contatos ativos</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
-                        </vx-card>
+                    <div class="w-full">
+                        <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
+                        <p class="nome-conq mb-4 text-base">
+                            {{email.unidade_tempo}} {{email.unidade_medida}} depois {{index === 0 ? 'da entrada' : 'do último envio'}}
+                        </p>
                     </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card class="shadow-none">
-                            <span class="destaque">Nº de contatos inativos</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
-                        </vx-card>
-                    </div>
-                    <div class="vx-col w-full mb-4">
-                        <vx-card class="shadow-none">
-                            <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">23</p>
-                        </vx-card>
-                    </div>
-                    <div class="vx-col w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
-                        <p class="destaque text-primary">Ver mais</p>
-                    </div>
-                    <transition name="fade">
-                        <div class="vx-col w-full mb-4" v-if="verMaisCards">
-                            <vx-card class="shadow-none">
-                                <span class="destaque">Nº total de contatos</span>
-                                <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
-                            </vx-card>
-                        </div>
-                    </transition>
-                    <transition name="fade">
-                        <div class="vx-col w-full mb-4" v-if="verMaisCards">
-                            <vx-card class="shadow-none">
-                                <span class="destaque">Valor recuperado</span>
-                                <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
-                            </vx-card>
-                        </div>
-                    </transition>
+                    <vs-button color="primary" type="border" class="font-bold"
+                               @click="$router.push({path: '/campanha/configurar-boleto/' + email.campanha_id + '/emails/editar/' + email.id})">
+                        Editar tentativa
+                    </vs-button>
                 </div>
             </div>
         </div>
@@ -138,10 +56,6 @@
                         <div class="vx-row mb-2 relative">
                             <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
                                 Salvar
-                            </vs-button>
-                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
-                                Configurar e-mails da campanha
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
@@ -157,9 +71,9 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Prism from 'vue-prism-component'
     import axios from "@/axios.js"
+    import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
     export default {
         name: "Checkout",
@@ -168,9 +82,9 @@
             Prism
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampBoletos.isRegistered) {
+                this.$store.registerModule('boleto', moduleCampBoletos)
+                moduleCampBoletos.isRegistered = true
             }
             this.getId(this.$route.params.id);
         },
@@ -184,7 +98,8 @@
                 },
                 customcor: '',
                 html: '',
-                verMaisCards: false
+                verMaisCards: false,
+                countSwitch: []
             }
         },
         mounted() {
@@ -198,7 +113,7 @@
                         this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
                         this.campanha._method = 'PUT';
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('checkout/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
+                            this.$store.dispatch('boleto/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -218,7 +133,7 @@
                                 })
                             })
                         } else {
-                            this.$store.dispatch('checkout/store', this.campanha).then(response => {
+                            this.$store.dispatch('boleto/store', this.campanha).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -250,13 +165,76 @@
                 })
 
             },
-            selecionaTipoComissao(val) {
-                this.campanha.comissao_tipo = val;
-                console.log(this.campanha.comissao_tipo)
+            deletar(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_boleto_emails'}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Deletado com sucesso'
+                            });
+                            this.getId(this.$route.params.id);
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: '',
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
+                            })
+                        }).finally(()=>{
+                            this.$vs.loading.close();
+                        })
+                    }
+                })
+            },
+            ativaEmail(e) {
+                console.log(this.countSwitch)
+                if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    e.status = !e.status;
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Muitas tentativas de ativação',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                } else {
+                    console.log(e)
+                    const formData = new FormData();
+                    let ativo = e.status ? 0 : 1;
+                    let text = e.status ? 'Desativada' : 'Ativada';
+                    formData.append('status', ativo);
+                    formData.append('_method', 'PUT');
+                    formData.append('assunto', e.assunto);
+                    this.$store.dispatch('boleto/updateEmail', {id: e.id, dados: formData}).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
+                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getId', id).then(response => {
+                this.$store.dispatch('boleto/getId', id).then(response => {
                     this.campanha = {...response};
                     this.$vs.loading.close();
                 });

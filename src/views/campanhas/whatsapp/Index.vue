@@ -19,11 +19,24 @@
         </div>
         <div class="vx-row my-10">
             <div class="vx-col w-full lg:w-7/12">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <span class="font-regular mb-2">Checkout no Hotmart (página de obrigado)</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome" v-validate="'required'"/>
+                <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <span class="font-regular mb-2">Mensagem Padrão</span>
+                        <vs-textarea v-model="campanha.mensagem" id="text-area" class="w-full bg-white" name="textarea" rows="6" v-validate="'required|max:130'"
+                        placeholder="Digite a mensagem que seu cliente irá mandar para você para solicitar um contato nesta campanha."/>
+                        <span class="text-danger text-sm"
+                              v-show="errors.has('textarea')">Máximo de 130 caracteres</span>
                     </div>
+                </div>
+                <div class="vx-row mb-4">
+                    <div class="vx-col w-4/12">
+                        <vs-input class="w-full" id="search_input_trans" v-mask="'(##)'" v-model="campanha.ddd" placeholder="DDD" size="large" name="nome" v-validate="'required'"/>
+                    </div>
+                    <div class="vx-col w-8/12">
+                        <vs-input class="w-full" id="search_input_trans" v-mask="'#####-####'" v-model="campanha.telefone" placeholder="Telefone" size="large" name="nome" v-validate="'required'"/>
+                    </div>
+                </div>
+                <div class="vx-row">
                     <div class="vx-col w-full relative" v-if="!campanha.infusion">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
                         <prism language="markup" class="rounded-lg">
@@ -77,7 +90,7 @@
                         </p>
                         <div class="w-full relative">
                             <span class="font-regular mb-2">Url Infusion:</span>
-                            <vs-input class="w-full mb-4" :value="this.url_api('api/campanhacarrinho/'+this.campanha.token).substr(0, 65) + '...'" placeholder="https://" size="large" name="urlInfusion"
+                            <vs-input class="w-full mb-4" :value="this.url_api('api/campanhawhatsapp/'+this.campanha.token).substr(0, 65) + '...'" placeholder="https://" size="large" name="urlInfusion"
                                       id="urlInfusion" disabled/>
                             <i class="material-icons" id="copy-icon-input" @click="copyUrl">file_copy</i>
                         </div>
@@ -86,12 +99,6 @@
             </div>
             <div class="vx-col w-full lg:w-5/12">
                 <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
-                        <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
-                            <span class="destaque">Histórico de envios</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.historico_count}}</p>
-                        </vx-card>
-                    </div>
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('ativos')">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos ativos</span>
@@ -140,10 +147,6 @@
                             <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid" v-if="edited">
                                 Salvar
                             </vs-button>
-                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
-                                Configurar e-mails da campanha
-                            </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
                                 Cancelar
@@ -158,9 +161,8 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Prism from 'vue-prism-component'
-    import axios from "@/axios.js"
+    import moduleCampWhatsapp from "../../../store/campanha_whatsapp/moduleCampWhatsapp";
 
     export default {
         name: "Whatsapp",
@@ -169,10 +171,11 @@
             Prism
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
-            } 
+            if (!moduleCampWhatsapp.isRegistered) {
+                this.$store.registerModule('whatsapp', moduleCampWhatsapp)
+                moduleCampWhatsapp.isRegistered = true
+            }
+
             this.getId(this.$route.params.id);
         },
         data() {
@@ -181,7 +184,8 @@
                     nome: '',
                     produto: '',
                     status: null,
-                    checkout: ''
+                    checkout: '',
+                    infusion: false
                 },
                 campanhaOld: {},
                 edited: false,
@@ -207,7 +211,7 @@
                         this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
                         this.campanha._method = 'PUT';
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('checkout/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
+                            this.$store.dispatch('whatsapp/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -227,7 +231,7 @@
                                 })
                             })
                         } else {
-                            this.$store.dispatch('checkout/store', this.campanha).then(response => {
+                            this.$store.dispatch('whatsapp/store', this.campanha).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -265,7 +269,7 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getId', id).then(response => {
+                this.$store.dispatch('whatsapp/getId', id).then(response => {
                     this.campanha = JSON.parse(JSON.stringify(response));
                     this.campanhaOld = JSON.parse(JSON.stringify(response));
                     this.$vs.loading.close();
@@ -277,13 +281,13 @@
             },
             codigohtml(value) {
                 this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('api/campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+<form accept-charset="UTF - 8" action="${this.url_api('api/campanhawhatsapp/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
-    <input type="text" name="nome" id="nome" placeholder="Nome completo">
+    <input type="text" required name="nome" id="nome" placeholder="Nome completo">
     <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
+    <input type="email" required name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
-    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <input type="text" required name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <button type="submit">Enviar</button>
 </form>
                 `;
@@ -312,7 +316,7 @@
             },
             copyUrl() {
                 const thisIns = this;
-                let value = this.url_api('campanhacarrinho/' + this.campanha.token);
+                let value = this.url_api('api/campanhawhatsapp/' + this.campanha.token);
                 this.$copyText(value).then(function () {
                     thisIns.$vs.notify({
                         title: '',
