@@ -61,11 +61,14 @@
                         <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
                             <span>Nome do Brinde</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[CODIGO_RASTREIO]')">
+                        <!--<li class="variavel" @click="addVarText('[CODIGO_RASTREIO]')">
                             <span>Código de Rastreio</span>
                         </li>
                         <li class="variavel" @click="addVarText('[LINK_RASTREIO_CORREIOS]')">
                             <span>Link rastreio dos Correios</span>
+                        </li>-->
+                        <li class="variavel" @click="addLinkCheckoutVarText">
+                            <span>Links do Sistema</span>
                         </li>
                     </ul>
                 </div>
@@ -88,6 +91,23 @@
                 </div>
             </footer-doug>
         </transition>
+        <vs-prompt
+                @cancel="clearValMultiple"
+                @accept="selectLink"
+                @close="close"
+                :acceptText="'Salvar'"
+                :cancelText="'Cancelar'"
+                title="Selecionar link"
+                :max-width="'600px'"
+                :active.sync="modal">
+            <div class="con-exemple-prompt">
+                <div class="mt-3">
+                    <span class="font-regular mb-2">Link</span>
+                    <v-select v-model="linkSelected" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                              :options="links" v-validate="'required'" name="tipo"/>
+                </div>
+            </div>
+        </vs-prompt>
     </div>
 </template>
 
@@ -134,6 +154,13 @@
                 this.funcaoSelected = {id: null, label: ''};
                 this.getMensagem(this.$route.params.id);
             }
+
+            this.$store.dispatch('getLinks').then(response => {
+                let arr = [...response];
+                arr.forEach(item => {
+                    this.links.push({id: item.identidade, label: item.descricao});
+                });
+            });
         },
         data() {
             return {
@@ -148,10 +175,26 @@
                 },
                 editor: '',
                 selectTipo: {id: 'whatsapp', label: 'WhatsApp'},
-                tipos: [{id: 'whatsapp', label: 'WhatsApp'}, {id: 'email', label: 'E-mail'}]
+                tipos: [{id: 'whatsapp', label: 'WhatsApp'}, {id: 'email', label: 'E-mail'}],
+                modal: false,
+                links: [],
+                linkSelected: {id: null, label: 'Selecione o link'}
             }
         },
         methods: {
+            addLinkCheckoutVarText(){
+                this.modal = true;
+            },
+            clearValMultiple() {
+                this.linkSelected = {id: null, label: 'Selecione o link'};
+            },
+            selectLink() {
+                this.addVarText('[LINK_' + this.linkSelected.id + ']');
+                this.linkSelected = {id: null, label: 'Selecione o link'};
+            },
+            close() {
+                this.modal = false;
+            },
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {

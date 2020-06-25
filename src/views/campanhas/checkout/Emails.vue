@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="vx-col col-conquista mb-10" v-for="(email, index) in emails">
-                <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}">
+                <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}" v-bind:class="{'desativado': !email.status}">
                     <div class="py-2 w-full flex justify-between">
                         <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
                         <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"

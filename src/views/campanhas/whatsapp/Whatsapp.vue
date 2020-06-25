@@ -163,7 +163,7 @@
     import axios from "@/axios.js"
 
     export default {
-        name: "Checkout",
+        name: "Whatsapp",
         components: {
             'v-select': vSelect,
             Prism
@@ -172,7 +172,7 @@
             if (!moduleCampCheckouts.isRegistered) {
                 this.$store.registerModule('checkout', moduleCampCheckouts)
                 moduleCampCheckouts.isRegistered = true
-            }
+            } 
             this.getId(this.$route.params.id);
         },
         data() {

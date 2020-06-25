@@ -293,6 +293,7 @@
 
                 this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
                     this.emails = response;
+                    this.assuntos = [];
                     this.emails.forEach((item, index) => {
                         this.assuntos.push({id: item.id, label: item.assunto});
                     });

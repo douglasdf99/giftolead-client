@@ -51,6 +51,12 @@
                 <br>
             </div>
         </div>
+        <div class="vx-row mt-1 mb-2">
+            <div class="vx-col w-full">
+                <vs-checkbox color="dark" v-model="campanha.reabertura"><span class="label-bold-underline">Habilitar reabertura do ticket</span>
+                </vs-checkbox>
+            </div>
+        </div>
         <div class="vx-row">
             <div class="vx-col w-full">
                 <div class="p-4 rounded-md" style="background-color: #EDEDED">

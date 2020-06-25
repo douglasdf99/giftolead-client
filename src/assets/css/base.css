@@ -719,6 +719,11 @@ th > .vs-table-text {
     border-radius: 15px;
 }
 
+.desativado {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);

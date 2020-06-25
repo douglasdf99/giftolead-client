@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div class="vx-row mb-3">
+            <div class="vx-col w-full" v-if="items.length > 0">
+                <p class="destaque text-2xl">{{items[0].campanha.nome}}</p>
+            </div>
+        </div>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
@@ -88,7 +93,7 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative">
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + items[0].campanha_id})">
+                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id})">
                                 Voltar
                             </vs-button>
                         </div>
@@ -239,12 +244,12 @@
                 this.$vs.loading();
                 let url = '';
                 if (this.search !== '') {
-                    url += 'contato.nome:' + this.search + ';';
-                    url += 'contato.email:' + this.search + ';';
-                    url += 'campanha.nome:' + this.search;
+                    url += 'nome:' + this.search + ';';
+                    url += 'email:' + this.search + ';';
+                    url += 'telefone:' + this.search;
                 }
                 this.dados.search = url;
-
+                this.dados.campanha_id = id;
                 if (this.dateRange.startDate)
                     this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
                 if (this.dateRange.endDate)
@@ -287,6 +292,7 @@
             filtroContatos(val) {
                 this.$vs.loading();
                 this.filtrar(val.id)
+                this.dados.campanha_id = this.$route.params.id;
                 this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;

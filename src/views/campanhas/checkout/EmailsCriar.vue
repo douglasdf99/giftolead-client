@@ -83,11 +83,11 @@
                         <li class="variavel" @click="addVarText('[NOME_PRODUTO]')">
                             <span>Nome do Produto</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[LINK_WHATSAPP]')">
-                            <span>Link do Whatsapp</span>
+                        <li class="variavel" @click="addVarText('[WHATSAPP]')">
+                            <span>Whatsapp</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[LINK_CHECKOUT]')">
-                            <span>Link do Checkout</span>
+                        <li class="variavel" @click="addLinkCheckoutVarText">
+                            <span>Links de venda</span>
                         </li>
                     </ul>
                 </div>
@@ -110,6 +110,23 @@
                 </div>
             </footer-doug>
         </transition>
+        <vs-prompt
+                @cancel="clearValMultiple"
+                @accept="selectLink"
+                @close="close"
+                :acceptText="'Salvar'"
+                :cancelText="'Cancelar'"
+                title="Selecionar link"
+                :max-width="'600px'"
+                :active.sync="modal">
+            <div class="con-exemple-prompt">
+                <div class="mt-3">
+                    <span class="font-regular mb-2">Link</span>
+                    <v-select v-model="linkSelected" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                              :options="links" v-validate="'required'" name="tipo"/>
+                </div>
+            </div>
+        </vs-prompt>
     </div>
 </template>
 
@@ -175,10 +192,26 @@
                     {id: 60, label: 'horas'},
                     {id: 1440, label: 'dias'},
                 ],
-                somaPeriodo: 0
+                somaPeriodo: 0,
+                modal: false,
+                links: [],
+                linkSelected: {}
             }
         },
         methods: {
+            addLinkCheckoutVarText(){
+                this.modal = true;
+            },
+            clearValMultiple() {
+                this.linkSelected = {id: null, label: 'Selecione o link'};
+            },
+            selectLink() {
+                this.addVarText('[LINK_' + this.linkSelected.id + ']');
+                this.linkSelected = {id: null, label: 'Selecione o link'};
+            },
+            close() {
+                this.modal = false;
+            },
             validar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
@@ -308,6 +341,13 @@
                         default:
                             this.periodoSelected = {id: 1, label: 'minutos'}
                     }
+                    this.$store.dispatch('getLinks', this.email.campanha.produto_id).then(response => {
+                        let arr = [...response];
+                        arr.forEach(item => {
+                            this.links.push({id: item.identidade, label: item.descricao});
+                        });
+                        this.linkSelected = {id: null, label: 'Selecione o link'}
+                    });
                     this.$vs.loading.close();
                 });
             },

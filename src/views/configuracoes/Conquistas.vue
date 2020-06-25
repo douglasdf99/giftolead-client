@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="vx-col col-conquista mb-10" v-for="item in items">
-                            <div class="conquista">
+                            <div class="conquista" v-bind:class="{'desativado': !item.ativo}">
                                 <div class="py-2 w-full">
                                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo"
                                                class="float-right switch" @click="ativaConquista(item)"/>
@@ -125,7 +125,7 @@
             ativaConquista(e) {
                 console.log(this.countSwitch)
                 if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
-                    e.status = !e.status;
+                    e.ativo = !e.ativo;
                     this.$vs.notify({
                         title: '',
                         text: 'Muitas tentativas de ativação',

@@ -16,52 +16,52 @@ const actions = {
     // /////////////////////////////////////////////
 
     // Vertical NavMenu
-    updateVerticalNavMenuWidth({ commit }, width) {
-      commit('UPDATE_VERTICAL_NAV_MENU_WIDTH', width)
+    updateVerticalNavMenuWidth({commit}, width) {
+        commit('UPDATE_VERTICAL_NAV_MENU_WIDTH', width)
     },
 
     // VxAutoSuggest
-    updateStarredPage({ commit }, payload) {
-      commit('UPDATE_STARRED_PAGE', payload)
+    updateStarredPage({commit}, payload) {
+        commit('UPDATE_STARRED_PAGE', payload)
     },
 
     // The Navbar
-    arrangeStarredPagesLimited({ commit }, list) {
-      commit('ARRANGE_STARRED_PAGES_LIMITED', list)
+    arrangeStarredPagesLimited({commit}, list) {
+        commit('ARRANGE_STARRED_PAGES_LIMITED', list)
     },
-    arrangeStarredPagesMore({ commit }, list) {
-      commit('ARRANGE_STARRED_PAGES_MORE', list)
+    arrangeStarredPagesMore({commit}, list) {
+        commit('ARRANGE_STARRED_PAGES_MORE', list)
     },
 
     // /////////////////////////////////////////////
     // UI
     // /////////////////////////////////////////////
 
-    toggleContentOverlay({ commit }) {
-      commit('TOGGLE_CONTENT_OVERLAY')
+    toggleContentOverlay({commit}) {
+        commit('TOGGLE_CONTENT_OVERLAY')
     },
-    updateTheme({ commit }, val) {
-      commit('UPDATE_THEME', val)
+    updateTheme({commit}, val) {
+        commit('UPDATE_THEME', val)
     },
 
     // /////////////////////////////////////////////
     // User/Account
     // /////////////////////////////////////////////
 
-    updateUserInfo({ commit }, payload) {
-      commit('UPDATE_USER_INFO', payload)
+    updateUserInfo({commit}, payload) {
+        commit('UPDATE_USER_INFO', payload)
     },
-    updateUserRole({ dispatch }, payload) {
-      // Change client side
-      payload.aclChangeRole(payload.userRole)
+    updateUserRole({dispatch}, payload) {
+        // Change client side
+        payload.aclChangeRole(payload.userRole)
 
-      // Make API call to server for changing role
+        // Make API call to server for changing role
 
-      // Change userInfo in localStorage and store
-      dispatch('updateUserInfo', {userRole: payload.userRole})
+        // Change userInfo in localStorage and store
+        dispatch('updateUserInfo', {userRole: payload.userRole})
     },
 
-    ativarMenu( {commit}, e){
+    ativarMenu({commit}, e) {
         commit('CHANGE_MENU', e);
     },
     submenu({commit}, obj) {
@@ -70,7 +70,7 @@ const actions = {
     },
 
     /* CRUD básico */
-    getVarios({commit}, dados){
+    getVarios({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/${dados.rota}`, {params: dados.params})
                 .then((response) => {
@@ -105,7 +105,7 @@ const actions = {
                 })
         })
     },
-    deleteItem({commit}, dados){
+    deleteItem({commit}, dados) {
         const formData = new FormData();
         formData.append('_method', 'DELETE');
         formData.append('id', dados.id);
@@ -113,8 +113,20 @@ const actions = {
             axios.post(`/api/${dados.rota}/${dados.id}`, formData)
                 .then(response => resolve(response)).catch(erro => reject(erro))
         });
-    }
+    },
     /* Fim*/
+    getLinks({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/links`, {params: {produto: id}})
+                .then((response) => {
+                    console.log('links resgatados', response);
+                    resolve(response.data.data)
+                })
+                .catch(erro => {
+                    reject(erro)
+                });
+        });
+    }
 };
 
 export default actions

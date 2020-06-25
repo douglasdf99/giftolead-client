@@ -34,9 +34,9 @@
                     </div>
                 </div>
                 <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
-                    <div class="conquista">
+                    <div class="conquista" v-bind:class="{'desativado': !campanha.campanhable.status}">
                         <div class="py-2 w-full flex justify-between">
-                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
+                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(campanha.id)"></vs-button>
                             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
                                        class="float-right switch" @click="ativaCampanha(campanha.campanhable, campanha.campanhable_type)"/>
                         </div>
@@ -225,6 +225,7 @@
                 };
                 console.log(e.status)
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    e.status = !e.status;
                     this.$vs.notify({
                         title: '',
                         text: 'Muitas tentativas de ativação',
@@ -325,7 +326,7 @@
                         rota = 'configurar-boletos';
                         break;
                     case 'App\\Models\\CampanhaWhatsapp':
-                        rota = 'configurar-whatsapps';
+                        rota = 'configurar-whatsapp';
                         break;
                 }
                 this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
