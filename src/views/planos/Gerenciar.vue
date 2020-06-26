@@ -234,7 +234,6 @@
                         color: 'danger'
                     })
                 } else {
-
                     let rota = '';
                     switch (tipo) {
                         case 'App\\Models\\CampanhaCarrinho':
@@ -245,11 +244,10 @@
                             break;
                         case 'App\\Models\\CampanhaCancelado':
                             rota = 'campanha_cancelados_ativar';
-                            return this.ativaCampanhaCanceladas(e.id, !e.status);
-                            break;
+                            return this.ativaCampanhaEspecifica(e.id, !e.status, rota);
                         case 'App\\Models\\CampanhaBoleto':
-                            rota = 'campanha_boletos';
-                            break;
+                            rota = 'campanha_boletos_ativar';
+                            return this.ativaCampanhaEspecifica(e.id, !e.status, rota);
                         case 'App\\Models\\CampanhaWhatsapp':
                             rota = 'campanha_whatsapps';
                             break;
@@ -276,7 +274,7 @@
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },
-            ativaCampanhaCanceladas(id, status){
+            ativaCampanhaEspecifica(id, status, rota){
               this.$vs.dialog({
                 color: 'primary',
                 type: 'confirm',
@@ -284,7 +282,7 @@
                 text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
                 acceptText: 'Sim, ativar!',
                 accept: () => {
-                  this.$store.dispatch('campanhas/ativaCanceladas', {id: id, status: status}).then(response => {
+                  this.$store.dispatch('campanhas/ativaEspecifica', {id: id, status: status, rota: rota}).then(response => {
                     this.$vs.notify({
                       title: '',
                       text: "Sucesso.",

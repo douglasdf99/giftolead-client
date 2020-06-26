@@ -172,6 +172,9 @@
             }
             if (this.$route.name === 'campanha-config-boleto-emails-editar')
                 this.getId(this.$route.params.idEmail);
+            else {
+                this.confereCampanha();
+            }
         },
         data() {
             return {
@@ -195,7 +198,8 @@
                 somaPeriodo: 0,
                 modal: false,
                 links: [],
-                linkSelected: {}
+                linkSelected: {},
+                produto_id: null
             }
         },
         methods: {
@@ -298,7 +302,7 @@
                             icon: 'icon-check-circle',
                             color: 'success'
                         });
-                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
+                        this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id})
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
@@ -341,14 +345,7 @@
                         default:
                             this.periodoSelected = {id: 1, label: 'minutos'}
                     }
-                    this.$store.dispatch('getLinks', this.email.campanha.produto_id).then(response => {
-                        let arr = [...response];
-                        arr.forEach(item => {
-                            this.links.push({id: item.identidade, label: item.descricao});
-                        });
-                        this.linkSelected = {id: null, label: 'Selecione o link'}
-                    });
-                    this.$vs.loading.close();
+                    this.getLinks(this.email.campanha.produto_id);
                 });
             },
             formatPrice(value) {
@@ -360,6 +357,28 @@
                 var $txt2 = this.editor.getSelection(true);
                 this.editor.insertText($txt2.index, value, '', true);
             },
+            confereCampanha(){
+                this.$store.dispatch('boleto/getId', this.$route.params.id).then(response => {
+                    if(response.id)
+                        this.produto_id = response.produto_id;
+                    else
+                        this.$router.push({name: 'meus-planos'})
+                }).catch(erro => {
+                    console.log(erro);
+                    this.$router.push({name: 'meus-planos'})
+                });
+                this.getLinks(this.produto_id);
+            },
+            getLinks(id){
+                this.$store.dispatch('getLinks', id).then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.links.push({id: item.identidade, label: item.descricao});
+                    });
+                    this.linkSelected = {id: null, label: 'Selecione o link'}
+                });
+                this.$vs.loading.close()
+            }
         },
         computed: {
             isValid() {

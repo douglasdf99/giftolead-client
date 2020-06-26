@@ -76,9 +76,9 @@ export default {
                 })
         })
     },
-    ativaCanceladas({commit}, dados) {
+    ativaEspecifica({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_cancelados_ativar/`, dados)
+            axios.post(`/api/${dados.rota}/`, dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)

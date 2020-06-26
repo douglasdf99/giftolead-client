@@ -62,6 +62,10 @@
                 default: () => {
                 },
             },
+            rota: {
+                type: String,
+                default: ''
+            }
         },
         data() {
             return {
@@ -108,7 +112,7 @@
                             obj.push(item.id);
                         })
 
-                        this.$store.dispatch("checkout/reorganizarEmails", obj).then(response => {
+                        this.$store.dispatch(this.rota + "/reorganizarEmails", obj).then(response => {
                             this.$vs.notify({
                                 title: 'Sucesso',
                                 text: "Atualizado com sucesso.",

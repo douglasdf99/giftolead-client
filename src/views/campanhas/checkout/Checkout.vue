@@ -160,7 +160,6 @@
     import vSelect from 'vue-select'
     import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Prism from 'vue-prism-component'
-    import axios from "@/axios.js"
 
     export default {
         name: "Checkout",

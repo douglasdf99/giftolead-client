@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="com-item" v-else>
-                    <vs-table v-model="selected" :data="items" @selected="handleSelected" class="table-items">
+                    <vs-table v-model="selected" :data="items" @selected="handleSelected" class="table-items" style="margin-top: 2rem" >
                         <template slot="thead">
                             <!--<vs-th></vs-th>-->
                             <vs-th>Nome</vs-th>
@@ -105,13 +105,13 @@
 </template>
 
 <script>
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Datepicker from 'vuejs-datepicker';
     import * as lang from 'vuejs-datepicker/src/locale';
     import VueMoment from 'vue-moment'
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import vSelect from "vue-select";
+    import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -126,22 +126,22 @@
             'v-select': vSelect
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampBoletos.isRegistered) {
+                this.$store.registerModule('boleto', moduleCampBoletos)
+                moduleCampBoletos.isRegistered = true
             }
             this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
             this.dt_fim = moment().format('DD-MM-YYYY');
             this.dateRange.startDate = moment().subtract(30, 'days');
             this.dateRange.endDate = moment();
-            if (this.$route.name === 'campanha-config-checkout-contatos-inativos') {
+            if (this.$route.name === 'campanha-config-boleto-contatos-inativos') {
                 this.dados.inativos = '1';
             }
-            if (this.$route.name === 'campanha-config-checkout-contatos-todos') {
+            if (this.$route.name === 'campanha-config-boleto-contatos-todos') {
                 this.dados.todos = '1';
             }
 
-            if (this.$route.name === 'campanha-config-checkout-contatos-todos')
+            if (this.$route.name === 'campanha-config-boleto-contatos-todos')
                 this.filtroContatos = {id: 'todos', label: 'Todos'};
             else
                 this.getId(this.$route.params.id);
@@ -256,7 +256,7 @@
                 if (this.dateRange.endDate)
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
 
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('boleto/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     this.$vs.loading.close();
@@ -294,7 +294,7 @@
                 this.$vs.loading();
                 this.filtrar(val.id)
                 this.dados.campanha_id = this.$route.params.id;
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('boleto/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     this.$vs.loading.close();

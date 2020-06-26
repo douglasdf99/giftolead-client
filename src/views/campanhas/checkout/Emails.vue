@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaEmails"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaEmails" rota="checkout"/>
         <div class="vx-row mt-10" v-if="emails.length > 0">
             <div class="vx-col w-full float-right">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="organizar">

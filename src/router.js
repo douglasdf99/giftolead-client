@@ -2156,7 +2156,83 @@ const router = new Router({
                             {title: 'Gerenciar'},
                             {title: 'Configurar Campanha', active: true},
                         ],
-                        pageTitle: 'Configuração da Campanha de agendamento',
+                        pageTitle: 'Configuração da Campanha de recuperação de Boletos',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-boleto/:id/historico-envios',
+                    name: 'campanha-config-checkout-historico',
+                    component: () => import('@/views/campanhas/boleto/Historico.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Histórico de Envios', active: true}
+                        ],
+                        pageTitle: 'Histórico de envios dos e-mails',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-boleto/:id/contatos-ativos',
+                    name: 'campanha-config-checkout-contatos-ativos',
+                    component: () => import('@/views/campanhas/boleto/Contatos.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Contatos Ativos', active: true}
+                        ],
+                        pageTitle: 'Contatos ativos da campanha',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-boleto/:id/contatos-inativos',
+                    name: 'campanha-config-checkout-contatos-inativos',
+                    component: () => import('@/views/campanhas/boleto/Contatos.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Contatos Inativos', active: true}
+                        ],
+                        pageTitle: 'Contatos inativos da campanha',
+                        rule: 'editor',
+                        pai: 'planos',
+                        subTitle: 'Planos',
+                        //subIcon: 'settings',
+                        submenu: subplanos
+                    },
+                },
+                {
+                    path: '/campanha/configurar-boleto/:id/contatos-todos',
+                    name: 'campanha-config-checkout-contatos-todos',
+                    component: () => import('@/views/campanhas/boleto/Contatos.vue'),
+                    meta: {
+                        breadcrumb: [
+                            {title: 'Home', url: '/'},
+                            {title: 'Planos', url: '/planos/meus-planos'},
+                            {title: 'Gerenciar'},
+                            {title: 'Todos os contatos', active: true}
+                        ],
+                        pageTitle: 'Todos os contatos da campanha',
                         rule: 'editor',
                         pai: 'planos',
                         subTitle: 'Planos',
