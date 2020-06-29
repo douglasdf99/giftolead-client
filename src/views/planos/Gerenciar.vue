@@ -274,39 +274,38 @@
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },
-            ativaCampanhaEspecifica(id, status, rota){
-              this.$vs.dialog({
-                color: 'primary',
-                type: 'confirm',
-                title: `Deseja ativar essa campanha?`,
-                text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
-                acceptText: 'Sim, ativar!',
-                accept: () => {
-                  this.$store.dispatch('campanhas/ativaEspecifica', {id: id, status: status, rota: rota}).then(response => {
-                    this.$vs.notify({
-                      title: '',
-                      text: "Sucesso.",
-                      iconPack: 'feather',
-                      icon: 'icon-check-circle',
-                      color: 'success'
-                    });
-
-                  }).catch(erro => {
-                    this.$vs.notify({
-                      title: 'Error',
-                      text: erro.message,
-                      iconPack: 'feather',
-                      icon: 'icon-alert-circle',
-                      color: 'danger'
-                    })
-                  }).finally(()=>{
-                    this.getPlano(this.$route.params.id);
-                  });
-                },
-                cancel: ()=>{
-                  this.getPlano(this.$route.params.id);
-                }
-              })
+            ativaCampanhaEspecifica(id, status, rota) {
+                this.$vs.dialog({
+                    color: 'primary',
+                    type: 'confirm',
+                    title: `Deseja ativar essa campanha?`,
+                    text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
+                    acceptText: 'Sim, ativar!',
+                    accept: () => {
+                        this.$store.dispatch('campanhas/ativaEspecifica', {id: id, status: status, rota: rota}).then(() => {
+                            this.$vs.notify({
+                                title: '',
+                                text: "Sucesso",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: erro.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            })
+                        }).finally(() => {
+                            this.getPlano(this.$route.params.id);
+                        });
+                    },
+                    cancel: () => {
+                        this.getPlano(this.$route.params.id);
+                    }
+                })
             },
             configurarCampanha(item) {
                 let rota = '';

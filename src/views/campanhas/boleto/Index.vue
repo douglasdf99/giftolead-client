@@ -5,7 +5,7 @@
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
                   style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
+                <vs-switch vs-icon-on="check" @click="ativaBoleto" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
             </div>
         </div>
         <div class="vx-row mb-3">
@@ -122,6 +122,7 @@
     import Prism from 'vue-prism-component'
     import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
     import SideBar from '../Reorganizar'
+    import moduleCampanhas from "../../../store/campanhas/moduleCampanhas";
 
     export default {
         name: "Boleto",
@@ -135,6 +136,11 @@
                 this.$store.registerModule('boleto', moduleCampBoletos)
                 moduleCampBoletos.isRegistered = true
             }
+            if (!moduleCampanhas.isRegistered) {
+                this.$store.registerModule('campanhas', moduleCampanhas)
+                moduleCampanhas.isRegistered = true
+            }
+
             this.getId(this.$route.params.id);
         },
         data() {
@@ -234,7 +240,7 @@
                                 title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
-                        }).finally(()=>{
+                        }).finally(() => {
                             this.$vs.loading.close();
                         })
                     }
@@ -277,6 +283,41 @@
                         })
                     })
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
+            },
+            ativaBoleto() {
+                if (this.$route.name == 'campanha-configurar-boleto') {
+                    this.$vs.dialog({
+                        color: 'primary',
+                        type: 'confirm',
+                        title: `Deseja ativar essa campanha?`,
+                        text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
+                        acceptText: 'Sim, ativar!',
+                        accept: () => {
+                            this.$store.dispatch('campanhas/ativaEspecifica', {id: this.$route.params.id || '', status: this.campanha.status, rota: 'campanha_boletos_ativar'}).then(() => {
+                                this.$vs.notify({
+                                    title: '',
+                                    text: "Sucesso",
+                                    iconPack: 'feather',
+                                    icon: 'icon-check-circle',
+                                    color: 'success'
+                                });
+                            }).catch(erro => {
+                                this.$vs.notify({
+                                    title: 'Error',
+                                    text: erro.message,
+                                    iconPack: 'feather',
+                                    icon: 'icon-alert-circle',
+                                    color: 'danger'
+                                })
+                            }).finally(() => {
+
+                            });
+                        },
+                        cancel: () => {
+                            this.campanha.status = !this.campanha.status;
+                        }
+                    })
                 }
             },
             organizar() {
