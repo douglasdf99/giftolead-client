@@ -59,5 +59,11 @@ export default [
         icon: "settings",
         slug: 'configuracoes',
     },
+    {
+        url: '/whatsapplist/listagem',
+        name: "WhatsappList",
+        icon: "favorite_border",
+        slug: 'whatsapplist',
+    },
 ]
 

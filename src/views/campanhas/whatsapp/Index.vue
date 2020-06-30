@@ -99,16 +99,17 @@
             </div>
             <div class="vx-col w-full lg:w-5/12">
                 <div class="vx-row">
-                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('ativos')">
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('pendentes')">
                         <vx-card class="shadow-none">
-                            <span class="destaque">Nº de contatos ativos</span>
+                            <span class="destaque">Nº de contatos não respondidos</span>
+                            <!-- contatos_count neste caso traz quem não foi respondido pelo chat -->
                             <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
                         </vx-card>
                     </div>
-                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('inativos')">
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('respondidos')">
                         <vx-card class="shadow-none">
-                            <span class="destaque">Nº de contatos inativos</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
+                            <span class="destaque">Nº de contatos respondidos</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count - campanha.contatos_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
@@ -163,6 +164,7 @@
     import vSelect from 'vue-select'
     import Prism from 'vue-prism-component'
     import moduleCampWhatsapp from "../../../store/campanha_whatsapp/moduleCampWhatsapp";
+    import moduleWhatsList from "../../../store/whatsapplist/moduleWhatsList";
 
     export default {
         name: "Whatsapp",
@@ -174,6 +176,10 @@
             if (!moduleCampWhatsapp.isRegistered) {
                 this.$store.registerModule('whatsapp', moduleCampWhatsapp)
                 moduleCampWhatsapp.isRegistered = true
+            }
+            if (!moduleWhatsList.isRegistered) {
+                this.$store.registerModule('whatsapplist', moduleWhatsList)
+                moduleWhatsList.isRegistered = true
             }
 
             this.getId(this.$route.params.id);
@@ -340,7 +346,9 @@
                 this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`});
             },
             contatos(val) {
-                this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/contatos-${val}`});
+                this.$store.dispatch('whatsapplist/setFilter', val).then(() => {
+                    this.$router.push({path: `/whatsapplist/listagem`});
+                });
             },
         },
         computed: {

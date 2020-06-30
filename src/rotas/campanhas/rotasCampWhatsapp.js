@@ -12,7 +12,7 @@ const rotasCampWhats = [
                 {title: 'Gerenciar'},
                 {title: 'Configurar Campanha', active: true},
             ],
-            pageTitle: 'Configuração da Campanha de recuperação de carrinho',
+            pageTitle: 'Configuração da Campanha de recuperação de Whatsapp',
             rule: 'editor',
             pai: 'planos',
             subTitle: 'Planos',

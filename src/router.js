@@ -37,6 +37,7 @@ import rotasConfigUsuarios from "./rotas/configuracoes/rotasConfigUsuarios";
 import rotasExpedicoesContratos from "./rotas/configuracoes/rotasExpedicoesContratos";
 import subRotaConfiguracoes from "./rotas/subRotaConfiguracoes";
 import subRotaPlanos from "./rotas/subRotaPlanos";
+import rotasWhatsapplist from "./rotas/rotasWhatsapplist";
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
@@ -1380,6 +1381,10 @@ const router = new Router({
                 // Leads
                 // =============================================================================
                 ...rotasLeads,
+                // =============================================================================
+                // WhatsappList
+                // =============================================================================
+                ...rotasWhatsapplist,
                 {
                   path: '/meuslinks/produto/:id',
                   name: 'meuslinks-produto',
