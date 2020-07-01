@@ -1,5 +1,7 @@
 <template>
     <div>
+        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar"
+                  :data="aresponder"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
@@ -62,20 +64,20 @@
                     <vs-tabs :color="colorx" v-if="numeros.pendentes" v-model="selectedTab">
                         <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
                                 :label="'pendentes (' + numeros.pendentes + ')'">
-                            <listagem :items="items"></listagem>
+                            <listagem @responder="responder" :items="items"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
 
                         <vs-tab @click="colorx = 'success'; getItems('respondidos')" color="black"
                                 :label="'respondidos ('+ numeros.respondidos  + ')'">
-                            <listagem :items="items"></listagem>
+                            <listagem @responder="responder" :items="items"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
 
                         <vs-tab @click="colorx = 'primary'; getItems('todos')" :label="'todos ('+ numeros.todos +')'">
-                            <listagem :items="items"></listagem>
+                            <listagem @responder="responder" :items="items"></listagem>
                             <vs-pagination class="mt-2" :total="pagination.last_page"
                                            v-model="currentx"></vs-pagination>
                         </vs-tab>
@@ -89,7 +91,7 @@
 <script>
     import moduleWhatsList from "../../store/whatsapplist/moduleWhatsList";
     import * as lang from "vuejs-datepicker/dist/locale";
-    import SideBar from "../campanhas/checkout/DetalheHistorico";
+    import SideBar from "./Responder";
     import Datepicker from "vuejs-datepicker";
     import VueMoment from "vue-moment";
     import vSelect from "vue-select";
@@ -109,8 +111,8 @@
         data() {
             return {
                 // Data Sidebar
-                addNewDataSidebar: false,
-                sidebarData: {},
+                responderTicket: false,
+                aresponder: {},
                 colorx: 'warning',
                 dados: {
                     search: '',
@@ -242,16 +244,12 @@
                 this.dados.page = 1
                 this.getItems(this.$route.params.id);
             },
-            addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+            responder(dados) {
+                this.aresponder = dados
+                this.toggleRespostaSidebar(true)
             },
-            updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
-            },
-            toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+            toggleRespostaSidebar(val = false) {
+                this.responderTicket = val
             },
             getItems(tipo = null) {
                 if (this.selectedTipo.id != null)
@@ -333,7 +331,7 @@
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
-            }
+            },
         },
         watch: {
             currentx(val) {

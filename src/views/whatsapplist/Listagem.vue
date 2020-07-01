@@ -70,7 +70,10 @@
                                  v-else></vs-icon>
                     </vs-td>
                     <vs-td>
-
+                        <vs-icon icon-pack="material-icons" icon="wrap_text"
+                                 class="icon-grande text-black" v-if="tr.resposta"></vs-icon>
+                        <vs-icon icon-pack="material-icons" icon="reply" v-if="!tr.resposta"
+                                 class="icon-grande text-black cursor-pointer" @click="$emit('responder', tr)"></vs-icon>
                     </vs-td>
                 </vs-tr>
             </template>
