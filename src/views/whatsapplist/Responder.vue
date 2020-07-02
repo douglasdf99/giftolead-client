@@ -11,36 +11,66 @@
 <template>
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
-        <div class="mt-6 flex items-center justify-between px-6">
+        <div class="my-6 flex items-center justify-between px-6">
             <h4>Responder Contato</h4>
+            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
-            <div class="p-6">
-                <div id="chat-app" class="border border-solid d-theme-border-grey-light rounded relative overflow-hidden">
+            <div class="pb-6 px-0">
+                <div id="chat-app" class="d-theme-border-grey-light rounded relative overflow-hidden chat-whats-bg">
                     <!-- RIGHT COLUMN -->
-                    <div class="chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-grey-light border-t-0 border-r-0 border-b-0" :class="{'sidebar-spacer--wide': clickNotClose, 'flex items-center justify-center': activeChatUser === null}">
+                    <div class="chat-whats chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-grey-light border-t-0 border-r-0 border-b-0"
+                         :class="{'sidebar-spacer--wide': clickNotClose, 'flex items-center justify-center': activeChatUser === null}">
                         <template v-if="activeChatUser">
                             <div class="chat__navbar">
-                                <chat-navbar :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned" @openContactsSidebar="toggleChatSidebar(true)" @showProfileSidebar="showProfileSidebar" @toggleIsChatPinned="toggleIsChatPinned"></chat-navbar>
+                                <chat-navbar :dados="data" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
                             </div>
                             <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
                                 <div class="chat__log" ref="chatLog">
-                                    <chat-log :userId="activeChatUser" v-if="activeChatUser"></chat-log>
+                                    <chat-log :userId="activeChatUser" :dados="data" v-if="activeChatUser"></chat-log>
                                 </div>
                             </VuePerfectScrollbar>
-                            <div class="chat__input flex p-4 bg-white">
-                                <vs-input class="flex-1" placeholder="Type Your Message" v-model="typedMessage" @keyup.enter="sendMsg" />
-                                <vs-button class="bg-primary-gradient ml-4" type="filled" @click="sendMsg">Send</vs-button>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <div class="flex flex-col items-center">
-                                <feather-icon icon="MessageSquareIcon" class="mb-4 bg-white p-8 shadow-md rounded-full" svgClasses="w-16 h-16"></feather-icon>
-                                <h4 class=" py-2 px-4 bg-white shadow-md rounded-full cursor-pointer" @click.stop="toggleChatSidebar(true)">Start Conversation</h4>
-                            </div>
                         </template>
                     </div>
+                    <div class="py-4 text-center" style="background-color: #F4F4F4">
+                        <span>Iremos te redirecionar para o aplicativo do Whatsapp</span>
+                    </div>
+                    <div class="chat__input flex p-4 items-end" style="background-color: #F4F4F4">
+                        <vx-tooltip text="Variáveis" position="top">
+                            <vs-dropdown vs-trigger-click>
+                                <i class="material-icons text-4xl text-gray p-4 cursor-pointer">sms</i>
+                                <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
+                                    <span class="span-identifica-item-dropdown mb-0">Variáveis</span>
+                                    <vs-dropdown-item v-for="i in variaveis">
+                                        <span @click="addVarText(i.value)">{{i.nome}}</span>
+                                    </vs-dropdown-item>
+                                    <vs-dropdown-item @click="addLinkCheckoutVarText">
+                                        <span>Links do Sistemas</span>
+                                    </vs-dropdown-item>
+                                </vs-dropdown-menu>
+                            </vs-dropdown>
+                        </vx-tooltip>
+                        <vs-textarea v-model="typedMessage" id="text-area-chat" class="w-full bg-white mb-0" rows="4" placeholder="Digite uma mensagem"/>
+                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg">send</i>
+                    </div>
                 </div>
+                <vs-prompt
+                        @cancel="clearValMultiple"
+                        @accept="selectLink"
+                        @close="close"
+                        :acceptText="'Salvar'"
+                        :cancelText="'Cancelar'"
+                        title="Selecionar link"
+                        :max-width="'600px'"
+                        :active.sync="modal" class="teste" style="z-index: 52020">
+                    <div class="con-exemple-prompt">
+                        <div class="mt-3">
+                            <span class="font-regular mb-2">Link</span>
+                            <v-select v-model="selectedLink" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                                      :options="links" v-validate="'required'" name="tipo"/>
+                        </div>
+                    </div>
+                </vs-prompt>
             </div>
         </VuePerfectScrollbar>
     </vs-sidebar>
@@ -49,8 +79,9 @@
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import vSelect from 'vue-select'
-    import ChatLog from './ChatLog'
     import ChatNavBar from './ChatNavbar'
+    import ChatLog from './ChatLog'
+    import saveleadsConfig from '../../../saveleadsConfig';
 
     export default {
         props: {
@@ -67,17 +98,12 @@
         watch: {},
         data() {
             return {
-                origem: {
-                    empresa_id: 1,
-                    nome: '',
-                },
-
                 //Chat
                 active: true,
                 isHidden: false,
                 searchContact: "",
                 activeProfileSidebar: false,
-                activeChatUser: null,
+                activeChatUser: 1,
                 userProfileId: -1,
                 typedMessage: "",
                 isChatPinned: false,
@@ -85,9 +111,15 @@
                     maxScrollbarLength: 60,
                     wheelSpeed: 0.70,
                 },
+                variaveis: saveleadsConfig.variaveis,
                 clickNotClose: false,
                 isChatSidebarActive: true,
                 isLoggedInUserProfileView: false,
+
+                //Modal
+                modal: false,
+                selectedLink: {id: null, label: 'Selecione o link'},
+                links: []
             }
         },
         computed: {
@@ -106,16 +138,6 @@
 
         },
         methods: {
-            initValues() {
-                console.log('chamou init');
-                if (this.data.id) {
-                    console.log(this.data)
-                    return
-                } else {
-                    this.origem.id = null
-                    this.origem.nome = ''
-                }
-            },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
@@ -135,23 +157,59 @@
             toggleChatSidebar(value = false) {
                 if (!value && this.clickNotClose) return
                 this.isChatSidebarActive = value
-            }
+            },
+            sendMsg() {
+                if (!this.typedMessage) return
+                this.$store.dispatch('whatsapplist/sendMsg', {id: this.data.id, mensagem: this.typedMessage}).then(response => {
+                    console.log(response)
+                });
+            },
+            showProfileSidebar(userId, openOnLeft = false) {
+                this.userProfileId = userId
+                this.isLoggedInUserProfileView = openOnLeft
+                this.activeProfileSidebar = !this.activeProfileSidebar
+            },
+            toggleIsChatPinned(value) {
+                this.isChatPinned = value
+            },
+            setMensagem(text) {
+                this.typedMessage = text;
+            },
+            addVarText(value) {
+                //Text Area
+                var $txt = document.getElementById('text-area-chat');
+                var textAreaTxt = $txt.value;
+                var caretPos = $txt.selectionStart;
+                $txt.value = (textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos));
+                this.typedMessage = $txt.value;
+            },
+            addLinkCheckoutVarText(){
+                this.modal = true;
+            },
+            clearValMultiple() {
+                this.selectedLink = {id: null, label: 'Selecione o link'};
+            },
+            selectLink() {
+                this.addVarText('[LINK_' + this.selectedLink.id + ']');
+                this.selectedLink = {id: null, label: 'Selecione o link'};
+            },
+            close() {
+                this.modal = false;
+            },
         },
         components: {
             VuePerfectScrollbar,
             'v-select': vSelect,
-            ChatLog, ChatNavBar
+            ChatLog, 'chat-navbar': ChatNavBar
         },
         created() {
-            this.initValues();
-            if (Object.entries(this.data).length === 0) {
-                //this.initValues()
-                this.$validator.reset()
-            } else {
-                console.log('entrou aqui', this.data);
-                this.origem = JSON.parse(JSON.stringify(this.data));
-            }
-        }
+            this.$store.dispatch('getLinks', this.data.campanhable.produto_id).then(response => {
+                let arr = [...response];
+                arr.forEach(item => {
+                    this.links.push({id: item.identidade, label: item.descricao});
+                });
+            });
+        },
     }
 </script>
 
@@ -191,6 +249,23 @@
     .vs-sidebar--background {
         background: rgba(0, 0, 0, .2) !important;
     }
+
+    #text-area-chat {
+        padding: .5rem !important;
+    }
+
+    .chat-whats.no-scroll-content {
+        height: calc(var(--vh, 1vh) * 100 - 25rem) !important;
+    }
+
+    [dir] #chat-app .chat__bg {
+        background-image: url("../../assets/images/util/fundo-chat.jpg") !important;
+        border: unset !important;
+    }
+
+    /*.chat-whats.no-scroll-content {
+        height: calc(var(--vh, 1vh) * 100 - 28rem) !important;
+    }*/
 </style>
 <style lang="scss">
     @import "@/assets/scss/vuexy/apps/chat.scss";

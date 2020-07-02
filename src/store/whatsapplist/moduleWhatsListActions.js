@@ -62,5 +62,13 @@ export default {
                     reject(error)
                 })
         })
+    },
+    sendMsg({commit}, dados){
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/whatsapplists_resposta/${dados.id}`, {mensagem: dados.mensagem})
+                .then((response) => {
+                    resolve(response);
+                })
+        });
     }
 }

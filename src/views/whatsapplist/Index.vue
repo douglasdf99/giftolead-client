@@ -167,6 +167,7 @@
                 produtos: [],
                 selectedCampanha: null,
                 campanhas: [],
+                mensagensPadrao: [],
                 //items: {}
             }
         },
@@ -245,7 +246,8 @@
                 this.getItems(this.$route.params.id);
             },
             responder(dados) {
-                this.aresponder = dados
+                this.aresponder = dados;
+                console.log(this.aresponder)
                 this.toggleRespostaSidebar(true)
             },
             toggleRespostaSidebar(val = false) {

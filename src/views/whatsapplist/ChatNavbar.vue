@@ -11,75 +11,83 @@
     <div v-if="userId != null" class="chat__header">
         <vs-navbar class="p-4 flex navbar-custom" color="white" type="flat">
             <div class="relative flex mr-4">
-                <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer" v-if="isSidebarCollapsed" @click.stop="$emit('openContactsSidebar')" />
-                <vs-avatar class="m-0 border-2 border-solid border-white" size="40px" :src="userDetails.photoURL" @click.stop="$emit('showProfileSidebar', userId)" />
-                <div class="h-3 w-3 border-white border border-solid rounded-full absolute right-0 bottom-0" :class="'bg-' + getStatusColor(false)"></div>
+                <vs-avatar class="m-0 border-2 border-solid border-white" size="40px" :src="userDetails.photoURL"/>
             </div>
-            <h6>{{ userDetails.displayName }}</h6>
+            <h6>{{ dados.nome }}</h6>
             <vs-spacer></vs-spacer>
-            <feather-icon icon="StarIcon" class="cursor-pointer" :svgClasses="[{'text-warning stroke-current': isPinnedLocal}, 'w-6', 'h-6']" @click.stop="isPinnedLocal = !isPinnedLocal"></feather-icon>
+            <vx-tooltip text="Mensagens Padrão" position="left">
+                <vs-dropdown vs-trigger-click>
+                    <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
+                    <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
+                        <span class="span-identifica-item-dropdown mb-0">Mensagem Padrão</span>
+                        <vs-dropdown-item v-for="msg in mensagens" @click="$emit('setMensagem', msg.mensagem)">
+                            <span v-if="msg.tipo === 'whatsapp'">{{msg.titulo}}</span>
+                        </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                </vs-dropdown>
+            </vx-tooltip>
         </vs-navbar>
     </div>
 </template>
 
 <script>
-export default {
-  props: {
-    userId: {
-      type: Number,
-      required: true,
-    },
-    isPinnedProp: {
-      type: Boolean,
-      required: true,
-    },
-    isSidebarCollapsed: {
-      type: Boolean,
-      required: true,
-    }
-  },
-  computed: {
-    isPinnedLocal: {
-      get() {
-        return this.isPinnedProp
-      },
-      set(val) {
-        const chatData = this.$store.getters['chat/chatDataOfUser'](this.userId);
-        if (chatData) {
-          const payload = { id: this.userId, value: val };
-          this.$store.dispatch('chat/toggleIsPinned', payload)
-            .then(() => { this.$emit('toggleIsChatPinned', val) })
-            .catch((err) => { console.error(err) })
-        } else {
-          this.$emit('toggleIsChatPinned', val)
-        }
-      }
-    },
-    userDetails() {
-      return this.$store.getters['chat/contact'](this.userId)
-    },
-    getStatusColor() {
-      return (isActiveUser) => {
-        const userStatus = this.getUserStatus(isActiveUser);
+    import moduleMensagem from "../../store/mensagemPadrao/moduleMensagem";
 
-        if (userStatus == "online") {
-          return "success"
-        } else if (userStatus == "do not disturb") {
-          return "danger"
-        } else if (userStatus == "away") {
-          return "warning"
-        } else {
-          return "grey"
+    export default {
+        props: {
+            userId: {
+                type: Number,
+                required: true,
+            },
+            isPinnedProp: {
+                type: Boolean,
+                required: true,
+            },
+            isSidebarCollapsed: {
+                type: Boolean,
+                required: true,
+            },
+            dados: {
+                type: Object,
+                required: true
+            },
+        },
+        data() {
+            return {
+                mensagens: []
+            }
+        },
+        created() {
+            console.log('dados', this.dados);
+            if (!moduleMensagem.isRegistered) {
+                this.$store.registerModule('mensagens', moduleMensagem)
+                moduleMensagem.isRegistered = true
+            }
+            this.getMensagens();
+        },
+        computed: {
+            isPinnedLocal: {
+                get() {
+                    return this.isPinnedProp
+                },
+            },
+            userDetails() {
+                return this.$store.state.whatsapplist.contato;
+            },
+        },
+        methods: {
+            getMensagens() {
+                this.mensagens = [];
+                this.$store.dispatch('mensagens/get').then(response => {
+                    this.mensagens = [...response];
+                });
+            },
         }
-      }
-    },
-  },
-  methods: {
-    getUserStatus(isActiveUser) {
-      return (isActiveUser) ? this.$store.state.AppActiveUser.status : this.userDetails.status;
     }
-  }
-}
-
 </script>
+<style>
+    .dropdown-chat {
+        z-index: 500000;
+    }
+</style>
 

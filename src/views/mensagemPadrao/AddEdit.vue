@@ -220,7 +220,7 @@
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: 'Sucesso',
-                                    text: "O usuario foi atualizado com sucesso.",
+                                    text: "Atualizado com sucesso.",
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
@@ -240,7 +240,7 @@
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: 'Sucesso',
-                                    text: "O usuario foi criado com sucesso.",
+                                    text: "Criado com sucesso.",
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'

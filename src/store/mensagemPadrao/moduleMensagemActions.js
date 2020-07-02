@@ -46,6 +46,18 @@ export default {
                     reject(error)
                 })
         })
-    }
+    },
+    get({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/mensagem_padraos`, {params: {}})
+                .then((response) => {
+                    console.log('mensagens', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 
 }
