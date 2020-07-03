@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
+        <div class="vx-row flex items-center lg:mt-10 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -38,6 +38,25 @@
                 <!-- SEARCH INPUT -->
             </div>
         </div>
+        <div class="vx-row mt-10 -mb-4">
+            <div class="vx-col w-full">
+                <!--<label class="vs-input&#45;&#45;label">Quantidade</label>
+                <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
+                          :options="lengths"/>-->
+                <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
+                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
+                        <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
+                    </div>
+                    <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+                    <vs-dropdown-menu>
+                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                            <span>{{item}}</span>
+                        </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                </vs-dropdown>
+            </div>
+        </div>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
@@ -69,7 +88,6 @@
                 </div>
                 <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items">
-
                         <template slot="thead">
                             <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
@@ -126,6 +144,7 @@
 
 <script>
     import moduleContas from '@/store/contas/moduleContas.js'
+    import saveleadsConfig from "../../../saveleadsConfig";
 
     export default {
         name: "Index",
@@ -137,7 +156,8 @@
                 routeTitle: 'Leads',
                 dados: {
                     search: '',
-                    page: 1
+                    page: 1,
+                    length: 25
                 },
                 pagination: {
                     last_page: 1,
@@ -145,6 +165,7 @@
                     current_page: 1
                 },
                 currentx: 1,
+                lengths: saveleadsConfig.lengths
                 //items: {}
             }
         },
@@ -221,6 +242,16 @@
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
+            },
+            dados: {
+                handler(val) {
+                    console.log(val.length)
+                    if (val.length !== this.pagination.per_page) {
+                        this.dados.page = 1;
+                        this.getLeads();
+                    }
+                },
+                deep: true
             },
         },
 

@@ -58,31 +58,48 @@
                 <v-select v-model="selectedProduto" :class="'select-large-base'" :clearable="true" class="bg-white" :options="produtos"/>
             </div>
         </div>
+        <div class="vx-row mt-10">
+            <div class="vx-col w-full">
+                <!--<label class="vs-input&#45;&#45;label">Quantidade</label>
+                <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
+                          :options="lengths"/>-->
+                <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
+                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
+                        <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
+                    </div>
+                    <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+                    <vs-dropdown-menu>
+                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                            <span>{{item}}</span>
+                        </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                </vs-dropdown>
+            </div>
+        </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="mt-20">
-                    <vs-tabs :color="colorx" v-model="selectedTab" v-if="numeros">
-                        <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
-                                :label="'pendentes (' + numeros.pendentes + ')'">
-                            <listagem @responder="responder" :items="items"></listagem>
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </vs-tab>
+                <vs-tabs :color="colorx" v-model="selectedTab" v-if="numeros" class="-mt-4">
+                    <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
+                            :label="'pendentes (' + numeros.pendentes + ')'">
+                        <listagem @responder="responder" :items="items"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
 
-                        <vs-tab @click="colorx = 'success'; getItems('respondidos')" color="black"
-                                :label="'respondidos ('+ numeros.respondidos  + ')'">
-                            <listagem @responder="responder" :items="items"></listagem>
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </vs-tab>
+                    <vs-tab @click="colorx = 'success'; getItems('respondidos')" color="black"
+                            :label="'respondidos ('+ numeros.respondidos  + ')'">
+                        <listagem @responder="responder" :items="items"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
 
-                        <vs-tab @click="colorx = 'primary'; getItems('todos')" :label="'todos ('+ numeros.todos +')'">
-                            <listagem @responder="responder" :items="items"></listagem>
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </vs-tab>
-                    </vs-tabs>
-                </div>
+                    <vs-tab @click="colorx = 'primary'; getItems('todos')" :label="'todos ('+ numeros.todos +')'">
+                        <listagem @responder="responder" :items="items"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                </vs-tabs>
             </vs-col>
         </vs-row>
     </div>
@@ -99,6 +116,7 @@
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import moduleProdutos from "../../store/produtos/moduleProdutos";
     import listagem from './Listagem'
+    import saveleadsConfig from "../../../saveleadsConfig";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -120,7 +138,7 @@
                     dt_inicio: '',
                     dt_fim: '',
                     todos: '0',
-
+                    length: 25
                 },
                 selectedTab: 0,
                 items: [],
@@ -157,6 +175,7 @@
                     'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 },
                 currentx: 1,
+                lengths: saveleadsConfig.lengths,
                 selectedTipo: {},
                 tipos: [
                     {id: 'carrinho', label: 'Carrinho/Checkout'},
@@ -358,9 +377,9 @@
             selectedTipo() {
                 this.$vs.loading();
                 this.dados.page = 1;
-                if(this.selectedTipo == null)
+                if (this.selectedTipo == null)
                     this.selectedTipo = {id: null, text: null}
-                if(this.selectedTipo.id != null)
+                if (this.selectedTipo.id != null)
                     this.getCampanhas(this.selectedTipo.id);
                 this.getItems();
             },
@@ -368,7 +387,17 @@
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getItems();
-            }
+            },
+            dados: {
+                handler(val) {
+                    console.log(val.length)
+                    if (val.length !== this.pagination.per_page) {
+                        this.dados.page = 1;
+                        this.getItems();
+                    }
+                },
+                deep: true
+            },
         },
         computed: {
             /*pagination() {

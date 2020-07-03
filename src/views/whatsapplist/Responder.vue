@@ -36,7 +36,7 @@
                     <div class="py-4 text-center" style="background-color: #F4F4F4">
                         <span>Iremos te redirecionar para o aplicativo do Whatsapp</span>
                     </div>
-                    <div class="chat__input flex py-4 items-end" style="background-color: #F4F4F4; box-shadow: 0 1px 10px 0 rgba(179,179,179,1);">
+                    <div class="chat__input flex py-4 items-end" style="background-color: #F4F4F4; box-shadow: 0 1px 10px 0 rgba(179,179,179,1);" v-if="!enviado">
                         <vx-tooltip text="Variáveis" position="top">
                             <vs-dropdown vs-trigger-click>
                                 <i class="material-icons text-4xl text-gray p-4 cursor-pointer">sms</i>
@@ -52,7 +52,7 @@
                             </vs-dropdown>
                         </vx-tooltip>
                         <vs-textarea v-model="typedMessage" id="text-area-chat" class="w-full bg-white mb-0" rows="4" placeholder="Digite uma mensagem"/>
-                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg" v-if="!enviado">send</i>
+                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg">send</i>
                     </div>
                 </div>
                 <vs-prompt

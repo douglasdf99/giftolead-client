@@ -3,7 +3,7 @@
 
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
-        <div class="vx-row flex items-end lg:mt-20 sm:mt-6">
+        <div class="vx-row flex items-end lg:mt-5 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -48,35 +48,46 @@
 
             </div>
         </div>
-
+        <div class="vx-row mt-10 -mb-4">
+            <div class="vx-col w-full">
+                <!--<label class="vs-input&#45;&#45;label">Quantidade</label>
+                <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
+                          :options="lengths"/>-->
+                <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
+                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
+                        <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
+                    </div>
+                    <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+                    <vs-dropdown-menu>
+                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                            <span>{{item}}</span>
+                        </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                </vs-dropdown>
+            </div>
+        </div>
         <vs-row>
-
             <vs-col vs-w="12">
-                <div class="mt-20">
-                    <vs-tabs :color="colorx" v-if="nums.abertos">
-                        <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
-                                :label="'abertos ( ' + nums.abertos + ' )'">
-                            <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </vs-tab>
-
-                        <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black"
-                                :label="'fechados ( ' + nums.fechados + ' )'">
-                            <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </vs-tab>
-
-                        <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
-                            <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </vs-tab>
-
-
-                    </vs-tabs>
-                </div>
+                <vs-tabs :color="colorx" v-if="nums.abertos">
+                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
+                            :label="'abertos ( ' + nums.abertos + ' )'">
+                        <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black"
+                            :label="'fechados ( ' + nums.fechados + ' )'">
+                        <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
+                        <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                </vs-tabs>
                 <div class="vx-row mt-20" v-show="items.length === 0">
 
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
@@ -113,7 +124,6 @@
                     </div>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
-
                 </div>
             </vs-col>
         </vs-row>
@@ -128,6 +138,7 @@
     import moduleOrigens from '@/store/origens/moduleOrigens.js'
     import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js'
     import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+    import saveleadsConfig from "../../../saveleadsConfig";
 
     export default {
         name: "Index",
@@ -151,13 +162,15 @@
                 search: '',
                 dados: {
                     search: '',
-                    page: 1
+                    page: 1,
+                    length: 25
                 },
                 pagination: {
                     last_page: 1,
                     page: 1,
                     current_page: 1
                 },
+                lengths: saveleadsConfig.lengths,
                 currentx: 1,
                 tickets: [],
                 tipoTicket: 'abertos',
@@ -295,6 +308,16 @@
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getTickets();
+            },
+            dados: {
+                handler(val) {
+                    console.log(val.length)
+                    if (val.length !== this.pagination.per_page) {
+                        this.dados.page = 1;
+                        this.getTickets();
+                    }
+                },
+                deep: true
             },
         },
         mounted() {

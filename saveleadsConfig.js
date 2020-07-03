@@ -15,7 +15,8 @@ const saveleadsConfig = {
         {nome: 'Nome do Lead', value: '[NOME_LEAD]'},
         {nome: 'Nome do Atendente', value: '[NOME_ATENDENTE]'},
         {nome: 'Nome do Produto', value: '[NOME_PRODUTO]'},
-    ]
+    ],
+    lengths: [10, 25, 50, 100]
 };
 
 export default saveleadsConfig

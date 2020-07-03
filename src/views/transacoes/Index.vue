@@ -51,6 +51,25 @@
                           :options="status"/>
             </div>
         </div>
+        <div class="vx-row mt-10 -mb-4">
+            <div class="vx-col w-full">
+                <!--<label class="vs-input&#45;&#45;label">Quantidade</label>
+                <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
+                          :options="lengths"/>-->
+                <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
+                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
+                        <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
+                    </div>
+                    <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+                    <vs-dropdown-menu>
+                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                            <span>{{item}}</span>
+                        </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                </vs-dropdown>
+            </div>
+        </div>
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
@@ -146,6 +165,7 @@
     import VueMoment from 'vue-moment'
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+    import saveleadsConfig from "../../../saveleadsConfig";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -172,8 +192,10 @@
                     dt_inicio: '',
                     dt_fim: '',
                     status: '',
-                    produto: ''
+                    produto: '',
+                    length: 25
                 },
+                lengths: saveleadsConfig.lengths,
                 dt_inicio: '',
                 dt_fim: '',
                 languages: lang,
@@ -424,7 +446,17 @@
             dateRange(val) {
                 this.$vs.loading();
                 this.getTransacoes();
-            }
+            },
+            dados: {
+                handler(val) {
+                    console.log(val.length)
+                    if (val.length !== this.pagination.per_page) {
+                        this.dados.page = 1;
+                        this.getTransacoes();
+                    }
+                },
+                deep: true
+            },
         },
         computed: {
             items() {
