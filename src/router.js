@@ -1570,6 +1570,7 @@ router.beforeEach((to, from, next) => {
             store.dispatch('auth/getUser')
                 .then(() => {
                     console.log('logado')
+
                 }).catch(() => {
                     console.log('deu erro')
                     router.push({path: '/login', query: {to: to.path}})

@@ -338,7 +338,7 @@ export default {
                 usuario.uid = response.data.id;
                 usuario.displayName = response.data.name;
                 usuario.about = "Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.";
-                usuario.photoURL = require("@/assets/images/portrait/small/avatar-s-11.jpg");
+                usuario.photoURL = response.data.avatar;
                 usuario.status = response.data.status ? "online" : "offline";
                 usuario.userRole = "admin";
                 usuario.autenticado = true;

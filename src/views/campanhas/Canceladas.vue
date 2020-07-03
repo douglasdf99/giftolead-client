@@ -60,10 +60,10 @@
         <div class="vx-row">
             <div class="vx-col w-full">
                 <div class="p-4 rounded-md" style="background-color: #EDEDED">
-                <p class="text-sm gray">
-                    Para que o ticket possa ser criado no sistema é preciso que o lead comprador nào tenha nenhuma transação dada como aprovada no sistema para o mesmo produto desta campanha. Se o ticket de
-                    finalização nao estiver no modo de espera o ticket sera finalizado assim que o comprador tiver uma transação dada como aprovada.
-                </p>
+                    <p class="text-sm gray">
+                        Para que o ticket possa ser criado no sistema é preciso que o lead comprador nào tenha nenhuma transação dada como aprovada no sistema para o mesmo produto desta campanha. Se o ticket de
+                        finalização nao estiver no modo de espera o ticket sera finalizado assim que o comprador tiver uma transação dada como aprovada.
+                    </p>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                     <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
                 </vx-card>
             </div>
-            <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full" >
+            <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                 <vx-card class="shadow-none">
                     <span class="destaque">Valor recuperado</span>
                     <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
@@ -86,24 +86,24 @@
                     <p class="font-bold text-3xl my-5">23</p>
                 </vx-card>
             </div>
-            <!--<div class="vx-col mt-5 w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
+            <div class="vx-col mt-5 w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
                 <p class="destaque text-primary">Ver mais</p>
-            </div>-->
+            </div>
         </div>
         <transition name="fade">
             <div class="vx-row" v-if="verMaisCards">
-                <!--<div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
-                <vx-card class="shadow-none">
-                    <span class="destaque">Nº de contatos inativos</span>
-                    <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
-                </vx-card>
-            </div>-->
-                <!--<div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
+                <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
+                    <vx-card class="shadow-none">
+                        <span class="destaque">Nº de contatos inativos</span>
+                        <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
+                    </vx-card>
+                </div>
+                <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                     <vx-card class="shadow-none">
                         <span class="destaque">Nº total de contatos</span>
                         <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
                     </vx-card>
-                </div>-->
+                </div>
             </div>
         </transition>
         <transition name="fade">
@@ -258,16 +258,16 @@
                 this.$vs.loading();
                 this.$store.dispatch('canceladas/getId', id).then(response => {
                     this.campanha = {...response};
-                    if (this.campanha.tipo_duvida_id){
+                    if (this.campanha.tipo_duvida_id) {
                         this.duvidaSelected.id = this.campanha.tipo_duvida.id;
                         this.duvidaSelected.label = this.campanha.tipo_duvida.nome
-                    }else{
+                    } else {
                         this.duvidaSelected = {id: 0, label: 'Dúvida'};
                     }
-                    if (this.campanha.tipos){
-                      this.campanha.tipos.forEach(item => {
-                        this.tipoSelected.push({id: item, label: this.hotmartStatus[item]});
-                      })
+                    if (this.campanha.tipos) {
+                        this.campanha.tipos.forEach(item => {
+                            this.tipoSelected.push({id: item, label: this.hotmartStatus[item]});
+                        })
                     }
 
                     this.$vs.loading.close();
@@ -294,7 +294,8 @@
                     arr.forEach(item => {
                         this.opcoesResponsaveis.push({id: item.id, label: item.name});
                     });
-                })*/;
+                })*/
+                ;
             },
             formatPrice(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
