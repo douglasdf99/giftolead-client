@@ -360,6 +360,7 @@
             usuario: {
                 handler(val) {
                     console.log('mudou');
+                    console.log('mudou2');
                     if (val) {
                         console.log('watch', val);
                     }
