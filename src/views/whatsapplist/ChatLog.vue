@@ -22,7 +22,7 @@
                          v-if="!(!hasSentPreviousMsg(chatData.msg[index-1].isSent, msg.isSent) || !isSameDay(msg.time, chatData.msg[index-1].time))"></div>
                 </template>
 
-                <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-2 rounded-lg max-w-sm"
+                <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-4 rounded-lg max-w-sm"
                      :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
                     <span>{{ msg.textContent }}</span>
                 </div>
@@ -47,16 +47,14 @@
         },
         data() {
             return {
-                chatData: {
+                /*chatData: {
                     msg: []
-                }
+                }*/
             }
         },
         created() {
-            this.chatData.msg.push({
-                isSent: false,
-                textContent: this.dados.campanhable.mensagem
-            });
+            this.$store.dispatch('whatsapplist/emptyChat');
+            this.$store.dispatch('whatsapplist/pushMsg', {isSent: false, textContent: this.dados.campanhable.mensagem});
         },
         computed: {
             activeUserImg() {
@@ -71,6 +69,9 @@
             hasSentPreviousMsg() {
                 return (last_sender, current_sender) => last_sender == current_sender
             },
+            chatData(){
+                return this.$store.state.whatsapplist.chatData;
+            }
         },
         methods: {
             isSameDay(time_to, time_from) {

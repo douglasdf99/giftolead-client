@@ -63,12 +63,22 @@ export default {
                 })
         })
     },
+    pushMsg({commit}, dados){
+        return new Promise((resolve, reject) => {
+            commit('PUSH_MSG', dados);
+            resolve();
+        });
+    },
+    emptyChat({commit}){
+        commit('EMPTY_CHAT');
+    },
     sendMsg({commit}, dados){
         return new Promise((resolve, reject) => {
             axios.post(`/api/whatsapplists_resposta/${dados.id}`, {mensagem: dados.mensagem})
                 .then((response) => {
-                    resolve(response);
+                    commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
+                    resolve(response.data.data.url);
                 })
         });
-    }
+    },
 }

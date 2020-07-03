@@ -2,20 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Ajustes reunião 10">
-      <change afterPath="$PROJECT_DIR$/src/views/campanhas/whatsapp/Whatsapp.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/campanhas/Canceladas.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/Canceladas.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/campanhas/checkout/Checkout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/checkout/Checkout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/campanhas/checkout/Contatos.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/checkout/Contatos.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/campanhas/checkout/Emails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/checkout/Emails.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/campanhas/checkout/EmailsCriar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/checkout/EmailsCriar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/campanhas/checkout/Historico.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/checkout/Historico.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Conquistas.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Conquistas.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/mensagemPadrao/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/mensagemPadrao/AddEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/planos/Gerenciar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/planos/Gerenciar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListMutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListMutations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListState.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListState.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/ChatLog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/ChatLog.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Responder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Responder.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +22,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JavaScript File" />
         <option value="Vue Single File Component" />
       </list>
     </option>
@@ -54,7 +49,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../saveleads3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views/whatsapplist" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -67,22 +62,22 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Projetos\saveleads3_vue\src\store\campanha_canceladas" />
-      <recent name="C:\projects\saveleadsVuexy\src\views" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\links" />
-      <recent name="C:\projects\saveleadsVuexy\src\store" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\leads" />
+      <recent name="C:\Projetos\saveleads3_vue\src\views\whatsapplist" />
+      <recent name="C:\Projetos\saveleads3_vue\src\store\whatsapplist" />
+      <recent name="C:\Projetos\saveleads3_vue\src\views\campanhas\boleto" />
+      <recent name="C:\Projetos\saveleads3_vue\src\store\campanha_boleto" />
+      <recent name="C:\Projetos\saveleads3_vue\src\store\campanha_whatsapp" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Projetos\saveleads3_vue\src\rotas\campanhas" />
+      <recent name="C:\Projetos\saveleads3_vue\src\rotas\configuracoes" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\campanhas\checkout" />
       <recent name="C:\projects\saveleadsVuexy\src\views\links" />
       <recent name="C:\projects\saveleadsVuexy\public" />
-      <recent name="C:\projects\saveleadsVuexy\src\assets\images\util" />
-      <recent name="C:\projects\saveleadsVuexy\src\views" />
     </key>
   </component>
   <component name="RunManager">
@@ -160,42 +155,14 @@
       <workItem from="1593002430419" duration="914000" />
       <workItem from="1593004731864" duration="4000" />
       <workItem from="1593016223946" duration="10745000" />
-      <workItem from="1593087753987" duration="8062000" />
-    </task>
-    <task id="LOCAL-00010" summary="Sidebar em processo e topbar arrumado">
-      <created>1587606868073</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1587606868073</updated>
-    </task>
-    <task id="LOCAL-00011" summary="seta sidebar active">
-      <created>1587654366636</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1587654366636</updated>
-    </task>
-    <task id="LOCAL-00012" summary="novo">
-      <created>1587658073723</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1587658073723</updated>
-    </task>
-    <task id="LOCAL-00013" summary="novo">
-      <created>1587662879464</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1587662879464</updated>
-    </task>
-    <task id="LOCAL-00014" summary="novo">
-      <created>1587751506508</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1587751506508</updated>
+      <workItem from="1593087753987" duration="17275000" />
+      <workItem from="1593174452846" duration="623000" />
+      <workItem from="1593190835822" duration="8000" />
+      <workItem from="1593193628594" duration="8664000" />
+      <workItem from="1593434599564" duration="20133000" />
+      <workItem from="1593519228349" duration="10682000" />
+      <workItem from="1593692137859" duration="19101000" />
+      <workItem from="1593778272374" duration="6834000" />
     </task>
     <task id="LOCAL-00015" summary="novo">
       <created>1587755889769</created>
@@ -505,7 +472,42 @@
       <option name="project" value="LOCAL" />
       <updated>1593030901029</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="Ajustes reunião 10">
+      <created>1593106257623</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1593106257623</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Campanha de Boleto finalizada">
+      <created>1593204234679</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1593204234679</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Fix campanha boleto">
+      <created>1593204642555</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1593204642555</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Refatoração da organização das rotas">
+      <created>1593451301243</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1593451301243</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Andamento Whatsapplist">
+      <created>1593534203470</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1593534203470</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TodoView">
@@ -531,10 +533,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="git ignore" />
-    <MESSAGE value="sub menu ok" />
-    <MESSAGE value="reuniao 3" />
-    <MESSAGE value="tentativa e erro brinde" />
     <MESSAGE value="retorno 401" />
     <MESSAGE value="logotipo ok e z-index footerbar" />
     <MESSAGE value="ajustes 19 01" />
@@ -554,27 +552,37 @@
     <MESSAGE value="Fix deletes do sistema e possibilidade de deletar e-mail" />
     <MESSAGE value="Tela de recuperação de venda cancelada" />
     <MESSAGE value="Ativar/Desativar campanha" />
-    <MESSAGE value="Ajustes reunião 10" />
     <MESSAGE value="Listagem de Contatos na campanha de carrinho finalizada" />
-    <option name="LAST_COMMIT_MESSAGE" value="Listagem de Contatos na campanha de carrinho finalizada" />
+    <MESSAGE value="Ajustes reunião 10" />
+    <MESSAGE value="Campanha de Boleto finalizada" />
+    <MESSAGE value="Fix campanha boleto" />
+    <MESSAGE value="Refatoração da organização das rotas" />
+    <MESSAGE value="Andamento Whatsapplist" />
+    <option name="LAST_COMMIT_MESSAGE" value="Andamento Whatsapplist" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2281" y="71" key="#Deployment" timestamp="1592593046374">
       <screen x="1920" y="0" width="1536" height="832" />
     </state>
     <state x="2281" y="71" key="#Deployment/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592593046374" />
-    <state x="484" y="0" key="CommitChangelistDialog2" timestamp="1593030900067">
+    <state x="2472" y="214" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1593694854072">
+      <screen x="1920" y="0" width="1536" height="832" />
+    </state>
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593442722195" />
+    <state x="2472" y="214" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593694854072" />
+    <state x="484" y="0" key="CommitChangelistDialog2" timestamp="1593692409554">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="484" y="0" key="CommitChangelistDialog2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593030900067" />
+    <state x="484" y="0" key="CommitChangelistDialog2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593692409554" />
     <state x="2307" y="0" key="CommitChangelistDialog2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593004734486" />
     <state x="1977" y="-14" width="1536" height="860" maximized="true" key="DiffContextDialog" timestamp="1592835265657">
       <screen x="1920" y="0" width="1536" height="832" />
     </state>
     <state x="1977" y="-14" width="1536" height="860" maximized="true" key="DiffContextDialog/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592835265657" />
-    <state x="2512" y="220" key="FileChooserDialogImpl" timestamp="1593016234481">
-      <screen x="1920" y="0" width="1536" height="832" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1593534472342">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593534472342" />
     <state x="2512" y="220" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593016234481" />
     <state x="2660" y="275" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592326970301" />
     <state width="1493" height="261" key="GridCell.Tab.0.bottom" timestamp="1593088629326">
@@ -641,35 +649,41 @@
       <screen x="1920" y="0" width="1536" height="832" />
     </state>
     <state width="1493" height="261" key="GridCell.Tab.3.right/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629328" />
-    <state x="451" y="181" key="Vcs.Push.Dialog.v2" timestamp="1593030902138">
+    <state width="498" height="446" key="SwitcherDM" timestamp="1593118523302">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="451" y="181" key="Vcs.Push.Dialog.v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593030902138" />
+    <state width="498" height="446" key="SwitcherDM/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593118523302" />
+    <state x="451" y="181" key="Vcs.Push.Dialog.v2" timestamp="1593534255104">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="451" y="181" key="Vcs.Push.Dialog.v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593534255104" />
     <state x="2281" y="145" key="Vcs.Push.Dialog.v2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593002484789" />
-    <state x="2498" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593017356033">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state x="2498" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593017356033" />
-    <state x="599" y="14" width="723" height="1002" key="find.popup" timestamp="1593023328624">
+    <state x="723" y="408" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593710146418">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="599" y="14" width="723" height="1002" key="find.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593023328624" />
+    <state x="723" y="408" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593710146418" />
+    <state x="2498" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593017356033" />
+    <state x="599" y="14" width="723" height="1002" key="find.popup" timestamp="1593715134849">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="599" y="14" width="723" height="1002" key="find.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593715134849" />
     <state x="2399" y="11" width="578" height="801" key="find.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592848352353" />
     <state x="2582" y="333" key="publish.login" timestamp="1592592998975">
       <screen x="1920" y="0" width="1536" height="832" />
     </state>
     <state x="2582" y="333" key="publish.login/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592592998975" />
     <state x="2748" y="416" key="publish.login/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592326782579" />
-    <state x="2413" y="192" key="run.anything.popup" timestamp="1592919784552">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state x="2413" y="192" key="run.anything.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592919784552" />
-    <state x="2536" y="240" key="run.anything.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592321031206" />
-    <state x="623" y="225" width="840" height="679" key="search.everywhere.popup" timestamp="1593096588978">
+    <state x="616" y="240" key="run.anything.popup" timestamp="1593707605504">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="840" height="679" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593096588978" />
-    <state x="2418" y="180" width="672" height="543" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593089579741" />
+    <state x="616" y="240" key="run.anything.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593707605504" />
+    <state x="2413" y="192" key="run.anything.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592919784552" />
+    <state x="2536" y="240" key="run.anything.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592321031206" />
+    <state x="623" y="225" width="840" height="679" key="search.everywhere.popup" timestamp="1593781419350">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="840" height="679" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593781419350" />
+    <state x="2418" y="180" width="672" height="543" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593697991653" />
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592321254201" />
   </component>
   <component name="XDebuggerManager">
@@ -681,11 +695,6 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/router.js</url>
-          <line>2400</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contas/SideBar.vue</url>
           <line>98</line>
           <option name="timeStamp" value="19" />
@@ -694,16 +703,6 @@
           <url>file://$PROJECT_DIR$/src/store/getters.js</url>
           <line>27</line>
           <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/router.js</url>
-          <line>1402</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/views/tickets/Index.vue</url>
-          <line>79</line>
-          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

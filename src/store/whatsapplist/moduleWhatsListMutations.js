@@ -10,5 +10,11 @@
 export default {
     SET_FILTER(state, val) {
         state.campanha_whatsapp = val;
+    },
+    PUSH_MSG(state, dados) {
+        state.chatData.msg.push(dados);
+    },
+    EMPTY_CHAT(state){
+        state.chatData.msg = [];
     }
 }

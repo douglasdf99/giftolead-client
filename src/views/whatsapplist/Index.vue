@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar"
+        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
                   :data="aresponder"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
@@ -61,7 +61,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="mt-20">
-                    <vs-tabs :color="colorx" v-if="numeros.pendentes" v-model="selectedTab">
+                    <vs-tabs :color="colorx" v-model="selectedTab" v-if="numeros">
                         <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
                                 :label="'pendentes (' + numeros.pendentes + ')'">
                             <listagem @responder="responder" :items="items"></listagem>
@@ -248,10 +248,10 @@
             responder(dados) {
                 this.aresponder = dados;
                 console.log(this.aresponder)
-                this.toggleRespostaSidebar(true)
+                this.toggleRespostaSidebar(true);
             },
             toggleRespostaSidebar(val = false) {
-                this.responderTicket = val
+                this.responderTicket = val;
             },
             getItems(tipo = null) {
                 if (this.selectedTipo.id != null)

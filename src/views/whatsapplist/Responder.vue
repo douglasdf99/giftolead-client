@@ -13,10 +13,10 @@
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="my-6 flex items-center justify-between px-6">
             <h4>Responder Contato</h4>
-            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+            <feather-icon icon="XIcon" @click.stop="fechar" class="cursor-pointer"></feather-icon>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
-            <div class="pb-6 px-0">
+            <div class="p-0">
                 <div id="chat-app" class="d-theme-border-grey-light rounded relative overflow-hidden chat-whats-bg">
                     <!-- RIGHT COLUMN -->
                     <div class="chat-whats chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-grey-light border-t-0 border-r-0 border-b-0"
@@ -24,6 +24,7 @@
                         <template v-if="activeChatUser">
                             <div class="chat__navbar">
                                 <chat-navbar :dados="data" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
+                                <vs-progress indeterminate color="primary" v-if="enviando"></vs-progress>
                             </div>
                             <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
                                 <div class="chat__log" ref="chatLog">
@@ -35,7 +36,7 @@
                     <div class="py-4 text-center" style="background-color: #F4F4F4">
                         <span>Iremos te redirecionar para o aplicativo do Whatsapp</span>
                     </div>
-                    <div class="chat__input flex p-4 items-end" style="background-color: #F4F4F4">
+                    <div class="chat__input flex py-4 items-end" style="background-color: #F4F4F4; box-shadow: 0 1px 10px 0 rgba(179,179,179,1);">
                         <vx-tooltip text="Variáveis" position="top">
                             <vs-dropdown vs-trigger-click>
                                 <i class="material-icons text-4xl text-gray p-4 cursor-pointer">sms</i>
@@ -51,7 +52,7 @@
                             </vs-dropdown>
                         </vx-tooltip>
                         <vs-textarea v-model="typedMessage" id="text-area-chat" class="w-full bg-white mb-0" rows="4" placeholder="Digite uma mensagem"/>
-                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg">send</i>
+                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg" v-if="!enviado">send</i>
                     </div>
                 </div>
                 <vs-prompt
@@ -77,10 +78,10 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
-    import ChatNavBar from './ChatNavbar'
-    import ChatLog from './ChatLog'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
+    import ChatNavBar from './ChatNavbar';
+    import ChatLog from './ChatLog';
     import saveleadsConfig from '../../../saveleadsConfig';
 
     export default {
@@ -115,6 +116,8 @@
                 clickNotClose: false,
                 isChatSidebarActive: true,
                 isLoggedInUserProfileView: false,
+                enviando: false,
+                enviado: false,
 
                 //Modal
                 modal: false,
@@ -135,7 +138,6 @@
                     }
                 }
             },
-
         },
         methods: {
             submitData() {
@@ -146,6 +148,10 @@
                         this.initValues();
                     }
                 })
+            },
+            fechar() {
+                this.$emit('getItems')
+                this.isSidebarActiveLocal = false
             },
             setSidebarWidth() {
                 if (this.windowWidth < 1200) {
@@ -160,9 +166,17 @@
             },
             sendMsg() {
                 if (!this.typedMessage) return
+                this.enviando = true;
                 this.$store.dispatch('whatsapplist/sendMsg', {id: this.data.id, mensagem: this.typedMessage}).then(response => {
-                    console.log(response)
+                    this.enviado = true;
+                    this.typedMessage = '';
+                    setTimeout(() => this.redirectWhats(response), 2000);
+                    //this.$emit('getItems')
                 });
+            },
+            redirectWhats(url) {
+                this.enviando = false;
+                window.open(url);
             },
             showProfileSidebar(userId, openOnLeft = false) {
                 this.userProfileId = userId
@@ -183,7 +197,7 @@
                 $txt.value = (textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos));
                 this.typedMessage = $txt.value;
             },
-            addLinkCheckoutVarText(){
+            addLinkCheckoutVarText() {
                 this.modal = true;
             },
             clearValMultiple() {
@@ -241,7 +255,7 @@
 
     .scroll-area--data-list-add-new {
         // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-        height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+        height: calc(93vh);
     }
 </style>
 
@@ -255,7 +269,7 @@
     }
 
     .chat-whats.no-scroll-content {
-        height: calc(var(--vh, 1vh) * 100 - 25rem) !important;
+        height: calc(var(--vh, 1vh) * 100 - 20rem) !important;
     }
 
     [dir] #chat-app .chat__bg {
