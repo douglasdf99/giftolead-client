@@ -158,7 +158,7 @@ Vue.mixin({
             if (value) {
                 return moment(String(value)).format('DD-MM-YYYY')
             }
-        }
+        },
     }
 });
 

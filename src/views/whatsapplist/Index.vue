@@ -2,6 +2,8 @@
     <div>
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
                   :data="aresponder"/>
+        <transformar v-if="transformarTicket" :isSidebarActive="transformarTicket" @closeSidebar="toggleTicketSidebar" @getItems="getItems"
+                  :data="atransformar"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
@@ -79,23 +81,23 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <vs-tabs :color="colorx" v-model="selectedTab" v-if="numeros" class="-mt-4">
+                <vs-tabs :color="colorx" v-model="selectedTab" v-if="numeros">
                     <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
                             :label="'pendentes (' + numeros.pendentes + ')'">
-                        <listagem @responder="responder" :items="items"></listagem>
+                        <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
 
                     <vs-tab @click="colorx = 'success'; getItems('respondidos')" color="black"
                             :label="'respondidos ('+ numeros.respondidos  + ')'">
-                        <listagem @responder="responder" :items="items"></listagem>
+                        <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
 
                     <vs-tab @click="colorx = 'primary'; getItems('todos')" :label="'todos ('+ numeros.todos +')'">
-                        <listagem @responder="responder" :items="items"></listagem>
+                        <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -109,9 +111,10 @@
     import moduleWhatsList from "../../store/whatsapplist/moduleWhatsList";
     import * as lang from "vuejs-datepicker/dist/locale";
     import SideBar from "./Responder";
-    import Datepicker from "vuejs-datepicker";
-    import VueMoment from "vue-moment";
+    import SideBarTransformar from "./Transformar";
     import vSelect from "vue-select";
+    import VueMoment from "vue-moment";
+    import Datepicker from "vuejs-datepicker";
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import moduleProdutos from "../../store/produtos/moduleProdutos";
@@ -124,13 +127,15 @@
     export default {
         name: "Index",
         components: {
-            SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem
+            SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
         data() {
             return {
                 // Data Sidebar
                 responderTicket: false,
+                transformarTicket: false,
                 aresponder: {},
+                atransformar: {},
                 colorx: 'warning',
                 dados: {
                     search: '',
@@ -266,11 +271,17 @@
             },
             responder(dados) {
                 this.aresponder = dados;
-                console.log(this.aresponder)
                 this.toggleRespostaSidebar(true);
+            },
+            transformar(dados) {
+                this.atransformar = dados;
+                this.toggleTicketSidebar(true);
             },
             toggleRespostaSidebar(val = false) {
                 this.responderTicket = val;
+            },
+            toggleTicketSidebar(val = false) {
+                this.transformarTicket = val;
             },
             getItems(tipo = null) {
                 if (this.selectedTipo.id != null)
@@ -391,7 +402,7 @@
             dados: {
                 handler(val) {
                     console.log(val.length)
-                    if (val.length !== this.pagination.per_page) {
+                    if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
                         this.getItems();
                     }

@@ -48,7 +48,7 @@
                         </vs-dropdown>
                     </vs-td>
                     <vs-td :data="tr.nome" class="relative">
-                        <span class="destaque">{{ tr.nome }}</span>
+                        <span class="destaque">{{ tr.lead.nome }}</span>
                     </vs-td>
                     <vs-td :data="tr" v-if="tr.campanhable" class="relative">
                         <vs-chip :color="tr.campanhable.produto.cor || ''" class="product-order-status">
@@ -71,8 +71,8 @@
                     </vs-td>
                     <vs-td>
                         <vx-tooltip text="Transformar em Ticket" position="top" class="text-center">
-                            <vs-icon icon-pack="material-icons" icon="wrap_text"
-                                     class="icon-grande text-black" v-if="tr.resposta"></vs-icon>
+                            <vs-icon icon-pack="material-icons" icon="wrap_text" v-if="tr.resposta && (tr.resposta.responsavel_id == $store.state.AppActiveUser.uid)"
+                                     class="icon-grande text-black cursor-pointer" @click="$emit('transformar', tr)"></vs-icon>
                         </vx-tooltip>
                         <vx-tooltip text="Responder" position="top" class="text-center">
                             <vs-icon icon-pack="material-icons" icon="reply" v-if="!tr.resposta"
@@ -88,7 +88,7 @@
 <script>
     export default {
         name: "Listagem",
-        props: ['items']
+        props: ['items'],
     }
 </script>
 

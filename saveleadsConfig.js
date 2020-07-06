@@ -13,6 +13,7 @@ const saveleadsConfig = {
     url_api: 'https://api.saveleads.com.br',
     variaveis: [
         {nome: 'Nome do Lead', value: '[NOME_LEAD]'},
+        {nome: 'E-mails do Lead', value: '[EMAIL_LEAD]'},
         {nome: 'Nome do Atendente', value: '[NOME_ATENDENTE]'},
         {nome: 'Nome do Produto', value: '[NOME_PRODUTO]'},
     ],
