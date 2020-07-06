@@ -71,7 +71,7 @@
             <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                 <vx-card class="shadow-none ">
                     <span class="destaque">Nº de contatos</span>
-                    <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
+                    <p class="font-bold text-3xl my-5">{{campanha.contatos_fechados_count + campanha.contatos_pendentes_count}}</p>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
@@ -95,13 +95,13 @@
                 <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                     <vx-card class="shadow-none">
                         <span class="destaque">Nº de contatos inativos</span>
-                        <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
+                        <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count}}</p>
                     </vx-card>
                 </div>
                 <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                     <vx-card class="shadow-none">
                         <span class="destaque">Nº total de contatos</span>
-                        <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
+                        <p class="font-bold text-3xl my-5">{{campanha.contatos_fechados_count}}</p>
                     </vx-card>
                 </div>
             </div>
@@ -129,10 +129,10 @@
 <script>
     import vSelect from 'vue-select'
     import Prism from 'vue-prism-component'
-    import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
-    import moduleOrigens from "../../store/origens/moduleOrigens";
-    import moduleDuvidas from "../../store/tipoDuvida/moduleDuvidas";
-    import moduleUsuario from "../../store/usuarios/moduleUsuario";
+    import moduleCampCanceladas from "../../../store/campanha_canceladas/moduleCampCanceladas";
+    import moduleOrigens from "../../../store/origens/moduleOrigens";
+    import moduleDuvidas from "../../../store/tipoDuvida/moduleDuvidas";
+    import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
     export default {
         name: "Canceladas",

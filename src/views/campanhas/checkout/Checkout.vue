@@ -107,7 +107,7 @@
                     <div class="vx-col w-full mb-4">
                         <vx-card class="shadow-none">
                             <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">23</p>
+                            <p class="font-bold text-3xl my-5">{{campanha.transacaos_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
@@ -125,7 +125,7 @@
                         <div class="vx-col w-full mb-4" v-if="verMaisCards">
                             <vx-card class="shadow-none">
                                 <span class="destaque">Valor recuperado</span>
-                                <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
+                                <p class="font-bold text-3xl my-5">R$ {{formatPrice(valortotal)}}</p>
                             </vx-card>
                         </div>
                     </transition>
@@ -342,6 +342,12 @@
             isValid() {
                 return this.errors.any();
             },
+            valortotal: function(){
+              let sum = 0;
+              return this.campanha.transacaos.reduce(function(prev, item){
+                return sum + item.full_price;
+              },0);
+            }
         },
         watch: {
             "$route"() {
