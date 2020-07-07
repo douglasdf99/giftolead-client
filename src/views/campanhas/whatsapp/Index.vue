@@ -23,7 +23,7 @@
                     <div class="vx-col w-full">
                         <span class="font-regular mb-2">Mensagem Padrão</span>
                         <vs-textarea v-model="campanha.mensagem" id="text-area" class="w-full bg-white" name="textarea" rows="6" v-validate="'required|max:130'"
-                        placeholder="Digite a mensagem que seu cliente irá mandar para você para solicitar um contato nesta campanha."/>
+                                     placeholder="Digite a mensagem que seu cliente irá mandar para você para solicitar um contato nesta campanha."/>
                         <span class="text-danger text-sm"
                               v-show="errors.has('textarea')">Máximo de 130 caracteres</span>
                     </div>
@@ -99,17 +99,17 @@
             </div>
             <div class="vx-col w-full lg:w-5/12">
                 <div class="vx-row">
-                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('pendentes')">
-                        <vx-card class="shadow-none">
-                            <span class="destaque">Nº de contatos não respondidos</span>
-                            <!-- contatos_count neste caso traz quem não foi respondido pelo chat -->
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
-                        </vx-card>
-                    </div>
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('respondidos')">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos respondidos</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count - campanha.contatos_count}}</p>
+                            <!-- contatos_count neste caso traz quem não foi respondido pelo chat -->
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_respondidos_count}}</p>
+                        </vx-card>
+                    </div>
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('pendentes')">
+                        <vx-card class="shadow-none">
+                            <span class="destaque">Nº de contatos não respondidos</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
@@ -125,7 +125,7 @@
                         <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('todos')" v-if="verMaisCards">
                             <vx-card class="shadow-none">
                                 <span class="destaque">Nº total de contatos</span>
-                                <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
+                                <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count + campanha.contatos_respondidos_count}}</p>
                             </vx-card>
                         </div>
                     </transition>
@@ -342,13 +342,8 @@
                     })
                 })
             },
-            historico() {
-                this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`});
-            },
             contatos(val) {
-                this.$store.dispatch('whatsapplist/setFilter', val).then(() => {
-                    this.$router.push({path: `/whatsapplist/listagem`});
-                });
+                this.$router.push({path: `/campanha/configurar-whatsapp/${this.$route.params.id}/contatos-${val}`});
             },
         },
         computed: {

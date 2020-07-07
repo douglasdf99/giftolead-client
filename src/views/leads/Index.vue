@@ -236,9 +236,10 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                console.log('val', val);
-                this.dados.page = this.currentx;
-                this.getLeads();
+                if(this.dados.page != val){
+                    this.dados.page = val;
+                    this.getLeads();
+                }
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle

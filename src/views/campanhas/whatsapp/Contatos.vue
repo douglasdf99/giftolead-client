@@ -1,10 +1,5 @@
 <template>
     <div>
-        <div class="vx-row mb-3">
-            <div class="vx-col w-full" v-if="items.length > 0">
-                <p class="destaque text-2xl">{{items[0].campanha.nome}}</p>
-            </div>
-        </div>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
@@ -44,10 +39,10 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-3/12 sm:w-full" v-if="$route.name == 'campanha-config-checkout-contatos-todos'">
+            <div class="vx-col w-full lg:w-3/12 sm:w-full" v-if="$route.name == 'campanha-config-whatsapp-contatos-todos'">
                 <label class="vs-input--label">Filtro</label>
                 <v-select v-model="filtroContatos" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="[{id: 'todos', label: 'Todos'}, {id: 'ativos', label: 'Ativos'}, {id: 'inativos', label: 'Inativos'}]"/>
+                          :options="[{id: 'todos', label: 'Todos'}, {id: 'respondidos', label: 'Respondidos'}, {id: 'pendentes', label: 'pendentes'}]"/>
             </div>
         </div>
         <vs-row>
@@ -70,7 +65,7 @@
                             <vs-th>E-mail</vs-th>
                             <vs-th>Telefone</vs-th>
                             <vs-th>Entrou em</vs-th>
-                            <vs-th v-if="dados.todos == '1' || dados.inativos == '1'">Saiu em</vs-th>
+                            <vs-th v-if="dados.todos == '1' || dados.pendentes == '1'">Saiu em</vs-th>
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
@@ -79,7 +74,7 @@
                                 <vs-td v-if="tr.telefone != null">{{tr.telefone | VMask('(##) #####-####')}}</vs-td>
                                 <vs-td v-else></vs-td>
                                 <vs-td><span class="destaque">{{ tr.created_at | formatDateTime}}</span></vs-td>
-                                <vs-td v-if="dados.todos || dados.inativos"><span class="destaque">{{ tr.deleted_at | formatDateTime}}</span></vs-td>
+                                <vs-td v-if="dados.todos || dados.pendentes"><span class="destaque">{{ tr.deleted_at | formatDateTime}}</span></vs-td>
                             </vs-tr>
                         </template>
                     </vs-table>
@@ -93,7 +88,7 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative">
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id})">
+                                       @click="$router.push({path: '/campanha/configurar-whatsapp/' + $route.params.id})">
                                 Voltar
                             </vs-button>
                         </div>
@@ -105,13 +100,13 @@
 </template>
 
 <script>
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Datepicker from 'vuejs-datepicker';
     import * as lang from 'vuejs-datepicker/src/locale';
     import VueMoment from 'vue-moment'
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import vSelect from "vue-select";
+    import moduleCampWhatsapp from "../../../store/campanha_whatsapp/moduleCampWhatsapp";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -126,22 +121,22 @@
             'v-select': vSelect
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampWhatsapp.isRegistered) {
+                this.$store.registerModule('whatsapp', moduleCampWhatsapp)
+                moduleCampWhatsapp.isRegistered = true
             }
             this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
             this.dt_fim = moment().format('DD-MM-YYYY');
             this.dateRange.startDate = moment().subtract(30, 'days');
             this.dateRange.endDate = moment();
-            if (this.$route.name === 'campanha-config-checkout-contatos-inativos') {
-                this.dados.inativos = '1';
+            if (this.$route.name === 'campanha-config-whatsapp-contatos-pendentes') {
+                this.dados.pendentes = '1';
             }
-            if (this.$route.name === 'campanha-config-checkout-contatos-todos') {
+            if (this.$route.name === 'campanha-config-whatsapp-contatos-todos') {
                 this.dados.todos = '1';
             }
 
-            if (this.$route.name === 'campanha-config-checkout-contatos-todos')
+            if (this.$route.name === 'campanha-config-whatsapp-contatos-todos')
                 this.filtroContatos = {id: 'todos', label: 'Todos'};
             else
                 this.getId(this.$route.params.id);
@@ -157,12 +152,12 @@
                 },
                 dados: {
                     search: '',
+                    length: 25,
                     page: 1,
                     dt_inicio: '',
                     dt_fim: '',
                     todos: 0,
-                    inativos: 0,
-                    length: 25
+                    pendentes: 0
                 },
                 filtroContatos: {id: null, label: 'Todos'},
                 dt_inicio: '',
@@ -257,7 +252,7 @@
                 if (this.dateRange.endDate)
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
 
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('whatsapp/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     this.$vs.loading.close();
@@ -267,15 +262,15 @@
                 switch (val) {
                     case 'todos':
                         this.dados.todos = '1';
-                        this.dados.inativos = '0';
+                        this.dados.pendentes = '0';
                         break;
-                    case 'inativos':
-                        this.dados.inativos = '1';
+                    case 'pendentes':
+                        this.dados.pendentes = '1';
                         this.dados.todos = '0';
                         break;
                     default:
                         this.dados.todos = '0';
-                        this.dados.inativos = '0';
+                        this.dados.pendentes = '0';
                 }
             }
         },
@@ -295,7 +290,7 @@
                 this.$vs.loading();
                 this.filtrar(val.id)
                 this.dados.campanha_id = this.$route.params.id;
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('whatsapp/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     this.$vs.loading.close();
