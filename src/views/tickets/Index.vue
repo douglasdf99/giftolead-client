@@ -314,6 +314,7 @@
                     console.log(val.length)
                     if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
+                        this.$vs.loading();
                         this.getTickets();
                     }
                 },

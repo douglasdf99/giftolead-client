@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="com-item" v-else>
-                    <vs-table v-model="selected" :data="items" @selected="handleSelected" class="table-items">
+                    <vs-table :data="items" class="table-items">
                         <template slot="thead">
                             <!--<vs-th></vs-th>-->
                             <vs-th>Nome</vs-th>
@@ -66,15 +66,29 @@
                             <vs-th>Telefone</vs-th>
                             <vs-th>Entrou em</vs-th>
                             <vs-th v-if="dados.todos == '1' || dados.pendentes == '1'">Saiu em</vs-th>
+                            <vs-th></vs-th>
+                            <vs-th></vs-th>
                         </template>
                         <template slot-scope="{data}">
-                            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
+                            <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-default">
                                 <vs-td>{{tr.nome}}</vs-td>
                                 <vs-td>{{tr.email}}</vs-td>
                                 <vs-td v-if="tr.telefone != null">{{tr.telefone | VMask('(##) #####-####')}}</vs-td>
                                 <vs-td v-else></vs-td>
                                 <vs-td><span class="destaque">{{ tr.created_at | formatDateTime}}</span></vs-td>
                                 <vs-td v-if="dados.todos || dados.pendentes"><span class="destaque">{{ tr.deleted_at | formatDateTime}}</span></vs-td>
+                                <vs-td class="text-center">
+                                    <vx-tooltip text="WhatsappList" position="top">
+                                        <vs-icon icon-pack="material-icons" icon="launch"
+                                                 class="icon-grande text-black cursor-pointer" @click="pesquisaContatoWhatsList(tr.nome)"></vs-icon>
+                                    </vx-tooltip>
+                                </vs-td>
+                                <vs-td class="text-center">
+                                    <vx-tooltip text="Detalhe do Lead" position="top">
+                                        <vs-icon icon-pack="material-icons" icon="account_box"
+                                                 class="icon-grande text-black cursor-pointer" @click="handleSelected(tr)"></vs-icon>
+                                    </vx-tooltip>
+                                </vs-td>
                             </vs-tr>
                         </template>
                     </vs-table>
@@ -199,6 +213,9 @@
                 this.currentx = 1;
                 this.getId(this.$route.params.id);
             },
+            pesquisaContatoWhatsList(nome) {
+                this.$store.dispatch('globalSearchParams', nome).then(() => this.$router.push({name: 'whatsapplist-list'}));
+            },
             getDay(dia) {
                 //Definindo datas usadas nos ranges padronizados
                 let today = new Date()
@@ -227,7 +244,7 @@
                 }
                 this.dateRange.endDate = moment();
                 this.dados.page = 1
-                if(this.filtroContatos.id !== null){
+                if (this.filtroContatos.id !== null) {
                     this.filtrar(this.filtroContatos.id);
                 }
                 this.getId(this.$route.params.id);
@@ -258,7 +275,7 @@
                     this.$vs.loading.close();
                 });
             },
-            filtrar(val){
+            filtrar(val) {
                 switch (val) {
                     case 'todos':
                         this.dados.todos = '1';
@@ -274,8 +291,7 @@
                 }
             }
         },
-        computed: {
-        },
+        computed: {},
         watch: {
             currentx(val) {
                 this.$vs.loading();
@@ -299,7 +315,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

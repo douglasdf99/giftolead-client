@@ -3,7 +3,7 @@
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
                   :data="aresponder"/>
         <transformar v-if="transformarTicket" :isSidebarActive="transformarTicket" @closeSidebar="toggleTicketSidebar" @getItems="getItems"
-                  :data="atransformar"/>
+                     :data="atransformar"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
@@ -79,24 +79,24 @@
                 </vs-dropdown>
             </div>
         </div>
-        <vs-row>
+        <vs-row id="listagem" class="vs-con-loading__container">
             <vs-col vs-w="12">
-                <vs-tabs :color="colorx" v-model="selectedTab" v-if="numeros">
+                <vs-tabs :color="colorx" v-model="selectedTab">
                     <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
-                            :label="'pendentes (' + numeros.pendentes + ')'">
+                            :label="'pendentes (' + numeros.pendentes + ')'" v-if="numeros">
                         <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
 
                     <vs-tab @click="colorx = 'success'; getItems('respondidos')" color="black"
-                            :label="'respondidos ('+ numeros.respondidos  + ')'">
+                            :label="'respondidos ('+ numeros.respondidos  + ')'" v-if="numeros">
                         <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
 
-                    <vs-tab @click="colorx = 'primary'; getItems('todos')" :label="'todos ('+ numeros.todos +')'">
+                    <vs-tab @click="colorx = 'primary'; getItems('todos')" :label="'todos ('+ numeros.todos +')'" v-if="numeros">
                         <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
@@ -219,20 +219,12 @@
                 });
             });
 
-            if (this.$store.state.whatsapplist && this.$store.state.whatsapplist.campanha_whatsapp) {
-                this.dados.tipo = 'whatsapp';
-                this.dados.situacao = this.$store.state.whatsapplist.campanha_whatsapp;
-                this.selectedTipo = {id: 'whatsapp', label: 'Whatsapp'};
-                switch (this.$store.state.whatsapplist.campanha_whatsapp) {
-                    case 'respondidos':
-                        this.selectedTab = 1;
-                        this.colorx = 'success';
-                        break;
-                    case 'todos':
-                        this.selectedTab = 2;
-                        this.colorx = 'primary';
-                        break;
-                }
+            if (this.$store.state.globalSearch != '') {
+                this.dados.search = this.$store.state.globalSearch;
+                this.dados.situacao = 'todos';
+                this.selectedTab = 2;
+                this.colorx = 'primary';
+                this.$store.dispatch('globalSearchParams', '');
             } else {
                 this.getItems('pendentes');
             }
@@ -284,6 +276,7 @@
                 this.transformarTicket = val;
             },
             getItems(tipo = null) {
+                this.$vs.loading();
                 if (this.selectedTipo.id != null)
                     this.dados.tipo = this.selectedTipo.id;
                 else this.dados.tipo = '';
@@ -308,7 +301,7 @@
                     this.items = response.data.data
                     this.pagination = response.data;
                     this.numeros = {...response.numeros};
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             getCampanhas(val) {
@@ -401,9 +394,9 @@
             },
             dados: {
                 handler(val) {
-                    console.log(val.length)
                     if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
+                        this.$vs.loading();
                         this.getItems();
                     }
                 },

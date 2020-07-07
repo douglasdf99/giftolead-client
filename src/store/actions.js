@@ -126,6 +126,12 @@ const actions = {
                     reject(erro)
                 });
         });
+    },
+    globalSearchParams({commit}, val) {
+        return new Promise((resolve) => {
+            commit('SET_GLOBAL_SEARCH', val)
+            resolve();
+        });
     }
 };
 

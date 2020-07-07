@@ -150,6 +150,9 @@ const mutations = {
         console.log('obj', obj)
         state.items = obj.data;
         state.pagination = obj;
+    },
+    SET_GLOBAL_SEARCH(state, val) {
+        state.globalSearch = val;
     }
 }
 
