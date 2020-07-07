@@ -68,8 +68,8 @@
             </div>
         </div>
         <div class="vx-row my-6">
-            <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
-                <vx-card class="shadow-none ">
+            <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full hover-opacidade cursor-pointer">
+                <vx-card class="shadow-none " @click="contatos('todos')">
                     <span class="destaque">Nº de contatos</span>
                     <p class="font-bold text-3xl my-5">{{campanha.contatos_fechados_count + campanha.contatos_pendentes_count}}</p>
                 </vx-card>
@@ -92,15 +92,15 @@
         </div>
         <transition name="fade">
             <div class="vx-row" v-if="verMaisCards">
-                <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
+                <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full hover-opacidade cursor-pointer" @click="contatos('ativos')">
                     <vx-card class="shadow-none">
-                        <span class="destaque">Nº de contatos inativos</span>
+                        <span class="destaque">Nº de contatos pendentes</span>
                         <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count}}</p>
                     </vx-card>
                 </div>
-                <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
+                <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full hover-opacidade cursor-pointer" @click="contatos('inativos')">
                     <vx-card class="shadow-none">
-                        <span class="destaque">Nº total de contatos</span>
+                        <span class="destaque">Nº total de contatos Fechados</span>
                         <p class="font-bold text-3xl my-5">{{campanha.contatos_fechados_count}}</p>
                     </vx-card>
                 </div>
@@ -190,6 +190,9 @@
             }
         },
         methods: {
+          contatos(val) {
+            this.$router.push({path: `/campanha/configurar-canceladas/${this.$route.params.id}/contatos-${val}`});
+          },
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
