@@ -298,7 +298,6 @@
                         this.opcoesResponsaveis.push({id: item.id, label: item.name});
                     });
                 })*/
-                ;
             },
             formatPrice(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
