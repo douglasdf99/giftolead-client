@@ -61,12 +61,12 @@ export default {
         })
     },
     getContatos({commit}, dados) {
-      return new Promise((resolve, reject) => {
-        axios.get(`/api/campanha_cancelados_contatos`, {params: dados.params})
-          .then((response) => {
-            console.log('contatos resgatado', response);
-            resolve(response.data.data)
-          })
-      });
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_cancelados_contatos`, {params: dados.params})
+                .then((response) => {
+                    console.log('contatos resgatado', response);
+                    resolve(response.data.data)
+                })
+        });
     }
 }

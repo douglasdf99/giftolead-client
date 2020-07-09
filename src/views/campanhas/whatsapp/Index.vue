@@ -21,7 +21,7 @@
             <div class="vx-col w-full lg:w-7/12">
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
-                        <span class="font-regular mb-2">Mensagem Padrão</span>
+                        <span class="font-regular mb-2">Mensagem a ser recebida</span>
                         <vs-textarea v-model="campanha.mensagem" id="text-area" class="w-full bg-white" name="textarea" rows="6" v-validate="'required|max:130'"
                                      placeholder="Digite a mensagem que seu cliente irá mandar para você para solicitar um contato nesta campanha."/>
                         <span class="text-danger text-sm"

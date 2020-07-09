@@ -126,6 +126,12 @@
 
     export default {
         name: "Index",
+        /*channel: 'saveleads_database_lista-ticket',
+        echo: {
+            'ListaTicket': (payload, vm) => {
+                console.log('evento disparado', payload);
+            }
+        },*/
         components: {
             SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
@@ -197,8 +203,8 @@
         },
         created() {
             this.$vs.loading();
-            this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
-            this.dt_fim = moment().format('DD-MM-YYYY');
+            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days')
             this.dateRange.endDate = moment()
 
@@ -290,9 +296,9 @@
                 else this.dados.produto_id = '';
 
                 if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
                 if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
                 if (tipo != null)
                     this.dados.situacao = tipo;
@@ -408,6 +414,10 @@
                 return this.$store.state.pagination;
             },*/
         },
-
+        mounted() {
+            /*this.channel.listen('ListaTicket', (payload) => {
+                this.getItems();
+            });*/
+        }
     }
 </script>

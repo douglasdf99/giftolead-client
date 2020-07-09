@@ -143,7 +143,6 @@
                 console.log('entrou aqui', this.data);
                 //this.origem = JSON.parse(JSON.stringify(this.data));
                 this.emails = JSON.parse(JSON.stringify(this.data))
-
             }
         },
     }

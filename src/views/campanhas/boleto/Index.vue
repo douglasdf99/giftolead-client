@@ -26,7 +26,27 @@
                 </vs-button>
             </div>
         </div>
-        <div class="vx-row my-5">
+        <div class="vx-row my-5 justify-between">
+            <div class="vx-col w-full lg:w-1/2">
+                <div class="w-full tipo-conquista my-5 p-4 flex items-center hover-opacidade cursor-pointer" @click="configEnvio('emails')">
+                    <img src="@/assets/images/util/e-mail.svg" class="img-conquista m-5" width="100">
+                    <div>
+                        <p class="font-bold text-xl">Envios de E-mails</p>
+                        <p>Envie campanhas de e-mail marketing de forma rápida e prática</p>
+                    </div>
+                </div>
+            </div>
+            <div class="vx-col w-full lg:w-1/2">
+                <div class="w-full tipo-conquista my-5 p-4 flex items-center hover-opacidade cursor-pointer" @click="configEnvio('sms')">
+                    <img src="@/assets/images/util/sms.svg" class="img-conquista m-5" width="100">
+                    <div>
+                        <p class="font-bold text-xl">Envios de SMS</p>
+                        <p>Envie campanhas de SMS automáticas de forma rápida e prática.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="vx-row my-5">
             <div class="vx-col col-conquista mb-10">
                 <div class="conquista nova cursor-pointer"
                      @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id + '/emails/criar'})">
@@ -57,7 +77,7 @@
                     </vs-button>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="vx-row">
             <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4">
                 <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
@@ -225,6 +245,9 @@
                     }
                 })
 
+            },
+            configEnvio(val) {
+                this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id + `/${val}`});
             },
             deletar(id) {
                 this.$vs.dialog({

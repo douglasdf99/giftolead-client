@@ -65,6 +65,7 @@ export default {
     },
     pushMsg({commit}, dados){
         return new Promise((resolve, reject) => {
+            console.log('asnhdhasda', dados)
             commit('PUSH_MSG', dados);
             resolve();
         });
@@ -79,6 +80,16 @@ export default {
                     commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
                     resolve(response.data.data.url);
                 })
+        });
+    },
+    transformar({commit}, dados){
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/whatsapplists_trasform/${dados.id}`, dados)
+                .then((response) => {
+                    resolve(response.data.data.url);
+                }).catch(err => {
+                    reject(err);
+            });
         });
     },
 }

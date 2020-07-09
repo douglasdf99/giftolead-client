@@ -15,7 +15,7 @@
             </div>
             <h6>{{ dados.nome }}</h6>
             <vs-spacer></vs-spacer>
-            <vx-tooltip text="Mensagens Padrão" position="left">
+            <vx-tooltip text="Mensagens Padrão" position="left" v-if="!enviado">
                 <vs-dropdown vs-trigger-click>
                     <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
                     <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
@@ -51,6 +51,9 @@
                 type: Object,
                 required: true
             },
+            enviado: {
+                type: Boolean
+            }
         },
         data() {
             return {

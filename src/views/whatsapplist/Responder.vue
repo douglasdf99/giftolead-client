@@ -23,10 +23,10 @@
                          :class="{'sidebar-spacer--wide': clickNotClose, 'flex items-center justify-center': activeChatUser === null}">
                         <template v-if="activeChatUser">
                             <div class="chat__navbar">
-                                <chat-navbar :dados="data" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
+                                <chat-navbar :dados="data" :enviado="enviado" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
                                 <vs-progress indeterminate color="primary" v-if="enviando"></vs-progress>
                             </div>
-                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
+                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
                                 <div class="chat__log" ref="chatLog">
                                     <chat-log :userId="activeChatUser" :dados="data" v-if="activeChatUser"></chat-log>
                                 </div>
@@ -34,7 +34,9 @@
                         </template>
                     </div>
                     <div class="py-4 text-center" style="background-color: #F4F4F4">
-                        <span>Iremos te redirecionar para o aplicativo do Whatsapp</span>
+                        <span>
+                            {{data.resposta ? 'Hitórico de mensagens' : 'Iremos te redirecionar para o aplicativo do Whatsapp'}}
+                        </span>
                     </div>
                     <div class="chat__input flex py-4 items-end" style="background-color: #F4F4F4; box-shadow: 0 1px 10px 0 rgba(179,179,179,1);" v-if="!enviado">
                         <vx-tooltip text="Variáveis" position="top">
@@ -223,7 +225,15 @@
                     this.links.push({id: item.identidade, label: item.descricao});
                 });
             });
+
+            if(this.data.resposta){
+                this.enviado = true;
+            }
         },
+        updated() {
+            if(this.data.resposta)
+                this.$store.dispatch('whatsapplist/pushMsg', {isSent: true, textContent: this.data.resposta.mensagem});
+        }
     }
 </script>
 

@@ -9,13 +9,14 @@
 
 import VueEcho from 'vue-echo-laravel';
 import * as io from 'socket.io-client'
+
 window.io = io
 
 
 Vue.use(VueEcho, {
-  broadcaster: 'socket.io',
-  host: 'https://api.saveleads.com.br:2083',
-  keyPrefix: "saveleads_database_"
+    broadcaster: 'socket.io',
+    host: 'https://api.saveleads.com.br:2083',
+    keyPrefix: "saveleads_database_"
 });
 
 import Vue from 'vue'
@@ -138,11 +139,11 @@ Vue.mixin({
             return window.location.protocol + '//' + window.location.host + '/' + local;
         },
         url_api: function (local) {
-            return saveleadsConfig.url_api +'/'+ local;
+            return saveleadsConfig.url_api + '/' + local;
             //return 'http://127.0.0.1:8000/' + local;
         },
         get_img_api: function (local) {
-          return saveleadsConfig.url_api + local;
+            return saveleadsConfig.url_api + local;
             //return 'http://127.0.0.1:8000/' + local;
         },
         isNumber: function (evt) {//Obriga o input aceitar apenas números
@@ -204,21 +205,21 @@ require('./assets/css/iconfont.css')
 
 Vue.config.productionTip = false
 axios.interceptors.response.use((response) => { // intercept the global error
-  return response
+    return response
 }, function (error) {
-  let originalRequest = error.config
-  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
-    console.log('entrou no errro 401' );
-    originalRequest._retry = true // now it can be retried
-    return
-  }/*
+    let originalRequest = error.config
+    if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
+        console.log(error);
+        originalRequest._retry = true // now it can be retried
+        return
+    }/*
   if (error.response.status === 404 && !originalRequest._retry) {
     originalRequest._retry = true
     window.location.href = '/'
     return
   }*/
-  // Do something with response error
-  return Promise.reject(error)
+    // Do something with response error
+    return Promise.reject(error)
 })
 new Vue({
     router,

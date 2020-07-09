@@ -96,6 +96,25 @@ const rotasCampBoleto = [
         },
     },
     {
+        path: '/campanha/configurar-boleto/:id/emails',
+        name: 'campanha-config-boleto-emails',
+        component: () => import('@/views/campanhas/boleto/Emails.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails', active: true}
+            ],
+            pageTitle: 'Configuração de E-mails',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
         path: '/campanha/configurar-boleto/:id/emails/criar',
         name: 'campanha-config-boleto-emails-criar',
         component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
@@ -126,6 +145,65 @@ const rotasCampBoleto = [
                 {title: 'Gerenciar'},
                 {title: 'Configurar E-mails'},
                 {title: 'Editar configuração de e-mail', active: true},
+            ],
+            pageTitle: 'Editar configuração do E-mail',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-boleto/:id/sms',
+        name: 'campanha-config-boleto-sms',
+        component: () => import('@/views/campanhas/boleto/Emails.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails', active: true}
+            ],
+            pageTitle: 'Configuração de E-mails',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-boleto/:id/sms/criar',
+        name: 'campanha-config-boleto-sms-criar',
+        component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails'},
+                {title: 'Criar configuração de e-mail', active: true},
+            ],
+            pageTitle: 'Configurar novo E-mail',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-boleto/:id/sms/editar/:idEmail',
+        name: 'campanha-config-boleto-sms-editar',
+        component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails'},
+                {title: 'Criar configuração de e-mail', active: true},
             ],
             pageTitle: 'Editar configuração do E-mail',
             rule: 'editor',

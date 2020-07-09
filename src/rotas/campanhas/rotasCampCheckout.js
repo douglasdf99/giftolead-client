@@ -155,6 +155,65 @@ const rotasCampCheckout = [
             submenu: subRotaPlanos
         },
     },
+    {
+        path: '/campanha/configurar-checkout/:id/sms',
+        name: 'campanha-config-checkout-sms',
+        component: () => import('@/views/campanhas/checkout/Emails.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails', active: true}
+            ],
+            pageTitle: 'Configuração de E-mails',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-checkout/:id/sms/criar',
+        name: 'campanha-config-checkout-sms-criar',
+        component: () => import('@/views/campanhas/checkout/EmailsCriar.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails'},
+                {title: 'Criar configuração de e-mail', active: true},
+            ],
+            pageTitle: 'Configurar novo E-mail',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-checkout/:id/sms/editar/:idEmail',
+        name: 'campanha-config-checkout-sms-editar',
+        component: () => import('@/views/campanhas/checkout/EmailsCriar.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Configurar E-mails'},
+                {title: 'Criar configuração de e-mail', active: true},
+            ],
+            pageTitle: 'Editar configuração do E-mail',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
 ];
 
 export default rotasCampCheckout

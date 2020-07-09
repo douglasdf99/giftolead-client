@@ -123,7 +123,7 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative">
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id})">
+                                       @click="$router.push({path: '/campanha/configurar-canceladas/' + $route.params.id})">
                                 Voltar
                             </vs-button>
                         </div>
@@ -159,11 +159,11 @@
         },
         created() {
             if (!moduleCampCanceladas.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCanceladas)
+                this.$store.registerModule('canceladas', moduleCampCanceladas)
                 moduleCampCanceladas.isRegistered = true
             }
-            this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
-            this.dt_fim = moment().format('DD-MM-YYYY');
+            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days');
             this.dateRange.endDate = moment();
             if (this.$route.name === 'campanha-config-canceladas-contatos-inativos') {
@@ -294,11 +294,11 @@
                 this.dados.search = url;
                 this.dados.campanha_id = id;
                 if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
                 if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('canceladas/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     console.log('setPagination',this.pagination);
@@ -342,7 +342,7 @@
                 this.$vs.loading();
                 this.filtrar(val.id)
                 this.dados.campanha_id = this.$route.params.id;
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('canceladas/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     this.$vs.loading.close();

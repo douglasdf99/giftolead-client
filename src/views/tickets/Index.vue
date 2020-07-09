@@ -323,7 +323,6 @@
         },
         mounted() {
             this.channel.listen('ListaTicket', (payload) => {
-                console.log('evento echo')
                 this.getTickets();
             });
         },

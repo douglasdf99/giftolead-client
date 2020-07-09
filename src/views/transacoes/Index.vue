@@ -132,8 +132,8 @@
                                         {{ tr.produto.nome}}
                                     </vs-chip>
                                 </vs-td>
-                                <vs-td :data="tr.created_at">
-                                    <span class="destaque">{{ tr.created_at | formatDate}}</span>
+                                <vs-td :data="tr.updated_at">
+                                    <span class="destaque">{{ tr.updated_at | formatDateTime}}</span>
                                 </vs-td>
                                 <vs-td>
                                     <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
@@ -258,8 +258,8 @@
                 moduleProdutos.isRegistered = true
             }
 
-            this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
-            this.dt_fim = moment().format('DD-MM-YYYY');
+            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days')
             this.dateRange.endDate = moment()
             this.getOpcoes();
@@ -277,35 +277,6 @@
                 this.addNewDataSidebar = val
             },
             getTransacoes() {
-                /*let url = '';
-                let control = 0;//Controla entradas em cada condição
-                if(this.search !== ''){
-                    url += 'lead.nome:' + this.search + ';';
-                    url += 'transaction:' + this.search + ';';
-                    url += 'produto.preco:' + this.search ;
-                    control++;
-                }
-
-                if(this.selectedProduto){
-                    if(control)
-                        url += ';'
-
-                    url += 'produto.nome:' + this.selectedProduto.label;
-                    control++;
-                }
-
-                if(this.selectedStatus){
-                    if(control)
-                        url += ';'
-
-                    url += 'status:' + this.selectedStatus.id;
-                    control++;
-                }
-
-                if(control >= 2)
-                    url += '&searchJoin=and';
-
-                this.dados.search = url;*/
                 this.dados.pesquisa = this.search;
 
                 if (this.selectedProduto !== null)
@@ -317,9 +288,9 @@
                 else this.dados.status = '';
 
                 if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
                 if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
                 this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)

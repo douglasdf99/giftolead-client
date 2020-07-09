@@ -6,7 +6,7 @@
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Motivo
+                    Incluir Status
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -35,7 +35,7 @@
             <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Motivo
+                    Incluir Status
                 </vs-button>
                 <!-- SEARCH INPUT -->
             </div>
@@ -64,7 +64,7 @@
                                            @click="addNewData">
                                     <vs-icon icon-pack="material-icons" icon="check_circle"
                                              class="icon-grande"></vs-icon>
-                                    Incluir Motivo
+                                    Incluir Status
                                 </vs-button>
                             </p>
                         </div>

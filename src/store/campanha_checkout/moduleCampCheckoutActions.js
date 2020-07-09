@@ -96,6 +96,18 @@ export default {
                 })
         })
     },
+    getSms({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_carrinho_sms`, {params: {campanha_id: id}})
+                .then((response) => {
+                    console.log('emails resgatados', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     get({commit}) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/campanha_carrinhos`, {params: {}})

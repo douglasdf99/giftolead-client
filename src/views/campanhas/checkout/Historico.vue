@@ -149,8 +149,8 @@
                 this.$store.registerModule('checkout', moduleCampCheckouts)
                 moduleCampCheckouts.isRegistered = true
             }
-            this.dt_inicio = moment().subtract(30, 'days').format('DD-MM-YYYY');
-            this.dt_fim = moment().format('DD-MM-YYYY');
+            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days')
             this.dateRange.endDate = moment()
 
@@ -287,9 +287,9 @@
                 else this.dados.email_id = '';
 
                 if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('DD-MM-YYYY');
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
                 if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('DD-MM-YYYY');
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
                 this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
                     this.emails = response;

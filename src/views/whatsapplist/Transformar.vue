@@ -68,6 +68,9 @@
     import 'flatpickr/dist/flatpickr.css';
     import {Portuguese} from 'flatpickr/dist/l10n/pt.js';
 
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
+
     export default {
         props: {
             isSidebarActive: {
@@ -81,7 +84,7 @@
             },
         },
         watch: {
-            datetime(){
+            datetime() {
                 console.log(this.datetime)
             }
         },
@@ -120,8 +123,42 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading();
-                        this.$emit('closeSidebar');
-                        this.initValues();
+                        let obj = {
+                            id: this.data.id,
+                            produto: this.data.campanhable.produto.id
+                        };
+
+                        if (this.metodo) {
+                            obj.data = moment().format('DD/MM/YYYY H:mm');
+                        } else {
+                            obj.data = this.datetime;
+                        }
+                        this.$store.dispatch('whatsapplist/transformar', obj).then(() => {
+                            console.log('eita')
+                            this.$vs.notify({
+                                title: '',
+                                text: "Ticket criado com sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+
+                            if (this.metodo)
+                                this.$router.push({name: 'tickets-list'});
+
+                        }).catch(erro => {
+                            console.log(erro);
+                            let self = this;
+                            this.$vs.dialog({
+                                color:'danger',
+                                title: `Procedimento mal sucedido`,
+                                text: 'Já existe um ticket criado para esse contato.',
+                                accept: this.fechar(),
+                                acceptText: 'Ok'
+                            })
+                        });
+                        this.$vs.loading.close();
+                        this.fechar();
                     }
                 })
             },

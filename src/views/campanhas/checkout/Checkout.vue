@@ -141,8 +141,8 @@
                                 Salvar
                             </vs-button>
                             <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
-                                Configurar e-mails da campanha
+                                       @click="modal = true" v-if="campanha.id">
+                                Configurar envios
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
@@ -153,6 +153,24 @@
                 </div>
             </footer-doug>
         </transition>
+        <vs-popup class="holamundo" title="Tipo de envio" :active.sync="modal">
+            <div class="vx-row">
+                <div class="vx-col w-full tipo-conquista mx-10 my-5 flex items-center hover-opacidade cursor-pointer" @click="configEnvio('emails')">
+                    <img src="@/assets/images/util/e-mail.svg" class="img-conquista m-5" width="100">
+                    <div>
+                        <p class="font-bold text-xl">Envios de E-mails</p>
+                        <p>Envie campanhas de e-mail marketing de forma rápida e prática</p>
+                    </div>
+                </div>
+                <div class="vx-col w-full tipo-conquista mx-10 my-5 flex items-center hover-opacidade cursor-pointer" @click="configEnvio('sms')">
+                    <img src="@/assets/images/util/sms.svg" class="img-conquista m-5" width="100">
+                    <div>
+                        <p class="font-bold text-xl">Envios de SMS</p>
+                        <p>Envie campanhas de SMS automáticas de forma rápida e prática.</p>
+                    </div>
+                </div>
+            </div>
+        </vs-popup>
     </div>
 </template>
 
@@ -186,7 +204,9 @@
                 edited: false,
                 customcor: '',
                 html: '',
-                verMaisCards: false
+                verMaisCards: false,
+
+                modal: false
             }
         },
         mounted() {
@@ -198,6 +218,10 @@
                     this.edited = false;
                 else
                     this.edited = true;
+            },
+            configEnvio(val) {
+                this.modal = false;
+                this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + `/${val}`});
             },
             salvar() {
                 this.$validator.validateAll().then(result => {
@@ -342,11 +366,11 @@
             isValid() {
                 return this.errors.any();
             },
-            valortotal: function(){
-              let sum = 0;
-              return this.campanha.transacaos.reduce(function(prev, item){
-                return sum + item.full_price;
-              },0);
+            valortotal: function () {
+                let sum = 0;
+                return this.campanha.transacaos.reduce(function (prev, item) {
+                    return sum + item.full_price;
+                }, 0);
             }
         },
         watch: {

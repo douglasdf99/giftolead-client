@@ -34,10 +34,6 @@
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
                                 <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                <vs-dropdown-item @click="updateData(tr)">
-                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                    Editar
-                                </vs-dropdown-item>
 
                                 <vs-dropdown-item @click="deletar(tr.id)">
                                     <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
@@ -62,21 +58,26 @@
                         <span class="destaque">{{ tr.created_at | formatDate}}</span>
                     </vs-td>
                     <vs-td :data="tr.status" class="relative flex justify-start items-center">
-                        <i class="fab fa-whatsapp text-3xl mx-2" style="color: #37B468"></i>
-                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                 class="icon-grande text-success"
-                                 v-if="tr.resposta"></vs-icon>
-                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning"
-                                 v-else></vs-icon>
+                        <vx-tooltip :text="'Campanha de ' + (tr.campanhable.mensagem ? 'Whatsapp' : 'Boleto')" position="top" class="text-center inline-block">
+                            <i class="fas fa-file-invoice text-3xl mx-2 text-black" v-if="!tr.campanhable.mensagem"></i>
+                            <i class="fab fa-whatsapp text-3xl mx-2" style="color: #37B468" v-else></i>
+                        </vx-tooltip>
+                        <vx-tooltip text="Respondido" position="top" class="text-center inline-block" v-if="tr.resposta">
+                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                     class="icon-grande text-success cursor-default"></vs-icon>
+                        </vx-tooltip>
+                        <vx-tooltip text="Pendente" position="top" class="text-center inline-block" v-else>
+                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning cursor-default"></vs-icon>
+                        </vx-tooltip>
                     </vs-td>
                     <vs-td>
-                        <vx-tooltip text="Transformar em Ticket" position="top" class="text-center">
+                        <vx-tooltip text="Transformar em Ticket" position="top" class="text-center inline-block mx-4">
                             <vs-icon icon-pack="material-icons" icon="wrap_text" v-if="tr.resposta && (tr.resposta.responsavel_id == $store.state.AppActiveUser.uid)"
-                                     class="icon-grande text-black cursor-pointer" @click="$emit('transformar', tr)"></vs-icon>
+                                     class="icon-grande m-0 text-black cursor-pointer" @click="$emit('transformar', tr)"></vs-icon>
                         </vx-tooltip>
-                        <vx-tooltip text="Responder" position="top" class="text-center">
-                            <vs-icon icon-pack="material-icons" icon="reply" v-if="!tr.resposta"
-                                     class="icon-grande text-black cursor-pointer" @click="$emit('responder', tr)"></vs-icon>
+                        <vx-tooltip :text="tr.resposta ? 'Visualizar' : 'Responder'" position="top" class="text-center inline-block mx-4">
+                            <vs-icon icon-pack="material-icons" :icon="tr.resposta ? 'visibility' : 'reply'"
+                                     class="icon-grande m-0 text-black cursor-pointer" @click="$emit('responder', tr)"></vs-icon>
                         </vx-tooltip>
                     </vs-td>
                 </vs-tr>

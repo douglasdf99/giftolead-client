@@ -26,7 +26,7 @@
                      :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
                     <span>{{ msg.textContent }}</span>
                 </div>
-            </div>
+            </div>i
         </div>
     </div>
 </template>
@@ -54,7 +54,13 @@
         },
         created() {
             this.$store.dispatch('whatsapplist/emptyChat');
-            this.$store.dispatch('whatsapplist/pushMsg', {isSent: false, textContent: this.dados.campanhable.mensagem});
+            let msg = '';
+            if(this.dados.mensagem)
+                msg = this.dados.mensagem
+            else
+                msg = 'Veio de uma campanha de Boleto.'
+
+                this.$store.dispatch('whatsapplist/pushMsg', {isSent: false, textContent: msg});
         },
         computed: {
             activeUserImg() {
