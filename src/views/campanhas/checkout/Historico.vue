@@ -104,7 +104,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                            <vs-button class="mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/campanha/configurar-checkout/' + historico[0].campanha_id})">
                                 Voltar
                             </vs-button>

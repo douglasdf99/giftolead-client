@@ -67,7 +67,7 @@
               <vs-button class="mr-3" color="primary" type="filled" @click="salvar">
                 Salvar
               </vs-button>
-              <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+              <vs-button class="mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
                          @click="$router.push({name: 'links-produto', params:produto.id})">
                 Cancelar
               </vs-button>

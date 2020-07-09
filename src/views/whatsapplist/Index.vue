@@ -126,12 +126,12 @@
 
     export default {
         name: "Index",
-        /*channel: 'saveleads_database_lista-ticket',
+        channel: 'saveleads_database_whatsapp-list',
         echo: {
-            'ListaTicket': (payload, vm) => {
+            'WhatsapplistEvent': (payload, vm) => {
                 console.log('evento disparado', payload);
             }
-        },*/
+        },
         components: {
             SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
@@ -415,9 +415,10 @@
             },*/
         },
         mounted() {
-            /*this.channel.listen('ListaTicket', (payload) => {
+            this.channel.listen('WhatsapplistEvent', (payload) => {
+                console.log('PUTA VIDA')
                 this.getItems();
-            });*/
+            });
         }
     }
 </script>

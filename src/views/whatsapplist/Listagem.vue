@@ -47,8 +47,8 @@
                         <span class="destaque">{{ tr.lead.nome }}</span>
                     </vs-td>
                     <vs-td :data="tr" v-if="tr.campanhable" class="relative">
-                        <vs-chip :color="tr.campanhable.produto.cor || ''" class="product-order-status">
-                            {{ tr.campanhable.produto.nome}}
+                        <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
+                            {{ tr.produto.nome}}
                         </vs-chip>
                     </vs-td>
                     <vs-td>
