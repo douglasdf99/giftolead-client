@@ -143,11 +143,11 @@
     export default {
         name: "Index",
         components: {SideBar, listagem, 'v-select': vSelect},
-        channel: 'saveleads_database_lista-ticket',
+        channel: 'laravel_database_lista-ticket',
         echo: {
             'ListaTicket': (payload, vm) => {
                 console.log('evento disparado', payload);
-            }
+            },
         },
         data() {
             return {
@@ -321,12 +321,12 @@
                 deep: true
             },
         },
-        mounted() {
-            this.channel.listen('ListaTicket', (payload) => {
-                console.log('get tickets')
-                this.getTickets();
-            });
-        },
+         mounted() {
+             this.channel.listen('ListaTicket', (payload) => {
+                 console.log('get tickets')
+                 this.getTickets();
+             });
+         },
         computed: {
 
             items() {

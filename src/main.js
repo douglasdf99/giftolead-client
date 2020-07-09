@@ -16,7 +16,6 @@ window.io = io
 Vue.use(VueEcho, {
     broadcaster: 'socket.io',
     host: 'https://api.saveleads.com.br:2083',
-    keyPrefix: "saveleads_database_"
 });
 
 import Vue from 'vue'

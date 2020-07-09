@@ -126,12 +126,6 @@
 
     export default {
         name: "Index",
-        channel: 'saveleads_database_whatsapp-list',
-        echo: {
-            'WhatsapplistEvent': (payload, vm) => {
-                console.log('evento disparado', payload);
-            }
-        },
         components: {
             SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
@@ -414,11 +408,6 @@
                 return this.$store.state.pagination;
             },*/
         },
-        mounted() {
-            this.channel.listen('WhatsapplistEvent', (payload) => {
-                console.log('PUTA VIDA')
-                this.getItems();
-            });
-        }
+
     }
 </script>
