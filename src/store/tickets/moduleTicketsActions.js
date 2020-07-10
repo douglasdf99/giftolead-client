@@ -105,5 +105,13 @@ export default {
                 resolve(response.data)
             })
         })
-    }
+    },
+    getAgenda({commit}, rota){
+        return new Promise((resolve, reject) => {
+            axios.get('/api/agendamentos').then(response => {
+                console.log('agendados', response);
+                resolve(response.data.data);
+            }).catch(erro => reject(erro));
+        });
+    },
 }

@@ -24,4 +24,5 @@ export default {
 
         return (localStorage.getItem('userInfo') && isAuthenticated)
     },
+    agenda: [],
 }

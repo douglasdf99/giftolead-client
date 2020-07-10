@@ -38,18 +38,11 @@ import rotasExpedicoesContratos from "./rotas/configuracoes/rotasExpedicoesContr
 import subRotaConfiguracoes from "./rotas/subRotaConfiguracoes";
 import subRotaPlanos from "./rotas/subRotaPlanos";
 import rotasWhatsapplist from "./rotas/rotasWhatsapplist";
+import rotasTickets from "./rotas/rotasTickets"
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
 
-const subtickets = [
-    {
-        url: '/tickets',
-        name: "Listagem",
-        slug: "leads-list",
-        icon: 'people_outline'
-    },
-];
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
@@ -1335,24 +1328,7 @@ const router = new Router({
                 // =============================================================================
                 // Tickets
                 // =============================================================================
-                {
-                    path: '/tickets',
-                    name: 'tickets-list',
-                    component: () => import('@/views/tickets/Index.vue'),
-                    meta: {
-                        breadcrumb: [
-                            {title: 'Home', url: '/'},
-                            {title: 'Tickets'},
-                            {title: 'Listagem', active: true},
-                        ],
-                        pageTitle: 'Tickets de Recuperação',
-                        rule: 'editor',
-                        pai: 'tickets',
-                        subTitle: 'Tickets',
-                        //subIcon: 'settings',
-                        submenu: subtickets
-                    },
-                },
+                ...rotasTickets,
                 // =============================================================================
                 // Planos
                 // =============================================================================

@@ -24,6 +24,7 @@ export default {
     return new Promise((resolve, reject) => {
       axios.get("/api/apps/calendar/events")
         .then((response) => {
+            console.log('eventos', response.data)
           commit('SET_EVENTS', response.data)
           resolve(response)
         })
@@ -34,6 +35,7 @@ export default {
     return new Promise((resolve, reject) => {
       axios.get("/api/apps/calendar/labels")
         .then((response) => {
+            console.log('labels', response.data)
           commit('SET_LABELS', response.data)
           resolve(response)
         })

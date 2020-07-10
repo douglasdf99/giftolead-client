@@ -14,9 +14,9 @@ let data = {
     },
   ],
   labels: [
-    { text: 'Business' ,value : 'business', color: 'success' },
-    { text: 'Work', value: 'work', color: 'warning'},
-    { text: 'Personal', value: 'personal', color: 'danger'},
+    {text: 'Atrasado', color: 'danger', value: 'atrasado'},
+    {text: 'Dentro do prazo', color: 'warning', value: 'dentrodoprazo'},
+    {text: 'Futuro', color: 'success', value: 'futuro'},
   ]
 }
 

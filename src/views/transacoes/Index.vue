@@ -162,10 +162,10 @@
     import moduleProdutos from '@/store/produtos/moduleProdutos.js'
     import Datepicker from 'vuejs-datepicker';
     import * as lang from 'vuejs-datepicker/src/locale';
-    import VueMoment from 'vue-moment'
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import saveleadsConfig from "../../../saveleadsConfig";
+    import VueMoment from 'vue-moment'
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
