@@ -26,7 +26,7 @@
                      :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
                     <span>{{ msg.textContent }}</span>
                 </div>
-            </div>i
+            </div>
         </div>
     </div>
 </template>

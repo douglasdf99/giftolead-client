@@ -43,8 +43,10 @@
                         </div>
                     </div>-->
                     <div class="vx-col w-full mb-3" @click="metodo = 0">
-                        <flat-pickr :config="configdateTimePicker" v-model="datetime" class="flatpickr-custom w-full border-2 border-solid rounded-lg px-5 py-3 cursor-pointer ml-0"
-                                    :class="{'conquista-ativa': (metodo == 0 && metodo != null)}" placeholder="Agendar para uma data futura"/>
+                        <div class="div-flatpicker" :class="{'conquista-ativa': (metodo == 0 && metodo != null)}">
+                            <flat-pickr :config="configdateTimePicker" v-model="datetime" id="teste" class="flatpickr-custom w-full border-2 border-solid rounded-lg px-5 py-3 cursor-pointer ml-0"
+                                        placeholder="Agendar para uma data futura"/>
+                        </div>
                     </div>
                     <div class="vx-col w-full">
                         <div class="border-2 border-solid rounded-lg px-5 py-3 cursor-pointer option" style="border-color: #C7C7C7"
@@ -83,18 +85,16 @@
                 },
             },
         },
-        watch: {
-            datetime() {
-                console.log(this.datetime)
-            }
-        },
+        watch: {},
         data() {
             return {
                 metodo: null,
                 datetime: null,
                 configdateTimePicker: {
                     enableTime: true,
-                    dateFormat: 'd/m/Y H:i',
+                    dateFormat: 'Y-m-d H:i',
+                    altInput: true,
+                    altFormat: 'd/m/Y H:i',
                     locale: Portuguese
                 },
 
@@ -129,8 +129,10 @@
                         };
 
                         if (this.metodo) {
-                            obj.data = moment().format('DD/MM/YYYY H:mm');
+                            obj.data = moment().format('YYYY-MM-DD hh:mm');
+                            console.log('esta fera', obj.data)
                         } else {
+                            console.log('puta vida', this.datetime)
                             obj.data = this.datetime;
                         }
                         this.$store.dispatch('whatsapplist/transformar', obj).then(() => {
@@ -143,14 +145,16 @@
                                 color: 'success'
                             });
 
-                            if (this.metodo)
+                            if (this.metodo){
+                                this.$emit('closeSidebar')
                                 this.$router.push({name: 'tickets-list'});
+                            }
 
                         }).catch(erro => {
                             console.log(erro);
                             let self = this;
                             this.$vs.dialog({
-                                color:'danger',
+                                color: 'danger',
                                 title: `Procedimento mal sucedido`,
                                 text: 'Já existe um ticket criado para esse contato.',
                                 accept: this.fechar(),
@@ -245,7 +249,20 @@
         color: white;
     }
 
-    .flatpickr-custom.conquista-ativa, .option.conquista-ativa {
+    .flatpickr-custom.conquista-ativa, .option.conquista-ativa, .div-flatpicker.conquista-ativa * {
         border-color: #9344c4 !important;
+    }
+
+    .div-flatpicker {
+        border-radius: .5rem;
+    }
+
+    .div-flatpicker.conquista-ativa * {
+        background-color: #9344C4;
+        color: white;
+    }
+
+    .div-flatpicker.conquista-ativa *::placeholder {
+        color: white;
     }
 </style>

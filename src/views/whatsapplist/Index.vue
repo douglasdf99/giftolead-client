@@ -129,6 +129,12 @@
         components: {
             SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
+        channel: 'laravel_database_whatsapp-list',
+        echo: {
+            'WhatsapplistEvent': (payload, vm) => {
+                console.log('evento disparado', payload);
+            },
+        },
         data() {
             return {
                 // Data Sidebar
@@ -276,7 +282,6 @@
                 this.transformarTicket = val;
             },
             getItems(tipo = null) {
-                this.$vs.loading();
                 if (this.selectedTipo.id != null)
                     this.dados.tipo = this.selectedTipo.id;
                 else this.dados.tipo = '';
@@ -407,6 +412,11 @@
             /*pagination() {
                 return this.$store.state.pagination;
             },*/
+        },
+        mounted() {
+            this.channel.listen('WhatsapplistEvent', (payload) => {
+                this.getItems();
+            });
         },
 
     }

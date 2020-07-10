@@ -65,7 +65,6 @@ export default {
     },
     pushMsg({commit}, dados){
         return new Promise((resolve, reject) => {
-            console.log('asnhdhasda', dados)
             commit('PUSH_MSG', dados);
             resolve();
         });

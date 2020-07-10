@@ -72,12 +72,12 @@
                     </vs-td>
                     <vs-td>
                         <vx-tooltip text="Transformar em Ticket" position="top" class="text-center inline-block mx-4">
-                            <vs-icon icon-pack="material-icons" icon="wrap_text" v-if="tr.resposta && (tr.resposta.responsavel_id == $store.state.AppActiveUser.uid)"
-                                     class="icon-grande m-0 text-black cursor-pointer" @click="$emit('transformar', tr)"></vs-icon>
+                            <vs-icon icon-pack="material-icons" icon="wrap_text" v-if="tr.resposta && (tr.resposta.responsavel_id == $store.state.AppActiveUser.uid) && tr.lead_produto.tickets == null"
+                                     class="icon-grande m-0 mx-auto text-black cursor-pointer" @click="$emit('transformar', tr)"></vs-icon>
                         </vx-tooltip>
                         <vx-tooltip :text="tr.resposta ? 'Visualizar' : 'Responder'" position="top" class="text-center inline-block mx-4">
                             <vs-icon icon-pack="material-icons" :icon="tr.resposta ? 'visibility' : 'reply'"
-                                     class="icon-grande m-0 text-black cursor-pointer" @click="$emit('responder', tr)"></vs-icon>
+                                     class="icon-grande m-0 mx-auto text-black cursor-pointer" @click="$emit('responder', tr)"></vs-icon>
                         </vx-tooltip>
                     </vs-td>
                 </vs-tr>
