@@ -10,5 +10,7 @@
 import axios from "../../http/axios/index.js"
 
 export default {
-
+    SET_ROTA_ATUAL(state, val){
+        state.rotaAtual = val;
+    }
 }

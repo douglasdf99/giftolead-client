@@ -108,10 +108,24 @@ export default {
     },
     getAgenda({commit}, rota){
         return new Promise((resolve, reject) => {
-            axios.get('/api/agendamentos').then(response => {
+            axios.get(`/api/${rota}`).then(response => {
                 console.log('agendados', response);
                 resolve(response.data.data);
             }).catch(erro => reject(erro));
         });
     },
+    reagendar({commit}, obj){
+        return new Promise((resolve, reject) => {
+            obj._method = 'PUT'
+            axios.post(`/api/agendamentos/${obj.id}`, obj).then(response => {
+                console.log('reagendado', response);
+                resolve()
+            }).catch(erro => {
+                console.log('erro', erro);
+            });
+        });
+    },
+    rotaAtual({commit}, val){
+        commit('SET_ROTA_ATUAL', val);
+    }
 }

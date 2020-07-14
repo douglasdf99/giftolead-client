@@ -20,11 +20,33 @@
         <div class="vx-row my-10">
             <div class="vx-col w-full lg:w-7/12">
                 <div class="vx-row mb-3">
-                    <div class="vx-col w-full">
-                        <span class="font-regular mb-2">Mensagem a ser recebida</span>
+                    <div class="vx-col w-full relative">
+                        <div class="flex justify-between items-center">
+                            <span class="font-regular mb-2">Mensagem a ser recebida</span>
+                            <vx-tooltip text="Variáveis" position="top" style="position: absolute;right: 1%;top: 10%;z-index: 1;">
+                                <vs-dropdown vs-trigger-click>
+                                    <i class="material-icons text-4xl text-gray p-4 cursor-pointer">sms</i>
+                                    <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
+                                        <span class="span-identifica-item-dropdown mb-0">Variáveis</span>
+                                        <vs-dropdown-item>
+                                            <span @click="addVarText('[NOME_LEAD]')">Nome do Lead</span>
+                                        </vs-dropdown-item>
+                                        <vs-dropdown-item>
+                                            <span @click="addVarText('[EMAIL_LEAD]')">E-mail do Lead</span>
+                                        </vs-dropdown-item>
+                                        <vs-dropdown-item>
+                                            <span @click="addVarText('[TELEFONE_LEAD]')">Telefone do Lead</span>
+                                        </vs-dropdown-item>
+                                        <vs-dropdown-item>
+                                            <span @click="addVarText('[PRODUTO]')">Produto</span>
+                                        </vs-dropdown-item>
+                                    </vs-dropdown-menu>
+                                </vs-dropdown>
+                            </vx-tooltip>
+                        </div>
                         <vs-textarea v-model="campanha.mensagem" id="text-area" class="w-full bg-white" name="textarea" rows="6" v-validate="'required|max:130'"
                                      placeholder="Digite a mensagem que seu cliente irá mandar para você para solicitar um contato nesta campanha."/>
-                        <span class="text-danger text-sm"
+                        <span class="text-danger text-sm -mt-2"
                               v-show="errors.has('textarea')">Máximo de 130 caracteres</span>
                     </div>
                 </div>
@@ -344,6 +366,14 @@
             },
             contatos(val) {
                 this.$router.push({path: `/campanha/configurar-whatsapp/${this.$route.params.id}/contatos-${val}`});
+            },
+            addVarText(value) {
+                //Text Area
+                var $txt = document.getElementById('text-area');
+                var textAreaTxt = $txt.value;
+                var caretPos = $txt.selectionStart;
+                $txt.value = (textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos));
+                this.campanha.mensagem = $txt.value;
             },
         },
         computed: {

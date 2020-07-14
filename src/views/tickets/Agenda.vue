@@ -1,12 +1,14 @@
 <template>
     <div>
         <vs-tabs color="primary" class="tabs-shadow-none">
-            <vs-tab color="primary" value="10" label="meus agendamentos" @click="getAtendimentos('meus')">
-                <calendario :items="items" class="mt-2"></calendario>
+            <vs-tab color="primary" value="10" label="meus agendamentos" @click="getAtendimentos('agendamentos')">
+                <calendario :items="items" class="mt-2" :agendadosHoje="agendadosHoje" @getItems="getAtendimentos"></calendario>
             </vs-tab>
-            <vs-tab color="success" value="10" label="agendados para qualquer usuário ()">
+            <vs-tab color="success" value="10" label="agendados para qualquer usuário" @click="getAtendimentos('agendamentos_natendimento')">
+                <calendario :items="items" class="mt-2" @getItems="getAtendimentos('agendamentos_natendimento')"></calendario>
             </vs-tab>
-            <vs-tab color="success" value="10" label="agendamentos de outros usuários">
+            <vs-tab color="success" value="10" label="agendamentos de outros usuários" @click="getAtendimentos('agendamentos_todos')">
+                <calendario :items="items" class="mt-2" @getItems="getAtendimentos('agendamentos_todos')"></calendario>
             </vs-tab>
         </vs-tabs>
     </div>
@@ -15,7 +17,6 @@
 <script>
     import Calendario from "./Calendario";
     import moduleTickets from "../../store/tickets/moduleTickets";
-    import VueMoment from 'vue-moment'
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -27,13 +28,15 @@
         },
         data(){
             return {
-                items: []
+                items: [],
+                agendadosHoje: [],
             }
         },
         methods: {
-            getAtendimentos(val = 'meus'){
+            getAtendimentos(val = 'agendamentos'){
                 this.$vs.loading();
-                this.$store.dispatch('tickets/getAgenda', {tipo: val}).then(response => {
+                this.$store.dispatch('tickets/rotaAtual', val);
+                this.$store.dispatch('tickets/getAgenda', val).then(response => {
                     this.items = response;
                     this.organiza()
                 }).finally(() => this.$vs.loading.close());
@@ -46,21 +49,26 @@
                     item.startDate = data_agendamento;
                     item.endDate = data_agendamento;
                     item.label = this.getSituacao(data_agendamento);
-                    item.classes = 'event-' + this.getColorLabel();
+                    item.classes = 'event-' + this.getColorLabel(item.label);
+                    let hoje = moment().format('Y-MM-D H:mm');
+                    var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
+                    if(((item.data_agendamento > hoje) && (item.data_agendamento < amanha)) || (item.data_agendamento < hoje)){
+
+                    }
                 });
-                console.log(this.items);
                 this.$vs.loading.close();
             },
             getSituacao(data){
                 let hoje = moment().format('Y-MM-D H:mm');
                 var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
-                console.log('datas', hoje, amanha, data)
+                if((data > hoje) && (data < amanha)) return 'dentrodoprazo'
                 if(data < hoje) return 'atrasado'
-                if(data > hoje) return 'futuro'
+                if(data >= amanha) return 'futuro'
             },
             getColorLabel(val){
                 if(val == 'futuro') return 'success'
                 if(val == 'atrasado') return 'danger'
+                else return 'warning'
             }
         },
         created() {
