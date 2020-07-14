@@ -78,7 +78,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/sms'})">
+                                       @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id + '/sms'})">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -108,12 +108,12 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import {Validator} from "vee-validate";
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
     import 'quill/dist/quill.bubble.css'
     import {quillEditor} from 'vue-quill-editor'
+    import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
     const dict = {
         custom: {
@@ -142,11 +142,11 @@
             quillEditor
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampBoletos.isRegistered) {
+                this.$store.registerModule('boleto', moduleCampBoletos)
+                moduleCampBoletos.isRegistered = true
             }
-            if (this.$route.name === 'campanha-config-checkout-sms-editar')
+            if (this.$route.name === 'campanha-config-boleto-sms-editar')
                 this.getId(this.$route.params.idEmail);
         },
         data() {
@@ -191,7 +191,7 @@
             validar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        if (this.$route.name === 'campanha-config-checkout-sms-editar' && this.email.campanha.contatos.length > 0) {
+                        if (this.$route.name === 'campanha-config-boleto-sms-editar' && this.email.campanha.contatos.length > 0) {
                             this.$vs.dialog({
                                 color: 'primary',
                                 title: `Atenção`,
@@ -242,7 +242,7 @@
                 console.log('email aí', this.email)
                 if (this.email.id !== undefined) {
                     this.email._method = 'PUT';
-                    this.$store.dispatch('checkout/updateSms', {
+                    this.$store.dispatch('boleto/updateSms', {
                         id: this.email.id,
                         dados: this.email
                     }).then(response => {
@@ -254,7 +254,7 @@
                             icon: 'icon-check-circle',
                             color: 'success'
                         });
-                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/sms'})
+                        this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id + '/sms'})
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
@@ -265,7 +265,7 @@
                         })
                     })
                 } else {
-                    this.$store.dispatch('checkout/storeSms', this.email).then(response => {
+                    this.$store.dispatch('boleto/storeSms', this.email).then(response => {
                         console.log('response', response);
                         this.$vs.notify({
                             title: '',
@@ -274,7 +274,7 @@
                             icon: 'icon-check-circle',
                             color: 'success'
                         });
-                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/sms'})
+                        this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id + '/sms'})
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
@@ -291,11 +291,11 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getSms', this.$route.params.id).then(response => {
+                this.$store.dispatch('boleto/getSms', this.$route.params.id).then(response => {
                     let arr = response;
                     arr.forEach(item => {
                         //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
-                        if (this.$route.name === 'campanha-config-checkout-sms-editar') {
+                        if (this.$route.name === 'campanha-config-boleto-sms-editar') {
                             if (item.id != this.$route.params.idEmail && item.status)
                                 this.somaPeriodo += item.periodo;
                         } else {
@@ -305,7 +305,7 @@
                     });
                     console.log('somaperiodo', this.somaPeriodo)
                 });
-                this.$store.dispatch('checkout/getSmsId', id).then(response => {
+                this.$store.dispatch('boleto/getSmsId', id).then(response => {
                     this.email = {...response};
                     switch (this.email.unidade_medida) {
                         case 'dias':

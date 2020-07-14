@@ -26,7 +26,7 @@
                     <div class="py-2 w-full flex justify-between">
                         <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(msg.id)"></vs-button>
                         <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
-                                   v-model="msg.status" @click="ativaEmail(msg)"/>
+                                   v-model="msg.status" @click="ativaSms(msg)"/>
                     </div>
                     <div class="w-full">
                         <img src="@/assets/images/util/sms.svg" class="img-conquista my-3" width="120">
@@ -138,7 +138,7 @@
                     }
                 })
             },
-            ativaEmail(e) {
+            ativaSms(e) {
                 console.log(this.countSwitch)
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.status = !e.status;
@@ -157,7 +157,7 @@
                     formData.append('status', ativo);
                     formData.append('_method', 'PUT');
                     formData.append('assunto', e.assunto);
-                    this.$store.dispatch('checkout/updateEmail', {id: e.id, dados: formData}).then(() => {
+                    this.$store.dispatch('checkout/updateSms', {id: e.id, dados: formData}).then(() => {
                         this.$vs.notify({
                             title: '',
                             text: text + " com sucesso.",

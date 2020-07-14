@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaSms" rota="checkout"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaSms" rota="boleto"/>
         <div class="vx-row mt-10" v-if="sms.length > 0">
             <div class="vx-col w-full float-right">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="organizar">
@@ -12,7 +12,7 @@
         <div class="vx-row mt-10">
             <div class="vx-col col-conquista mb-10">
                 <div class="conquista nova cursor-pointer"
-                     @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/sms/criar'})">
+                     @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id + '/sms/criar'})">
                     <div class="img-plus cursor-pointer">
                         <i class="material-icons">add</i>
                     </div>
@@ -35,7 +35,7 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: '/campanha/configurar-checkout/' + msg.campanha_id + '/sms/editar/' + msg.id})">
+                               @click="$router.push({path: '/campanha/configurar-boleto/' + msg.campanha_id + '/sms/editar/' + msg.id})">
                         Editar tentativa
                     </vs-button>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative">
                             <vs-button class="mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id})">
+                                       @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id})">
                                 Voltar
                             </vs-button>
                         </div>
@@ -60,8 +60,8 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import SideBar from '../Reorganizar'
+    import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
     export default {
         name: "SMS",
@@ -70,9 +70,9 @@
             SideBar
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampBoletos.isRegistered) {
+                this.$store.registerModule('boleto', moduleCampBoletos)
+                moduleCampBoletos.isRegistered = true
             }
             this.getId(this.$route.params.id);
         },
@@ -105,7 +105,7 @@
             },
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('checkout/getSms', id).then(response => {
+                this.$store.dispatch('boleto/getSms', id).then(response => {
                     this.sms = response;
                     this.$vs.loading.close();
                 });
@@ -118,7 +118,7 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_carrinho_sms'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_boleto_sms'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: '',
@@ -157,7 +157,7 @@
                     formData.append('status', ativo);
                     formData.append('_method', 'PUT');
                     formData.append('assunto', e.assunto);
-                    this.$store.dispatch('checkout/updateEmail', {id: e.id, dados: formData}).then(() => {
+                    this.$store.dispatch('boleto/updateSms', {id: e.id, dados: formData}).then(() => {
                         this.$vs.notify({
                             title: '',
                             text: text + " com sucesso.",

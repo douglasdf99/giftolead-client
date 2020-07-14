@@ -37,6 +37,19 @@ export default {
                 })
         })
     },
+    updateSms({commit}, dados) {
+        console.log('atualizando', dados)
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_boleto_sms/${dados.id}`, dados.dados)
+                .then((response) => {
+                    console.log('sms alterado', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/campanha_boletos`, dados)
@@ -54,6 +67,18 @@ export default {
             axios.post(`/api/campanha_boleto_emails`, dados)
                 .then((response) => {
                     console.log('email criado', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    storeSms({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_boleto_sms`, dados)
+                .then((response) => {
+                    console.log('sms criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -96,6 +121,29 @@ export default {
                 })
         })
     },
+    getSms({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_boleto_sms`, {params: {campanha_id: id}})
+                .then((response) => {
+                    console.log('emails resgatados', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    getSmsId({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/campanha_boleto_sms/${id}`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     get({commit}) {
         return new Promise((resolve, reject) => {
             axios.get(`/api/campanha_boletos`, {params: {}})
@@ -123,6 +171,18 @@ export default {
     reorganizarEmails({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/api/campanha_boleto_emails_posicao`, {posicoes: dados})
+                .then((response) => {
+                    console.log('posição atualizada', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    reorganizarSms({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/api/campanha_boleto_sms_posicao`, {posicoes: dados})
                 .then((response) => {
                     console.log('posição atualizada', response);
                     resolve(response)

@@ -149,8 +149,8 @@
                 this.$store.registerModule('checkout', moduleCampCheckouts)
                 moduleCampCheckouts.isRegistered = true
             }
-            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
-            this.dt_fim = moment().format('YYYY-MM-DD');
+            this.dados.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dados.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days')
             this.dateRange.endDate = moment()
 
@@ -191,8 +191,6 @@
                     dt_fim: '',
                     email_id: ''
                 },
-                dt_inicio: '',
-                dt_fim: '',
                 languages: lang,
                 dateRange: {},
                 localeData: {
@@ -295,7 +293,7 @@
                     this.emails = response;
                     this.assuntos = [];
                     this.emails.forEach((item, index) => {
-                        this.assuntos.push({id: item.id, label: item.assunto});
+                        this.assuntos.push({id: item.id, label: item.assunto ? item.assunto : ''});
                     });
                 });
 

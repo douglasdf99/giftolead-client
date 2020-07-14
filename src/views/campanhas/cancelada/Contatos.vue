@@ -162,8 +162,8 @@
                 this.$store.registerModule('canceladas', moduleCampCanceladas)
                 moduleCampCanceladas.isRegistered = true
             }
-            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
-            this.dt_fim = moment().format('YYYY-MM-DD');
+            this.dados.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dados.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days');
             this.dateRange.endDate = moment();
             if (this.$route.name === 'campanha-config-canceladas-contatos-inativos') {

@@ -43,7 +43,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'produtos'})">
+                                       @click="$router.push({name: 'meus-planos'})">
                                 Cancelar
                             </vs-button>
                         </div>

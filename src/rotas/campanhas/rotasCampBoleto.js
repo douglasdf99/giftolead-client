@@ -157,7 +157,7 @@ const rotasCampBoleto = [
     {
         path: '/campanha/configurar-boleto/:id/sms',
         name: 'campanha-config-boleto-sms',
-        component: () => import('@/views/campanhas/boleto/Emails.vue'),
+        component: () => import('@/views/campanhas/boleto/Sms.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
@@ -176,7 +176,7 @@ const rotasCampBoleto = [
     {
         path: '/campanha/configurar-boleto/:id/sms/criar',
         name: 'campanha-config-boleto-sms-criar',
-        component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
+        component: () => import('@/views/campanhas/boleto/SmsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
@@ -196,7 +196,7 @@ const rotasCampBoleto = [
     {
         path: '/campanha/configurar-boleto/:id/sms/editar/:idEmail',
         name: 'campanha-config-boleto-sms-editar',
-        component: () => import('@/views/campanhas/boleto/EmailsCriar.vue'),
+        component: () => import('@/views/campanhas/boleto/SmsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},

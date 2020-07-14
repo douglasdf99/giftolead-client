@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="vx-col w-10/12">
                                     <p class="destaque">
-                                        {{item.assunto}}
+                                        {{item.assunto || item.corpo.substr(0, 40) + '...'}}
                                     </p>
                                 </div>
                             </div>
@@ -111,8 +111,12 @@
                         this.data.forEach((item, index) => {
                             obj.push(item.id);
                         })
-
-                        this.$store.dispatch(this.rota + "/reorganizarEmails", obj).then(response => {
+                        let action = '';
+                        if(this.$route.name == 'campanha-config-checkout-emails')
+                            action = 'reorganizarEmails'
+                        else
+                            action = 'reorganizarSms'
+                        this.$store.dispatch(this.rota + `/${action}`, obj).then(response => {
                             this.$vs.notify({
                                 title: 'Sucesso',
                                 text: "Atualizado com sucesso.",
@@ -120,6 +124,7 @@
                                 icon: 'icon-check-circle',
                                 color: 'success'
                             });
+                            this.$vs.loading.close();
                             this.$emit('closeSidebar')
                             this.initValues()
                         }).catch(err => {
