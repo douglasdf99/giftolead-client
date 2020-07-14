@@ -158,7 +158,7 @@ const rotasCampCheckout = [
     {
         path: '/campanha/configurar-checkout/:id/sms',
         name: 'campanha-config-checkout-sms',
-        component: () => import('@/views/campanhas/checkout/Emails.vue'),
+        component: () => import('@/views/campanhas/checkout/Sms.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
@@ -166,7 +166,7 @@ const rotasCampCheckout = [
                 {title: 'Gerenciar'},
                 {title: 'Configurar E-mails', active: true}
             ],
-            pageTitle: 'Configuração de E-mails',
+            pageTitle: 'Configuração de SMSs',
             rule: 'editor',
             pai: 'planos',
             subTitle: 'Planos',
@@ -177,7 +177,7 @@ const rotasCampCheckout = [
     {
         path: '/campanha/configurar-checkout/:id/sms/criar',
         name: 'campanha-config-checkout-sms-criar',
-        component: () => import('@/views/campanhas/checkout/EmailsCriar.vue'),
+        component: () => import('@/views/campanhas/checkout/SmsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
@@ -197,16 +197,16 @@ const rotasCampCheckout = [
     {
         path: '/campanha/configurar-checkout/:id/sms/editar/:idEmail',
         name: 'campanha-config-checkout-sms-editar',
-        component: () => import('@/views/campanhas/checkout/EmailsCriar.vue'),
+        component: () => import('@/views/campanhas/checkout/SmsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
                 {title: 'Gerenciar'},
-                {title: 'Configurar E-mails'},
-                {title: 'Criar configuração de e-mail', active: true},
+                {title: 'Configurar SMSs'},
+                {title: 'Editar configuração de SMS', active: true},
             ],
-            pageTitle: 'Editar configuração do E-mail',
+            pageTitle: 'Editar configuração de SMS',
             rule: 'editor',
             pai: 'planos',
             subTitle: 'Planos',
