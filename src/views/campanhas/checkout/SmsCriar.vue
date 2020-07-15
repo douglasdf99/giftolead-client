@@ -23,7 +23,8 @@
                             <div class="vx-col w-1/2">
                                 <span class="font-regular mb-2">Unidade de Tempo</span>
                                 <vs-input type="text" @keypress="isNumber" name="periodo" class="w-full"
-                                          v-model="email.unidade_tempo" v-validate="'required|min_value:1'" size="large"/>
+                                          v-model="email.unidade_tempo" v-validate="'required|min_value:1'"
+                                          size="large"/>
                                 <span class="text-primary text-xs">{{periodoDisponivel}}</span><br>
                                 <span class="text-danger text-sm" v-show="errors.has('periodo')">{{ errors.first('periodo') }}</span>
                             </div>
@@ -48,7 +49,8 @@
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
                         <span class="font-regular mb-2">Mensagem</span>
-                        <vs-textarea v-model="email.corpo" id="text-area" class="w-full bg-white" rows="6"/>
+                        <vs-textarea v-model="email.corpo" id="text-area" class="w-full bg-white" rows="6"
+                                     counter="160"/>
                     </div>
                 </div>
             </div>
@@ -74,7 +76,8 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="validar"
+                                       :disabled="isValid || email.corpo.length > 160">
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -175,7 +178,7 @@
             }
         },
         methods: {
-            addLinkCheckoutVarText(){
+            addLinkCheckoutVarText() {
                 this.modal = true;
             },
             clearValMultiple() {

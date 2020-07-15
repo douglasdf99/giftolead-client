@@ -46,38 +46,6 @@
                 </div>
             </div>
         </div>
-        <!--<div class="vx-row my-5">
-            <div class="vx-col col-conquista mb-10">
-                <div class="conquista nova cursor-pointer"
-                     @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id + '/emails/criar'})">
-                    <div class="img-plus cursor-pointer">
-                        <i class="material-icons">add</i>
-                    </div>
-                    <p class="nome-conq">
-                        Adicionar <br> novo e-mail
-                    </p>
-                </div>
-            </div>
-            <div class="vx-col col-conquista mb-10" v-for="(email, index) in campanha.emails">
-                <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (email.status ? '' : '.5')}" v-bind:class="{'desativado': !email.status}">
-                    <div class="py-2 w-full flex justify-between">
-                        <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(email.id)"></vs-button>
-                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
-                                   v-model="email.status" @click="ativaEmail(email)"/>
-                    </div>
-                    <div class="w-full">
-                        <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
-                        <p class="nome-conq mb-4 text-base">
-                            {{email.unidade_tempo}} {{email.unidade_medida}} depois {{index === 0 ? 'da entrada' : 'do último envio'}}
-                        </p>
-                    </div>
-                    <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: '/campanha/configurar-boleto/' + email.campanha_id + '/emails/editar/' + email.id})">
-                        Editar tentativa
-                    </vs-button>
-                </div>
-            </div>
-        </div>-->
         <div class="vx-row">
             <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4">
                 <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">

@@ -7,9 +7,10 @@
                     :show-date="showDate"
                     :events="items"
                     :enableDragDrop="rotaAtual == 'agendamentos'"
-                    :eventTop="windowWidth <= 400 ? '2rem' : '3rem'"
+                    :eventTop="windowWidth <= 400 ? '2rem' : '2.5rem'"
+                    :eventBottom="'4rem'"
                     eventBorderHeight="0px"
-                    eventContentHeight="1.65rem"
+                    eventContentHeight="2.65rem"
                     class="theme-default"
                     @click-event="redirectTicket"
                     @drop-on-date="eventDragged">
@@ -19,7 +20,7 @@
                         <!-- Month Name -->
                         <div class="vx-col w-1/3 items-center sm:flex hidden">
                             <!-- Add new event button -->
-                            <vs-button @click="exibirHoje = true">Hoje</vs-button>
+                            <vs-button @click="getHoje" v-if="rotaAtual == 'agendamentos'">Hoje</vs-button>
                         </div>
 
                         <!-- Current Month -->
@@ -57,14 +58,19 @@
                         <div class="vx-col w-full flex">
                             <!-- Labels -->
                             <div class="flex flex-wrap sm:justify-start justify-center">
-                                <div v-for="(label, index) in calendarLabels" :key="index" class="flex items-center mr-4 mb-2">
-                                    <div class="h-3 w-3 inline-block rounded-full mr-2" :class="'bg-' + label.color"></div>
+                                <div v-for="(label, index) in calendarLabels" :key="index"
+                                     class="flex items-center mr-4 mb-2">
+                                    <div class="h-3 w-3 inline-block rounded-full mr-2"
+                                         :class="'bg-' + label.color"></div>
                                     <span>{{ label.text }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!--<div slot="event" class="cv-event offset2">
+                    <p>teste</p>
+                </div>-->
             </calendar-view>
         </div>
 
@@ -79,7 +85,8 @@
                 @accept="reagendar"
                 :active.sync="reagendando">
             <div class="p-5 flex justify-center">
-                <flat-pickr :config="configdateTimePicker" v-model="time" class="text-center" placeholder="Selecione o novo horário"/>
+                <flat-pickr :config="configdateTimePicker" v-model="time" class="text-center"
+                            placeholder="Selecione o novo horário"/>
             </div>
         </vs-prompt>
 
@@ -88,8 +95,26 @@
             <div class="vx-row">
                 <div class="vx-col w-full lg:w-1/2 text-center mb-3" v-for="i in agendadosHoje">
                     <vs-chip v-bind:class="'bg-' + getColorLabel(i.label)" class="text-white">
-                        <p class="text-md">{{i.nome}} | <span class="destaque font-bold">{{i.data_agendamento | formatDateTime}}</span></p>
+                        <p class="text-md">{{i.nome}} | <span class="destaque font-bold">{{i.data_agendamento | formatDateTime}}</span>
+                        </p>
                     </vs-chip>
+                </div>
+            </div>
+        </vs-popup>
+
+        <!-- Pop-up Detalhe -->
+        <vs-popup class="holamundo" title="Detalhe do agendamento" :active.sync="exibirDetalhe">
+            <div class="vx-row">
+                <div class="vx-col w-1/2 mb-3">
+                    <p class="text-black text-xl"><b>Responsável:</b> {{detalhado.responsavel.name}} </p>
+                    <p class="text-black text-xl"><b>Data:</b> {{detalhado.data_agendamento | formatDateTime}}</p>
+                </div>
+                <div class="vx-col w-1/2 mb-3">
+                    <img :src="url_api(detalhado.responsavel.avatar)" :alt="detalhado.responsavel.name"
+                         class="rounded-full float-right" width="50px">
+                </div>
+                <div class="vx-col w-full">
+                    <p class="text-black text-xl"><b>Follow Up:</b> {{detalhado.atendimento.follow_up}}</p>
                 </div>
             </div>
         </vs-popup>
@@ -116,7 +141,7 @@
             Datepicker,
             flatPickr
         },
-        props: ['items'],
+        props: ['items', 'agendadosHoje'],
         data() {
             return {
                 showDate: new Date(),
@@ -153,6 +178,11 @@
                     },
                 ],
                 exibirHoje: false,
+                exibirDetalhe: false,
+                detalhado: {
+                    atendimento: {},
+                    responsavel: {}
+                },
 
                 //Timepicker
                 time: null,
@@ -202,7 +232,13 @@
         },
         methods: {
             addEvent() {
-                const obj = {title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url}
+                const obj = {
+                    title: this.title,
+                    startDate: this.startDate,
+                    endDate: this.endDate,
+                    label: this.labelLocal,
+                    url: this.url
+                }
                 obj.classes = "event-" + this.labelColor(this.labelLocal)
                 this.$store.dispatch('calendar/addEvent', obj);
             },
@@ -211,9 +247,15 @@
                 if (val == 'atrasado') return 'danger'
                 else return 'warning'
             },
-            redirectTicket() {
-                if (this.rotaAtual != 'agendamentos_todos')
-                    this.$router.push({name: 'tickets-list'});
+            redirectTicket(calendarItem) {
+                if (this.rotaAtual != 'agendamentos_natendimento') {
+                    if (this.$store.state.AppActiveUser.uid == calendarItem.originalEvent.responsavel_id)
+                        this.$router.push({name: 'tickets-list'});
+                    else {
+                        this.exibirDetalhe = true;
+                        this.detalhado = calendarItem.originalEvent;
+                    }
+                }
             },
             updateMonth(val) {
                 this.showDate = this.$refs.calendar.getIncrementedPeriod(val);
@@ -227,8 +269,22 @@
                 this.disabledFrom = false;
                 this.addNewEventDialog(date);
             },
-            verHoje() {
-
+            getHoje() {
+                if (this.agendadosHoje.length > 0) {
+                    this.exibirHoje = true;
+                } else {
+                    this.$vs.dialog({
+                        color: 'primary',
+                        title: `Atenção`,
+                        type: 'alert',
+                        text: 'Não existe agendamentos atrasados ou para hoje.',
+                        acceptText: 'Ok',
+                        buttonCancel: false,
+                        accept: () => {
+                            this.validarPeriodo();
+                        },
+                    })
+                }
             },
             addNewEventDialog(date) {
                 this.clearFields();
@@ -241,7 +297,14 @@
                 this.addNewEventDialog(date);
             },
             editEvent() {
-                const obj = {id: this.id, title: this.title, startDate: this.startDate, endDate: this.endDate, label: this.labelLocal, url: this.url}
+                const obj = {
+                    id: this.id,
+                    title: this.title,
+                    startDate: this.startDate,
+                    endDate: this.endDate,
+                    label: this.labelLocal,
+                    url: this.url
+                }
                 obj.classes = "event-" + this.labelColor(this.labelLocal)
                 this.$store.dispatch('calendar/editEvent', obj)
             },
@@ -249,7 +312,6 @@
                 this.$store.dispatch('calendar/removeEvent', this.id)
             },
             eventDragged(event, date) {
-                console.log(moment(date).format('Y-MM-DD H:mm'));
                 this.reagendarID = event.id;
                 this.reagendarDate = moment(date);
                 this.reagendando = true;
@@ -257,8 +319,10 @@
             reagendar() {
                 let split = this.time.split(':');
                 this.reagendarDate.set({hour: split[0], minute: split[1], second: 0, millisecond: 0});
-                console.log(this.reagendarDate.format('Y-MM-DD H:mm:ss'));
-                this.$store.dispatch('tickets/reagendar', {id: this.reagendarID, data_agendamento: this.reagendarDate.format('Y-MM-DD H:mm')}).then(() => {
+                this.$store.dispatch('tickets/reagendar', {
+                    id: this.reagendarID,
+                    data_agendamento: this.reagendarDate.format('Y-MM-DD H:mm')
+                }).then(() => {
                     this.time = null;
                     this.$vs.notify({
                         title: '',
@@ -277,7 +341,7 @@
             }
         },
         updated() {
-            console.log(this.$store.state.tickets.rotaAtual);
+
         },
         created() {
         },
@@ -289,4 +353,12 @@
 
 <style lang="scss">
     @import "@/assets/scss/vuexy/apps/simple-calendar.scss";
+</style>
+
+<style>
+    .cv-event {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 </style>

@@ -46,15 +46,20 @@
 
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-4/12 sm:w-full">
+            <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <label class="vs-input--label">Assunto</label>
                 <v-select v-model="selectedAssunto" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="assuntos"/>
             </div>
-            <div class="vx-col w-full lg:w-4/12 sm:w-full">
+            <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <label class="vs-input--label">Status</label>
                 <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="statusList"/>
+            </div>
+            <div class="vx-col w-full lg:w-2/12 sm:w-full">
+                <label class="vs-input--label">Tipo</label>
+                <v-select v-model="selectedTipo" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="[{id: 'email', label: 'E-mail'}, {id: 'sms', label: 'SMS'}]"/>
             </div>
         </div>
         <vs-row>
@@ -83,13 +88,20 @@
                         <template slot-scope="{data}">
                             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
                                 <vs-td>{{tr.contato ? tr.contato.email : ''}}</vs-td>
-                                <vs-td>{{tr.email.assunto}}</vs-td>
+                                <vs-td>{{tr.email ? tr.email.assunto : tr.sms.corpo.substr(0, 30)}}</vs-td>
                                 <vs-td><span class="destaque">{{ tr.created_at | formatDateTime}}</span></vs-td>
-                                <vs-td>
+                                <vs-td v-if="tr.email">
                                     <vs-chip v-if="tr.eventos_entrega.length > 0"
                                              :color="tr.eventos_entrega[0].resposta === 'success' ? '#2ecc71' : '#e74c3c'"
                                              class="product-order-status">
                                         {{ tr.eventos_entrega[0].evento }}
+                                    </vs-chip>
+                                </vs-td>
+                                <vs-td v-else>
+                                    <vs-chip
+                                             :color="tr.sms.responder != null ? '#2ecc71' : '#e74c3c'"
+                                             class="product-order-status">
+                                        {{ tr.sms.responder != null ?'Respondido' : 'Não respondido' }}
                                     </vs-chip>
                                 </vs-td>
                             </vs-tr>
@@ -176,6 +188,7 @@
                 emails: [],
                 assuntos: [],
                 selectedStatus: {},
+                selectedTipo: {id: 'email', label: 'E-mail'},
                 selectedAssunto: {},
                 currentx: 1,
                 search: '',
@@ -189,7 +202,8 @@
                     page: 1,
                     dt_inicio: '',
                     dt_fim: '',
-                    email_id: ''
+                    email_id: '',
+                    type: 'email'
                 },
                 languages: lang,
                 dateRange: {},
@@ -284,6 +298,10 @@
                     this.dados.email_id = this.selectedAssunto.id;
                 else this.dados.email_id = '';
 
+                if (this.selectedTipo !== null)
+                    this.dados.type = this.selectedTipo.id;
+                else this.dados.type = '';
+
                 if (this.dateRange.startDate)
                     this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
                 if (this.dateRange.endDate)
@@ -316,6 +334,11 @@
                 this.getId(this.$route.params.id);
             },
             selectedAssunto(val) {
+                this.$vs.loading();
+                this.dados.page = 1;
+                this.getId(this.$route.params.id);
+            },
+            selectedTipo(val) {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getId(this.$route.params.id);
