@@ -4,7 +4,7 @@ const rotasCampAgendamento = [
     {
         path: '/campanha/configurar-agendamento/:id',
         name: 'campanha-config-agendamento',
-        component: () => import('@/views/campanhas/Agendamento.vue'),
+        component: () => import('@/views/campanhas/agendamento/Agendamento.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},

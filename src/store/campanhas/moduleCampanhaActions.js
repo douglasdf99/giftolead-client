@@ -40,6 +40,9 @@ export default {
             case 'boleto':
                 rota = 'campanha_boletos';
                 break;
+            case 'agendamento':
+                rota = 'campanha_agendamentos';
+                break;
         }
         return new Promise((resolve, reject) => {
             axios.post(`/api/${rota}`, dados)

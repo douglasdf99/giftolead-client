@@ -26,19 +26,87 @@
                     </div>
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Página de Obrigado</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout" placeholder="https://" size="large" name="nome"/>
+                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout"
+                                  placeholder="https://" size="large" name="nome"/>
                     </div>
-                    <div class="vx-col w-full relative">
+                    <div class="vx-col w-full lg:w-1/2 mb-3">
+                        <span class="font-regular mb-2">Origem</span>
+                        <v-select v-model="selectedOrigem" :class="'select-large-base'" :clearable="false"
+                                  style="background-color: white"
+                                  :options="origens" v-validate="'required'" name="origem"/>
+                        <span class="text-danger text-sm" v-show="errors.has('origem')">Obrigatório selecionar uma origem</span>
+                    </div>
+                    <div class="vx-col w-full lg:w-1/2 mb-3">
+                        <span class="font-regular mb-2">Dúvida</span>
+                        <v-select v-model="selectedDuvida" :class="'select-large-base'" :clearable="false"
+                                  style="background-color: white"
+                                  :options="duvidas" v-validate="'required'" name="duvida"/>
+                        <span class="text-danger text-sm" v-show="errors.has('duvida')">Obrigatório selecionar uma dúvida</span>
+                    </div>
+                    <div class="vx-col w-full relative" v-if="!campanha.infusion">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
                         <prism language="html" class="rounded-lg">
-                            {{html}}
+                            {{codigohtml()}}
                         </prism>
                     </div>
+                </div>
+                <div class="vx-row">
                     <div class="vx-col w-full">
                         <div class="my-8">
-                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Integrar este formulário com minha ferramenta de e-mail</span>
+                            <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Utilizar minha ferramenta de e-mail</span>
                             </vs-checkbox>
-                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta opção habilita a a associação com sua ferramenta de e-mail</small>
+                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta
+                                opção habilita a a associação com sua ferramenta de e-mail
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <vx-card class="mb-8">
+                    <div class="vx-row mb-6" v-if="campanha.infusion">
+                        <div class="vx-col w-full ">
+                            <h5 class="mb-4">Campos do Formulário</h5>
+                            <div class="vx-row">
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Nome</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_nome"
+                                              v-model="campanha.campo_nome" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_nome')">{{ errors.first('campo_nome') }}</span>
+                                </div>
+
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Email</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_email"
+                                              v-model="campanha.campo_email" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_email')">{{ errors.first('campo_email') }}</span>
+                                </div>
+
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Whatsapp</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_whatsapp"
+                                              v-model="campanha.campo_whatsapp" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </vx-card>
+                <div class="vx-row">
+                    <div class="vx-col w-full" v-if="campanha.infusion">
+                        <img src="@/assets/images/util/infusion-help.png" class="border-dark shadow mb-3" width="100%">
+                        <p class="flex mb-2 ml-3 font-bold text-warning">
+                            <i class="material-icons text-base mr-2">info_outline</i>Insira esta URL como sua página de
+                            obrigado e
+                            marque o checkbox que se encontra logo abaixo. Veja no exemplo acima.
+                        </p>
+                        <div class="w-full relative">
+                            <span class="font-regular mb-2">Url Infusion:</span>
+                            <vs-input class="w-full mb-4"
+                                      :value="this.url_api('api/campanhaagendamento/'+this.campanha.token).substr(0, 65) + '...'"
+                                      placeholder="https://" size="large" name="urlInfusion"
+                                      id="urlInfusion" disabled/>
+                            <i class="material-icons" id="copy-icon-input" @click="copyUrl">file_copy</i>
                         </div>
                     </div>
                 </div>
@@ -47,8 +115,8 @@
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
                         <vx-card style="box-shadow: none">
-                            <span class="destaque">Nº de contatos na campanha</span>
-                            <p class="font-bold text-3xl my-5">1456</p>
+                            <span class="destaque">Nº de contatos pendentes</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
@@ -74,10 +142,10 @@
                             <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
                                 Salvar
                             </vs-button>
-                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
+                            <!--<vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
                                        @click="$router.push({path: '/campanha/configurar_checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
                                 Configurar e-mails da campanha
-                            </vs-button>
+                            </vs-button>-->
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
                                 Cancelar
@@ -94,6 +162,8 @@
     import vSelect from 'vue-select'
     import moduleCampAgendamentos from "@/store/campanha_agendamento/moduleCampAgendamentos";
     import Prism from 'vue-prism-component'
+    import moduleOrigens from "../../../store/origens/moduleOrigens";
+    import moduleDuvidas from "../../../store/tipoDuvida/moduleDuvidas";
 
     export default {
         name: "Agendamento",
@@ -106,7 +176,17 @@
                 this.$store.registerModule('agendamento', moduleCampAgendamentos)
                 moduleCampAgendamentos.isRegistered = true
             }
-            this.getId(this.$route.params.id);
+
+            if (!moduleOrigens.isRegistered) {
+                this.$store.registerModule('origens', moduleOrigens)
+                moduleOrigens.isRegistered = true
+            }
+
+            if (!moduleDuvidas.isRegistered) {
+                this.$store.registerModule('duvidas', moduleDuvidas)
+                moduleDuvidas.isRegistered = true
+            }
+            this.getOpcoes().then(() => this.getId(this.$route.params.id));
         },
         data() {
             return {
@@ -114,17 +194,15 @@
                     nome: '',
                     produto: '',
                     status: null,
-                    checkout: ''
+                    checkout: '',
+                    infusion: false
                 },
                 customcor: '',
-                html: `
-                <form>
-                    <label for="nome">Nome</label>
-                    <input type="text" name="nome" id="input-nome" placeholder="Nome completo">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="email" id="input-email" placeholder="Insira seu melhor email">
-                </form>
-                `
+                html: '',
+                origens: [],
+                selectedOrigem: {},
+                duvidas: [],
+                selectedDuvida: {},
             }
         },
         methods: {
@@ -132,10 +210,18 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         this.$vs.loading();
+
+                        this.campanha.origem_id = this.selectedOrigem.id;
+                        this.campanha.tipo_duvida_id = this.selectedDuvida.id;
+
                         this.campanha.plano_id = this.$route.params.id;
                         this.campanha._method = 'PUT';
+                        this.campanha.infusion = this.campanha.infusion == "" ? false : true;
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('agendamento/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
+                            this.$store.dispatch('agendamento/update', {
+                                id: this.campanha.id,
+                                dados: this.campanha
+                            }).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: '',
@@ -187,6 +273,20 @@
                 })
 
             },
+            codigohtml(value) {
+                this.html = `
+<form accept-charset="UTF - 8" action="${this.url_api('api/campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+    <label for="nome">Nome</label>
+    <input type="text" name="nome" id="nome" placeholder="Nome completo">
+    <label for="email">E-mail</label>
+    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
+    <label for="email">Whatsapp</label>
+    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <button type="submit">Enviar</button>
+</form>
+                `;
+                return this.html;
+            },
             selecionaCor(cor) {
                 if (cor) {
                     this.campanha.cor = cor
@@ -203,6 +303,15 @@
                 this.$vs.loading();
                 this.$store.dispatch('agendamento/getId', id).then(response => {
                     this.campanha = {...response};
+
+                    if (this.campanha.origem_id != null)
+                        this.selectedOrigem.id = this.campanha.origem_id;
+
+                    if (this.campanha.tipo_duvida_id != null)
+                        this.selectedDuvida.id = this.campanha.tipo_duvida_id;
+
+                    if (this.campanha.infusion == "0")
+                        this.campanha.infusion = false;
                     this.$vs.loading.close();
                 });
             },
@@ -230,7 +339,50 @@
                         icon: 'icon-alert-circle'
                     })
                 })
-            }
+            },
+            copyUrl() {
+                const thisIns = this;
+                let value = this.url_api('api/campanhacarrinho/' + this.campanha.token);
+                this.$copyText(value).then(function () {
+                    thisIns.$vs.notify({
+                        title: '',
+                        text: 'Copiado para sua área de transferência',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle'
+                    })
+                }, function () {
+                    thisIns.$vs.notify({
+                        title: 'Failed',
+                        text: 'Erro ao copiar',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        position: 'top-center',
+                        icon: 'icon-alert-circle'
+                    })
+                })
+            },
+            getOpcoes() {
+                return new Promise((resolve, reject) => {
+                    this.origens = [];
+                    this.$store.dispatch('origens/get').then(response => {
+                        let arr = [...response];
+                        arr.forEach(item => {
+                            this.origens.push({id: item.id, label: item.nome})
+                        });
+                    });
+
+                    this.duvidas = [];
+                    this.$store.dispatch('duvidas/get').then(response => {
+                        let arr = [...response];
+                        arr.forEach(item => {
+                            this.duvidas.push({id: item.id, label: item.nome})
+                        });
+                    })
+
+                    resolve();
+                });
+            },
         },
         computed: {
             isValid() {
@@ -262,6 +414,13 @@
     #copy-icon {
         position: absolute;
         top: 0.7rem;
+        right: 30px;
+        cursor: pointer;
+    }
+
+    #copy-icon-input {
+        position: absolute;
+        top: 2.2rem;
         right: 30px;
         cursor: pointer;
     }

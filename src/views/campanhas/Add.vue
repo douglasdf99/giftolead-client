@@ -15,7 +15,6 @@
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Produto da campanha</span>
-
                 <v-select v-model="produtoSelected" :class="'select-large-base'" :clearable="false"
                           style="background-color: white"
                           :options="produtos" v-validate="'required'" name="produto"/>

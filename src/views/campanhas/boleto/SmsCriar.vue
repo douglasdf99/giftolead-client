@@ -58,14 +58,14 @@
                 <div class="mb-3 p-5 pt-0">
                     <span class="font-regular">Inserir no corpo da mensagem:</span>
                     <ul class="variaveis-msg">
-                        <!--<li class="variavel" @click="addVarText('[NOME_LEAD]')">
-                            <span>Botão para o Boleto</span>
-                        </li>-->
-                        <li class="variavel" @click="addVarText('[WHATSAPP]')">
+                        <li class="variavel" @click="addVarText('[NOME_LEAD]')">
+                            <span>Nome do Lead</span>
+                        </li>
+                        <li class="variavel" @click="addVarText('[LINK_WHATS_LIST]')">
                             <span>Whatsapp</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[CHECKOUT]')">
-                            <span>Checkout do pagamento</span>
+                        <li class="variavel" @click="addVarText('[LINK_CHECKT_BLET_]')">
+                            <span>Botão para o Boleto</span>
                         </li>
                     </ul>
                 </div>
