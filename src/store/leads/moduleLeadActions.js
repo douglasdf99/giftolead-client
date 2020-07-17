@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/leads/${id}`)
+            axios.get(`/leads/${id}`)
                 .then((response) => {
                     console.log('lead resgatado', response);
                     resolve(response.data.data)
@@ -25,7 +25,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/produtos`, {params: {}})
+            axios.get(`/produtos`, {params: {}})
                 .then((response) => {
                     console.log('produtos resgatado', response);
                     resolve(response.data.data)
@@ -37,7 +37,7 @@ export default {
     },
     update({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/leads/${dados.id}`, dados.dados)
+            axios.post(`/leads/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('lead alterado', response);
                     resolve(response)

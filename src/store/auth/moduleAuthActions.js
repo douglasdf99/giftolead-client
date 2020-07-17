@@ -331,7 +331,7 @@ export default {
           if (!token)
             return reject();
           //Getting user data
-            axios.get("/api/user").then((response) => {
+            axios.get("/user").then((response) => {
               console.log('retonou getUser');
                 // Update user details
                 const usuario = {}

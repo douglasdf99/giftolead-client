@@ -142,7 +142,7 @@ Vue.mixin({
             //return 'http://127.0.0.1:8000/' + local;
         },
         get_img_api: function (local) {
-            return saveleadsConfig.url_api + local;
+            return saveleadsConfig.url_normal + local;
             //return 'http://127.0.0.1:8000/' + local;
         },
         isNumber: function (evt) {//Obriga o input aceitar apenas números

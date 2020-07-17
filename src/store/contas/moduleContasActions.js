@@ -18,7 +18,7 @@ import axios from "@/axios.js"
 export default {
     get(){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/contas`, {params: {all: true}})
+            axios.get(`/contas`, {params: {all: true}})
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -29,7 +29,7 @@ export default {
     },
     getOpcoes({commit}){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/integracoes`)
+            axios.get(`/integracoes`)
                 .then((response) => {
                     resolve(response.data.data)
                 })

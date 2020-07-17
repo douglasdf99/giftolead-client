@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_whatsapps/${dados.id}`, dados.dados)
+            axios.post(`/campanha_whatsapps/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -27,7 +27,7 @@ export default {
     updateEmail({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_carrinho_emails/${dados.id}`, dados.dados)
+            axios.post(`/campanha_carrinho_emails/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('email alterado', response);
                     resolve(response)
@@ -39,7 +39,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_whatsapps`, dados)
+            axios.post(`/campanha_whatsapps`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -51,7 +51,7 @@ export default {
     },
     storeEmail({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_carrinho_emails`, dados)
+            axios.post(`/campanha_carrinho_emails`, dados)
                 .then((response) => {
                     console.log('email criado', response);
                     resolve(response)
@@ -63,7 +63,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_whatsapps/${id}`)
+            axios.get(`/campanha_whatsapps/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -75,7 +75,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_whatsapps`, {params: {}})
+            axios.get(`/campanha_whatsapps`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)
@@ -87,7 +87,7 @@ export default {
     },
     getContatos({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_whatsapps_contatos`, {params: dados.params})
+            axios.get(`/campanha_whatsapps_contatos`, {params: dados.params})
                 .then((response) => {
                     console.log('contatos resgatado', response);
                     resolve(response.data.data)

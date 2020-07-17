@@ -14,7 +14,7 @@ export default {
     updateProduto({commit}, dados) {
         return new Promise((resolve, reject) => {
             dados._method = 'PUT';
-            axios.post(`/api/produtos/${dados.id}`, dados)
+            axios.post(`/produtos/${dados.id}`, dados)
                 .then((response) => {
                     console.log('empresa alterada', response);
                     commit('UPDATE_EMPRESA', response.data.data);
@@ -27,7 +27,7 @@ export default {
     },
     storeProduto({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/produtos/`, dados)
+            axios.post(`/produtos/`, dados)
                 .then((response) => {
                     console.log('produto criado', response);
                     resolve(response)
@@ -39,7 +39,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/produtos/${id}`)
+            axios.get(`/produtos/${id}`)
                 .then((response) => {
                     console.log('produto resgatado', response);
                     resolve(response.data.data)
@@ -51,7 +51,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/produtos`, {params: {}})
+            axios.get(`/produtos`, {params: {}})
                 .then((response) => {
                     console.log('produtos resgatado', response);
                     resolve(response.data.data)

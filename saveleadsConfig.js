@@ -10,7 +10,8 @@
 // CONFIGS
 const saveleadsConfig = {
     token : localStorage.getItem("accessToken")|| null,
-    url_api: 'https://api.saveleads.com.br',
+    url_api: 'https://api.saveleads.com.br/api',
+    url_normal: 'https://api.saveleads.com.br/',
     variaveis: [
         {nome: 'Nome do Lead', value: '[NOME_LEAD]'},
         {nome: 'E-mails do Lead', value: '[EMAIL_LEAD]'},

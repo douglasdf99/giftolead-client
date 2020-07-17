@@ -17,7 +17,7 @@
                         <div class="vx-col sm:w-full md:w-full lg:w-2/3 d-theme-dark-bg">
                             <div class="px-8 pt-8 login-tabs-container">
                                 <div class="vx-card__title mb-5 flex justify-center" style="margin-bottom: 5rem !important;">
-                                    <img :src="url_api('images/logo2.svg')">
+                                    <img :src="get_img_api('images/logo2.svg')">
                                 </div>
                                 <login-jwt></login-jwt>
                             </div>

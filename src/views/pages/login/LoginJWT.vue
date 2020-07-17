@@ -109,7 +109,8 @@
                         password: this.password
                     }
                 };
-
+                var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+                console.log('sub', subdomain)
                 this.$store.dispatch('auth/loginJWT', payload)
                     .then((response) => {
                       saveleadsConfig.token = response;
@@ -118,7 +119,7 @@
                     })
                     .catch(error => {
                       this.$vs.loading.close();
-                        console.log(error.response);
+                        console.log(error);
                         this.$vs.notify({
                             title: 'Error',
                             text: error.response.data,
@@ -127,7 +128,6 @@
                             color: 'danger'
                         })
                     }).finally(()=>{
-
                 })
             },
             registerUser() {

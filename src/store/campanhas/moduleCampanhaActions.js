@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${dados.rota}/${dados.id}`, dados.dados)
+            axios.post(`/${dados.rota}/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -45,7 +45,7 @@ export default {
                 break;
         }
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${rota}`, dados)
+            axios.post(`/${rota}`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -57,7 +57,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanhas/${id}`)
+            axios.get(`/campanhas/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -69,7 +69,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanhas`, {params: {}})
+            axios.get(`/campanhas`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)
@@ -81,7 +81,7 @@ export default {
     },
     ativaEspecifica({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${dados.rota}/`, dados)
+            axios.post(`/${dados.rota}/`, dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)

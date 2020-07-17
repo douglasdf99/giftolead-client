@@ -31,7 +31,7 @@
 
                     <!-- Logo -->
                     <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/" v-show="!verticalNavMenuItemsMin">
-                      <img :src="url_api('images/logo.svg')" v-show="!verticalNavMenuItemsMin" >
+                      <img :src="get_img_api('images/logo.svg')" v-show="!verticalNavMenuItemsMin" >
                       <!--<logo class="w-10 mr-4 fill-current text-primary"/>
                         <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->
                     </router-link>

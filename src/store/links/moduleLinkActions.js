@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         return new Promise((resolve, reject) => {
             dados._method = 'PUT';
-            axios.post(`/api/links/${dados.id}`, dados)
+            axios.post(`/links/${dados.id}`, dados)
                 .then((response) => {
                     console.log('empresa alterada', response);
                     commit('UPDATE_EMPRESA', response.data.data);
@@ -27,7 +27,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/links/`, dados)
+            axios.post(`/links/`, dados)
                 .then((response) => {
                     console.log('produto criado', response);
                     resolve(response)
@@ -39,7 +39,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/links/${id}`)
+            axios.get(`/links/${id}`)
                 .then((response) => {
                     console.log('link resgatado', response);
                     resolve(response.data.data)
@@ -51,7 +51,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/links`, {params: {}})
+            axios.get(`/links`, {params: {}})
                 .then((response) => {
                     console.log('produtos resgatado', response);
                     resolve(response.data.data)
@@ -63,7 +63,7 @@ export default {
     },
     gerarlink({commit}, dados) {
         return new Promise((resolve, reject) => {
-          axios.post(`/api/link-store/`, dados)
+          axios.post(`/link-store/`, dados)
             .then((response) => {
               console.log('link externo gerado', response);
               resolve(response)

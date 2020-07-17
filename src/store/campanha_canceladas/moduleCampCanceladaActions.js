@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_cancelados/${dados.id}`, dados.dados)
+            axios.post(`/campanha_cancelados/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -26,7 +26,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_cancelados`, dados)
+            axios.post(`/campanha_cancelados`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -38,7 +38,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_cancelados/${id}`)
+            axios.get(`/campanha_cancelados/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -50,7 +50,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_cancelados`, {params: {}})
+            axios.get(`/campanha_cancelados`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)
@@ -62,7 +62,7 @@ export default {
     },
     getContatos({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_cancelados_contatos`, {params: dados.params})
+            axios.get(`/campanha_cancelados_contatos`, {params: dados.params})
                 .then((response) => {
                     console.log('contatos resgatado', response);
                     resolve(response.data.data)

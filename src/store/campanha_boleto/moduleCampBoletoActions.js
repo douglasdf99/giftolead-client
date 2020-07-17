@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boletos/${dados.id}`, dados.dados)
+            axios.post(`/campanha_boletos/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -27,7 +27,7 @@ export default {
     updateEmail({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boleto_emails/${dados.id}`, dados.dados)
+            axios.post(`/campanha_boleto_emails/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('email alterado', response);
                     resolve(response)
@@ -40,7 +40,7 @@ export default {
     updateSms({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boleto_sms/${dados.id}`, dados.dados)
+            axios.post(`/campanha_boleto_sms/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('sms alterado', response);
                     resolve(response)
@@ -52,7 +52,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boletos`, dados)
+            axios.post(`/campanha_boletos`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -64,7 +64,7 @@ export default {
     },
     storeEmail({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boleto_emails`, dados)
+            axios.post(`/campanha_boleto_emails`, dados)
                 .then((response) => {
                     console.log('email criado', response);
                     resolve(response)
@@ -76,7 +76,7 @@ export default {
     },
     storeSms({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boleto_sms`, dados)
+            axios.post(`/campanha_boleto_sms`, dados)
                 .then((response) => {
                     console.log('sms criado', response);
                     resolve(response)
@@ -88,7 +88,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boletos/${id}`)
+            axios.get(`/campanha_boletos/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -100,7 +100,7 @@ export default {
     },
     getEmails({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boleto_emails`, {params: {campanha_id: id}})
+            axios.get(`/campanha_boleto_emails`, {params: {campanha_id: id}})
                 .then((response) => {
                     console.log('emails resgatados', response);
                     resolve(response.data.data)
@@ -112,7 +112,7 @@ export default {
     },
     getEmailId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boleto_emails/${id}`)
+            axios.get(`/campanha_boleto_emails/${id}`)
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -123,7 +123,7 @@ export default {
     },
     getSms({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boleto_sms`, {params: {campanha_id: id}})
+            axios.get(`/campanha_boleto_sms`, {params: {campanha_id: id}})
                 .then((response) => {
                     console.log('emails resgatados', response);
                     resolve(response.data.data)
@@ -135,7 +135,7 @@ export default {
     },
     getSmsId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boleto_sms/${id}`)
+            axios.get(`/campanha_boleto_sms/${id}`)
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -146,7 +146,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boletos`, {params: {}})
+            axios.get(`/campanha_boletos`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)
@@ -158,7 +158,7 @@ export default {
     },
     getHistorico({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boleto_historicos`, {params: {campanha_id: dados.id, ...dados.params}})
+            axios.get(`/campanha_boleto_historicos`, {params: {campanha_id: dados.id, ...dados.params}})
                 .then((response) => {
                     console.log('histórico resgatado', response);
                     resolve(response.data.data)
@@ -170,7 +170,7 @@ export default {
     },
     reorganizarEmails({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boleto_emails_posicao`, {posicoes: dados})
+            axios.post(`/campanha_boleto_emails_posicao`, {posicoes: dados})
                 .then((response) => {
                     console.log('posição atualizada', response);
                     resolve(response)
@@ -182,7 +182,7 @@ export default {
     },
     reorganizarSms({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_boleto_sms_posicao`, {posicoes: dados})
+            axios.post(`/campanha_boleto_sms_posicao`, {posicoes: dados})
                 .then((response) => {
                     console.log('posição atualizada', response);
                     resolve(response)
@@ -194,7 +194,7 @@ export default {
     },
     getContatos({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_boleto_contatos`, {params: dados.params})
+            axios.get(`/campanha_boleto_contatos`, {params: dados.params})
                 .then((response) => {
                     console.log('contatos resgatado', response);
                     resolve(response.data.data)

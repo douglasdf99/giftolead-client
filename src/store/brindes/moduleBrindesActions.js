@@ -14,7 +14,7 @@ import axios from "@/axios.js"
 export default {
     getEmbalagems(){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/embalagems`)
+            axios.get(`/embalagems`)
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -25,7 +25,7 @@ export default {
     },
     getProdutos(){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/produtos`)
+            axios.get(`/produtos`)
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -36,7 +36,7 @@ export default {
     },
     getContratos() {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/correios`)
+            axios.get(`/correios`)
                 .then((response) => {
                     resolve(response.data.data)
                 })

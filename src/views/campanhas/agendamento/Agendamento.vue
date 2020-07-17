@@ -103,7 +103,7 @@
                         <div class="w-full relative">
                             <span class="font-regular mb-2">Url Infusion:</span>
                             <vs-input class="w-full mb-4"
-                                      :value="this.url_api('api/campanhaagendamento/'+this.campanha.token).substr(0, 65) + '...'"
+                                      :value="this.url_api('campanhaagendamento/'+this.campanha.token).substr(0, 65) + '...'"
                                       placeholder="https://" size="large" name="urlInfusion"
                                       id="urlInfusion" disabled/>
                             <i class="material-icons" id="copy-icon-input" @click="copyUrl">file_copy</i>
@@ -275,7 +275,7 @@
             },
             codigohtml(value) {
                 this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('api/campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+<form accept-charset="UTF - 8" action="${this.url_api('campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
     <input type="text" name="nome" id="nome" placeholder="Nome completo">
     <label for="email">E-mail</label>
@@ -342,7 +342,7 @@
             },
             copyUrl() {
                 const thisIns = this;
-                let value = this.url_api('api/campanhacarrinho/' + this.campanha.token);
+                let value = this.url_api('campanhaagendamento/' + this.campanha.token);
                 this.$copyText(value).then(function () {
                     thisIns.$vs.notify({
                         title: '',

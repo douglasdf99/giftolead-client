@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/conquistas/${dados.id}`, dados.dados)
+            axios.post(`/conquistas/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('conquista alterada', response);
                     resolve(response)
@@ -26,7 +26,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/conquistas/`, dados)
+            axios.post(`/conquistas/`, dados)
                 .then((response) => {
                     console.log('conquista criada', response);
                     resolve(response)
@@ -38,7 +38,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/conquistas/${id}`)
+            axios.get(`/conquistas/${id}`)
                 .then((response) => {
                     console.log('produto resgatado', response);
                     resolve(response.data.data)
@@ -50,7 +50,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/conquistas`, {params: {}})
+            axios.get(`/conquistas`, {params: {}})
                 .then((response) => {
                     console.log('produtos resgatado', response);
                     resolve(response.data.data)

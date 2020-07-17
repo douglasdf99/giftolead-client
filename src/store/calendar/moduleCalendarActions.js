@@ -12,7 +12,7 @@ import axios from "@/axios.js"
 export default {
   addEvent({ commit }, event) {
     return new Promise((resolve, reject) => {
-      axios.post("/api/apps/calendar/events/", {event: event})
+      axios.post("/apps/calendar/events/", {event: event})
         .then((response) => {
           commit('ADD_EVENT', Object.assign(event, {id: response.data.id}))
           resolve(response)
@@ -22,7 +22,7 @@ export default {
   },
   fetchEvents({ commit }) {
     return new Promise((resolve, reject) => {
-      axios.get("/api/apps/calendar/events")
+      axios.get("/apps/calendar/events")
         .then((response) => {
             console.log('eventos', response.data)
           commit('SET_EVENTS', response.data)
@@ -33,7 +33,7 @@ export default {
   },
   fetchEventLabels({ commit }) {
     return new Promise((resolve, reject) => {
-      axios.get("/api/apps/calendar/labels")
+      axios.get("/apps/calendar/labels")
         .then((response) => {
             console.log('labels', response.data)
           commit('SET_LABELS', response.data)
@@ -44,7 +44,7 @@ export default {
   },
   editEvent({ commit }, event) {
     return new Promise((resolve, reject) => {
-      axios.post(`/api/apps/calendar/event/${event.id}`, {event: event})
+      axios.post(`/apps/calendar/event/${event.id}`, {event: event})
         .then((response) => {
 
           // Convert Date String to Date Object
@@ -60,7 +60,7 @@ export default {
   },
   removeEvent({ commit }, eventId) {
     return new Promise((resolve, reject) => {
-      axios.delete(`/api/apps/calendar/event/${eventId}`)
+      axios.delete(`/apps/calendar/event/${eventId}`)
         .then((response) => {
           commit('REMOVE_EVENT', response.data)
           resolve(response)
@@ -70,7 +70,7 @@ export default {
   },
   eventDragged({ commit }, payload) {
     return new Promise((resolve, reject) => {
-      axios.post(`/api/apps/calendar/event/dragged/${payload.event.id}`, {payload: payload})
+      axios.post(`/apps/calendar/event/dragged/${payload.event.id}`, {payload: payload})
         .then((response) => {
 
           // Convert Date String to Date Object

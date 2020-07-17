@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
     store({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.post(`/api/planos`, dados)
+            axios.post(`/planos`, dados)
                 .then((response) => {
                     console.log('criado', response);
                     resolve(response)
@@ -25,7 +25,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/planos/${id}`)
+            axios.get(`/planos/${id}`)
                 .then((response) => {
                     console.log('origem resgatada', response);
                     resolve(response.data.data)
@@ -37,7 +37,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/planos`, {params: {status: 1}})
+            axios.get(`/planos`, {params: {status: 1}})
                 .then((response) => {
                     console.log('origens resgatado', response);
                     resolve(response.data.data)

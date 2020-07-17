@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/whatsapplists/${id}`)
+            axios.get(`/whatsapplists/${id}`)
                 .then((response) => {
                     console.log('lista resgatada', response);
                     resolve(response.data.data)
@@ -25,7 +25,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/whatsapplists`, {params: {status: 1}})
+            axios.get(`/whatsapplists`, {params: {status: 1}})
                 .then((response) => {
                     console.log('lista resgatado', response);
                     resolve(response.data.data)
@@ -43,7 +43,7 @@ export default {
     },
     getVarios({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/whatsapplists`, {params: dados})
+            axios.get(`/whatsapplists`, {params: dados})
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -54,7 +54,7 @@ export default {
     },
     getCampanhas({commit}, val) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/${val}`, {params: {}})
+            axios.get(`/${val}`, {params: {}})
                 .then((response) => {
                     resolve(response.data.data)
                 })
@@ -74,7 +74,7 @@ export default {
     },
     sendMsg({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.post(`/api/whatsapplists_resposta/${dados.id}`, {mensagem: dados.mensagem})
+            axios.post(`/whatsapplists_resposta/${dados.id}`, {mensagem: dados.mensagem})
                 .then((response) => {
                     commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
                     resolve(response.data.data.url);
@@ -83,7 +83,7 @@ export default {
     },
     transformar({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.post(`/api/whatsapplists_trasform/${dados.id}`, dados)
+            axios.post(`/whatsapplists_trasform/${dados.id}`, dados)
                 .then((response) => {
                     resolve(response.data.data.url);
                 }).catch(err => {

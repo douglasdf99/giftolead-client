@@ -72,7 +72,7 @@ const actions = {
     /* CRUD básico */
     getVarios({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/${dados.rota}`, {params: dados.params})
+            axios.get(`/${dados.rota}`, {params: dados.params})
                 .then((response) => {
                     console.log('retorno', response)
                     commit('SET_VARIOS', response.data.data);
@@ -85,7 +85,7 @@ const actions = {
     },
     addItem({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${dados.rota}`, dados.item)
+            axios.post(`/${dados.rota}`, dados.item)
                 .then((response) => {
                     resolve(response)
                 })
@@ -96,7 +96,7 @@ const actions = {
     },
     updateItem({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.put(`/api/${dados.rota}/${dados.item.id}`, dados.item)
+            axios.put(`/${dados.rota}/${dados.item.id}`, dados.item)
                 .then((response) => {
                     resolve(response)
                 })
@@ -110,14 +110,14 @@ const actions = {
         formData.append('_method', 'DELETE');
         formData.append('id', dados.id);
         return new Promise((resolve, reject) => {
-            axios.post(`/api/${dados.rota}/${dados.id}`, formData)
+            axios.post(`/${dados.rota}/${dados.id}`, formData)
                 .then(response => resolve(response)).catch(erro => reject(erro))
         });
     },
     /* Fim*/
     getLinks({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/links`, {params: {produto: id}})
+            axios.get(`/links`, {params: {produto: id}})
                 .then((response) => {
                     console.log('links resgatados', response);
                     resolve(response.data.data)

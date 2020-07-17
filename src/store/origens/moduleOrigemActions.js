@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/origems/${id}`)
+            axios.get(`/origems/${id}`)
                 .then((response) => {
                     console.log('origem resgatada', response);
                     resolve(response.data.data)
@@ -25,7 +25,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/origems`, {params: {status: 1}})
+            axios.get(`/origems`, {params: {status: 1}})
                 .then((response) => {
                     console.log('origens resgatado', response);
                     resolve(response.data.data)

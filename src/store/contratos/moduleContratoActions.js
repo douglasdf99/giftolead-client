@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         return new Promise((resolve, reject) => {
             dados._method = 'PUT';
-            axios.post(`/api/correios/${dados.id}`, dados.dados)
+            axios.post(`/correios/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('contrato alterada', response);
                     commit('UPDATE_EMPRESA', response.data.data);
@@ -27,7 +27,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/correios/`, dados)
+            axios.post(`/correios/`, dados)
                 .then((response) => {
                     console.log('contrato criado', response);
                     resolve(response)
@@ -39,7 +39,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/correios/${id}`)
+            axios.get(`/correios/${id}`)
                 .then((response) => {
                     console.log('contrato resgatado', response);
                     resolve(response.data.data)
@@ -51,7 +51,7 @@ export default {
     },
     logar({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/correios-logar`, {params: dados})
+            axios.get(`/correios-logar`, {params: dados})
                 .then((response) => {
                     console.log('contrato resgatado', response);
                     resolve(response.data.data)
@@ -63,7 +63,7 @@ export default {
     },
     servicos({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/correios-servicos`, {params: dados})
+            axios.get(`/correios-servicos`, {params: dados})
                 .then((response) => {
                     console.log('contrato servicos', response);
                     resolve(response.data.data)
@@ -75,7 +75,7 @@ export default {
     },
     addexcecao({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/config_correios`, dados)
+            axios.post(`/config_correios`, dados)
                 .then((response) => {
                     console.log('contrato excecao', response);
                     resolve(response.data.data)
@@ -87,7 +87,7 @@ export default {
     },
     editexcecao({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.put(`/api/config_correios/${dados.id}`, dados)
+            axios.put(`/config_correios/${dados.id}`, dados)
                 .then((response) => {
                     console.log('contrato excecao', response);
                     resolve(response.data.data)
@@ -99,7 +99,7 @@ export default {
     },
     removeexcecao({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.delete(`/api/config_correios/${dados}`, dados)
+            axios.delete(`/config_correios/${dados}`, dados)
                 .then((response) => {
                     console.log('contrato excecao', response);
                     resolve(response.data.data)
@@ -111,7 +111,7 @@ export default {
     },
     ativar({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.get(`/api/correios-${dados.rota}/${dados.id}`)
+            axios.get(`/correios-${dados.rota}/${dados.id}`)
                 .then((response) => {
                     console.log('contrato ativado', response);
                     resolve(response)

@@ -1,10 +1,9 @@
 import axios from 'axios'
 // Vuex Store
 import store from './store/store'
-//const domain = "http://127.0.0.1:8000";
-const domain = "https://api.saveleads.com.br";
-
-
+var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+//const domain = "https://api.saveleads.com.br/" + subdomain;
+const domain = "https://api.saveleads.com.br/api";
 
 export default axios.create({
   baseURL: domain,

@@ -32,7 +32,7 @@
 
                     <!-- Logo -->
                     <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/">
-                        <img :src="url_api('images/logo2.svg')" width="100%">
+                        <img :src="get_img_api('images/logo2.svg')" width="100%">
 
                         <!-- <logo class="w-10 mr-4 fill-current text-primary"/>
                          <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->

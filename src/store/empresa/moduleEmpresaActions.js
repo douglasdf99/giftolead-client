@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
   getEmpresa({commit}, dados) {
     return new Promise((resolve, reject) => {
-      axios.get("/api/empresas", {params: dados})
+      axios.get("/empresas", {params: dados})
         .then((response) => {
           console.log('empresa', response);
           commit('SET_EMPRESA', response.data.data);
@@ -26,7 +26,7 @@ export default {
   },
   updateEmpresa({commit}, dados) {
     return new Promise((resolve, reject) => {
-      axios.post(`/api/empresas/${dados.id}`, dados.dados)
+      axios.post(`/empresas/${dados.id}`, dados.dados)
         .then((response) => {
           console.log('empresa alterada', response);
           commit('UPDATE_EMPRESA', response.data.data);

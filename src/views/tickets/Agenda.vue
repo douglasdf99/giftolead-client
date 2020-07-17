@@ -46,7 +46,7 @@
                 this.$vs.loading();
                 this.items.forEach(item => {
                     let {nome, data_agendamento} = item;
-                    item.title = nome + `<img class='rounded-full' src='${this.url_api(item.responsavel.avatar)}' width='30px'>`;
+                    item.title = nome + `<img class='rounded-full' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>`;
                     item.startDate = data_agendamento;
                     item.endDate = data_agendamento;
                     item.label = this.getSituacao(data_agendamento);

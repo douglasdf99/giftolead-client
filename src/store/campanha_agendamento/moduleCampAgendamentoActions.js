@@ -14,7 +14,7 @@ export default {
     update({commit}, dados) {
         console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_agendamentos/${dados.id}`, dados.dados)
+            axios.post(`/campanha_agendamentos/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -26,7 +26,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/campanha_agendamentos`, dados)
+            axios.post(`/campanha_agendamentos`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
                     resolve(response)
@@ -38,7 +38,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_agendamentos/${id}`)
+            axios.get(`/campanha_agendamentos/${id}`)
                 .then((response) => {
                     console.log('campanha resgatada', response);
                     resolve(response.data.data)
@@ -50,7 +50,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/campanha_agendamentos`, {params: {}})
+            axios.get(`/campanha_agendamentos`, {params: {}})
                 .then((response) => {
                     console.log('campanhas', response);
                     resolve(response.data.data)

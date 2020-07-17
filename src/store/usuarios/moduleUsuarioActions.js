@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
     update({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/users/${dados.id}`, dados.dados)
+            axios.post(`/users/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('usuário alterado', response);
                     resolve(response)
@@ -25,7 +25,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/users/`, dados)
+            axios.post(`/users/`, dados)
                 .then((response) => {
                     console.log('produto criado', response);
                     resolve(response)
@@ -37,7 +37,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/users/${id}`)
+            axios.get(`/users/${id}`)
                 .then((response) => {
                     console.log('produto resgatado', response);
                     resolve(response.data.data)
@@ -49,7 +49,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/users`, {params: {status: 1, admin: true}})
+            axios.get(`/users`, {params: {status: 1, admin: true}})
                 .then((response) => {
                     console.log('usuários resgatados', response.data.data);
                     resolve(response.data.data)

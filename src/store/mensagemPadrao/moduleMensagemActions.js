@@ -13,7 +13,7 @@ import axios from "@/axios.js"
 export default {
     update({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/mensagem_padraos/${dados.id}`, dados.dados)
+            axios.post(`/mensagem_padraos/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('usuário alterado', response);
                     resolve(response)
@@ -25,7 +25,7 @@ export default {
     },
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/api/mensagem_padraos/`, dados)
+            axios.post(`/mensagem_padraos/`, dados)
                 .then((response) => {
                     console.log('produto criado', response);
                     resolve(response)
@@ -37,7 +37,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/mensagem_padraos/${id}`)
+            axios.get(`/mensagem_padraos/${id}`)
                 .then((response) => {
                     console.log('produto resgatado', response);
                     resolve(response.data.data)
@@ -49,7 +49,7 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/mensagem_padraos`, {params: {}})
+            axios.get(`/mensagem_padraos`, {params: {}})
                 .then((response) => {
                     console.log('mensagens', response);
                     resolve(response.data.data)
