@@ -20,6 +20,25 @@ const rotasTickets = [
         },
     },
     {
+        path: '/tickets/atender-ticket',
+        name: 'tickets-atender',
+        component: () => import('@/views/tickets/Atender.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Tickets'},
+                {title: 'Listagem', url: '/tickets'},
+                {title: 'Atender', active: true},
+            ],
+            pageTitle: 'Atendendo Ticket',
+            rule: 'editor',
+            pai: 'tickets',
+            subTitle: 'Tickets',
+            //subIcon: 'settings',
+            submenu: subtickets
+        },
+    },
+    {
         path: '/agenda',
         name: 'agenda',
         component: () => import('@/views/tickets/Agenda.vue'),

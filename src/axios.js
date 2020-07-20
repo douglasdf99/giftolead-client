@@ -6,7 +6,9 @@ var domain = '';
 if(subdomain)
   domain = "https://api.saveleads.com.br/" + subdomain;
 else
-  domain = "https://api.saveleads.com.br/api";
+  domain = "https://api.saveleads.com.br/app";
+
+console.log('domain', subdomain, domain)
 
 export default axios.create({
   baseURL: domain,

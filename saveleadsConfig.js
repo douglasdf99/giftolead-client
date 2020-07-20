@@ -8,9 +8,16 @@
 // MAIN COLORS - VUESAX THEME COLORS
 
 // CONFIGS
+var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+var domain = '';
+if(subdomain)
+    domain = "https://api.saveleads.com.br/" + subdomain;
+else
+    domain = "https://api.saveleads.com.br/app";
+
 const saveleadsConfig = {
     token : localStorage.getItem("accessToken")|| null,
-    url_api: 'https://api.saveleads.com.br/api',
+    url_api: domain,
     url_normal: 'https://api.saveleads.com.br/',
     variaveis: [
         {nome: 'Nome do Lead', value: '[NOME_LEAD]'},

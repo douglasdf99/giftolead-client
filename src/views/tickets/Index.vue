@@ -72,7 +72,7 @@
                 <vs-tabs :color="colorx" v-if="nums.abertos">
                     <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
                             :label="'abertos ( ' + nums.abertos + ' )'">
-                        <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @atender="atender" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -287,6 +287,11 @@
                         })
                     }
                 })
+            },
+            atender(id){
+                this.$store.dispatch('tickets/verificaDisponibilidade', id).then(response => {
+
+                });
             },
             pesquisar(e) {
                 e.preventDefault();

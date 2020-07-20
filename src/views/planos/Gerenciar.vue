@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-        <transition name="fade" v-if="nomeAntigo != plano.nome">
+        <transition name="fade" v-if="(nomeAntigo != plano.nome) || (statusAntigo != plano.status)">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
@@ -125,10 +125,11 @@
             return {
                 plano: {
                     nome: '',
-                    status: true,
+                    status: 1,
                 },
                 countSwitch: [],
                 nomeAntigo: '',
+                statusAntigo: '',
                 url: saveleadsConfig.url_api,
             }
         },
@@ -136,29 +137,63 @@
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading();
-                        if (this.plano.id !== undefined) {
-                            const obj = {...this.plano}
-                            obj._method = 'PUT'
-                            this.$store.dispatch("updateItem", {rota: 'planos', item: obj}).then(() => {
-                                this.$vs.notify({
-                                    title: 'Sucesso',
-                                    text: "Atualizado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$vs.loading.close();
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
+                        if (this.plano.id !== undefined) {//Atualizando o plano
+                            const obj = {...this.plano};
+                            obj._method = 'PUT';
+                            obj.status = obj.status ? 1 : 0;
+                            //Caso esteja desativando um plano
+                            if(!obj.status && this.statusAntigo){
+                                this.$vs.dialog({
+                                    color: 'danger',
+                                    title: `Deseja mesmo desativar este plano?`,
+                                    text: 'Ao desativar este plano, todas as campanhas vinculadas a ele também serão desativadas.',
+                                    acceptText: 'Sim, desativar!',
+                                    cancelText: 'Cancelar',
+                                    accept: () => {
+                                        this.$vs.loading();
+                                        this.$store.dispatch("updateItem", {rota: 'planos', item: obj}).then(() => {
+                                            this.$vs.notify({
+                                                title: 'Sucesso',
+                                                text: "Atualizado com sucesso.",
+                                                iconPack: 'feather',
+                                                icon: 'icon-check-circle',
+                                                color: 'success'
+                                            });
+                                            this.getPlano(this.$route.params.id);
+                                        }).catch(erro => {
+                                            this.$vs.notify({
+                                                title: 'Error',
+                                                text: erro.message,
+                                                iconPack: 'feather',
+                                                icon: 'icon-alert-circle',
+                                                color: 'danger'
+                                            })
+                                        })
+                                    },
+                                    cancel: () => {}
                                 })
-                            })
-                        } else {
+                            } else {//Alteração normal
+                                this.$store.dispatch("updateItem", {rota: 'planos', item: obj}).then(() => {
+                                    this.$vs.notify({
+                                        title: 'Sucesso',
+                                        text: "Atualizado com sucesso.",
+                                        iconPack: 'feather',
+                                        icon: 'icon-check-circle',
+                                        color: 'success'
+                                    });
+                                    this.$vs.loading.close();
+                                    this.getPlano(this.$route.params.id);
+                                }).catch(erro => {
+                                    this.$vs.notify({
+                                        title: 'Error',
+                                        text: erro.message,
+                                        iconPack: 'feather',
+                                        icon: 'icon-alert-circle',
+                                        color: 'danger'
+                                    })
+                                })
+                            }
+                        } else {//Criando um novo
                             this.$store.dispatch('planos/store', this.plano).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
@@ -337,6 +372,7 @@
                 this.$store.dispatch('planos/getId', id).then(data => {
                     this.plano = {...data};
                     this.nomeAntigo = data.nome;
+                    this.statusAntigo = data.status;
                     this.$vs.loading.close();
                 })
             },

@@ -27,7 +27,7 @@
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Página de Obrigado</span>
                         <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout"
-                                  placeholder="https://" size="large" name="nome"/>
+                                  placeholder="https://" size="large" name="nome" v-validate="'required'"/>
                     </div>
                     <div class="vx-col w-full lg:w-1/2 mb-3">
                         <span class="font-regular mb-2">Origem</span>
