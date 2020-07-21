@@ -36,16 +36,23 @@
                 <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
                     <div class="conquista" v-bind:class="{'desativado': !campanha.campanhable.status}">
                         <div class="py-2 w-full flex justify-between">
-                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(campanha.id)"></vs-button>
+                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash"
+                                       @click="deletar(campanha.id)"></vs-button>
                             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
-                                       class="float-right switch" @click="ativaCampanha(campanha.campanhable, campanha.campanhable_type)"/>
+                                       class="float-right switch"
+                                       @click="ativaCampanha(campanha.campanhable, campanha.campanhable_type)"/>
                         </div>
                         <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
-                            <img src="@/assets/images/util/checkout.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
-                            <img src="@/assets/images/util/agendamento.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaAgendamento`">
-                            <img src="@/assets/images/util/boleto.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
-                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista rounded-none my-8" width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
-                            <img src="@/assets/images/util/cancelado.svg" class="img-conquista rounded-none my-8" width="145" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCancelado`">
+                            <img src="@/assets/images/util/checkout.svg" class="img-conquista rounded-none my-8"
+                                 width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
+                            <img src="@/assets/images/util/agendamento.svg" class="img-conquista rounded-none my-8"
+                                 width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaAgendamento`">
+                            <img src="@/assets/images/util/boleto.svg" class="img-conquista rounded-none my-8"
+                                 width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaBoleto`">
+                            <img src="@/assets/images/util/whatsapp.svg" class="img-conquista rounded-none my-8"
+                                 width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaWhatsapp`">
+                            <img src="@/assets/images/util/cancelado.svg" class="img-conquista rounded-none my-8"
+                                 width="145" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCancelado`">
                             <p class="nome-conq">
                                 {{campanha.campanhable.nome}}
                             </p>
@@ -142,7 +149,7 @@
                             obj._method = 'PUT';
                             obj.status = obj.status ? 1 : 0;
                             //Caso esteja desativando um plano
-                            if(!obj.status && this.statusAntigo){
+                            if (!obj.status && this.statusAntigo) {
                                 this.$vs.dialog({
                                     color: 'danger',
                                     title: `Deseja mesmo desativar este plano?`,
@@ -170,7 +177,8 @@
                                             })
                                         })
                                     },
-                                    cancel: () => {}
+                                    cancel: () => {
+                                    }
                                 })
                             } else {//Alteração normal
                                 this.$store.dispatch("updateItem", {rota: 'planos', item: obj}).then(() => {
@@ -270,43 +278,47 @@
                     })
                 } else {
                     let rota = '';
-                    switch (tipo) {
-                        case 'App\\Models\\CampanhaCarrinho':
-                            rota = 'campanha_carrinhos';
-                            break;
-                        case 'App\\Models\\CampanhaAgendamento':
-                            rota = 'campanha_agendamento';
-                            break;
-                        case 'App\\Models\\CampanhaCancelado':
-                            rota = 'campanha_cancelados_ativar';
-                            return this.ativaCampanhaEspecifica(e.id, !e.status, rota);
-                        case 'App\\Models\\CampanhaBoleto':
-                            rota = 'campanha_boletos_ativar';
-                            return this.ativaCampanhaEspecifica(e.id, !e.status, rota);
-                        case 'App\\Models\\CampanhaWhatsapp':
-                            rota = 'campanha_whatsapps';
-                            break;
-                    }
-                    this.$store.dispatch('campanhas/update', {id: e.id, rota: rota, dados: dados}).then(response => {
-                        this.$vs.notify({
-                            title: '',
-                            text: "Sucesso.",
-                            iconPack: 'feather',
-                            icon: 'icon-check-circle',
-                            color: 'success'
-                        });
+                    if (this.statusAntigo) {
+                        switch (tipo) {
+                            case 'App\\Models\\CampanhaCarrinho':
+                                rota = 'campanha_carrinhos';
+                                break;
+                            case 'App\\Models\\CampanhaAgendamento':
+                                rota = 'campanha_agendamento';
+                                break;
+                            case 'App\\Models\\CampanhaCancelado':
+                                rota = 'campanha_cancelados_ativar';
+                                return this.ativaCampanhaEspecifica(e.id, !e.status, rota);
+                            case 'App\\Models\\CampanhaBoleto':
+                                rota = 'campanha_boletos_ativar';
+                                return this.ativaCampanhaEspecifica(e.id, !e.status, rota);
+                            case 'App\\Models\\CampanhaWhatsapp':
+                                rota = 'campanha_whatsapps';
+                                break;
+                        }
+                        this.$store.dispatch('campanhas/update', {id: e.id, rota: rota, dados: dados}).then(() => {
+                            this.$vs.notify({
+                                title: '',
+                                text: "Sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
 
-                    }).catch(erro => {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: erro.message,
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    });
-                    this.$vs.loading.close();
-                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: erro.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            })
+                        });
+                        this.$vs.loading.close();
+                        this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                    } else {
+                        e.status = !e.status;
+                    }
                 }
             },
             ativaCampanhaEspecifica(id, status, rota) {
@@ -317,7 +329,11 @@
                     text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
                     acceptText: 'Sim, ativar!',
                     accept: () => {
-                        this.$store.dispatch('campanhas/ativaEspecifica', {id: id, status: status, rota: rota}).then(() => {
+                        this.$store.dispatch('campanhas/ativaEspecifica', {
+                            id: id,
+                            status: status,
+                            rota: rota
+                        }).then(() => {
                             this.$vs.notify({
                                 title: '',
                                 text: "Sucesso",

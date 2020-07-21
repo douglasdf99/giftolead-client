@@ -200,9 +200,9 @@
                 customcor: '',
                 html: '',
                 origens: [],
-                selectedOrigem: {},
+                selectedOrigem: {id: '', text: ''},
                 duvidas: [],
-                selectedDuvida: {},
+                selectedDuvida: {id: '', text: ''},
             }
         },
         methods: {
@@ -282,6 +282,8 @@
     <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
     <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
+    <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">
     <button type="submit">Enviar</button>
 </form>
                 `;
