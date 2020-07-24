@@ -16,7 +16,6 @@
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Conta atribuída no Hotmart</span>
-
                 <v-select v-model="contaSelected" :class="'select-large-base'" :clearable="false"
                           style="background-color: white"
                           :options="opcoesContas" v-validate="'required'" name="conta"/>

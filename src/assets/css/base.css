@@ -724,6 +724,41 @@ th > .vs-table-text {
     filter: grayscale(1);
 }
 
+.div-finalizacoes {
+    padding: 2rem 6rem;
+    width: 100%;
+}
+
+.card-finalizacao {
+    background: #E7E7E7;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 7px;
+    display: flex !important;
+    align-items: center;
+    margin: 1rem 0;
+    color: black;
+    font-weight: bold;
+    justify-content: space-between;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+
+.ganhou.tipoAtivo {
+    background: #4DE98A !important;
+    transition-duration: .3s;
+}
+
+.aguardando.tipoAtivo {
+    background: #E7BE00 !important;
+    transition-duration: .3s;
+}
+
+.perdeu.tipoAtivo {
+    background: #F03165 !important;
+    transition-duration: .3s;
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);

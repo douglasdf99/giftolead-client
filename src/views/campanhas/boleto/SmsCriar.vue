@@ -64,7 +64,7 @@
                         <li class="variavel" @click="addVarText('[LINK_WHATS_LIST]')">
                             <span>Whatsapp</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[LINK_CHECKT_BLET_]')">
+                        <li class="variavel" @click="addLinkCheckoutVarText">
                             <span>Botão para o Boleto</span>
                         </li>
                     </ul>
@@ -185,7 +185,7 @@
                 this.linkSelected = {id: null, label: 'Selecione o link'};
             },
             selectLink() {
-                this.addVarText('[LINK_' + this.linkSelected.id + ']');
+                this.addVarText('[LINK_CHECKT_BLET_' + this.linkSelected.id + ']');
                 this.linkSelected = {id: null, label: 'Selecione o link'};
             },
             close() {

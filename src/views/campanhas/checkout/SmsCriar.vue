@@ -58,13 +58,10 @@
                 <div class="mb-3 p-5 pt-0">
                     <span class="font-regular">Inserir no corpo da mensagem:</span>
                     <ul class="variaveis-msg">
-                        <li class="variavel" @click="addVarText('[NOME_LEAD]')">
-                            <span>Botão para o Boleto</span>
-                        </li>
                         <li class="variavel" @click="addVarText('[LINK_WHATS_LIST]')">
                             <span>Mensagem no Whatsapp</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[LINK_CHECKT_CART_]')">
+                        <li class="variavel" @click="addLinkCheckoutVarText">
                             <span>Checkout do pagamento</span>
                         </li>
                     </ul>
@@ -185,7 +182,7 @@
                 this.linkSelected = {id: null, label: 'Selecione o link'};
             },
             selectLink() {
-                this.addVarText('[LINK_' + this.linkSelected.id + ']');
+                this.addVarText('[LINK_CHECKT_CART_' + this.linkSelected.id + ']');
                 this.linkSelected = {id: null, label: 'Selecione o link'};
             },
             close() {

@@ -245,39 +245,4 @@
     .vs-sidebar--background {
         background: rgba(0, 0, 0, .2) !important;
     }
-
-    .div-finalizacoes {
-        padding: 2rem 6rem;
-        width: 100%;
-    }
-
-    .card-finalizacao {
-        background: #E7E7E7;
-        width: 100%;
-        padding: 1rem;
-        border-radius: 7px;
-        display: flex !important;
-        align-items: center;
-        margin: 1rem 0;
-        color: black;
-        font-weight: bold;
-        justify-content: space-between;
-        cursor: pointer;
-        transition-duration: .3s;
-    }
-
-    .ganhou.tipoAtivo {
-        background: #4DE98A;
-        transition-duration: .3s;
-    }
-
-    .aguardando.tipoAtivo {
-        background: #E7BE00;
-        transition-duration: .3s;
-    }
-
-    .perdeu.tipoAtivo {
-        background: #F03165;
-        transition-duration: .3s;
-    }
 </style>
