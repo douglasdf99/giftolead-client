@@ -43,11 +43,24 @@
                                   :options="duvidas" v-validate="'required'" name="duvida"/>
                         <span class="text-danger text-sm" v-show="errors.has('duvida')">Obrigatório selecionar uma dúvida</span>
                     </div>
-                    <div class="vx-col w-full relative" v-if="!campanha.infusion">
+                    <div class="vx-col w-full relative mb-3" v-if="!campanha.infusion">
                         <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
                         <prism language="html" class="rounded-lg">
                             {{codigohtml()}}
                         </prism>
+                    </div>
+                    <div class="vx-col w-full mb-2">
+                        <p class="destaque">
+                            Insira o código abaixo em seu projeto
+                        </p>
+                    </div>
+                    <div class="vx-col w-full relative" v-if="!campanha.infusion">
+                        <i class="material-icons text-black mt-5" id="copy-icon" @click="copyScripts">file_copy</i>
+                        <div class="w-full bg-white rounded-lg p-5">
+                            <p class="font-regular text-lg" v-for="val in scripts">
+                                {{val}}
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="vx-row">
@@ -97,8 +110,7 @@
                         <img src="@/assets/images/util/infusion-help.png" class="border-dark shadow mb-3" width="100%">
                         <p class="flex mb-2 ml-3 font-bold text-warning">
                             <i class="material-icons text-base mr-2">info_outline</i>Insira esta URL como sua página de
-                            obrigado e
-                            marque o checkbox que se encontra logo abaixo. Veja no exemplo acima.
+                            obrigado e marque o checkbox que se encontra logo abaixo. Veja no exemplo acima.
                         </p>
                         <div class="w-full relative">
                             <span class="font-regular mb-2">Url Infusion:</span>
@@ -187,6 +199,27 @@
                 moduleDuvidas.isRegistered = true
             }
             this.getOpcoes().then(() => this.getId(this.$route.params.id));
+
+            var scripts = [
+                "https://cdn.jsdelivr.net/jquery/latest/jquery.min.js",
+                "https://cdn.jsdelivr.net/momentjs/latest/moment.min.js",
+                'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js',
+                'https://api.saveleads.com.br/js/formularioAgendamento.js'
+            ];
+            scripts.forEach((script, index)=> {
+                let tag = document.createElement("script");
+                tag.setAttribute("type", 'text/javascript');
+                tag.setAttribute("src", script);
+                console.log(tag.outerHTML);
+                this.scripts.push(tag.outerHTML)
+            });
+
+            let link = document.createElement('link');
+            link.setAttribute("type", 'text/css');
+            link.setAttribute("rel", 'stylesheet');
+            link.setAttribute("href", 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css');
+
+            this.scripts.push(link.outerHTML);
         },
         data() {
             return {
@@ -203,6 +236,7 @@
                 selectedOrigem: {id: '', text: ''},
                 duvidas: [],
                 selectedDuvida: {id: '', text: ''},
+                scripts: []
             }
         },
         methods: {
@@ -284,13 +318,10 @@
     <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
     <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">
+    <input type="text" name="data_agendamento" value="Clique aqui"/>
     <button type="submit">Enviar</button>
 
     <!-- Biblioteca do Datepicker https://www.daterangepicker.com/ -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"/>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"/>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
 </form>`;
                 return this.html;
             },
@@ -329,6 +360,31 @@
             copyText() {
                 const thisIns = this;
                 this.$copyText(this.html).then(function () {
+                    thisIns.$vs.notify({
+                        title: '',
+                        text: 'Copiado para sua área de transferência',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle'
+                    })
+                }, function () {
+                    thisIns.$vs.notify({
+                        title: 'Failed',
+                        text: 'Erro ao copiar',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        position: 'top-center',
+                        icon: 'icon-alert-circle'
+                    })
+                })
+            },
+            copyScripts() {
+                const thisIns = this;
+                let str = ''
+                this.scripts.forEach(val => {
+                    str += val + '\n';
+                });
+                this.$copyText(str).then(function () {
                     thisIns.$vs.notify({
                         title: '',
                         text: 'Copiado para sua área de transferência',
