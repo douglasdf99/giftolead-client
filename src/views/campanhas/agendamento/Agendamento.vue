@@ -99,7 +99,24 @@
                                               v-model="campanha.campo_whatsapp" size="large"/>
                                     <span class="text-danger text-sm" v-show="errors.has('campo_whatsapp')">{{ errors.first('campo_whatsapp') }}</span>
                                 </div>
-
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Origem</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_origem"
+                                              v-model="campanha.campo_origem" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_origem')">{{ errors.first('campo_origem') }}</span>
+                                </div>
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Dúvida</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_duvida"
+                                              v-model="campanha.campo_duvida" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_duvida')">{{ errors.first('campo_duvida') }}</span>
+                                </div>
+                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                    <span class="font-regular mb-2">Campo Data do Agendamento</span>
+                                    <vs-input class="w-full" v-validate="'required'" name="campo_data_agendamento"
+                                              v-model="campanha.campo_data_agendamento" size="large"/>
+                                    <span class="text-danger text-sm" v-show="errors.has('campo_data_agendamento')">{{ errors.first('campo_data_agendamento') }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -151,7 +168,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="!isValid">
                                 Salvar
                             </vs-button>
                             <!--<vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
@@ -449,7 +466,7 @@
         },
         computed: {
             isValid() {
-                return this.errors.any();
+                return this.errors.any() && (this.selectedOrigem.id != '' && this.selectedDuvida.id != '');
             },
         },
         watch: {
