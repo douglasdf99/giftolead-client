@@ -144,5 +144,14 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/tickets/${id}`)
         });
-    }
+    },
+    pushMsg({commit}, dados){
+        return new Promise((resolve, reject) => {
+            commit('PUSH_MSG', dados);
+            resolve();
+        });
+    },
+    emptyChat({commit}){
+        commit('EMPTY_CHAT');
+    },
 }

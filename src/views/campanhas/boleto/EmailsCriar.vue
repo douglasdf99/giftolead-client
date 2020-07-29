@@ -83,8 +83,8 @@
                         <li class="variavel" @click="addVarText('[NOME_PRODUTO]')">
                             <span>Nome do Produto</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[WHATSAPP]')">
-                            <span>Whatsapp</span>
+                        <li class="variavel" @click="modalWhats = true">
+                            <span>Mensagem do Whatsapp</span>
                         </li>
                         <li class="variavel" @click="addLinkCheckoutVarText">
                             <span>Links de venda</span>
@@ -124,6 +124,27 @@
                     <span class="font-regular mb-2">Link</span>
                     <v-select v-model="linkSelected" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
                               :options="links" v-validate="'required'" name="tipo"/>
+                </div>
+            </div>
+        </vs-prompt>
+        <vs-prompt
+                @cancel="clearValMultiple"
+                @accept="addVarText('[LINK_ACAO_WHATSAPPLIST]')"
+                @close="close"
+                :acceptText="'Salvar'"
+                :cancelText="'Cancelar'"
+                title="Digite a mensagem"
+                :max-width="'600px'"
+                :active.sync="modalWhats">
+            <div class="con-exemple-prompt">
+                <div class="my-3">
+                    <span class="font-regular mb-2">Telefone que recebe a mensagem</span>
+                    <vs-input class="w-full" v-mask="'(##) #####-####'"
+                              v-model="email.telefone" size="large" name="nome"/>
+                </div>
+                <div>
+                    <span class="font-regular mb-2">Mensagem</span>
+                    <vs-textarea v-model="email.whatsapp" id="text-area-whatsapp" class="w-full bg-white" rows="6"/>
                 </div>
             </div>
         </vs-prompt>
@@ -199,7 +220,9 @@
                 modal: false,
                 links: [],
                 linkSelected: {},
-                produto_id: null
+                produto_id: null,
+                modalWhats: false,
+                mensagemWhats: '',
             }
         },
         methods: {

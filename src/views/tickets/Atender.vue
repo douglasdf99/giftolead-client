@@ -1,9 +1,12 @@
 <template>
     <div>
+        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
+                  :data="aresponder"/>
+        <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar"/>
         <div class="vx-row mb-3">
             <div class="vx-col w-full">
                 <p class="destaque text-2xl">
-                    Atendimento do Ticket #6569 <!--{{$route.params.id}}-->
+                    #6569 <!--{{$route.params.id}}-->
                 </p>
             </div>
         </div>
@@ -28,10 +31,12 @@
                                            icon-pack="material-icons" icon="call">
                                     Ligar agora
                                 </vs-button>
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="green" type="filled">
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="green" type="filled"
+                                           @click="whatsapp({})">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
                                 </vs-button>
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled">
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled"
+                                           @click="toggleEmailSidebar(true)">
                                     <i class="fa fa-envelope-open text-2xl mx-2 text-white"></i>
                                 </vs-button>
                             </div>
@@ -100,16 +105,26 @@
 <script>
     import moduleTickets from "../../store/tickets/moduleTickets";
     import atendimento from "./Atendimento";
+    import SideBar from "./Responder";
+    import Email from "./Email"
 
     export default {
         name: "Atender",
         components: {
-            atendimento
+            atendimento, SideBar,
+            Email
         },
         data() {
             return {
                 ticket: {},
-                selectedTab: 0
+                selectedTab: 0,
+
+                //whats
+                responderTicket: false,
+                aresponder: {},
+
+                //email
+                enviarEmail: false,
             }
         },
         created() {
@@ -126,6 +141,16 @@
                     this.ticket = response;
                     this.$vs.loading.close();
                 });
+            },
+            toggleRespostaSidebar(val = false) {
+                this.responderTicket = val;
+            },
+            toggleEmailSidebar(val = false) {
+                this.enviarEmail = val;
+            },
+            whatsapp(dados) {
+                this.aresponder = dados;
+                this.toggleRespostaSidebar(true);
             },
         }
     }

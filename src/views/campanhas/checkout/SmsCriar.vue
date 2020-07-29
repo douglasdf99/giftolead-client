@@ -50,7 +50,7 @@
                     <div class="vx-col w-full">
                         <span class="font-regular mb-2">Mensagem</span>
                         <vs-textarea v-model="email.corpo" id="text-area" class="w-full bg-white" rows="6"
-                                     counter="160"/>
+                                     counter="152"/>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                 <div class="mb-3 p-5 pt-0">
                     <span class="font-regular">Inserir no corpo da mensagem:</span>
                     <ul class="variaveis-msg">
-                        <li class="variavel" @click="addVarText('[LINK_WHATS_LIST]')">
+                        <li class="variavel" @click="modalWhats = true">
                             <span>Mensagem no Whatsapp</span>
                         </li>
                         <li class="variavel" @click="addLinkCheckoutVarText">
@@ -100,6 +100,27 @@
                     <span class="font-regular mb-2">Link</span>
                     <v-select v-model="linkSelected" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
                               :options="links" v-validate="'required'" name="tipo"/>
+                </div>
+            </div>
+        </vs-prompt>
+        <vs-prompt
+                @cancel="clearValMultiple"
+                @accept="addVarText('[LINK_ACAO_WHATSAPPLIST]')"
+                @close="close"
+                :acceptText="'Salvar'"
+                :cancelText="'Cancelar'"
+                title="Digite a mensagem"
+                :max-width="'600px'"
+                :active.sync="modalWhats">
+            <div class="con-exemple-prompt">
+                <div class="my-3">
+                    <span class="font-regular mb-2">Telefone que recebe a mensagem</span>
+                    <vs-input class="w-full" v-mask="'(##) #####-####'"
+                              v-model="email.telefone" size="large" name="nome"/>
+                </div>
+                <div>
+                    <span class="font-regular mb-2">Mensagem</span>
+                    <vs-textarea v-model="email.whatsapp" id="text-area-whatsapp" class="w-full bg-white" rows="6"/>
                 </div>
             </div>
         </vs-prompt>
@@ -171,7 +192,9 @@
                 somaPeriodo: 0,
                 modal: false,
                 links: [],
-                linkSelected: {}
+                linkSelected: {},
+                modalWhats: false,
+                mensagemWhats: '',
             }
         },
         methods: {
@@ -187,6 +210,7 @@
             },
             close() {
                 this.modal = false;
+                this.modalWhats = false;
             },
             validar() {
                 this.$validator.validateAll().then(result => {
@@ -338,7 +362,7 @@
                 var caretPos = $txt.selectionStart;
                 $txt.value = (textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos));
                 this.email.corpo = $txt.value;
-            },
+            }
         },
         computed: {
             isValid() {

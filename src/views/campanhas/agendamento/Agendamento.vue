@@ -273,7 +273,7 @@
                 })
 
             },
-            codigohtml(value) {
+            codigohtml() {
                 this.html = `
 <form accept-charset="UTF - 8" action="${this.url_api('campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
@@ -285,8 +285,13 @@
     <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
     <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">
     <button type="submit">Enviar</button>
-</form>
-                `;
+
+    <!-- Biblioteca do Datepicker https://www.daterangepicker.com/ -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+</form>`;
                 return this.html;
             },
             selecionaCor(cor) {

@@ -94,9 +94,8 @@
         <vs-popup class="holamundo" title="Agendados para hoje" :active.sync="exibirHoje">
             <div class="vx-row">
                 <div class="vx-col w-full lg:w-1/2 text-center mb-3" v-for="i in agendadosHoje">
-                    <vs-chip v-bind:class="'bg-' + getColorLabel(i.label)" class="text-white">
-                        <p class="text-md">{{i.nome}} | <span class="destaque font-bold">{{i.data_agendamento | formatDateTime}}</span>
-                        </p>
+                    <vs-chip v-bind:class="'bg-' + getColorLabel(i.label)" class="text-white cursor-pointer" @click="$router.push({name: 'tickets-list'})">
+                        <p class="text-md">{{i.nome}} | <span class="destaque font-bold">{{i.data_agendamento | formatDateTime}}</span></p>
                     </vs-chip>
                 </div>
             </div>

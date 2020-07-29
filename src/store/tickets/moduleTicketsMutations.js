@@ -12,5 +12,11 @@ import axios from "../../http/axios/index.js"
 export default {
     SET_ROTA_ATUAL(state, val){
         state.rotaAtual = val;
+    },
+    PUSH_MSG(state, dados) {
+        state.chatData.msg.push(dados);
+    },
+    EMPTY_CHAT(state){
+        state.chatData.msg = [];
     }
 }
