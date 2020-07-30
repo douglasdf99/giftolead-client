@@ -217,7 +217,8 @@
                     dateFormat: 'Y-m-d H:i',
                     altInput: true,
                     altFormat: 'd/m/Y H:i',
-                    locale: Portuguese
+                    locale: Portuguese,
+                    minDate: moment().format('Y-MM-DD H:mm')
                 },
             }
         },

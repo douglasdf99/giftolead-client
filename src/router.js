@@ -1515,6 +1515,14 @@ const router = new Router({
                         rule: 'editor'
                     }
                 },
+                {
+                    path: '/agendamento',
+                    name: 'sidebar',
+                    component: () => import('@/views/pages/AgendamentoLink.vue'),
+                    meta: {
+                        rule: 'editor'
+                    }
+                },
             ]
         },
         // Redirect to 404 page, if no match found

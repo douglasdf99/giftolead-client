@@ -89,6 +89,9 @@
                         <li class="variavel" @click="addLinkCheckoutVarText">
                             <span>Links de venda</span>
                         </li>
+                        <li class="variavel" @click="addVarText('[LINK_AGENDAMENTO_LEADS]')">
+                            <span>Link de Agendamento</span>
+                        </li>
                     </ul>
                 </div>
             </div>

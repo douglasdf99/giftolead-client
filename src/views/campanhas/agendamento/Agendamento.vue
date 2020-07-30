@@ -26,7 +26,7 @@
                     </div>
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Página de Obrigado</span>
-                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.checkout"
+                        <vs-input class="w-full" id="search_input_trans" v-model="campanha.obrigado"
                                   placeholder="https://" size="large" name="nome" v-validate="'required'"/>
                     </div>
                     <div class="vx-col w-full lg:w-1/2 mb-3">
@@ -168,7 +168,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="!isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid">
                                 Salvar
                             </vs-button>
                             <!--<vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
@@ -220,7 +220,8 @@
             var scripts = [
                 "https://cdn.jsdelivr.net/jquery/latest/jquery.min.js",
                 "https://cdn.jsdelivr.net/momentjs/latest/moment.min.js",
-                'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js',
+                'https://cdn.jsdelivr.net/npm/flatpickr',
+                'https://npmcdn.com/flatpickr/dist/l10n/pt.js',
                 'https://api.saveleads.com.br/js/formularioAgendamento.js'
             ];
             scripts.forEach((script, index)=> {
@@ -234,7 +235,7 @@
             let link = document.createElement('link');
             link.setAttribute("type", 'text/css');
             link.setAttribute("rel", 'stylesheet');
-            link.setAttribute("href", 'https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css');
+            link.setAttribute("href", 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
 
             this.scripts.push(link.outerHTML);
         },
@@ -335,7 +336,7 @@
     <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
     <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">
-    <input type="text" name="data_agendamento" value="Clique aqui"/>
+    <input type="text" id="data_agendamento" name="data_agendamento"/>
     <button type="submit">Enviar</button>
 
     <!-- Biblioteca do Datepicker https://www.daterangepicker.com/ -->
@@ -359,14 +360,19 @@
                 this.$store.dispatch('agendamento/getId', id).then(response => {
                     this.campanha = {...response};
 
-                    if (this.campanha.origem_id != null)
+                    if (this.campanha.origem_id != null) {
                         this.selectedOrigem.id = this.campanha.origem_id;
+                        this.selectedOrigem.label = this.campanha.origem.nome;
+                    }
 
-                    if (this.campanha.tipo_duvida_id != null)
+                    if (this.campanha.tipo_duvida_id != null) {
                         this.selectedDuvida.id = this.campanha.tipo_duvida_id;
+                        this.selectedDuvida.label = this.campanha.tipo_duvida.nome;
+                    }
 
                     if (this.campanha.infusion == "0")
                         this.campanha.infusion = false;
+
                     this.$vs.loading.close();
                 });
             },
@@ -458,15 +464,15 @@
                         arr.forEach(item => {
                             this.duvidas.push({id: item.id, label: item.nome})
                         });
-                    })
+                    });
 
-                    resolve();
+                    resolve()
                 });
             },
         },
         computed: {
-            isValid() {
-                return this.errors.any() && (this.selectedOrigem.id != '' && this.selectedDuvida.id != '');
+            isInvalid() {
+                return this.errors.any() || (this.selectedOrigem.id == '' && this.selectedDuvida.id == '');
             },
         },
         watch: {
