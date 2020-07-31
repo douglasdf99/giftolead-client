@@ -28,5 +28,6 @@ export default {
     rotaAtual: '',
     chatData: {
         msg: []
-    }
+    },
+    ticketVerificado: ''
 }

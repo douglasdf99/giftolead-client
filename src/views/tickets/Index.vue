@@ -205,6 +205,16 @@
             this.getTickets();
         },
         methods: {
+            openAlert(title, text, color) {
+                this.$vs.dialog({
+                    color: color,
+                    title: title,
+                    text: text,
+                    accept: () => {
+                        console.log()
+                    }
+                })
+            },
             addNewData() {
                 this.sidebarData = {}
                 this.toggleDataSidebar(true)
@@ -288,9 +298,17 @@
                     }
                 })
             },
-            atender(id){
+            atender(id) {
                 this.$store.dispatch('tickets/verificaDisponibilidade', id).then(response => {
-
+                    if (response.status === 'ok')
+                        this.$router.push({path: '/tickets/atender/' + id})
+                    else if (response.status === 'atendendo') {
+                        this.openAlert('Ticket em atendimento', response.msg, 'danger');
+                    } else if (response.status === 'jaatendendo') {
+                        this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary');
+                    } else {
+                        this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
+                    }
                 });
             },
             pesquisar(e) {
@@ -326,11 +344,11 @@
                 deep: true
             },
         },
-         mounted() {
-             this.channel.listen('ListaTicket', (payload) => {
-                 this.getTickets();
-             });
-         },
+        mounted() {
+            this.channel.listen('ListaTicket', (payload) => {
+                this.getTickets();
+            });
+        },
         computed: {
 
             items() {

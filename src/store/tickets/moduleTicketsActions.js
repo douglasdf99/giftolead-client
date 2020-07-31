@@ -142,7 +142,10 @@ export default {
     },
     verificaDisponibilidade({commit}, id){
         return new Promise((resolve, reject) => {
-            axios.get(`/tickets/${id}`)
+            axios.post(`/atender-ticket`, {id: id}).then (response => {
+                console.log(response)
+                resolve(response.data)
+            }).catch(erro => console.log(erro));
         });
     },
     pushMsg({commit}, dados){

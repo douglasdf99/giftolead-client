@@ -20,7 +20,7 @@ const rotasTickets = [
         },
     },
     {
-        path: '/tickets/atender-ticket',
+        path: '/tickets/atender/{id}',
         name: 'tickets-atender',
         component: () => import('@/views/tickets/Atender.vue'),
         meta: {
