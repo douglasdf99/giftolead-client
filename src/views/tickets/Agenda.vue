@@ -56,6 +56,7 @@
                     item.classes = 'event-' + this.getColorLabel(item.label);
                     let hoje = moment().format('Y-MM-D H:mm');
                     var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
+                    item.data_agendamento = moment(item.data_agendamento).format('Y-MM-D H:mm')
                     if(((item.data_agendamento > hoje) && (item.data_agendamento < amanha)) || (item.data_agendamento < hoje)){
                         this.agendadosHoje.push(item);
                     }
@@ -63,6 +64,7 @@
                 this.$vs.loading.close();
             },
             getSituacao(data){
+                data = moment(data).format('Y-MM-D H:mm');
                 let hoje = moment().format('Y-MM-D H:mm');
                 var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
                 if((data > hoje) && (data < amanha)) return 'dentrodoprazo';

@@ -14,7 +14,7 @@ import axios from "@/axios.js"
 export default {
     store({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/agendamento-externo`, dados)
+            axios.post(`/agendamento_externo`, dados)
                 .then((response) => {
                     resolve(response)
                 })
