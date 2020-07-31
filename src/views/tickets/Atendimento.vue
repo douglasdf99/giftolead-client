@@ -190,6 +190,9 @@
     import 'flatpickr/dist/flatpickr.css';
     import {Portuguese} from 'flatpickr/dist/l10n/pt.js';
 
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
+
     export default {
         name: "Atendimento",
         components: {
