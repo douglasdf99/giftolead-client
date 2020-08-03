@@ -18,7 +18,7 @@
                         <div class="vx-col w-1/4 text-center">
                             <img src="@/assets/images/util/avatar-padrao.svg" width="80">
                         </div>
-                        <div class="vx-col w-3/3">
+                        <div class="vx-col w-3/3" v-if="ticket.lead">
                             <p class="text-black text-xl font-bold">
                                 {{ticket.lead.nome}}
                             </p>
@@ -52,10 +52,10 @@
                             <p class="text-black text-xl">
                                 <b>{{ticket.created_at | formatDateTime}}</b>
                             </p>
-                            <p class="text-xl">
+                            <p class="text-xl" v-if="ticket.origem">
                                 Origem: {{ticket.origem.nome}}
                             </p>
-                            <vs-chip :color="ticket.produto.cor" class="text-lg mt-3 py-2 font-bold">
+                            <vs-chip v-if="ticket.produto" :color="ticket.produto.cor" class="text-lg mt-3 py-2 font-bold">
                                 {{ticket.produto.nome}}
                             </vs-chip>
                         </div>
@@ -63,7 +63,7 @@
                             <p class="text-lg font-semibold text-right mb-2" style="color: #9B9B9B">
                                 Criado por:
                             </p>
-                            <p class="text-right flex items-center font-bold float-right">
+                            <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
                                 {{ticket.responsavel.nome}}
                                 <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
                                 <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-else>
@@ -90,14 +90,14 @@
                     <vs-tab color="primary" value="10" label="atendimento">
                         <atendimento></atendimento>
                     </vs-tab>
-                    <vs-tab color="primary" label="histórico (x)">
+                    <vs-tab color="primary" v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
                         <historico :data="ticket.acoesrecebidas" ></historico>
                     </vs-tab>
-                    <vs-tab color="primary" label="transações (x)">
-
+                    <vs-tab color="primary" :label="`transações (${ticket.lead.transacaos.length})`">
+                        <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
                     <vs-tab color="primary" label="brindes (x)">
-
+                        <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
                 </vs-tabs>
             </div>
@@ -111,12 +111,13 @@
     import SideBar from "./Responder";
     import Email from "./Email"
     import historico from './Historico'
+    import transacoes from "./Transacoes"
 
     export default {
         name: "Atender",
         components: {
             atendimento, SideBar, historico,
-            Email
+            Email, transacoes
         },
         data() {
             return {
@@ -127,6 +128,7 @@
                     },
                     produto: {}
                 },
+
                 selectedTab: 0,
 
                 //whats

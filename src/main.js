@@ -193,6 +193,14 @@ Vue.filter('formatDateTime', function (value) {
     }
 });
 
+Vue.filter('formatDateHumanize', function (value) {
+    if (value) {
+        let end = moment();
+        value = moment(value);
+        return moment.duration(end.diff(value)).humanize();
+    }
+});
+
 // Feather font icon
 require('./assets/css/iconfont.css')
 
