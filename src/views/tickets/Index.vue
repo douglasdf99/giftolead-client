@@ -205,14 +205,16 @@
             this.getTickets();
         },
         methods: {
-            openAlert(title, text, color) {
+            openAlert(title, text, color, id = null) {
                 this.$vs.dialog({
                     color: color,
                     title: title,
                     text: text,
                     accept: () => {
-                        console.log()
-                    }
+                        if(id != null)
+                            this.$router.push({path: `/tickets/atender/${id}`});
+                    },
+                    acceptText: 'Ir até ele'
                 })
             },
             addNewData() {
@@ -305,7 +307,7 @@
                     else if (response.status === 'atendendo') {
                         this.openAlert('Ticket em atendimento', response.msg, 'danger');
                     } else if (response.status === 'jaatendendo') {
-                        this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary');
+                        this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
                     } else {
                         this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
                     }
@@ -350,7 +352,6 @@
             });
         },
         computed: {
-
             items() {
                 return this.$store.state.items;
             },

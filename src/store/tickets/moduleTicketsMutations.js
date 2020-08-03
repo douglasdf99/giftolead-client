@@ -18,5 +18,8 @@ export default {
     },
     EMPTY_CHAT(state){
         state.chatData.msg = [];
+    },
+    SET_TICKET_VERIFICADO(state, val){
+        state.ticketVerificado = val;
     }
 }

@@ -1,6 +1,7 @@
 <template>
     <div>
-        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
+        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar"
+                  @getItems="getItems"
                   :data="aresponder"/>
         <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar"/>
         <div class="vx-row mb-3">
@@ -19,13 +20,13 @@
                         </div>
                         <div class="vx-col w-3/3">
                             <p class="text-black text-xl font-bold">
-                                Teste Vitor
+                                {{ticket.lead.nome}}
                             </p>
-                            <p class="text-black text-xl font-bold mb-2">
-                                (87) 98988-1245
+                            <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
+                                {{'(' + ticket.lead.ddd + ') '  + ticket.lead.telefone}}
                             </p>
-                            <p class="font-semibold text-md" style="color: #9B9B9B">lucasesn@gmail.com</p>
-                            <p class="font-semibold text-md mb-4" style="color: #9B9B9B">CPF: 066.321.351-70</p>
+                            <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
+                            <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
                             <div class="w-full flex my-5">
                                 <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled"
                                            icon-pack="material-icons" icon="call">
@@ -45,17 +46,17 @@
                 </div>
             </div>
             <div class="vx-col w-full lg:w-1/2 p1-1">
-                <div class="w-full bg-white p-5 rounded-lg">
+                <div class="w-full bg-white p-5 rounded-lg h-full">
                     <div class="vx-row my-4 flex justify-between">
                         <div class="vx-col w-1/3">
                             <p class="text-black text-xl">
-                                <b>16/03/2020</b> às 17:30
+                                <b>{{ticket.created_at | formatDateTime}}</b>
                             </p>
                             <p class="text-xl">
-                                Origem: E-mail
+                                Origem: {{ticket.origem.nome}}
                             </p>
-                            <vs-chip color="primary" class="text-lg mt-3 py-2 font-bold">
-                                Pompoarismo
+                            <vs-chip :color="ticket.produto.cor" class="text-lg mt-3 py-2 font-bold">
+                                {{ticket.produto.nome}}
                             </vs-chip>
                         </div>
                         <div class="vx-col w-1/3">
@@ -63,18 +64,20 @@
                                 Criado por:
                             </p>
                             <p class="text-right flex items-center font-bold float-right">
-                                Lucas Emanuel
-                                <img src="@/assets/images/util/avatar-padrao.svg" width="40" class="ml-2">
+                                {{ticket.responsavel.nome}}
+                                <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
+                                <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-else>
+                                <!--<img src="@/assets/images/util/boleto.svg" alt="" v-if="tipo.img == 'boleto'">
+                                <img src="@/assets/images/util/whatsapp.svg" alt="" v-if="tipo.img == 'whatsapp'">
+                                <img src="@/assets/images/util/agendamento.svg" alt="" v-if="tipo.img == 'agendamento'">
+                                <img src="@/assets/images/util/cancelado.svg" alt="" v-if="tipo.img == 'cancelado'">-->
                             </p>
                         </div>
                     </div>
                     <div class="vx-row my-3">
                         <div class="vx-col w-full">
                             <p class="text-xl">
-                                Ticket foi reaberto pelo sistema, após o recebimento de uma nova transação recebida como
-                                cancelada. Ticket foi reaberto pelo sistema, após o recebimento de uma nova transação
-                                recebida como cancelada. Ticket foi reaberto pelo sistema, após o recebimento de uma
-                                nova transação recebida como cancelada.
+                                {{ticket.detalhamento}}
                             </p>
                         </div>
                     </div>
@@ -85,10 +88,10 @@
             <div class="vx-col w-full">
                 <vs-tabs color="primary" v-model="selectedTab">
                     <vs-tab color="primary" value="10" label="atendimento">
-                       <atendimento></atendimento>
+                        <atendimento></atendimento>
                     </vs-tab>
                     <vs-tab color="primary" label="histórico (x)">
-
+                        <historico></historico>
                     </vs-tab>
                     <vs-tab color="primary" label="transações (x)">
 
@@ -107,16 +110,23 @@
     import atendimento from "./Atendimento";
     import SideBar from "./Responder";
     import Email from "./Email"
+    import historico from './Historico'
 
     export default {
         name: "Atender",
         components: {
-            atendimento, SideBar,
+            atendimento, SideBar, historico,
             Email
         },
         data() {
             return {
-                ticket: {},
+                ticket: {
+                    responsavel_type: '',
+                    responsavel: {
+                        avatar: ''
+                    },
+                    produto: {}
+                },
                 selectedTab: 0,
 
                 //whats
@@ -132,15 +142,20 @@
                 this.$store.registerModule('tickets', moduleTickets)
                 moduleTickets.isRegistered = true
             }
-            //this.getId(this.$route.params.id);
+            this.getId(this.$route.params.id);
         },
         methods: {
             getId(id) {
                 this.$vs.loading();
-                this.$store.dispatch('tickets/getId', id).then(response => {
-                    this.ticket = response;
-                    this.$vs.loading.close();
-                });
+                if (this.$store.state.ticketVerificado != '') {
+                    this.$store.dispatch('tickets/getId', id).then(response => {
+                        this.ticket = response;
+                        this.$vs.loading.close();
+                    });
+                } else {
+                    console.log('entrou no else')
+                    this.$router.push({name: 'tickets-list'});
+                }
             },
             toggleRespostaSidebar(val = false) {
                 this.responderTicket = val;

@@ -99,14 +99,14 @@ export default {
             })
         })
     },
-    verificaLead({commit}, dados){
+    verificaLead({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get('/verificaTicketProduto', {params: dados}).then(response => {
                 resolve(response.data)
             })
         })
     },
-    getAgenda({commit}, rota){
+    getAgenda({commit}, rota) {
         return new Promise((resolve, reject) => {
             axios.get(`/${rota}`).then(response => {
                 console.log('agendados', response);
@@ -114,7 +114,7 @@ export default {
             }).catch(erro => reject(erro));
         });
     },
-    reagendar({commit}, obj){
+    reagendar({commit}, obj) {
         return new Promise((resolve, reject) => {
             obj._method = 'PUT'
             axios.post(`/agendamentos/${obj.id}`, obj).then(response => {
@@ -125,10 +125,10 @@ export default {
             });
         });
     },
-    rotaAtual({commit}, val){
+    rotaAtual({commit}, val) {
         commit('SET_ROTA_ATUAL', val);
     },
-    getId({commit}, id){
+    getId({commit}, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/tickets/${id}`)
                 .then((response) => {
@@ -140,21 +140,27 @@ export default {
                 })
         })
     },
-    verificaDisponibilidade({commit}, id){
+    verificaDisponibilidade({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.post(`/atender-ticket`, {id: id}).then (response => {
-                console.log(response)
+            axios.post(`/atender-ticket`, {id: id}).then(response => {
+                console.log('resposta', response)
+                if (response.data.status == 'ok')
+                    commit('SET_TICKET_VERIFICADO', id)
+
+                if (response.data.status = 'jaatendendo')
+                    commit('SET_TICKET_VERIFICADO', response.data.id)
+
                 resolve(response.data)
             }).catch(erro => console.log(erro));
         });
     },
-    pushMsg({commit}, dados){
+    pushMsg({commit}, dados) {
         return new Promise((resolve, reject) => {
             commit('PUSH_MSG', dados);
             resolve();
         });
     },
-    emptyChat({commit}){
+    emptyChat({commit}) {
         commit('EMPTY_CHAT');
     },
 }
