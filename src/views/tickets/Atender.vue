@@ -7,7 +7,7 @@
         <div class="vx-row mb-3">
             <div class="vx-col w-full">
                 <p class="destaque text-2xl">
-                    #6569 <!--{{$route.params.id}}-->
+                    #{{ticket.id}} <!--{{$route.params.id}}-->
                 </p>
             </div>
         </div>
@@ -91,7 +91,7 @@
                         <atendimento></atendimento>
                     </vs-tab>
                     <vs-tab color="primary" label="histórico (x)">
-                        <historico></historico>
+                        <historico :data="ticket.acoesrecebidas" ></historico>
                     </vs-tab>
                     <vs-tab color="primary" label="transações (x)">
 
