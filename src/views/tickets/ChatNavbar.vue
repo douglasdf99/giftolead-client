@@ -11,7 +11,7 @@
     <div v-if="userId != null" class="chat__header">
         <vs-navbar class="p-4 flex navbar-custom" color="white" type="flat">
             <div class="relative flex mr-4">
-                <vs-avatar class="m-0 border-2 border-solid border-white" size="40px" :src="userDetails.photoURL"/>
+                <img src="@/assets/images/util/avatar-padrao.svg" width="40">
             </div>
             <h6>{{ dados.nome }}</h6>
             <vs-spacer></vs-spacer>
@@ -61,7 +61,6 @@
             }
         },
         created() {
-            console.log('dados', this.dados);
             if (!moduleMensagem.isRegistered) {
                 this.$store.registerModule('mensagens', moduleMensagem)
                 moduleMensagem.isRegistered = true
@@ -75,7 +74,7 @@
                 },
             },
             userDetails() {
-                return this.$store.state.tickets.contato;
+                return this.$store.state.AppActiveUser;
             },
         },
         methods: {

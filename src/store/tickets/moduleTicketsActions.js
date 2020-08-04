@@ -155,12 +155,27 @@ export default {
         });
     },
     pushMsg({commit}, dados) {
-        return new Promise((resolve, reject) => {
-            commit('PUSH_MSG', dados);
-            resolve();
-        });
+        commit('PUSH_MSG', dados);
     },
     emptyChat({commit}) {
         commit('EMPTY_CHAT');
+    },
+    sendMsg({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/ticket-enviar-whatsapp/`, {id: dados.id, mensagem: dados.mensagem})
+                .then((response) => {
+                    commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
+                    resolve(response.data.data.url);
+                })
+        });
+    },
+    sendEmail({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/ticket-enviar-email/`, dados)
+                .then((response) => {
+                    console.log(response.data)
+                    resolve(response.data.data);
+                })
+        });
     },
 }

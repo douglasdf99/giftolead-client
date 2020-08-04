@@ -219,7 +219,7 @@
             ChatLog, 'chat-navbar': ChatNavBar
         },
         created() {
-            this.$store.dispatch('getLinks', this.data.campanhable.produto_id).then(response => {
+            this.$store.dispatch('getLinks', this.data.produto_id).then(response => {
                 let arr = [...response];
                 arr.forEach(item => {
                     this.links.push({id: item.identidade, label: item.descricao});
@@ -230,9 +230,15 @@
                 this.enviado = true;
             }
         },
-        updated() {
-            if(this.data.resposta)
-                this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: this.data.resposta.mensagem});
+        mounted() {
+            if(this.data.mensagens.length > 0){
+                this.data.mensagens.forEach(msg => {
+                    if(msg.tipo == 'whatsapp'){
+                        console.log('mensagem', msg.mensagem);
+                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem});
+                    }
+                })
+            }
         }
     }
 </script>

@@ -18,19 +18,18 @@
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-5">
                 <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
+                    <!--<div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">De</span>
-                        <vs-input v-validate="'required'" class="w-full" v-model="email.from" size="large" name="from"/>
+                        <vs-input v-validate="'required'" :disabled="true" class="w-full" v-model="email.from" size="large" name="from"/>
                         <span class="text-danger text-sm" v-show="errors.has('from')">Este campo é obrigatório!</span>
-                    </div>
+                    </div>-->
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Para</span>
-                        <vs-input v-validate="'required'" class="w-full" v-model="email.to" size="large" name="to"/>
-                        <span class="text-danger text-sm" v-show="errors.has('to')">Este campo é obrigatório!</span>
+                        <vs-input v-validate="'required'" v-if="data.lead" class="w-full" :disabled="true" :value="data.lead.nome + ' <' + data.lead.email + '>'" size="large" name="to"/>
                     </div>
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Assunto</span>
-                        <vs-input v-validate="'required'" class="w-full" v-model="email.subject" size="large"
+                        <vs-input v-validate="'required'" class="w-full" v-model="email.assunto" size="large"
                                   name="subject"/>
                         <span class="text-danger text-sm"
                               v-show="errors.has('subject')">Este campo é obrigatório!</span>
@@ -92,6 +91,11 @@
                 type: Boolean,
                 required: true
             },
+            data: {
+                type: Object,
+                default: () => {
+                },
+            }
         },
         data() {
             return {
@@ -105,6 +109,8 @@
                 this.$store.registerModule('mensagens', moduleMensagem)
                 moduleMensagem.isRegistered = true
             }
+            console.log('data', this.data)
+
             this.getMensagens();
         },
         computed: {
@@ -135,7 +141,25 @@
                 this.editor.insertText($txt2.index, value, '', true);
             },
             enviar() {
-
+                this.$store.dispatch('tickets/sendEmail', {id: this.data.id, assunto: this.email.assunto, mensagem: this.email.body}).then(response => {
+                    console.log('voltou pro front', response);
+                    if(response.return){
+                        this.$emit('closeSidebar');
+                        this.$vs.notify({
+                            color: 'success',
+                            title: '',
+                            text: 'Seu e-mail foi enviado com sucesso.'
+                        });
+                    } else {
+                        this.$vs.notify({
+                            color: 'danger',
+                            title: '',
+                            text: 'Houve um erro ao enviar seu e-mail. Entre em contato com o suporte.'
+                        });
+                    }
+                }).catch(erro => {
+                    console.log('erro', erro)
+                });
             },
             getMensagens() {
                 this.mensagens = [];

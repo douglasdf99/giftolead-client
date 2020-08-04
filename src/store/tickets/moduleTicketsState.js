@@ -29,5 +29,9 @@ export default {
     chatData: {
         msg: []
     },
-    ticketVerificado: ''
+    ticketVerificado: '',
+    contato: {
+        displayName: '',
+        photoURL: ''
+    }
 }

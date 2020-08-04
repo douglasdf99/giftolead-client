@@ -1,9 +1,7 @@
 <template>
     <div>
-        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar"
-                  @getItems="getItems"
-                  :data="aresponder"/>
-        <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar"/>
+        <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" :data="aresponder"/>
+        <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar" :data="aresponder"/>
         <div class="vx-row mb-3">
             <div class="vx-col w-full">
                 <p class="destaque text-2xl">
@@ -28,16 +26,13 @@
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
                             <div class="w-full flex my-5">
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled"
-                                           icon-pack="material-icons" icon="call">
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call">
                                     Ligar agora
                                 </vs-button>
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="green" type="filled"
-                                           @click="whatsapp({})">
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="green" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
                                 </vs-button>
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled"
-                                           @click="toggleEmailSidebar(true)">
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled" @click="email(ticket)">
                                     <i class="fa fa-envelope-open text-2xl mx-2 text-white"></i>
                                 </vs-button>
                             </div>
@@ -65,12 +60,13 @@
                             </p>
                             <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
                                 {{ticket.responsavel.nome}}
-                                <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
+                                <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
+                                <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaBoleto'">
+                                <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
+                                <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
+                                <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
+                                <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\\Models\\\Whatsapplist'">
                                 <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-else>
-                                <!--<img src="@/assets/images/util/boleto.svg" alt="" v-if="tipo.img == 'boleto'">
-                                <img src="@/assets/images/util/whatsapp.svg" alt="" v-if="tipo.img == 'whatsapp'">
-                                <img src="@/assets/images/util/agendamento.svg" alt="" v-if="tipo.img == 'agendamento'">
-                                <img src="@/assets/images/util/cancelado.svg" alt="" v-if="tipo.img == 'cancelado'">-->
                             </p>
                         </div>
                     </div>
@@ -93,10 +89,10 @@
                     <vs-tab color="primary" v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
                         <historico :data="ticket.acoesrecebidas" ></historico>
                     </vs-tab>
-                    <vs-tab color="primary" :label="`transações (${ticket.lead.transacaos.length})`">
+                    <vs-tab color="primary" v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
-                    <vs-tab color="primary" label="brindes (x)">
+                    <vs-tab color="primary" v-if="ticket.lead" label="brindes (x)">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
                 </vs-tabs>
@@ -168,6 +164,11 @@
             whatsapp(dados) {
                 this.aresponder = dados;
                 this.toggleRespostaSidebar(true);
+            },
+
+            email(dados) {
+                this.aresponder = dados;
+                this.toggleEmailSidebar(true);
             },
         }
     }
