@@ -29,7 +29,7 @@
                                 <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call">
                                     Ligar agora
                                 </vs-button>
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="green" type="filled" @click="whatsapp(ticket)">
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
                                 </vs-button>
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled" @click="email(ticket)">
@@ -84,7 +84,7 @@
             <div class="vx-col w-full">
                 <vs-tabs color="primary" v-model="selectedTab">
                     <vs-tab color="primary" value="10" label="atendimento">
-                        <atendimento></atendimento>
+                        <atendimento :ticket="ticket"></atendimento>
                     </vs-tab>
                     <vs-tab color="primary" v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
                         <historico :data="ticket.acoesrecebidas" ></historico>
@@ -98,6 +98,23 @@
                 </vs-tabs>
             </div>
         </div>
+        <transition name="fade">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button class="mr-3" color="primary" type="filled">
+                                Finalizar Atendimento
+                            </vs-button>
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="cancelarAtendimento(ticket.id)">
+                                Cancelar Atendimento
+                            </vs-button>
+                        </div>
+                    </div>
+                </div>
+            </footer-doug>
+        </transition>
     </div>
 </template>
 
@@ -122,7 +139,7 @@
                     responsavel: {
                         avatar: ''
                     },
-                    produto: {}
+                    produto: {},
                 },
 
                 selectedTab: 0,
@@ -148,6 +165,9 @@
                 if (this.$store.state.ticketVerificado != '') {
                     this.$store.dispatch('tickets/getId', id).then(response => {
                         this.ticket = response;
+                        this.ticket.nome_destinatario = response.lead.nome;
+                        this.ticket.email_destinatario = response.lead.email;
+
                         this.$vs.loading.close();
                     });
                 } else {
@@ -165,10 +185,39 @@
                 this.aresponder = dados;
                 this.toggleRespostaSidebar(true);
             },
-
             email(dados) {
                 this.aresponder = dados;
                 this.toggleEmailSidebar(true);
+            },
+            cancelarAtendimento(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Cancelar atendimento?`,
+                    text: 'Deseja mesmo cancelar este atendimento?',
+                    acceptText: 'Sim!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('tickets/cancelar', id).then(response => {
+                            console.log('pora cara', response)
+                            if(response.status){
+                                this.$vs.notify({
+                                    color: 'success',
+                                    title: '',
+                                    text: 'Atendimento cancelado com sucesso'
+                                });
+                                this.$vs.loading.close();
+                                this.$router.push({name: 'tickets-list'})
+                            }
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
+                            })
+                        })
+                    }
+                })
             },
         }
     }

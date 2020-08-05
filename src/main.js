@@ -201,6 +201,12 @@ Vue.filter('formatDateHumanize', function (value) {
     }
 });
 
+Vue.filter('showDateMonth', function (value) {
+    if (value) {
+        return moment(String(value)).format('MMM YYYY')
+    }
+});
+
 // Feather font icon
 require('./assets/css/iconfont.css')
 

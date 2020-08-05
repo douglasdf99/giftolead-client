@@ -18,17 +18,17 @@
                     <span class="activity-desc">{{historico.description}}</span>
                     <div class="vx-row my-3">
                         <div class="vx-col w-full">
-                            <vs-button class="rounded-full mx-3 px-3 py-2" v-if="historico.properties && historico.properties.tipo == 'whatsapp'" color="green" type="filled"
+                            <vs-button class="rounded-full mx-3 px-3 py-2" v-if="historico.properties && historico.properties.tipo == 'whatsapp'" color="#8ED839" type="filled"
                                        @click="exibirMensagem = true; mensagem = historico.properties.mensagem">
                                 <span class="text-md font-bold flex items-center justify-center">
-                                    <i class="fab fa-whatsapp text-3xl mx-3 text-white"></i>
+                                    <i class="fab fa-whatsapp text-2xl mr-3 text-white"></i>
                                 Mensagem enviada
                                 </span>
                             </vs-button>
                             <vs-button class="rounded-full mx-3 px-3 py-2" v-if="historico.properties && historico.properties.tipo == 'email'" color="#F23257" type="filled"
                                        @click="exibirMensagem = true; mensagem = historico.properties.mensagem">
                                 <span class="text-md font-bold flex items-center justify-center">
-                                    <i class="fa fa-envelope-open text-2xl mx-3 text-white"></i>
+                                    <i class="fa fa-envelope-open text-2xl mr-3 text-white"></i>
                                 Mensagem enviada
                                 </span>
                             </vs-button>
@@ -40,7 +40,7 @@
         </ul>
         <vs-popup class="holamundo" title="Mensagem enviada" :active.sync="exibirMensagem">
             <div class="vx-row">
-                <div class="vx-col w-full text-center mb-3">
+                <div class="vx-col w-full mb-3">
                     <p class="text-black" v-html="mensagem"></p>
                 </div>
             </div>

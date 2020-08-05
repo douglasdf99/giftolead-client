@@ -302,11 +302,12 @@
             },
             atender(id) {
                 this.$store.dispatch('tickets/verificaDisponibilidade', id).then(response => {
-                    if (response.status === 'ok')
+                    console.log('olha o response', response)
+                    if (response.status == 'ok')
                         this.$router.push({path: '/tickets/atender/' + id})
-                    else if (response.status === 'atendendo') {
+                    else if (response.status == 'atendendo') {
                         this.openAlert('Ticket em atendimento', response.msg, 'danger');
-                    } else if (response.status === 'jaatendendo') {
+                    } else if (response.status == 'jaatendendo') {
                         this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
                     } else {
                         this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');

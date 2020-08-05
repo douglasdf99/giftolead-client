@@ -44,12 +44,15 @@
             },
             organiza(){
                 this.$vs.loading();
+                console.log('items', this.items)
                 this.items.forEach(item => {
-                    let {nome, data_agendamento} = item;
+                    let {data_agendamento} = item;
+                    let nome = item.lead.nome.split(' ');
+
                     if(item.responsavel)
-                        item.title = `<img class='rounded-full' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>` + nome;
+                        item.title = `<img class='rounded-full' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
                     else
-                        item.title = nome
+                        item.title = `<img class='rounded-full' src='${this.get_img_api('images/icon-padrao.jpg')}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
                     item.startDate = data_agendamento;
                     item.endDate = data_agendamento;
                     item.label = this.getSituacao(data_agendamento);
@@ -58,6 +61,7 @@
                     var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
                     item.data_agendamento = moment(item.data_agendamento).format('Y-MM-D H:mm')
                     if(((item.data_agendamento > hoje) && (item.data_agendamento < amanha)) || (item.data_agendamento < hoje)){
+                        item.nomeHoje = nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
                         this.agendadosHoje.push(item);
                     }
                 });

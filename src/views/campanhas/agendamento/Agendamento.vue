@@ -49,7 +49,7 @@
                             {{codigohtml()}}
                         </prism>
                     </div>
-                    <div class="vx-col w-full mb-2">
+                    <div class="vx-col w-full mb-2" v-if="!campanha.infusion">
                         <p class="destaque">
                             Insira o código abaixo em seu projeto
                         </p>
@@ -111,12 +111,12 @@
                                               v-model="campanha.campo_duvida" size="large"/>
                                     <span class="text-danger text-sm" v-show="errors.has('campo_duvida')">{{ errors.first('campo_duvida') }}</span>
                                 </div>
-                                <div class="vx-col sm:w-1/3 w-full mb-2">
+                                <!--<div class="vx-col sm:w-1/3 w-full mb-2">
                                     <span class="font-regular mb-2">Campo Data do Agendamento</span>
                                     <vs-input class="w-full" v-validate="'required'" name="campo_data_agendamento"
                                               v-model="campanha.campo_data_agendamento" size="large"/>
                                     <span class="text-danger text-sm" v-show="errors.has('campo_data_agendamento')">{{ errors.first('campo_data_agendamento') }}</span>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>

@@ -143,11 +143,11 @@ export default {
     verificaDisponibilidade({commit}, id) {
         return new Promise((resolve, reject) => {
             axios.post(`/atender-ticket`, {id: id}).then(response => {
-                console.log('resposta', response)
+                console.log('resposta', response.data)
                 if (response.data.status == 'ok')
                     commit('SET_TICKET_VERIFICADO', id)
 
-                if (response.data.status = 'jaatendendo')
+                if (response.data.status == 'jaatendendo')
                     commit('SET_TICKET_VERIFICADO', response.data.id)
 
                 resolve(response.data)
@@ -171,11 +171,20 @@ export default {
     },
     sendEmail({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/ticket-enviar-email/`, dados)
+            axios.post(`/ticket-enviar-email`, dados)
                 .then((response) => {
                     console.log(response.data)
                     resolve(response.data.data);
                 })
         });
     },
+    cancelar({commit}, id){
+        return new Promise((resolve, reject) => {
+            axios.post(`/cancelar-atendimento-ticket`, {id: id})
+                .then((response) => {
+                    console.log(response.data)
+                    resolve(response.data);
+                })
+        });
+    }
 }

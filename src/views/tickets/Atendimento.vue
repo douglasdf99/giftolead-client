@@ -3,7 +3,7 @@
         <div class="vx-row mb-5">
             <div class="vx-col w-full mb-2">
                 <p class="destaque text-black">Informações de follow-up</p>
-                <vs-textarea v-model="ticket.info" id="text-area" class="w-full bg-white" rows="6" v-validate="'required'" name="info"/>
+                <vs-textarea v-model="atendimento.info" id="text-area" class="w-full bg-white" rows="6" v-validate="'required'" name="info"/>
                 <span class="text-danger text-sm" v-show="errors.has('info')">Preenchimento obrigatório</span>
             </div>
         </div>
@@ -13,83 +13,100 @@
                     <div class="vx-row mb-4">
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao ganhou bg-white"
-                                 v-bind:class="{'tipoAtivo' : (ticket.tipo == 0)}"
-                                 @click="ticket.tipo = 0; selectedStatus = {}">
+                                 v-bind:class="{'tipoAtivo' : (atendimento.tipo == 0)}"
+                                 @click="atendimento.tipo = 0; selectedStatus = {}">
                                 <span>Ganhou</span>
                                 <img src="@/assets/images/util/ganhou.svg">
                             </div>
                         </div>
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao aguardando bg-white"
-                                 v-bind:class="{'tipoAtivo' : (ticket.tipo == 1)}"
-                                 @click="ticket.tipo = 1; selectedStatus = {}">
+                                 v-bind:class="{'tipoAtivo' : (atendimento.tipo == 1)}"
+                                 @click="atendimento.tipo = 1; selectedStatus = {}">
                                 <span>Aguardando</span>
                                 <img src="@/assets/images/util/aguardando.svg">
                             </div>
                         </div>
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao perdeu bg-white"
-                                 v-bind:class="{'tipoAtivo' : (ticket.tipo == 2)}"
-                                 @click="ticket.tipo = 2; selectedStatus = {}">
+                                 v-bind:class="{'tipoAtivo' : (atendimento.tipo == 2)}"
+                                 @click="atendimento.tipo = 2; selectedStatus = {}">
                                 <span>Perdeu</span>
                                 <img src="@/assets/images/util/perdeu.svg">
                             </div>
                         </div>
                     </div>
-                    <div class="vx-row" v-if="ticket.tipo == 0">
+                    <div class="vx-row" v-if="atendimento.tipo == 0">
                         <div class="vx-col w-full mb-3">
                             <p class="destaque text-black">
                                 Como você concluiu a venda?
                             </p>
                         </div>
-                        <div class="vx-col w-full lg:w-4/12 ml-10">
-                            <span class="font-regular mb-2">Selecione o Status de Finalização</span>
-                            <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="false"
-                                      style="background-color: white" :options="statusGanhou" name="statusGanhou"/>
+                        <div class="vx-col w-full lg:w-11/12 ml-auto">
+                            <ul class="list-tipo-comissao mt-2">
+                                <li class="my-3" v-for="item in statusGanhou">
+                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
+                                        {{item.nome}}
+                                    </vs-radio>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="vx-row" v-if="ticket.tipo == 1">
+                    <div class="vx-row" v-if="atendimento.tipo == 1">
                         <div class="vx-col w-full mb-3">
                             <p class="destaque text-black">
                                 Qual dia e horário deseja fazer o agenda do novo atendimento?
                             </p>
                         </div>
-                        <div class="vx-col w-full lg:w-3/12 ml-10">
+                        <div class="vx-col w-full lg:w-3/12 ml-10 relative">
                             <flat-pickr :config="configdateTimePicker" v-model="datetime" id="teste" class="flatpickr-custom w-full rounded-lg px-5 py-4 border-none cursor-pointer ml-0"
                                         placeholder="Agendar para uma data futura"/>
+                            <i class="material-icons absolute" style="top: 0.7rem;right: 2rem;">today</i>
                         </div>
                         <div class="vx-col w-full lg:w-9/12"></div>
-                        <div class="vx-col w-full lg:w-4/12 ml-10 mt-3">
-                            <span class="font-regular mb-2">Selecione o Status de Finalização</span>
-                            <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="false"
-                                      style="background-color: white" :options="statusAguardando" name="statusAguardando"/>
+                        <div class="vx-col w-full lg:w-11/12 ml-auto">
+                            <ul class="list-tipo-comissao mt-2">
+                                <li class="my-3" v-for="item in statusAguardando">
+                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
+                                        {{item.nome}}
+                                    </vs-radio>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="vx-row" v-if="ticket.tipo == 2">
-                        <div class="vx-col w-full mb-3">
-                            <p class="destaque text-black">
+                    <div class="vx-row" v-if="atendimento.tipo == 2">
+                        <div class="vx-col w-full lg:w-4/12">
+                            <p class="destaque text-black mb-3">
                                 Por que você não concluiu a venda?
                             </p>
+                            <ul class="list-tipo-comissao mt-2 ml-10">
+                                <li class="my-3" v-for="item in statusPerdeu">
+                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
+                                        {{item.nome}}
+                                    </vs-radio>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="vx-col w-full lg:w-4/12 ml-10">
-                            <span class="font-regular mb-2">Selecione o Status de Finalização</span>
-                            <v-select v-model="selectedStatus" :class="'select-large-base'" :clearable="false"
-                                      style="background-color: white" :options="statusPerdeu" name="statusPerdeu"/>
+                        <div class="vx-col w-full lg:w-4/12 mb-3">
+                            <p class="destaque text-black mb-3">
+                                Selecione o motivo
+                            </p>
+                            <v-select v-model="selectedMotivo" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="motivos" name="motivo"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div v-if="ticket.tipo == 0">
+        <div v-if="atendimento.tipo == 0">
             <div class="vx-row mb-10">
                 <div class="vx-col w-full">
-                    <vs-checkbox color="dark" v-model="ticket.hasbrinde">
+                    <vs-checkbox color="dark" v-model="atendimento.hasbrinde">
                         <span class="label-bold-underline">Inserir brinde físico para esta venda</span>
                     </vs-checkbox>
                 </div>
             </div>
             <transition name="fade">
-                <div class="vx-row mb-10" v-if="ticket.hasbrinde">
+                <div class="vx-row mb-10" v-if="atendimento.hasbrinde">
                     <div class="vx-col w-full mb-4">
                         <p class="text-black text-xl font-bold">
                             Preencha com as informações do brinde
@@ -102,24 +119,24 @@
                     </div>
                     <div class="vx-col w-full lg:w-1/3">
                         <span class="font-regular mb-2">Nome do destinatário</span>
-                        <vs-input class="w-full" v-model="ticket.nome_destinatario" size="large"/>
+                        <vs-input class="w-full" v-model="atendimento.nome_destinatario" size="large"/>
                     </div>
                     <div class="vx-col w-full lg:w-1/3">
                         <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
-                        <vs-input class="w-full" v-model="ticket.email_endereco" size="large"/>
+                        <vs-input class="w-full" v-model="atendimento.email_destinatario" size="large"/>
                     </div>
                 </div>
             </transition>
             <vs-divider class="mb-10"/>
             <div class="vx-row mb-10">
                 <div class="vx-col w-full">
-                    <vs-checkbox color="dark" v-model="ticket.hasupsell">
+                    <vs-checkbox color="dark" v-model="atendimento.hasupsell">
                         <span class="label-bold-underline">Oferecer um produto de Upsell</span>
                     </vs-checkbox>
                 </div>
             </div>
             <transition name="fade">
-                <div class="vx-row mb-10" v-if="ticket.hasupsell">
+                <div class="vx-row mb-10" v-if="atendimento.hasupsell">
                     <div class="vx-col w-full mb-4">
                         <p class="text-black text-xl font-bold">
                             Qual produto você ofereceu?
@@ -144,23 +161,6 @@
                 </div>
             </transition>
         </div>
-        <transition name="fade">
-            <footer-doug>
-                <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled">
-                                Finalizar Atendimento
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'produtos'})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
-                </div>
-            </footer-doug>
-        </transition>
     </div>
 </template>
 
@@ -171,6 +171,7 @@
     import {Portuguese} from 'flatpickr/dist/l10n/pt.js';
     import moduleStatus from "../../store/statusFinalizacao/moduleStatus";
     import moduleProdutos from "../../store/produtos/moduleProdutos";
+    import moduleMotivos from "../../store/motivoPerda/moduleMotivos";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -181,26 +182,32 @@
             'v-select': vSelect,
             flatPickr
         },
+        props: ['ticket'],
         data() {
             return {
-                ticket: {
+                statusGanhou: [],
+                statusAguardando: [],
+                statusPerdeu: [],
+                selectedMotivo: {id: null, label: 'Selecione...'},
+                selectedStatus: null,
+                selectedBrinde: null,
+                brindes: [],
+                selectedUpsell: null,
+                produtos: [],
+                motivos: [],
+                datetime: null,
+
+                atendimento: {
                     tipo: 0,
                     conclusao: 1,
                     hasbrinde: 0,
                     hasupsell: 0,
                     motivoAguardando: 'whatsapp',
                     motivoPerda: 'incorreto',
-                    info: ''
+                    info: '',
+                    nome_destinatario: '',
+                    email_destinatario: ''
                 },
-                statusGanhou: [],
-                statusAguardando: [],
-                statusPerdeu: [],
-                selectedStatus: {id: null, label: 'Selecione...'},
-                selectedBrinde: {id: null, label: 'Selecione...'},
-                brindes: [],
-                selectedUpsell: {id: null, label: 'Selecione...'},
-                produtos: [],
-                datetime: null,
 
                 configdateTimePicker: {
                     enableTime: true,
@@ -223,6 +230,13 @@
                 moduleProdutos.isRegistered = true
             }
 
+            if (!moduleMotivos.isRegistered) {
+                this.$store.registerModule('motivos', moduleMotivos)
+                moduleMotivos.isRegistered = true
+            }
+
+            this.atendimento.nome_destinatario = this.ticket.nome_destinatario;
+
             this.getOpcoes();
 
         },
@@ -233,13 +247,13 @@
                     arr.forEach(item => {
                         switch (item.tipo) {
                             case 0:
-                                this.statusGanhou.push({id: item.id, label: item.nome});
+                                this.statusGanhou.push(item);
                                 break;
                             case 1:
-                                this.statusAguardando.push({id: item.id, label: item.nome});
+                                this.statusAguardando.push(item);
                                 break;
                             default:
-                                this.statusPerdeu.push({id: item.id, label: item.nome});
+                                this.statusPerdeu.push(item);
                         }
                     });
                 });
@@ -251,13 +265,20 @@
                         this.brindes.push({id: item.id, label: item.nome});
                     });
                 });
-            }
+
+                this.$store.dispatch('motivos/get').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.motivos.push({id: item.id, label: item.nome});
+                    });
+                });
+            },
         },
         computed: {
             isInvalid() {
                 return this.errors.any();
             },
-        }
+        },
     }
 </script>
 

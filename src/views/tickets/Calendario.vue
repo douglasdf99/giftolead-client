@@ -32,7 +32,7 @@
                                         svgClasses="w-5 h-5 m-1"
                                         class="cursor-pointer bg-primary text-white rounded-full"/>
 
-                                <span class="mx-3 text-xl font-medium whitespace-no-wrap">{{ showDate | month }}</span>
+                                <span class="mx-3 text-xl font-medium whitespace-no-wrap">{{ showDate | showDateMonth }}</span>
 
                                 <feather-icon
                                         :icon="$vs.rtl ? 'ChevronLeftIcon' : 'ChevronRightIcon'"
@@ -93,9 +93,12 @@
         <!-- Pop-up Hoje -->
         <vs-popup class="holamundo" title="Agendados para hoje" :active.sync="exibirHoje">
             <div class="vx-row">
-                <div class="vx-col w-full lg:w-1/2 text-center mb-3" v-for="i in agendadosHoje">
+                <div class="vx-col w-full lg:w-1/3 text-center mb-3" v-for="i in agendadosHoje">
                     <vs-chip v-bind:class="'bg-' + getColorLabel(i.label)" class="text-white cursor-pointer" @click="$router.push({name: 'tickets-list'})">
-                        <p class="text-md">{{i.nome}} | <span class="destaque font-bold">{{i.data_agendamento | formatDateTime}}</span></p>
+                        <p class="text-lg">
+                            {{i.nomeHoje}} <br>
+                            <span class="destaque font-bold">{{i.data_agendamento | formatDateTime}}</span>
+                        </p>
                     </vs-chip>
                 </div>
             </div>
@@ -109,7 +112,7 @@
                     <p class="text-black text-xl"><b>Data:</b> {{detalhado.data_agendamento | formatDateTime}}</p>
                 </div>
                 <div class="vx-col w-1/2 mb-3">
-                    <img :src="url_api(detalhado.responsavel.avatar)" :alt="detalhado.responsavel.name"
+                    <img :src="get_img_api(detalhado.responsavel.avatar)" :alt="detalhado.responsavel.name"
                          class="rounded-full float-right" width="50px">
                 </div>
                 <div class="vx-col w-full">
