@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!--<iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=df342ee831afacb903fd4e18530e86b4&pop=1&ver=2&fechar_fim=1" style="display: block;height: 700px;" ref="webphoneRef"></iframe>-->
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" :data="aresponder"/>
         <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar" :data="aresponder"/>
         <div class="vx-row mb-3">
@@ -21,7 +22,7 @@
                                 {{ticket.lead.nome}}
                             </p>
                             <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
-                                {{'(' + ticket.lead.ddd + ') '  + ticket.lead.telefone}}
+                                {{'(' + ticket.lead.ddd + ') ' + ticket.lead.telefone}}
                             </p>
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
@@ -84,10 +85,10 @@
             <div class="vx-col w-full">
                 <vs-tabs color="primary" v-model="selectedTab">
                     <vs-tab color="primary" value="10" label="atendimento">
-                        <atendimento :ticket="ticket"></atendimento>
+                        <atendimento></atendimento>
                     </vs-tab>
                     <vs-tab color="primary" v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
-                        <historico :data="ticket.acoesrecebidas" ></historico>
+                        <historico :data="ticket.acoesrecebidas"></historico>
                     </vs-tab>
                     <vs-tab color="primary" v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>
@@ -103,7 +104,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="finalizar">
                                 Finalizar Atendimento
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -134,13 +135,14 @@
         },
         data() {
             return {
-                ticket: {
+                /*ticket: {
                     responsavel_type: '',
                     responsavel: {
                         avatar: ''
                     },
                     produto: {},
-                },
+                    follow_up: ''
+                },*/
 
                 selectedTab: 0,
 
@@ -199,7 +201,7 @@
                         this.$vs.loading();
                         this.$store.dispatch('tickets/cancelar', id).then(response => {
                             console.log('pora cara', response)
-                            if(response.status){
+                            if (response.status) {
                                 this.$vs.notify({
                                     color: 'success',
                                     title: '',
@@ -219,6 +221,119 @@
                     }
                 })
             },
+            finalizar() {
+                console.log(this.ticket)
+            },
+
+
+            /* TOTAL VOICE */
+            desligaChamada() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'hangup'
+                }, '*');
+            },
+
+            //Conecta o webphone para coloca-lo em operação
+            conectar() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({message: 'conectar'}, '*');
+            },
+
+            //desconecta o webphone - ele nao recebe nem envia mais chamadas
+            desconectar() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({message: 'desconectar'}, '*');
+            },
+
+
+            //telefona para um número
+            chamaNumero(numero) {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'chamaNumero',
+                    'numero': numero
+                }, '*');
+            },
+
+            //atender
+            atender() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'answer'
+                }, '*');
+            },
+
+            //para uso com uras
+            enviaDTMF(meuDTMF) {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'enviaDTMF',
+                    'dtmf': meuDTMF
+                }, '*');
+            },
+
+            //mute microfone
+            mute() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'mute'
+                }, '*');
+            },
+
+            //transferencia blind - encerra a ligação aqui e transfere para o numero
+            transferir(numeroTelefone) {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'transferir',
+                    'numeroTelefone': numeroTelefone
+                }, '*');
+            },
+
+            //transferencia com consulta
+            transferirConsulta(numeroTelefone) {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'transferirConsulta',
+                    'numeroTelefone': numeroTelefone
+                }, '*');
+            },
+
+            recstart() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'recStart'
+                }, '*');
+            },
+
+            recstop() {
+                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                    message: 'recStop'
+                }, '*');
+            },
+
+            pausarNaFila(filaId) {
+                webphone.contentWindow.postMessage({
+                    message: 'pausarNaFila',
+                    filaId: filaId
+                }, '*');
+            },
+
+            despausarNaFila(filaId) {
+                webphone.contentWindow.postMessage({
+                    message: 'despausarNaFila',
+                    filaId: filaId
+                }, '*');
+            },
+
+            entrarNaFila(filaId) {
+                webphone.contentWindow.postMessage({
+                    message: 'entrarNaFila',
+                    filaId: filaId
+                }, '*');
+            },
+
+            sairDaFila(filaId) {
+                webphone.contentWindow.postMessage({
+                    message: 'sairDaFila',
+                    filaId: filaId
+                }, '*');
+            },
+        },
+        computed: {
+            ticket() {
+                return this.$store.state.tickets.ticketAtendimento;
+            }
         }
     }
 </script>

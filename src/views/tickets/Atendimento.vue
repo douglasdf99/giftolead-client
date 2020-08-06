@@ -3,7 +3,7 @@
         <div class="vx-row mb-5">
             <div class="vx-col w-full mb-2">
                 <p class="destaque text-black">Informações de follow-up</p>
-                <vs-textarea v-model="atendimento.info" id="text-area" class="w-full bg-white" rows="6" v-validate="'required'" name="info"/>
+                <vs-textarea v-model="atendimento.follow_up" id="text-area" class="w-full bg-white" rows="6" v-validate="'required'" name="info"/>
                 <span class="text-danger text-sm" v-show="errors.has('info')">Preenchimento obrigatório</span>
             </div>
         </div>
@@ -100,13 +100,13 @@
         <div v-if="atendimento.tipo == 0">
             <div class="vx-row mb-10">
                 <div class="vx-col w-full">
-                    <vs-checkbox color="dark" v-model="atendimento.hasbrinde">
+                    <vs-checkbox color="dark" v-model="atendimento.tembrinde">
                         <span class="label-bold-underline">Inserir brinde físico para esta venda</span>
                     </vs-checkbox>
                 </div>
             </div>
             <transition name="fade">
-                <div class="vx-row mb-10" v-if="atendimento.hasbrinde">
+                <div class="vx-row mb-10" v-if="atendimento.tembrinde">
                     <div class="vx-col w-full mb-4">
                         <p class="text-black text-xl font-bold">
                             Preencha com as informações do brinde
@@ -182,7 +182,6 @@
             'v-select': vSelect,
             flatPickr
         },
-        props: ['ticket'],
         data() {
             return {
                 statusGanhou: [],
@@ -191,22 +190,21 @@
                 selectedMotivo: {id: null, label: 'Selecione...'},
                 selectedStatus: null,
                 selectedBrinde: null,
-                brindes: [],
                 selectedUpsell: null,
+                brindes: [],
                 produtos: [],
                 motivos: [],
                 datetime: null,
 
                 atendimento: {
                     tipo: 0,
-                    conclusao: 1,
-                    hasbrinde: 0,
+                    tembrinde: 0,
                     hasupsell: 0,
-                    motivoAguardando: 'whatsapp',
-                    motivoPerda: 'incorreto',
-                    info: '',
+                    follow_up: '',
                     nome_destinatario: '',
-                    email_destinatario: ''
+                    email_destinatario: '',
+                    status_atendimento_id: null,
+                    tipo_de_perda_id: null
                 },
 
                 configdateTimePicker: {
@@ -241,7 +239,7 @@
 
         },
         methods: {
-            getOpcoes(){
+            getOpcoes() {
                 this.$store.dispatch('status/get').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
@@ -278,7 +276,28 @@
             isInvalid() {
                 return this.errors.any();
             },
+            ticket() {
+                return this.$store.state.tickets.ticketAtendimento;
+            }
         },
+        watch: {
+            selectedStatus: {
+                handler(val) {
+                    console.log('mudou', val);
+                    this.atendimento.status_atendimento_id = val;
+                },
+            },
+            atendimento: {
+                handler(val) {
+                    if (val) {
+                        console.log('watch', val);
+                        let obj = {...this.ticket, ...this.atendimento};
+                        this.$store.commit('tickets/SET_TICKET_ATENDIDO', obj);
+                    }
+                },
+                deep: true
+            },
+        }
     }
 </script>
 

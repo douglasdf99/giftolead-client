@@ -117,6 +117,7 @@
                 @cancel="clearValMultiple"
                 @accept="selectLink"
                 @close="close"
+                :is-valid="selectedLink.id != null"
                 :acceptText="'Salvar'"
                 :cancelText="'Cancelar'"
                 title="Selecionar link"
@@ -125,7 +126,7 @@
             <div class="con-exemple-prompt">
                 <div class="mt-3">
                     <span class="font-regular mb-2">Link</span>
-                    <v-select v-model="linkSelected" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                    <v-select v-model="selectedLink" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
                               :options="links" v-validate="'required'" name="tipo"/>
                 </div>
             </div>
@@ -196,6 +197,8 @@
             }
             if (this.$route.name === 'campanha-config-checkout-emails-editar')
                 this.getId(this.$route.params.idEmail);
+
+            this.getCampanha();
         },
         data() {
             return {
@@ -209,6 +212,9 @@
                     unidade_tempo: 0,
                     unidade_medida: ''
                 },
+                campanha: {
+                    produto: {}
+                },
                 periodoNum: '',
                 periodoSelected: {id: 1, label: 'minutos'},
                 periodosTipo: [
@@ -219,7 +225,7 @@
                 somaPeriodo: 0,
                 modal: false,
                 links: [],
-                linkSelected: {},
+                selectedLink: null,
                 modalWhats: false,
                 mensagemWhats: '',
             }
@@ -229,11 +235,11 @@
                 this.modal = true;
             },
             clearValMultiple() {
-                this.linkSelected = {id: null, label: 'Selecione o link'};
+                this.selectedLink = {id: null, label: 'Selecione o link'};
             },
             selectLink() {
-                this.addVarText('[LINK_' + this.linkSelected.id + ']');
-                this.linkSelected = {id: null, label: 'Selecione o link'};
+                this.addVarText('[LINK_' + this.selectedLink.id + ']');
+                this.selectedLink = {id: null, label: 'Selecione o link'};
             },
             close() {
                 this.modal = false;
@@ -367,13 +373,7 @@
                         default:
                             this.periodoSelected = {id: 1, label: 'minutos'}
                     }
-                    this.$store.dispatch('getLinks', this.email.campanha.produto_id).then(response => {
-                        let arr = [...response];
-                        arr.forEach(item => {
-                            this.links.push({id: item.identidade, label: item.descricao});
-                        });
-                        this.linkSelected = {id: null, label: 'Selecione o link'}
-                    });
+                    console.log('chou aqui')
                     this.$vs.loading.close();
                 });
             },
@@ -386,6 +386,22 @@
                 var $txt2 = this.editor.getSelection(true);
                 this.editor.insertText($txt2.index, value, '', true);
             },
+            getCampanha(){
+                this.$store.dispatch('checkout/getId', this.$route.params.id).then(response => {
+                    this.campanha = {...response};
+                    this.getLinks();
+                });
+            },
+            getLinks(){
+                this.$store.dispatch('getLinks', this.campanha.produto_id).then(response => {
+                    console.log('chou aqui 2', response)
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.links.push({id: item.identidade, label: item.descricao});
+                    });
+                    this.selectedLink = {id: null, label: 'Selecione o link'}
+                });
+            }
         },
         computed: {
             isValid() {

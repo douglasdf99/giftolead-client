@@ -17,7 +17,6 @@ export default {
             axios.post(`/produtos/${dados.id}`, dados)
                 .then((response) => {
                     console.log('empresa alterada', response);
-                    commit('UPDATE_EMPRESA', response.data.data);
                     resolve(response)
                 })
                 .catch((error) => {

@@ -142,6 +142,15 @@
             </transition>
         </div>
         <vs-divider class="mb-20"/>
+        <div class="vx-row flex items-center mb-20">
+            <div class="vx-col w-full mb-4">
+                <h2 class="subtitulo">Produtos como possam ser vendidos como Upsell</h2>
+            </div>
+            <div class="vx-col w-full relative">
+                <v-select multiple :closeOnSelect="false" v-model="upsellers" :options="produtos" dir="ltr" class="bg-white"/>
+            </div>
+        </div>
+        <vs-divider class="mb-20"/>
         <div class="vx-row flex items-center" style="margin-bottom: 10rem">
             <div class="vx-col w-full mb-4">
                 <h2 class="subtitulo">Url de integração com o Hotmart</h2>
@@ -268,7 +277,10 @@
                     status: true,
                     integracao: true,
                     checkout: '',
+                    upsellers: []
                 },
+                upsellers: [],
+                produtos: [],
                 url: saveleadsConfig.url_api + '/hotmart',
                 contaSelected: null,
                 cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',
@@ -299,6 +311,12 @@
                     if (result) {
                         this.$vs.loading();
                         this.produto.conta_id = this.contaSelected.id;
+                        if(this.upsellers.length > 0){
+                            this.produto.upsellers = this.upsellers.map(item => {
+                                return item.id;
+                            });
+                        }
+                        console.log('olha aí', this.produto.upsellers)
                         if (this.produto.id !== undefined) {
                             this.$store.dispatch('produtos/updateProduto', this.produto).then(response => {
                                 console.log('response', response);
@@ -371,6 +389,12 @@
                     arr.forEach(item => {
                         this.opcoesContas.push({id: item.id, label: item.nome})
                     });
+                });
+                this.$store.dispatch('produtos/get').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.produtos.push({id: item.id, label: item.nome});
+                    });
                 })
             },
             getProduto(id) {
@@ -384,6 +408,7 @@
                     if (!this.produto.preco) {
                         this.produto.preco = true;
                     }
+                    this.setUpsellers();
                     this.produto.comi_valor *= 100;
                     this.produto.comi_percent *= 100;
                     this.produto.comi_per_valor *= 100;
@@ -395,8 +420,15 @@
                     this.contaSelected.label = nome;
                     this.customcor = this.produto.cor;
                     this.$vs.loading.close();
-
                 })
+            },
+            setUpsellers(){
+                if(this.produto.upsellers.length > 0){
+                    console.log('entrou');
+                    this.produto.upsellers.forEach(item => {
+                        this.upsellers.push({id: item.produto.id, label: item.produto.nome});
+                    });
+                }
             },
             copyText() {
                 const thisIns = this;
@@ -443,7 +475,7 @@
                     }
                 },
                 deep: true
-            },
+            }
         },
     }
 </script>

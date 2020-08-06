@@ -21,5 +21,8 @@ export default {
     },
     SET_TICKET_VERIFICADO(state, val){
         state.ticketVerificado = val;
+    },
+    SET_TICKET_ATENDIDO(state, ticket){
+        state.ticketAtendimento = ticket;
     }
 }

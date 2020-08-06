@@ -133,6 +133,7 @@ export default {
             axios.get(`/tickets/${id}`)
                 .then((response) => {
                     console.log('ticket resgatado', response);
+                    commit('SET_TICKET_ATENDIDO', response.data.data)
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -144,8 +145,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/atender-ticket`, {id: id}).then(response => {
                 console.log('resposta', response.data)
-                if (response.data.status == 'ok')
-                    commit('SET_TICKET_VERIFICADO', id)
+                if (response.data.status == 'ok'){
+                    commit('SET_TICKET_VERIFICADO', id);
+                }
 
                 if (response.data.status == 'jaatendendo')
                     commit('SET_TICKET_VERIFICADO', response.data.id)

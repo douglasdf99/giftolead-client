@@ -33,5 +33,6 @@ export default {
     contato: {
         displayName: '',
         photoURL: ''
-    }
+    },
+    ticketAtendimento: {}
 }
