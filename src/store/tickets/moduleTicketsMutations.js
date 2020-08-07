@@ -23,6 +23,7 @@ export default {
         state.ticketVerificado = val;
     },
     SET_TICKET_ATENDIDO(state, ticket){
+        ticket.ticket_id = ticket.id;
         state.ticketAtendimento = ticket;
     }
 }

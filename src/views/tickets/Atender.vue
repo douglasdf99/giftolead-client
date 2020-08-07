@@ -1,6 +1,7 @@
 <template>
     <div>
-        <iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=df342ee831afacb903fd4e18530e86b4&pop=1&ver=2&fechar_fim=1" @conectar="escutaconectar" style="display: block;height: 500px;" ref="webphoneRef"></iframe>
+        <iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=df342ee831afacb903fd4e18530e86b4&pop=1&ver=2&fechar_fim=1" @conectar="escutaconectar" style="display: block;height: 500px;"
+                ref="webphoneRef"></iframe>
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" :data="aresponder"/>
         <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar" :data="aresponder"/>
         <div class="vx-row mb-3">
@@ -107,7 +108,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="finalizar">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="finalizar" :disabled="!valido">
                                 Finalizar Atendimento
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -119,6 +120,20 @@
                 </div>
             </footer-doug>
         </transition>
+        <!--<vs-prompt
+                class="calendar-event-dialog"
+                title="Reagendar Atendimento"
+                accept-text="Salvar"
+                cancel-text="Cancelar"
+                button-cancel="border"
+                @cancel="cancelaReagendar"
+                @accept="reagendar"
+                :active.sync="reagendando">
+            <div class="p-5 flex justify-center">
+                <flat-pickr :config="configdateTimePicker" v-model="time" class="text-center"
+                            placeholder="Selecione o novo horário"/>
+            </div>
+        </vs-prompt>-->
     </div>
 </template>
 
@@ -162,23 +177,18 @@
                 this.$store.registerModule('tickets', moduleTickets)
                 moduleTickets.isRegistered = true
             }
-            this.getId(this.$route.params.id);
         },
         methods: {
             getId(id) {
                 this.$vs.loading();
-                if (this.$store.state.ticketVerificado != '') {
-                    this.$store.dispatch('tickets/getId', id).then(response => {
-                        this.ticket = response;
-                        this.ticket.nome_destinatario = response.lead.nome;
-                        this.ticket.email_destinatario = response.lead.email;
+                console.log('teste')
+                this.$store.dispatch('tickets/getId', id).then(response => {
+                    this.ticket = response;
+                    this.ticket.nome_destinatario = response.lead.nome;
+                    this.ticket.email_destinatario = response.lead.email;
 
-                        this.$vs.loading.close();
-                    });
-                } else {
-                    console.log('entrou no else')
-                    this.$router.push({name: 'tickets-list'});
-                }
+                    this.$vs.loading.close();
+                });
             },
             toggleRespostaSidebar(val = false) {
                 this.responderTicket = val;
@@ -226,6 +236,65 @@
             },
             finalizar() {
                 console.log(this.ticket)
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: `Finalizar atendimento?`,
+                    text: 'Deseja mesmo finalizar este atendimento?',
+                    acceptText: 'Sim!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('tickets/finalizar', this.ticket).then(response => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Atendimento finalizado com sucesso'
+                            });
+                            this.$vs.loading.close();
+                            this.$router.push({name: 'tickets-list'});
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao finalizar. Reinicie a página.'
+                            })
+                        })
+                    }
+                })
+            },
+            verificacao() {
+                this.$store.dispatch('tickets/verificaDisponibilidade', this.$route.params.id).then(response => {
+                    console.log('olha o response', response)
+                    if (response.status == 'ok')
+                        this.getId(this.$route.params.id);
+                    else if (response.status == 'atendendo') {
+                        this.openAlert('Ticket em atendimento', response.msg, 'danger');
+                    } else if (response.status == 'jaatendendo') {
+                        this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
+                    } else {
+                        this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
+                    }
+                });
+            },
+            openAlert(title, text, color, id = null) {
+                this.$vs.dialog({
+                    color: color,
+                    title: title,
+                    text: text,
+                    type: 'confirm',
+                    cancelText: 'Voltar',
+                    accept: () => {
+                        if (id != null) {
+                            this.$router.push({name: 'tickets-atender', params: { id }});
+                            this.getId(id);
+                        } else
+                            this.$router.push({name: 'tickets-list'});
+                    },
+                    cancel: () => {
+                        this.$router.push({name: 'tickets-list'});
+                    },
+                    acceptText: 'Ir até ele'
+                })
             },
 
 
@@ -240,7 +309,7 @@
             conectar() {
                 this.$refs.webphoneRef.contentWindow.postMessage({message: 'conectar'}, '*');
             },
-            escutaconectar(){
+            escutaconectar() {
                 console.log('escuta')
             },
 
@@ -352,6 +421,10 @@
         computed: {
             ticket() {
                 return this.$store.state.tickets.ticketAtendimento;
+            },
+            valido() {
+                let temfollow = this.ticket.follow_up != null && this.ticket.follow_up != "";
+                return (temfollow && this.ticket.status_atendimento_id != null);
             }
         },
         watch: {
@@ -369,11 +442,13 @@
             },
         },
         mounted() {
+            this.verificacao();
+
             //this.getAvailableCustomers();
             var vm = this;
             this.phonevar = this.$refs.webphone;
             console.log('alou', this.phonevar)
-            window.onmessage = function (e) {
+            /*window.onmessage = function (e) {
                 //quando receber uma ligacao
                 console.log('evento', e)
                 if (e.data.message == 'chegandoChamada') {
@@ -410,7 +485,7 @@
                 setTimeout(function () {
 
                 }, 3000);
-            };
+            };*/
         }
     }
 </script>

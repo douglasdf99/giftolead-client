@@ -188,5 +188,16 @@ export default {
                     resolve(response.data);
                 })
         });
+    },
+    finalizar({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.post(`/atendimentos`, obj)
+                .then((response) => {
+                    console.log(response.data)
+                    commit('SET_TICKET_ATENDIDO', {})
+                    commit('SET_TICKET_VERIFICADO', '')
+                    resolve(response.data);
+                })
+        });
     }
 }

@@ -22,7 +22,7 @@
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao aguardando bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 1)}"
-                                 @click="atendimento.tipo = 1; selectedStatus = {}">
+                                 @click="atendimento.tipo = 1; selectedStatus = {}; habbrinde = false">
                                 <span>Aguardando</span>
                                 <img src="@/assets/images/util/aguardando.svg">
                             </div>
@@ -30,7 +30,7 @@
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao perdeu bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 2)}"
-                                 @click="atendimento.tipo = 2; selectedStatus = {}">
+                                 @click="atendimento.tipo = 2; selectedStatus = {}; habbrinde = false">
                                 <span>Perdeu</span>
                                 <img src="@/assets/images/util/perdeu.svg">
                             </div>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="vx-col w-full lg:w-11/12 ml-auto">
                             <ul class="list-tipo-comissao mt-2">
-                                <li class="my-3" v-for="item in statusGanhou">
+                                <li class="my-3" v-for="item in statusGanhou" @click="verificaHabBrinde(item)">
                                     <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
                                         {{item.nome}}
                                     </vs-radio>
@@ -98,68 +98,72 @@
             </div>
         </div>
         <div v-if="atendimento.tipo == 0">
-            <div class="vx-row mb-10">
-                <div class="vx-col w-full">
-                    <vs-checkbox color="dark" v-model="atendimento.tembrinde">
-                        <span class="label-bold-underline">Inserir brinde físico para esta venda</span>
-                    </vs-checkbox>
-                </div>
-            </div>
-            <transition name="fade">
-                <div class="vx-row mb-10" v-if="atendimento.tembrinde">
-                    <div class="vx-col w-full mb-4">
-                        <p class="text-black text-xl font-bold">
-                            Preencha com as informações do brinde
-                        </p>
-                    </div>
-                    <div class="vx-col w-full lg:w-1/3">
-                        <span class="font-regular mb-2">Selecione o brinde</span>
-                        <v-select v-model="selectedBrinde" :class="'select-large-base'" :clearable="false"
-                                  style="background-color: white" :options="brindes" v-validate="'required'" name="brinde"/>
-                    </div>
-                    <div class="vx-col w-full lg:w-1/3">
-                        <span class="font-regular mb-2">Nome do destinatário</span>
-                        <vs-input class="w-full" v-model="atendimento.nome_destinatario" size="large"/>
-                    </div>
-                    <div class="vx-col w-full lg:w-1/3">
-                        <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
-                        <vs-input class="w-full" v-model="atendimento.email_destinatario" size="large"/>
-                    </div>
-                </div>
-            </transition>
-            <vs-divider class="mb-10"/>
-            <div class="vx-row mb-10">
-                <div class="vx-col w-full">
-                    <vs-checkbox color="dark" v-model="atendimento.hasupsell">
-                        <span class="label-bold-underline">Oferecer um produto de Upsell</span>
-                    </vs-checkbox>
-                </div>
-            </div>
-            <transition name="fade">
-                <div class="vx-row mb-10" v-if="atendimento.hasupsell">
-                    <div class="vx-col w-full mb-4">
-                        <p class="text-black text-xl font-bold">
-                            Qual produto você ofereceu?
-                        </p>
-                    </div>
-                    <div class="vx-col w-full lg:w-1/3 mb-10">
-                        <span class="font-regular mb-2">Selecione o produto</span>
-                        <v-select v-model="selectedUpsell" :class="'select-large-base'" :clearable="false"
-                                  style="background-color: white" :options="produtos" v-validate="'required'" name="produtoUpsell"/>
-                    </div>
+            <div v-if="habbrinde">
+                <div class="vx-row mb-10">
                     <div class="vx-col w-full">
-                        <p class="destaque text-black mb-3">Nas seguintes condições abaixo</p>
-                        <div class="w-full text-black text-sm p-3" style="background-color: #EDEDED">
-                            A comissão de só é gerada como Upsell quando a transação do produto de Upsell for recebida
-                            com
-                            status de aprovada ou de boleto gerado no prazo máximo de 30 minutos após a venda que deu
-                            origem. Caso a solicitação ultrapasse este prazo, será necessário lançar um ticket
-                            especifico
-                            para a venda do produto de upsell.
+                        <vs-checkbox color="dark" v-model="atendimento.tembrinde">
+                            <span class="label-bold-underline">Inserir brinde físico para esta venda</span>
+                        </vs-checkbox>
+                    </div>
+                </div>
+                <transition name="fade">
+                    <div class="vx-row mb-10" v-if="atendimento.tembrinde">
+                        <div class="vx-col w-full mb-4">
+                            <p class="text-black text-xl font-bold">
+                                Preencha com as informações do brinde
+                            </p>
+                        </div>
+                        <div class="vx-col w-full lg:w-1/3">
+                            <span class="font-regular mb-2">Selecione o brinde</span>
+                            <v-select v-model="selectedBrinde" :class="'select-large-base'" :clearable="false"
+                                      style="background-color: white" :options="brindes" v-validate="'required'" name="brinde"/>
+                        </div>
+                        <div class="vx-col w-full lg:w-1/3">
+                            <span class="font-regular mb-2">Nome do destinatário</span>
+                            <vs-input class="w-full" v-model="atendimento.nome_destinatario" size="large"/>
+                        </div>
+                        <div class="vx-col w-full lg:w-1/3">
+                            <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
+                            <vs-input class="w-full" v-model="atendimento.email_destinatario" size="large"/>
                         </div>
                     </div>
+                </transition>
+            </div>
+            <div v-if="ticket.produto.upsellers.length > 0">
+                <vs-divider class="mb-10"/>
+                <div class="vx-row mb-10">
+                    <div class="vx-col w-full">
+                        <vs-checkbox color="dark" v-model="atendimento.hasupsell">
+                            <span class="label-bold-underline">Oferecer um produto de Upsell</span>
+                        </vs-checkbox>
+                    </div>
                 </div>
-            </transition>
+                <transition name="fade">
+                    <div class="vx-row mb-10" v-if="atendimento.hasupsell">
+                        <div class="vx-col w-full mb-4">
+                            <p class="text-black text-xl font-bold">
+                                Qual produto você ofereceu?
+                            </p>
+                        </div>
+                        <div class="vx-col w-full lg:w-1/3 mb-10">
+                            <span class="font-regular mb-2">Selecione o produto</span>
+                            <v-select v-model="selectedUpsell" :class="'select-large-base'" :clearable="false"
+                                      style="background-color: white" :options="produtos" v-validate="'required'" name="produtoUpsell"/>
+                        </div>
+                        <div class="vx-col w-full">
+                            <p class="destaque text-black mb-3">Nas seguintes condições abaixo</p>
+                            <div class="w-full text-black text-sm p-3" style="background-color: #EDEDED">
+                                A comissão de só é gerada como Upsell quando a transação do produto de Upsell for recebida
+                                com
+                                status de aprovada ou de boleto gerado no prazo máximo de 30 minutos após a venda que deu
+                                origem. Caso a solicitação ultrapasse este prazo, será necessário lançar um ticket
+                                especifico
+                                para a venda do produto de upsell.
+                            </div>
+                        </div>
+                    </div>
+                </transition>
+            </div>
         </div>
     </div>
 </template>
@@ -206,6 +210,7 @@
                     status_atendimento_id: null,
                     tipo_de_perda_id: null
                 },
+                habbrinde: false,
 
                 configdateTimePicker: {
                     enableTime: true,
@@ -271,6 +276,10 @@
                     });
                 });
             },
+            verificaHabBrinde(obj) {
+                console.log('obj', obj)
+                this.habbrinde = (this.atendimento.tipo == 0 && obj.hab_brinde) ? true : false;
+            }
         },
         computed: {
             isInvalid() {
