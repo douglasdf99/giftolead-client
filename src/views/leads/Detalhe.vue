@@ -162,6 +162,9 @@
                         const formData = new FormData();
                         formData.append('nome', this.lead.nome);
                         formData.append('email', this.lead.email);
+                        formData.append('cpf', this.lead.cpf);
+                        formData.append('telefone', this.lead.telefone);
+                        formData.append('ddd', this.lead.ddd);
                         formData.append('empresa_id', this.lead.empresa_id);
                         formData.append('_method', 'PUT');
                         this.$store.dispatch('leads/update', {dados: formData, id: this.lead.id}).then(response => {

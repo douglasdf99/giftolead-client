@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--<iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=df342ee831afacb903fd4e18530e86b4&pop=1&ver=2&fechar_fim=1" style="display: block;height: 700px;" ref="webphoneRef"></iframe>-->
+        <iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=df342ee831afacb903fd4e18530e86b4&pop=1&ver=2&fechar_fim=1" @conectar="escutaconectar" style="display: block;height: 500px;" ref="webphoneRef"></iframe>
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" :data="aresponder"/>
         <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar" :data="aresponder"/>
         <div class="vx-row mb-3">
@@ -27,8 +27,11 @@
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
                             <div class="w-full flex my-5">
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call">
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="conectar()">
                                     Ligar agora
+                                </vs-button>
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="desconectar()">
+                                    desconect
                                 </vs-button>
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
@@ -145,7 +148,7 @@
                 },*/
 
                 selectedTab: 0,
-
+                phonevar: '',
                 //whats
                 responderTicket: false,
                 aresponder: {},
@@ -228,25 +231,30 @@
 
             /* TOTAL VOICE */
             desligaChamada() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'hangup'
                 }, '*');
             },
 
             //Conecta o webphone para coloca-lo em operação
             conectar() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({message: 'conectar'}, '*');
+                this.$refs.webphoneRef.contentWindow.postMessage({message: 'conectar'}, '*');
+            },
+            escutaconectar(){
+                console.log('escuta')
             },
 
             //desconecta o webphone - ele nao recebe nem envia mais chamadas
             desconectar() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({message: 'desconectar'}, '*');
+                console.log(this.$refs)
+                this.$refs.webphoneRef.contentWindow.postMessage({message: 'desconectar'}, '*');
+                console.log(this.$refs)
             },
 
 
             //telefona para um número
             chamaNumero(numero) {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'chamaNumero',
                     'numero': numero
                 }, '*');
@@ -254,14 +262,14 @@
 
             //atender
             atender() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'answer'
                 }, '*');
             },
 
             //para uso com uras
             enviaDTMF(meuDTMF) {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'enviaDTMF',
                     'dtmf': meuDTMF
                 }, '*');
@@ -269,14 +277,14 @@
 
             //mute microfone
             mute() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'mute'
                 }, '*');
             },
 
             //transferencia blind - encerra a ligação aqui e transfere para o numero
             transferir(numeroTelefone) {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'transferir',
                     'numeroTelefone': numeroTelefone
                 }, '*');
@@ -284,56 +292,125 @@
 
             //transferencia com consulta
             transferirConsulta(numeroTelefone) {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'transferirConsulta',
                     'numeroTelefone': numeroTelefone
                 }, '*');
             },
 
             recstart() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'recStart'
                 }, '*');
             },
 
             recstop() {
-                this.$ref.webphoneRef.current.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'recStop'
                 }, '*');
             },
 
             pausarNaFila(filaId) {
-                webphone.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'pausarNaFila',
                     filaId: filaId
                 }, '*');
             },
 
             despausarNaFila(filaId) {
-                webphone.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'despausarNaFila',
                     filaId: filaId
                 }, '*');
             },
 
             entrarNaFila(filaId) {
-                webphone.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'entrarNaFila',
                     filaId: filaId
                 }, '*');
             },
 
             sairDaFila(filaId) {
-                webphone.contentWindow.postMessage({
+                this.$refs.webphoneRef.contentWindow.postMessage({
                     message: 'sairDaFila',
                     filaId: filaId
                 }, '*');
             },
+            callPhone: function () {
+                this.$refs.webphoneRef.contentWindow.postMessage({
+                    message: 'chamaNumero',
+                    'numero': '7173'
+                }, '*');
+            },
+            answerCall: function () {
+                this.$refs.webphoneRef.contentWindow.postMessage({
+                    message: 'answer'
+                }, '*');
+            }
         },
         computed: {
             ticket() {
                 return this.$store.state.tickets.ticketAtendimento;
             }
+        },
+        watch: {
+            '$refs': {
+                handler: function (e) {
+                    console.log("hit", e);
+                },
+                deep: true
+            },
+            phonevar: {
+                handler: function (e) {
+                    console.log("phonevar", e);
+                },
+                deep: true
+            },
+        },
+        mounted() {
+            //this.getAvailableCustomers();
+            var vm = this;
+            this.phonevar = this.$refs.webphone;
+            console.log('alou', this.phonevar)
+            window.onmessage = function (e) {
+                //quando receber uma ligacao
+                console.log('evento', e)
+                if (e.data.message == 'chegandoChamada') {
+                    alert('Chegando Chamada de ' + e.data.numeroChegando + ' para: ' + e.data.numeroDestino + ' chamada_recebida_id: ' + e.data.chamadaRecebidaId);
+
+                }
+                //conectado, chamando, encerrada, conversando
+                if (e.data.message == 'status') {
+                    console.log('alou')
+                    if (e.data.status == 'encerrada') {
+                        console.log('alou 2')
+                        this.isCallActive = false;
+                    } else if (e.data.status == 'chamando' || e.data.status == 'conversando') {
+                        console.log('alou 3')
+                        this.isCallActive = true;
+                    }
+                }
+                //o id é único e pode ser utilizado na api para recuperação de mais informações (get na api ou webhooks)
+                if (e.data.message == 'chamada_id') {
+                    alert('Chamada_id: ' + e.data.chamada_id);
+                }
+                //os erros são finais
+                if (e.data.message == 'status_erro') {
+                    alert('Sem Permissão: ' + e.data.status_erro);
+                    this.isCallActive = false;
+
+                }
+                //rebendo o statu0s de diagnóstico de internet e computador para verificar qualidade de ligação
+                if (e.data.message == 'stats_webphone') {
+                    alert('Internet: ' + e.data.internet + ' e computador: ' + e.data.computador);
+                }
+
+                vm.callPhone()
+                setTimeout(function () {
+
+                }, 3000);
+            };
         }
     }
 </script>
