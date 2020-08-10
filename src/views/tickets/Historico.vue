@@ -67,6 +67,52 @@
                   <div class="vs-divider" ></div>
 
                   <div class="" v-if="detalheChamada.sucesso">
+                    <vx-card class="p-2">
+                      <div class="text-left mb-10">
+                        <h6 class="mb-2"><b>Informações de origem:</b></h6>
+                        <h6 class="mb-2"><b>Tipo de Ligação:</b> {{ detalheChamada.dados.origem.tipo }}</h6>
+                        <h6 class="mb-2"><b>Numero :</b> {{ detalheChamada.dados.origem.numero }}</h6>
+                        <h6 class="mb-2"><b>Status :</b> {{ detalheChamada.dados.origem.status }}</h6>
+                        <h6 class="mb-2"><b>Preco :</b> {{ detalheChamada.dados.origem.preco }}</h6>
+                      </div>
+                      <div class="text-left mb-10">
+                        <h6 class="mb-2"><b>Informações de Destino:</b></h6>
+                        <h6 class="mb-2"><b>Tipo de Ligação:</b> {{ detalheChamada.dados.destino.tipo }}</h6>
+                        <h6 class="mb-2"><b>Numero :</b> {{ detalheChamada.dados.destino.numero }}</h6>
+                        <h6 class="mb-2"><b>Status :</b> {{ detalheChamada.dados.destino.status }}</h6>
+                        <h6 class="mb-2"><b>Preco :</b> {{ detalheChamada.dados.destino.preco }}</h6>
+                      </div>
+                      <div class="text-left mb-10">
+                        <h6 class="mb-2"><b>Informações Gerais:</b></h6>
+                        <h6 class="mb-2"><b>Data da solicitação:</b> {{ detalheChamada.dados.data_criacao  }}</h6>
+
+                        <h6 class="mb-2"><b>Status Final:</b> {{ detalheChamada.dados.status_geral }}</h6>
+
+                          <h6 class="mt-10 mb-5"><b>Gravação :</b>
+                          </h6>
+                        <vs-chip color="danger"  v-if="!detalheChamada.dados.url_gravacao">Não houve gravação</vs-chip>
+                        <div class=""  v-else>
+                          <audio controls>
+                            <source :src="detalheChamada.dados.url_gravacao" type="audio/ogg">
+                            <source :src="detalheChamada.dados.url_gravacao" type="audio/mpeg">
+                          </audio>
+                        </div>
+
+                      </div>
+                      <template slot="footer">
+                        <vs-divider/>
+                        <div class="flex justify-between">
+                                    <span class="flex items-center">
+                                        <vs-icon icon="signal_cellular_alt"></vs-icon>
+                                        <span>Avaliação:  </span>
+                                    </span>
+                          <span class="flex items-center">
+                                        <vs-icon icon="computer"></vs-icon>
+                                        <span>total gasto:  </span>
+                                     </span>
+                        </div>
+                      </template>
+                    </vx-card>
                     {{detalheChamada}}
                   </div>
                 </div>
