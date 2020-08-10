@@ -141,6 +141,45 @@ export default {
                 })
         })
     },
+    chamaNumero({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/chamadas`, {ticket_id: dados.ticket.id, lead_id: dados.ticket.lead_id, chamada_id: dados.chamada_id})
+                .then((response) => {
+                    console.log('chamada realizada', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    console.log('chamada não realizada', error);
+                    reject(error)
+                })
+        })
+    },
+    consultaChamada({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/chamadas/${dados.identificacao}`)
+                .then((response) => {
+                    console.log('consultaChamada', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    console.log('consultaChamada não roloou', error);
+                    reject(error)
+                })
+        })
+    },
+    desligaChamada({commit}, chamada) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/desligarchamada/${chamada.id}`)
+                .then((response) => {
+                    console.log('chamada desligada', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    console.log('chamada não desligada', error);
+                    reject(error)
+                })
+        })
+    },
     verificaDisponibilidade({commit}, id) {
         return new Promise((resolve, reject) => {
             axios.post(`/atender-ticket`, {id: id}).then(response => {

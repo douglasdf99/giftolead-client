@@ -32,6 +32,13 @@
                                 Mensagem enviada
                                 </span>
                             </vs-button>
+                            <vs-button class="rounded-full mx-3 px-3 py-2" v-if="historico.properties && historico.properties.identificacao" color="#F23257" type="filled"
+                                       @click="exibirLigacao = true; chamadaResgatada = historico.properties; consultaChamada(historico.properties.id)">
+                                <span class="text-md font-bold flex items-center justify-center">
+                                    <i class="fa fa-phone text-2xl mr-3 text-white"></i>
+                                Chamada
+                                </span>
+                            </vs-button>
                         </div>
                     </div>
                 </div>
@@ -43,28 +50,57 @@
                 <div class="vx-col w-full mb-3">
                     <p class="text-black" v-html="mensagem"></p>
                 </div>
-            </div>
+            </div>'
+        </vs-popup>
+        <vs-popup class="holamundo2" title="Mensagem enviada" :active.sync="exibirLigacao">
+            <div class="vx-row">
+                <div class="vx-col w-full mb-3">
+                    <p class="text-black" >
+                      {{chamadaResgatada}}
+
+                      ---
+
+                      {{detalheChamada}}
+                    </p>
+                </div>
+            </div>'
         </vs-popup>
     </div>
 </template>
 
 <script>
+  import moduleTickets from "../../store/tickets/moduleTickets";
 
     export default {
         name: "Historico",
         props: ['data'],
         data() {
             return {
+                exibirLigacao: false,
+                chamadaResgatada: {},
                 exibirMensagem: false,
-                mensagem: ''
+                mensagem: '',
+                detalheChamada: {}
             }
         },
         created() {
+          if (!moduleTickets.isRegistered) {
+            this.$store.registerModule('tickets', moduleTickets)
+            moduleTickets.isRegistered = true
+          }
             console.log(this.data)
         },
+
         methods: {
             IsUser(type) {
                 return (type == `App\\Models\\User`) ? true : false;
+            },
+            consultaChamada(id) {
+              this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
+                console.log('response consultaChamada', response);
+
+                this.detalheChamada = response
+              });
             }
         },
     }

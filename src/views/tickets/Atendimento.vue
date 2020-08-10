@@ -129,7 +129,7 @@
                     </div>
                 </transition>
             </div>
-            <div v-if="ticket.produto.upsellers.length > 0">
+            <div v-if="ticket.produto && ticket.produto.upsellers.length > 0">
                 <vs-divider class="mb-10"/>
                 <div class="vx-row mb-10">
                     <div class="vx-col w-full">

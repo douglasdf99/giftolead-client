@@ -1,7 +1,11 @@
 <template>
     <div>
-        <iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=df342ee831afacb903fd4e18530e86b4&pop=1&ver=2&fechar_fim=1" @conectar="escutaconectar" style="display: block;height: 500px;"
-                ref="webphoneRef"></iframe>
+<!--
+        <iframe allow="microphone" src="https://api2.totalvoice.com.br/w3/?key=224a55be751930bd18614d537fae127c&tipo=hidden&ver=2" @conectar="escutaconectar" style="display: block;height: 500px;"
+
+                ref="webphoneRef"></iframe>-->
+      <div id="widget-evoline-api-container" style="display:inline" width="10" height="20"></div>
+
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" :data="aresponder"/>
         <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @closeSidebar="toggleEmailSidebar" :data="aresponder"/>
         <div class="vx-row mb-3">
@@ -11,6 +15,65 @@
                 </p>
             </div>
         </div>
+      <!-- inicio popup-->
+      <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="ticket.lead" v-show="isCallActive">
+        <div class="vs-popup--background"></div>
+        <div class="vs-popup" style="background: rgb(255, 255, 255);">
+          <header class="vs-popup--header">
+            <div class="vs-popup--title">
+            </div>
+          </header>
+          <div class="vs-popup--content">
+            <div class="vx-col w-full">
+              <vx-card class="p-2">
+                <div class="text-left mb-10">
+                  <h6 class="mb-2"><b>Nome do lead:</b> {{ ticket.lead.nome }}</h6>
+                  <h6 class="mb-2"><b>Numero de telefone:</b> +55{{ticket.lead.ddd}}{{ ticket.lead.telefone}}</h6>
+                  <p class="mb-2"></p>
+                </div>
+                <div class="flex items-center">
+                  <div class="fill-row-loading w-full">
+                    <h3><span class="font-14">Status:</span> {{statustext}}</h3>
+                    <div id="loading-sound" :class="{'activeLoading':activeLoading}"
+                         class="vs-con-loading__container loading-example w-full" v-show="chamada.id">
+                    </div>
+                    <div id="loading-default" :class="{'activeLoading':activeLoading}"
+                         class="vs-con-loading__container loading-example w-full" v-show="!chamada.id">
+                    </div>
+                    <h5><span class="font-14 my-2">Tempo:</span> {{time}}</h5>
+                  </div>
+                </div>
+                <div class="flex justify-center flex-wrap mt-10">
+                  <vs-button size="large" class="font-bold mx-2 rounded-full" color="success" type="filled" v-if="!muted"
+                             icon-pack="material-icons" icon="volume_up" @click="mute">
+                  </vs-button>
+                  <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled" v-else
+                             icon-pack="material-icons" icon="volume_off" @click="mute">
+                  </vs-button>
+                  <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled"
+                             icon-pack="material-icons" icon="call_end" @click="desligaChamada">
+
+                  </vs-button>
+                </div>
+                <template slot="footer">
+                  <vs-divider/>
+                  <div class="flex justify-between">
+                                    <span class="flex items-center">
+                                        <vs-icon icon="signal_cellular_alt"></vs-icon>
+                                        <span>Internet: {{status.internet}} </span>
+                                    </span>
+                    <span class="flex items-center">
+                                        <vs-icon icon="computer"></vs-icon>
+                                        <span>computador: {{status.computador}} </span>
+                                     </span>
+                  </div>
+                </template>
+              </vx-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- fim popup-->
         <div class="vx-row">
             <div class="vx-col w-full lg:w-1/2 pr-1">
                 <div class="w-full h-full bg-white p-5 rounded-lg">
@@ -28,11 +91,12 @@
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
                             <div class="w-full flex my-5">
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="conectar()">
-                                    Ligar agora
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="!conectado">
+                                    Ligar <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
                                 </vs-button>
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="desconectar()">
-                                    desconect
+
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="atender">
+                                  Atender
                                 </vs-button>
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
@@ -41,6 +105,7 @@
                                     <i class="fa fa-envelope-open text-2xl mx-2 text-white"></i>
                                 </vs-button>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -84,6 +149,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="vx-row mt-5">
             <div class="vx-col w-full">
@@ -120,20 +186,7 @@
                 </div>
             </footer-doug>
         </transition>
-        <!--<vs-prompt
-                class="calendar-event-dialog"
-                title="Reagendar Atendimento"
-                accept-text="Salvar"
-                cancel-text="Cancelar"
-                button-cancel="border"
-                @cancel="cancelaReagendar"
-                @accept="reagendar"
-                :active.sync="reagendando">
-            <div class="p-5 flex justify-center">
-                <flat-pickr :config="configdateTimePicker" v-model="time" class="text-center"
-                            placeholder="Selecione o novo horário"/>
-            </div>
-        </vs-prompt>-->
+
     </div>
 </template>
 
@@ -161,7 +214,18 @@
                     produto: {},
                     follow_up: ''
                 },*/
+              activeLoading:false,
+              statustext:'Realizando chamada',
 
+              muted: false,
+                isCallActive: false,
+                conectado: false,
+                status: {},
+                chamada: {
+                  id: null,
+                  origem: null,
+                  destino: null
+                },
                 selectedTab: 0,
                 phonevar: '',
                 //whats
@@ -170,13 +234,25 @@
 
                 //email
                 enviarEmail: false,
+
+                hh : 0,
+                mm : 0,
+                ss : 0,
+                tempo : 1000,//Quantos milésimos valem 1 segundo?
+                cron : '',
+                time : '00:00:00',
             }
         },
         created() {
+
             if (!moduleTickets.isRegistered) {
                 this.$store.registerModule('tickets', moduleTickets)
                 moduleTickets.isRegistered = true
             }
+
+          let recaptchaScript = document.createElement('script')
+          recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=224a55be751930bd18614d537fae127c&tipo=hidden&ver=2')
+          document.body.appendChild(recaptchaScript)
         },
         methods: {
             getId(id) {
@@ -296,127 +372,106 @@
                     acceptText: 'Ir até ele'
                 })
             },
+            sendChamada(id){
+               this.$store.dispatch('tickets/chamaNumero', {ticket: this.ticket, chamada_id: id}).then(response => {
+                 console.log('response também da chamada realizada', response)
+               });
+            },
 
 
             /* TOTAL VOICE */
-            desligaChamada() {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'hangup'
-                }, '*');
-            },
-
             //Conecta o webphone para coloca-lo em operação
             conectar() {
-                this.$refs.webphoneRef.contentWindow.postMessage({message: 'conectar'}, '*');
-            },
-            escutaconectar() {
-                console.log('escuta')
+              webphone.contentWindow.postMessage({message : 'conectar'}, '*');
             },
 
             //desconecta o webphone - ele nao recebe nem envia mais chamadas
             desconectar() {
-                console.log(this.$refs)
-                this.$refs.webphoneRef.contentWindow.postMessage({message: 'desconectar'}, '*');
-                console.log(this.$refs)
+              webphone.contentWindow.postMessage({message : 'desconectar'}, '*');
+
             },
 
-
             //telefona para um número
-            chamaNumero(numero) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'chamaNumero',
-                    'numero': numero
+            chamaNumero() {
+              this.isCallActive = true;
+
+              this.$vs.loading({
+                container: `#loading-sound`,
+                type:'sound',
+              });
+              this.$vs.loading({
+                container: `#loading-default`,
+                type:'default',
+              });
+
+              webphone.contentWindow.postMessage({
+                 message: 'chamaNumero',
+                'numero': '61981489175'
                 }, '*');
+            },
+            desligaChamada() {
+              console.log(this.chamada);
+              webphone.contentWindow.postMessage({
+                message: 'hangup'
+              }, '*');
+             /* this.$store.dispatch('tickets/desligaChamada', this.chamada).then(response => {
+                console.log('response também da chamada desligada', response)
+                this.$vs.loading.close();
+              });*/
             },
 
             //atender
             atender() {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'answer'
-                }, '*');
+              webphone.contentWindow.postMessage({
+                message: 'hangup'
+              }, '*');
             },
 
-            //para uso com uras
-            enviaDTMF(meuDTMF) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'enviaDTMF',
-                    'dtmf': meuDTMF
-                }, '*');
-            },
 
             //mute microfone
             mute() {
-                this.$refs.webphoneRef.contentWindow.postMessage({
+              this.muted = !this.muted;
+              webphone.contentWindow.postMessage({
                     message: 'mute'
                 }, '*');
+
             },
 
-            //transferencia blind - encerra a ligação aqui e transfere para o numero
-            transferir(numeroTelefone) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'transferir',
-                    'numeroTelefone': numeroTelefone
-                }, '*');
-            },
 
-            //transferencia com consulta
-            transferirConsulta(numeroTelefone) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'transferirConsulta',
-                    'numeroTelefone': numeroTelefone
-                }, '*');
-            },
+          //cronometro//
 
-            recstart() {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'recStart'
-                }, '*');
-            },
+          start() {
+            this.cron = setInterval(() => { this.timer(); }, this.tempo);
+          },
+          //Para o temporizador e limpa as variáveis
+          stop() {
+            clearInterval(this.cron);
+            this.hh = 0;
+            this.mm = 0;
+            this.ss = 0;
 
-            recstop() {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'recStop'
-                }, '*');
-            },
+            this.time =  '00:00:00';
+          },
 
-            pausarNaFila(filaId) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'pausarNaFila',
-                    filaId: filaId
-                }, '*');
-            },
+          //Faz a contagem do tempo e exibição
+          timer() {
+            this.ss++; //Incrementa +1 na variável ss
 
-            despausarNaFila(filaId) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'despausarNaFila',
-                    filaId: filaId
-                }, '*');
-            },
+            if (this.ss == 59) { //Verifica se deu 59 segundos
+              this.ss = 0; //Volta os segundos para 0
+              this.mm++; //Adiciona +1 na variável mm
 
-            entrarNaFila(filaId) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'entrarNaFila',
-                    filaId: filaId
-                }, '*');
-            },
-
-            sairDaFila(filaId) {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'sairDaFila',
-                    filaId: filaId
-                }, '*');
-            },
-            callPhone: function () {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'chamaNumero',
-                    'numero': '7173'
-                }, '*');
-            },
-            answerCall: function () {
-                this.$refs.webphoneRef.contentWindow.postMessage({
-                    message: 'answer'
-                }, '*');
+              if (this.mm == 59) { //Verifica se deu 59 minutos
+                this.mm = 0;//Volta os minutos para 0
+                this.hh++;//Adiciona +1 na variável hora
+              }
             }
+            //Cria uma variável com o valor tratado HH:MM:SS
+            let format = (this.hh < 10 ? '0' + this.hh : this.hh) + ':' + (this.mm < 10 ? '0' + this.mm : this.mm) + ':' + (this.ss < 10 ? '0' + this.ss : this.ss);
+            console.log('timer' , format)
+            this.time = format;
+          },
+
         },
         computed: {
             ticket() {
@@ -442,54 +497,85 @@
             },
         },
         mounted() {
+
             this.verificacao();
 
             //this.getAvailableCustomers();
             var vm = this;
-            this.phonevar = this.$refs.webphone;
-            console.log('alou', this.phonevar)
-            /*window.onmessage = function (e) {
+            window.onmessage = function (e) {
                 //quando receber uma ligacao
                 console.log('evento', e)
                 if (e.data.message == 'chegandoChamada') {
-                    alert('Chegando Chamada de ' + e.data.numeroChegando + ' para: ' + e.data.numeroDestino + ' chamada_recebida_id: ' + e.data.chamadaRecebidaId);
-
+                  alert('Chegando Chamada de ' + e.data.numeroChegando + ' para: ' + e.data.numeroDestino + ' chamada_recebida_id: ' + e.data.chamadaRecebidaId);
                 }
                 //conectado, chamando, encerrada, conversando
                 if (e.data.message == 'status') {
-                    console.log('alou')
-                    if (e.data.status == 'encerrada') {
-                        console.log('alou 2')
-                        this.isCallActive = false;
-                    } else if (e.data.status == 'chamando' || e.data.status == 'conversando') {
-                        console.log('alou 3')
-                        this.isCallActive = true;
-                    }
+                  vm.statustext = e.data.status;
+                  if (e.data.status == 'encerrada') {
+                    vm.stop();
+                    vm.isCallActive = false;
+                  } else if (e.data.status == 'chamando') {
+                    vm.isCallActive = true;
+                  }else if (e.data.status == 'conectado') {
+                    vm.conectado = true;
+                  }else if (e.data.status == 'conversando') {
+                    vm.start();
+                    vm.isCallActive = true;
+                  }
                 }
                 //o id é único e pode ser utilizado na api para recuperação de mais informações (get na api ou webhooks)
                 if (e.data.message == 'chamada_id') {
-                    alert('Chamada_id: ' + e.data.chamada_id);
+                    vm.chamada.id = e.data.chamada_id;
+                    if (e.data.chamada_id) {
+                      vm.sendChamada(e.data.chamada_id);
+                    }
+
                 }
                 //os erros são finais
                 if (e.data.message == 'status_erro') {
                     alert('Sem Permissão: ' + e.data.status_erro);
-                    this.isCallActive = false;
-
+                  vm.isCallActive = false;
                 }
                 //rebendo o statu0s de diagnóstico de internet e computador para verificar qualidade de ligação
                 if (e.data.message == 'stats_webphone') {
-                    alert('Internet: ' + e.data.internet + ' e computador: ' + e.data.computador);
+                  vm.status.internet = e.data.internet;
+                  vm.status.computador = e.data.computador;
+
                 }
-
-                vm.callPhone()
-                setTimeout(function () {
-
-                }, 3000);
-            };*/
+              //os erros são finais
+              if (e.data.message == 'status_erro') {
+                alert('Sem Permissão: ' + e.data.status_erro);
+              }
+            };
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" >
+  .fill-row-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  .loading-example {
+    width: 120px;
+    float: left;
+    height: 120px;
+    box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    margin: 8px;
+    transition: all 0.3s ease;
 
+  h4 {
+    z-index: 40000;
+    position: relative;
+    text-align: center;
+    padding: 10px;
+  }
+  &.activeLoading {
+     opacity: 0 !important;
+     transform: scale(0.5);
+   }
+  }
+  }
 </style>
