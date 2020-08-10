@@ -535,6 +535,7 @@
                 if (e.data.message == 'status_erro') {
                     alert('Sem Permissão: ' + e.data.status_erro);
                   vm.isCallActive = false;
+                  vm.conectado = false;
                 }
                 //rebendo o statu0s de diagnóstico de internet e computador para verificar qualidade de ligação
                 if (e.data.message == 'stats_webphone') {

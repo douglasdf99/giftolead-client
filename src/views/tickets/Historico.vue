@@ -50,20 +50,27 @@
                 <div class="vx-col w-full mb-3">
                     <p class="text-black" v-html="mensagem"></p>
                 </div>
-            </div>'
+            </div>
         </vs-popup>
         <vs-popup class="holamundo2" title="Mensagem enviada" :active.sync="exibirLigacao">
             <div class="vx-row">
                 <div class="vx-col w-full mb-3">
-                    <p class="text-black" >
-                      {{chamadaResgatada}}
+                  <h5 class="text-black" >
+                    #{{chamadaResgatada.id}}
+                  </h5>
+                  <div class="fill-row-loading w-full" v-show="!detalheChamada.sucesso">
+                    <div id="loading-chamada" :class="{'activeLoading':activeLoading}"
+                         class="vs-con-loading__container loading-example w-full" >
+                    </div>
+                  </div>
 
-                      ---
+                  <div class="vs-divider" ></div>
 
-                      {{detalheChamada}}
-                    </p>
+                  <div class="" v-if="detalheChamada.sucesso">
+                    {{detalheChamada}}
+                  </div>
                 </div>
-            </div>'
+            </div>
         </vs-popup>
     </div>
 </template>
@@ -80,7 +87,9 @@
                 chamadaResgatada: {},
                 exibirMensagem: false,
                 mensagem: '',
-                detalheChamada: {}
+                detalheChamada: {
+                  sucesso: false,
+                }
             }
         },
         created() {
@@ -96,6 +105,10 @@
                 return (type == `App\\Models\\User`) ? true : false;
             },
             consultaChamada(id) {
+              this.$vs.loading({
+                container: `#loading-chamada`,
+                type:'default',
+              });
               this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
                 console.log('response consultaChamada', response);
 
