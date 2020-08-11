@@ -311,7 +311,7 @@
                     if (result) {
                         this.$vs.loading();
                         this.produto.conta_id = this.contaSelected.id;
-                        if(this.upsellers.length > 0){
+                        if (this.upsellers.length > 0) {
                             this.produto.upsellers = this.upsellers.map(item => {
                                 return item.id;
                             });
@@ -390,10 +390,13 @@
                         this.opcoesContas.push({id: item.id, label: item.nome})
                     });
                 });
+                //
                 this.$store.dispatch('produtos/get').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
-                        this.produtos.push({id: item.id, label: item.nome});
+                        console.log('itemn', item)
+                        if ((item.conta_id == this.produto.conta_id) && (item.nome != this.produto.nome))
+                            this.produtos.push({id: item.id, label: item.nome});
                     });
                 })
             },
@@ -422,8 +425,8 @@
                     this.$vs.loading.close();
                 })
             },
-            setUpsellers(){
-                if(this.produto.upsellers.length > 0){
+            setUpsellers() {
+                if (this.produto.upsellers.length > 0) {
                     console.log('entrou');
                     this.produto.upsellers.forEach(item => {
                         this.upsellers.push({id: item.produto.id, label: item.produto.nome});

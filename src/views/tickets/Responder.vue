@@ -179,6 +179,7 @@
             redirectWhats(url) {
                 this.enviando = false;
                 window.open(url);
+                this.$emit('getId');
             },
             showProfileSidebar(userId, openOnLeft = false) {
                 this.userProfileId = userId

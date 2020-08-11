@@ -145,6 +145,7 @@
                     console.log('voltou pro front', response);
                     if(response.return){
                         this.$emit('closeSidebar');
+                        this.$emit('getId');
                         this.$vs.notify({
                             color: 'success',
                             title: '',

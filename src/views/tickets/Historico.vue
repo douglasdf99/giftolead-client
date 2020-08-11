@@ -55,66 +55,81 @@
         <vs-popup class="holamundo2" title="Mensagem enviada" :active.sync="exibirLigacao">
             <div class="vx-row">
                 <div class="vx-col w-full mb-3">
-                  <h5 class="text-black" >
-                    #{{chamadaResgatada.id}}
-                  </h5>
-                  <div class="fill-row-loading w-full" v-show="!detalheChamada.sucesso">
-                    <div id="loading-chamada" :class="{'activeLoading':activeLoading}"
-                         class="vs-con-loading__container loading-example w-full" >
-                    </div>
-                  </div>
-
-                  <div class="vs-divider" ></div>
-
-                  <div class="" v-if="detalheChamada.sucesso">
-                    <vx-card class="p-2">
-                      <div class="text-left mb-10">
-                        <h6 class="mb-2"><b>Informações de origem:</b></h6>
-                        <h6 class="mb-2"><b>Tipo de Ligação:</b> {{ detalheChamada.dados.origem.tipo }}</h6>
-                        <h6 class="mb-2"><b>Numero :</b> {{ detalheChamada.dados.origem.numero }}</h6>
-                        <h6 class="mb-2"><b>Status :</b> {{ detalheChamada.dados.origem.status }}</h6>
-                        <h6 class="mb-2"><b>Preco :</b> {{ detalheChamada.dados.origem.preco }}</h6>
-                      </div>
-                      <div class="text-left mb-10">
-                        <h6 class="mb-2"><b>Informações de Destino:</b></h6>
-                        <h6 class="mb-2"><b>Tipo de Ligação:</b> {{ detalheChamada.dados.destino.tipo }}</h6>
-                        <h6 class="mb-2"><b>Numero :</b> {{ detalheChamada.dados.destino.numero }}</h6>
-                        <h6 class="mb-2"><b>Status :</b> {{ detalheChamada.dados.destino.status }}</h6>
-                        <h6 class="mb-2"><b>Preco :</b> {{ detalheChamada.dados.destino.preco }}</h6>
-                      </div>
-                      <div class="text-left mb-10">
-                        <h6 class="mb-2"><b>Informações Gerais:</b></h6>
-                        <h6 class="mb-2"><b>Data da solicitação:</b> {{ detalheChamada.dados.data_criacao  }}</h6>
-
-                        <h6 class="mb-2"><b>Status Final:</b> {{ detalheChamada.dados.status_geral }}</h6>
-
-                          <h6 class="mt-10 mb-5"><b>Gravação :</b>
-                          </h6>
-                        <vs-chip color="danger"  v-if="!detalheChamada.dados.url_gravacao">Não houve gravação</vs-chip>
-                        <div class=""  v-else>
-                          <audio controls>
-                            <source :src="detalheChamada.dados.url_gravacao" type="audio/ogg">
-                            <source :src="detalheChamada.dados.url_gravacao" type="audio/mpeg">
-                          </audio>
+                    <h5 class="text-black">
+                        #{{chamadaResgatada.id}}
+                    </h5>
+                    <div class="fill-row-loading w-full" v-show="!detalheChamada.sucesso">
+                        <div id="loading-chamada" :class="{'activeLoading':activeLoading}"
+                             class="vs-con-loading__container loading-example w-full">
                         </div>
+                    </div>
 
-                      </div>
-                      <template slot="footer">
-                        <vs-divider/>
-                        <div class="flex justify-between">
+                    <div class="vs-divider"></div>
+
+                    <div class="" v-if="detalheChamada.sucesso">
+                        <vx-card class="p-2">
+                            <div class="vx-row">
+                                <div class="vx-col w-full lg:w-1/2">
+                                    <div class="text-left mb-10">
+                                        <h6 class="mb-2 text-lg"><b>Informações de origem</b></h6>
+                                        <h6 class="mb-2"><b>Tipo de Ligação:</b> {{ tipoChamada(detalheChamada.dados.origem.tipo) }}</h6>
+                                        <h6 class="mb-2"><b>Numero :</b> {{ detalheChamada.dados.origem.numero }}</h6>
+                                        <h6 class="mb-2"><b>Preco :</b> R$ {{ detalheChamada.dados.origem.preco }}</h6>
+                                        <h6 class="mb-2 flex items-center"><b class="mr-4">Status:</b>
+                                            <vs-chip color="primary">{{ detalheChamada.dados.origem.status || 'Não informado' }}</vs-chip>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="vx-col w-full lg:w-1/2">
+                                    <div class="text-left mb-10">
+                                        <h6 class="mb-2 text-lg"><b>Informações de Destino</b></h6>
+                                        <h6 class="mb-2"><b>Tipo de Ligação:</b> {{ tipoChamada(detalheChamada.dados.destino.tipo) }}</h6>
+                                        <h6 class="mb-2"><b>Numero :</b> {{ detalheChamada.dados.destino.numero | VMask('(##) #####-####')}}</h6>
+                                        <h6 class="mb-2"><b>Preco :</b> R$ {{ detalheChamada.dados.destino.preco }}</h6>
+                                        <h6 class="mb-2 flex items-center"><b class="mr-4">Status:</b>
+                                            <vs-chip color="primary">{{ detalheChamada.dados.destino.status }}</vs-chip>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="vx-row">
+                                <div class="vx-col w-full lg:w-1/2">
+                                    <div class="text-left mb-10">
+                                        <h6 class="mb-2 text-lg"><b>Informações Gerais</b></h6>
+                                        <h6 class="mb-2"><b>Data da solicitação:</b> {{ detalheChamada.dados.data_criacao | formatDateTime }}</h6>
+                                        <h6 class="mb-2 flex items-center"><b class="mr-4">Status Final:</b>
+                                            <vs-chip color="primary">{{ detalheChamada.dados.status_geral }}</vs-chip>
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="vx-col w-full lg:w-1/2">
+                                    <h6 class="mb-5"><b>Gravação :</b>
+                                    </h6>
+                                    <vs-chip color="danger" v-if="!detalheChamada.dados.url_gravacao">Não houve gravação</vs-chip>
+                                    <div class="" v-else>
+                                        <audio controls>
+                                            <source :src="detalheChamada.dados.url_gravacao" type="audio/ogg">
+                                            <source :src="detalheChamada.dados.url_gravacao" type="audio/mpeg">
+                                        </audio>
+                                    </div>
+                                </div>
+                            </div>
+                            <template slot="footer">
+                                <vs-divider/>
+                                <div class="flex justify-between">
                                     <span class="flex items-center">
                                         <vs-icon icon="signal_cellular_alt"></vs-icon>
                                         <span>Avaliação:  </span>
                                     </span>
-                          <span class="flex items-center">
+                                    <span class="flex items-center">
                                         <vs-icon icon="computer"></vs-icon>
-                                        <span>total gasto:  </span>
+                                        <span>Total gasto: R$ {{detalheChamada.dados.origem.preco + detalheChamada.dados.destino.preco}}</span>
                                      </span>
-                        </div>
-                      </template>
-                    </vx-card>
-                    {{detalheChamada}}
-                  </div>
+                                </div>
+                            </template>
+                        </vx-card>
+                        <!--{{detalheChamada}}-->
+                    </div>
                 </div>
             </div>
         </vs-popup>
@@ -122,7 +137,7 @@
 </template>
 
 <script>
-  import moduleTickets from "../../store/tickets/moduleTickets";
+    import moduleTickets from "../../store/tickets/moduleTickets";
 
     export default {
         name: "Historico",
@@ -134,15 +149,15 @@
                 exibirMensagem: false,
                 mensagem: '',
                 detalheChamada: {
-                  sucesso: false,
+                    sucesso: false,
                 }
             }
         },
         created() {
-          if (!moduleTickets.isRegistered) {
-            this.$store.registerModule('tickets', moduleTickets)
-            moduleTickets.isRegistered = true
-          }
+            if (!moduleTickets.isRegistered) {
+                this.$store.registerModule('tickets', moduleTickets)
+                moduleTickets.isRegistered = true
+            }
             console.log(this.data)
         },
 
@@ -151,15 +166,25 @@
                 return (type == `App\\Models\\User`) ? true : false;
             },
             consultaChamada(id) {
-              this.$vs.loading({
-                container: `#loading-chamada`,
-                type:'default',
-              });
-              this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
-                console.log('response consultaChamada', response);
+                this.$vs.loading({
+                    container: `#loading-chamada`,
+                    type: 'default',
+                });
+                this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
+                    console.log('response consultaChamada', response);
 
-                this.detalheChamada = response
-              });
+                    this.detalheChamada = response
+                });
+            },
+            tipoChamada(val) {
+                switch (val) {
+                    case 'movel':
+                        return 'Celular';
+                    case 'ramal':
+                        return 'Interno';
+                    default:
+                        return val;
+                }
             }
         },
     }
@@ -167,4 +192,16 @@
 
 <style lang="scss">
     @import "@/assets/scss/vuexy/components/vxTimeline.scss";
+</style>
+
+<style>
+    .holamundo2 .vs-popup {
+        width: 900px;
+    }
+
+    @media (max-width: 670px) {
+        .holamundo2 .vs-popup {
+            width: 95%;
+        }
+    }
 </style>

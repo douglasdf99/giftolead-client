@@ -2,12 +2,13 @@
     <div>
         <div class="vx-row mb-3">
             <div class="vx-col w-full" v-if="items.length > 0">
-                <p class="destaque text-2xl">{{items[0].campanha.nome}}</p>
+                <p class="destaque text-2xl"></p>
             </div>
         </div>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                <p>
+                    Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
                 </p>
             </div>
             <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
@@ -44,10 +45,29 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-3/12 sm:w-full" v-if="$route.name == 'campanha-config-checkout-contatos-todos'">
+            <div class="vx-col w-full lg:w-3/12 sm:w-full" v-if="$route.name == 'campanha-config-agendamento-contatos-todos'">
                 <label class="vs-input--label">Filtro</label>
                 <v-select v-model="filtroContatos" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="[{id: 'todos', label: 'Todos'}, {id: 'ativos', label: 'Ativos'}, {id: 'inativos', label: 'Inativos'}]"/>
+            </div>
+        </div>
+        <div class="vx-row mt-10 -mb-4">
+            <div class="vx-col w-full">
+                <!--<label class="vs-input&#45;&#45;label">Quantidade</label>
+                <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
+                          :options="lengths"/>-->
+                <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
+                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
+                        <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
+                    </div>
+                    <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
+                    <vs-dropdown-menu>
+                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                            <span>{{item}}</span>
+                        </vs-dropdown-item>
+                    </vs-dropdown-menu>
+                </vs-dropdown>
             </div>
         </div>
         <vs-row>
@@ -66,20 +86,30 @@
                     <vs-table v-model="selected" :data="items" @selected="handleSelected" class="table-items">
                         <template slot="thead">
                             <!--<vs-th></vs-th>-->
+                            <vs-th>Ticket</vs-th>
                             <vs-th>Nome</vs-th>
                             <vs-th>E-mail</vs-th>
-                            <vs-th>Telefone</vs-th>
-                            <vs-th>Entrou em</vs-th>
-                            <vs-th v-if="dados.todos == '1' || dados.inativos == '1'">Saiu em</vs-th>
+                            <vs-th>Produto</vs-th>
+                            <vs-th>Criado em</vs-th>
+                            <vs-th>Status</vs-th>
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
-                                <vs-td>{{tr.nome}}</vs-td>
-                                <vs-td>{{tr.email}}</vs-td>
-                                <vs-td v-if="tr.telefone != null">{{tr.telefone | VMask('(##) #####-####')}}</vs-td>
-                                <vs-td v-else></vs-td>
+                                <vs-td>#{{tr.id}}</vs-td>
+                                <vs-td>{{tr.lead.nome}}</vs-td>
+                                <vs-td>{{tr.lead.email}}</vs-td>
+                                <vs-td>{{tr.produto.nome}}</vs-td>
                                 <vs-td><span class="destaque">{{ tr.created_at | formatDateTime}}</span></vs-td>
-                                <vs-td v-if="dados.todos || dados.inativos"><span class="destaque">{{ tr.deleted_at | formatDateTime}}</span></vs-td>
+                                <vs-td>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-success" v-if="tr.status == 0"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-black" v-if="tr.status == 2"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-warning" v-if="tr.status == 1"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                             class="icon-grande text-blue" v-if="tr.status == 3"></vs-icon>
+                                </vs-td>
                             </vs-tr>
                         </template>
                     </vs-table>
@@ -93,7 +123,7 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative">
                             <vs-button class="mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id})">
+                                       @click="$router.push({path: '/campanha/configurar-agendamento/' + $route.params.id})">
                                 Voltar
                             </vs-button>
                         </div>
@@ -105,13 +135,15 @@
 </template>
 
 <script>
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import Datepicker from 'vuejs-datepicker';
     import * as lang from 'vuejs-datepicker/src/locale';
     import VueMoment from 'vue-moment'
     import DateRangePicker from 'vue2-daterange-picker'
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import vSelect from "vue-select";
+    import saveleadsConfig from "../../../../saveleadsConfig";
+    import moduleCampAgendamentos from "../../../store/campanha_agendamento/moduleCampAgendamentos";
+
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -126,22 +158,22 @@
             'v-select': vSelect
         },
         created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
+            if (!moduleCampAgendamentos.isRegistered) {
+                this.$store.registerModule('agendamento', moduleCampAgendamentos)
+                moduleCampAgendamentos.isRegistered = true
             }
-            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
-            this.dt_fim = moment().format('YYYY-MM-DD');
+            this.dados.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+            this.dados.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(30, 'days');
             this.dateRange.endDate = moment();
-            if (this.$route.name === 'campanha-config-checkout-contatos-inativos') {
+            if (this.$route.name === 'campanha-config-agendamento-contatos-fechados') {
                 this.dados.inativos = '1';
             }
-            if (this.$route.name === 'campanha-config-checkout-contatos-todos') {
+            if (this.$route.name === 'campanha-config-agendamento-contatos-todos') {
                 this.dados.todos = '1';
             }
 
-            if (this.$route.name === 'campanha-config-checkout-contatos-todos')
+            if (this.$route.name === 'campanha-config-agendamento-contatos-todos')
                 this.filtroContatos = {id: 'todos', label: 'Todos'};
             else
                 this.getId(this.$route.params.id);
@@ -153,7 +185,8 @@
                 pagination: {
                     last_page: 1,
                     page: 1,
-                    current_page: 1
+                    current_page: 1,
+                    per_page: 10
                 },
                 dados: {
                     search: '',
@@ -162,7 +195,7 @@
                     dt_fim: '',
                     todos: 0,
                     inativos: 0,
-                    length: 25
+                    length: 10
                 },
                 filtroContatos: {id: null, label: 'Todos'},
                 dt_inicio: '',
@@ -191,7 +224,15 @@
                     'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
                     'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 },
-                items: [],
+                items: {
+                    lead:{
+
+                    },
+                    produto : {
+
+                    }
+                },
+                lengths: saveleadsConfig.lengths,
                 selected: []
             }
         },
@@ -257,9 +298,10 @@
                 if (this.dateRange.endDate)
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('agendamento/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
+                    console.log('setPagination',this.pagination);
                     this.$vs.loading.close();
                 });
             },
@@ -283,24 +325,41 @@
         },
         watch: {
             currentx(val) {
+                console.log('escuta paginacao')
                 this.$vs.loading();
-                this.dados.page = val;
-                this.getId(this.$route.params.id);
+                if (this.dados.page != val){
+                    this.dados.page = val;
+                    this.getId(this.$route.params.id);
+
+                }
             },
             dateRange() {
                 this.$vs.loading();
                 this.getId(this.$route.params.id);
             },
             filtroContatos(val) {
+                console.log('escuta filtrocontatos')
                 this.$vs.loading();
                 this.filtrar(val.id)
                 this.dados.campanha_id = this.$route.params.id;
-                this.$store.dispatch('checkout/getContatos', {params: this.dados}).then(response => {
+                this.$store.dispatch('agendamento/getContatos', {params: this.dados}).then(response => {
                     this.items = [...new Set(response.data)];
                     this.pagination = response;
                     this.$vs.loading.close();
                 });
-            }
+            },
+            dados: {
+                handler(val) {
+                    console.log('escuta objetyodados')
+                    console.log('LENGHT',val.length)
+                    console.log('PAGINATION',this.pagination)
+                    if (val.length != this.pagination.per_page) {
+                        this.currentx = 1;
+                        this.getId(this.$route.params.id)
+                    }
+                },
+                deep: true
+            },
         },
     }
 </script>

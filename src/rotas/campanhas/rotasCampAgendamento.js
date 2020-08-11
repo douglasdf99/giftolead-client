@@ -20,6 +20,63 @@ const rotasCampAgendamento = [
             submenu: subRotaPlanos
         },
     },
+    {
+        path: '/campanha/configurar-agendamento/:id/contatos-pendentes',
+        name: 'campanha-config-agendamento-contatos-pendentes',
+        component: () => import('@/views/campanhas/agendamento/Contatos.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Contatos Ativos', active: true}
+            ],
+            pageTitle: 'Contatos pendentes da campanha',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-agendamento/:id/contatos-fechados',
+        name: 'campanha-config-agendamento-contatos-fechados',
+        component: () => import('@/views/campanhas/agendamento/Contatos.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Contatos Ativos', active: true}
+            ],
+            pageTitle: 'Contatos fechados da campanha',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
+        path: '/campanha/configurar-agendamento/:id/contatos-todos',
+        name: 'campanha-config-agendamento-contatos-todos',
+        component: () => import('@/views/campanhas/agendamento/Contatos.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Contatos Ativos', active: true}
+            ],
+            pageTitle: 'Contatos todos da campanha',
+            rule: 'editor',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
 ]
 
 export default rotasCampAgendamento

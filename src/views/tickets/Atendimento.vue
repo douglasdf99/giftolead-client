@@ -14,7 +14,7 @@
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao ganhou bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 0)}"
-                                 @click="atendimento.tipo = 0; selectedStatus = {}">
+                                 @click="atendimento.tipo = 0; selectedStatus = {}; datetime = null">
                                 <span>Ganhou</span>
                                 <img src="@/assets/images/util/ganhou.svg">
                             </div>
@@ -30,7 +30,7 @@
                         <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao perdeu bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 2)}"
-                                 @click="atendimento.tipo = 2; selectedStatus = {}; habbrinde = false">
+                                 @click="atendimento.tipo = 2; selectedStatus = {}; habbrinde = false; datetime = null">
                                 <span>Perdeu</span>
                                 <img src="@/assets/images/util/perdeu.svg">
                             </div>
@@ -208,7 +208,8 @@
                     nome_destinatario: '',
                     email_destinatario: '',
                     status_atendimento_id: null,
-                    tipo_de_perda_id: null
+                    tipo_de_perda_id: null,
+                    upsell: null
                 },
                 habbrinde: false,
 
@@ -239,6 +240,7 @@
             }
 
             this.atendimento.nome_destinatario = this.ticket.nome_destinatario;
+            this.atendimento.email_destinatario = this.ticket.email_destinatario;
 
             this.getOpcoes();
 
@@ -264,7 +266,6 @@
                 this.$store.dispatch('produtos/get').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
-                        this.produtos.push({id: item.id, label: item.nome});
                         this.brindes.push({id: item.id, label: item.nome});
                     });
                 });
@@ -275,6 +276,11 @@
                         this.motivos.push({id: item.id, label: item.nome});
                     });
                 });
+                if(this.ticket.produto){
+                    this.ticket.produto.upsellers.forEach(item => {
+                        this.produtos.push({id: item.produto.id, label: item.produto.nome});
+                    });
+                }
             },
             verificaHabBrinde(obj) {
                 console.log('obj', obj)
@@ -296,17 +302,26 @@
                     this.atendimento.status_atendimento_id = val;
                 },
             },
+            selectedUpsell: {
+                handler(val) {
+                    console.log('mudou', val);
+                    if(this.atendimento.tipo == 0)
+                        this.atendimento.upsell = val.id;
+                },
+            },
             atendimento: {
                 handler(val) {
                     if (val) {
-                        console.log('watch', val);
+                        console.log('watch', val, this.datetime);
+                        if(this.datetime != null && this.atendimento.tipo == 1)
+                            this.atendimento.data_agendamento = this.datetime;
                         let obj = {...this.ticket, ...this.atendimento};
                         this.$store.commit('tickets/SET_TICKET_ATENDIDO', obj);
                     }
                 },
                 deep: true
             },
-        }
+        },
     }
 </script>
 

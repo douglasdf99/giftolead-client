@@ -60,4 +60,13 @@ export default {
                 })
         })
     },
+    getContatos({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/campanha_agendamentos_contatos`, {params: dados.params})
+                .then((response) => {
+                    console.log('contatos resgatado', response);
+                    resolve(response.data.data)
+                })
+        });
+    }
 }

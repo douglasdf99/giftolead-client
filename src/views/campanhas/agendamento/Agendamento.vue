@@ -142,10 +142,22 @@
             </div>
             <div class="vx-col w-full lg:w-5/12">
                 <div class="vx-row">
-                    <div class="vx-col w-full mb-4">
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('pendentes')">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Nº de contatos pendentes</span>
                             <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count}}</p>
+                        </vx-card>
+                    </div>
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('fechados')">
+                        <vx-card style="box-shadow: none">
+                            <span class="destaque">Nº de contatos fechados</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_fechados_count}}</p>
+                        </vx-card>
+                    </div>
+                    <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('todos')">
+                        <vx-card style="box-shadow: none">
+                            <span class="destaque">Nº de contatos todos</span>
+                            <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count + campanha.contatos_fechados_count}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
@@ -354,6 +366,9 @@
             selecionaTipoComissao(val) {
                 this.campanha.comissao_tipo = val;
                 console.log(this.campanha.comissao_tipo)
+            },
+            contatos(val) {
+                this.$router.push({path: `/campanha/configurar-agendamento/${this.$route.params.id}/contatos-${val}`});
             },
             getId(id) {
                 this.$vs.loading();
