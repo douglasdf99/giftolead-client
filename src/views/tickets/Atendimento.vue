@@ -148,7 +148,7 @@
                         <div class="vx-col w-full lg:w-1/3 mb-10">
                             <span class="font-regular mb-2">Selecione o produto</span>
                             <v-select v-model="selectedUpsell" :class="'select-large-base'" :clearable="false"
-                                      style="background-color: white" :options="produtos" v-validate="'required'" name="produtoUpsell"/>
+                                      style="background-color: white" :options="opcoes" v-validate="'required'" name="produtoUpsell"/>
                         </div>
                         <div class="vx-col w-full">
                             <p class="destaque text-black mb-3">Nas seguintes condições abaixo</p>
@@ -276,11 +276,8 @@
                         this.motivos.push({id: item.id, label: item.nome});
                     });
                 });
-                if(this.ticket.produto){
-                    this.ticket.produto.upsellers.forEach(item => {
-                        this.produtos.push({id: item.produto.id, label: item.produto.nome});
-                    });
-                }
+
+
             },
             verificaHabBrinde(obj) {
                 console.log('obj', obj)
@@ -293,6 +290,13 @@
             },
             ticket() {
                 return this.$store.state.tickets.ticketAtendimento;
+            },
+            opcoes(){
+                let arr = [];
+                this.$store.state.tickets.ticketAtendimento.produto.upsellers.forEach(item => {
+                    arr.push({id: item.produto.id, label: item.produto.nome});
+                });
+                return arr;
             }
         },
         watch: {
