@@ -39,6 +39,7 @@ import subRotaConfiguracoes from "./rotas/subRotaConfiguracoes";
 import subRotaPlanos from "./rotas/subRotaPlanos";
 import rotasWhatsapplist from "./rotas/rotasWhatsapplist";
 import rotasTickets from "./rotas/rotasTickets"
+import rotasExtensoes from "./rotas/rotasExtensoes";
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
@@ -1361,6 +1362,10 @@ const router = new Router({
                 // WhatsappList
                 // =============================================================================
                 ...rotasWhatsapplist,
+                // =============================================================================
+                // Aplicativos
+                // =============================================================================
+                ...rotasExtensoes,
                 {
                   path: '/meuslinks/produto/:id',
                   name: 'meuslinks-produto',

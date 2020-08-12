@@ -65,5 +65,11 @@ export default [
         icon: "favorite_border",
         slug: 'whatsapplist',
     },
+    {
+        url: '/extensoes/instalar',
+        name: "Extensões",
+        icon: "developer_board",
+        slug: 'extensoes',
+    },
 ]
 
