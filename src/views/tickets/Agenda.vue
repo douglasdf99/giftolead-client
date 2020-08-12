@@ -60,7 +60,7 @@
                     let hoje = moment().format('Y-MM-D H:mm');
                     var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
                     item.data_agendamento = moment(item.data_agendamento).format('Y-MM-D H:mm')
-                    if(((item.data_agendamento > hoje) && (item.data_agendamento < amanha)) || (item.data_agendamento < hoje)){
+                    if(((item.data_agendamento > hoje) && (item.data_agendamento < amanha))){
                         item.nomeHoje = nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
                         this.agendadosHoje.push(item);
                     }

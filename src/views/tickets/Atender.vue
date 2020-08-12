@@ -160,7 +160,7 @@
                         <atendimento></atendimento>
                     </vs-tab>
                     <vs-tab color="primary" v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
-                        <historico :data="ticket.acoesrecebidas"></historico>
+                        <historico :data="ticket.acoesrecebidas" @whatsapp="whatsapp(ticket)"></historico>
                     </vs-tab>
                     <vs-tab color="primary" v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>

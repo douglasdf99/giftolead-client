@@ -11,7 +11,7 @@
             <div class="vx-col w-full">
                 <div class="w-full p-5 rounded-lg" style="background-color: #EDEDED">
                     <div class="vx-row mb-4">
-                        <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
+                        <div class="vx-col lg:w-4/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao ganhou bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 0)}"
                                  @click="atendimento.tipo = 0; selectedStatus = {}; datetime = null">
@@ -19,18 +19,18 @@
                                 <img src="@/assets/images/util/ganhou.svg">
                             </div>
                         </div>
-                        <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
+                        <div class="vx-col lg:w-4/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao aguardando bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 1)}"
-                                 @click="atendimento.tipo = 1; selectedStatus = {}; habbrinde = false">
+                                 @click="atendimento.tipo = 1; selectedStatus = {}; habbrinde = false; habperda = false;">
                                 <span>Aguardando</span>
                                 <img src="@/assets/images/util/aguardando.svg">
                             </div>
                         </div>
-                        <div class="vx-col lg:w-3/12 md:w-1/3 sm:w-full">
+                        <div class="vx-col lg:w-4/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao perdeu bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 2)}"
-                                 @click="atendimento.tipo = 2; selectedStatus = {}; habbrinde = false; datetime = null">
+                                 @click="atendimento.tipo = 2; selectedStatus = {}; habbrinde = false; habperda = false; datetime = null">
                                 <span>Perdeu</span>
                                 <img src="@/assets/images/util/perdeu.svg">
                             </div>
@@ -80,14 +80,15 @@
                                 Por que você não concluiu a venda?
                             </p>
                             <ul class="list-tipo-comissao mt-2 ml-10">
-                                <li class="my-3" v-for="item in statusPerdeu">
+                                <li class="my-3" v-for="item in statusPerdeu" @click="verificaHabPerda(item)">
                                     <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
                                         {{item.nome}}
                                     </vs-radio>
                                 </li>
                             </ul>
                         </div>
-                        <div class="vx-col w-full lg:w-4/12 mb-3">
+                        <div class="vx-col w-full lg:w-1/3"></div>
+                        <div class="vx-col w-full lg:w-4/12 mb-3" v-if="habperda">
                             <p class="destaque text-black mb-3">
                                 Selecione o motivo
                             </p>
@@ -212,6 +213,7 @@
                     upsell: null
                 },
                 habbrinde: false,
+                habperda: false,
 
                 configdateTimePicker: {
                     enableTime: true,
@@ -280,9 +282,11 @@
 
             },
             verificaHabBrinde(obj) {
-                console.log('obj', obj)
                 this.habbrinde = (this.atendimento.tipo == 0 && obj.hab_brinde) ? true : false;
-            }
+            },
+            verificaHabPerda(obj) {
+                this.habperda = (this.atendimento.tipo == 2 && obj.hab_perda) ? true : false;
+            },
         },
         computed: {
             isInvalid() {

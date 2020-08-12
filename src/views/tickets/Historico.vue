@@ -19,7 +19,7 @@
                     <div class="vx-row my-3">
                         <div class="vx-col w-full">
                             <vs-button class="rounded-full mx-3 px-3 py-2" v-if="historico.properties && historico.properties.tipo == 'whatsapp'" color="#8ED839" type="filled"
-                                       @click="exibirMensagem = true; mensagem = historico.properties.mensagem">
+                                       @click="$emit('whatsapp')">
                                 <span class="text-md font-bold flex items-center justify-center">
                                     <i class="fab fa-whatsapp text-2xl mr-3 text-white"></i>
                                 Mensagem enviada
