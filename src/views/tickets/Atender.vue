@@ -97,9 +97,6 @@
                                     <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
                                 </vs-button>
 
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="atender">
-                                    Atender
-                                </vs-button>
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
                                 </vs-button>
@@ -193,14 +190,14 @@
 </template>
 
 <script>
-    import moduleTickets from "../../store/tickets/moduleTickets";
-    import atendimento from "./Atendimento";
-    import SideBar from "./Responder";
-    import Email from "./Email"
-    import historico from './Historico'
-    import transacoes from "./Transacoes"
+  import moduleTickets from "../../store/tickets/moduleTickets";
+  import atendimento from "./Atendimento";
+  import SideBar from "./Responder";
+  import Email from "./Email"
+  import historico from './Historico'
+  import transacoes from "./Transacoes"
 
-    export default {
+  export default {
         name: "Atender",
         components: {
             atendimento, SideBar, historico,
@@ -403,6 +400,22 @@
                 webphone.contentWindow.postMessage({message: 'desconectar'}, '*');
             },
 
+            tratamentoTelefone(ddd,telefone){
+              if (ddd) {
+                ddd = ddd.replace(/[{()}]/g, '');
+              }else{
+                ddd = '';
+              }
+              if (telefone){
+                telefone = telefone.replace(/-/g, '')
+                telefone = telefone.replace(/[{()}]/g, '')
+              }else{
+                telefone = '';
+              }
+
+              return ddd + telefone;
+            },
+
             //telefona para um número
             chamaNumero() {
                 this.isCallActive = true;
@@ -416,10 +429,12 @@
                     type: 'default',
                 });
 
+              let teletone = this.tratamentoTelefone(this.ticket.lead.ddd,this.ticket.lead.telefone)
+                console.log('numero', teletone)
                 webphone.contentWindow.postMessage({
                     message: 'chamaNumero',
-                    'numero': '61981489175',
-                    //'numero': this.ticket.lead.ddd + this.ticket.lead.telefone
+                    //'numero': '61981489175',
+                    'numero': teletone
                 }, '*');
             },
             desligaChamada() {
@@ -440,12 +455,6 @@
                  });*/
             },
 
-            //atender
-            atender() {
-                webphone.contentWindow.postMessage({
-                    message: 'hangup'
-                }, '*');
-            },
 
 
             //mute microfone
