@@ -71,5 +71,11 @@ export default [
         icon: "developer_board",
         slug: 'extensoes',
     },
+    {
+        url: '/brindes/campanhas',
+        name: "Brindes",
+        icon: "redeem",
+        slug: 'brindes',
+    },
 ]
 

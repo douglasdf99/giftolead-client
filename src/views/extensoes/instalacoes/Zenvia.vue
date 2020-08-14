@@ -1,0 +1,362 @@
+<template>
+    <div>
+        <div class="vx-row">
+            <div class="vx-col w-full lg:w-3/12 relative" style="height: 100%;">
+                <div class="rounded-t-lg bg-dark" style="height: 100px;"></div>
+                <img src="@/assets/images/util/zenvia.svg" width="50%" class="absolute" v-bind:style="{top: instalado ? '10%' : '20%'}" style="border-radius: 10px;left: 25%;">
+                <div class="rounded-b-lg text-center" style="background-color: #E8EBF2">
+                    <p class="pt-20 font-bold text-black">Zenvia</p>
+                    <p class="my-2">Faça ligações de dentro do Moskit e as mantenha registradas na linha do tempo de seus contatos!</p>
+                    <vs-button color="dark" class="my-5 w-10/12">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
+                    <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado">Recarregar</vs-button>
+                </div>
+                <div class="w-full">
+                    <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="saldo" statisticTitle="Saldo" color="success"/>
+                    <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="custo" statisticTitle="Investimento Total" color="success"/>
+                </div>
+            </div>
+            <div class="vx-col w-full lg:w-9/12">
+                <div class="vx-row mb-5">
+                    <div class="vx-col w-full">
+                        <vs-switch vs-icon-on="check" v-model="extensao.ativo" color="#0FB599" class="float-right switch" @click="ativaExtensao"/>
+                        <span class="float-right mt-1 mx-4"
+                              style="font-weight: bold">{{extensao.ativo ? 'Ativado' : 'Desativado'}}</span>
+                    </div>
+                </div>
+                <div class="vx-row">
+                    <div class="vx-col w-full mb-4">
+                        <div class="p-5 rounded-lg bg-white">
+                            <p>
+                                Durante um bom tempo nós pesquisamos a melhor ferramenta para fazer ligações para integrar ao Moskit e encontramos na Zenvia a qualidade e confiança que buscávamos.
+                                A nossa parceria com eles torna possível fazer chamadas direto do Moskit e ter essas conversas salvas na linha do tempo para ouvir a qualquer momento. Habilite a integração e ganhe R$
+                                30,00 para
+                                testar!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="vx-col w-full">
+                        <vs-tabs color="primary">
+                            <vs-tab color="primary" value="10" :label="'histórico de chamadas (' + historico.length + ')'" v-if="historico">
+                                <div class="vx-row flex items-end">
+                                    <div class="vx-col w-full lg:w-5/12">
+                                        <p>Resultado considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span></p>
+                                    </div>
+                                    <div class="vx-col w-full relative lg:w-7/12 sm:w-1/2 flex justify-end">
+                                        <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                                        <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                                        <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                                        <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                                        <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                                           :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                                           v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                                           :append-to-body="true" :ranges="ranges">
+                                        </date-range-picker>
+                                    </div>
+                                </div>
+                                <vs-row>
+                                    <vs-col vs-w="12">
+                                        <div class="vx-row mt-20 flex justify-center" v-if="historico.length === 0">
+                                            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                                                <div class="w-8/12">
+                                                    <div>
+                                                        <p class="span-sem-item">Nenhuma transação encontrada</p>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="com-item" v-else>
+                                            <vs-table :data="historico" class="table-items">
+
+                                                <template slot="thead">
+                                                    <!--<vs-th></vs-th>-->
+                                                    <vs-th>Status</vs-th>
+                                                    <vs-th>ID</vs-th>
+                                                    <vs-th>Data e Hora</vs-th>
+                                                    <vs-th>Valor Cobrado</vs-th>
+                                                    <vs-th>Origem</vs-th>
+                                                </template>
+
+                                                <template slot-scope="{data}">
+                                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
+                                                        <vs-td>
+                                                            <vs-chip v-for="(status, index) in zenviaStatus" v-if="index === tr.status_geral"
+                                                                     :color="status[1]" class="product-order-status">
+                                                                {{ status[0]}}
+                                                            </vs-chip>
+                                                        </vs-td>
+                                                        <vs-td :data="tr.id">
+                                                            {{ tr.id }}
+                                                        </vs-td>
+                                                        <vs-td :data="tr.data_criacao">
+                                                            <span class="destaque">{{ tr.data_criacao | formatDateTime}}</span>
+                                                        </vs-td>
+                                                        <vs-td>
+                                                            <span class="preco">R$ {{formatPrice((tr.destino.preco + tr.origem.preco))}}</span>
+                                                        </vs-td>
+                                                        <vs-td>
+                                                            {{tr.origem.tipo == 'ramal' ? 'Interno' : 'Default'}}
+                                                        </vs-td>
+                                                    </vs-tr>
+                                                </template>
+                                            </vs-table>
+                                            <vs-pagination class="mt-2" :total="pagination.total" v-model="currentx"></vs-pagination>
+                                        </div>
+                                    </vs-col>
+                                </vs-row>
+                            </vs-tab>
+                            <vs-tab color="primary" value="10" :label="'histórico de recargas (' + recargas.length + ')'" v-if="recargas">
+                                <vs-row>
+                                    <vs-col vs-w="12">
+                                        <div class="vx-row mt-20 flex justify-center" v-if="recargas.length === 0">
+                                            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                                                <div class="w-8/12">
+                                                    <div>
+                                                        <p class="span-sem-item">Nenhuma transação encontrada</p>
+                                                    </div>
+                                                    <br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="com-item" v-else>
+                                            <vs-table :data="recargas" class="table-items">
+
+                                                <template slot="thead">
+                                                    <!--<vs-th></vs-th>-->
+                                                    <vs-th>ID</vs-th>
+                                                    <vs-th>Valor Recarga</vs-th>
+                                                    <vs-th>Data e Hora</vs-th>
+                                                    <vs-th>Descrição</vs-th>
+                                                </template>
+
+                                                <template slot-scope="{data}">
+                                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
+                                                        <vs-td :data="tr.id">
+                                                            {{ tr.id }}
+                                                        </vs-td>
+                                                        <vs-td>
+                                                            <span class="preco">R$ {{formatPrice(tr.credito)}}</span>
+                                                        </vs-td>
+                                                        <vs-td :data="tr.data">
+                                                            <span class="destaque">{{ tr.data | formatDateTime}}</span>
+                                                        </vs-td>
+                                                        <vs-td>
+                                                            {{tr.descricao}}
+                                                        </vs-td>
+                                                    </vs-tr>
+                                                </template>
+                                            </vs-table>
+                                        </div>
+                                    </vs-col>
+                                </vs-row>
+                            </vs-tab>
+                        </vs-tabs>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
+    import Datepicker from 'vuejs-datepicker';
+    import * as lang from 'vuejs-datepicker/src/locale';
+    import DateRangePicker from 'vue2-daterange-picker';
+    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
+    import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
+
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
+
+    export default {
+        name: "TotalVoice",
+        components: {
+            Datepicker, StatisticsCardLine,
+            moment,
+            DateRangePicker
+        },
+        data() {
+            return {
+                status: false,
+                dateRange: {},
+                localeData: {
+                    direction: 'ltr',
+                    format: 'dd/mm/yyyy',
+                    separator: ' - ',
+                    applyLabel: 'Aplicar',
+                    cancelLabel: 'Cancelar',
+                    weekLabel: 'M',
+                    customRangeLabel: 'Período',
+                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    firstDay: 0,
+                    startDate: '05/26/2020',
+                    endDate: '05/26/2020',
+                },
+                ranges: {
+                    //Definindo ranges padronizados
+                    'Hoje': [this.getDay(true), this.getDay(true)],
+                    'Ontem': [this.getDay(false), this.getDay(false)],
+                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
+                },
+                languages: lang,
+                dados: {
+                    dt_inicio: '',
+                    dt_fim: '',
+                    subdomain: 'app',
+                    type: 'App\\Models\\Extensoes\\Totalvoice',
+                    page: 1
+                },
+                pagination: {
+                    last_page: 1,
+                    page: 1,
+                    current_page: 1,
+                    total: 0
+                },
+                extensao: null,
+                currentx: 1,
+                instalado: false,
+                historico: [],
+                recargas: [],
+                saldo: 0,
+                custo: 0,
+                link_recarga: '',
+                zenviaStatus: {
+                    finalizada: ['Finalizada', '#2ecc71'],
+                    billet_printed: ['Boleto Impresso', '#848a91'],
+                    delayed: ['Atrasado', '#e74c3c'],
+                },
+                countSwitch: 0
+            }
+        },
+        created() {
+            if (!moduleExtensoes.isRegistered) {
+                this.$store.registerModule('extensoes', moduleExtensoes)
+                moduleExtensoes.isRegistered = true
+            }
+
+            this.dados.dt_inicio = moment().subtract(1, 'days').format('YYYY-MM-DD');
+            this.dados.dt_fim = moment().format('YYYY-MM-DD');
+            this.dateRange.startDate = moment().subtract(1, 'days')
+            this.dateRange.endDate = moment()
+
+            this.getHistorico();
+        },
+        methods: {
+            getHistorico() {
+                this.dados.subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+                this.$vs.loading();
+                if (this.dateRange.startDate)
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+                if (this.dateRange.endDate)
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
+
+                this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
+                    console.log('alou', response)
+                    this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
+                    this.recargas = [...response.recarga.dados.relatorio]; //Histórico de recargas
+                    this.link_recarga = response.regargaUrl.dados.url; //Link para recarga de crédito
+                    this.instalado = (response.geral.status == 200);
+                    this.custo = 0; //Armazena a soma de todas as cargas
+                    this.extensao = response.extensao; //Objeto de informações da extensão
+                    this.recargas.forEach(item => {
+                        this.custo += item.credito;
+                    });
+                    this.saldo = response.geral.dados.saldo;
+                    this.pagination.total = Math.round(response.chamadas.dados.total / response.chamadas.dados.limite);
+                    this.$vs.loading.close();
+                })
+            },
+            setDate(val) {
+                this.$vs.loading();
+                switch (val) {
+                    case 'hoje':
+                        this.dateRange.startDate = moment();
+                        break;
+                    case '7':
+                        this.dateRange.startDate = moment().subtract(7, 'days');
+                        break;
+                    case '15':
+                        this.dateRange.startDate = moment().subtract(15, 'days');
+                        break;
+                    case '30':
+                        this.dateRange.startDate = moment().subtract(30, 'days');
+                        break;
+                }
+                this.getHistorico();
+            },
+            getDay(dia) {
+                //Definindo datas usadas nos ranges padronizados
+                let today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                let yesterday = new Date()
+                yesterday.setDate(today.getDate() - 1)
+                yesterday.setHours(0, 0, 0, 0);
+                return (dia ? today : yesterday)
+            },
+            ativaExtensao() {
+                console.log(this.countSwitch)
+                if (this.countSwitch === 3) {
+                    this.extensao.ativo = !this.extensao.ativo;
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Muitas tentativas de ativação',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                } else {
+                    const formData = new FormData();
+                    let ativo = this.extensao.ativo ? 0 : 1;
+                    let text = this.extensao.ativo ? 'Desativada' : 'Ativada';
+                    formData.append('ativo', ativo);
+                    formData.append('_method', 'PUT');
+                    this.$store.dispatch('extensoes/ativa', {id: this.extensao.id, dados: formData}).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
+                    this.countSwitch += 1;
+                }
+            }
+        },
+        watch: {
+            dateRange(val) {
+                this.$vs.loading();
+                this.getHistorico();
+            },
+            currentx(val) {
+                this.$vs.loading();
+                this.dados.page = this.currentx;
+                this.getHistorico();
+            },
+            /*dados: {
+                handler(val) {
+                    this.$vs.loading();
+                    this.getHistorico();
+                },
+                deep: true
+            },*/
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

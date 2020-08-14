@@ -1,16 +1,16 @@
-const subtickets = [
+const subextensoes = [
     {
-        url: '/aplicativos',
+        url: '/extensoes/instalar',
         name: "Instalar",
-        slug: "apps-list",
+        slug: "extensoes-list",
         icon: 'apps'
     },
     {
-        url: '/aplicativos/relatorio',
+        url: '/extensoes/relatorio',
         name: "Relatórios",
-        slug: "leads-list",
+        slug: "extensoes-rel",
         icon: 'bar_chart'
     },
 ];
 
-export default subtickets
+export default subextensoes

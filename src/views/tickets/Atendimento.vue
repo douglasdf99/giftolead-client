@@ -278,8 +278,6 @@
                         this.motivos.push({id: item.id, label: item.nome});
                     });
                 });
-
-
             },
             verificaHabBrinde(obj) {
                 this.habbrinde = (this.atendimento.tipo == 0 && obj.hab_brinde) ? true : false;

@@ -67,18 +67,19 @@
                             <div class="conquista">
                                 <div class="flex items-center text-left">
                                     <div class="py-2 w-1/2">
-                                        <p class="font-bold text-black text-md mb-0">Ligações internas com a Total Voice</p>
+                                        <p class="font-bold text-black text-md mb-0">Ligações internas com a Zenvia</p>
                                     </div>
                                     <div class="py-2 w-1/2">
                                         <vs-switch vs-icon-on="check" color="#0FB599" v-model="currentx" class="float-right switch"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
-                                    <img src="@/assets/images/util/total-voice.svg" class="img-conquista my-4" alt="" width="150">
+                                    <img src="@/assets/images/util/zenvia.svg" class="img-conquista my-4" alt="" width="150">
                                     <p class="mb-4">Faça ligações e as mantenha registradas na linha do tempo de seus contatos!</p>
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4">Intalar</vs-button>
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4"
+                                               @click="$router.push({name: 'extensoes-zenvia-config'})">Intalar</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
                             </div>

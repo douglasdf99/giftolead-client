@@ -23,9 +23,9 @@ export default {
                 })
         })
     },
-    ativaEspecifica({commit}, dados) {
+    ativa({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/${dados.rota}/`, dados)
+            axios.post(`/extensoes/company/${dados.id}`, dados.dados)
                 .then((response) => {
                     console.log('campanha alterada', response);
                     resolve(response)
@@ -35,4 +35,16 @@ export default {
                 })
         })
     },
+    getZenviaHistorico({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/extensoes/totalvoice`, {params: dados})
+                .then((response) => {
+                    console.log('resposta zenvia', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
 }
