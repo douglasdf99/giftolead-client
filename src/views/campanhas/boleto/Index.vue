@@ -18,14 +18,6 @@
                 <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
             </div>
         </div>
-        <div class="vx-row mt-10" v-if="campanha.emails.length > 0">
-            <div class="vx-col w-full float-right">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="organizar">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Reorganizar E-mails
-                </vs-button>
-            </div>
-        </div>
         <div class="vx-row my-5 justify-between">
             <div class="vx-col w-full lg:w-1/2">
                 <div class="w-full tipo-conquista my-5 p-4 flex items-center hover-opacidade cursor-pointer" @click="configEnvio('emails')">
@@ -215,7 +207,7 @@
 
             },
             configEnvio(val) {
-                this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id + `/${val}`});
+                this.$router.push({path: '/campanha/configurar-boleto/' + this.campanha.id + `/${val}`});
             },
             deletar(id) {
                 this.$vs.dialog({

@@ -56,11 +56,11 @@
                             {{getTipo(item.tipo)}}
                         </div>
                         <div class="vx-col sm:w-3/12 w-full mb-2">
-                            <p class="mb-0 text-base font-bold">Condição</p>
+                            <p class="mb-0 text-base font-bold">{{(!campanha.oferta_all ? 'Condição' : 'Exceção')}}</p>
                             <vs-chip :color="!campanha.oferta_all ? 'success' : 'danger'">{{!campanha.oferta_all ? 'Se for' : 'Se não for'}}</vs-chip>
                         </div>
                         <div class="vx-col sm:w-3/12 w-full mb-2">
-                            <p class="mb-0 text-base font-bold">Valor aplicado</p>
+                            <p class="mb-0 text-base font-bold">{{getTipo(item.tipo)}}</p>
                             <span class="font-15 font-weight-bold">{{item.valor}}</span>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                               :options="tipos" v-validate="'required'" name="tipo"/>
                 </div>
                 <div class="">
-                    <span class="font-regular mb-2">Valor</span>
+                    <span class="font-regular mb-2">{{getTipo(val.tipo.id)}}</span>
                     <vs-input class="w-full" v-model="val.valor" size="large"></vs-input>
                 </div>
             </div>
@@ -126,7 +126,7 @@
                     campanha_brinde_id: this.$route.params.id
                 },
                 tipos: [
-                    {id: 'hotmart', label: 'Hotmart'},
+                    {id: 'oferta', label: 'Oferta'},
                     {id: 'sck', label: 'SCK'},
                     {id: 'src', label: 'SRC'},
                 ],
@@ -149,12 +149,14 @@
             },
             getTipo(val) {
                 switch (val) {
-                    case 'hotmart':
-                        return 'Hotmart';
+                    case 'oferta':
+                        return 'Oferta';
                     case 'sck':
                         return 'SCK';
-                    default:
+                    case 'src':
                         return 'SRC'
+                    default:
+                        return 'Valor'
                 }
             },
 
