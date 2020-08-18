@@ -50,7 +50,7 @@
                                 <vs-button type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
                                 <vs-button type="border" color="primary" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
                             </div>
-                            <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaCamp(item)"/>
+                            <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
                         </div>
                         <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/brindes/campanhas/editar/' + item.id})">
                             <img src="@/assets/images/util/brinde.svg" class="img-conquista rounded-none my-8" width="120">
@@ -96,6 +96,23 @@
                     this.$vs.loading.close();
                 });
             },
+            ativaModal(e){
+                if(!e.status){
+                    this.$vs.dialog({
+                        type: 'confirm',
+                        color: 'danger',
+                        title: `Você realmente deseja ativar a campanha?`,
+                        text: 'Mais de uma campanha ativa para o mesmo produto pode ocasionar duplicação de brinde.',
+                        acceptText: 'Alterar',
+                        cancelText: 'Cancelar',
+                        accept: () => {this.ativaCamp(e);},
+                        cancel: () => {e.status = !e.status}
+
+                    });
+                } else {
+                    this.ativaCamp(e);
+                }
+            },
             ativaCamp(e) {
                 console.log(this.countSwitch)
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
@@ -112,9 +129,6 @@
                     let text = e.status ? 'Desativada' : 'Ativada';
                     let obj = {...e}
                     obj.status = !e.status;
-                    /*formData.append('nome', e.nome);
-                    formData.append('descricao', e.descricao);
-                    formData.append('tipos', e.tipo);*/
                     this.$store.dispatch('brindes/storeCampanha', obj).then(() => {
                         this.$vs.notify({
                             title: '',
@@ -134,6 +148,32 @@
                     })
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
+            },
+            delete(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar registro?`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('delete', {rota: 'campanha_brindes', id: id}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Deletado com sucesso!'
+                            });
+                            this.getConfig();
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Erro ao deletar. Contate o suporte.'
+                            });
+                            console.log('erro', erro)
+                        });
+                    }
+                });
             }
         }
     }
