@@ -96,8 +96,8 @@
                     this.$vs.loading.close();
                 });
             },
-            ativaModal(e){
-                if(!e.status){
+            ativaModal(obj){
+                if(!obj.status){
                     this.$vs.dialog({
                         type: 'confirm',
                         color: 'danger',
@@ -105,18 +105,22 @@
                         text: 'Mais de uma campanha ativa para o mesmo produto pode ocasionar duplicação de brinde.',
                         acceptText: 'Alterar',
                         cancelText: 'Cancelar',
-                        accept: () => {this.ativaCamp(e);},
-                        cancel: () => {e.status = !e.status}
+                        accept: () => {this.ativaCamp(obj);},
+                        cancel: () => {obj.status = !obj.status}
 
                     });
                 } else {
-                    this.ativaCamp(e);
+                    this.ativaCamp(obj);
                 }
             },
-            ativaCamp(e) {
-                console.log(this.countSwitch)
-                if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
-                    e.status = !e.status;
+            ativaCamp(obj) {
+                console.log('status', obj)
+                console.log('status2', obj.status)
+                let obj2 = {...obj}
+                obj2.status = obj.status === true ? 1 : 0;
+                let text = obj2.status ? 'Ativada' : 'Desativada';
+                if (this.countSwitch[obj.id] !== undefined && this.countSwitch[obj.id] === 3) {
+                    obj.status = !obj.status;
                     this.$vs.notify({
                         title: '',
                         text: 'Muitas tentativas de ativação',
@@ -125,11 +129,7 @@
                         color: 'danger'
                     });
                 } else {
-                    console.log(e)
-                    let text = e.status ? 'Desativada' : 'Ativada';
-                    let obj = {...e}
-                    obj.status = !e.status;
-                    this.$store.dispatch('brindes/storeCampanha', obj).then(() => {
+                    this.$store.dispatch('brindes/storeCampanha', obj2).then(() => {
                         this.$vs.notify({
                             title: '',
                             text: text + " com sucesso.",
@@ -146,7 +146,7 @@
                             color: 'danger'
                         })
                     })
-                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                    this.countSwitch[obj.id] = this.countSwitch[obj.id] !== undefined ? this.countSwitch[obj.id] + 1 : 1;
                 }
             },
             delete(id) {
