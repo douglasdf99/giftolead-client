@@ -43,16 +43,19 @@
                         </p>
                     </div>
                 </div>
-                <div class="vx-col col-conquista mb-10">
+                <div class="vx-col col-conquista mb-10" v-for="item in items">
                     <div class="conquista">
                         <div class="py-2 w-full flex justify-between">
-                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash"></vs-button>
-                            <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"/>
+                            <div class="flex">
+                                <vs-button type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
+                                <vs-button type="border" color="primary" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
+                            </div>
+                            <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaCamp(item)"/>
                         </div>
-                        <div class="conquista-clicavel w-full cursor-pointer">
+                        <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/brindes/campanhas/editar/' + item.id})">
                             <img src="@/assets/images/util/brinde.svg" class="img-conquista rounded-none my-8" width="120">
                             <p class="nome-conq">
-                                Kit de Pomporismo Webnário
+                                {{item.nome}}
                             </p>
                         </div>
                     </div>
@@ -63,12 +66,73 @@
 </template>
 
 <script>
+    import moduleBrindes from "../../store/brindes/moduleBrindes";
+
     export default {
         name: "Campanhas",
-        data(){
+        data() {
             return {
                 dados: {
                     search: ''
+                },
+                items: [],
+                countSwitch: [],
+            }
+        },
+        created() {
+            if (!moduleBrindes.isRegistered) {
+                this.$store.registerModule('brindes', moduleBrindes)
+                moduleBrindes.isRegistered = true
+            }
+
+            this.getCampanhas();
+        },
+        methods: {
+            getCampanhas() {
+                this.$vs.loading();
+                this.$store.dispatch('brindes/getCampanhas').then(response => {
+                    console.log('ué', response)
+                    this.items = [...response];
+                    this.$vs.loading.close();
+                });
+            },
+            ativaCamp(e) {
+                console.log(this.countSwitch)
+                if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                    e.status = !e.status;
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Muitas tentativas de ativação',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                } else {
+                    console.log(e)
+                    let text = e.status ? 'Desativada' : 'Ativada';
+                    let obj = {...e}
+                    obj.status = !e.status;
+                    /*formData.append('nome', e.nome);
+                    formData.append('descricao', e.descricao);
+                    formData.append('tipos', e.tipo);*/
+                    this.$store.dispatch('brindes/storeCampanha', obj).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
+                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             }
         }

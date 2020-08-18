@@ -15,7 +15,7 @@
         <div class="vx-row mb-4">
             <div class="vx-col w-full">
                 <span class="font-regular mb-2">O que será entregue</span>
-                <v-select v-model="brindeSelected" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="brindes" v-validate="'required'" name="brinde"/>
+                <v-select v-model="brindeSelected" :disabled="!produtoSelected.id || brindes.length == 0" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="brindes" v-validate="'required'" name="brinde"/>
                 <span class="text-danger text-sm" v-show="errors.has('brinde')">Este campo é obrigatório</span>
             </div>
         </div>
@@ -32,29 +32,26 @@
             </div>
             <div class="vx-col w-full relative">
                 <span class="font-regular mb-2">Quando o seguinte evento acontecer</span>
-                <v-select multiple :closeOnSelect="false" v-model="eventosSelected" :options="eventos" dir="ltr" class="bg-white select-large-base"/>
+                <v-select multiple :closeOnSelect="false" v-model="tiposSelected" :options="tipos" dir="ltr" class="bg-white select-large-base"/>
             </div>
         </div>
-        <div class="vx-row">
-            <div class="vx-col w-full mb-3">
-                <p class="text-lg font-bold text-black">Nas seguintes condições abaixo (opcional)</p>
-            </div>
-            <div class="vx-col w-full">
-                <div class="p-4 rounded-md" style="background-color: #EDEDED">
-                    <p class="text-sm gray">
-                        Todos os filtros aplicados a uma condição devem acontecer ao mesmo tempo para que a segmentação seja executada. Se os filtros de uma condição não forem cumpridos, passaremos para a próxima
-                        condição, respeitando a ordem de prioridade.
-                    </p>
+        <transition name="fade">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="invalid">
+                                Salvar
+                            </vs-button>
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="$router.push({name: 'brindes-campanhas'})">
+                                Cancelar
+                            </vs-button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="vx-row mt-10">
-            <div class="vx-col w-full">
-                <vs-checkbox color="dark" v-model="campanha.qualquerorferta">
-                    <span class="label-bold-underline">Habilitar para qualquer oferta e origem de checkout no Hotmart</span>
-                </vs-checkbox>
-            </div>
-        </div>
+            </footer-doug>
+        </transition>
     </div>
 </template>
 
@@ -72,13 +69,20 @@
         },
         data() {
             return {
-                campanha: {},
+                campanha: {
+                    nome: "",
+                    descricao: "",
+                },
                 produtoSelected: {},
                 produtos: [],
                 brindeSelected: {},
                 brindes: [],
-                eventosSelected: {},
-                eventos: [],
+                tiposSelected: [],
+                tipos: [
+                    {id: 'aprovada', label: 'Compra aprovada'},
+                    {id: 'completa', label: 'Completa'},
+                    {id: 'boletogerado', label: 'Boleto Gerado'}
+                ],
             }
         },
         created() {
@@ -90,10 +94,96 @@
                 this.$store.registerModule('produtos', moduleProdutos);
                 moduleProdutos.isRegistered = true;
             }
+
+            this.getOpcoes();
+
+            if (this.$route.params.id)
+                this.getId();
+        },
+        methods: {
+            getId() {
+                this.$store.dispatch('brindes/getCampanha', this.$route.params.id).then(response => {
+                    this.campanha = {...response};
+                    this.produtoSelected = {id: this.campanha.produto.id, label: this.campanha.produto.nome};
+
+                    if (this.campanha.tipos.length > 0) {
+                        this.campanha.tipos.forEach(item => {
+                            switch (item) {
+                                case 'aprovada':
+                                    this.tiposSelected.push({id: item, label: 'Compra aprovada'});
+                                    break;
+                                case 'completa':
+                                    this.tiposSelected.push({id: item, label: 'Completa'});
+                                    break;
+                                default:
+                                    this.tiposSelected.push({id: item, label: 'Boleto Gerado'});
+                            }
+                        })
+                    }
+                    this.brindeSelected = {id: this.campanha.brinde.id, label: this.campanha.brinde.nome};
+                });
+            },
+            getOpcoes() {
+                this.$store.dispatch('produtos/get').then(response => {
+                    this.produtos = [...this.arraySelect(response)];
+                });
+            },
+            salvar() {
+                if (this.tiposSelected.length > 0) {
+                    this.campanha.tipos = this.tiposSelected.map(item => {
+                        return item.id;
+                    });
+                }
+                if (this.produtoSelected.id) {
+                    this.campanha.produto_id = this.produtoSelected.id;
+                }
+                if (this.brindeSelected.id) {
+                    this.campanha.brinde_id = this.brindeSelected.id;
+                }
+                this.$store.dispatch('brindes/storeCampanha', this.campanha).then(response => {
+                    console.log('response', response);
+                    this.$vs.notify({
+                        title: 'Sucesso',
+                        text: "A Campanha foi salva com sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+                    this.$router.push({name: 'brindes-campanhas'});
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                })
+            }
+        },
+        watch: {
+            produtoSelected: {
+                handler() {
+                    this.brindes = [];
+                    this.$store.dispatch('brindes/get').then(response => {
+                        let arr = [...response];
+                        arr.forEach(item => {
+                            if (item.produto_id === this.produtoSelected.id)
+                                this.brindes.push({id: item.id, label: item.nome});
+                        })
+                    });
+                }
+            },
+            tiposSelected: {
+                handler(){
+                    console.log(this.tiposSelected)
+                }
+            }
+        },
+        computed: {
+            invalid(){
+                return this.errors.any() || (this.campanha.nome == "" || this.campanha.descricao == "" || !this.produtoSelected.id || !this.brindeSelected.id);
+            }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

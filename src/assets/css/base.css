@@ -111,6 +111,14 @@ h4 {
     }
 }
 
+.text-ou {
+    position: absolute;
+    left: calc(50% - 127px / 2);
+    top: -19px;
+    width: 127px;
+    height: 34px;
+}
+
 /* ------------------------ */
 /* Inputs */
 .input-span-placeholder {

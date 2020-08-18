@@ -34,7 +34,6 @@
                         nome: 'Cadastrar ou alterar brindes',
                         routername: 'brindes'
                     },
-
                 ]
             }
         },
