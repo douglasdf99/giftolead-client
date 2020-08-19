@@ -11,11 +11,13 @@
 import axios from "@/axios.js"
 
 export default {
-    get({commit}) {
+    get({commit}, subdomain) {
+        if(!subdomain)
+            subdomain = 'app';
         return new Promise((resolve, reject) => {
-            axios.get(`/campanhas`, {params: {}})
+            axios.get(`/extensoes/company`, {params: {subdomain: subdomain}})
                 .then((response) => {
-                    console.log('campanhas', response);
+                    console.log('extensões', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

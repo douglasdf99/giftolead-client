@@ -15,7 +15,7 @@
         </div>
         <div class="vx-row mt-10" v-if="(campanha.configs && campanha.configs.length > 0)">
             <div class="vx-col w-full mb-3">
-                <vs-checkbox color="dark" v-model="campanha.oferta_all">
+                <vs-checkbox color="dark" v-model="campanha.oferta_all" @click="updateCamp">
                     <span class="label-bold-underline">Habilitar para qualquer oferta e origem de checkout no Hotmart</span>
                 </vs-checkbox>
             </div>
@@ -24,8 +24,8 @@
                 <p class="text-gray">Esta opção habilita a solicitação automática de endereço para qualquer oferta no Hotmart para o produto desta campanha</p>
             </div>
             <div class="vx-col w-full">
-                <vx-card class="mb-10" v-for="(item, index) in campanha.configs">
-                    <span class="btn btn-dark btn-rounded font-13 text-white font-weight-bold text-ou" v-if="(campanha.configs.length > 1 && index != 0)"><vs-button
+                <vx-card class="mb-10" v-for="(item, index) in items">
+                    <span class="btn btn-dark btn-rounded font-13 text-white font-weight-bold text-ou" v-if="(items.length > 1 && index != 0)"><vs-button
                             size="small" color="dark">OU</vs-button></span>
                     <div class="vx-row">
                         <div class="vx-col sm:w-1/12 w-full mb-2">
@@ -116,6 +116,7 @@
                     oferta_all: false
                 },
                 configs: {},
+                items: [],
 
                 //Modal Exceção/Condição
                 modalexcecao: false,
@@ -144,6 +145,10 @@
             getConfig() {
                 this.$store.dispatch('brindes/getCampanha', this.$route.params.id).then(response => {
                     this.campanha = {...response};
+                    if(this.campanha.oferta_all)
+                        this.items = this.campanha.excecoes;
+                    else
+                        this.items = this.campanha.condicoes;
                     this.$vs.loading.close();
                 });
             },
@@ -179,6 +184,7 @@
             sendexcecao() {
                 this.$vs.loading();
                 this.val.tipo = this.val.tipo.id;
+                this.val.variavel = this.campanha.oferta_all ? '!=' : '=';
                 this.$store.dispatch('brindes/storeCondicao', this.val).then(() => {
                     this.$vs.notify({
                         color: 'success',
@@ -220,11 +226,37 @@
                         });
                     }
                 });
+            },
+            updateCamp(){
+                let obj = {...this.campanha};
+                obj.oferta_all = !this.campanha.oferta_all;
+                this.$vs.loading();
+                this.$store.dispatch('brindes/storeCampanha', obj).then(() => {
+                    this.$vs.loading.close();
+                    this.$vs.notify({
+                        color: 'success',
+                        title: '',
+                        text: 'Configuração da Campanha de Brinde alterada.'
+                    })
+                });
             }
         },
         computed: {
             validExcecao() {
                 return (this.val.tipo !== "" && this.val.valor !== "")
+            }
+        },
+        watch: {
+            campanha: {
+                handler(val) {
+                    if (val) {
+                        if(val.oferta_all)
+                            this.items = val.excecoes;
+                        else
+                            this.items = val.condicoes;
+                    }
+                },
+                deep: true
             }
         }
     }

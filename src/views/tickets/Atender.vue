@@ -80,7 +80,7 @@
                 <div class="w-full h-full bg-white p-5 rounded-lg">
                     <div class="vx-row my-4">
                         <div class="vx-col w-1/4 text-center">
-                            <img src="@/assets/images/util/avatar-padrao.svg" width="80">
+                            <img :src="getAvatar(ticket.lead.email)" width="80" class="rounded-full">
                         </div>
                         <div class="vx-col w-3/3" v-if="ticket.lead">
                             <p class="text-black text-xl font-bold">

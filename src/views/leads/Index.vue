@@ -244,7 +244,7 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-            dados: {
+            /*dados: {
                 handler(val) {
                     if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
@@ -253,7 +253,7 @@
                     }
                 },
                 deep: true
-            },
+            },*/
         },
 
         computed: {

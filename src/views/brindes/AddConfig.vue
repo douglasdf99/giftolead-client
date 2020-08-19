@@ -8,14 +8,16 @@
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Produto da campanha</span>
-                <v-select v-model="produtoSelected" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="produtos" v-validate="'required'" name="produto"/>
+                <v-select v-model="produtoSelected" :disabled="$route.name == 'brindes-campanhas-editar'" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="produtos"
+                          v-validate="'required'" name="produto"/>
                 <span class="text-danger text-sm" v-show="errors.has('produto')">Este campo é obrigatório</span>
             </div>
         </div>
         <div class="vx-row mb-4">
             <div class="vx-col w-full">
                 <span class="font-regular mb-2">O que será entregue</span>
-                <v-select v-model="brindeSelected" :disabled="!produtoSelected.id || brindes.length == 0" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="brindes" v-validate="'required'" name="brinde"/>
+                <v-select v-model="brindeSelected" :disabled="!produtoSelected.id || brindes.length == 0 || $route.name == 'brindes-campanhas-editar'" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="brindes"
+                          v-validate="'required'" name="brinde"/>
                 <span class="text-danger text-sm" v-show="errors.has('brinde')">Este campo é obrigatório</span>
             </div>
         </div>
@@ -32,7 +34,7 @@
             </div>
             <div class="vx-col w-full relative">
                 <span class="font-regular mb-2">Quando o seguinte evento acontecer</span>
-                <v-select multiple :closeOnSelect="false" v-model="tiposSelected" :options="tipos" dir="ltr" class="bg-white select-large-base"/>
+                <v-select :closeOnSelect="false" v-model="tiposSelected" :options="tipos" dir="ltr" class="bg-white select-large-base"/>
             </div>
         </div>
         <transition name="fade">
@@ -77,7 +79,7 @@
                 produtos: [],
                 brindeSelected: {},
                 brindes: [],
-                tiposSelected: [],
+                tiposSelected: {},
                 tipos: [
                     {id: 'aprovada', label: 'Compra aprovada'},
                     {id: 'completa', label: 'Completa'},
@@ -105,20 +107,15 @@
                 this.$store.dispatch('brindes/getCampanha', this.$route.params.id).then(response => {
                     this.campanha = {...response};
                     this.produtoSelected = {id: this.campanha.produto.id, label: this.campanha.produto.nome};
-
-                    if (this.campanha.tipos.length > 0) {
-                        this.campanha.tipos.forEach(item => {
-                            switch (item) {
-                                case 'aprovada':
-                                    this.tiposSelected.push({id: item, label: 'Compra aprovada'});
-                                    break;
-                                case 'completa':
-                                    this.tiposSelected.push({id: item, label: 'Completa'});
-                                    break;
-                                default:
-                                    this.tiposSelected.push({id: item, label: 'Boleto Gerado'});
-                            }
-                        })
+                    switch (this.campanha.tipos) {
+                        case 'aprovada':
+                            this.tiposSelected = {id: 'aprovada', label: 'Compra aprovada'};
+                            break;
+                        case 'completa':
+                            this.tiposSelected = {id: 'completa', label: 'Completa'};
+                            break;
+                        default:
+                            this.tiposSelected = {id: 'boletogerado', label: 'Boleto Gerado'};
                     }
                     this.brindeSelected = {id: this.campanha.brinde.id, label: this.campanha.brinde.nome};
                 });
@@ -129,10 +126,8 @@
                 });
             },
             salvar() {
-                if (this.tiposSelected.length > 0) {
-                    this.campanha.tipos = this.tiposSelected.map(item => {
-                        return item.id;
-                    });
+                if (this.tiposSelected.id) {
+                    this.campanha.tipos = this.tiposSelected.id;
                 }
                 if (this.produtoSelected.id) {
                     this.campanha.produto_id = this.produtoSelected.id;
@@ -175,13 +170,13 @@
                 }
             },
             tiposSelected: {
-                handler(){
+                handler() {
                     console.log(this.tiposSelected)
                 }
             }
         },
         computed: {
-            invalid(){
+            invalid() {
                 return this.errors.any() || (this.campanha.nome == "" || this.campanha.descricao == "" || !this.produtoSelected.id || !this.brindeSelected.id);
             }
         }

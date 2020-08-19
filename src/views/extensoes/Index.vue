@@ -27,22 +27,6 @@
             <vs-col vs-w="12">
                 <div class="mt-20">
                     <div class="vx-row">
-                        <!--<div class="vx-col col-conquista mb-10" v-for="item in items">
-                            <div class="conquista" v-bind:class="{'desativado': !item.ativo}">
-                                <div class="py-2 w-full">
-                                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo"
-                                               class="float-right switch" @click="ativaConquista(item)"/>
-                                    &lt;!&ndash;<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>&ndash;&gt;
-                                </div>
-                                <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/configuracoes/conquistas/editar/' + item.id})">
-                                    <img :src="url_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
-                                    <p class="nome-conq">
-                                        {{item.nome}}
-                                    </p>
-                                    <p>{{item.global ? 'Global' : 'Produto'}} / {{item.perfil}}</p>
-                                </div>
-                            </div>
-                        </div>-->
                         <div class="vx-col col-conquista mb-10">
                             <div class="conquista">
                                 <div class="flex items-center text-left">
@@ -50,7 +34,7 @@
                                         <p class="font-bold text-black text-md mb-0">Contrato com os correios</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="currentx" class="float-right switch"/>
+                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.correios.ativo" class="float-right switch" v-if="extensoes.correios != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -58,7 +42,8 @@
                                     <p class="mb-4">Integre o seu contrato com os correios para enviar brindes físicos à seus clientes</p>
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4">Intalar</vs-button>
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4">
+                                        {{extensoes.correios != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês</p>
                             </div>
@@ -70,7 +55,7 @@
                                         <p class="font-bold text-black text-md mb-0">Ligações internas com a Zenvia</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="currentx" class="float-right switch"/>
+                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -79,7 +64,7 @@
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
                                     <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4"
-                                               @click="$router.push({name: 'extensoes-zenvia-config'})">Intalar</vs-button>
+                                               @click="$router.push({name: 'extensoes-zenvia-config'})">{{extensoes.totalvoice != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
                             </div>
@@ -108,7 +93,8 @@
                 routeTitle: 'Contas',
                 dados: {
                     search: '',
-                    page: 1
+                    page: 1,
+                    subdomain: ''
                 },
                 pagination: {
                     last_page: 1,
@@ -117,7 +103,12 @@
                 },
                 currentx: 1,
                 selectedTipo: {},
-                countSwitch: []
+                countSwitch: [],
+
+                extensoes: {
+                    correios: null,
+                    totalvoice: null,
+                }
                 //items: {}
             }
         },
@@ -126,13 +117,14 @@
                 this.$store.registerModule('extensoes', moduleExtensoes)
                 moduleExtensoes.isRegistered = true
             }
-            //this.$vs.loading()
+            this.$vs.loading();
+            this.getItems();
         },
         methods: {
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                //this.getItems();
+                this.getItems();
             },
             ativaConquista(e) {
                 console.log(this.countSwitch)
@@ -153,6 +145,20 @@
                     formData.append('_method', 'PUT');*/
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
+            },
+            getItems(){
+                var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+                this.$store.dispatch('extensoes/get', subdomain).then(response => {
+                    let arr = response.extensoes;
+                    if(arr.length > 0){
+                        arr.forEach(item => {
+                            if(item.extensao_type === "App\\Models\\Extensoes\\Totalvoice"){
+                                this.extensoes.totalvoice = item;
+                            }
+                        });
+                    }
+                    this.$vs.loading.close();
+                });
             }
         },
         watch: {

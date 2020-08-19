@@ -2,7 +2,7 @@
     <div>
         <div class="vx-row bg-white p-4 my-5 rounded-lg" v-for="ticket in items">
             <div class="vx-col w-1/12 flex justify-center">
-                <img src="@/assets/images/util/avatar-padrao.svg" width="80">
+                <img :src="getAvatar(ticket.lead.email)" width="80" class="rounded-full">
             </div>
             <div class="vx-col w-4/12">
                 <p>{{ticket.id}}</p>

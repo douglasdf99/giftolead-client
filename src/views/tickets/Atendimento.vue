@@ -45,7 +45,7 @@
                         <div class="vx-col w-full lg:w-11/12 ml-auto">
                             <ul class="list-tipo-comissao mt-2">
                                 <li class="my-3" v-for="item in statusGanhou" @click="verificaHabBrinde(item)">
-                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
+                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id" class="hover:font-bold">
                                         {{item.nome}}
                                     </vs-radio>
                                 </li>
@@ -67,7 +67,7 @@
                         <div class="vx-col w-full lg:w-11/12 ml-auto">
                             <ul class="list-tipo-comissao mt-2">
                                 <li class="my-3" v-for="item in statusAguardando">
-                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
+                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id" class="hover:font-bold">
                                         {{item.nome}}
                                     </vs-radio>
                                 </li>
@@ -81,7 +81,7 @@
                             </p>
                             <ul class="list-tipo-comissao mt-2 ml-10">
                                 <li class="my-3" v-for="item in statusPerdeu" @click="verificaHabPerda(item)">
-                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id">
+                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id" class="hover:font-bold">
                                         {{item.nome}}
                                     </vs-radio>
                                 </li>
