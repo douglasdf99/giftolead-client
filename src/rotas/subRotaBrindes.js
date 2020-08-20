@@ -11,6 +11,12 @@ const subbrindes = [
         slug: "brindes-list-entrega",
         icon: 'local_shipping'
     },
+    {
+        url: '/brindes/solicitacoes',
+        name: "Solicitações",
+        slug: "brindes-solicitacoes",
+        icon: 'local_shipping'
+    },
 ];
 
 export default subbrindes

@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
         <div class="vx-row flex items-end lg:mt-5 sm:mt-6">
@@ -122,8 +121,6 @@
                                   class="bg-white"
                                   :options="produtos"/>
                     </div>
-                </div>
-                <div class="com-item" v-show="items.length > 0">
                 </div>
             </vs-col>
         </vs-row>

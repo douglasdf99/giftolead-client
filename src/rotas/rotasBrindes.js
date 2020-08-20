@@ -88,6 +88,23 @@ const rotasBrindes = [
             subTitle: 'Brindes',
             submenu: subbrindes
         },
+    },
+    {
+        path: '/brindes/solicitacoes',
+        name: 'brindes-solicitacoes',
+        component: () => import('@/views/solicitacao_brinde/Index.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Solicitações de Brindes', active: true},
+            ],
+            pageTitle: 'Solicitações de Brindes',
+            rule: 'editor',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
     }
 ];
 

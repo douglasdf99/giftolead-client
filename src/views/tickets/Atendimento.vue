@@ -177,6 +177,7 @@
     import moduleStatus from "../../store/statusFinalizacao/moduleStatus";
     import moduleProdutos from "../../store/produtos/moduleProdutos";
     import moduleMotivos from "../../store/motivoPerda/moduleMotivos";
+    import moduleBrindes from "../../store/brindes/moduleBrindes";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -236,6 +237,11 @@
                 moduleProdutos.isRegistered = true
             }
 
+            if (!moduleBrindes.isRegistered) {
+                this.$store.registerModule('brindes', moduleBrindes)
+                moduleBrindes.isRegistered = true
+            }
+
             if (!moduleMotivos.isRegistered) {
                 this.$store.registerModule('motivos', moduleMotivos)
                 moduleMotivos.isRegistered = true
@@ -265,10 +271,11 @@
                     });
                 });
 
-                this.$store.dispatch('produtos/get').then(response => {
+                this.$store.dispatch('brindes/get').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
-                        this.brindes.push({id: item.id, label: item.nome});
+                        if(this.ticket.produto_id == item.produto_id)
+                            this.brindes.push({id: item.id, label: item.nome});
                     });
                 });
 
@@ -304,15 +311,19 @@
         watch: {
             selectedStatus: {
                 handler(val) {
-                    console.log('mudou', val);
                     this.atendimento.status_atendimento_id = val;
                 },
             },
             selectedUpsell: {
                 handler(val) {
-                    console.log('mudou', val);
                     if(this.atendimento.tipo == 0)
                         this.atendimento.upsell = val.id;
+                },
+            },
+            selectedBrinde: {
+                handler(val) {
+                    if(this.atendimento.tipo == 0)
+                        this.atendimento.brinde_id = val.id;
                 },
             },
             atendimento: {
