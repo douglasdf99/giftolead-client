@@ -22,11 +22,6 @@
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                    Deletar
-                                </vs-dropdown-item>
-
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
@@ -55,10 +50,10 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative flex items-center">
                             <p class="mr-4 text-lg">{{selecteds.length}} selecionadas</p>
-                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('aprovarVarias', selecteds)" v-if="tipo == 'pendente'">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('aprovarVarias', selecteds, 'aprovar')" v-if="tipo == 'pendente'">
                                 Aprovar Etiquetas
                             </vs-button>
-                            <vs-button class="mr-3 text-black" color="danger" type="border" icon-pack="material-icons" icon="close" @click="$emit('reprovarVarias', selecteds)" v-if="tipo == 'aprovado'">
+                            <vs-button class="mr-3 text-black" color="danger" type="border" icon-pack="material-icons" icon="close" @click="$emit('aprovarVarias', selecteds, 'reprovar')" v-if="tipo == 'pendente'">
                                 Reprovar Etiquetas
                             </vs-button>
                         </div>
@@ -83,6 +78,8 @@
                 switch (status) {
                     case 'pendente':
                         return '#ff9f43'
+                    case 'aprovado':
+                        return 'red'
                     default:
                         return ''
                 }

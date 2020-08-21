@@ -10,8 +10,8 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"
-                                      placeholder="Pesquisar por nome do brinde, nome do produto ou medidas"/>
+                                      v-model="dados.pesquisa" id="search_input" size="large"
+                                      placeholder="Pesquisar por nome ou email do destinatário"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -34,8 +34,7 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente')" color="warning" value="10"
-                            :label="'pendentes' + (dados.status == 'pendente' ? ' (' + items.length + ')' : '')">
+                    <vs-tab @click="colorx = 'warning'; getItems('pendente')" color="warning" value="10" v-if="pagination" :label="'pendentes' + (dados.status == 'pendente' ? ' (' + items.length + ')' : '')">
                         <listagem @aprovarVarias="aprovarVarias" @visualizar="visualizar" :items="items" tipo="pendente" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
@@ -110,7 +109,7 @@
                 sidebarData: {},
 
                 dados: {
-                    search: null,
+                    pesquisa: null,
                     page: 1,
                     length: 30,
                     status: 'pendente',
@@ -159,7 +158,7 @@
                 this.$vs.loading();
                 this.dados.status = status;
                 this.$store.dispatch('getVarios', {rota: 'solicitacao_brindes', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
+                    console.log('retornado com sucesso', response);
                     this.pagination = response;
                     this.$vs.loading.close();
                 });
@@ -202,8 +201,34 @@
             },
 
             //Procedimentos
-            aprovarVarias(arr){
+            aprovarVarias(arr, rota){
                 console.log('aprovando várias', arr)
+                let arr2 = arr.map(item => {return item.id});
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: (rota == 'aprovar' ? 'Aprovar' : 'Reprovar') + ` etiquetas?`,
+                    text: 'Deseja mesmo ' + rota + 'as etiquetas selecionadas?',
+                    acceptText: 'Sim!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('solicitacao/aprovarVarias', {arr: arr2, rota: rota}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Procedimento realizado com sucesso'
+                            });
+                            this.getItems();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao finalizar. Reinicie a página.'
+                            })
+                        });
+                    }
+                })
+
             }
         },
         watch: {

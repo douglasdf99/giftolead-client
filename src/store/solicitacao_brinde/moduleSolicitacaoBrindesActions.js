@@ -24,6 +24,18 @@ export default {
                 })
         })
     },
+    aprovarVarias({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/solicitacao_brindes/${dados.rota}`, {solicitacoes: dados.arr})
+                .then((response) => {
+                    console.log('aprovadas', response);
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
     /*storeCampanha({commit}, dados) {
         let rota = '/campanha_brindes';
         if (dados.id != null) {
