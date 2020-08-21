@@ -35,7 +35,7 @@
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
                     <vs-tab @click="colorx = 'warning'; getItems('pendente')" color="warning" value="10" v-if="pagination" :label="'pendentes' + (dados.status == 'pendente' ? ' (' + items.length + ')' : '')">
-                        <listagem @aprovarVarias="aprovarVarias" @visualizar="visualizar" :items="items" tipo="pendente" v-if="items.length > 0"></listagem>
+                        <listagem @aprovarVarias="aprovarVarias" @visualizar="visualizar" @editar="editar" :items="items" tipo="pendente" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -53,7 +53,7 @@
                     </vs-tab>
                     <vs-tab @click="colorx = 'danger'; getItems('reprovado')" color="danger" value="10"
                             :label="'reprovados' + (dados.status == 'reprovado' ? ' (' + items.length + ')' : '')">
-                        <listagem @visualizar="visualizar" :items="items" tipo="reprovado" v-if="items.length > 0"></listagem>
+                        <listagem @aprovarVarias="aprovarVarias" @visualizar="visualizar" :items="items" tipo="reprovado" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -85,6 +85,30 @@
                 </div>
             </vs-col>
         </vs-row>
+        <vs-prompt
+                @cancel="modaleditar = false"
+                @accept="update"
+                acceptText="Salvar"
+                cancelText="Cancelar"
+                :title="'Editar informações'"
+                :max-width="'600px'"
+                :active.sync="modaleditar">
+            <div class="con-exemple-prompt">
+                <div class="mb-3">
+                    <span class="font-regular mb-2">Nome do destinatário</span>
+                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="val.nome_destinatario" size="large"/>
+                </div>
+                <div class="mb-3">
+                    <span class="font-regular mb-2">E-mail do destinatário</span>
+                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="val.email_destinatario" size="large"/>
+                </div>
+                <div class="mb-3">
+                    <span class="font-regular mb-2">Brinde</span>
+                    <v-select v-model="selectedEditBrinde" class="mb-2" :class="'select-large-base'" :clearable="false"
+                              :options="brindesEdit" v-validate="'required'" name="variavel"/>
+                </div>
+            </div>
+        </vs-prompt>
     </div>
 </template>
 
@@ -123,8 +147,19 @@
                 currentx: 1,
                 colorx: 'warning',
                 selectedBrinde: {},
-                brindes: []
+                brindes: [],
+                brindesCru: [],
                 //items: {}
+
+                //Prompt Editar
+                modaleditar: false,
+                val: {
+                    nome_destinatario: '',
+                    email_destinatario: '',
+                    brinde_id: null
+                },
+                selectedEditBrinde: {},
+                brindesEdit: []
             }
         },
         created() {
@@ -166,6 +201,7 @@
             getOpcoes(){
                 this.$store.dispatch('brindes/get').then(response => {
                     this.brindes = [...this.arraySelect(response)];
+                    this.brindesCru = [...response];
                 });
             },
             deletar(id) {
@@ -201,7 +237,7 @@
             },
 
             //Procedimentos
-            aprovarVarias(arr, rota){
+            aprovarVarias(arr, rota, tipo){
                 console.log('aprovando várias', arr)
                 let arr2 = arr.map(item => {return item.id});
                 this.$vs.dialog({
@@ -217,7 +253,7 @@
                                 title: '',
                                 text: 'Procedimento realizado com sucesso'
                             });
-                            this.getItems();
+                            this.getItems(tipo);
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -228,6 +264,41 @@
                         });
                     }
                 })
+
+            },
+
+            //Prompt Editar
+            editar(obj){
+                this.modaleditar = true;
+                this.brindesEdit = [];
+                this.brindesCru.forEach(item => {
+                    if(obj.produto_id == item.produto_id){
+                        this.brindesEdit.push({id: item.id, label: item.nome});
+                    }
+                });
+                this.val = {...obj};
+                this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
+            },
+            update(){
+                console.log(this.selectedEditBrinde);
+                this.val.brinde_id = this.selectedEditBrinde.id;
+                this.$vs.loading();
+                this.$store.dispatch('solicitacao/store', this.val).then(() => {
+                    this.val = {};
+                    this.$vs.notify({
+                        color: 'success',
+                        title: '',
+                        text: 'Salvo com sucesso'
+                    });
+                    this.getItems();
+                }).catch(erro => {
+                    console.log(erro)
+                    this.$vs.notify({
+                        color: 'danger',
+                        title: 'Erro',
+                        text: 'Algo deu errado ao finalizar. Reinicie a página.'
+                    })
+                });
 
             }
         },
@@ -245,6 +316,9 @@
                 this.$vs.loading();
                 this.dados.brinde_id = this.selectedBrinde != null ? this.selectedBrinde.id : null;
                 this.getItems();
+            },
+            selectedEditBrinde(val){
+                console.log(val)
             }
         },
         computed: {

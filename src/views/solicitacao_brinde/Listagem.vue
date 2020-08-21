@@ -2,7 +2,7 @@
     <div>
         <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items">
             <template slot="thead">
-                <vs-th></vs-th>
+                <vs-th v-if="tipo == 'pendente'"></vs-th>
                 <vs-th>Destinatário</vs-th>
                 <vs-th>E-mail</vs-th>
                 <vs-th>Brinde</vs-th>
@@ -11,14 +11,14 @@
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
-                    <vs-td class="flex justify-center items-center">
+                    <vs-td class="flex justify-center items-center" v-if="tipo == 'pendente'">
                         <vs-dropdown vs-trigger-click>
                             <vs-button radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
-                                <vs-dropdown-item @click="updateData(data[indextr])">
+                                <vs-dropdown-item @click="$emit('editar', tr)">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
@@ -42,7 +42,6 @@
                     </vs-td>
                 </vs-tr>
             </template>
-
         </vs-table>
         <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
@@ -50,7 +49,7 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative flex items-center">
                             <p class="mr-4 text-lg">{{selecteds.length}} selecionadas</p>
-                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('aprovarVarias', selecteds, 'aprovar')" v-if="tipo == 'pendente'">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('aprovarVarias', selecteds, 'aprovar', tipo)" v-if="(tipo == 'pendente' || tipo == 'reprovado')">
                                 Aprovar Etiquetas
                             </vs-button>
                             <vs-button class="mr-3 text-black" color="danger" type="border" icon-pack="material-icons" icon="close" @click="$emit('aprovarVarias', selecteds, 'reprovar')" v-if="tipo == 'pendente'">
@@ -85,7 +84,7 @@
                 }
             },
             handleSelected(tr) {
-                console.log(this.selecteds)
+
             }
         }
     }

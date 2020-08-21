@@ -35,11 +35,11 @@ export default {
                     reject(error)
                 })
         })
-    }
-    /*storeCampanha({commit}, dados) {
-        let rota = '/campanha_brindes';
+    },
+    store({commit}, dados) {
+        let rota = '/solicitacao_brindes';
         if (dados.id != null) {
-            rota = '/campanha_brindes/' + dados.id;
+            rota = '/solicitacao_brindes/' + dados.id;
             dados._method = 'PUT';
         }
         return new Promise((resolve, reject) => {
@@ -49,5 +49,5 @@ export default {
                 reject(error);
             });
         })
-    },*/
+    },
 }

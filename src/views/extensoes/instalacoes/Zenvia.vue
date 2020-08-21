@@ -7,17 +7,17 @@
                 <div class="rounded-b-lg text-center" style="background-color: #E8EBF2">
                     <p class="pt-20 font-bold text-black">Zenvia</p>
                     <p class="my-2">Faça ligações de dentro do Moskit e as mantenha registradas na linha do tempo de seus contatos!</p>
-                    <vs-button color="dark" class="my-5 w-10/12">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
+                    <vs-button color="dark" class="my-5 w-10/12" @click="instalar">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
                     <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado">Recarregar</vs-button>
                 </div>
-                <div class="w-full">
+                <div class="w-full" v-if="extensao != null">
                     <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="saldo" statisticTitle="Saldo" color="success"/>
                     <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="custo" statisticTitle="Investimento Total" color="success"/>
                 </div>
             </div>
             <div class="vx-col w-full lg:w-9/12">
                 <div class="vx-row mb-5">
-                    <div class="vx-col w-full">
+                    <div class="vx-col w-full" v-if="extensao != null">
                         <vs-switch vs-icon-on="check" v-model="extensao.ativo" color="#0FB599" class="float-right switch" @click="ativaExtensao"/>
                         <span class="float-right mt-1 mx-4"
                               style="font-weight: bold">{{extensao.ativo ? 'Ativado' : 'Desativado'}}</span>
@@ -34,7 +34,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="vx-col w-full">
+                    <div class="vx-col w-full" v-if="extensao != null">
                         <vs-tabs color="primary">
                             <vs-tab color="primary" value="10" :label="'histórico de chamadas (' + historico.length + ')'" v-if="historico">
                                 <div class="vx-row flex items-end">
@@ -56,10 +56,10 @@
                                 <vs-row>
                                     <vs-col vs-w="12">
                                         <div class="vx-row mt-20 flex justify-center" v-if="historico.length === 0">
-                                            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                                            <div class="w-full lg:w-8/12 xlg:w-8/12 s:w-full sem-item">
                                                 <div class="w-8/12">
                                                     <div>
-                                                        <p class="span-sem-item">Nenhuma transação encontrada</p>
+                                                        <p class="span-sem-item">Nenhuma chamada encontrada</p>
                                                     </div>
                                                     <br>
                                                 </div>
@@ -109,10 +109,10 @@
                                 <vs-row>
                                     <vs-col vs-w="12">
                                         <div class="vx-row mt-20 flex justify-center" v-if="recargas.length === 0">
-                                            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                                            <div class="w-full lg:w-8/12 xlg:w-8/12 s:w-full sem-item">
                                                 <div class="w-8/12">
                                                     <div>
-                                                        <p class="span-sem-item">Nenhuma transação encontrada</p>
+                                                        <p class="span-sem-item">Nenhuma recarga encontrada</p>
                                                     </div>
                                                     <br>
                                                 </div>
@@ -143,6 +143,28 @@
                                                         <vs-td>
                                                             {{tr.descricao}}
                                                         </vs-td>
+                                                    </vs-tr>
+                                                </template>
+                                            </vs-table>
+                                        </div>
+                                    </vs-col>
+                                </vs-row>
+                            </vs-tab>
+                            <vs-tab color="primary" value="10" :label="'ramais (' + ramais.length + ')'" v-if="ramais">
+                                <vs-row>
+                                    <vs-col vs-w="12">
+                                        <div class="com-item">
+                                            <vs-table :data="ramais" class="table-items">
+
+                                                <template slot="thead">
+                                                    <vs-th>Ramal</vs-th>
+                                                    <vs-th>Login</vs-th>
+                                                </template>
+
+                                                <template slot-scope="{data}">
+                                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
+                                                        <vs-td>{{tr.ramal}}</vs-td>
+                                                        <vs-td>{{tr.login}}</vs-td>
                                                     </vs-tr>
                                                 </template>
                                             </vs-table>
@@ -221,6 +243,7 @@
                 instalado: false,
                 historico: [],
                 recargas: [],
+                ramais: [],
                 saldo: 0,
                 custo: 0,
                 link_recarga: '',
@@ -241,13 +264,29 @@
             this.dados.dt_inicio = moment().subtract(1, 'days').format('YYYY-MM-DD');
             this.dados.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(1, 'days')
-            this.dateRange.endDate = moment()
-
-            this.getHistorico();
+            this.dateRange.endDate = moment();
+            this.verifica();
+            /*this.getHistorico();*/
         },
         methods: {
-            getHistorico() {
+            verifica(){
                 this.dados.subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+                this.$store.dispatch('extensoes/get', this.dados.subdomain).then(response => {
+                    let arr = response.extensoes;
+                    console.log('alou', arr)
+                    if(arr.length > 0){
+                        arr.forEach(item => {
+                            if(item.extensao_type === "App\\Models\\Extensoes\\Totalvoice"){
+                                this.getHistorico();
+                            }
+                        });
+                    } else {
+                        this.$vs.loading.close();
+                    }
+
+                });
+            },
+            getHistorico() {
                 this.$vs.loading();
                 if (this.dateRange.startDate)
                     this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
@@ -255,9 +294,13 @@
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
                 this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
-                    console.log('alou', response)
-                    this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
-                    this.recargas = [...response.recarga.dados.relatorio]; //Histórico de recargas
+                    if(response.chamadas.dados.relatorio.length > 0)
+                        this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
+                    if(response.recarga.dados.relatorio != null)
+                        this.recargas = [...response.recarga.dados.relatorio]; //Histórico de recargas
+                    if(response.ramais.dados.relatorio.length > 0)
+                        this.ramais = [...response.ramais.dados.relatorio]; //Histórico de chamadas
+
                     this.link_recarga = response.regargaUrl.dados.url; //Link para recarga de crédito
                     this.instalado = (response.geral.status == 200);
                     this.custo = 0; //Armazena a soma de todas as cargas
@@ -334,14 +377,40 @@
                     })
                     this.countSwitch += 1;
                 }
+            },
+            instalar(){
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: `Instalar extensão?`,
+                    text: 'Você confirma que leu e aceita os termos da instalação?',
+                    acceptText: 'Sim, prosseguir!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('extensoes/instalar', {subdomain: this.dados.subdomain, type: 'Totalvoice'}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Instalado com sucesso'
+                            });
+                            this.verifica();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: '',
+                                text: 'Algo deu errado ao deletar. Contate o suporte.'
+                            })
+                        })
+                    }
+                })
             }
         },
         watch: {
-            dateRange(val) {
+            dateRange() {
                 this.$vs.loading();
                 this.getHistorico();
             },
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
                 this.dados.page = this.currentx;
                 this.getHistorico();
