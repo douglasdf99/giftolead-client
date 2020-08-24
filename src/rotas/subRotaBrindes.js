@@ -6,9 +6,9 @@ const subbrindes = [
         icon: 'redeem'
     },
     {
-        url: '/brindes/listagem-entregas',
+        url: '/brindes/automacao',
         name: "Listagem de Entregas",
-        slug: "brindes-list-entrega",
+        slug: "brindes-automacao",
         icon: 'local_shipping'
     },
     {

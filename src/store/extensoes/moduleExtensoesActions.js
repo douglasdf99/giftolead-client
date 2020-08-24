@@ -84,5 +84,14 @@ export default {
                     reject(error)
                 })
         })
-    }
+    },
+    deletarRamal({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.delete(`/extensoes/totalvoice/${dados.ramal_id}`, {params: dados})
+                .then(response => {
+                    console.log('deletado', response)
+                    resolve(response)
+                }).catch(erro => reject(erro))
+        });
+    },
 }

@@ -73,23 +73,6 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/listagem-entregas',
-        name: 'brindes-listagem-entregas',
-        component: () => import('@/views/brindes/Entrega.vue'),
-        meta: {
-            breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Brindes'},
-                {title: 'Listagem de Entrega', active: true},
-            ],
-            pageTitle: 'Automação de entrega de Brinde',
-            rule: 'editor',
-            pai: 'brindes',
-            subTitle: 'Brindes',
-            submenu: subbrindes
-        },
-    },
-    {
         path: '/brindes/solicitacoes',
         name: 'brindes-solicitacoes',
         component: () => import('@/views/solicitacao_brinde/Index.vue'),

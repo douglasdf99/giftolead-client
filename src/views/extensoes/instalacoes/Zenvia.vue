@@ -173,31 +173,31 @@
                                                         <vs-td>{{tr.ramal}}</vs-td>
                                                         <vs-td>{{tr.login}}</vs-td>
                                                         <vs-td v-if="showUser(tr.ramal)">
-                                                          <div class="avatar-list" v-bind:style="{backgroundImage: 'url(' + get_img_api(showUser(tr.ramal)) + ')'}"></div>
+                                                            <div class="avatar-list" v-bind:style="{backgroundImage: 'url(' + get_img_api(showUser(tr.ramal)) + ')'}"></div>
                                                         </vs-td>
                                                         <vs-td v-else>
-                                                          <vs-chip>Nenhum usuario vinculado</vs-chip>
+                                                            <vs-chip>Nenhum usuario vinculado</vs-chip>
                                                         </vs-td>
                                                         <vs-td>
-                                                          <vs-dropdown vs-trigger-click>
-                                                          <vs-button radius color="#EDEDED" type="filled"
-                                                                     class="btn-more-icon relative botao-menu"
-                                                                     icon-pack="material-icons" icon="more_horiz"
-                                                          ></vs-button>
-                                                          <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario">
-                                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                                            <vs-dropdown-item @click="editRamal(tr)">
-                                                              <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                                              Editar
-                                                            </vs-dropdown-item>
+                                                            <vs-dropdown vs-trigger-click>
+                                                                <vs-button radius color="#EDEDED" type="filled"
+                                                                           class="btn-more-icon relative botao-menu"
+                                                                           icon-pack="material-icons" icon="more_horiz"
+                                                                ></vs-button>
+                                                                <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario">
+                                                                    <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                                                    <vs-dropdown-item @click="editRamal(tr)">
+                                                                        <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                                                        Editar
+                                                                    </vs-dropdown-item>
 
-                                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                                              <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                                              Deletar
-                                                            </vs-dropdown-item>
+                                                                    <vs-dropdown-item @click="deletar(data[indextr].id, getUserId(tr.ramal))">
+                                                                        <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                                                                        Deletar
+                                                                    </vs-dropdown-item>
 
-                                                          </vs-dropdown-menu>
-                                                        </vs-dropdown>
+                                                                </vs-dropdown-menu>
+                                                            </vs-dropdown>
                                                         </vs-td>
                                                     </vs-tr>
                                                 </template>
@@ -245,16 +245,16 @@
 </template>
 
 <script>
-  import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
-  import Datepicker from 'vuejs-datepicker';
-  import * as lang from 'vuejs-datepicker/src/locale';
-  import DateRangePicker from 'vue2-daterange-picker';
-  import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
-  import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
-  import vSelect from 'vue-select'
-  import moduleUsuario from "../../../store/usuarios/moduleUsuario";
+    import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
+    import Datepicker from 'vuejs-datepicker';
+    import * as lang from 'vuejs-datepicker/src/locale';
+    import DateRangePicker from 'vue2-daterange-picker';
+    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
+    import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
+    import vSelect from 'vue-select'
+    import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
-  const moment = require('moment/moment');
+    const moment = require('moment/moment');
     require('moment/locale/pt-br');
 
     export default {
@@ -322,7 +322,7 @@
 
                 //Modal Criar Ramal
                 modalramal: false,
-              modalramaledit: false,
+                modalramaledit: false,
                 val: {
                     ramal: ''
                 },
@@ -347,37 +347,41 @@
             this.dateRange.endDate = moment();
             this.verifica();
         },
-        computed:{
-          users() {
-            let users = [];
-            this.usersall.forEach(val => {
-              if(val.ramal == null)
-                users.push({id: val.id, label: val.name});
-            });
-            return users;
-          }
+        computed: {
+            users() {
+                let users = [];
+                this.usersall.forEach(val => {
+                    if (val.ramal == null)
+                        users.push({id: val.id, label: val.name});
+                });
+                return users;
+            }
         },
         methods: {
-            showUser(ramal){
-              console.log('ramal', ramal);
-              console.log('usuarios', this.usersall);
-
-              let avatar = false;
+            showUser(ramal) {
+                let avatar = false;
                 this.usersall.forEach(val => {
-                if(val.ramal == ramal)
-                  avatar = val.avatar
-              });
-              console.log('avatar', avatar);
+                    if (val.ramal == ramal)
+                        avatar = val.avatar
+                });
+                console.log('avatar', avatar);
                 return avatar
             },
-            verifica(){
-                this.dados.subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+            getUserId(ramal){
+                let id = '';
+                this.usersall.forEach(val => {
+                    if (val.ramal == ramal)
+                        id = val.id;
+                });
+                return id
+            },
+            verifica() {
+                this.dados.subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
                 this.$store.dispatch('extensoes/get', this.dados.subdomain).then(response => {
                     let arr = response.extensoes;
-                    console.log('alou', arr)
-                    if(arr.length > 0){
+                    if (arr.length > 0) {
                         arr.forEach(item => {
-                            if(item.extensao_type === "App\\Models\\Extensoes\\Totalvoice"){
+                            if (item.extensao_type === "App\\Models\\Extensoes\\Totalvoice") {
                                 this.getHistorico();
                             }
                         });
@@ -393,11 +397,11 @@
                 if (this.dateRange.endDate)
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
                 this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
-                    if(response.chamadas.dados.relatorio.length > 0)
+                    if (response.chamadas.dados.relatorio.length > 0)
                         this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
-                    if(response.recarga.dados.relatorio != null)
+                    if (response.recarga.dados.relatorio != null)
                         this.recargas = [...response.recarga.dados.relatorio]; //Histórico de recargas
-                    if(response.ramais.dados.relatorio.length > 0)
+                    if (response.ramais.dados.relatorio.length > 0)
                         this.ramais = [...response.ramais.dados.relatorio]; //Histórico de chamadas
 
                     this.link_recarga = response.regargaUrl.dados.url; //Link para recarga de crédito
@@ -479,7 +483,7 @@
                     this.countSwitch += 1;
                 }
             },
-            instalar(){
+            instalar() {
                 this.$vs.dialog({
                     color: 'primary',
                     title: `Instalar extensão?`,
@@ -499,7 +503,7 @@
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
-                                text: 'Algo deu errado ao deletar. Contate o suporte.'
+                                text: 'Algo deu errado ao instalar. Contate o suporte.'
                             })
                         })
                     }
@@ -507,82 +511,115 @@
             },
 
             //Modal
-            addRamal(){
-              this.modalramal = true;
+            addRamal() {
+                this.modalramal = true;
             },
-            editRamal(obj){
-              this.val = obj;
+            editRamal(obj) {
+                this.val = obj;
 
-              this.usersall.forEach(val => {
-                if(val.email == obj.login)
-                  this.selectedUser = {id: val.id , label: val.name}
-              });
+                this.usersall.forEach(val => {
+                    if (val.email == obj.login)
+                        this.selectedUser = {id: val.id, label: val.name}
+                });
 
-              this.modalramaledit = true;
+                this.modalramaledit = true;
             },
-            getUsers(){
+            getUsers() {
                 this.$store.dispatch('usuario/get').then(response => {
                     console.log('usuarios', response);
                     this.usersall = response;
                 });
             },
-            storeRamal(){
+            storeRamal() {
                 this.$vs.loading();
                 this.val.user_id = this.selectedUser.id;
                 this.val.type = 'totalvoiceRamal';
                 this.val.subdomain = this.dados.subdomain;
                 this.$store.dispatch('extensoes/storeRamal', this.val).then(response => {
                     console.log('retornou', response);
-                  this.getHistorico();
-                  this.$vs.notify({
-                    title: '',
-                    text: 'Ramal criado com sucesso',
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'success'
-                  });
-                  this.$vs.loading.close();
-                }).catch((erro)=>{
-                  this.$vs.loading.close();
-                  this.$vs.notify({
-                    title: '',
-                    text: erro.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                  });
+                    this.getHistorico();
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Ramal criado com sucesso',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'success'
+                    });
+                    this.$vs.loading.close();
+                }).catch((erro) => {
+                    this.$vs.loading.close();
+                    this.$vs.notify({
+                        title: '',
+                        text: erro.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
                 })
-              this.$vs.loading.close();
+                this.$vs.loading.close();
             },
-            updateRamal(){
+            updateRamal() {
                 this.$vs.loading();
-                this.val.ramal_id =  this.val.id;
+                this.val.ramal_id = this.val.id;
                 this.val.user_id = this.selectedUser.id;
                 this.val.type = 'totalvoiceRamal';
                 this.val.subdomain = this.dados.subdomain;
                 this.$store.dispatch('extensoes/updateRamal', this.val).then(response => {
                     console.log('retornou', response);
-                  this.getHistorico();
-                  this.$vs.notify({
-                    title: '',
-                    text: 'Alterações realizadas com sucesso',
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'success'
-                  });
-                  this.$vs.loading.close();
+                    this.getHistorico();
+                    this.$vs.notify({
+                        title: '',
+                        text: 'Alterações realizadas com sucesso',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'success'
+                    });
+                    this.$vs.loading.close();
                 })
-                  .catch((erro)=>{
-                  this.$vs.loading.close();
-                  this.$vs.notify({
-                    title: '',
-                    text: erro.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                  });
+                    .catch((erro) => {
+                        this.$vs.loading.close();
+                        this.$vs.notify({
+                            title: '',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        });
+                    })
+                this.$vs.loading.close();
+            },
+            deletar(id, user_id) {
+                this.$vs.dialog({
+                    type: 'confirm',
+                    color: 'primary',
+                    title: `Deletar Ramal?`,
+                    text: 'Deseja mesmo deletar este Ramal?',
+                    acceptText: 'Sim!',
+                    cancelText: 'Cancelar',
+                    accept: () => {
+                        this.$vs.loading();
+                        let obj = {};
+                        obj.ramal_id = id;
+                        obj.user_id = user_id;
+                        obj.type = 'totalvoiceRamal';
+                        obj._method = 'DELETE';
+                        this.$store.dispatch('extensoes/deletarRamal', obj).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Deletado com sucesso'
+                            });
+                            this.verifica();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: '',
+                                text: 'Algo deu errado no procedimento. Contate o suporte.'
+                            })
+                        })
+                    }
                 })
-              this.$vs.loading.close();
             },
         },
         watch: {
@@ -595,13 +632,6 @@
                 this.dados.page = this.currentx;
                 this.getHistorico();
             },
-            /*dados: {
-                handler(val) {
-                    this.$vs.loading();
-                    this.getHistorico();
-                },
-                deep: true
-            },*/
         }
     }
 </script>
