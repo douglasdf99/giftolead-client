@@ -151,6 +151,11 @@
                                 </vs-row>
                             </vs-tab>
                             <vs-tab color="primary" value="10" :label="'ramais (' + ramais.length + ')'" v-if="ramais">
+                                <div class="vx-row">
+                                    <div class="vx-col w-full">
+                                        <vs-button color="primary" class="float-right" @click="addRamal">Adicionar Ramal</vs-button>
+                                    </div>
+                                </div>
                                 <vs-row>
                                     <vs-col vs-w="12">
                                         <div class="com-item">
@@ -177,6 +182,21 @@
                 </div>
             </div>
         </div>
+        <vs-prompt
+                @cancel="val = {}" @accept="storeRamal" @close="modalramal = false" :acceptText="'Salvar'" :cancelText="'Cancelar'" title="Selecionar link"
+                :max-width="'600px'" :active.sync="modalramal" :isValid="(selectedUser.id != null && val.ramal.length == 4)">
+            <div class="con-exemple-prompt">
+                <div class="mt-3 w-full">
+                    <span class="font-regular mb-2">Ramal</span>
+                    <vs-input sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.ramal" v-mask="'####'"/>
+                </div>
+                <div class="mt-3 w-full">
+                    <span class="font-regular mb-2">Responsável</span>
+                    <v-select v-model="selectedUser" class="mb-2" :class="'select-large-base'" :clearable="false"
+                              :options="users" v-validate="'required'" name="tipo"/>
+                </div>
+            </div>
+        </vs-prompt>
     </div>
 </template>
 
@@ -187,6 +207,8 @@
     import DateRangePicker from 'vue2-daterange-picker';
     import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
     import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
+    import vSelect from 'vue-select'
+    import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -195,7 +217,7 @@
         name: "TotalVoice",
         components: {
             Datepicker, StatisticsCardLine,
-            moment,
+            moment, 'v-select': vSelect,
             DateRangePicker
         },
         data() {
@@ -252,7 +274,15 @@
                     billet_printed: ['Boleto Impresso', '#848a91'],
                     delayed: ['Atrasado', '#e74c3c'],
                 },
-                countSwitch: 0
+                countSwitch: 0,
+
+                //Modal Criar Ramal
+                modalramal: false,
+                val: {
+                    ramal: ''
+                },
+                selectedUser: {id: null, label: 'Selecione o responsável pelo ramal'},
+                users: []
             }
         },
         created() {
@@ -261,12 +291,16 @@
                 moduleExtensoes.isRegistered = true
             }
 
+            if (!moduleUsuario.isRegistered) {
+                this.$store.registerModule('usuario', moduleUsuario)
+                moduleUsuario.isRegistered = true
+            }
+
             this.dados.dt_inicio = moment().subtract(1, 'days').format('YYYY-MM-DD');
             this.dados.dt_fim = moment().format('YYYY-MM-DD');
             this.dateRange.startDate = moment().subtract(1, 'days')
             this.dateRange.endDate = moment();
             this.verifica();
-            /*this.getHistorico();*/
         },
         methods: {
             verifica(){
@@ -403,7 +437,34 @@
                         })
                     }
                 })
-            }
+            },
+
+            //Modal
+            addRamal(){
+                this.getUsers();
+            },
+            getUsers(){
+                this.$store.dispatch('usuario/get').then(response => {
+                    console.log('usuarios', response);
+                    let users = response.map(val => {
+                        if(val.ramal == null)
+                            return val;
+                    });
+                    users.forEach(item => {
+                        this.users.push({id: item.id, label: item.name});
+                    });
+                    this.modalramal = true;
+                });
+            },
+            storeRamal(){
+                this.$vs.loading();
+                this.val.user_id = this.selectedUser.id;
+                this.val.type = 'totalvoiceRamal';
+                this.val.subdomain = this.dados.subdomain;
+                this.$store.dispatch('extensoes/storeRamal', this.val).then(response => {
+                    console.log('retornou', response)
+                })
+            },
         },
         watch: {
             dateRange() {
