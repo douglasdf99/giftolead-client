@@ -61,6 +61,18 @@ export default {
                 })
         })
     },
+    updateRamal({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.put(`/extensoes/totalvoice/`+dados.id, dados)
+                .then((response) => {
+                    console.log('resposta zenvia', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     instalar({commit}, dados){
         return new Promise((resolve, reject) => {
             axios.post(`/extensoes/company`, dados)

@@ -59,4 +59,16 @@ export default {
                 })
         })
     },
+    getUserAuth({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/user`)
+                .then((response) => {
+                    console.log('usuários logado', response.data);
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

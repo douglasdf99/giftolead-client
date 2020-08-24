@@ -164,12 +164,41 @@
                                                 <template slot="thead">
                                                     <vs-th>Ramal</vs-th>
                                                     <vs-th>Login</vs-th>
+                                                    <vs-th>Usuario</vs-th>
+                                                    <vs-th>Ações</vs-th>
                                                 </template>
 
                                                 <template slot-scope="{data}">
                                                     <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
                                                         <vs-td>{{tr.ramal}}</vs-td>
                                                         <vs-td>{{tr.login}}</vs-td>
+                                                        <vs-td v-if="showUser(tr.ramal)">
+                                                          <div class="avatar-list" v-bind:style="{backgroundImage: 'url(' + get_img_api(showUser(tr.ramal)) + ')'}"></div>
+                                                        </vs-td>
+                                                        <vs-td v-else>
+                                                          <vs-chip>Nenhum usuario vinculado</vs-chip>
+                                                        </vs-td>
+                                                        <vs-td>
+                                                          <vs-dropdown vs-trigger-click>
+                                                          <vs-button radius color="#EDEDED" type="filled"
+                                                                     class="btn-more-icon relative botao-menu"
+                                                                     icon-pack="material-icons" icon="more_horiz"
+                                                          ></vs-button>
+                                                          <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario">
+                                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
+                                                            <vs-dropdown-item @click="editRamal(tr)">
+                                                              <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                                              Editar
+                                                            </vs-dropdown-item>
+
+                                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                                              <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                                                              Deletar
+                                                            </vs-dropdown-item>
+
+                                                          </vs-dropdown-menu>
+                                                        </vs-dropdown>
+                                                        </vs-td>
                                                     </vs-tr>
                                                 </template>
                                             </vs-table>
@@ -183,8 +212,23 @@
             </div>
         </div>
         <vs-prompt
-                @cancel="val = {}" @accept="storeRamal" @close="modalramal = false" :acceptText="'Salvar'" :cancelText="'Cancelar'" title="Selecionar link"
+                @cancel="val = { ramal : ''}" @accept="storeRamal" @close="modalramal = false" :acceptText="'Salvar'" :cancelText="'Cancelar'" title="Selecionar link"
                 :max-width="'600px'" :active.sync="modalramal" :isValid="(selectedUser.id != null && val.ramal.length == 4)">
+            <div class="con-exemple-prompt">
+                <div class="mt-3 w-full">
+                    <span class="font-regular mb-2">Ramal</span>
+                    <vs-input sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.ramal" v-mask="'####'"/>
+                </div>
+                <div class="mt-3 w-full">
+                    <span class="font-regular mb-2">Responsável</span>
+                    <v-select v-model="selectedUser" class="mb-2" :class="'select-large-base'" :clearable="false"
+                              :options="users" v-validate="'required'" name="tipo"/>
+                </div>
+            </div>
+        </vs-prompt>
+        <vs-prompt
+                @cancel="val = { ramal : ''}" @accept="updateRamal" @close="modalramaledit = false" :acceptText="'Salvar'" :cancelText="'Cancelar'" title="Selecionar link"
+                :max-width="'600px'" :active.sync="modalramaledit" :isValid="(selectedUser.id != null && val.ramal.length == 4)">
             <div class="con-exemple-prompt">
                 <div class="mt-3 w-full">
                     <span class="font-regular mb-2">Ramal</span>
@@ -201,16 +245,16 @@
 </template>
 
 <script>
-    import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
-    import Datepicker from 'vuejs-datepicker';
-    import * as lang from 'vuejs-datepicker/src/locale';
-    import DateRangePicker from 'vue2-daterange-picker';
-    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
-    import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
-    import vSelect from 'vue-select'
-    import moduleUsuario from "../../../store/usuarios/moduleUsuario";
+  import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
+  import Datepicker from 'vuejs-datepicker';
+  import * as lang from 'vuejs-datepicker/src/locale';
+  import DateRangePicker from 'vue2-daterange-picker';
+  import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
+  import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
+  import vSelect from 'vue-select'
+  import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
-    const moment = require('moment/moment');
+  const moment = require('moment/moment');
     require('moment/locale/pt-br');
 
     export default {
@@ -278,11 +322,12 @@
 
                 //Modal Criar Ramal
                 modalramal: false,
+              modalramaledit: false,
                 val: {
                     ramal: ''
                 },
                 selectedUser: {id: null, label: 'Selecione o responsável pelo ramal'},
-                users: []
+                usersall: []
             }
         },
         created() {
@@ -302,7 +347,29 @@
             this.dateRange.endDate = moment();
             this.verifica();
         },
+        computed:{
+          users() {
+            let users = [];
+            this.usersall.forEach(val => {
+              if(val.ramal == null)
+                users.push({id: val.id, label: val.name});
+            });
+            return users;
+          }
+        },
         methods: {
+            showUser(ramal){
+              console.log('ramal', ramal);
+              console.log('usuarios', this.usersall);
+
+              let avatar = false;
+                this.usersall.forEach(val => {
+                if(val.ramal == ramal)
+                  avatar = val.avatar
+              });
+              console.log('avatar', avatar);
+                return avatar
+            },
             verifica(){
                 this.dados.subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
                 this.$store.dispatch('extensoes/get', this.dados.subdomain).then(response => {
@@ -317,7 +384,6 @@
                     } else {
                         this.$vs.loading.close();
                     }
-
                 });
             },
             getHistorico() {
@@ -326,7 +392,6 @@
                     this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
                 if (this.dateRange.endDate)
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-
                 this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
                     if(response.chamadas.dados.relatorio.length > 0)
                         this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
@@ -345,7 +410,9 @@
                     this.saldo = response.geral.dados.saldo;
                     this.pagination.total = Math.round(response.chamadas.dados.total / response.chamadas.dados.limite);
                     this.$vs.loading.close();
+                    this.getUsers();
                 })
+
             },
             setDate(val) {
                 this.$vs.loading();
@@ -441,19 +508,22 @@
 
             //Modal
             addRamal(){
-                this.getUsers();
+              this.modalramal = true;
+            },
+            editRamal(obj){
+              this.val = obj;
+
+              this.usersall.forEach(val => {
+                if(val.email == obj.login)
+                  this.selectedUser = {id: val.id , label: val.name}
+              });
+
+              this.modalramaledit = true;
             },
             getUsers(){
                 this.$store.dispatch('usuario/get').then(response => {
                     console.log('usuarios', response);
-                    let users = response.map(val => {
-                        if(val.ramal == null)
-                            return val;
-                    });
-                    users.forEach(item => {
-                        this.users.push({id: item.id, label: item.name});
-                    });
-                    this.modalramal = true;
+                    this.usersall = response;
                 });
             },
             storeRamal(){
@@ -462,8 +532,57 @@
                 this.val.type = 'totalvoiceRamal';
                 this.val.subdomain = this.dados.subdomain;
                 this.$store.dispatch('extensoes/storeRamal', this.val).then(response => {
-                    console.log('retornou', response)
+                    console.log('retornou', response);
+                  this.getHistorico();
+                  this.$vs.notify({
+                    title: '',
+                    text: 'Ramal criado com sucesso',
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'success'
+                  });
+                  this.$vs.loading.close();
+                }).catch((erro)=>{
+                  this.$vs.loading.close();
+                  this.$vs.notify({
+                    title: '',
+                    text: erro.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                  });
                 })
+              this.$vs.loading.close();
+            },
+            updateRamal(){
+                this.$vs.loading();
+                this.val.ramal_id =  this.val.id;
+                this.val.user_id = this.selectedUser.id;
+                this.val.type = 'totalvoiceRamal';
+                this.val.subdomain = this.dados.subdomain;
+                this.$store.dispatch('extensoes/updateRamal', this.val).then(response => {
+                    console.log('retornou', response);
+                  this.getHistorico();
+                  this.$vs.notify({
+                    title: '',
+                    text: 'Alterações realizadas com sucesso',
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'success'
+                  });
+                  this.$vs.loading.close();
+                })
+                  .catch((erro)=>{
+                  this.$vs.loading.close();
+                  this.$vs.notify({
+                    title: '',
+                    text: erro.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                  });
+                })
+              this.$vs.loading.close();
             },
         },
         watch: {

@@ -75,7 +75,7 @@
             </div>
         </div>
         <!-- fim popup-->
-        <div class="vx-row">
+        <div class="vx-row" v-if="ticket.lead" >
             <div class="vx-col w-full lg:w-1/2 pr-1">
                 <div class="w-full h-full bg-white p-5 rounded-lg">
                     <div class="vx-row my-4">
@@ -191,6 +191,7 @@
 
 <script>
   import moduleTickets from "../../store/tickets/moduleTickets";
+  import moduleUsuario from "../../store/usuarios/moduleUsuario";
   import atendimento from "./Atendimento";
   import SideBar from "./Responder";
   import Email from "./Email"
@@ -205,14 +206,7 @@
         },
         data() {
             return {
-                /*ticket: {
-                    responsavel_type: '',
-                    responsavel: {
-                        avatar: ''
-                    },
-                    produto: {},
-                    follow_up: ''
-                },*/
+
                 activeLoading: false,
                 statustext: 'Realizando chamada',
 
@@ -248,10 +242,19 @@
                 this.$store.registerModule('tickets', moduleTickets)
                 moduleTickets.isRegistered = true
             }
+            if (!moduleUsuario.isRegistered) {
+                this.$store.registerModule('usuarios', moduleUsuario)
+                moduleUsuario.isRegistered = true
+            }
 
+          this.verificacao();
+
+          this.$store.dispatch('usuarios/getUserAuth').then(response => {
             let recaptchaScript = document.createElement('script')
-            recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=224a55be751930bd18614d537fae127c&tipo=hidden&ver=2')
+            recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key='+response.webphone+'&tipo=hidden&ver=2');
             document.body.appendChild(recaptchaScript)
+          });
+
         },
         methods: {
             getId(id) {
@@ -530,7 +533,6 @@
         },
         mounted() {
 
-            this.verificacao();
 
             //this.getAvailableCustomers();
             var vm = this;
