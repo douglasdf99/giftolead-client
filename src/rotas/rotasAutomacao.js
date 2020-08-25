@@ -37,7 +37,7 @@ const rotasAutomacao = [
         },
     },
     {
-        path: '/brindes/automacao/emails/criar',
+        path: '/brindes/automacao/emails/criar/:tipo',
         name: 'brindes-automacao-emails-criar',
         component: () => import('@/views/automacao/EmailsCriar.vue'),
         meta: {
@@ -55,8 +55,8 @@ const rotasAutomacao = [
         },
     },
     {
-        path: '/brindes/automacao/emails/criar',
-        name: 'brindes-automacao-emails-criar',
+        path: '/brindes/automacao/emails/editar/:id',
+        name: 'brindes-automacao-emails-editar',
         component: () => import('@/views/automacao/EmailsCriar.vue'),
         meta: {
             breadcrumb: [

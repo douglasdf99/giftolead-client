@@ -1,36 +1,5 @@
 <template>
     <div>
-        <div class="vx-row">
-            <div class="vx-col w-full mb-5">
-                <p class="destaque">Configure tipo de envio depois do último e-mail enviado</p>
-            </div>
-        </div>
-        <!--<div class="vx-row mb-4">
-            <div class="vx-col lg:w-full w-full">
-            <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{email.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="email.status" class="float-right switch"/>
-            </div>
-        </div>-->
-        <div class="vx-row mb-10">
-            <div class="vx-col w-full">
-                <div class="shadow-none flex items-center justify-around w-full p-5 radius-lg bg-white">
-                    <div class="vx-col w-full lg:w-1/12 text-center calendar-col-email">
-                        <i class="material-icons primary" style="font-size: 8rem; color: #9344C4">announcement</i>
-                    </div>
-                    <div class="vx-col w-full lg:w-10/12">
-                        <div class="vx-row">
-                            <div class="vx-col w-full">
-                                <span class="font-regular mb-2">Evento</span>
-                                <v-select v-model="selectedEvento" :class="'select-large-base'"
-                                          :clearable="false" style="background-color: white; width: 100%"
-                                          :options="eventos" v-validate="'required'" name="produto"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="vx-row mb-2">
             <div class="vx-col w-full mb-5">
                 <p class="destaque">Configure o e-mail que será enviado</p>
@@ -144,10 +113,10 @@
                 this.$store.registerModule('automacao', moduleAutomacao)
                 moduleAutomacao.isRegistered = true
             }
-            if (this.$route.name === 'brinde-automacao-emails-editar')
-                this.getId(this.$route.params.idEmail);
+            if (this.$route.name === 'brindes-automacao-emails-editar')
+                this.getId(this.$route.params.id);
 
-            this.getAutomacao();
+            //this.getAutomacao();
         },
         data() {
             return {
@@ -164,11 +133,6 @@
                 campanha: {
                     produto: {}
                 },
-                selectedEvento: {id: null, label: 'Selecione o evento'},
-                eventos: [
-                    {id: 1, label: 'ao entrar'},
-                    {id: 2, label: 'ao receber objeto'},
-                ],
             }
         },
         methods: {
@@ -176,18 +140,18 @@
                 this.$validator.validateAll().then(result => {
                     if (result) {
                         /*if (this.$route.name === 'campanha-config-checkout-emails-editar' && this.email.campanha.contatos.length > 0) {*/
-                            this.$vs.dialog({
-                                color: 'primary',
-                                title: `Atenção`,
-                                type: 'confirm',
-                                text: 'Você tem certeza que deseja criar este e-mail?',
-                                acceptText: 'Sim',
-                                cancelText: 'Cancelar',
-                                buttonCancel: false,
-                                accept: () => {
-                                    this.salvar();
-                                },
-                            });
+                        this.$vs.dialog({
+                            color: 'primary',
+                            title: `Atenção`,
+                            type: 'confirm',
+                            text: 'Você tem certeza que deseja criar este e-mail?',
+                            acceptText: 'Sim',
+                            cancelText: 'Cancelar',
+                            buttonCancel: false,
+                            accept: () => {
+                                this.salvar();
+                            },
+                        });
                         /*} else {
                             this.salvar();
                         }*/
@@ -205,53 +169,27 @@
             },
             salvar() {
                 this.$vs.loading();
-                this.email.evento = this.selectedEvento.id;
-                console.log('email aí', this.email)
-                if (this.email.id !== undefined) {
-                    this.email._method = 'PUT';
-                    this.$store.dispatch('automacao/updateEmail', {
-                        id: this.email.id,
-                        dados: this.email
-                    }).then(response => {
-                        console.log('response', response);
-                        this.$vs.notify({
-                            title: '',
-                            text: "Atualizado com sucesso.",
-                            iconPack: 'feather',
-                            icon: 'icon-check-circle',
-                            color: 'success'
-                        });
-                        this.$router.push({path: '/brindes/automacao/emails'});
-                    }).catch(erro => {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: erro.message,
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
+                if(this.$route.name === 'brindes-automacao-emails-criar')
+                    this.email.evento = this.$route.params.tipo;
+                this.$store.dispatch('automacao/storeEmail', this.email).then(response => {
+                    console.log('response', response);
+                    this.$vs.notify({
+                        title: '',
+                        text: (this.email.id !== undefined ? 'Atualizado' : 'Criado') + "Atualizado com sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+                    this.$router.push({path: '/brindes/automacao/emails'});
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
                     })
-                } else {
-                    this.$store.dispatch('automacao/storeEmail', this.email).then(response => {
-                        console.log('response', response);
-                        this.$vs.notify({
-                            title: '',
-                            text: "Criado com sucesso.",
-                            iconPack: 'feather',
-                            icon: 'icon-check-circle',
-                            color: 'success'
-                        });
-                        this.$router.push({path: '/brindes/automacao/emails'});
-                    }).catch(erro => {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: erro.message,
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    })
-                }
+                })
             },
             onEditorReady(editor) {
                 this.editor = editor;
@@ -272,19 +210,8 @@
                     });
                     console.log('somaperiodo', this.somaPeriodo)
                 });
-                this.$store.dispatch('checkout/getEmailId', id).then(response => {
+                this.$store.dispatch('automacao/getEmailId', id).then(response => {
                     this.email = {...response};
-                    switch (this.email.unidade_medida) {
-                        case 'dias':
-                            this.periodoSelected = {id: 1440, label: 'dias'}
-                            break;
-                        case 'horas':
-                            this.periodoSelected = {id: 60, label: 'horas'}
-                            break;
-                        default:
-                            this.periodoSelected = {id: 1, label: 'minutos'}
-                    }
-                    console.log('chou aqui')
                     this.$vs.loading.close();
                 });
             },
@@ -297,13 +224,13 @@
                 var $txt2 = this.editor.getSelection(true);
                 this.editor.insertText($txt2.index, value, '', true);
             },
-            getAutomacao(){
-                this.$store.dispatch('checkout/getId', this.$route.params.id).then(response => {
+            getAutomacao() {
+                this.$store.dispatch('automacao/getId', this.$route.params.id).then(response => {
                     this.campanha = {...response};
                     this.getLinks();
                 });
             },
-            getLinks(){
+            getLinks() {
                 this.$store.dispatch('getLinks', this.campanha.produto_id).then(response => {
                     console.log('chou aqui 2', response)
                     let arr = [...response];
