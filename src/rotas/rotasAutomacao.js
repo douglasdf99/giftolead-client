@@ -18,6 +18,60 @@ const rotasAutomacao = [
             submenu: subbrindes
         },
     },
+    {
+        path: '/brindes/automacao/emails',
+        name: 'brindes-automacao-emails',
+        component: () => import('@/views/automacao/Emails.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Automação de entrega', url: '/brindes/automacao'},
+                {title: 'Configuração de E-mails', active: true},
+            ],
+            pageTitle: 'Configuração de envio de E-mails',
+            rule: 'editor',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
+    },
+    {
+        path: '/brindes/automacao/emails/criar',
+        name: 'brindes-automacao-emails-criar',
+        component: () => import('@/views/automacao/EmailsCriar.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Automação de entrega', url: '/brindes/automacao'},
+                {title: 'Criar novo e-mail', active: true},
+            ],
+            pageTitle: 'Criar novo e-mail',
+            rule: 'editor',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
+    },
+    {
+        path: '/brindes/automacao/emails/criar',
+        name: 'brindes-automacao-emails-criar',
+        component: () => import('@/views/automacao/EmailsCriar.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Automação de entrega', url: '/brindes/automacao'},
+                {title: 'Criar novo e-mail', active: true},
+            ],
+            pageTitle: 'Criar novo e-mail',
+            rule: 'editor',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
+    },
 ];
 
 export default rotasAutomacao

@@ -23,7 +23,7 @@
                     <vs-th>Status</vs-th>
                 </template>
                 <template slot-scope="{data}">
-                    <vs-tr>
+                    <vs-tr v-for="tr in data">
                         <vs-td class="flex justify-center items-center">
                             <vs-dropdown vs-trigger-click>
                                 <vs-button radius color="#EDEDED" type="filled"
@@ -43,13 +43,26 @@
                             </vs-dropdown>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">Fulano</p>
+                            <p class="font-bold">{{tr.lead.nome}}</p>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">Nayanni</p>
+                            <p class="font-bold">{{getResponsavel(tr)}}</p>
                         </vs-td>
                         <vs-td>
-
+                            <vs-icon icon-pack="material-icons" icon="cancel" color="danger" v-if="tr.eventos.length == 0" class="text-2xl"/>
+                        </vs-td>
+                        <vs-td>
+                            {{tr.uuid}}
+                        </vs-td>
+                        <vs-td>
+                            <p class="font-bold flex items-center" v-bind:class="getOrdemColor(tr)">
+                                {{getOrdemEnvio(tr)}}
+                                <i class="material-icons ml-3" v-bind:class="getOrdemColor(tr)">fiber_manual_record</i>
+                            </p>
+                        </vs-td>
+                        <vs-td class="flex">
+                            <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2" v-if="tr.rastreio != null">
+                            <img src="@/assets/images/util/expedicao-icon.svg" width="25px" v-if="tr.expedicao && tr.expedicao != null">
                         </vs-td>
                     </vs-tr>
                 </template>
@@ -62,7 +75,29 @@
 <script>
     export default {
         name: "Listagem",
-        props: ['items', 'tipo']
+        props: ['items', 'tipo'],
+        methods: {
+            getResponsavel(obj){
+                switch (obj.responsavel_type) {
+                    case 'App\\Models\\User':
+                        return obj.responsavel.name;
+                    default:
+                        return obj.responsavel.nome;
+                }
+            },
+            getOrdemEnvio(obj){
+                if(obj.endereco == null)
+                    return 'Pendente'
+                else
+                    return 'Preenchida'
+            },
+            getOrdemColor(obj){
+                if(obj.endereco == null)
+                    return 'text-warning'
+                else
+                    return 'text-blue'
+            }
+        }
     }
 </script>
 

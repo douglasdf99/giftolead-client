@@ -52,17 +52,30 @@
         <div class="vx-row">
             <div class="vx-col w-full">
                 <vs-tabs color="primary">
-                    <vs-tab color="primary" value="10" :label="'pendentes (' + 10 + ')'">
+                    <vs-tab color="primary" value="10" :label="'pendentes'">
                         <listagem :items="items" tipo="pendente"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'com erro (' + 10 + ')'"></vs-tab>
-                    <vs-tab color="primary" value="10" :label="'preenchida (' + 10 + ')'"></vs-tab>
-                    <vs-tab color="primary" value="10" :label="'com expedição (' + 10 + ')'"></vs-tab>
-                    <vs-tab color="primary" value="10" :label="'todos (' + 10 + ')'"></vs-tab>
+                    <vs-tab color="primary" value="10" :label="'com erro'"></vs-tab>
+                    <vs-tab color="primary" value="10" :label="'preenchida'"></vs-tab>
+                    <vs-tab color="primary" value="10" :label="'com expedição'"></vs-tab>
+                    <vs-tab color="primary" value="10" :label="'todos'"></vs-tab>
                 </vs-tabs>
             </div>
         </div>
+        <transition name="fade">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat" @click="$router.push({name: 'brindes-automacao-emails'})">
+                                Configurar E-mails
+                            </vs-button>
+                        </div>
+                    </div>
+                </div>
+            </footer-doug>
+        </transition>
     </div>
 </template>
 
