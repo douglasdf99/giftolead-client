@@ -224,10 +224,8 @@
                 //whats
                 responderTicket: false,
                 aresponder: {},
-
                 //email
                 enviarEmail: false,
-
                 hh: 0,
                 mm: 0,
                 ss: 0,
