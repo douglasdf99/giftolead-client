@@ -122,8 +122,8 @@
                 this.$store.registerModule('brindes', moduleBrindes)
                 moduleBrindes.isRegistered = true
             }
-
             this.getBrindes();
+            this.$vs.loading();
             this.getItems();
         },
         methods: {
@@ -131,6 +131,7 @@
                 this.$store.dispatch('automacao/get', this.dados).then(response => {
                     this.items = response.data;
                     this.pagination = response
+                    this.$vs.loading.close();
                 });
             },
             getBrindes(){

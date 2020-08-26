@@ -40,15 +40,11 @@
         </div>
         <div class="vx-row mt-10 -mb-4">
             <div class="vx-col w-full">
-                <!--<label class="vs-input&#45;&#45;label">Quantidade</label>
-                <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
-                          :options="lengths"/>-->
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
                     <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
                         <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
                         <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
                     </div>
-                    <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
                     <vs-dropdown-menu>
                         <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
                             <span>{{item}}</span>
@@ -244,7 +240,7 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-            /*dados: {
+            dados: {
                 handler(val) {
                     if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
@@ -253,7 +249,7 @@
                     }
                 },
                 deep: true
-            },*/
+            },
         },
 
         computed: {

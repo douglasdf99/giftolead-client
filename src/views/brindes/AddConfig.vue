@@ -160,6 +160,8 @@
             produtoSelected: {
                 handler() {
                     this.brindes = [];
+                    if(this.$route.name == 'brindes-campanhas-criar')
+                        this.brindeSelected = {};
                     this.$store.dispatch('brindes/get').then(response => {
                         let arr = [...response];
                         arr.forEach(item => {

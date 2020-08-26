@@ -12,7 +12,7 @@
                 </div>
                 <div class="w-full" v-if="extensao != null">
                     <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="saldo" statisticTitle="Saldo" color="success"/>
-                    <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="custo" statisticTitle="Investimento Total" color="success"/>
+                    <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="custo" statisticTitle="Total de recargas" color="success"/>
                 </div>
             </div>
             <div class="vx-col w-full lg:w-9/12">
@@ -550,7 +550,7 @@
                     this.$vs.loading.close();
                     this.$vs.notify({
                         title: '',
-                        text: erro.message,
+                        text: erro.response.menssagem,
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
@@ -580,7 +580,7 @@
                         this.$vs.loading.close();
                         this.$vs.notify({
                             title: '',
-                            text: erro.message,
+                            text: erro.response.menssagem,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'

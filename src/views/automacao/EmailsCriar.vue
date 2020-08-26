@@ -61,7 +61,7 @@
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails'})">
+                                       @click="$router.push({path: '/brindes/automacao/emails'})">
                                 Cancelar
                             </vs-button>
                         </div>

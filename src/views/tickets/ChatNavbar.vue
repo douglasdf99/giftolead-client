@@ -11,7 +11,7 @@
     <div v-if="userId != null" class="chat__header">
         <vs-navbar class="p-4 flex navbar-custom" color="white" type="flat">
             <div class="relative flex mr-4">
-                <img src="@/assets/images/util/avatar-padrao.svg" width="40">
+                <img :src="getAvatar(dados.email)" width="40" class="rounded-full">
             </div>
             <h6>{{ dados.nome }}</h6>
             <vs-spacer></vs-spacer>

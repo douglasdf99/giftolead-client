@@ -117,7 +117,7 @@
                         <div class="vx-col w-full lg:w-1/3">
                             <span class="font-regular mb-2">Selecione o brinde</span>
                             <v-select v-model="selectedBrinde" :class="'select-large-base'" :clearable="false"
-                                      style="background-color: white" :options="brindes" v-validate="'required'" name="brinde"/>
+                                      style="background-color: white" :options="brindesOptions" v-validate="'required'" name="brinde"/>
                         </div>
                         <div class="vx-col w-full lg:w-1/3">
                             <span class="font-regular mb-2">Nome do destinatário</span>
@@ -272,11 +272,12 @@
                 });
 
                 this.$store.dispatch('brindes/get').then(response => {
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        if(this.ticket.produto_id == item.produto_id)
+                    //let arr = [...response];
+                    this.brindes = [...response];
+                    /*arr.forEach(item => {
+                        if(this.ticket.produto.id == item.produto_id)
                             this.brindes.push({id: item.id, label: item.nome});
-                    });
+                    });*/
                 });
 
                 this.$store.dispatch('motivos/get').then(response => {
@@ -300,7 +301,15 @@
             ticket() {
                 return this.$store.state.tickets.ticketAtendimento;
             },
-            opcoes(){
+            brindesOptions() {
+                let arr = [];
+                this.brindes.forEach(item => {
+                    if (this.ticket.produto.id == item.produto_id)
+                        arr.push({id: item.id, label: item.nome});
+                });
+                return arr;
+            },
+            opcoes() {
                 let arr = [];
                 this.$store.state.tickets.ticketAtendimento.produto.upsellers.forEach(item => {
                     arr.push({id: item.produto.id, label: item.produto.nome});
@@ -316,13 +325,13 @@
             },
             selectedUpsell: {
                 handler(val) {
-                    if(this.atendimento.tipo == 0)
+                    if (this.atendimento.tipo == 0)
                         this.atendimento.upsell = val.id;
                 },
             },
             selectedBrinde: {
                 handler(val) {
-                    if(this.atendimento.tipo == 0)
+                    if (this.atendimento.tipo == 0)
                         this.atendimento.brinde_id = val.id;
                 },
             },
@@ -330,7 +339,7 @@
                 handler(val) {
                     if (val) {
                         console.log('watch', val, this.datetime);
-                        if(this.datetime != null && this.atendimento.tipo == 1)
+                        if (this.datetime != null && this.atendimento.tipo == 1)
                             this.atendimento.data_agendamento = this.datetime;
                         let obj = {...this.ticket, ...this.atendimento};
                         this.$store.commit('tickets/SET_TICKET_ATENDIDO', obj);

@@ -75,7 +75,7 @@
             </div>
         </div>
         <!-- fim popup-->
-        <div class="vx-row" v-if="ticket.lead" >
+        <div class="vx-row" v-if="ticket.lead">
             <div class="vx-col w-full lg:w-1/2 pr-1">
                 <div class="w-full h-full bg-white p-5 rounded-lg">
                     <div class="vx-row my-4">
@@ -92,10 +92,16 @@
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
                             <div class="w-full flex my-5">
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="!conectado">
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="!conectado" v-if="conectado">
                                     Ligar
                                     <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
                                 </vs-button>
+                                <vx-tooltip text="Nenhum ramal está vinculado ao seu usuário" position="top">
+                                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">
+                                        Sem ramal
+                                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>
+                                    </vs-button>
+                                </vx-tooltip>
 
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
@@ -190,15 +196,15 @@
 </template>
 
 <script>
-  import moduleTickets from "../../store/tickets/moduleTickets";
-  import moduleUsuario from "../../store/usuarios/moduleUsuario";
-  import atendimento from "./Atendimento";
-  import SideBar from "./Responder";
-  import Email from "./Email"
-  import historico from './Historico'
-  import transacoes from "./Transacoes"
+    import moduleTickets from "../../store/tickets/moduleTickets";
+    import moduleUsuario from "../../store/usuarios/moduleUsuario";
+    import atendimento from "./Atendimento";
+    import SideBar from "./Responder";
+    import Email from "./Email"
+    import historico from './Historico'
+    import transacoes from "./Transacoes"
 
-  export default {
+    export default {
         name: "Atender",
         components: {
             atendimento, SideBar, historico,
@@ -245,13 +251,14 @@
                 moduleUsuario.isRegistered = true
             }
 
-          this.verificacao();
+            this.verificacao();
 
-          this.$store.dispatch('usuarios/getUserAuth').then(response => {
-            let recaptchaScript = document.createElement('script')
-            recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key='+response.webphone+'&tipo=hidden&ver=2');
-            document.body.appendChild(recaptchaScript)
-          });
+            this.$store.dispatch('usuarios/getUserAuth').then(response => {
+                console.log('usuario', response)
+                let recaptchaScript = document.createElement('script')
+                recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.webphone + '&tipo=hidden&ver=2');
+                document.body.appendChild(recaptchaScript)
+            });
 
         },
         methods: {
@@ -401,20 +408,20 @@
                 webphone.contentWindow.postMessage({message: 'desconectar'}, '*');
             },
 
-            tratamentoTelefone(ddd,telefone){
-              if (ddd) {
-                ddd = ddd.replace(/[{()}]/g, '');
-              }else{
-                ddd = '';
-              }
-              if (telefone){
-                telefone = telefone.replace(/-/g, '')
-                telefone = telefone.replace(/[{()}]/g, '')
-              }else{
-                telefone = '';
-              }
+            tratamentoTelefone(ddd, telefone) {
+                if (ddd) {
+                    ddd = ddd.replace(/[{()}]/g, '');
+                } else {
+                    ddd = '';
+                }
+                if (telefone) {
+                    telefone = telefone.replace(/-/g, '')
+                    telefone = telefone.replace(/[{()}]/g, '')
+                } else {
+                    telefone = '';
+                }
 
-              return ddd + telefone;
+                return ddd + telefone;
             },
 
             //telefona para um número
@@ -430,7 +437,7 @@
                     type: 'default',
                 });
 
-              let teletone = this.tratamentoTelefone(this.ticket.lead.ddd,this.ticket.lead.telefone)
+                let teletone = this.tratamentoTelefone(this.ticket.lead.ddd, this.ticket.lead.telefone)
                 console.log('numero', teletone)
                 webphone.contentWindow.postMessage({
                     message: 'chamaNumero',
@@ -455,7 +462,6 @@
                    this.$vs.loading.close();
                  });*/
             },
-
 
 
             //mute microfone
@@ -530,8 +536,6 @@
             },
         },
         mounted() {
-
-
             //this.getAvailableCustomers();
             var vm = this;
             window.onmessage = function (e) {

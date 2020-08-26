@@ -242,8 +242,8 @@
                 let arr2 = arr.map(item => {return item.id});
                 this.$vs.dialog({
                     color: 'primary',
-                    title: (rota == 'aprovar' ? 'Aprovar' : 'Reprovar') + ` etiquetas?`,
-                    text: 'Deseja mesmo ' + rota + 'as etiquetas selecionadas?',
+                    title: (rota == 'aprovar' ? 'Aprovar' : (rota == 'restaurar') ? 'Restaurar' : 'Reprovar') + ` etiquetas?`,
+                    text: 'Deseja mesmo ' + rota + ' as etiquetas selecionadas?',
                     acceptText: 'Sim!',
                     accept: () => {
                         this.$vs.loading();
