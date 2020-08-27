@@ -1,96 +1,330 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Ajustes reunião 10">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes campanha carrinho">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
-    <execution />
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/automacao/Automacao.vue">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/automacao/Emails.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" column="40" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="40" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#6506#6538#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/tickets/Atender.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5882">
+              <caret line="521" column="13" selection-start-line="521" selection-start-column="13" selection-end-line="521" selection-end-column="13" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#3;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#style#0;n#p#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#3;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#p#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#4;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#transition#0;n#div#0;n#template#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/auth/moduleAuthActions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4981">
+              <caret line="306" column="12" selection-start-line="306" selection-start-column="12" selection-end-line="306" selection-end-column="12" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/http/requests/auth/jwt/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/usuarios/moduleUsuarioActions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="918">
+              <caret line="61" column="15" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="15" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/tickets/moduleTicketsActions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1020">
+              <caret line="172" column="37" selection-start-line="172" selection-start-column="37" selection-end-line="172" selection-end-column="37" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#1040#2063#0" />
+                <element signature="e#2097#3338#0" />
+                <element signature="e#3362#3540#0" />
+                <element signature="e#3576#3782#0" />
+                <element signature="e#3814#4077#0" />
+                <element signature="e#4108#4452#0" />
+                <element signature="e#4483#4529#0" />
+                <element signature="e#4555#4990#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/views/tickets/Atendimento.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="222">
+              <caret line="302" column="14" lean-forward="true" selection-start-line="302" selection-start-column="14" selection-end-line="302" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rotas/campanhas/rotasCampCheckout.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="41" selection-start-line="41" selection-end-line="97" selection-end-column="6" />
+              <folding>
+                <element signature="e#770#1462#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/campanhas/checkout/Contatos.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4301">
+              <caret line="259" column="46" selection-start-line="259" selection-start-column="38" selection-end-line="259" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-        <option value="Vue Single File Component" />
-      </list>
-    </option>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>loading-default</find>
+      <find>tempo</find>
+      <find>notify</find>
+      <find>this.ticket</find>
+      <find>nome</find>
+      <find>default</find>
+      <find>exibirMensagem</find>
+      <find>base.css</find>
+      <find>chamanum</find>
+      <find>sendChamada</find>
+      <find>chamaNumero</find>
+      <find>valido</find>
+      <find>tpl</find>
+      <find>adicionar</find>
+      <find>getU</find>
+      <find>getUsers</find>
+      <find>close</find>
+      <find>not</find>
+      <find>compu</find>
+      <find>atender</find>
+      <find>email</find>
+      <find>selectedUser</find>
+      <find>verificacao</find>
+      <find>store</find>
+      <find>ticket.lead.email</find>
+      <find>jw</find>
+      <find>computed</find>
+      <find>brindes</find>
+      <find>brindesOptions</find>
+      <find>ticket</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>Brindes</replace>
+      <replace>Contrato</replace>
+      <replace>Link</replace>
+      <replace>Cancelar</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="1dPI7hgBGS1eVi22zIgAnIHCQsc" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/public/loader.css" />
+        <option value="$PROJECT_DIR$/src/store/links/moduleLinks.js" />
+        <option value="$PROJECT_DIR$/src/layouts/main/Base.vue" />
+        <option value="$PROJECT_DIR$/src/views/brindes/SideBar.vue" />
+        <option value="$PROJECT_DIR$/src/views/brindes/Index.vue" />
+        <option value="$PROJECT_DIR$/src/views/produtos/Index.vue" />
+        <option value="$PROJECT_DIR$/src/views/links/AddEdit.vue" />
+        <option value="$PROJECT_DIR$/src/views/links/Index.vue" />
+        <option value="$PROJECT_DIR$/src/store/links/moduleLinkActions.js" />
+        <option value="$PROJECT_DIR$/src/assets/css/base.css" />
+        <option value="$PROJECT_DIR$/src/views/links/MeusLinks.vue" />
+        <option value="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" />
+        <option value="$PROJECT_DIR$/src/views/contratos/Index.vue" />
+        <option value="$PROJECT_DIR$/src/views/contratos/Servicos.vue" />
+        <option value="$PROJECT_DIR$/src/App.vue" />
+        <option value="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" />
+        <option value="$PROJECT_DIR$/src/views/links/Lista.vue" />
+        <option value="$PROJECT_DIR$/src/views/configuracoes/Geral.vue" />
+        <option value="$PROJECT_DIR$/src/views/components/extra-components/quill-editor/QuillEditorThemeSnow.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/EmailsCriar.vue" />
+        <option value="$PROJECT_DIR$/src/router.js" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/Emails.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/Checkout.vue" />
+        <option value="$PROJECT_DIR$/src/views/planos/Gerenciar.vue" />
+        <option value="$PROJECT_DIR$/src/views/usuarios/AddEdit.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/boleto/Index.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/boleto/EmailsCriar.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/checkout/Checkout.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/Canceladas.vue" />
+        <option value="$PROJECT_DIR$/src/rotas/campanhas/rotasCampCheckout.js" />
+        <option value="$PROJECT_DIR$/src/rotas/campanhas/rotasCampCancelada.js" />
+        <option value="$PROJECT_DIR$/src/store/campanha_canceladas/moduleCampCanceladaActions.js" />
+        <option value="$PROJECT_DIR$/src/views/leads/Index.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/cancelada/Contatos.vue" />
+        <option value="$PROJECT_DIR$/src/views/campanhas/cancelada/Canceladas.vue" />
+        <option value="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" />
+        <option value="$PROJECT_DIR$/src/views/tickets/Index.vue" />
+        <option value="$PROJECT_DIR$/src/axios.js" />
+        <option value="$PROJECT_DIR$/src/store/state.js" />
+        <option value="$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue" />
+        <option value="$PROJECT_DIR$/src/main.js" />
+        <option value="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/VerticalNavMenu.vue" />
+        <option value="$PROJECT_DIR$/src/store/tickets/moduleTicketsActions.js" />
+        <option value="$PROJECT_DIR$/src/views/tickets/Historico.vue" />
+        <option value="$PROJECT_DIR$/src/store/usuarios/moduleUsuarioActions.js" />
+        <option value="$PROJECT_DIR$/src/store/extensoes/moduleExtensoesActions.js" />
+        <option value="$PROJECT_DIR$/src/views/extensoes/instalacoes/Zenvia.vue" />
+        <option value="$PROJECT_DIR$/src/views/tickets/Atender.vue" />
+        <option value="$PROJECT_DIR$/src/views/automacao/Emails.vue" />
+        <option value="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" />
+      </list>
+    </option>
   </component>
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1185" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="tickets" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="TERMINAL_CUSTOM_COMMANDS_GOT_IT" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views/campanhas/boleto" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
-    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
-    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
-    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Projetos\saveleads3_vue\src\views\campanhas\boleto" />
-      <recent name="C:\Projetos\saveleads3_vue\src\views\campanhas\whatsapp" />
-      <recent name="C:\Projetos\saveleads3_vue\src\views\whatsapplist" />
-      <recent name="C:\Projetos\saveleads3_vue\src\store\whatsapplist" />
-      <recent name="C:\Projetos\saveleads3_vue\src\store\campanha_boleto" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\cancelada" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\Boleto" />
+      <recent name="C:\projects\saveleadsVuexy\src\views" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\links" />
+      <recent name="C:\projects\saveleadsVuexy\src\store" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Projetos\saveleads3_vue\src\rotas\campanhas" />
-      <recent name="C:\Projetos\saveleads3_vue\src\rotas\configuracoes" />
-      <recent name="C:\Projetos\saveleads3_vue\src\views\campanhas\checkout" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\cancelada" />
       <recent name="C:\projects\saveleadsVuexy\src\views\links" />
       <recent name="C:\projects\saveleadsVuexy\public" />
+      <recent name="C:\projects\saveleadsVuexy\src\assets\images\util" />
+      <recent name="C:\projects\saveleadsVuexy\src\views" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="serve" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="serve" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
+  <component name="RunDashboard">
+    <option name="ruleStates">
       <list>
-        <item itemvalue="npm.serve" />
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
       </list>
-    </recent_temporary>
+    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -139,30 +373,112 @@
       <workItem from="1591274983851" duration="2010000" />
       <workItem from="1591621259330" duration="1996000" />
       <workItem from="1591706363890" duration="18997000" />
-      <workItem from="1591796375944" duration="1283000" />
-      <workItem from="1592320140194" duration="3455000" />
-      <workItem from="1592328063616" duration="96000" />
-      <workItem from="1592400932980" duration="15755000" />
-      <workItem from="1592486444432" duration="19553000" />
-      <workItem from="1592568448677" duration="22728000" />
-      <workItem from="1592828000734" duration="22066000" />
-      <workItem from="1592914322090" duration="13999000" />
-      <workItem from="1593002430419" duration="914000" />
-      <workItem from="1593004731864" duration="4000" />
-      <workItem from="1593016223946" duration="10745000" />
-      <workItem from="1593087753987" duration="17275000" />
-      <workItem from="1593174452846" duration="623000" />
-      <workItem from="1593190835822" duration="8000" />
-      <workItem from="1593193628594" duration="8664000" />
-      <workItem from="1593434599564" duration="20133000" />
-      <workItem from="1593519228349" duration="10682000" />
-      <workItem from="1593692137859" duration="19101000" />
-      <workItem from="1593778272374" duration="24938000" />
-      <workItem from="1594039358022" duration="21738000" />
-      <workItem from="1594124293643" duration="10550000" />
-      <workItem from="1594212189018" duration="23879000" />
-      <workItem from="1594296906059" duration="2860000" />
-      <workItem from="1594300409704" duration="10951000" />
+      <workItem from="1591796375944" duration="2969000" />
+      <workItem from="1591838394252" duration="599000" />
+      <workItem from="1591965079831" duration="2275000" />
+      <workItem from="1592312389845" duration="8464000" />
+      <workItem from="1592397554133" duration="2051000" />
+      <workItem from="1592414065849" duration="744000" />
+      <workItem from="1592488699771" duration="3142000" />
+      <workItem from="1592577152388" duration="1295000" />
+      <workItem from="1592595518228" duration="2119000" />
+      <workItem from="1592834653038" duration="898000" />
+      <workItem from="1592868687927" duration="1043000" />
+      <workItem from="1592912607359" duration="1813000" />
+      <workItem from="1593004075523" duration="8057000" />
+      <workItem from="1593088409570" duration="2645000" />
+      <workItem from="1593126813750" duration="687000" />
+      <workItem from="1593174259654" duration="5246000" />
+      <workItem from="1593368047512" duration="601000" />
+      <workItem from="1593438552040" duration="1092000" />
+      <workItem from="1593519957296" duration="3401000" />
+      <workItem from="1593565972690" duration="42000" />
+      <workItem from="1593793969059" duration="6580000" />
+      <workItem from="1593964707673" duration="599000" />
+      <workItem from="1594042443733" duration="11770000" />
+      <workItem from="1594124895273" duration="2705000" />
+      <workItem from="1594215107964" duration="1807000" />
+      <workItem from="1594251409187" duration="668000" />
+      <workItem from="1594318753182" duration="3151000" />
+      <workItem from="1594384087905" duration="1544000" />
+      <workItem from="1594645442479" duration="1287000" />
+      <workItem from="1594730682969" duration="1861000" />
+      <workItem from="1594737068314" duration="1729000" />
+      <workItem from="1594817532339" duration="62000" />
+      <workItem from="1594933007094" duration="949000" />
+      <workItem from="1594991662401" duration="595000" />
+      <workItem from="1595010960905" duration="1366000" />
+      <workItem from="1595350055163" duration="2166000" />
+      <workItem from="1595531130470" duration="505000" />
+      <workItem from="1595591953238" duration="347000" />
+      <workItem from="1596034254297" duration="645000" />
+      <workItem from="1596198260404" duration="2194000" />
+      <workItem from="1596379015741" duration="595000" />
+      <workItem from="1596474983082" duration="3813000" />
+      <workItem from="1596482380142" duration="812000" />
+      <workItem from="1596559528554" duration="5579000" />
+      <workItem from="1596736363777" duration="17947000" />
+      <workItem from="1596892310546" duration="48878000" />
+      <workItem from="1597661878732" duration="1821000" />
+      <workItem from="1597680207300" duration="8924000" />
+      <workItem from="1597840945514" duration="2757000" />
+      <workItem from="1597925037018" duration="614000" />
+      <workItem from="1598011612376" duration="2690000" />
+      <workItem from="1598133380491" duration="8000" />
+      <workItem from="1598272508758" duration="13951000" />
+      <workItem from="1598365072459" duration="4868000" />
+      <workItem from="1598463416632" duration="1360000" />
+      <workItem from="1598486111128" duration="1892000" />
+      <workItem from="1598491678511" duration="1200000" />
+    </task>
+    <task id="LOCAL-00017" summary="novo topbar e sidebar completo">
+      <created>1587758850808</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1587758850808</updated>
+    </task>
+    <task id="LOCAL-00018" summary="novo topbar e sidebar completo">
+      <created>1587988868504</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1587988868504</updated>
+    </task>
+    <task id="LOCAL-00019" summary="footerbar medias">
+      <created>1588006105392</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1588006105393</updated>
+    </task>
+    <task id="LOCAL-00020" summary="menu li hover">
+      <created>1588009367587</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1588009367587</updated>
+    </task>
+    <task id="LOCAL-00021" summary="inicio crud brinde e novo select">
+      <created>1588080885762</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1588080885763</updated>
+    </task>
+    <task id="LOCAL-00022" summary="crud contas arrumado">
+      <created>1588084198481</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1588084198481</updated>
+    </task>
+    <task id="LOCAL-00023" summary="refatoração sistema de login, bearer usando localstorage">
+      <created>1588174655010</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1588174655010</updated>
     </task>
     <task id="LOCAL-00024" summary="inicio do dropdown">
       <created>1588251333510</created>
@@ -346,342 +662,213 @@
       <option name="project" value="LOCAL" />
       <updated>1591737247987</updated>
     </task>
-    <task id="LOCAL-00050" summary="Fix pagination do histórico">
-      <created>1592328129928</created>
+    <task id="LOCAL-00050" summary="tela de campanha email pre definida">
+      <created>1591812876694</created>
       <option name="number" value="00050" />
       <option name="presentableId" value="LOCAL-00050" />
       <option name="project" value="LOCAL" />
-      <updated>1592328129929</updated>
+      <updated>1591812876694</updated>
     </task>
-    <task id="LOCAL-00051" summary="Adaptações na tela de checkout de carrinho e configurações de e-mail da campanha">
-      <created>1592512878989</created>
+    <task id="LOCAL-00051" summary="Novos inputs crição/edição de email">
+      <created>1592414187448</created>
       <option name="number" value="00051" />
       <option name="presentableId" value="LOCAL-00051" />
       <option name="project" value="LOCAL" />
-      <updated>1592512878989</updated>
+      <updated>1592414187449</updated>
     </task>
-    <task id="LOCAL-00052" summary="Validação de período ao criar ou editar configuração de e-mail e correção de bugs de update">
-      <created>1592585300427</created>
+    <task id="LOCAL-00052" summary="ajustes campanha carrinho">
+      <created>1593016946331</created>
       <option name="number" value="00052" />
       <option name="presentableId" value="LOCAL-00052" />
       <option name="project" value="LOCAL" />
-      <updated>1592585300427</updated>
+      <updated>1593016946332</updated>
     </task>
-    <task id="LOCAL-00053" summary="Button submit no formulário sugerido">
-      <created>1592595398913</created>
+    <task id="LOCAL-00053" summary="mudança teste em usuario">
+      <created>1593794448027</created>
       <option name="number" value="00053" />
       <option name="presentableId" value="LOCAL-00053" />
       <option name="project" value="LOCAL" />
-      <updated>1592595398913</updated>
+      <updated>1593794448028</updated>
     </task>
-    <task id="LOCAL-00054" summary="Fix deletes do sistema e possibilidade de deletar e-mail">
-      <created>1592834217311</created>
+    <task id="LOCAL-00054" summary="alteracao na tela ed campanha de boleto, envio de valores recuperados">
+      <created>1593803184217</created>
       <option name="number" value="00054" />
       <option name="presentableId" value="LOCAL-00054" />
       <option name="project" value="LOCAL" />
-      <updated>1592834217312</updated>
+      <updated>1593803184217</updated>
     </task>
-    <task id="LOCAL-00055" summary="Tela de recuperação de venda cancelada">
-      <created>1592859567972</created>
+    <task id="LOCAL-00055" summary="companhacanceladosContatos">
+      <created>1594059440967</created>
       <option name="number" value="00055" />
       <option name="presentableId" value="LOCAL-00055" />
       <option name="project" value="LOCAL" />
-      <updated>1592859567972</updated>
+      <updated>1594059440968</updated>
     </task>
-    <task id="LOCAL-00056" summary="Ativar/Desativar campanha">
-      <created>1592921175357</created>
+    <task id="LOCAL-00056" summary="valores de cards e lista de contatos de campanha cancelado">
+      <created>1594125307825</created>
       <option name="number" value="00056" />
       <option name="presentableId" value="LOCAL-00056" />
       <option name="project" value="LOCAL" />
-      <updated>1592921175357</updated>
+      <updated>1594125307826</updated>
     </task>
-    <task id="LOCAL-00057" summary="Ajustes reunião 10">
-      <created>1593002483012</created>
+    <task id="LOCAL-00057" summary="ajustes campanha carrinho correto">
+      <created>1594125394710</created>
       <option name="number" value="00057" />
       <option name="presentableId" value="LOCAL-00057" />
       <option name="project" value="LOCAL" />
-      <updated>1593002483013</updated>
+      <updated>1594125394710</updated>
     </task>
-    <task id="LOCAL-00058" summary="Listagem de Contatos na campanha de carrinho finalizada">
-      <created>1593030901029</created>
+    <task id="LOCAL-00058" summary="ajuste realtime tickets">
+      <created>1594321353036</created>
       <option name="number" value="00058" />
       <option name="presentableId" value="LOCAL-00058" />
       <option name="project" value="LOCAL" />
-      <updated>1593030901029</updated>
+      <updated>1594321353036</updated>
     </task>
-    <task id="LOCAL-00059" summary="Ajustes reunião 10">
-      <created>1593106257623</created>
+    <task id="LOCAL-00059" summary="inicio de implementação do historico do ticket">
+      <created>1596482556016</created>
       <option name="number" value="00059" />
       <option name="presentableId" value="LOCAL-00059" />
       <option name="project" value="LOCAL" />
-      <updated>1593106257623</updated>
+      <updated>1596482556017</updated>
     </task>
-    <task id="LOCAL-00060" summary="Campanha de Boleto finalizada">
-      <created>1593204234679</created>
+    <task id="LOCAL-00060" summary="integracao total voice 50 porcento">
+      <created>1597062815310</created>
       <option name="number" value="00060" />
       <option name="presentableId" value="LOCAL-00060" />
       <option name="project" value="LOCAL" />
-      <updated>1593204234679</updated>
+      <updated>1597062815311</updated>
     </task>
-    <task id="LOCAL-00061" summary="Fix campanha boleto">
-      <created>1593204642555</created>
+    <task id="LOCAL-00061" summary="integracao total voice 55 porcento">
+      <created>1597064533965</created>
       <option name="number" value="00061" />
       <option name="presentableId" value="LOCAL-00061" />
       <option name="project" value="LOCAL" />
-      <updated>1593204642555</updated>
+      <updated>1597064533965</updated>
     </task>
-    <task id="LOCAL-00062" summary="Refatoração da organização das rotas">
-      <created>1593451301243</created>
+    <task id="LOCAL-00062" summary="ajustes campanha carrinho">
+      <created>1597068915907</created>
       <option name="number" value="00062" />
       <option name="presentableId" value="LOCAL-00062" />
       <option name="project" value="LOCAL" />
-      <updated>1593451301243</updated>
+      <updated>1597068915908</updated>
     </task>
-    <task id="LOCAL-00063" summary="Andamento Whatsapplist">
-      <created>1593534203470</created>
+    <task id="LOCAL-00063" summary="alteração de numero que realiza chamda">
+      <created>1597250982507</created>
       <option name="number" value="00063" />
       <option name="presentableId" value="LOCAL-00063" />
       <option name="project" value="LOCAL" />
-      <updated>1593534203470</updated>
+      <updated>1597250982507</updated>
     </task>
-    <task id="LOCAL-00064" summary="Primeiro protótipo whatsapplist chat pronto">
-      <created>1593785668603</created>
+    <task id="LOCAL-00064" summary="processo integracao totalvoice encaminhado">
+      <created>1598293981911</created>
       <option name="number" value="00064" />
       <option name="presentableId" value="LOCAL-00064" />
       <option name="project" value="LOCAL" />
-      <updated>1593785668604</updated>
+      <updated>1598293981912</updated>
     </task>
-    <task id="LOCAL-00065" summary="...">
-      <created>1593793969126</created>
+    <task id="LOCAL-00065" summary="inicio de configuracao do email de automacao">
+      <created>1598366283809</created>
       <option name="number" value="00065" />
       <option name="presentableId" value="LOCAL-00065" />
       <option name="project" value="LOCAL" />
-      <updated>1593793969126</updated>
+      <updated>1598366283809</updated>
     </task>
-    <task id="LOCAL-00066" summary="Select de quantidade de items por página em algumas telas">
-      <created>1593807310510</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1593807310510</updated>
-    </task>
-    <task id="LOCAL-00067" summary="Iniciada criação da Sidebar para transformar contato do whatsapplist em Ticket e correção de paginação com listagens que possuem selecionador de quantidade de resultados">
-      <created>1594059517851</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1594059517852</updated>
-    </task>
-    <task id="LOCAL-00068" summary="...">
-      <created>1594059564467</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1594059564467</updated>
-    </task>
-    <task id="LOCAL-00069" summary="...">
-      <created>1594069519763</created>
-      <option name="number" value="00069" />
-      <option name="presentableId" value="LOCAL-00069" />
-      <option name="project" value="LOCAL" />
-      <updated>1594069519763</updated>
-    </task>
-    <task id="LOCAL-00070" summary="Finalizando sprint 11">
-      <created>1594130139239</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1594130139239</updated>
-    </task>
-    <task id="LOCAL-00071" summary="Fix pesquisa com date range, prototipação e início do novo esquema de configuração de emails ou sms nas campanhas de boleto e checkout">
-      <created>1594306510097</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1594306510097</updated>
-    </task>
-    <task id="LOCAL-00072" summary="Commit pro Douglas dar uma brincada">
-      <created>1594318774591</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1594318774591</updated>
-    </task>
-    <option name="localTasksCounter" value="73" />
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="699537000" />
   </component>
-  <component name="Vcs.Log.History.Properties">
-    <option name="COLUMN_ORDER">
-      <list>
-        <option value="0" />
-        <option value="2" />
-        <option value="3" />
-        <option value="1" />
-      </list>
-    </option>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info id="npm" order="1" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.17857143" />
+      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="TypeScript" order="0" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="1" sideWeight="0.48294243" visible="true" weight="0.26867336" />
+      <window_info anchor="bottom" id="Database Changes" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5170576" side_tool="true" weight="0.38127092" />
+      <window_info anchor="bottom" id="Version Control" order="4" sideWeight="0.49946696" weight="0.32998884" />
+      <window_info anchor="bottom" id="Docker" order="5" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.32998884" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" sideWeight="0.49946696" weight="0.32998884" />
+      <window_info anchor="right" id="Database" order="0" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info id="npm" order="1" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.22761194" />
+      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="TypeScript" order="0" />
+      <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.4968017" weight="0.3857302" />
+      <window_info anchor="bottom" id="Database Changes" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.50319827" side_tool="true" weight="0.37235227" />
+      <window_info anchor="bottom" id="Version Control" order="4" visible="true" weight="0.32998884" />
+      <window_info anchor="bottom" id="Docker" order="5" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.32998884" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" weight="0.32998884" />
+      <window_info anchor="right" id="Database" order="0" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="logotipo ok e z-index footerbar" />
+    <MESSAGE value="ajustes 19 01" />
+    <MESSAGE value="ajustes 19 02" />
+    <MESSAGE value="contratos completo" />
+    <MESSAGE value="login e preloader com logo corretas" />
+    <MESSAGE value="ajuste em rotas sem pai" />
     <MESSAGE value="andamento com crud de links" />
     <MESSAGE value="paginacao brinde" />
     <MESSAGE value="sistema de links e meus link 90%" />
     <MESSAGE value="sistema de links e meus link 100%" />
     <MESSAGE value="tela de campanha email pre definida" />
-    <MESSAGE value="Fix pagination do histórico" />
-    <MESSAGE value="Adaptações na tela de checkout de carrinho e configurações de e-mail da campanha" />
-    <MESSAGE value="Validação de período ao criar ou editar configuração de e-mail e correção de bugs de update" />
-    <MESSAGE value="Button submit no formulário sugerido" />
-    <MESSAGE value="Fix deletes do sistema e possibilidade de deletar e-mail" />
-    <MESSAGE value="Tela de recuperação de venda cancelada" />
-    <MESSAGE value="Ativar/Desativar campanha" />
-    <MESSAGE value="Listagem de Contatos na campanha de carrinho finalizada" />
-    <MESSAGE value="Ajustes reunião 10" />
-    <MESSAGE value="Campanha de Boleto finalizada" />
-    <MESSAGE value="Fix campanha boleto" />
-    <MESSAGE value="Refatoração da organização das rotas" />
-    <MESSAGE value="Andamento Whatsapplist" />
-    <MESSAGE value="Primeiro protótipo whatsapplist chat pronto" />
-    <MESSAGE value="Select de quantidade de items por página em algumas telas" />
-    <MESSAGE value="Iniciada criação da Sidebar para transformar contato do whatsapplist em Ticket e correção de paginação com listagens que possuem selecionador de quantidade de resultados" />
-    <MESSAGE value="..." />
-    <MESSAGE value="Finalizando sprint 11" />
-    <MESSAGE value="Fix pesquisa com date range, prototipação e início do novo esquema de configuração de emails ou sms nas campanhas de boleto e checkout" />
-    <MESSAGE value="Commit pro Douglas dar uma brincada" />
-    <option name="LAST_COMMIT_MESSAGE" value="Commit pro Douglas dar uma brincada" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="451" y="89" key="#Deployment" timestamp="1594225927997">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="451" y="89" key="#Deployment/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594225927997" />
-    <state x="2281" y="71" key="#Deployment/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592593046374" />
-    <state x="640" y="256" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1594300347761">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="640" y="256" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594300347761" />
-    <state x="2472" y="214" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1593694854072">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593442722195" />
-    <state x="2472" y="214" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593694854072" />
-    <state x="484" y="0" key="CommitChangelistDialog2" timestamp="1594318773725">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="484" y="0" key="CommitChangelistDialog2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594318773725" />
-    <state x="2307" y="0" key="CommitChangelistDialog2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593004734486" />
-    <state x="1977" y="-14" width="1536" height="860" maximized="true" key="DiffContextDialog" timestamp="1592835265657">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state x="1977" y="-14" width="1536" height="860" maximized="true" key="DiffContextDialog/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592835265657" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1594148506160">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594148506160" />
-    <state x="2512" y="220" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593016234481" />
-    <state x="2660" y="275" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592326970301" />
-    <state width="1493" height="261" key="GridCell.Tab.0.bottom" timestamp="1593088629326">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.0.bottom/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629326" />
-    <state width="1493" height="261" key="GridCell.Tab.0.center" timestamp="1593088629326">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.0.center/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629326" />
-    <state width="1493" height="261" key="GridCell.Tab.0.left" timestamp="1593088629326">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.0.left/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629326" />
-    <state width="1493" height="261" key="GridCell.Tab.0.right" timestamp="1593088629326">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.0.right/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629326" />
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1593088629327">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629327" />
-    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1593088629326">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.center/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629326" />
-    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1593088629326">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.left/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629326" />
-    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1593088629327">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.right/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629327" />
-    <state width="1493" height="261" key="GridCell.Tab.2.bottom" timestamp="1593088629327">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.bottom/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629327" />
-    <state width="1493" height="261" key="GridCell.Tab.2.center" timestamp="1593088629327">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.center/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629327" />
-    <state width="1493" height="261" key="GridCell.Tab.2.left" timestamp="1593088629327">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.left/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629327" />
-    <state width="1493" height="261" key="GridCell.Tab.2.right" timestamp="1593088629327">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.2.right/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629327" />
-    <state width="1493" height="261" key="GridCell.Tab.3.bottom" timestamp="1593088629328">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.3.bottom/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629328" />
-    <state width="1493" height="261" key="GridCell.Tab.3.center" timestamp="1593088629328">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.3.center/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629328" />
-    <state width="1493" height="261" key="GridCell.Tab.3.left" timestamp="1593088629328">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.3.left/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629328" />
-    <state width="1493" height="261" key="GridCell.Tab.3.right" timestamp="1593088629328">
-      <screen x="1920" y="0" width="1536" height="832" />
-    </state>
-    <state width="1493" height="261" key="GridCell.Tab.3.right/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593088629328" />
-    <state width="498" height="446" key="SwitcherDM" timestamp="1593118523302">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="498" height="446" key="SwitcherDM/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1593118523302" />
-    <state x="451" y="181" key="Vcs.Push.Dialog.v2" timestamp="1594318784563">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="451" y="181" key="Vcs.Push.Dialog.v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594318784563" />
-    <state x="2281" y="145" key="Vcs.Push.Dialog.v2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593002484789" />
-    <state x="723" y="408" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594143706305">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="723" y="408" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594143706305" />
-    <state x="2498" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593017356033" />
-    <state x="599" y="14" width="723" height="1002" key="find.popup" timestamp="1594317421718">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="599" y="14" width="723" height="1002" key="find.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594317421718" />
-    <state x="2399" y="11" width="578" height="801" key="find.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592848352353" />
-    <state x="828" y="416" key="publish.login" timestamp="1594148106963">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="828" y="416" key="publish.login/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594148106963" />
-    <state x="2582" y="333" key="publish.login/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592592998975" />
-    <state x="2748" y="416" key="publish.login/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592326782579" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1594302739697">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="616" y="240" key="run.anything.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594302739697" />
-    <state x="2413" y="192" key="run.anything.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1592919784552" />
-    <state x="2536" y="240" key="run.anything.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592321031206" />
-    <state x="623" y="225" width="840" height="679" key="search.everywhere.popup" timestamp="1594318960538">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="840" height="679" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1594318960538" />
-    <state x="2418" y="180" width="672" height="543" key="search.everywhere.popup/1920.0.1536.832/0.0.1920.1040@1920.0.1536.832" timestamp="1593697991653" />
-    <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1592321254201" />
+    <MESSAGE value="Novos inputs crição/edição de email" />
+    <MESSAGE value="mudança teste em usuario" />
+    <MESSAGE value="alteracao na tela ed campanha de boleto, envio de valores recuperados" />
+    <MESSAGE value="companhacanceladosContatos" />
+    <MESSAGE value="valores de cards e lista de contatos de campanha cancelado" />
+    <MESSAGE value="ajustes campanha carrinho correto" />
+    <MESSAGE value="ajuste realtime tickets" />
+    <MESSAGE value="inicio de implementação do historico do ticket" />
+    <MESSAGE value="integracao total voice 50 porcento" />
+    <MESSAGE value="integracao total voice 55 porcento" />
+    <MESSAGE value="ajustes campanha carrinho" />
+    <MESSAGE value="alteração de numero que realiza chamda" />
+    <MESSAGE value="processo integracao totalvoice encaminhado" />
+    <MESSAGE value="inicio de configuracao do email de automacao" />
+    <option name="LAST_COMMIT_MESSAGE" value="inicio de configuracao do email de automacao" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -690,6 +877,11 @@
           <url>file://$PROJECT_DIR$/src/views/forms/FormLayouts.vue</url>
           <line>422</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/router.js</url>
+          <line>1421</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contas/SideBar.vue</url>
@@ -701,7 +893,462 @@
           <line>27</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/router.js</url>
+          <line>1334</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
+          <line>572</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
+          <line>501</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
+          <line>542</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/tickets/Index.vue</url>
+          <line>85</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/views/planos/Gerenciar.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="963">
+          <caret line="308" column="11" lean-forward="true" selection-start-line="308" selection-start-column="11" selection-end-line="308" selection-end-column="11" />
+          <folding>
+            <element signature="e#4714#4747#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/usuarios/AddEdit.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3854">
+          <caret line="362" column="39" selection-start-line="362" selection-start-column="39" selection-end-line="362" selection-end-column="39" />
+          <folding>
+            <element signature="e#10243#13927#0" />
+            <element signature="e#14516#14856#0" />
+            <element signature="n#style#0;n#!!top" />
+            <element signature="n#style#1;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/produtos/AddEdit.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="64" column="25" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#span#1;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-select#0;n#div#1;n#div#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#li#0;n#ul#0;n#div#1;n#vx#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#li#1;n#ul#0;n#div#1;n#vx#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#li#2;n#ul#0;n#div#1;n#vx#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#10835#10867#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="117" column="6" selection-start-line="117" selection-start-column="6" selection-end-line="117" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/router.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="1388" column="49" selection-start-line="1388" selection-start-column="49" selection-end-line="1388" selection-end-column="49" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#923#944#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/boleto/EmailsCriar.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-96">
+          <caret line="107" column="30" lean-forward="true" selection-start-line="107" selection-start-column="30" selection-end-line="107" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/campanha_canceladas/moduleCampCanceladas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/boleto/Contatos.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rotas/campanhas/rotasCampCancelada.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="35" column="25" lean-forward="true" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/cancelada/Canceladas.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="278" column="25" selection-start-line="278" selection-start-column="25" selection-end-line="278" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/checkout/Checkout.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8328">
+          <caret line="349" column="13" selection-start-line="344" selection-start-column="12" selection-end-line="349" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/cancelada/Contatos.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6888">
+          <caret line="328" column="19" selection-start-line="328" selection-start-column="19" selection-end-line="328" selection-end-column="19" />
+          <folding>
+            <element signature="n#div#0;n#vs-col#0;n#vs-row#0;n#div#0;n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9816">
+          <caret line="420" selection-start-line="420" selection-end-line="420" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/state.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="31" column="79" lean-forward="true" selection-start-line="31" selection-start-column="79" selection-end-line="31" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/axios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/boleto/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1344">
+          <caret line="56" column="74" selection-start-line="56" selection-start-column="74" selection-end-line="56" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3192">
+          <caret line="148" selection-start-line="148" selection-end-line="148" />
+          <folding>
+            <element signature="e#4355#4633#0" />
+            <element signature="e#4671#5102#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/leads/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2760">
+          <caret line="196" column="47" selection-start-line="196" selection-start-column="20" selection-end-line="196" selection-end-column="47" />
+          <folding>
+            <element signature="n#vs-row#0;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#8440#8497#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Listagem.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="22" column="91" selection-start-line="15" selection-start-column="15" selection-end-line="22" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/campanha_canceladas/moduleCampCanceladaActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1272">
+          <caret line="60" column="10" selection-start-line="60" selection-start-column="10" selection-end-line="60" selection-end-column="10" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/VerticalNavMenu.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="155">
+          <caret line="246" column="27" lean-forward="true" selection-start-line="246" selection-start-column="27" selection-end-line="246" selection-end-column="27" />
+          <folding>
+            <element signature="e#5910#5965#0" expanded="true" />
+            <element signature="e#6187#6301#0" />
+            <element signature="e#6318#6614#0" />
+            <element signature="e#6637#7207#0" />
+            <element signature="e#7182#8015#0" />
+            <element signature="e#8048#8595#0" />
+            <element signature="e#8634#8888#0" />
+            <element signature="e#8915#8986#0" />
+            <element signature="e#9014#9243#0" />
+            <element signature="e#11515#14860#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/navbarSearchAndPinList.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/TheNavbarHorizontal.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/TheNavbarVertical.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="67" selection-start-line="5" selection-start-column="67" selection-end-line="5" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/SidebarStatic2.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/campanha_checkout/moduleCampCheckoutActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4488">
+          <caret line="194" selection-start-line="196" selection-start-column="23" selection-end-line="202" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/ui-elements/card/CardBasic.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="72" column="90" selection-start-line="72" selection-start-column="83" selection-end-line="72" selection-end-column="90" />
+          <folding>
+            <element signature="e#25013#25068#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/ui-elements/card/CardStatistics.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="888">
+          <caret line="85" column="47" lean-forward="true" selection-start-line="79" selection-start-column="14" selection-end-line="85" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vuesax/dist/vuesax.umd.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="6279" column="2" selection-start-line="6279" selection-start-column="2" selection-end-line="6279" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/vuesax/dist/vuesax.common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="6270" column="2" selection-start-line="6270" selection-start-column="2" selection-end-line="6270" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/ui-elements/card/CardAnalytics.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2160" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/js/chunk-7a06eb05.0690cdaf.js" />
+    <entry file="file://$PROJECT_DIR$/src/views/components/extra-components/tree/TreeSearchTree.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="51" column="65" lean-forward="true" selection-start-line="51" selection-start-column="65" selection-end-line="51" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5472">
+          <caret line="243" column="27" selection-start-line="243" selection-start-column="27" selection-end-line="243" selection-end-column="27" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#475#514#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240624">
+          <caret line="10039" column="13" selection-start-line="10039" selection-start-column="13" selection-end-line="10039" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/css/base.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="8" column="21" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/extensoes/moduleExtensoesActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1488">
+          <caret line="69" column="18" selection-start-line="69" selection-start-column="18" selection-end-line="69" selection-end-column="18" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Historico.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4128">
+          <caret line="172" column="61" selection-start-line="172" selection-start-column="46" selection-end-line="172" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/usuarios/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5400">
+          <caret line="225" column="13" selection-start-line="225" selection-start-column="8" selection-end-line="225" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/extensoes/instalacoes/Zenvia.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5865">
+          <caret line="352" column="33" selection-start-line="352" selection-start-column="33" selection-end-line="352" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/automacao/Automacao.vue">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/automacao/Emails.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="40" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="40" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#6506#6538#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Atender.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5882">
+          <caret line="521" column="13" selection-start-line="521" selection-start-column="13" selection-end-line="521" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#style#0;n#div#1;n#div#2;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#3;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#style#0;n#p#2;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#3;n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#4;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#transition#0;n#div#0;n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/auth/moduleAuthActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4981">
+          <caret line="306" column="12" selection-start-line="306" selection-start-column="12" selection-end-line="306" selection-end-column="12" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/http/requests/auth/jwt/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/usuarios/moduleUsuarioActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="61" column="15" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="15" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/tickets/moduleTicketsActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="172" column="37" selection-start-line="172" selection-start-column="37" selection-end-line="172" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1040#2063#0" />
+            <element signature="e#2097#3338#0" />
+            <element signature="e#3362#3540#0" />
+            <element signature="e#3576#3782#0" />
+            <element signature="e#3814#4077#0" />
+            <element signature="e#4108#4452#0" />
+            <element signature="e#4483#4529#0" />
+            <element signature="e#4555#4990#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rotas/campanhas/rotasCampCheckout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="41" selection-start-line="41" selection-end-line="97" selection-end-column="6" />
+          <folding>
+            <element signature="e#770#1462#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/campanhas/checkout/Contatos.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4301">
+          <caret line="259" column="46" selection-start-line="259" selection-start-column="38" selection-end-line="259" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Atendimento.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="302" column="14" lean-forward="true" selection-start-line="302" selection-start-column="14" selection-end-line="302" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
