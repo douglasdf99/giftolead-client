@@ -304,7 +304,7 @@
             brindesOptions() {
                 let arr = [];
                 this.brindes.forEach(item => {
-                    if (this.ticket.produto.id == item.produto_id)
+                    if (this.ticket.produto_id == item.produto_id)
                         arr.push({id: item.id, label: item.nome});
                 });
                 return arr;
