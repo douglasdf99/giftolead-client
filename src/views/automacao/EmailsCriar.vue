@@ -26,6 +26,21 @@
             </div>
         </div>
         <div class="vx-row">
+            <div class="vx-col w-full">
+                <div class="mb-3 pt-0">
+                    <span class="font-regular">Inserir no corpo da mensagem:</span>
+                    <ul class="variaveis-msg flex mx-0">
+                        <li class="variavel mx-4" @click="addVarText('[NOME_LEAD]')">
+                            <span>Nome do Lead</span>
+                        </li>
+                        <li class="variavel mx-4" @click="addVarText('[NOME_BRINDE]')">
+                            <span>Nome do Brinde</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="vx-row">
             <div class="vx-col w-full xlg:w-8/12 lg:w-8/12">
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
@@ -35,21 +50,8 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full xlg:w-4/12 lg:w-4/12">
-                <div class="mb-3 p-5 pt-0">
-                    <span class="font-regular">Inserir no corpo da mensagem:</span>
-                    <ul class="variaveis-msg">
-                        <li class="variavel" @click="addVarText('[NOME_LEAD]')">
-                            <span>Nome do Lead</span>
-                        </li>
-                        <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
-                            <span>Nome do Brinde</span>
-                        </li>
-                        <li class="variavel" @click="addVarText('[COD_RASTREIO]')">
-                            <span>Código de Rastreio</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="vx-col w-full lg:w-4/12">
+                <preview :text="email.corpo"></preview>
             </div>
         </div>
         <transition name="fade">
@@ -81,6 +83,7 @@
     import 'quill/dist/quill.bubble.css'
     import {quillEditor} from 'vue-quill-editor'
     import moduleAutomacao from "../../store/automacao/moduleAutomacao";
+    import preview from './Preview'
 
     const dict = {
         custom: {
@@ -106,7 +109,7 @@
         name: "EmailsCriar",
         components: {
             'v-select': vSelect,
-            quillEditor
+            quillEditor, preview
         },
         created() {
             if (!moduleAutomacao.isRegistered) {
