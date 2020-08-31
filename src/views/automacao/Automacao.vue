@@ -8,7 +8,7 @@
                         <form>
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input_trans" size="large"
+                                      v-model="dados.pesquisa" id="search_input_trans" size="large"
                                       placeholder="Pesquise por nome do Lead ou Token"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
@@ -29,7 +29,7 @@
                         <form>
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input_trans" size="large"
+                                      v-model="dados.responsavel" id="search_input_trans" size="large"
                                       placeholder="Pesquisar por inserção"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
@@ -51,15 +51,27 @@
         </div>
         <div class="vx-row">
             <div class="vx-col w-full">
-                <vs-tabs color="primary">
-                    <vs-tab color="primary" value="10" :label="'pendentes'">
+                <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
+                    <vs-tab color="primary" value="10" :label="'pendentes'" @click="getItems('pendente')">
                         <listagem :items="items" tipo="pendente"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'com erro'"></vs-tab>
-                    <vs-tab color="primary" value="10" :label="'preenchida'"></vs-tab>
-                    <vs-tab color="primary" value="10" :label="'com expedição'"></vs-tab>
-                    <vs-tab color="primary" value="10" :label="'todos'"></vs-tab>
+                    <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
+                        <listagem :items="items" tipo="comerro"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab color="primary" value="10" :label="'preenchida'" @click="getItems('preenchida')">
+                        <listagem :items="items" tipo="preenchida"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab color="primary" value="10" :label="'com expedição'" @click="getItems('comexpedicao')">
+                        <listagem :items="items" tipo="comexpedicao"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab color="primary" value="10" :label="'todos'" @click="getItems()">
+                        <listagem :items="items" tipo="todos"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                    </vs-tab>
                 </vs-tabs>
             </div>
         </div>
@@ -99,7 +111,9 @@
                     dt_fim: '',
                     page: 1,
                     length: 30,
-                    tipo: 'pendente'
+                    tipo: 'pendente',
+                    responsavel: '',
+                    pesquisa: ''
                 },
                 pagination: {
                     last_page: 1,
@@ -123,11 +137,12 @@
                 moduleBrindes.isRegistered = true
             }
             this.getBrindes();
-            this.$vs.loading();
-            this.getItems();
+            this.getItems('pendente');
         },
         methods: {
-            getItems(){
+            getItems(tipo = ''){
+                this.$vs.loading();
+                this.dados.tipo = tipo;
                 this.$store.dispatch('automacao/get', this.dados).then(response => {
                     this.items = response.data;
                     this.pagination = response

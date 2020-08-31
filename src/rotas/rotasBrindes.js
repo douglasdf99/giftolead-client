@@ -88,6 +88,23 @@ const rotasBrindes = [
             subTitle: 'Brindes',
             submenu: subbrindes
         },
+    },
+    {
+        path: '/brindes/expedicoes',
+        name: 'brindes-expedicoes',
+        component: () => import('@/views/expedicoes/Index.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Expedição de Objetos', active: true},
+            ],
+            pageTitle: 'Expedição de Objetos',
+            rule: 'editor',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
     }
 ];
 

@@ -49,7 +49,9 @@
                             <p class="font-bold">{{getResponsavel(tr)}}</p>
                         </vs-td>
                         <vs-td>
-                            <vs-icon icon-pack="material-icons" icon="cancel" color="danger" v-if="tr.eventos.length == 0" class="text-2xl"/>
+                            <vs-icon icon-pack="material-icons" icon="watch_later" color="gray" v-if="tr.eventos.length == 0" class="text-2xl"/>
+                            <vs-icon icon-pack="material-icons" icon="cancel" color="danger" v-if="getEventoRed(tr)" class="text-2xl"/>
+                            <vs-icon icon-pack="material-icons" icon="check" color="success" v-if="getEventoGreen(tr)" class="text-2xl"/>
                         </vs-td>
                         <vs-td>
                             {{tr.uuid}}
@@ -95,9 +97,23 @@
                 if(obj.endereco == null)
                     return 'text-warning'
                 else
-                    return 'text-blue'
-            }
-        }
+                    return 'text-primary'
+            },
+            getEventoRed(obj){
+                console.log('obj', obj)
+                console.log(obj.eventos[obj.eventos.length - 1])
+                if(obj.eventos.length > 0)
+                    return obj.eventos[obj.eventos.length - 1].resposta == 'error';
+                else
+                    return false;
+            },
+            getEventoGreen(obj){
+                if(obj.eventos.length > 0)
+                    return obj.eventos[obj.eventos.length - 1].resposta == 'success';
+                else
+                    return false;
+            },
+        },
     }
 </script>
 
