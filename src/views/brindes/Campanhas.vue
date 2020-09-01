@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div class="vx-col col-conquista mb-10" v-for="item in items">
-                    <div class="conquista">
+                    <div class="conquista" v-bind:class="{'desativado': !item.status}">
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
                                 <vs-button type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
@@ -97,20 +97,28 @@
                 });
             },
             ativaModal(obj){
-                if(!obj.status){
-                    this.$vs.dialog({
-                        type: 'confirm',
-                        color: 'danger',
-                        title: `Você realmente deseja ativar a campanha?`,
-                        text: 'Mais de uma campanha ativa para o mesmo produto pode ocasionar duplicação de brinde.',
-                        acceptText: 'Alterar',
-                        cancelText: 'Cancelar',
-                        accept: () => {this.ativaCamp(obj);},
-                        cancel: () => {obj.status = !obj.status}
+                if(obj.brinde.ativo){
+                    if(!obj.status){
+                        this.$vs.dialog({
+                            type: 'confirm',
+                            color: 'danger',
+                            title: `Você realmente deseja ativar a campanha?`,
+                            text: 'Mais de uma campanha ativa para o mesmo produto pode ocasionar duplicação de brinde.',
+                            acceptText: 'Alterar',
+                            cancelText: 'Cancelar',
+                            accept: () => {this.ativaCamp(obj);},
+                            cancel: () => {obj.status = !obj.status}
 
-                    });
+                        });
+                    } else {
+                        this.ativaCamp(obj);
+                    }
                 } else {
-                    this.ativaCamp(obj);
+                    obj.status = !obj.status;
+                    this.$vs.notify({
+                        color: 'primary',
+                        text: 'O brinde da campanha encontra-se desativado.'
+                    });
                 }
             },
             ativaCamp(obj) {

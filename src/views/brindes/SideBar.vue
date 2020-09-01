@@ -21,11 +21,11 @@
                 <vs-alert color="danger" v-if="!brinde.contrato.status && this.data.length > 0" icon-pack="material-icons" icon="cancel" class="w-full">
                     <span>Contrato desativado</span>
                 </vs-alert>
-                <div class="p-5">
-                <span class="float-right mt-1 mx-4" style="font-weight: bold">
-                    {{brinde.ativo ? 'Ativado' : 'Desativado'}}
-                </span>
-                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="brinde.ativo" class="float-right switch"/>
+                <div class="p-5" v-if="Object.entries(this.data).length != 0">
+                    <span class="float-right mt-1 mx-4" style="font-weight: bold">
+                        {{brinde.ativo ? 'Ativado' : 'Desativado'}}
+                    </span>
+                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="brinde.ativo" class="float-right switch" @click="switchBrinde(brinde.ativo)"/>
                 </div>
                 <vs-input size="large " v-validate="'required'" label="Nome da brinde" autocomplete="off"
                           v-model="brinde.nome"
@@ -372,6 +372,28 @@
             },
             mudou() {
                 console.log(this.selected)
+            },
+            switchBrinde(val) {
+                if (this.brinde.id != null) {
+                    console.log('val', !val)
+                    if (val) {
+                        this.$vs.dialog({
+                            color: 'danger',
+                            type: 'confirm',
+                            title: `Muita atenção!`,
+                            text: 'Ao desativar o brinde, as campanhas relacionadas a este brinde serão desativadas.',
+                            acceptText: 'Estou ciente',
+                            cancelText: 'Cancelar',
+                            accept: () => {
+
+                            },
+                            cancel: () => {
+                                console.log('cancelei')
+                                this.brinde.ativo = true
+                            }
+                        })
+                    }
+                }
             }
         },
         components: {
@@ -425,11 +447,11 @@
 <style lang="scss" scoped>
     .add-new-data-sidebar {
         ::v-deep .vs-sidebar--background {
-            z-index: 52010;
+            z-index: 52000;
         }
 
         ::v-deep .vs-sidebar {
-            z-index: 52010;
+            z-index: 52000;
             width: 750px;
             max-width: 90vw;
 
@@ -453,9 +475,12 @@
         height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
     }
 </style>
-
 <style>
     .vs-sidebar--background {
         background: rgba(0, 0, 0, .2) !important;
+    }
+
+    .vs-dialog {
+        z-index: 99999 !important;
     }
 </style>

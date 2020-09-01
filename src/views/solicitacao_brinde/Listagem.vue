@@ -28,9 +28,12 @@
                     <vs-td>{{tr.nome_destinatario}}</vs-td>
                     <vs-td>{{tr.email_destinatario}}</vs-td>
                     <vs-td>
-                        <vs-chip color="primary" class="text-md py-2 font-bold">
+                        <p class="flex items-center">
                             {{tr.brinde.nome}}
-                        </vs-chip>
+                            <vx-tooltip position="top" text="Brinde desativado">
+                            <vs-chip color="danger" class="text-md ml-5 py-2 font-bold" v-if="!tr.brinde.ativo">!</vs-chip>
+                            </vx-tooltip>
+                        </p>
                     </vs-td>
                     <vs-td :data="data[indextr].status" class="td-icons flex flex-col items-center justify-center">
                         <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
