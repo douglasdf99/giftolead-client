@@ -111,7 +111,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid">
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -190,9 +190,9 @@
             }
         },
         methods: {
-          contatos(val) {
-            this.$router.push({path: `/campanha/configurar-canceladas/${this.$route.params.id}/contatos-${val}`});
-          },
+            contatos(val) {
+                this.$router.push({path: `/campanha/configurar-canceladas/${this.$route.params.id}/contatos-${val}`});
+            },
             salvar() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
@@ -265,7 +265,7 @@
                         this.duvidaSelected.id = this.campanha.tipo_duvida.id;
                         this.duvidaSelected.label = this.campanha.tipo_duvida.nome
                     } else {
-                        this.duvidaSelected = {id: 0, label: 'Dúvida'};
+                        this.duvidaSelected = {id: null, label: 'Dúvida'};
                     }
                     if (this.campanha.tipos) {
                         this.campanha.tipos.forEach(item => {
@@ -305,8 +305,8 @@
             },
         },
         computed: {
-            isValid() {
-                return this.errors.any();
+            isInvalid() {
+                return this.errors.any() || this.duvidaSelected.id == null;
             },
         },
         watch: {
