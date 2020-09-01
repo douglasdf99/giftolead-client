@@ -54,16 +54,16 @@ export default [
         icon: "person_outline",
     },
     {
-        url: '/configuracoes/geral',
-        name: "Configurações",
-        icon: "settings",
-        slug: 'configuracoes',
-    },
-    {
         url: '/whatsapplist/listagem',
         name: "WhatsappList",
         icon: "favorite_border",
         slug: 'whatsapplist',
+    },
+    {
+        url: '/brindes/campanhas',
+        name: "Brindes",
+        icon: "redeem",
+        slug: 'brindes',
     },
     {
         url: '/extensoes/instalar',
@@ -72,10 +72,10 @@ export default [
         slug: 'extensoes',
     },
     {
-        url: '/brindes/campanhas',
-        name: "Brindes",
-        icon: "redeem",
-        slug: 'brindes',
+        url: '/configuracoes/geral',
+        name: "Configurações",
+        icon: "settings",
+        slug: 'configuracoes',
     },
 ]
 

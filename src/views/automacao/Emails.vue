@@ -63,35 +63,6 @@
                     </vs-button>
                 </div>
             </div>
-            <div class="vx-col col-conquista mb-10">
-                <h4 class="text-center mb-4">Ao entrar em uma expedição</h4>
-                <div class="conquista nova cursor-pointer" v-if="!emailExpedicao"
-                     @click="$router.push({path: '/brindes/automacao/emails/criar/3'})">
-                    <div class="img-plus cursor-pointer">
-                        <i class="material-icons">add</i>
-                    </div>
-                    <p class="nome-conq">
-                        Adicionar <br> novo e-mail
-                    </p>
-                </div>
-                <div class="conquista" style="cursor: default !important" v-else v-bind:style="{opacity: (emailExpedicao.status ? '' : '.5')}" v-bind:class="{'desativado': !emailExpedicao.status}">
-                    <div class="py-2 w-full flex justify-between">
-                        <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(emailExpedicao.id)"></vs-button>
-                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
-                                   v-model="emailExpedicao.status" @click="ativaEmail(email)"/>
-                    </div>
-                    <div class="w-full">
-                        <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
-                        <p class="nome-conq mb-4 text-base">
-                            {{emailExpedicao.assunto}}
-                        </p>
-                    </div>
-                    <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: '/brindes/automacao/emails/editar/' + emailExpedicao.id})">
-                        Editar tentativa
-                    </vs-button>
-                </div>
-            </div>
 
         </div>
         <transition name="fade">

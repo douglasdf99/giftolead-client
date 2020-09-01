@@ -134,9 +134,6 @@
                         return ''
                 }
             },
-            handleSelected(tr) {
-
-            }
         }
     }
 </script>

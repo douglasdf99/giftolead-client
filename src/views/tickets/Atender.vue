@@ -168,6 +168,32 @@
                     <vs-tab color="primary" v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
+                    <vs-tab color="primary" v-if="ticket.lead" :label="`solicitações de brinde (${ticket.lead.solicitacaos.length})`">
+                        <vs-table :data="ticket.lead.solicitacaos" class="table-items">
+                            <template slot="thead">
+                                <vs-th>Destinatário</vs-th>
+                                <vs-th>E-mail</vs-th>
+                                <vs-th>Brinde</vs-th>
+                                <vs-th></vs-th>
+                            </template>
+                            <template slot-scope="{data}">
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
+                                    <vs-td>{{tr.nome_destinatario}}</vs-td>
+                                    <vs-td>{{tr.email_destinatario}}</vs-td>
+                                    <vs-td>
+                                        <vs-chip color="primary" class="text-md py-2 font-bold">
+                                            {{tr.brinde.nome}}
+                                        </vs-chip>
+                                    </vs-td>
+                                    <vs-td :data="data[indextr].status" class="td-icons flex flex-col items-center justify-center">
+                                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                                 class="icon-grande" v-bind:style="{color: getStatusSoli(tr.status)}"
+                                                 v-if="data[indextr].status"></vs-icon>
+                                    </vs-td>
+                                </vs-tr>
+                            </template>
+                        </vs-table>
+                    </vs-tab>
                     <vs-tab color="primary" v-if="ticket.lead" :label="`automações de brinde (${ticket.lead.automacaos.length})`">
                         <automacaos :items="ticket.lead.automacaos" tipo="todos"></automacaos>
                     </vs-tab>
@@ -204,12 +230,13 @@
     import historico from './Historico'
     import transacoes from "./Transacoes"
     import automacaos from "../automacao/Listagem"
+    import solicitacoes from '../solicitacao_brinde/Listagem'
 
     export default {
         name: "Atender",
         components: {
             atendimento, SideBar, historico,
-            Email, transacoes, automacaos
+            Email, transacoes, automacaos, solicitacoes
         },
         data() {
             return {
@@ -287,6 +314,18 @@
             email(dados) {
                 this.aresponder = dados;
                 this.toggleEmailSidebar(true);
+            },
+            getStatusSoli(status) {
+                switch (status) {
+                    case 'pendente':
+                        return '#ff9f43'
+                    case 'aprovado':
+                        return '#28c76f'
+                    case 'emexpedicao':
+                        return '#31aef0'
+                    default:
+                        return ''
+                }
             },
             cancelarAtendimento(id) {
                 this.$vs.dialog({

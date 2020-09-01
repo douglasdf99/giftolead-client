@@ -73,38 +73,6 @@
                                                                     </tr>
                                                                     </tbody>
                                                                 </table>
-                                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td style="background-color:#ffffff;padding:10px 40px 5px 40px;line-height:22px;text-align:inherit" height="100%" valign="top" bgcolor="#ffffff">
-                                                                            <div>
-                                                                                <div style="font-family:inherit;text-align:center"><span style="font-size:10px"><font style="vertical-align:inherit"><font
-                                                                                        style="vertical-align:inherit">Clique no botão abaixo para rastrear a sua encomenda.</font></font></span></div>
-                                                                                <div></div>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                                <table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed"
-                                                                       width="100%" data-muid="bKHWQMgPkL5opYCkxiM6aS">
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td align="center" class="outer-td" style="padding:0px 0px 0px 0px; background-color:#ffffff;" bgcolor="#ffffff">
-                                                                            <table border="0" cellpadding="0" cellspacing="0" class="button-css__deep-table___2OZyb wrapper-mobile" style="text-align:center">
-                                                                                <tbody>
-                                                                                <tr>
-                                                                                    <td align="center" bgcolor="#00C2B7" class="inner-td"
-                                                                                        style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a
-                                                                                            style="background-color:#00C2B7; border:1px solid #00C2B7; border-color:#00C2B7; border-radius:10px; border-width:1px; color:#ffffff; display:inline-block; font-family:verdana,geneva,sans-serif; font-size:16px; font-weight:bold; letter-spacing:1px; line-height:30px; padding:12px 20px 12px 20px; text-align:center; text-decoration:none; border-style:solid;"
-                                                                                            href="https://melhorrastreio.com.br/rastreio/" target="_blank">XX00000000BR</a></td>
-                                                                                </tr>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
                                                                 <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;"
                                                                        data-muid="bA2FfEE6abadx6yKoMr3F9.1" data-mc-module-version="2019-10-22">
                                                                     <tbody>
@@ -112,11 +80,6 @@
                                                                         <td style="padding:10px 40px 50px 40px; line-height:22px; text-align:inherit; background-color:#ffffff;" height="100%" valign="top"
                                                                             bgcolor="#ffffff" role="module-content">
                                                                             <div>
-                                                                                <div style="font-family: inherit; text-align: inherit"><br>
-                                                                                    Você pode rastrear diretamente pelo site dos correios. Caso ainda não tenha a informação disponível, aguarde algumas horas ou até um dia
-                                                                                    útil e tente novamente.
-                                                                                </div>
-                                                                                <div style="font-family: inherit; text-align: inherit"><br></div>
                                                                                 <div style="font-family: inherit; text-align: inherit"><br>
                                                                                     <strong>Qualquer dúvida estamos à disposição.</strong></div>
                                                                                 <div style="font-family: inherit; text-align: inherit"><br></div>
@@ -132,7 +95,7 @@
                                                                 <div data-role="module-unsubscribe" class="module unsubscribe-css__unsubscribe___2CDlR" role="module" data-type="unsubscribe"
                                                                      style="color:#444444; font-size:12px; line-height:20px; padding:16px 16px 16px 16px; text-align:center;" data-muid="GRteXBNz7UevhwJ6u6GXE">
                                                                     <div class="Unsubscribe--addressLine"></div>
-                                                                    <p style="font-family:arial,helvetica,sans-serif; font-size:12px; line-height:20px;"><a class="Unsubscribe--unsubscribeLink" href="" style="">Unsubscribe</a>
+                                                                    <p style="font-family:arial,helvetica,sans-serif; font-size:12px; line-height:20px;"><a class="Unsubscribe--unsubscribeLink" href="" style="">Desinscrever</a>
                                                                     </p></div>
                                                             </td>
                                                         </tr>
