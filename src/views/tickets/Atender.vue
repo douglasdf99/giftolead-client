@@ -168,8 +168,8 @@
                     <vs-tab color="primary" v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
-                    <vs-tab color="primary" v-if="ticket.lead" label="brindes (x)">
-                        <transacoes :items="ticket.lead.transacaos"></transacoes>
+                    <vs-tab color="primary" v-if="ticket.lead" :label="`automações de brinde (${ticket.lead.automacaos.length})`">
+                        <automacaos :items="ticket.lead.automacaos" tipo="todos"></automacaos>
                     </vs-tab>
                 </vs-tabs>
             </div>
@@ -203,12 +203,13 @@
     import Email from "./Email"
     import historico from './Historico'
     import transacoes from "./Transacoes"
+    import automacaos from "../automacao/Listagem"
 
     export default {
         name: "Atender",
         components: {
             atendimento, SideBar, historico,
-            Email, transacoes
+            Email, transacoes, automacaos
         },
         data() {
             return {
