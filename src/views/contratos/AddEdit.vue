@@ -64,7 +64,7 @@
                             <template slot="no-body">
                                 <!-- ITEM IMAGE -->
                                 <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                    <img :src="url_api(item.logotipo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
+                                    <img :src="get_img_api(item.logotipo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
                                 </div>
                                 <div class="item-details px-4">
                                 </div>

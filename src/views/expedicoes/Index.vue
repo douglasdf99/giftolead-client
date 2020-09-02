@@ -2,7 +2,24 @@
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
-        <div class="vx-row flex items-end lg:mt-10 sm:mt-6">
+        <div class="vx-row flex items-end">
+            <div class="vx-col w-full lg:w-6/12">
+                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                </p>
+            </div>
+            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
+                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                   :append-to-body="true" :ranges="ranges">
+                </date-range-picker>
+            </div>
+        </div>
+        <div class="vx-row flex items-end">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -106,13 +123,24 @@
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
     import vSelect from 'vue-select'
     import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
+    import Datepicker from 'vuejs-datepicker';
+    import DateRangePicker from 'vue2-daterange-picker'
+    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+    import saveleadsConfig from "../../../saveleadsConfig";
+    import VueMoment from 'vue-moment'
+
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
 
     export default {
         name: "Index",
         components: {
             listagem,
             'v-select': vSelect,
-            SideBar
+            SideBar,Datepicker,
+            VueMoment,
+            moment,
+            DateRangePicker
         },
         data() {
             return {
@@ -125,7 +153,8 @@
                     page: 1,
                     length: 30,
                     status: 'pendente',
-                    brinde_id: null
+                    brinde_id: null,
+                    fechado: 0
                 },
                 pagination: {
                     last_page: 1,
@@ -137,6 +166,16 @@
                 selectedBrinde: {},
                 brindes: [],
                 brindesCru: [],
+                dateRange: {},
+                localeData: saveleadsConfig.localeData,
+                ranges: {
+                    //Definindo ranges padronizados
+                    'Hoje': [this.getDay(true), this.getDay(true)],
+                    'Ontem': [this.getDay(false), this.getDay(false)],
+                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
+                },
                 //items: {}
 
                 //Prompt Editar
@@ -147,7 +186,7 @@
                     brinde_id: null
                 },
                 selectedEditBrinde: {},
-                brindesEdit: []
+                brindesEdit: [],
             }
         },
         created() {
@@ -161,6 +200,10 @@
                 this.$store.registerModule('expedicao', moduleExpedicoesBrindes);
                 moduleExpedicoesBrindes.isRegistered = true;
             }
+
+            this.dateRange.startDate = moment().subtract(30, 'days');
+            this.dateRange.endDate = moment();
+
             this.$vs.loading.close();
             this.getOpcoes();
             this.getItems();
@@ -177,9 +220,25 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getItems(status = 'pendente') {
+            getItems(status = this.dados.status) {
                 this.$vs.loading();
-                this.dados.status = status;
+                this.dados.status = status
+                switch (status) {
+                    case "pendente":
+                        this.dados.fechado = 0;
+                        break;
+                    case "fechada":
+                        this.dados.fechado = 1;
+                        break;
+                    default:
+                        this.dados.fechado = null;
+                }
+
+                if (this.dateRange.startDate)
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+                if (this.dateRange.endDate)
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
+
                 this.$store.dispatch('getVarios', {rota: 'expedicaos', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response);
                     this.pagination = response;
@@ -191,6 +250,34 @@
                     this.brindes = [...this.arraySelect(response)];
                     this.brindesCru = [...response];
                 });
+            },
+            setDate(val) {
+                this.$vs.loading();
+                switch (val) {
+                    case 'hoje':
+                        this.dateRange.startDate = moment();
+                        break;
+                    case '7':
+                        this.dateRange.startDate = moment().subtract(7, 'days');
+                        break;
+                    case '15':
+                        this.dateRange.startDate = moment().subtract(15, 'days');
+                        break;
+                    case '30':
+                        this.dateRange.startDate = moment().subtract(30, 'days');
+                        break;
+                }
+                this.getItems();
+            },
+            getDay(dia) {
+                //Definindo datas usadas nos ranges padronizados
+                let today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                let yesterday = new Date()
+                yesterday.setDate(today.getDate() - 1)
+                yesterday.setHours(0, 0, 0, 0);
+                return (dia ? today : yesterday)
             },
             deletar(id) {
                 this.$vs.dialog({
@@ -307,7 +394,11 @@
             },
             selectedEditBrinde(val){
                 console.log(val)
-            }
+            },
+            dateRange(val) {
+                this.$vs.loading();
+                this.getItems();
+            },
         },
         computed: {
             items() {
