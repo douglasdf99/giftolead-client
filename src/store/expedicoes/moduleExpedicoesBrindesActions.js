@@ -76,6 +76,7 @@ export default {
     },
     imprimirEtiqueta({commit}, dados ) {
         return new Promise((resolve, reject) => {
+            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
             axios.get("expedicao/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
                 .then((response) => {
                     console.log('deu certo', response);
