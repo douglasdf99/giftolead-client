@@ -5,10 +5,10 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form>
+                        <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome ou conta"/>
+                                      v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome da campanha"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -47,7 +47,7 @@
                     <div class="conquista" v-bind:class="{'desativado': !item.status}">
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
-                                <vs-button type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
+                                <vs-button @click="deletar(item.id)" type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
                                 <vs-button type="border" color="primary" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
                             </div>
                             <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
@@ -90,7 +90,7 @@
         methods: {
             getCampanhas() {
                 this.$vs.loading();
-                this.$store.dispatch('brindes/getCampanhas').then(response => {
+                this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
                     console.log('ué', response)
                     this.items = [...response];
                     this.$vs.loading.close();
@@ -157,7 +157,7 @@
                     this.countSwitch[obj.id] = this.countSwitch[obj.id] !== undefined ? this.countSwitch[obj.id] + 1 : 1;
                 }
             },
-            delete(id) {
+            deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar registro?`,
@@ -165,7 +165,7 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('delete', {rota: 'campanha_brindes', id: id}).then(() => {
+                        this.$store.dispatch('deleteItem', {rota: 'campanha_brindes', id: id}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: '',
@@ -182,6 +182,11 @@
                         });
                     }
                 });
+            },
+            pesquisar(e){
+                e.preventDefault();
+                this.$vs.loading();
+                this.getCampanhas();
             }
         }
     }

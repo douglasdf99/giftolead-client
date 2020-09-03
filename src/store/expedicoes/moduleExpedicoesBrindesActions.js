@@ -77,16 +77,38 @@ export default {
     imprimirEtiqueta({commit}, dados ) {
         return new Promise((resolve, reject) => {
             axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-            axios.get("expedicao/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
+            axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
                 .then((response) => {
                     console.log('deu certo', response);
                     resolve(response)
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
     },
-
+    imprimirEtiquetas({commit}, dados ) {
+        return new Promise((resolve, reject) => {
+            axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
+                .then((response) => {
+                    console.log('deu certo', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    gerarPlp({commit}, id){
+        return new Promise((resolve, reject) => {
+            axios.get("expedicaos/fechar/" + id)
+                .then((response) => {
+                    console.log('plp gerada', response);
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
 }

@@ -51,7 +51,8 @@
                 </div>
             </div>
             <div class="vx-col w-full lg:w-4/12">
-                <preview :text="email.corpo"></preview>
+                <preview v-if="$route.params.tipo == 1" :text="email.corpo"></preview>
+                <preview2 v-else :text="email.corpo"></preview2>
             </div>
         </div>
         <transition name="fade">
@@ -76,7 +77,6 @@
 
 <script>
     import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
     import {Validator} from "vee-validate";
     import 'quill/dist/quill.core.css'
     import 'quill/dist/quill.snow.css'
@@ -84,6 +84,7 @@
     import {quillEditor} from 'vue-quill-editor'
     import moduleAutomacao from "../../store/automacao/moduleAutomacao";
     import preview from './Preview'
+    import preview2 from './PreviewRastreio'
 
     const dict = {
         custom: {
@@ -109,7 +110,7 @@
         name: "EmailsCriar",
         components: {
             'v-select': vSelect,
-            quillEditor, preview
+            quillEditor, preview, preview2
         },
         created() {
             if (!moduleAutomacao.isRegistered) {
@@ -229,8 +230,7 @@
             },
             getAutomacao() {
                 this.$store.dispatch('automacao/getId', this.$route.params.id).then(response => {
-                    this.campanha = {...response};
-                    this.getLinks();
+                    this.automacao = {...response};
                 });
             },
             getLinks() {
