@@ -105,6 +105,23 @@ const rotasBrindes = [
             subTitle: 'Brindes',
             submenu: subbrindes
         },
+    },
+    {
+        path: '/brindes/expedicoes/:id',
+        name: 'brindes-expedicoes-detalhe',
+        component: () => import('@/views/expedicoes/ListDetal.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Detalhe da Expedição', active: true},
+            ],
+            pageTitle: 'Detalhe da Expedição',
+            rule: 'editor',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
     }
 ];
 

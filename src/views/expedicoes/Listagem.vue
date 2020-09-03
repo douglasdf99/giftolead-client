@@ -18,9 +18,22 @@
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
+                                <vs-dropdown-item @click="$router.push({path: `/brindes/expedicoes/${tr.id}`})">
+                                    <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
+                                    Detalhar Expedição
+                                </vs-dropdown-item>
+                                <vs-dropdown-item @click="$emit('gerarPlp', tr)">
+                                    <vs-icon icon-pack="material-icons" icon="assignment"></vs-icon>
+                                    Gerar PLP
+                                </vs-dropdown-item>
+                                <vs-divider></vs-divider>
                                 <vs-dropdown-item @click="$emit('editar', tr)">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
+                                </vs-dropdown-item>
+                                <vs-dropdown-item @click="$emit('deletar', tr)">
+                                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                                    Deletar
                                 </vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>
@@ -60,9 +73,18 @@
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
+                                <vs-dropdown-item @click="$emit('gerarPlp', tr)">
+                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                    Gerar PLP
+                                </vs-dropdown-item>
+                                <vs-divider></vs-divider>
                                 <vs-dropdown-item @click="$emit('editar', tr)">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
+                                </vs-dropdown-item>
+                                <vs-dropdown-item @click="$emit('deletar', tr)">
+                                    <vs-icon icon-pack="material-icons" icon="trash"></vs-icon>
+                                    Deletar
                                 </vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>

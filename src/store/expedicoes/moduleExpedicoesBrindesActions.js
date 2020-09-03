@@ -24,6 +24,17 @@ export default {
                 })
         })
     },
+    getId({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/expedicaos/${id}`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     aprovarVarias({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/expedicaos/${dados.rota}`, {expedicaos: dados.arr})
@@ -50,4 +61,32 @@ export default {
             });
         })
     },
+    rastreio({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post("https://api.saveleads.com.br/weentrega/rastreio", dados)
+                .then((response) => {
+                    console.log('rastreio', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
+        })
+    },
+    imprimirEtiqueta({commit}, dados ) {
+        return new Promise((resolve, reject) => {
+            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+            axios.get("expedicao/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
+                .then((response) => {
+                    console.log('deu certo', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
+        })
+    },
+
 }

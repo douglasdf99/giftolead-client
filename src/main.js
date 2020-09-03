@@ -177,7 +177,7 @@ Vue.mixin({
             email = md5(email);
             console.log('email aí', email)
             return `https://www.gravatar.com/avatar/${email}?d=` + encodeURIComponent('https://api.saveleads.com.br/images/avatar-padrao.png');
-        }
+        },
     }
 });
 
