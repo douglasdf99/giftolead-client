@@ -178,6 +178,18 @@ Vue.mixin({
             console.log('email aí', email)
             return `https://www.gravatar.com/avatar/${email}?d=` + encodeURIComponent('https://api.saveleads.com.br/images/avatar-padrao.png');
         },
+        removeAccents(str) {
+            let accents = 'ÀÁÂÃÄÅàáâãäåßÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+            let accentsOut = "AAAAAAaaaaaaBOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz";
+            str = str.split('');
+            str.forEach((letter, index) => {
+                let i = accents.indexOf(letter);
+                if (i != -1) {
+                    str[index] = accentsOut[i];
+                }
+            })
+            return str.join('').toUpperCase();
+        },
     }
 });
 
