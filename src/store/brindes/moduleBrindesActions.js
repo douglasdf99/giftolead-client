@@ -57,9 +57,9 @@ export default {
                 })
         })
     },
-    getCampanhas({commit}) {
+    getCampanhas({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/campanha_brindes`).then((response) => {
+            axios.get(`/campanha_brindes`, {params: dados}).then((response) => {
                 resolve(response.data.data)
             }).catch((error) => {
                 reject(error)

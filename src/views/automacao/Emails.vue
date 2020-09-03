@@ -7,21 +7,16 @@
             </div>
             <div class="vx-col col-conquista mb-10">
                 <h4 class="text-center mb-4">Ao entrar</h4>
-                <div v-if="!emailCriar" class="conquista nova cursor-pointer"
-                     @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails/criar'})">
+                <!--<div v-if="!emailCriar" class="conquista nova cursor-pointer"
+                     @click="$router.push({path: `/brindes/automacao/emails/criar/1`})">
                     <div class="img-plus cursor-pointer">
                         <i class="material-icons">add</i>
                     </div>
                     <p class="nome-conq">
                         Adicionar <br> novo e-mail
                     </p>
-                </div>
-                <div class="conquista" style="cursor: default !important" v-else v-bind:style="{opacity: (emailCriar.status ? '' : '.5')}" v-bind:class="{'desativado': !emailCriar.status}">
-                    <div class="py-2 w-full flex justify-between">
-                        <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(emailCriar.id)"></vs-button>
-                        <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
-                                   v-model="emailCriar.status" @click="ativaEmail(emailCriar)"/>
-                    </div>
+                </div>-->
+                <div class="conquista" style="cursor: default !important">
                     <div class="w-full">
                         <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
                         <p class="nome-conq mb-4 text-base">
@@ -29,25 +24,15 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: '/brindes/automacao/emails/editar/' + emailCriar.id})">
+                               @click="$router.push({path: `/brindes/automacao/emails/editar/${emailCriar.id}/1`})">
                         Editar email
                     </vs-button>
                 </div>
             </div>
             <div class="vx-col col-conquista mb-10">
                 <h4 class="text-center mb-4">A receber código de rastreio</h4>
-                <div class="conquista nova cursor-pointer" v-if="!emailRastreio"
-                     @click="$router.push({path: '/brindes/automacao/emails/criar/2'})">
-                    <div class="img-plus cursor-pointer">
-                        <i class="material-icons">add</i>
-                    </div>
-                    <p class="nome-conq">
-                        Adicionar <br> novo e-mail
-                    </p>
-                </div>
-                <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (emailRastreio.status ? '' : '.5')}" v-bind:class="{'desativado': !emailRastreio.status}" v-else>
-                    <div class="py-2 w-full flex justify-between">
-                        <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(emailRastreio.id)"></vs-button>
+                <div class="conquista" style="cursor: default !important">
+                    <div class="py-2 w-full flex">
                         <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch"
                                    v-model="emailRastreio.status" @click="ativaEmail(emailRastreio)"/>
                     </div>
@@ -58,7 +43,7 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: '/brindes/automacao/emails/editar/' + emailRastreio.id})">
+                               @click="$router.push({path: `/brindes/automacao/emails/editar/${emailRastreio.id}/2`})">
                         Editar tentativa
                     </vs-button>
                 </div>
@@ -133,34 +118,6 @@
                     this.$vs.loading.close();
                 });
             },
-            deletar(id) {
-                this.$vs.dialog({
-                    color: 'danger',
-                    title: `Deletar registro?`,
-                    text: 'Deseja deletar este registro? Procedimento irreversível',
-                    acceptText: 'Sim, deletar!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_carrinho_emails'}).then(() => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: '',
-                                text: 'Deletado com sucesso'
-                            });
-                            this.getId(this.$route.params.id);
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: '',
-                                text: 'Algo deu errado ao deletar. Contate o suporte.'
-                            })
-                        }).finally(() => {
-                            this.$vs.loading.close();
-                        })
-                    }
-                })
-            },
             ativaEmail(e) {
                 console.log(this.countSwitch)
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
@@ -207,31 +164,14 @@
             },
             emailCriar() {
                 let email = false
-                this.emails.forEach((item) => {
-                    if (item.evento == 1) {
-                        email = item;
-                    }
-                });
+                this.emails.forEach((item) => { if (item.evento == 1) email = item;});
                 return email;
             },
             emailRastreio() {
                 let email = false
-                this.emails.forEach((item) => {
-                    if (item.evento == 2) {
-                        email = item;
-                    }
-                });
+                this.emails.forEach((item) => {if (item.evento == 2) email = item; });
                 return email;
             },
-            emailExpedicao() {
-                let email = false
-                this.emails.forEach((item) => {
-                    if (item.evento == 3) {
-                        email = item;
-                    }
-                });
-                return email;
-            }
         },
         watch: {
             "$route"() {
