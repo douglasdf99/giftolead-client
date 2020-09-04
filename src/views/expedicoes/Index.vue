@@ -58,13 +58,13 @@
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems('fechada')" color="success" value="10"
                             :label="'fechadas' + (dados.status == 'fechada' ? ' (' + items.length + ')' : '')">
-                        <listagem @visualizar="visualizar" :items="items" tipo="fechada" v-if="items.length > 0"></listagem>
+                        <listagem @enviarRastreio="enviarRastreio" @visualizar="visualizar" :items="items" tipo="fechada" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'primary'; getItems('todos')" color="primary" value="10"
                             :label="'todos' + (dados.status == 'todos' ? ' (' + items.length + ')' : '')">
-                        <listagem @visualizar="visualizar" :items="items" tipo="todos" v-if="items.length > 0"></listagem>
+                        <listagem @enviarRastreio="enviarRastreio" @visualizar="visualizar" :items="items" tipo="todos" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -268,6 +268,23 @@
                         break;
                 }
                 this.getItems();
+            },
+            enviarRastreio(id) {
+                this.$vs.loading();
+                this.$store.dispatch('expedicao/enviarRastreio', {expedicao_id: id}).then(() => {
+                    this.$vs.notify({
+                        color: 'success',
+                        text: 'Rastreios enviados com sucesso.'
+                    });
+                    this.getItems()
+                }).catch(erro => {
+                    console.log('erro', erro);
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Algo deu errado. Contate o suporte'
+                    });
+                    this.$vs.loading.close();
+                });
             },
             getDay(dia) {
                 //Definindo datas usadas nos ranges padronizados
