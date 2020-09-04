@@ -40,11 +40,6 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-1/2 text-right">
-                <vs-button color="primary" class="text-white px-6 py-4 mx-3" @click="gerarPlp" v-if="!expedicao.plp">Gerar PLP</vs-button>
-                <vs-button color="primary" class="text-white px-6 py-4 mx-3" @click="imprimirPlp" v-else>Imprimir PLP</vs-button>
-                <vs-button color="primary" class="text-white px-6 py-4" @click="imprimirEtiquetas()" v-if="expedicao.fechado">Imprimir Etiquetas</vs-button>
-            </div>
         </div>
         <vs-table :data="expedicao.automacaos" class="table-items">
             <template slot="thead">
@@ -76,6 +71,10 @@
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
                                 </vs-dropdown-item>
+                                <vs-dropdown-item @click="enviarRastreio(tr.id)">
+                                    <vs-icon icon-pack="material-icons" icon="email"></vs-icon>
+                                    Enviar Rastreio
+                                </vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
@@ -92,6 +91,35 @@
                 </vs-tr>
             </template>
         </vs-table>
+        <transition name="fade">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button color="primary" class="text-white px-6 py-4 mx-3" @click="gerarPlp" v-if="!expedicao.plp">Gerar PLP</vs-button>
+                            <vs-button color="primary" class="text-white px-6 py-4 mx-3" @click="imprimirPlp" v-else>Imprimir PLP</vs-button>
+                            <vs-dropdown vs-trigger-click>
+                                <vs-button color="primary" class="text-white px-6 py-4" v-if="expedicao.fechado">Imprimir Etiquetas</vs-button>
+                                <vs-dropdown-menu class="dropdown-menu-list">
+                                    <vs-dropdown-item @click="imprimirEtiquetas('single')">
+                                        <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
+                                        Imprimir 4x4
+                                    </vs-dropdown-item>
+                                    <vs-dropdown-item @click="imprimirEtiquetas('multi')">
+                                        <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
+                                        Imprimir A4
+                                    </vs-dropdown-item>
+                                </vs-dropdown-menu>
+                            </vs-dropdown>
+                            <vs-button class="ml-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="$router.push({path: '/brindes/expedicoes'})">
+                                Voltar
+                            </vs-button>
+                        </div>
+                    </div>
+                </div>
+            </footer-doug>
+        </transition>
         <vs-popup class="popup-iframe" style="overflow: hidden" title="Imprimindo etiquetas" :active.sync="modalIframe">
             <iframe :src="urlIframe" width="100%" height="100%" title="Imprimindo Etiqueta"></iframe>
         </vs-popup>
@@ -237,11 +265,29 @@
             },
             imprimir(id) {
                 this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + `/expedicaos/imprimiretiqueta?expedicao_id=${this.$route.params.id}&automacao_id=${id}`;
+                this.urlIframe = saveleadsConfig.url_api + `/expedicaos/imprimiretiqueta?expedicao_id=${this.$route.params.id}&automacao_id=${id}&tipo=multi`;
             },
-            imprimirEtiquetas() {
+            imprimirEtiquetas(tipo) {
                 this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimiretiqueta?expedicao_id=' + this.$route.params.id;
+                this.urlIframe = saveleadsConfig.url_api + `/expedicaos/imprimiretiqueta?expedicao_id=${this.$route.params.id}&tipo=${tipo}`;
+                console.log('url', this.urlIframe);
+            },
+            enviarRastreio(id) {
+                this.$vs.loading();
+                this.$store.dispatch('expedicao/enviarRastreio', {expedicao_id: this.expedicao.id, automacao_id: id}).then(() => {
+                    this.$vs.notify({
+                        color: 'success',
+                        text: 'Rastreio enviado com sucesso.'
+                    });
+                    this.getId(this.expedicao.id);
+                }).catch(erro => {
+                    console.log('erro', erro);
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Algo deu errado. Contate o suporte'
+                    });
+                    this.$vs.loading.close();
+                });
             },
             gerarPlp() {
                 this.$vs.loading();

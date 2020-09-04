@@ -110,5 +110,17 @@ export default {
                     reject(error)
                 })
         })
-    }
+    },
+    enviarRastreio({commit}, dados){
+        return new Promise((resolve, reject) => {
+            axios.get("expedicaos/enviaremailrastreio", {params: dados})
+                .then((response) => {
+                    console.log('enviado com sucesso', response);
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }
