@@ -17,6 +17,7 @@
                     <vs-th></vs-th>
                     <vs-th>Cliente</vs-th>
                     <vs-th>Inserção</vs-th>
+                    <vs-th>Brinde</vs-th>
                     <vs-th>E-mail</vs-th>
                     <vs-th>Token</vs-th>
                     <vs-th>Ordem de envio</vs-th>
@@ -47,6 +48,9 @@
                         </vs-td>
                         <vs-td>
                             <p class="font-bold">{{getResponsavel(tr)}}</p>
+                        </vs-td>
+                        <vs-td>
+                            <p class="font-bold">{{tr.brinde.nome}}</p>
                         </vs-td>
                         <vs-td>
                             <vs-icon icon-pack="material-icons" icon="watch_later" color="gray" v-if="tr.eventos.length == 0" class="text-2xl"/>

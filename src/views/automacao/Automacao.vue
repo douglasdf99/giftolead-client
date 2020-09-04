@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form>
+                        <form @submit.prevent="getItems()">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.pesquisa" id="search_input_trans" size="large"
@@ -26,7 +26,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form>
+                        <form @submit.prevent="getItems()">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.responsavel" id="search_input_trans" size="large"
@@ -45,7 +45,7 @@
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <label class="vs-input--label">Brinde</label>
-                <v-select v-model="selectedBrinde" :class="'select-large-base'" :clearable="true" class="bg-white"
+                <v-select @change="getItems()" v-model="selectedBrinde" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="brindes"/>
             </div>
         </div>
@@ -163,7 +163,7 @@
             },
             selectedBrinde(val){
                 this.$vs.loading();
-                this.dados.brinde_id = this.selectedBrinde.id;
+                this.dados.brinde_id = this.selectedBrinde? this.selectedBrinde.id : null ;
                 this.getItems();
             }
         }

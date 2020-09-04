@@ -133,7 +133,8 @@
             this.getId(this.$route.params.id);
         },
         methods: {
-            getId(id) {
+
+          getId(id) {
                 this.$vs.loading();
                 this.$store.dispatch('expedicao/getId', id).then(response => {
                     console.log(response);
