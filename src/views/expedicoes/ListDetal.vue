@@ -103,11 +103,11 @@
                                 <vs-dropdown-menu class="dropdown-menu-list">
                                     <vs-dropdown-item @click="imprimirEtiquetas('single')">
                                         <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                        Imprimir A4
+                                        Imprimir 4x4
                                     </vs-dropdown-item>
                                     <vs-dropdown-item @click="imprimirEtiquetas('multi')">
                                         <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                        Imprimir 4x4
+                                        Imprimir A4
                                     </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
