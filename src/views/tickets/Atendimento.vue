@@ -125,7 +125,7 @@
                         </div>
                         <div class="vx-col w-full lg:w-1/3">
                             <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
-                            <vs-input class="w-full" v-model="atendimento.email_destinatario" size="large"/>
+                            <vs-input class="w-full" type="email" v-model="atendimento.email_destinatario" size="large" v-validate="'required'" v-bind:class="{'emailerrado' : validaemail}"/>
                         </div>
                     </div>
                 </transition>
@@ -250,8 +250,35 @@
             this.atendimento.nome_destinatario = this.ticket.nome_destinatario;
             this.atendimento.email_destinatario = this.ticket.email_destinatario;
 
-            this.getOpcoes();
+            let obj = JSON.parse(localStorage.getItem('atendimento'));
+            if (obj) {
+                this.atendimento = {...obj};
+                if (this.atendimento.status_atendimento_id) {
+                    this.selectedStatus = this.atendimento.status_atendimento_id;
+                    /*if(this.atendimento.tipo == 0){
+                        this.statusGanhou.forEach(item => {
+                            console.log('puts')
+                            if(item.id == this.atendimento.status_atendimento_id){
+                                console.log('aí', item)
+                                this.verificaHabBrinde(item);
+                            }
+                        })
+                    } else if(this.atendimento.tipo == 2){
+                        this.statusPerdeu.forEach(item => {
+                            if(item.id == this.atendimento.status_atendimento_id){
+                                this.verificaHabPerda(item);
+                            }
+                        })
+                    }*/
+                }
 
+                if (this.atendimento.tipo == 1)
+                    this.datetime = this.atendimento.data_agendamento;
+
+
+            }
+
+            this.getOpcoes();
         },
         methods: {
             getOpcoes() {
@@ -315,6 +342,15 @@
                     arr.push({id: item.produto.id, label: item.produto.nome});
                 });
                 return arr;
+            },
+            validaemail() {
+                let n = this.atendimento.email_destinatario.indexOf('@');
+                if(n != -1){//Verificando se o arroba existe
+                    let str = this.atendimento.email_destinatario.split('@');
+                    console.log('str', str.length)
+                    return (str.length != 2);//evitando mais de um @
+                }
+                return (n == -1);
             }
         },
         watch: {
@@ -341,7 +377,9 @@
                         console.log('watch', val, this.datetime);
                         if (this.datetime != null && this.atendimento.tipo == 1)
                             this.atendimento.data_agendamento = this.datetime;
+
                         let obj = {...this.ticket, ...this.atendimento};
+                        localStorage.setItem("atendimento", JSON.stringify(obj));
                         this.$store.commit('tickets/SET_TICKET_ATENDIDO', obj);
                     }
                 },
@@ -352,5 +390,8 @@
 </script>
 
 <style scoped>
-
+    .emailerrado {
+        border: 1px solid red;
+        border-radius: 5px;
+    }
 </style>
