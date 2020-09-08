@@ -42,6 +42,12 @@ export default [
         icon: "all_inbox",
     },
     {
+        url: '/comissoes/aprovar',
+        name: "Comissões",
+        slug: 'comissoes',
+        icon: "monetization_on",
+    },
+    {
         url: '/planos/meus-planos',
         name: "Planos",
         slug: 'planos',
