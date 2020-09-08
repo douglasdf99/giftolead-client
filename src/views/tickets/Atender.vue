@@ -343,6 +343,7 @@
                                     title: '',
                                     text: 'Atendimento cancelado com sucesso'
                                 });
+                                localStorage.removeItem('atendimento');
                                 this.$vs.loading.close();
                                 this.$router.push({name: 'tickets-list'})
                             }
@@ -372,6 +373,7 @@
                                 title: '',
                                 text: 'Atendimento finalizado com sucesso'
                             });
+                            localStorage.removeItem('atendimento');
                             this.$vs.loading.close();
                             this.$router.push({name: 'tickets-list'});
                         }).catch(erro => {
@@ -557,8 +559,8 @@
             },
             valido() {
                 let temfollow = this.ticket.follow_up != null && this.ticket.follow_up != "";
-                console.log('status', this.ticket.status_atendimento_id);
-                return (temfollow && this.ticket.status_atendimento_id != {});
+                console.log('status', this.ticket);
+                return (temfollow && this.ticket.status_atendimento_id != '');
             }
         },
         watch: {

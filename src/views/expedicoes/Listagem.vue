@@ -11,7 +11,7 @@
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
-                    <vs-td class="flex justify-center items-center" v-if="tipo == 'pendente'">
+                    <vs-td class="flex justify-center items-center">
                         <vs-dropdown vs-trigger-click>
                             <vs-button radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
@@ -22,12 +22,16 @@
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar Expedição
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="$emit('gerarPlp', tr)">
+                                <vs-dropdown-item @click="$emit('gerarPlp', tr)" v-if="!tr.fechado">
                                     <vs-icon icon-pack="material-icons" icon="assignment"></vs-icon>
                                     Gerar PLP
                                 </vs-dropdown-item>
+                                <vs-dropdown-item @click="$emit('enviarRastreio', tr.id)" v-if="tr.fechado">
+                                    <vs-icon icon-pack="material-icons" icon="email"></vs-icon>
+                                    Enviar Rastreios
+                                </vs-dropdown-item>
                                 <vs-divider></vs-divider>
-                                <vs-dropdown-item @click="$emit('editar', tr)">
+                                <vs-dropdown-item @click="$emit('editar', tr)" v-if="!tr.fechado">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
