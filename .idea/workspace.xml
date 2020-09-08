@@ -58,15 +58,17 @@
   </component>
   <component name="ProjectId" id="1gvDq2OboOmeOjmsl3CYM9p7bOZ" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../sevaleads3.0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -76,6 +78,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -203,7 +206,11 @@
       <workItem from="1598986361422" duration="700000" />
       <workItem from="1599049424270" duration="2066000" />
       <workItem from="1599068655257" duration="607000" />
-      <workItem from="1599087005845" duration="2016000" />
+      <workItem from="1599087005845" duration="4477000" />
+      <workItem from="1599157418999" duration="846000" />
+      <workItem from="1599161588960" duration="640000" />
+      <workItem from="1599220801227" duration="4216000" />
+      <workItem from="1599566429385" duration="1777000" />
     </task>
     <task id="LOCAL-00017" summary="novo topbar e sidebar completo">
       <created>1587758850808</created>
@@ -592,14 +599,18 @@
     <option name="LAST_COMMIT_MESSAGE" value="inicio de configuracao do email de automacao" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="828" y="412" key="#ESLint" timestamp="1599049437739">
+    <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599049437739" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1599087011743">
+    <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1599220822369">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599087011743" />
+    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599220822369" />
+    <state x="461" y="165" key="SettingsEditor" timestamp="1599161636152">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599050689284">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
