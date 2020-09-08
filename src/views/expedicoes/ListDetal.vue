@@ -428,16 +428,16 @@
                 this.toggleDataSidebar(true);
             },
             imprimir(id) {
-                this.$vs.loading({
+                /*this.$vs.loading({
                     container: '#popup-with-loading',
-                });
+                });*/
                 this.modalIframe = true;
                 this.urlIframe = saveleadsConfig.url_api + `/expedicaos/imprimiretiqueta?expedicao_id=${this.$route.params.id}&automacao_id=${id}&tipo=multi`;
             },
             imprimirEtiquetas(tipo) {
-                this.$vs.loading({
+                /*this.$vs.loading({
                     container: '#popup-with-loading',
-                });
+                });*/
                 this.modalIframe = true;
                 this.urlIframe = saveleadsConfig.url_api + `/expedicaos/imprimiretiqueta?expedicao_id=${this.$route.params.id}&tipo=${tipo}`;
                 console.log('url', this.urlIframe);
