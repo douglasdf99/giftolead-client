@@ -125,7 +125,9 @@
                         </div>
                         <div class="vx-col w-full lg:w-1/3">
                             <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
-                            <vs-input class="w-full" type="email" v-model="atendimento.email_destinatario" size="large" v-validate="'required'" v-bind:class="{'emailerrado' : validaemail}"/>
+                            <vs-input class="w-full" type="email" v-model="atendimento.email_destinatario" name="email" size="large" v-validate="'required|email'"/>
+                            <span class="text-danger text-sm"
+                                  v-show="errors.has('email')">{{ errors.first('email') }}</span>
                         </div>
                     </div>
                 </transition>
@@ -178,6 +180,17 @@
     import moduleProdutos from "../../store/produtos/moduleProdutos";
     import moduleMotivos from "../../store/motivoPerda/moduleMotivos";
     import moduleBrindes from "../../store/brindes/moduleBrindes";
+    import {Validator} from 'vee-validate';
+
+    const dict = {
+        custom: {
+            email: {
+                required: 'Por favor, insira um e-mail válido para contato',
+                email: 'O email informado está com formato inválido',
+            },
+        }
+    };
+    Validator.localize('pt-br', dict);
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -255,11 +268,10 @@
                 this.atendimento = {...obj};
                 if (this.atendimento.status_atendimento_id) {
                     this.selectedStatus = this.atendimento.status_atendimento_id;
-                    /*if(this.atendimento.tipo == 0){
+                    if(this.atendimento.tipo == 0){
                         this.statusGanhou.forEach(item => {
-                            console.log('puts')
+                            console.log('entrou aqui 1', item.id);
                             if(item.id == this.atendimento.status_atendimento_id){
-                                console.log('aí', item)
                                 this.verificaHabBrinde(item);
                             }
                         })
@@ -269,7 +281,7 @@
                                 this.verificaHabPerda(item);
                             }
                         })
-                    }*/
+                    }
                 }
 
                 if (this.atendimento.tipo == 1)

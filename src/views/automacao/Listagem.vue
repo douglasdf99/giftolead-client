@@ -67,7 +67,9 @@
                             </p>
                         </vs-td>
                         <vs-td class="flex">
-                            <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2" v-if="tr.rastreio != null">
+                            <vx-tooltip position="top" :text="tr.rastreio">
+                                <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2 cursor-pointer" @click="copyText(tr.rastreio)" v-if="tr.rastreio != null">
+                            </vx-tooltip>
                             <img src="@/assets/images/util/expedicao-icon.svg" width="25px" v-if="tr.expedicao && tr.expedicao != null">
                         </vs-td>
                     </vs-tr>
@@ -117,6 +119,27 @@
                 else
                     return false;
             },
+            copyText(val){
+                const thisIns = this;
+                this.$copyText(val).then(function () {
+                    thisIns.$vs.notify({
+                        title: 'Success',
+                        text: 'Código de rastreio copiado para sua área de transferência',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle'
+                    })
+                }, function () {
+                    thisIns.$vs.notify({
+                        title: 'Failed',
+                        text: 'Erro ao copiar código',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        position: 'top-center',
+                        icon: 'icon-alert-circle'
+                    })
+                })
+            }
         },
     }
 </script>
