@@ -58,12 +58,7 @@
                                                                                     <tr>
                                                                                         <td style="background-color:#ffffff; padding:50px 20px 10px 20px; line-height:30px; text-align:inherit;" height="100%" valign="top"
                                                                                             bgcolor="#ffffff">
-                                                                                            <div>
-                                                                                                <div style="font-family: inherit; text-align: left"><span
-                                                                                                        style="color: #516775; font-size: 28px; font-family: arial, helvetica, sans-serif"><strong>Boas notícias!</strong></span>
-                                                                                                </div>
-                                                                                                <div></div>
-                                                                                            </div>
+                                                                                          <div v-html="text"></div>
                                                                                         </td>
                                                                                     </tr>
                                                                                     </tbody>
@@ -114,8 +109,7 @@
                                                                                     </tbody>
                                                                                 </table>
                                                                                 <table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;"
-                                                                                       data-muid="bA2FfEE6abadx6yKoMr3F9.1" data-mc-module-version="2019-10-22">
-                                                                                    <tbody>
+                                                                                       data-muid="bA2FfEE6abadx6yKoMr3F9.1" data-mc-module-version="2019-10-22"><tbody>
                                                                                     <tr>
                                                                                         <td style="padding:10px 40px 50px 40px; line-height:22px; text-align:inherit; background-color:#ffffff;" height="100%" valign="top"
                                                                                             bgcolor="#ffffff"
