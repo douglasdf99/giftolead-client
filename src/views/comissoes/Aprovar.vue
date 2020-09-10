@@ -102,12 +102,6 @@
     export default {
         name: "Index",
         components: {SideBar, listagem, 'v-select': vSelect},
-        channel: 'laravel_database_lista-ticket',
-        echo: {
-            'ListaTicket': (payload, vm) => {
-                console.log('evento disparado', payload);
-            },
-        },
         data() {
             return {
                 colorx: 'rgb(16, 233, 179)',
@@ -195,7 +189,7 @@
 
                 this.dados.search = url;
 
-                this.$store.dispatch('comissoes/getItems', {params: this.dados}).then(response => {
+                this.$store.dispatch('comissoes/getPreCom', {params: this.dados}).then(response => {
                     console.log('retornado com sucessso', response)
                     this.pagination = response;
                     this.comissoes = response.data

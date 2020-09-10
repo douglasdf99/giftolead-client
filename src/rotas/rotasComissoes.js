@@ -2,7 +2,7 @@ import subcomissoes from "./subRotaComissoes";
 
 const rotasComissoes = [
     {
-        path: '/comissoes/comissionar',
+        path: '/comissoes/aprovar',
         name: 'comissoes-aprovar',
         component: () => import('@/views/comissoes/Aprovar.vue'),
         meta: {

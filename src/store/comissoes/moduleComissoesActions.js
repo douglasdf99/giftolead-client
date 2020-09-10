@@ -48,9 +48,21 @@ export default {
                 })
         })
     },
-    getItems({commit}, dados){
+    getPreCom({commit}, dados){
         return new Promise((resolve, reject) => {
             axios.get(`/pre_comissaos`, {params: dados.params})
+                .then((response) => {
+                    console.log('abertos', response.data)
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    getCom({commit}, dados){
+        return new Promise((resolve, reject) => {
+            axios.get(`/comissaos`, {params: dados.params})
                 .then((response) => {
                     console.log('abertos', response.data)
                     resolve(response.data.data)
