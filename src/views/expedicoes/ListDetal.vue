@@ -437,11 +437,6 @@
                 this.toggleDataSidebar(true);
             },
             imprimir(id) {
-                /*this.$vs.loading({
-                    container: '#popup-with-loading',
-                });*/
-/*                this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + `/expedicoes/imprimiretiqueta?expedicao_id=${this.$route.params.id}&automacao_id=${id}&tipo=multi`;*/
               this.urlIframe = false;
               this.modalIframe = true;
               this.$vs.loading({
@@ -468,7 +463,7 @@
 
                 });
             },
-          imprimirEtiquetas(tipo) {
+            imprimirEtiquetas(tipo) {
             this.urlIframe = false;
             this.modalIframe = true;
             this.$vs.loading({
@@ -527,10 +522,34 @@
                 });
             },
             imprimirPlp() {
-                this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;
-            },
+                /*this.modalIframe = true;
+                this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;*/
+              this.urlIframe = false;
+              this.modalIframe = true;
+              this.$vs.loading({
+                container: '#pdf-with-loading'
+              })
+              axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
+                .then((response) => {
+                  console.log(response);
+                  var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  });
+                  var url = window.URL.createObjectURL(blob);
+                  console.log(url);
+                  this.urlIframe = url;
+                  //window.open(url);
+                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                })
+                .catch((error) => {
+                  this.$vs.notify({
+                    color: 'danger',
+                    text: 'Algo deu errado. Contate o suporte'
+                  });
+                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
+                });
+            },
             //Editar endereço da automação
             editarEndereco(obj) {
                 this.endereco = {...obj.endereco};
