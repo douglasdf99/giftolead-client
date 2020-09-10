@@ -74,19 +74,6 @@ export default {
                 })
         })
     },
-    imprimirEtiqueta({commit}, dados ) {
-        return new Promise((resolve, reject) => {
-            axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-            axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
-                .then((response) => {
-                    console.log('deu certo', response);
-                    resolve(response)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    },
     imprimirEtiquetas({commit}, dados ) {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
