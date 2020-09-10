@@ -59,5 +59,16 @@ export default {
                     reject(error)
                 })
         })
+    },
+    action({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.get(`pre_comissaos/${obj.method}/${obj.id}`).then(response => {
+                console.log(response);
+                resolve();
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
     }
 }

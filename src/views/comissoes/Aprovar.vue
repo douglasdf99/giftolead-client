@@ -55,15 +55,15 @@
         <vs-row>
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getItems('pendente')" color="success" value="10"
-                            :label="'pendentes' + tipoCom == 'pendente' ? ` (${comissoes.length})` : ''">
-                        <listagem @update="updateData" @delete="deletar" :items="comissoes"></listagem>
+                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getItems('pendente');" color="success" value="10"
+                            :label="'pendentes' + (tipoCom == 'pendente' ? ` (${comissoes.length})` : '')">
+                        <listagem @action="action" @visualizar="visualizar" @update="updateData" @delete="deletar" :items="comissoes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getItems('fechados')" color="black"
-                            :label="'reprovados' + tipoCom == 'reprovado' ? ` (${comissoes.length})` : ''">
-                        <listagem @update="updateData" @delete="deletar" :items="comissoes"></listagem>
+                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getItems('reprovado')" color="danger"
+                            :label="'reprovados' + (tipoCom == 'reprovado' ? ` (${comissoes.length})` : '')">
+                        <listagem @action="action" @visualizar="visualizar" @update="updateData" @delete="deletar" :items="comissoes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -170,7 +170,9 @@
                 this.addNewDataSidebar = val
             },
             getItems(tipo = this.tipoCom) {
+                this.$vs.loading();
                 this.dados.tipo = tipo;
+                this.tipoCom = tipo;
 
                 let url = '';
                 let control = 0;//Controla entradas em cada condição
@@ -200,7 +202,6 @@
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
-
             },
             getOpcoes() {
                 this.$store.dispatch('comissoes/get').then(response => {
@@ -236,10 +237,41 @@
                     }
                 })
             },
+            action(obj){
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: obj.method == 'aprovar' ? 'Aprovar' : obj.method == 'reprovar' ? 'Reprovar' : 'Restaurar' + ` pré comissão?`,
+                    text: `Deseja ${obj.method} esta comissão?`,
+                    acceptText: 'Sim',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch(`comissoes/action`, obj).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'Aprovado com sucesso'
+                            });
+                            this.getItems()
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                            })
+                            this.$vs.loading.close();
+                        })
+                    }
+                })
+            },
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
+            },
+            visualizar(obj){
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             }
         },
         watch: {
