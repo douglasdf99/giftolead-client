@@ -42,6 +42,7 @@ import rotasTickets from "./rotas/rotasTickets"
 import rotasExtensoes from "./rotas/rotasExtensoes";
 import rotasBrindes from "./rotas/rotasBrindes";
 import rotasAutomacao from "./rotas/rotasAutomacao";
+import rotasComissoes from "./rotas/rotasComissoes";
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
@@ -1376,6 +1377,10 @@ const router = new Router({
                 // Automação de Brindes
                 // =============================================================================
                 ...rotasAutomacao,
+                // =============================================================================
+                // Comissões
+                // =============================================================================
+                ...rotasComissoes,
                 {
                   path: '/meuslinks/produto/:id',
                   name: 'meuslinks-produto',
