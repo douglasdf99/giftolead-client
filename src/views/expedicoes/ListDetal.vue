@@ -2,6 +2,8 @@
     <div>
         <detalhe v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                  :data="sidebarData"/>
+        <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
+                 :data="endereco"/>
         <div class="vx-row mb-5">
             <div class="vx-col w-full lg:w-3/4">
                 <div class="flex items-center justify-around" v-if="expedicao">
@@ -148,7 +150,7 @@
                           style="background-color: white" :options="contratos" v-validate="'required'" name="produtoUpsell"/>
             </div>
         </vs-prompt>
-        <vs-popup class="popup-endereco" style="overflow: hidden" title="Editando endereço" :active.sync="modalEndereco">
+       <!-- <vs-popup class="popup-endereco" style="overflow: hidden" title="Editando endereço" :active.sync="modalEndereco">
             <div class="">
                 <div class="p-6 pt-0">
                     <h3 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 my-3">Suas informações pessoais</h3>
@@ -215,7 +217,7 @@
                     </form>
                 </div>
             </div>
-        </vs-popup>
+        </vs-popup>-->
         <!-- inicio popup-->
         <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-show="modalGerarPlp">
             <div class="vs-popup--background"></div>
@@ -295,6 +297,7 @@
 <script>
     import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
     import detalhe from './Detalhe'
+    import endereco from './Endereco'
     import saveleadsConfig from "../../../saveleadsConfig";
     import vSelect from 'vue-select'
     import moduleContrato from "../../store/contratos/moduleContrato";
@@ -306,7 +309,7 @@
         name: "ListDetal",
         channel: `laravel_database_listarautomacao`,
         components: {
-            detalhe, 'v-select': vSelect
+          endereco,  detalhe, 'v-select': vSelect
         },
         data() {
             return {
@@ -417,7 +420,6 @@
                 this.modalGerarPlp = false;
                 this.getId(this.expedicao.id);
                 this.$vs.loading.close();
-
             },
             pesquisar(e) {
                 e.preventDefault();
@@ -427,18 +429,41 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
+            toggleDataSidebarEnd(val = false) {
+                this.modalEndereco = val
+            },
             visualizar(obj) {
                 this.sidebarData = obj
                 this.toggleDataSidebar(true);
             },
             imprimir(id) {
-                /*this.$vs.loading({
-                    container: '#popup-with-loading',
-                });*/
-                this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + `/expedicoes/imprimiretiqueta?expedicao_id=${this.$route.params.id}&automacao_id=${id}&tipo=multi`;
+              this.urlIframe = false;
+              this.modalIframe = true;
+              this.$vs.loading({
+                container: '#pdf-with-loading'
+              })
+              axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.$route.params.id,'tipo':'single','automacao_id':id}, responseType: 'arraybuffer'})
+                .then((response) => {
+                  console.log(response);
+                  var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  });
+                  var url = window.URL.createObjectURL(blob);
+                  console.log(url);
+                  this.urlIframe = url;
+                  //window.open(url);
+                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                })
+                .catch((error) => {
+                  this.$vs.notify({
+                    color: 'danger',
+                    text: 'Algo deu errado. Contate o suporte'
+                  });
+                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+
+                });
             },
-          imprimirEtiquetas(tipo) {
+            imprimirEtiquetas(tipo) {
             this.urlIframe = false;
             this.modalIframe = true;
             this.$vs.loading({
@@ -497,10 +522,34 @@
                 });
             },
             imprimirPlp() {
-                this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;
-            },
+                /*this.modalIframe = true;
+                this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;*/
+              this.urlIframe = false;
+              this.modalIframe = true;
+              this.$vs.loading({
+                container: '#pdf-with-loading'
+              })
+              axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
+                .then((response) => {
+                  console.log(response);
+                  var blob = new Blob([response.data], {
+                    type: 'application/pdf'
+                  });
+                  var url = window.URL.createObjectURL(blob);
+                  console.log(url);
+                  this.urlIframe = url;
+                  //window.open(url);
+                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                })
+                .catch((error) => {
+                  this.$vs.notify({
+                    color: 'danger',
+                    text: 'Algo deu errado. Contate o suporte'
+                  });
+                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
+                });
+            },
             //Editar endereço da automação
             editarEndereco(obj) {
                 this.endereco = {...obj.endereco};
@@ -535,6 +584,7 @@
             },
             storeEndereco() {
                 this.endereco.nome = this.removeAccents(this.endereco.nome);
+
             },
 
             //Trocando contrato
@@ -571,9 +621,9 @@
             list() {
                 return this.expedicao.automacaos.filter(automacao => {
                     console.log('auto', automacao);
-                    let email = automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase());
+                    let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                     let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
-                    let nome = automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase());
+                    let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
 
                     return email || rastreio || nome
                 })
