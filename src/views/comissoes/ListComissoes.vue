@@ -36,6 +36,19 @@
                 </vs-tr>
             </template>
         </vs-table>
+        <transition name="fade" v-if="selecteds.length > 0">
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="gerarOrdens">
+                        Gerar ordens
+                    </vs-button>
+                    <div class="float-right">
+                        <span class="font-bold text-2xl">R$ {{formatPrice(somaSelecionados)}}</span>
+                        <p>valor total selecionado</p>
+                    </div>
+                </div>
+            </footer-doug>
+        </transition>
     </div>
 </template>
 
@@ -45,7 +58,8 @@
         props: ['items'],
         data() {
             return {
-                selecteds: []
+                selecteds: [],
+                ids: [],
             }
         },
         created() {
@@ -53,12 +67,38 @@
         },
         methods: {
             handleSelected(tr) {
-                console.log(tr)
+            },
+            getValComissao(arr) {
+                let soma = 0;
+                arr.forEach(item => {
+                    soma = parseFloat(soma) + parseFloat(item.valor);
+                });
+                return this.formatPrice(parseFloat(soma));
+            },
+            gerarOrdens(){
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: 'Gerar ordens',
+                    text: `Deseja gerar ordens a partir das comissões selecionadas?`,
+                    acceptText: 'Sim',
+                    accept: () => {
+                        this.$emit('gerarOrdens', this.selecteds);
+                        this.selecteds = [];
+                    }
+                })
+            }
+        },
+        computed: {
+            somaSelecionados() {
+                let soma = 0;
+                this.selecteds.forEach(obj => {
+                    obj.comissaos.forEach(item => {
+                        soma = parseFloat(soma) + parseFloat(item.valor);
+                    });
+                });
+
+                return soma;
             }
         }
     }
 </script>
-
-<style scoped>
-
-</style>

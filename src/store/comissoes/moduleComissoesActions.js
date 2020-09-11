@@ -82,5 +82,16 @@ export default {
                 reject();
             })
         });
+    },
+    storeOrdens({commit}, ids){
+        return new Promise((resolve, reject) => {
+            axios.post(`comissaos/gerarordens`, {ids: ids}).then(response => {
+                console.log(response);
+                resolve();
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
     }
 }

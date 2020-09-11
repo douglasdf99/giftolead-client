@@ -49,7 +49,7 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>-->
-                <listagem @visualizar="visualizar" :items="comissoes"></listagem>
+                <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes"></listagem>
                 <vs-pagination class="mt-2" :total="pagination.last_page"
                                v-model="currentx"></vs-pagination>
             </vs-col>
@@ -147,6 +147,15 @@
             visualizar(obj){
                 this.sidebarData = obj;
                 this.toggleDataSidebar(true);
+            },
+            gerandoOrdem(arr){
+                let ids = arr.map(item => {return item.id});
+                this.$vs.loading();
+                this.$store.dispatch('comissoes/storeOrdens', ids).then(() => {
+                    this.getItems();
+                }).catch(erro => {
+                    console.log('erro', erro);
+                })
             }
         },
         watch: {
