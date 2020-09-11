@@ -1,7 +1,7 @@
 <template>
     <div>
-        <!--<side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>-->
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+                  :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -26,32 +26,30 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-3/12 sm:w-full">
+            <!--<div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
                     <span class="destaque">Ordens a gerar</span>
                     <p class="font-bold text-3xl my-5" v-bind:class="''">R$ 873,50</p>
                 </vx-card>
-            </div>
+            </div>-->
         </div>
-        <vs-row>
+        <vs-row class="mt-10">
             <vs-col vs-w="12">
-                <!--<vs-tabs :color="colorx">
+                <vs-tabs :color="colorx">
                     <vs-tab @click="colorx = 'warning'; getItems('pendente');" color="warning" value="10"
                             :label="'gerar ordens' + (tipoCom == 'pendente' ? ` (${comissoes.length})` : '')">
-                        <listagem @action="action" @visualizar="visualizar" @update="updateData" @delete="deletar" :items="comissoes"></listagem>
+                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems('reprovado')" color="success"
                             :label="'comissões' + (tipoCom == 'reprovado' ? ` (${comissoes.length})` : '')">
-                        <listagem @action="action" @visualizar="visualizar" @update="updateData" @delete="deletar" :items="comissoes"></listagem>
+                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                </vs-tabs>-->
-                <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes"></listagem>
-                <vs-pagination class="mt-2" :total="pagination.last_page"
-                               v-model="currentx"></vs-pagination>
+                </vs-tabs>
+
             </vs-col>
         </vs-row>
     </div>

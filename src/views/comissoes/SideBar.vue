@@ -19,54 +19,104 @@
             <div class="p-10">
                 <div class="vx-row flex items-center">
                     <div class="vx-col w-full lg:w-1/2">
-                        <p>Data: <b>{{data.created_at | formatDateTime}}</b></p>
-                        <vs-chip :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{data.tipo}}</vs-chip>
+                        <p class="font-bold text-dark text-xl">{{data.ticket.lead.nome}}</p>
+                        <p class="font-bold text-primary text-xl">{{data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####')}}</p>
+                        <p class="font-bold text-gray text-md">{{data.ticket.lead.email}}</p>
+                        <p class="font-bold text-gray text-md">CPF: {{data.ticket.lead.cpf || '' | VMask('###.###.###-##')}}</p>
                     </div>
                     <div class="vx-col w-full lg:w-1/2 text-right">
-                        <p class="font-bold text-3xl text-dark">Ticket: {{data.ticket.id}}</p>
+                        <p class="font-bold text-2xl text-dark">Ticket: {{data.ticket.id}}</p>
+                        <p>Data: <b>{{data.created_at | formatDateTime}}</b></p>
+                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{data.tipo}}</vs-chip>
                     </div>
                 </div>
-                <div class="vx-row mt-5">
-                    <div class="vx-col w-full">
-                        <vs-table :data="data.comissaos" class="table-items">
+                <vs-divider></vs-divider>
+                <div class="vx-row my-5">
+                    <div class="vx-col w-full relative">
+                        <form @submit="pesquisarTrans">
+                            <vs-input autocomplete="off" class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" v-model="dados.search" id="search_input" size="large"
+                                      placeholder="Buscar transações"/>
+                            <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-10">
+                                <button type="submit" class="btn-search-bar">
+                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                </button>
+                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div v-if="pesquisado">
+                    <div v-if="resultado.length === 0">
+                        <div class="vx-row">
+                            <div class="vx-col w-full text-center">
+                                <p class="font-bold">Nenhum resultado encontrado</p>
+                                <p class="mt-5">Caso deseje criar uma transação manual preencha os dados abaixo</p>
+                            </div>
+                        </div>
+                        <div class="vx-row mt-5 flex items-end">
+                            <div class="vx-col w-full lg:w-1/2">
+                                <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" v-model="transacao.email" id="search_input_trans" size="large"
+                                          placeholder="E-mail"/>
+                            </div>
+                            <div class="vx-col w-full lg:w-1/2">
+                                <label class="vs-input--label">Tipo de Transação</label>
+                                <v-select v-model="transacao.tipo" :class="'select-large-base'" :clearable="true" class="bg-white"
+                                          :options="opcoes"/>
+                            </div>
+                            <div class="vx-col w-full mt-5 text-center">
+                                <vs-button class="font-bold text-white" color="primary" type="filled">Criar transação</vs-button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vx-row mt-5" v-else>
+                        <div class="vx-col w-full">
+                            <vs-table :data="resultado" class="table-items" multiple v-model="selecteds" @selected="handleSelected">
 
-                            <template slot="thead">
-                                <!--<vs-th></vs-th>-->
-                                <vs-th>Usuários</vs-th>
-                                <vs-th>Motivo</vs-th>
-                                <vs-th>Comissão</vs-th>
-                                <vs-th>Conquista</vs-th>
-                                <vs-th>Valor Total</vs-th>
-                            </template>
+                                <template slot="thead">
+                                    <vs-th>Transação</vs-th>
+                                    <vs-th>Lead</vs-th>
+                                    <vs-th>Produto</vs-th>
+                                    <vs-th>Data e Hora</vs-th>
+                                </template>
 
-                            <template slot-scope="{data}">
-                                <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
-                                    <vs-td></vs-td>
-                                    <vs-td></vs-td>
-                                    <vs-td>
-                                        <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
-                                    </vs-td>
-                                    <vs-td></vs-td>
-                                    <vs-td v-if="tr.produto">
-                                        <span class="preco">R$ {{formatPrice(tr.produto.preco)}}</span>
-                                    </vs-td>
-                                </vs-tr>
-                            </template>
-                        </vs-table>
+                                <template slot-scope="{data}">
+                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
+                                        <vs-td :data="tr.transaction">
+                                            {{ tr.transaction }}
+                                        </vs-td>
+                                        <vs-td :data="tr.lead.nome" class="cursor-pointer">
+                                            {{ tr.lead.nome }}
+                                        </vs-td>
+                                        <vs-td v-if="tr.produto">
+                                            <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
+                                                {{ tr.produto.nome}}
+                                            </vs-chip>
+                                        </vs-td>
+                                        <vs-td :data="tr.updated_at">
+                                            <span class="destaque">{{ tr.updated_at | formatDateTime}}</span>
+                                        </vs-td>
+                                    </vs-tr>
+                                </template>
+                            </vs-table>
+                        </div>
+                        <div class="vx-col w-full">
+                            <vs-pagination class="mt-2" :total="pagination.last_page"
+                                           v-model="currentx"></vs-pagination>
+                        </div>
                     </div>
                 </div>
             </div>
         </VuePerfectScrollbar>
-        <!--<div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData" :disabled="verificaLeadEmail">{{!prosseguiu ? 'Prosseguir' :
-                'Salvar'}}
-            </vs-button>
-        </div>-->
+        <div class="flex flex-wrap items-center p-6" slot="footer" v-if="selecteds.length > 0">
+            <vs-button class="mr-6 font-bold text-white" color="danger" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
+            <vs-button class="mr-6 font-bold text-white" color="primary" @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id})">Aprovar</vs-button>
+        </div>
     </vs-sidebar>
 </template>
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import vSelect from 'vue-select'
 
     export default {
         props: {
@@ -80,13 +130,38 @@
                 },
             },
         },
+        components: {
+            'v-select': vSelect,
+            VuePerfectScrollbar,
+        },
         data() {
             return {
-
+                buscaTransacao: '',
+                transacao: {
+                    email: '',
+                    tipo: ''
+                },
+                dados: {
+                    search: '',
+                    page: 1
+                },
+                opcoes: [
+                    {id: 'transferencia', label: 'Transferência'},
+                    {id: 'deposito', label: 'Depósito'},
+                    {id: 'outros', label: 'Outros'},
+                ],
+                resultado: [],
+                pesquisado: false,
+                pagination: {
+                    last_page: 1,
+                    page: 1,
+                    current_page: 1
+                },
+                currentx: 1,
+                selecteds: [],
             }
         },
         created() {
-
         },
         computed: {
             isSidebarActiveLocal: {
@@ -101,24 +176,51 @@
                     }
                 }
             },
+            idsTransacoes() {
+                let ids = this.selecteds.map(obj => {
+                    return obj.lead_produto_id;
+                });
+
+                return ids;
+            }
         },
         methods: {
-
+            pesquisarTrans(e) {
+                this.pesquisado = true;
+                e.preventDefault();
+                console.log('pesquiisa');
+                this.$vs.loading();
+                this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
+                    console.log('response', response);
+                    this.resultado = [...response.data];
+                    this.pagination = response;
+                    console.log('result', this.resultado);
+                    this.$vs.loading.close();
+                });
+            },
+            handleSelected(e){
+                console.log(e)
+            }
         },
-        components: {
-            VuePerfectScrollbar,
-        },
+        watch: {
+            currentx(val) {
+                this.$vs.loading();
+                console.log('val', val);
+                this.dados.page = this.currentx;
+                this.getItems();
+            },
+        }
     }
 </script>
 
 <style lang="scss" scoped>
     .add-new-data-sidebar {
         ::v-deep .vs-sidebar--background {
-            z-index: 52010;
+            z-index: 5200;
         }
 
         ::v-deep .vs-sidebar {
-            z-index: 52010;
+            z-index: 52000;
             width: 750px;
             max-width: 90vw;
 
