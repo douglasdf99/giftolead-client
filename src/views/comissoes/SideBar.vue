@@ -80,7 +80,7 @@
                                 </template>
 
                                 <template slot-scope="{data}">
-                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
+                                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" v-bind:class="{'row-table-disabled': true}">
                                         <vs-td :data="tr.transaction">
                                             {{ tr.transaction }}
                                         </vs-td>
@@ -99,17 +99,15 @@
                                 </template>
                             </vs-table>
                         </div>
-                        <div class="vx-col w-full">
-                            <vs-pagination class="mt-2" :total="pagination.last_page"
-                                           v-model="currentx"></vs-pagination>
-                        </div>
                     </div>
                 </div>
             </div>
         </VuePerfectScrollbar>
-        <div class="flex flex-wrap items-center p-6" slot="footer" v-if="selecteds.length > 0">
+        <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6 font-bold text-white" color="danger" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
-            <vs-button class="mr-6 font-bold text-white" color="primary" @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id})">Aprovar</vs-button>
+            <vs-button class="mr-6 font-bold text-white" color="primary"
+                       @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id})" :disabled="selecteds.length == 0">
+                Aprovar</vs-button>
         </div>
     </vs-sidebar>
 </template>
@@ -143,7 +141,6 @@
                 },
                 dados: {
                     search: '',
-                    page: 1
                 },
                 opcoes: [
                     {id: 'transferencia', label: 'Transferência'},
@@ -152,12 +149,6 @@
                 ],
                 resultado: [],
                 pesquisado: false,
-                pagination: {
-                    last_page: 1,
-                    page: 1,
-                    current_page: 1
-                },
-                currentx: 1,
                 selecteds: [],
             }
         },
@@ -192,8 +183,7 @@
                 this.$vs.loading();
                 this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
                     console.log('response', response);
-                    this.resultado = [...response.data];
-                    this.pagination = response;
+                    this.resultado = [...response];
                     console.log('result', this.resultado);
                     this.$vs.loading.close();
                 });
@@ -203,12 +193,6 @@
             }
         },
         watch: {
-            currentx(val) {
-                this.$vs.loading();
-                console.log('val', val);
-                this.dados.page = this.currentx;
-                this.getItems();
-            },
         }
     }
 </script>
