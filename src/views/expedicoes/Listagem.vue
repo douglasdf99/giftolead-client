@@ -21,7 +21,7 @@
                                 <vs-dropdown-item @click="$router.push({path: `/brindes/expedicoes/${tr.id}`})">
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar Expedição
-                                </vs-dropdown-item>
+                                </vs-dropdown-item><!--
                                 <vs-dropdown-item @click="$emit('gerarPlp', tr)" v-if="!tr.fechado">
                                     <vs-icon icon-pack="material-icons" icon="assignment"></vs-icon>
                                     Gerar PLP
@@ -30,7 +30,7 @@
                                     <vs-icon icon-pack="material-icons" icon="email"></vs-icon>
                                     Enviar Rastreios
                                 </vs-dropdown-item>
-                                <vs-divider></vs-divider>
+                                <vs-divider></vs-divider>-->
                                 <vs-dropdown-item @click="$emit('editar', tr)" v-if="!tr.fechado">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar

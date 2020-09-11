@@ -162,14 +162,24 @@
                     <vs-tab color="primary" value="10" label="atendimento">
                         <atendimento></atendimento>
                     </vs-tab>
-                    <vs-tab color="primary" v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
+                    <vs-tab color="primary" :label="`histórico (${ticket.acoesrecebidas.length})`">
                         <historico :data="ticket.acoesrecebidas" @whatsapp="whatsapp(ticket)"></historico>
                     </vs-tab>
-                    <vs-tab color="primary" v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
+                    <vs-tab color="primary" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>
                     </vs-tab>
-                    <vs-tab color="primary" v-if="ticket.lead" :label="`solicitações de brinde (${ticket.lead.solicitacaos.length})`">
-                        <vs-table :data="ticket.lead.solicitacaos" class="table-items">
+                    <vs-tab color="primary" :label="`solicitações de brinde (${ticket.lead.solicitacaos.length})`">
+                        <div class="vx-row mt-20 flex justify-center" v-if="ticket.lead.solicitacaos.length === 0">
+                            <div class="w-full lg:w-8/12 xlg:w-8/12 s:w-full sem-item">
+                                <div class="w-8/12">
+                                    <div>
+                                        <p class="span-sem-item">Nenhum registro encontrado</p>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <vs-table :data="ticket.lead.solicitacaos" class="table-items" v-else>
                             <template slot="thead">
                                 <vs-th>Destinatário</vs-th>
                                 <vs-th>E-mail</vs-th>
@@ -194,7 +204,7 @@
                             </template>
                         </vs-table>
                     </vs-tab>
-                    <vs-tab color="primary" v-if="ticket.lead" :label="`automações de brinde (${ticket.lead.automacaos.length})`">
+                    <vs-tab color="primary" :label="`automações de brinde (${ticket.lead.automacaos.length})`">
                         <automacaos :items="ticket.lead.automacaos" tipo="todos"></automacaos>
                     </vs-tab>
                 </vs-tabs>
