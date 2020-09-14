@@ -150,74 +150,6 @@
                           style="background-color: white" :options="contratos" v-validate="'required'" name="produtoUpsell"/>
             </div>
         </vs-prompt>
-       <!-- <vs-popup class="popup-endereco" style="overflow: hidden" title="Editando endereço" :active.sync="modalEndereco">
-            <div class="">
-                <div class="p-6 pt-0">
-                    <h3 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 my-3">Suas informações pessoais</h3>
-                    <form class="w-full px-6">
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Destinatário</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans" v-model="endereco.nome" type="text" required/>
-                        </div>
-                        <div class="vx-row mt-2">
-                            <div class="vx-col w-3/12">
-                                <p class="gray-wdc mb-2 text-lg font-bold">DDD</p>
-                                <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans"
-                                          v-model="endereco.ddd" type="text" required v-mask="'##'" @keypress="isNumber"/>
-                            </div>
-                            <div class="vx-col w-9/12">
-                                <p class="gray-wdc mb-2 text-lg font-bold">Telefone</p>
-                                <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans"
-                                          v-model="endereco.telefone" type="text" required v-mask="['####-####', '#####-####']" @keypress="isNumber"/>
-                            </div>
-                        </div>
-                    </form>
-                    <h3 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 mb-3 mt-5">Suas informações de entrega</h3>
-                    <form class="w-full px-6 vs-con-loading__container" @submit="buscaCep" id="div-with-loading">
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">CEP (CÓDIGO POSTAL)</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans1"
-                                      v-model="endereco.cep" type="text" required @keypress="isNumber" v-mask="'########'"/>
-                        </div>
-                        <vs-button class="border-none bg-primary hover:bg-black text-white cursor-pointer font-bold py-2 px-4 rounded-lg w-full h-16 text-2xl my-4" v-if="!valido" type="submit">
-                            Buscar
-                        </vs-button>
-                        <div class="flex flex-col mt-8">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Estado</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.estado"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Cidade</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.cidade"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Bairro</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.bairro"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Endereco</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.endereco"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Complemento</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.complemento"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Número</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.numero" @keypress="isNumber"/>
-                        </div>
-                        <vs-button class="border-none bg-primary hover:bg-black text-white cursor-pointer font-bold py-2 px-4 rounded-lg w-full h-16 text-2xl my-4" type="submit" @click="storeEndereco"
-                                   :disabled="invalidoEntrega">
-                            Confirmar dados
-                        </vs-button>
-                    </form>
-                </div>
-            </div>
-        </vs-popup>-->
         <!-- inicio popup-->
         <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-show="modalGerarPlp">
             <div class="vs-popup--background"></div>
@@ -307,7 +239,7 @@
 
     export default {
         name: "ListDetal",
-        channel: `laravel_database_listarautomacao`,
+        //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
         components: {
           endereco,  detalhe, 'v-select': vSelect
         },
@@ -356,7 +288,7 @@
             }
         },
         mounted() {
-            this.channel.listen('ListarAutomacao', (e) => {
+          this.$echo.channel(`laravel_database_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
                 console.log('teste');
                 console.log(e);
                 if (this.step < 1) {
