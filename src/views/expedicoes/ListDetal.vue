@@ -3,7 +3,7 @@
         <detalhe v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                  :data="sidebarData"/>
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
-                 :data="endereco"/>
+                  :data="endereco"/>
         <div class="vx-row mb-5">
             <div class="vx-col w-full lg:w-3/4">
                 <div class="flex items-center justify-around" v-if="expedicao">
@@ -88,7 +88,11 @@
                     </vs-td>
                     <vs-td><span class="font-bold">{{tr.nome_destinatario}}</span></vs-td>
                     <vs-td>{{tr.email_destinatario}}</vs-td>
-                    <vs-td><span class="cursor-pointer font-bold text-primary"> {{tr.rastreio}} </span></vs-td>
+                    <vs-td class="flex mb-2">
+                        <vx-tooltip position="top" text="Clique para copiar código de rastreio">
+                            <span class="cursor-pointer font-bold text-primary" @click="copyRastreio(tr.rastreio)"> {{tr.rastreio}} </span>
+                        </vx-tooltip>
+                    </vs-td>
                     <vs-td>{{tr.endereco.cep | VMask('##.###-###')}}</vs-td>
                     <vs-td class="td-icons flex flex-col items-center justify-center">
                         <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="tr.erro == null"
@@ -241,7 +245,7 @@
         name: "ListDetal",
         //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
         components: {
-          endereco,  detalhe, 'v-select': vSelect
+            endereco, detalhe, 'v-select': vSelect
         },
         data() {
             return {
@@ -288,7 +292,7 @@
             }
         },
         mounted() {
-          this.$echo.channel(`laravel_database_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
+            this.$echo.channel(`laravel_database_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
                 console.log('teste');
                 console.log(e);
                 if (this.step < 1) {
@@ -369,59 +373,59 @@
                 this.toggleDataSidebar(true);
             },
             imprimir(id) {
-              this.urlIframe = false;
-              this.modalIframe = true;
-              this.$vs.loading({
-                container: '#pdf-with-loading'
-              })
-              axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.$route.params.id,'tipo':'single','automacao_id':id}, responseType: 'arraybuffer'})
-                .then((response) => {
-                  console.log(response);
-                  var blob = new Blob([response.data], {
-                    type: 'application/pdf'
-                  });
-                  var url = window.URL.createObjectURL(blob);
-                  console.log(url);
-                  this.urlIframe = url;
-                  //window.open(url);
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
                 })
-                .catch((error) => {
-                  this.$vs.notify({
-                    color: 'danger',
-                    text: 'Algo deu errado. Contate o suporte'
-                  });
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.$route.params.id, 'tipo': 'single', 'automacao_id': id}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
-                });
+                    });
             },
             imprimirEtiquetas(tipo) {
-            this.urlIframe = false;
-            this.modalIframe = true;
-            this.$vs.loading({
-              container: '#pdf-with-loading'
-            })
-            axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id,'tipo':tipo}, responseType: 'arraybuffer'})
-              .then((response) => {
-                console.log(response);
-                var blob = new Blob([response.data], {
-                  type: 'application/pdf'
-                });
-                var url = window.URL.createObjectURL(blob);
-                console.log(url);
-                this.urlIframe = url;
-                //window.open(url);
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-              })
-              .catch((error) => {
-                this.$vs.notify({
-                  color: 'danger',
-                  text: 'Algo deu errado. Contate o suporte'
-                });
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
+                })
+                axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id, 'tipo': tipo}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
-              });
-          },
+                    });
+            },
             enviarRastreio(id) {
                 this.$vs.loading();
                 this.$store.dispatch('expedicoes/enviarRastreio', {expedicao_id: this.expedicao.id, automacao_id: id}).then(() => {
@@ -441,47 +445,76 @@
             },
             gerarPlp() {
                 // this.$vs.loading();
-                this.modalGerarPlp = true
-                this.$store.dispatch('expedicoes/gerarPlp', this.expedicao.id).then(() => {
-
-                }).catch(erro => {
-                    console.log('erro', erro);
-                    this.$vs.notify({
-                        color: 'danger',
-                        text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
-                    });
-
-                });
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: `Gerar PLP`,
+                    text: 'Ao gerar PLP, não será mais possível editar os objetos contidos nela.',
+                    acceptText: 'Sim, gerar!',
+                    accept: () => {
+                        this.modalGerarPlp = true;
+                        this.$store.dispatch('expedicoes/gerarPlp', this.expedicao.id).then(() => {
+                        }).catch(erro => {
+                            console.log('erro', erro);
+                            this.modalGerarPlp = false;
+                            this.$vs.notify({
+                                color: 'danger',
+                                text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
+                            });
+                        });
+                    }
+                })
             },
             imprimirPlp() {
                 /*this.modalIframe = true;
                 this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;*/
-              this.urlIframe = false;
-              this.modalIframe = true;
-              this.$vs.loading({
-                container: '#pdf-with-loading'
-              })
-              axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
-                .then((response) => {
-                  console.log(response);
-                  var blob = new Blob([response.data], {
-                    type: 'application/pdf'
-                  });
-                  var url = window.URL.createObjectURL(blob);
-                  console.log(url);
-                  this.urlIframe = url;
-                  //window.open(url);
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
                 })
-                .catch((error) => {
-                  this.$vs.notify({
-                    color: 'danger',
-                    text: 'Algo deu errado. Contate o suporte'
-                  });
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
-                });
+                    });
             },
+            copyRastreio(val) {
+                const thisIns = this;
+                this.$copyText(val).then(function () {
+                    thisIns.$vs.notify({
+                        title: 'Success',
+                        text: 'Rastreio copiado para sua área de transferência',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle'
+                    })
+                }, function () {
+                    thisIns.$vs.notify({
+                        title: 'Failed',
+                        text: 'Erro ao copiar rastreio',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        position: 'top-center',
+                        icon: 'icon-alert-circle'
+                    })
+                })
+            },
+
             //Editar endereço da automação
             editarEndereco(obj) {
                 this.endereco = {...obj.endereco};
@@ -520,12 +553,12 @@
             },
 
             //Trocando contrato
-            getContratos(){
+            getContratos() {
                 this.$store.dispatch('contratos/get').then(response => {
                     this.contratos = [...this.arraySelect(response)];
                 })
             },
-            update(){
+            update() {
                 this.$vs.loading();
                 this.expedicao.contrato_id = this.selectedContrato.id;
                 this.$store.dispatch('expedicoes/store', this.expedicao).then(() => {
@@ -556,8 +589,9 @@
                     let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                     let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                     let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
+                    let cep = automacao.endereco.cep ? automacao.endereco.cep.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
 
-                    return email || rastreio || nome
+                    return email || rastreio || nome || cep
                 })
             }
         },

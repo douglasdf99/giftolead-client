@@ -95,7 +95,7 @@
                         </div>
                     </div>
                 </vs-tab>
-                <vs-tab :label="'Solicicatações (' + lead.solicitacaos.length + ')'">
+                <vs-tab :label="'Solicitações (' + lead.solicitacaos.length + ')'">
                     <div class="tab-general md:ml-4 md:mt-0 mt-4 ml-0">
                         <div class="vx-col w-full">
                             <p class="black font-bold text-x1 my-5">Histórico de transações</p>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </vs-tab>
-                <vs-tab :label="'Automações (' + lead.automacaos.length + ')'">
+                <vs-tab :label="'Envio de Brindes (' + lead.automacaos.length + ')'">
                     <div class="tab-general md:ml-4 md:mt-0 mt-4 ml-0">
                         <div class="vx-col w-full">
                             <p class="black font-bold text-x1 my-5">Histórico de transações</p>

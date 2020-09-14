@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items">
+        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items" v-if="tipo == 'usuario'">
             <template slot="thead">
                 <vs-th></vs-th>
                 <vs-th></vs-th>
@@ -36,13 +36,38 @@
                 </vs-tr>
             </template>
         </vs-table>
+        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items" v-else>
+            <template slot="thead">
+                <vs-th></vs-th>
+                <vs-th></vs-th>
+                <vs-th></vs-th>
+                <vs-th></vs-th>
+            </template>
+            <template slot-scope="{data}">
+                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
+                    <vs-td>
+                        <p>{{tr.id}}</p>
+                        {{tr.user.name}}
+                    </vs-td>
+                    <vs-td>
+                        <p class="preco">R$ {{formatPrice(tr.valor)}}</p>
+                    </vs-td>
+                    <vs-td class="td-icons">
+                        <vx-tooltip position="top" text="Detalhar">
+                            <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', tr)"
+                                     class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
+                        </vx-tooltip>
+                    </vs-td>
+                </vs-tr>
+            </template>
+        </vs-table>
         <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="gerarOrdens">
+                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="gerarOrdens" v-if="tipo == 'usuario'">
                         Gerar ordens
                     </vs-button>
-                    <div class="float-right">
+                    <div class="float-right" v-if="tipo == 'usuario'">
                         <span class="font-bold text-2xl">R$ {{formatPrice(somaSelecionados)}}</span>
                         <p>valor total selecionado</p>
                     </div>
@@ -55,7 +80,7 @@
 <script>
     export default {
         name: "ListComissoes",
-        props: ['items'],
+        props: ['items', 'tipo'],
         data() {
             return {
                 selecteds: [],

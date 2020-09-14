@@ -26,25 +26,25 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <!--<div class="vx-col w-full lg:w-3/12 sm:w-full">
+            <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
                     <span class="destaque">Ordens a gerar</span>
-                    <p class="font-bold text-3xl my-5" v-bind:class="''">R$ 873,50</p>
+                    <p class="font-bold text-3xl my-5" v-bind:class="''">R$ {{formatPrice(soma)}}</p>
                 </vx-card>
-            </div>-->
+            </div>
         </div>
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente');" color="warning" value="10"
+                    <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
                             :label="'gerar ordens' + (tipoCom == 'pendente' ? ` (${comissoes.length})` : '')">
-                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes"></listagem>
+                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="usuario"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getItems('reprovado')" color="success"
+                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'" color="success"
                             :label="'comissões' + (tipoCom == 'reprovado' ? ` (${comissoes.length})` : '')">
-                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes"></listagem>
+                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="comissao"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -75,7 +75,8 @@
                 dados: {
                     search: '',
                     page: 1,
-                    length: 25
+                    length: 25,
+                    aba: 'usuario'
                 },
                 pagination: {
                     last_page: 1,
@@ -88,7 +89,8 @@
                 tipoCom: 'pendente',
                 selectedAten: null,
                 selectedResp: null,
-                agentes: []
+                agentes: [],
+                soma: 0
             }
         },
         created() {
@@ -131,8 +133,9 @@
 
                 this.$store.dispatch('comissoes/getCom', {params: this.dados}).then(response => {
                     console.log('retornado com sucessso', response)
-                    this.pagination = response;
-                    this.comissoes = response.data
+                    this.comissoes = [...response[0].data]
+                    this.pagination = response[0];
+                    this.soma = parseFloat(response.soma);
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
