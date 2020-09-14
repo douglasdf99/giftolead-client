@@ -167,7 +167,10 @@ Vue.mixin({
             let arr = [...response];
             let obj = [];
             arr.forEach(item => {
-                obj.push({id: item.id, label: item.nome});
+                if(item.name)
+                    obj.push({id: item.id, label: item.name});
+                else
+                    obj.push({id: item.id, label: item.nome});
             });
             return obj;
         },
