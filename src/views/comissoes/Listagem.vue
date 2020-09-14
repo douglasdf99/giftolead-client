@@ -21,13 +21,15 @@
                 <p class="preco">R$ {{formatPrice(item.comissao_criador + item.comissao_atendente)}}</p>
             </div>
             <div class="vx-col w-3/12 flex items-center text-center">
-                <img src="@/assets/images/util/checkout.svg" width="50" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
-                <img src="@/assets/images/util/boleto.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
-                <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
-                <img src="@/assets/images/util/agendamento.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
-                <img src="@/assets/images/util/cancelado.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\\Models\\\Whatsapplist'">
-                <img :src="get_img_api(item.criador.avatar)" v-if="item.criador" width="50px" class="rounded-full">
+                <vx-tooltip position="top" :text="nameCriador(item)">
+                    <img src="@/assets/images/util/checkout.svg" width="50" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
+                    <img src="@/assets/images/util/boleto.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
+                    <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
+                    <img src="@/assets/images/util/agendamento.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
+                    <img src="@/assets/images/util/cancelado.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
+                    <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\\Models\\\Whatsapplist'">
+                    <img :src="get_img_api(item.criador.avatar)" v-else width="50px" class="rounded-full">
+                </vx-tooltip>
                 <img :src="get_img_api(item.atendente.avatar)" width="50px" class="rounded-full" style="margin-left: -8%">
                 <span class="ml-4 font-bold">{{item.atendente.name}}</span>
             </div>
@@ -44,14 +46,14 @@
                     <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', item)"
                              class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
                 </vx-tooltip>
-                <vx-tooltip position="top" text="Aprovar" v-if="item.tipo == 'pendente'">
+                <!--<vx-tooltip position="top" text="Aprovar" v-if="item.tipo == 'pendente'">
                     <vs-icon icon-pack="material-icons" icon="done_all" @click="$emit('action', {id: item.id, method: 'aprovar'})"
                              class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
                 </vx-tooltip>
                 <vx-tooltip position="top" text="Reprovar" v-if="item.tipo == 'pendente'">
                     <vs-icon icon-pack="material-icons" icon="highlight_off" @click="$emit('action', {id: item.id, method: 'reprovar'})"
                              class="icon-grande font-bold mx-3 cursor-pointer text-danger"></vs-icon>
-                </vx-tooltip>
+                </vx-tooltip>-->
                 <vx-tooltip position="top" text="Restaurar" v-if="item.tipo == 'reprovado'">
                     <vs-icon icon-pack="material-icons" icon="undo" @click="$emit('action', {id: item.id, method: 'restaurar'})"
                              class="icon-grande font-bold mx-3 cursor-pointer text-warning"></vs-icon>
@@ -70,6 +72,16 @@
                 currentx: 1,
             }
         },
+        methods: {
+            nameCriador(obj) {
+                switch (obj.criador_type) {
+                    case 'App\\Models\\Users':
+                        return obj.criador.name;
+                    default:
+                        return 'Sistema'
+                }
+            }
+        }
     }
 </script>
 
