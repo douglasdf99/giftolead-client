@@ -1,7 +1,7 @@
 <template>
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+                  :data="sidebarData" @action="action"/>
         <div class="vx-row flex items-end lg:mt-5 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -232,6 +232,7 @@
                 })
             },
             action(obj){
+                console.log('array aí', obj);
                 this.$vs.dialog({
                     color: 'primary',
                     title: obj.method == 'aprovar' ? 'Aprovar' : obj.method == 'reprovar' ? 'Reprovar' : 'Restaurar' + ` pré comissão?`,
@@ -245,7 +246,8 @@
                                 title: '',
                                 text: 'Aprovado com sucesso'
                             });
-                            this.getItems()
+                            this.toggleDataSidebar(false);
+                            this.getItems();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -264,6 +266,7 @@
                 this.getItems();
             },
             visualizar(obj){
+                console.log('obj detalhe', obj);
                 this.sidebarData = obj;
                 this.toggleDataSidebar(true);
             }

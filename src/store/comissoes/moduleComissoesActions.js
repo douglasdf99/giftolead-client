@@ -73,8 +73,9 @@ export default {
         })
     },
     action({commit}, obj){
+        console.log('array aí', obj);
         return new Promise((resolve, reject) => {
-            axios.get(`pre_comissaos/${obj.method}/${obj.id}`).then(response => {
+            axios.get(`pre_comissaos/${obj.method}/${obj.id}`, {params: {ids: obj.ids}}).then(response => {
                 console.log(response);
                 resolve();
             }).catch(erro => {
@@ -82,5 +83,27 @@ export default {
                 reject();
             })
         });
-    }
+    },
+    storeOrdens({commit}, ids){
+        return new Promise((resolve, reject) => {
+            axios.post(`comissaos/gerarordens`, {ids: ids}).then(response => {
+                console.log(response);
+                resolve();
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
+    },
+    searchTrans({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.get(`transacaos`, {params: obj}).then(response => {
+                console.log(response);
+                resolve(response.data.data);
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
+    },
 }
