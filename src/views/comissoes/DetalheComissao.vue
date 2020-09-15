@@ -12,19 +12,53 @@
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="my-6 flex items-center justify-between px-6">
-            <h4>Detalhe da Pré Comissão</h4>
+            <h4>Valores a comissionar</h4>
             <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-10">
-                <div class="vx-row flex items-center">
+                <div class="vx-row mb-5">
+                    <div class="vx-col w-1/2">
+                        <div class="flex items-center">
+                            <img :src="get_img_api(data.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                            <p class="font-bold text-dark text-xl">{{data.name}}</p>
+                        </div>
+                    </div>
+                    <div class="vx-col w-1/2">
+                        <p class="font-bold text-xl">Valor Total: R$ {{somaComissao}}</p>
+                    </div>
+                </div>
+                <div class="vx-row my-5 mt-10">
+                    <div class="vx-col w-full">
+                        <vs-table :data="data.comissaos" class="table-items">
 
+                            <template slot="thead">
+                                <vs-th>Motivo</vs-th>
+                                <vs-th>Comissão</vs-th>
+                                <vs-th>Responsável</vs-th>
+                            </template>
+
+                            <template slot-scope="{data}">
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" v-bind:class="{'row-table-disabled': true}">
+                                    <vs-td>
+                                        {{ tr.natureza }}
+                                    </vs-td>
+                                    <vs-td class="font-bold">
+                                        R$ {{ formatPrice(tr.valor) }}
+                                    </vs-td>
+                                    <vs-td :data="tr.updated_at">
+                                        <span class="destaque">{{ getResponsavel(tr.responsavel_type)}}</span>
+                                    </vs-td>
+                                </vs-tr>
+                            </template>
+                        </vs-table>
+                    </div>
                 </div>
             </div>
         </VuePerfectScrollbar>
         <!--<div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData" :disabled="verificaLeadEmail">{{!prosseguiu ? 'Prosseguir' :
-                'Salvar'}}
+            <vs-button class="mr-6" color="primary">
+                Imprimir Ordem
             </vs-button>
         </div>-->
     </vs-sidebar>
@@ -51,7 +85,7 @@
             }
         },
         created() {
-
+            console.log('dados', this.data);
         },
         computed: {
             isSidebarActiveLocal: {
@@ -66,9 +100,24 @@
                     }
                 }
             },
+            somaComissao() {
+                let soma = 0.0
+                this.data.comissaos.forEach(item => {
+                    soma += parseFloat(item.valor);
+                });
+
+                return this.formatPrice(soma);
+            }
         },
         methods: {
-
+            getResponsavel(val){
+                switch (val) {
+                    case 'App\\Models\\PreComissao':
+                        return 'Pré Comissão'
+                    default:
+                        return val
+                }
+            }
         },
         components: {
             VuePerfectScrollbar,

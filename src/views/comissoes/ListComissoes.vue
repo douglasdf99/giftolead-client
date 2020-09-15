@@ -28,17 +28,18 @@
                         <p class="preco">R$ {{getValComissao(tr.comissaos)}}</p>
                     </vs-td>
                     <vs-td class="td-icons">
-                        <vx-tooltip position="top" text="Detalhar">
-                            <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', tr)"
-                                     class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
-                        </vx-tooltip>
+                        <div class="flex items-center">
+                            <vx-tooltip position="top" text="Detalhar">
+                                <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', tr)"
+                                         class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
+                            </vx-tooltip>
+                        </div>
                     </vs-td>
                 </vs-tr>
             </template>
         </vs-table>
         <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items" v-else>
             <template slot="thead">
-                <vs-th></vs-th>
                 <vs-th></vs-th>
                 <vs-th></vs-th>
                 <vs-th></vs-th>
@@ -67,12 +68,6 @@
                             <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="50px" class="rounded-full">
                             <p class="font-bold text-dark text-xl">{{nameCriador(tr)}}</p>
                         </div>
-                    </vs-td>
-                    <vs-td class="td-icons">
-                        <vx-tooltip position="top" text="Detalhar">
-                            <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', tr)"
-                                     class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
-                        </vx-tooltip>
                     </vs-td>
                 </vs-tr>
             </template>
@@ -116,7 +111,7 @@
                 });
                 return this.formatPrice(parseFloat(soma));
             },
-            gerarOrdens(){
+            gerarOrdens() {
                 this.$vs.dialog({
                     color: 'primary',
                     title: 'Gerar ordens',

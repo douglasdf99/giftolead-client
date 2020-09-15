@@ -68,6 +68,10 @@
                         <listagem :items="items" tipo="comexpedicao"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
+                    <vs-tab color="primary" value="10" :label="'arquivadas'" @click="getItems('arquivadas')">
+                        <listagem :items="items" tipo="arquivadas"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
+                    </vs-tab>
                     <vs-tab color="primary" value="10" :label="'todos'" @click="getItems()">
                         <listagem :items="items" tipo="todos"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
@@ -103,7 +107,7 @@
             'v-select': vSelect,
             Listagem
         },
-        data(){
+        data() {
             return {
                 items: [],
                 dados: {
@@ -126,7 +130,7 @@
                 currentx: 1
             }
         },
-        created(){
+        created() {
             if (!moduleAutomacao.isRegistered) {
                 this.$store.registerModule('automacao', moduleAutomacao)
                 moduleAutomacao.isRegistered = true
@@ -140,16 +144,21 @@
             this.getItems('pendente');
         },
         methods: {
-            getItems(tipo = ''){
+            getItems(tipo = '') {
                 this.$vs.loading();
-                this.dados.tipo = tipo;
+                if (tipo != 'arquivadas') {
+                    this.dados.tipo = tipo;
+                    this.dados.arquivadas = false;
+                } else
+                    this.dados.arquivadas = true;
+
                 this.$store.dispatch('automacao/get', this.dados).then(response => {
                     this.items = response.data;
                     this.pagination = response
                     this.$vs.loading.close();
                 });
             },
-            getBrindes(){
+            getBrindes() {
                 this.$store.dispatch('brindes/get').then(response => {
                     this.brindes = [...this.arraySelect(response)];
                 });
@@ -161,9 +170,9 @@
                 this.dados.page = this.currentx;
                 this.getItems();
             },
-            selectedBrinde(val){
+            selectedBrinde(val) {
                 this.$vs.loading();
-                this.dados.brinde_id = this.selectedBrinde? this.selectedBrinde.id : null ;
+                this.dados.brinde_id = this.selectedBrinde ? this.selectedBrinde.id : null;
                 this.getItems();
             }
         }

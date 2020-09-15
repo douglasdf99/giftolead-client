@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+        <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
+    import DetalheComissao from './DetalheComissao'
     import listagem from './ListComissoes'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
@@ -76,7 +76,7 @@
 
     export default {
         name: "Comissionar",
-        components: {SideBar, listagem, 'v-select': vSelect},
+        components: {DetalheComissao, listagem, 'v-select': vSelect},
         data() {
             return {
                 colorx: 'warning',
@@ -183,6 +183,7 @@
                 this.getItems();
             },
             visualizar(obj){
+                console.log('entrou no visualizar')
                 this.sidebarData = obj;
                 this.toggleDataSidebar(true);
             },
