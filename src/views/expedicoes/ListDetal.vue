@@ -589,9 +589,8 @@
                     let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                     let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                     let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
-                    let cep = automacao.endereco.cep ? automacao.endereco.cep.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
 
-                    return email || rastreio || nome || cep
+                    return email || rastreio || nome
                 })
             }
         },

@@ -106,7 +106,7 @@
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6 font-bold text-white" color="danger" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
             <vs-button class="mr-6 font-bold text-white" color="primary"
-                       @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id})" :disabled="selecteds.length == 0">
+                       @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id, nome: data.ticket.lead.nome})" :disabled="selecteds.length == 0">
                 Aprovar</vs-button>
         </div>
     </vs-sidebar>

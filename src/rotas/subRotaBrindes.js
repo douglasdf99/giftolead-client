@@ -13,7 +13,7 @@ const subbrindes = [
     },
     {
         url: '/brindes/automacao',
-        name: "Listagem de Entregas",
+        name: "Entregas",
         slug: "brindes-automacao",
         icon: 'local_shipping'
     },
