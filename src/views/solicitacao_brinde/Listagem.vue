@@ -46,7 +46,7 @@
                 </vs-tr>
             </template>
         </vs-table>
-        <vs-table :data="items" class="table-items" v-else>
+        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items" v-else>
             <template slot="thead">
                 <vs-th v-if="tipo == 'pendente'"></vs-th>
                 <vs-th>Destinatário</vs-th>
@@ -134,6 +134,7 @@
                         return ''
                 }
             },
+            handleSelected(){}
         }
     }
 </script>
