@@ -9,7 +9,6 @@
                   <img src="@/assets/images/util/whatsapp.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\Models\CampanhaWhatsapp'">
                   <img src="@/assets/images/util/agendamento.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\Models\CampanhaAgendamento'">
                   <img src="@/assets/images/util/cancelado.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\Models\CampanhaCancelado'">
-                  <img src="@/assets/images/util/whatsapp.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\\Models\\Whatsapplist'">
                 </span>
                 </div>
                 <div class="timeline-info">

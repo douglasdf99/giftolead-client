@@ -148,9 +148,11 @@
                 this.$vs.loading();
                 if (tipo != 'arquivadas') {
                     this.dados.tipo = tipo;
-                    this.dados.arquivadas = false;
-                } else
-                    this.dados.arquivadas = true;
+                    this.dados.arquivadas = 0;
+                } else{
+                  this.dados.arquivadas = 1;
+                  this.dados.tipo = null;
+                }
 
                 this.$store.dispatch('automacao/get', this.dados).then(response => {
                     this.items = response.data;
