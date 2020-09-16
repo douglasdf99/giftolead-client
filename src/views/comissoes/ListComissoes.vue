@@ -38,15 +38,20 @@
                 </vs-tr>
             </template>
         </vs-table>
-        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items" v-else>
+        <vs-table :data="items" class="table-items" v-else>
             <template slot="thead">
+                <vs-th></vs-th>
                 <vs-th></vs-th>
                 <vs-th></vs-th>
                 <vs-th></vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
-                    <vs-td class="flex items-center">
+                    <vs-td>
+                        <p class="destaque text-lg">{{tr.responsavel.lead_produto.lead.nome}}</p>
+                        <vs-chip :color="tr.produto.cor || ''">{{tr.produto.nome}}</vs-chip>
+                    </vs-td>
+                    <vs-td>
                         <div class="flex items-center">
                             <img :src="get_img_api(tr.user.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
                             <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
@@ -65,7 +70,7 @@
                             <img src="@/assets/images/util/agendamento.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
                             <img src="@/assets/images/util/cancelado.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
                             <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="50px" class="rounded-full">
-                            <p class="font-bold text-dark text-xl">{{nameCriador(tr)}}</p>
+                            <p class="font-bold text-dark text-xl ml-3">{{nameCriador(tr)}}</p>
                         </div>
                     </vs-td>
                 </vs-tr>
@@ -123,7 +128,7 @@
                 })
             },
             nameCriador(obj) {
-                if (obj.origem_type == 'App\\Models\\Users') return obj.origem.name; else return obj.origem.nome;
+                if (obj.origem_type == 'App\\Models\\User') return obj.origem.name; else return (obj.origem) ? obj.origem.nome : 'Sem origem';
             }
         },
         computed: {

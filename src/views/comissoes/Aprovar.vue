@@ -224,7 +224,7 @@
                     this.dados.criador_type = null;
                 }
 
-                if(this.selectedAten != null){
+                if (this.selectedAten != null) {
                     this.dados.atendente_id = this.selectedAten.id
                 }
 
@@ -303,8 +303,10 @@
             },
             visualizar(obj) {
                 console.log('obj detalhe', obj);
-                this.sidebarData = obj;
-                this.toggleDataSidebar(true);
+                if (obj.tipo != 'reprovado') {
+                    this.sidebarData = obj;
+                    this.toggleDataSidebar(true);
+                }
             },
 
             //Select de responsável
@@ -416,7 +418,8 @@
                 deep: true
             },
         },
-        mounted() {},
+        mounted() {
+        },
         computed: {
             items() {
                 return this.$store.state.items;

@@ -10,7 +10,8 @@
                 </div>
             </div>
         </div>
-        <div class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" v-else>
+        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" @click="$emit('visualizar', item)"
+             v-bind:class="{'cursor-pointer' : (item.tipo != 'reprovado'), 'clicavel' : (item.tipo != 'reprovado')}" >
             <div class="vx-col w-3/12">
                 <p>{{item.id}}</p>
                 <p class="destaque text-lg">{{item.ticket.lead.nome}}</p>
@@ -101,5 +102,10 @@
 
     .img-criador:hover {
         z-index: 5000 !important;
+    }
+
+    .clicavel:hover {
+        -webkit-transform: translateY(-4px);
+        transform: translateY(-4px);
     }
 </style>

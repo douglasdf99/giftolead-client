@@ -79,7 +79,7 @@
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Imprimir Etiqueta
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="editarEndereco(tr)">
+                                <vs-dropdown-item @click="editarEndereco(tr)" v-if="!expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
                                 </vs-dropdown-item>
