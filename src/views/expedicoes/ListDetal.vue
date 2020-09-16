@@ -71,6 +71,10 @@
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar
                                 </vs-dropdown-item>
+                                <vs-dropdown-item @click="arquivar(tr)" v-if="!expedicao.plp">
+                                    <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
+                                    Arquivar
+                                </vs-dropdown-item>
                                 <vs-dropdown-item @click="imprimir(tr.id)" v-if="expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Imprimir Etiqueta
@@ -115,11 +119,11 @@
                             <vs-dropdown vs-trigger-click>
                                 <vs-button color="primary" class="text-white px-6 py-4" v-if="expedicao.fechado">Imprimir Etiquetas</vs-button>
                                 <vs-dropdown-menu class="dropdown-menu-list">
-                                    <vs-dropdown-item @click="imprimirEtiquetas('single')">
+                                    <vs-dropdown-item @click="imprimirEtiquetas('multi')" >
                                         <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                         Imprimir 4 por página
                                     </vs-dropdown-item>
-                                    <vs-dropdown-item @click="imprimirEtiquetas('multi')">
+                                    <vs-dropdown-item @click="imprimirEtiquetas('single')">
                                         <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                         Imprimir 1 por página
                                     </vs-dropdown-item>
@@ -371,6 +375,32 @@
             visualizar(obj) {
                 this.sidebarData = obj
                 this.toggleDataSidebar(true);
+            },
+            arquivar(obj) {
+              this.$vs.dialog({
+                color: 'primary',
+                type:'confirm',
+                title: `Arquivar Automação`,
+                text: 'Ao arquivar a automação ela sairá da expedição e irá para listagem de arquivas.',
+                acceptText: 'Sim, arquivar!',
+                cancelText: 'Cancelar',
+                accept: () => {
+                  this.$store.dispatch('expedicoes/arquivar', obj.id).then(() => {
+                    this.atualiza();
+                    this.$vs.notify({
+                      color: 'success',
+                      text: 'Arquivado realizado com sucesso'
+                    });
+                  }).catch(erro => {
+                    console.log('erro', erro);
+                    this.modalGerarPlp = false;
+                    this.$vs.notify({
+                      color: 'danger',
+                      text: 'Algo deu errado ao arquivar a automação. Contate o suporte'
+                    });
+                  });
+                }
+              })
             },
             imprimir(id) {
                 this.urlIframe = false;

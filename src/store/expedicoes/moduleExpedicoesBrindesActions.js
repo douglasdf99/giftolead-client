@@ -136,4 +136,17 @@ export default {
         })
     })
   },
+  arquivar({commit}, id) {
+    return new Promise((resolve, reject) => {
+      axios.get("/automacaos/arquivar/"+id)
+        .then((response) => {
+          console.log('arquivar 2', response)
+          resolve(response.data);
+        })
+        .catch((error) => {
+          console.log('error', error)
+          reject(error)
+        })
+    })
+  },
 }

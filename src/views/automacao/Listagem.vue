@@ -45,6 +45,7 @@
                         </vs-td>
                         <vs-td>
                             <p class="font-bold">{{tr.lead.nome}}</p>
+                            <p class="">{{tr.lead.email}}</p>
                         </vs-td>
                         <vs-td>
                             <p class="font-bold">{{getResponsavel(tr)}}</p>

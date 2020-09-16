@@ -45,7 +45,7 @@
                         <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
                     </div>
                     <vs-dropdown-menu>
-                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                        <vs-dropdown-item v-for="(item, index) in lengths" key="index" @click="dados.length = item">
                             <span>{{item}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
