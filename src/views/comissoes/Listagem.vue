@@ -23,15 +23,15 @@
             </div>
             <div class="vx-col w-3/12 flex items-center text-center">
                 <vx-tooltip position="top" :text="nameCriador(item)" class="img-criador">
-                    <img src="@/assets/images/util/checkout.svg" width="50px" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
-                    <img src="@/assets/images/util/boleto.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
-                    <img src="@/assets/images/util/agendamento.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
-                    <img src="@/assets/images/util/cancelado.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                    <img :src="get_img_api(item.criador.avatar)" v-else width="50px" class="ml-2 rounded-full">
+                    <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
+                    <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
+                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
+                    <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
+                    <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
+                    <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full">
                 </vx-tooltip>
                 <vx-tooltip position="top" :text="item.atendente.name" style="margin-left: -8%">
-                    <img :src="get_img_api(item.atendente.avatar)" width="50px" class="rounded-full">
+                    <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full">
                 </vx-tooltip>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">

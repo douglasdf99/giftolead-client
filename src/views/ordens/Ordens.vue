@@ -1,7 +1,7 @@
 <template>
     <div>
-        <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <!--<detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+                          :data="sidebarData"/>-->
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -23,39 +23,27 @@
                         </form>
                     </div>
                 </div>
-                <div class="vx-row my-3" v-if="dados.aba == 'comissao'">
-                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
-                        <label class="vs-input--label">Usuário</label>
-                        <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="true" class="bg-white"
-                                  :options="usuarios"/>
-                    </div>
-                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
-                        <label class="vs-input--label">Responsável</label>
-                        <v-select v-model="selectedResp" :class="'select-large-base'" :clearable="true" class="bg-white"
-                                  :options="responsaveis"/>
-                    </div>
-                </div>
                 <!-- SEARCH INPUT -->
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
                     <span class="destaque">Ordens a gerar</span>
-                    <p class="font-bold text-3xl my-5 text-warning">R$ {{formatPrice(soma)}}</p>
+                    <p class="font-bold text-3xl my-5" v-bind:class="{'text-warning' : !dados.pago, 'text-success' : dados.pago}">R$ {{formatPrice(soma)}}</p>
                 </vx-card>
             </div>
         </div>
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
-                            :label="'gerar ordens' + ( dados.aba === 'usuario' ? ` (${comissoes.length})` : '')">
-                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="usuario"></listagem>
+                    <vs-tab @click="colorx = 'warning'; getItems(0); dados.aba = 'pagar'" color="warning" value="10"
+                            :label="'pagar ordens' + ( dados.aba === 'pagar' ? ` (${ordens.length})` : '')">
+                        <listagem :items="ordens" @pagarOrdens="pagandoOrdens" tipo="pagar"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'" color="success"
-                            :label="'comissões' + ( dados.aba === 'comissao' ? ` (${comissoes.length})` : '')">
-                        <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="comissao"></listagem>
+                    <vs-tab @click="colorx = 'success'; getItems(1); dados.aba = 'pago'" color="success"
+                            :label="'ordens pagas' + ( dados.aba === 'pago' ? ` (${ordens.length})` : '')">
+                        <listagem :items="ordens" tipo="pago"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -68,14 +56,13 @@
 
 <script>
     import DetalheComissao from '../ordens/DetalheComissao'
-    import listagem from './ListComissoes'
+    import listagem from './Listagem'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
-    import moduleComissoes from "../../store/comissoes/moduleComissoes";
-    import moduleUsuario from "../../store/usuarios/moduleUsuario";
+    import moduleOrdens from "../../store/ordens/moduleOrdens";
 
     export default {
-        name: "Comissionar",
+        name: "Ordens",
         components: {DetalheComissao, listagem, 'v-select': vSelect},
         data() {
             return {
@@ -88,7 +75,8 @@
                     search: '',
                     page: 1,
                     length: 25,
-                    aba: 'usuario'
+                    aba: 'pagar',
+                    pago: 0
                 },
                 pagination: {
                     last_page: 1,
@@ -97,34 +85,19 @@
                 },
                 lengths: saveleadsConfig.lengths,
                 currentx: 1,
-                comissoes: [],
+                ordens: [],
                 tipoCom: 'pendente',
-                selectedUser: {id: null},
-                selectedResp: {id: null},
-                responsaveis: [
-                    {id: 'whatsapplist', label: 'WhatsappList'},
-                    {id: 'campanhacancelado', label: 'Campanha de Cancelados'},
-                    {id: 'campanhaboleto', label: 'Campanha de Boleto'},
-                    {id: 'campanhacarrinho', label: 'Campanha de Carrinho'},
-                    {id: 'usuario', label: 'Usuário'},
-                ],
                 soma: 0,
-                usuarios: []
             }
         },
         created() {
             this.$vs.loading()
-            if (!moduleComissoes.isRegistered) {
-                this.$store.registerModule('comissoes', moduleComissoes)
-                moduleComissoes.isRegistered = true
+            if (!moduleOrdens.isRegistered) {
+                this.$store.registerModule('ordens', moduleOrdens)
+                moduleOrdens.isRegistered = true
             }
 
-            if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuarios', moduleUsuario)
-                moduleUsuario.isRegistered = true
-            }
-            this.getOpcoes();
-            this.getItems();
+            this.getItems(0);
         },
         methods: {
             addNewData() {
@@ -139,7 +112,8 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getItems() {
+            getItems(pago = 0) {
+                this.dados.pago = pago
                 this.$vs.loading();
 
                 let url = '';
@@ -150,48 +124,35 @@
                     control++;
                 }
 
-                if(this.selectedUser.id){
-                    this.dados.user_id = this.selectedUser.id;
-                }
-
-                if(this.selectedResp.id){
-                    this.dados.responsavel_type = this.selectedResp.id;
-                }
-
                 if (control >= 2)
                     url += '&searchJoin=and';
 
                 this.dados.search = url;
 
-                this.$store.dispatch('comissoes/getCom', {params: this.dados}).then(response => {
+                this.$store.dispatch('ordens/getOrdens', this.dados).then(response => {
                     console.log('retornado com sucessso', response)
-                    this.comissoes = [...response[0].data]
+                    this.ordens = [...response[0].data]
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
             },
-            getOpcoes(){
-                this.$store.dispatch('usuarios/get').then(response => {
-                    this.usuarios = [...this.arraySelect(response)];
-                });
-            },
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getItems();
+                this.getItems(this.dados.pago);
             },
             visualizar(obj){
                 console.log('entrou no visualizar')
                 this.sidebarData = obj;
                 this.toggleDataSidebar(true);
             },
-            gerandoOrdem(arr){
+            pagandoOrdens(arr){
                 let ids = arr.map(item => {return item.id});
                 this.$vs.loading();
-                this.$store.dispatch('comissoes/storeOrdens', ids).then(() => {
-                    this.getItems();
+                this.$store.dispatch('ordens/payOrdens', ids).then(() => {
+                    this.getItems(this.dados.pago);
                 }).catch(erro => {
                     console.log('erro', erro);
                 })

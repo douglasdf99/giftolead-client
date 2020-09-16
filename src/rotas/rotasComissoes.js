@@ -35,6 +35,23 @@ const rotasComissoes = [
             submenu: subcomissoes
         },
     },
+    {
+        path: '/comissoes/pagamentos',
+        name: 'comissoes-pagamentos',
+        component: () => import('@/views/ordens/Ordens.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Comissões'},
+                {title: 'Pagamentos', active: true},
+            ],
+            pageTitle: 'Pagamentos',
+            rule: 'editor',
+            pai: 'comissoes',
+            subTitle: 'Comissões',
+            submenu: subcomissoes
+        },
+    },
 ];
 
 export default rotasComissoes

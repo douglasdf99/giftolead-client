@@ -20,7 +20,7 @@
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
                     <vs-td class="flex items-center">
                         <div class="flex items-center">
-                            <img :src="get_img_api(tr.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                            <img :src="get_img_api(tr.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
                             <p class="font-bold text-dark text-xl">{{tr.name}}</p>
                         </div>
                     </vs-td>
@@ -53,7 +53,7 @@
                     </vs-td>
                     <vs-td>
                         <div class="flex items-center">
-                            <img :src="get_img_api(tr.user.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                            <img :src="get_img_api(tr.user.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
                             <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
                         </div>
                     </vs-td>
@@ -64,12 +64,12 @@
                     <vs-td>
                         <p>responsável</p>
                         <div class="flex items-center">
-                            <img src="@/assets/images/util/checkout.svg" width="50" class="ml-2 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaCarrinho'">
-                            <img src="@/assets/images/util/boleto.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaBoleto'">
-                            <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaWhatsapp'">
-                            <img src="@/assets/images/util/agendamento.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
-                            <img src="@/assets/images/util/cancelado.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
-                            <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="50px" class="rounded-full">
+                            <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaCarrinho'">
+                            <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaBoleto'">
+                            <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaWhatsapp'">
+                            <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
+                            <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
+                            <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">
                             <p class="font-bold text-dark text-xl ml-3">{{nameCriador(tr)}}</p>
                         </div>
                     </vs-td>

@@ -11,6 +11,12 @@ const subcomissoes = [
         slug: "comissoes-comissionar",
         icon: 'attach_money'
     },
+    {
+        url: '/comissoes/pagamentos',
+        name: "Pagamentos",
+        slug: "comissoes-pagamentos",
+        icon: 'monetization_on'
+    },
 ];
 
 export default subcomissoes
