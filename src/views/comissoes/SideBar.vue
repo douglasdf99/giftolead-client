@@ -60,11 +60,11 @@
                             </div>
                             <div class="vx-col w-full lg:w-1/2">
                                 <label class="vs-input--label">Tipo de Transação</label>
-                                <v-select v-model="transacao.tipo" :class="'select-large-base'" :clearable="true" class="bg-white"
+                                <v-select v-model="transacao.payment_type" :class="'select-large-base'" :clearable="true" class="bg-white"
                                           :options="opcoes"/>
                             </div>
                             <div class="vx-col w-full mt-5 text-center">
-                                <vs-button class="font-bold text-white" color="primary" type="filled">Criar transação</vs-button>
+                                <vs-button class="font-bold text-white" color="primary" type="filled" @click="storeTransacao">Criar transação</vs-button>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
         <div class="flex flex-wrap items-center p-6" slot="footer">
             <vs-button class="mr-6 font-bold text-white" color="danger" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
             <vs-button class="mr-6 font-bold text-white" color="primary"
-                       @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id})" :disabled="selecteds.length == 0">
+                       @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id, nome: data.ticket.lead.nome})" :disabled="selecteds.length == 0">
                 Aprovar</vs-button>
         </div>
     </vs-sidebar>
@@ -178,7 +178,8 @@
         methods: {
             pesquisarTrans(e) {
                 this.pesquisado = true;
-                e.preventDefault();
+                if(e)
+                    e.preventDefault();
                 console.log('pesquiisa');
                 this.$vs.loading();
                 this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
@@ -190,6 +191,19 @@
             },
             handleSelected(e){
                 console.log(e)
+            },
+            storeTransacao(){
+                this.$vs.loading();
+                this.$store.dispatch('comissoes/storeTrans', {produto_id: this.data.lead_produto.produto_id, email: this.transacao.email, payment_type: this.transacao.payment_type.id}).then(() => {
+                    this.$vs.notify({
+                        color: 'success',
+                        title: '',
+                        text: 'Transação salva com sucesso.'
+                    });
+                    this.dados.search = this.transacao.email;
+                    this.pesquisarTrans();
+                    this.$vs.loading.close();
+                }).catch(erro => {console.log(erro)});
             }
         },
         watch: {

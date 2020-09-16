@@ -3,7 +3,7 @@
         <detalhe v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                  :data="sidebarData"/>
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
-                 :data="endereco"/>
+                  :data="endereco"/>
         <div class="vx-row mb-5">
             <div class="vx-col w-full lg:w-3/4">
                 <div class="flex items-center justify-around" v-if="expedicao">
@@ -88,7 +88,11 @@
                     </vs-td>
                     <vs-td><span class="font-bold">{{tr.nome_destinatario}}</span></vs-td>
                     <vs-td>{{tr.email_destinatario}}</vs-td>
-                    <vs-td><span class="cursor-pointer font-bold text-primary"> {{tr.rastreio}} </span></vs-td>
+                    <vs-td class="flex mb-2">
+                        <vx-tooltip position="top" text="Clique para copiar código de rastreio">
+                            <span class="cursor-pointer font-bold text-primary" @click="copyRastreio(tr.rastreio)"> {{tr.rastreio}} </span>
+                        </vx-tooltip>
+                    </vs-td>
                     <vs-td>{{tr.endereco.cep | VMask('##.###-###')}}</vs-td>
                     <vs-td class="td-icons flex flex-col items-center justify-center">
                         <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="tr.erro == null"
@@ -150,74 +154,6 @@
                           style="background-color: white" :options="contratos" v-validate="'required'" name="produtoUpsell"/>
             </div>
         </vs-prompt>
-       <!-- <vs-popup class="popup-endereco" style="overflow: hidden" title="Editando endereço" :active.sync="modalEndereco">
-            <div class="">
-                <div class="p-6 pt-0">
-                    <h3 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 my-3">Suas informações pessoais</h3>
-                    <form class="w-full px-6">
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Destinatário</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans" v-model="endereco.nome" type="text" required/>
-                        </div>
-                        <div class="vx-row mt-2">
-                            <div class="vx-col w-3/12">
-                                <p class="gray-wdc mb-2 text-lg font-bold">DDD</p>
-                                <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans"
-                                          v-model="endereco.ddd" type="text" required v-mask="'##'" @keypress="isNumber"/>
-                            </div>
-                            <div class="vx-col w-9/12">
-                                <p class="gray-wdc mb-2 text-lg font-bold">Telefone</p>
-                                <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans"
-                                          v-model="endereco.telefone" type="text" required v-mask="['####-####', '#####-####']" @keypress="isNumber"/>
-                            </div>
-                        </div>
-                    </form>
-                    <h3 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 mb-3 mt-5">Suas informações de entrega</h3>
-                    <form class="w-full px-6 vs-con-loading__container" @submit="buscaCep" id="div-with-loading">
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">CEP (CÓDIGO POSTAL)</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" id="search_input_trans1"
-                                      v-model="endereco.cep" type="text" required @keypress="isNumber" v-mask="'########'"/>
-                        </div>
-                        <vs-button class="border-none bg-primary hover:bg-black text-white cursor-pointer font-bold py-2 px-4 rounded-lg w-full h-16 text-2xl my-4" v-if="!valido" type="submit">
-                            Buscar
-                        </vs-button>
-                        <div class="flex flex-col mt-8">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Estado</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.estado"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Cidade</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.cidade"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Bairro</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.bairro"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Endereco</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.endereco"
-                                      :disabled="true"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Complemento</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.complemento"/>
-                        </div>
-                        <div class="flex flex-col">
-                            <p class="gray-wdc mb-2 text-lg font-bold">Número</p>
-                            <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.numero" @keypress="isNumber"/>
-                        </div>
-                        <vs-button class="border-none bg-primary hover:bg-black text-white cursor-pointer font-bold py-2 px-4 rounded-lg w-full h-16 text-2xl my-4" type="submit" @click="storeEndereco"
-                                   :disabled="invalidoEntrega">
-                            Confirmar dados
-                        </vs-button>
-                    </form>
-                </div>
-            </div>
-        </vs-popup>-->
         <!-- inicio popup-->
         <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-show="modalGerarPlp">
             <div class="vs-popup--background"></div>
@@ -307,9 +243,9 @@
 
     export default {
         name: "ListDetal",
-        channel: `laravel_database_listarautomacao`,
+        //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
         components: {
-          endereco,  detalhe, 'v-select': vSelect
+            endereco, detalhe, 'v-select': vSelect
         },
         data() {
             return {
@@ -356,7 +292,7 @@
             }
         },
         mounted() {
-            this.channel.listen('ListarAutomacao', (e) => {
+            this.$echo.channel(`laravel_database_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
                 console.log('teste');
                 console.log(e);
                 if (this.step < 1) {
@@ -437,59 +373,59 @@
                 this.toggleDataSidebar(true);
             },
             imprimir(id) {
-              this.urlIframe = false;
-              this.modalIframe = true;
-              this.$vs.loading({
-                container: '#pdf-with-loading'
-              })
-              axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.$route.params.id,'tipo':'single','automacao_id':id}, responseType: 'arraybuffer'})
-                .then((response) => {
-                  console.log(response);
-                  var blob = new Blob([response.data], {
-                    type: 'application/pdf'
-                  });
-                  var url = window.URL.createObjectURL(blob);
-                  console.log(url);
-                  this.urlIframe = url;
-                  //window.open(url);
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
                 })
-                .catch((error) => {
-                  this.$vs.notify({
-                    color: 'danger',
-                    text: 'Algo deu errado. Contate o suporte'
-                  });
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.$route.params.id, 'tipo': 'single', 'automacao_id': id}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
-                });
+                    });
             },
             imprimirEtiquetas(tipo) {
-            this.urlIframe = false;
-            this.modalIframe = true;
-            this.$vs.loading({
-              container: '#pdf-with-loading'
-            })
-            axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id,'tipo':tipo}, responseType: 'arraybuffer'})
-              .then((response) => {
-                console.log(response);
-                var blob = new Blob([response.data], {
-                  type: 'application/pdf'
-                });
-                var url = window.URL.createObjectURL(blob);
-                console.log(url);
-                this.urlIframe = url;
-                //window.open(url);
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-              })
-              .catch((error) => {
-                this.$vs.notify({
-                  color: 'danger',
-                  text: 'Algo deu errado. Contate o suporte'
-                });
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
+                })
+                axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id, 'tipo': tipo}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
-              });
-          },
+                    });
+            },
             enviarRastreio(id) {
                 this.$vs.loading();
                 this.$store.dispatch('expedicoes/enviarRastreio', {expedicao_id: this.expedicao.id, automacao_id: id}).then(() => {
@@ -509,47 +445,76 @@
             },
             gerarPlp() {
                 // this.$vs.loading();
-                this.modalGerarPlp = true
-                this.$store.dispatch('expedicoes/gerarPlp', this.expedicao.id).then(() => {
-
-                }).catch(erro => {
-                    console.log('erro', erro);
-                    this.$vs.notify({
-                        color: 'danger',
-                        text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
-                    });
-
-                });
+                this.$vs.dialog({
+                    color: 'primary',
+                    title: `Gerar PLP`,
+                    text: 'Ao gerar PLP, não será mais possível editar os objetos contidos nela.',
+                    acceptText: 'Sim, gerar!',
+                    accept: () => {
+                        this.modalGerarPlp = true;
+                        this.$store.dispatch('expedicoes/gerarPlp', this.expedicao.id).then(() => {
+                        }).catch(erro => {
+                            console.log('erro', erro);
+                            this.modalGerarPlp = false;
+                            this.$vs.notify({
+                                color: 'danger',
+                                text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
+                            });
+                        });
+                    }
+                })
             },
             imprimirPlp() {
                 /*this.modalIframe = true;
                 this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;*/
-              this.urlIframe = false;
-              this.modalIframe = true;
-              this.$vs.loading({
-                container: '#pdf-with-loading'
-              })
-              axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
-                .then((response) => {
-                  console.log(response);
-                  var blob = new Blob([response.data], {
-                    type: 'application/pdf'
-                  });
-                  var url = window.URL.createObjectURL(blob);
-                  console.log(url);
-                  this.urlIframe = url;
-                  //window.open(url);
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
                 })
-                .catch((error) => {
-                  this.$vs.notify({
-                    color: 'danger',
-                    text: 'Algo deu errado. Contate o suporte'
-                  });
-                  this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
-                });
+                    });
             },
+            copyRastreio(val) {
+                const thisIns = this;
+                this.$copyText(val).then(function () {
+                    thisIns.$vs.notify({
+                        title: 'Success',
+                        text: 'Rastreio copiado para sua área de transferência',
+                        color: 'success',
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle'
+                    })
+                }, function () {
+                    thisIns.$vs.notify({
+                        title: 'Failed',
+                        text: 'Erro ao copiar rastreio',
+                        color: 'danger',
+                        iconPack: 'feather',
+                        position: 'top-center',
+                        icon: 'icon-alert-circle'
+                    })
+                })
+            },
+
             //Editar endereço da automação
             editarEndereco(obj) {
                 this.endereco = {...obj.endereco};
@@ -588,12 +553,12 @@
             },
 
             //Trocando contrato
-            getContratos(){
+            getContratos() {
                 this.$store.dispatch('contratos/get').then(response => {
                     this.contratos = [...this.arraySelect(response)];
                 })
             },
-            update(){
+            update() {
                 this.$vs.loading();
                 this.expedicao.contrato_id = this.selectedContrato.id;
                 this.$store.dispatch('expedicoes/store', this.expedicao).then(() => {

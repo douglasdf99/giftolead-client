@@ -106,4 +106,15 @@ export default {
             })
         });
     },
+    storeTrans({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.post(`transacaos`, obj).then(response => {
+                console.log(response);
+                resolve();
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
+    },
 }

@@ -237,7 +237,8 @@
             },
 
             //Procedimentos
-            aprovarVarias(arr, rota, tipo){
+            aprovarVarias(arr, rota){
+                let tipo = this.dados.status;
                 console.log('aprovando várias', arr)
                 let arr2 = arr.map(item => {return item.id});
                 this.$vs.dialog({

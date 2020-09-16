@@ -118,51 +118,53 @@
         <div class="vx-row mb-6">
             <div class="vx-col w-full mb-2">
                 <div class="vx-row mb-6">
-                    <div class="vx-col sm:w-1/3 w-full mb-2">
+                    <div class="vx-col lg:w-1/3 w-full mb-2">
                         <span class="font-regular mb-2">Nome do remetente</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteNome"
                                   v-model="item.remetenteNome" size="large"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteNome')">{{ errors.first('remetenteNome') }}</span>
                     </div>
-                    <div class="vx-col sm:w-1/3 w-full mb-2">
+                    <div class="vx-col lg:w-1/3 w-full mb-2">
+                        <span class="font-regular mb-2">Telefone</span>
+                        <vs-input class="w-full" v-validate="'required'" name="telefone" v-model="item.telefone" size="large" v-mask="'(##) #####-####'"/>
+                        <span class="text-danger text-sm" v-show="errors.has('telefone')">{{ errors.first('telefone') }}</span>
+                    </div>
+                    <div class="vx-col lg:w-1/3 w-full mb-2">
                         <span class="font-regular mb-2">CEP</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteCep" v-model="item.remetenteCep" size="large"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteCep')">{{ errors.first('remetenteCep') }}</span>
                     </div>
-                    <div class="vx-col sm:w-1/3 w-full mb-2">
+                </div>
+                <div class="vx-row mb-6">
+                    <div class="vx-col lg:w-3/12 w-full mb-2">
+                        <span class="font-regular mb-2">Estado/Unidade Federativa</span>
+                        <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="item.remetenteEstado" size="large"/>
+                        <span class="text-danger text-sm" v-show="errors.has('remetenteEstado')">{{ errors.first('remetenteEstado') }}</span>
+                    </div>
+                    <div class="vx-col lg:w-3/12 w-full mb-2">
                         <span class="font-regular mb-2">Cidade</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteCidade" v-model="item.remetenteCidade" size="large"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteCidade')">{{ errors.first('remetenteCidade') }}</span>
                     </div>
-                </div>
-                <div class="vx-row mb-6">
-                    <div class="vx-col w-full mb-2">
+                    <div class="vx-col lg:w-6/12 w-full mb-2">
                         <span class="font-regular mb-2">Endereço</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteEndereco"
                                   v-model="item.remetenteEndereco" size="large"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteEndereco')">{{ errors.first('remetenteEndereco') }}</span>
                     </div>
                 </div>
-                <div class="vx-row mb-6">
-                    <div class="vx-col sm:w-1/3 w-full mb-2">
+                <div class="vx-row mb-20">
+                    <div class="vx-col lg:w-1/3 w-full mb-2">
                         <span class="font-regular mb-2">Bairro</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteBairro" v-model="item.remetenteBairro" size="large"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteBairro')">{{ errors.first('remetenteBairro') }}</span>
                     </div>
-                    <div class="vx-col sm:w-1/3 w-full mb-2">
-                        <span class="font-regular mb-2">Unidade Federativa</span>
-                        <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="item.remetenteEstado" size="large"/>
-                        <span class="text-danger text-sm" v-show="errors.has('remetenteEstado')">{{ errors.first('remetenteEstado') }}</span>
-                    </div>
-                    <div class="vx-col sm:w-1/3 w-full mb-2">
+                    <div class="vx-col lg:w-3/12 w-full mb-2">
                         <span class="font-regular mb-2">Número</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteNumero" v-model="item.remetenteNumero" size="large"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteNumero')">{{ errors.first('remetenteNumero') }}</span>
                     </div>
-                </div>
-
-                <div class="vx-row mb-20">
-                    <div class="vx-col w-full mb-2">
+                    <div class="vx-col lg:w-5/12 w-full mb-2">
                         <span class="font-regular mb-2">Complemento</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteComplemento"
                                   v-model="item.remetenteComplemento" size="large"/>

@@ -29,7 +29,7 @@ const rotasAutomacao = [
                 {title: 'Automação de entrega', url: '/brindes/automacao'},
                 {title: 'Configuração de E-mails', active: true},
             ],
-            pageTitle: 'Configuração de envio de E-mails',
+            pageTitle: 'Configuração de envio de e-mails automáticos',
             rule: 'editor',
             pai: 'brindes',
             subTitle: 'Brindes',

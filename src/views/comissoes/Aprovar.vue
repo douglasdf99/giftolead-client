@@ -33,8 +33,10 @@
             </div>
             <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Responsável</label>
-                <v-select v-model="selectedResp" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="agentes"/>
+                <multiselect group-values="libs" group-label="tipo" v-model="selectedResp" :options="agentes" placeholder="Selecione o responsável"
+                             selectLabel="Clique para selecionar" track-by="id" label="label"></multiselect>
+                <!--<v-select v-model="selectedResp" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="agentes"/>-->
             </div>
         </div>
         <div class="vx-row mt-10 -mb-4">
@@ -93,15 +95,21 @@
 </template>
 
 <script>
+    import Multiselect from 'vue-multiselect'
     import SideBar from './SideBar'
     import listagem from './Listagem'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
+    import moduleCampAgendamentos from "../../store/campanha_agendamento/moduleCampAgendamentos";
+    import moduleCampBoletos from "../../store/campanha_boleto/moduleCampBoletos";
+    import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
+    import moduleWhatsList from "../../store/whatsapplist/moduleWhatsList";
+    import moduleUsuario from "../../store/usuarios/moduleUsuario";
 
     export default {
         name: "Index",
-        components: {SideBar, listagem, 'v-select': vSelect},
+        components: {SideBar, listagem, 'v-select': vSelect, Multiselect},
         data() {
             return {
                 colorx: 'rgb(16, 233, 179)',
@@ -125,7 +133,15 @@
                 tipoCom: 'pendente',
                 selectedAten: null,
                 selectedResp: null,
-                agentes: []
+
+                //responsaveis
+                usuarios: [],
+                whats: [],
+                canceladas: [],
+                agendadas: [],
+                boletos: [],
+
+                agentes: [],
             }
         },
         created() {
@@ -135,7 +151,32 @@
                 moduleComissoes.isRegistered = true
             }
 
-            //this.getOpcoes();
+            if (!moduleCampAgendamentos.isRegistered) {
+                this.$store.registerModule('agendadas', moduleCampAgendamentos)
+                moduleCampAgendamentos.isRegistered = true
+            }
+
+            if (!moduleCampBoletos.isRegistered) {
+                this.$store.registerModule('boletos', moduleCampBoletos)
+                moduleCampBoletos.isRegistered = true
+            }
+
+            if (!moduleCampCanceladas.isRegistered) {
+                this.$store.registerModule('canceladas', moduleCampCanceladas)
+                moduleCampCanceladas.isRegistered = true
+            }
+
+            if (!moduleWhatsList.isRegistered) {
+                this.$store.registerModule('whatslist', moduleWhatsList)
+                moduleWhatsList.isRegistered = true
+            }
+
+            if (!moduleUsuario.isRegistered) {
+                this.$store.registerModule('users', moduleUsuario)
+                moduleUsuario.isRegistered = true
+            }
+
+            this.getUsers();
             this.getItems();
         },
         methods: {
@@ -145,7 +186,7 @@
                     title: title,
                     text: text,
                     accept: () => {
-                        if(id != null)
+                        if (id != null)
                             this.$router.push({path: `/comissoes/atender/${id}`});
                     },
                     acceptText: 'Ir até ele'
@@ -176,12 +217,12 @@
                     control++;
                 }
 
-                if (this.selectedProduto) {
-                    if (control)
-                        url += ';'
-
-                    url += 'produto_id:' + this.selectedProduto.id;
-                    control++;
+                if (this.selectedResp != null) {
+                    this.dados.criador_type = this.selectedResp.criador_type;
+                    this.dados.criador_id = this.selectedResp.id;
+                } else {
+                    this.dados.criador_id = null;
+                    this.dados.criador_type = null;
                 }
 
                 if (control >= 2)
@@ -195,14 +236,6 @@
                     this.comissoes = response.data
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
-                });
-            },
-            getOpcoes() {
-                this.$store.dispatch('comissoes/get').then(response => {
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        this.agentes.push({id: item.id, label: item.nome})
-                    });
                 });
             },
             deletar(id) {
@@ -231,7 +264,7 @@
                     }
                 })
             },
-            action(obj){
+            action(obj) {
                 console.log('array aí', obj);
                 this.$vs.dialog({
                     color: 'primary',
@@ -265,10 +298,87 @@
                 this.$vs.loading();
                 this.getItems();
             },
-            visualizar(obj){
+            visualizar(obj) {
                 console.log('obj detalhe', obj);
                 this.sidebarData = obj;
                 this.toggleDataSidebar(true);
+            },
+
+            //Select de responsável
+            getUsers() {
+                this.$store.dispatch('users/get').then(response => {
+                    response.forEach(user => {
+                        this.usuarios.push({
+                            id: user.id,
+                            label: user.name,
+                            criador_type: 'App\\Models\\user'
+                        });
+                    });
+                    this.getBoletos();
+                })
+            },
+            getBoletos() {
+                this.$store.dispatch('boletos/get').then(response => {
+                    response.forEach(boleto => {
+                        this.boletos.push({
+                            id: boleto.id,
+                            label: boleto.nome,
+                            criador_type: 'App\\Models\\CampanhaBoleto'
+                        });
+                    });
+                    this.getCanceladas();
+                })
+            },
+            getCanceladas() {
+                this.$store.dispatch('canceladas/get').then(response => {
+                    response.forEach(cancelada => {
+                        this.canceladas.push({
+                            id: cancelada.id,
+                            label: cancelada.nome,
+                            criador_type: 'App\\Models\\CampanhaCancelado'
+                        });
+                    });
+                    this.getWhatsList();
+                })
+            },
+            getWhatsList() {
+                this.$store.dispatch('whatslist/get').then(response => {
+                    response.data.data.forEach(whats => {
+                        this.whats.push({
+                            id: whats.id,
+                            label: whats.nome,
+                            criador_type: 'App\\Models\\Whatsapplist'
+                        });
+                    });
+                    this.getAgendadas();
+                })
+            },
+            getAgendadas() {
+                this.$store.dispatch('agendadas/get').then(response => {
+                    response.forEach(agendada => {
+                        this.agendadas.push({
+                            id: agendada.id,
+                            label: agendada.nome,
+                            criador_type: 'App\\Models\\CampanhaAgendamento'
+                        });
+                    });
+                    this.setResponsaveis();
+                })
+            },
+            setResponsaveis() {
+                /*console.log('users', this.usuarios);
+                console.log('whats', this.whats);
+                console.log('boletos', this.boletos);
+                console.log('agendamento', this.agendadas);
+                console.log('canceladas', this.canceladas);*/
+
+                this.agentes.push(
+                    {tipo: 'Usuário', libs: [...this.usuarios]},
+                    {tipo: 'WhatsappList', libs: [...this.whats]},
+                    {tipo: 'Campanha de Boleto', libs: [...this.boletos]},
+                    {tipo: 'Campanha de Agendamento', libs: [...this.agendadas]},
+                    {tipo: 'Campanha de Canceladas', libs: [...this.canceladas]}
+                );
             }
         },
         watch: {
@@ -319,3 +429,5 @@
 
     }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

@@ -21,17 +21,18 @@
                 <p class="preco">R$ {{formatPrice(item.comissao_criador + item.comissao_atendente)}}</p>
             </div>
             <div class="vx-col w-3/12 flex items-center text-center">
-                <vx-tooltip position="top" :text="nameCriador(item)">
-                    <img src="@/assets/images/util/checkout.svg" width="50" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
-                    <img src="@/assets/images/util/boleto.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
-                    <img src="@/assets/images/util/agendamento.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
-                    <img src="@/assets/images/util/cancelado.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\\Models\\\Whatsapplist'">
-                    <img :src="get_img_api(item.criador.avatar)" v-else width="50px" class="rounded-full">
+                <vx-tooltip position="top" :text="nameCriador(item)" class="img-criador">
+                    <img src="@/assets/images/util/checkout.svg" width="50px" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
+                    <img src="@/assets/images/util/boleto.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
+                    <img src="@/assets/images/util/whatsapp.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
+                    <img src="@/assets/images/util/agendamento.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
+                    <img src="@/assets/images/util/cancelado.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
+                    <img src="@/assets/images/util/whatsapp.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\\Models\\\Whatsapplist'">
+                    <img :src="get_img_api(item.criador.avatar)" v-else width="50px" class="ml-2 rounded-full">
                 </vx-tooltip>
-                <img :src="get_img_api(item.atendente.avatar)" width="50px" class="rounded-full" style="margin-left: -8%">
-                <span class="ml-4 font-bold">{{item.atendente.name}}</span>
+                <vx-tooltip position="top" :text="item.atendente.name" style="margin-left: -8%">
+                    <img :src="get_img_api(item.atendente.avatar)" width="50px" class="rounded-full">
+                </vx-tooltip>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
                 <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="true"
@@ -42,7 +43,7 @@
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-danger" v-else></vs-icon>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
-                <vx-tooltip position="top" text="Detalhar">
+                <vx-tooltip position="top" text="Detalhar" v-if="item.tipo != 'reprovado'">
                     <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', item)"
                              class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
                 </vx-tooltip>
@@ -78,7 +79,7 @@
                     case 'App\\Models\\Users':
                         return obj.criador.name;
                     default:
-                        return 'Sistema'
+                        return obj.criador.nome;
                 }
             }
         }
@@ -93,5 +94,9 @@
     .linha:hover {
         background-color: transparent !important;
         transition-duration: .2s;
+    }
+
+    .img-criador:hover {
+        z-index: 5000 !important;
     }
 </style>
