@@ -27,16 +27,14 @@
                 <!-- SEARCH INPUT -->
             </div>
             <div class="vx-col w-full lg:w-4/12 sm:w-full">
-                <label class="vs-input--label">Atendente</label>
-                <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="agentes"/>
-            </div>
-            <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Responsável</label>
                 <multiselect group-values="libs" group-label="tipo" v-model="selectedResp" :options="agentes" placeholder="Selecione o responsável"
                              selectLabel="Clique para selecionar" track-by="id" label="label"></multiselect>
-                <!--<v-select v-model="selectedResp" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="agentes"/>-->
+            </div>
+            <div class="vx-col w-full lg:w-4/12 sm:w-full">
+                <label class="vs-input--label">Atendente</label>
+                <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="usuarios"/>
             </div>
         </div>
         <div class="vx-row mt-10 -mb-4">
@@ -106,6 +104,7 @@
     import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
     import moduleWhatsList from "../../store/whatsapplist/moduleWhatsList";
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
+    import moduleCampWhatsapp from "../../store/campanha_whatsapp/moduleCampWhatsapp";
 
     export default {
         name: "Index",
@@ -166,9 +165,9 @@
                 moduleCampCanceladas.isRegistered = true
             }
 
-            if (!moduleWhatsList.isRegistered) {
-                this.$store.registerModule('whatslist', moduleWhatsList)
-                moduleWhatsList.isRegistered = true
+            if (!moduleCampWhatsapp.isRegistered) {
+                this.$store.registerModule('whats', moduleCampWhatsapp)
+                moduleCampWhatsapp.isRegistered = true
             }
 
             if (!moduleUsuario.isRegistered) {
@@ -223,6 +222,10 @@
                 } else {
                     this.dados.criador_id = null;
                     this.dados.criador_type = null;
+                }
+
+                if(this.selectedAten != null){
+                    this.dados.atendente_id = this.selectedAten.id
                 }
 
                 if (control >= 2)
@@ -338,16 +341,16 @@
                             criador_type: 'App\\Models\\CampanhaCancelado'
                         });
                     });
-                    this.getWhatsList();
+                    this.getWhats();
                 })
             },
-            getWhatsList() {
-                this.$store.dispatch('whatslist/get').then(response => {
-                    response.data.data.forEach(whats => {
+            getWhats() {
+                this.$store.dispatch('whats/get').then(response => {
+                    response.forEach(whats => {
                         this.whats.push({
                             id: whats.id,
                             label: whats.nome,
-                            criador_type: 'App\\Models\\Whatsapplist'
+                            criador_type: 'App\\Models\\CampanhaWhatsapp'
                         });
                     });
                     this.getAgendadas();
@@ -374,7 +377,7 @@
 
                 this.agentes.push(
                     {tipo: 'Usuário', libs: [...this.usuarios]},
-                    {tipo: 'WhatsappList', libs: [...this.whats]},
+                    {tipo: 'Campanha de Whatsapp', libs: [...this.whats]},
                     {tipo: 'Campanha de Boleto', libs: [...this.boletos]},
                     {tipo: 'Campanha de Agendamento', libs: [...this.agendadas]},
                     {tipo: 'Campanha de Canceladas', libs: [...this.canceladas]}
@@ -413,11 +416,7 @@
                 deep: true
             },
         },
-        mounted() {
-            this.channel.listen('ListaTicket', (payload) => {
-                this.getItems();
-            });
-        },
+        mounted() {},
         computed: {
             items() {
                 return this.$store.state.items;

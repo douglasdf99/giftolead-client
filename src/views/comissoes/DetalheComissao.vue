@@ -30,9 +30,10 @@
                 </div>
                 <div class="vx-row my-5 mt-10">
                     <div class="vx-col w-full">
-                        <vs-table :data="data.comissaos" class="table-items">
+                        <vs-table :data="listaComissao" class="table-items">
 
                             <template slot="thead">
+                                <vs-th>Item</vs-th>
                                 <vs-th>Motivo</vs-th>
                                 <vs-th>Comissão</vs-th>
                                 <vs-th>Responsável</vs-th>
@@ -40,6 +41,9 @@
 
                             <template slot-scope="{data}">
                                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" v-bind:class="{'row-table-disabled': true}">
+                                    <vs-td>
+
+                                    </vs-td>
                                     <vs-td>
                                         {{ tr.natureza }}
                                     </vs-td>
@@ -80,12 +84,11 @@
             },
         },
         data() {
-            return {
-
-            }
+            return {}
         },
         created() {
             console.log('dados', this.data);
+            console.log('listagem', this.listaComissao);
         },
         computed: {
             isSidebarActiveLocal: {
@@ -107,10 +110,31 @@
                 });
 
                 return this.formatPrice(soma);
+            },
+            listaComissao() {
+                let nomes = [];
+
+                this.data.comissaos.forEach(item => {
+                    nomes.push(item.produto.nome);
+                });
+
+                let prods = [...new Set(nomes)];
+
+                console.log('prods', prods);
+
+                let arrFinal = [];
+
+                prods.forEach(prod => {
+                    this.data.comissaos.forEach(item => {
+                        if(item.natureza == 'Atendimento'){
+                            arrFinal = [prod, 'Atendimento']
+                        }
+                    })
+                });
             }
         },
         methods: {
-            getResponsavel(val){
+            getResponsavel(val) {
                 switch (val) {
                     case 'App\\Models\\PreComissao':
                         return 'Pré Comissão'

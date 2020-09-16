@@ -27,7 +27,6 @@
                     <img src="@/assets/images/util/whatsapp.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
                     <img src="@/assets/images/util/agendamento.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
                     <img src="@/assets/images/util/cancelado.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="50px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\\Models\\\Whatsapplist'">
                     <img :src="get_img_api(item.criador.avatar)" v-else width="50px" class="ml-2 rounded-full">
                 </vx-tooltip>
                 <vx-tooltip position="top" :text="item.atendente.name" style="margin-left: -8%">
@@ -35,10 +34,14 @@
                 </vx-tooltip>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
-                <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="true"
-                         class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
-                <vs-icon icon-pack="material-icons" icon="highlight_off" v-else
-                         class="icon-grande font-bold text-danger"></vs-icon>
+                <vx-tooltip position="top" text="Possui anexo" v-if="true" class="cursor-default">
+                    <vs-icon icon-pack="material-icons" icon="attach_file"
+                             class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
+                </vx-tooltip>
+                <vx-tooltip position="top" text="Não possui anexo" v-else class="cursor-default">
+                    <vs-icon icon-pack="material-icons" icon="attach_file"
+                             class="icon-grande font-bold text-dark"></vs-icon>
+                </vx-tooltip>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning" v-if="item.tipo == 'pendente'"></vs-icon>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-danger" v-else></vs-icon>
             </div>

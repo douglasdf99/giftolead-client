@@ -229,11 +229,7 @@
                 deep: true
             },
         },
-        mounted() {
-            this.channel.listen('ListaTicket', (payload) => {
-                this.getItems();
-            });
-        },
+        mounted() {},
         computed: {
             items() {
                 return this.$store.state.items;

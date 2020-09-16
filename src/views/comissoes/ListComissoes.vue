@@ -64,7 +64,6 @@
                             <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaWhatsapp'">
                             <img src="@/assets/images/util/agendamento.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
                             <img src="@/assets/images/util/cancelado.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
-                            <img src="@/assets/images/util/whatsapp.svg" width="50" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\\Models\\\Whatsapplist'">
                             <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="50px" class="rounded-full">
                             <p class="font-bold text-dark text-xl">{{nameCriador(tr)}}</p>
                         </div>
@@ -124,24 +123,7 @@
                 })
             },
             nameCriador(obj) {
-                switch (obj.origem_type) {
-                    case 'App\\Models\\CampanhaCarrinho':
-                        return 'Capanha de Carrinho'
-                    case     'App\\Models\\CampanhaBoleto':
-                        return 'Capanha de Boleto'
-                    case     'App\\Models\\CampanhaWhatsapp':
-                        return 'Capanha de Whatsapp'
-                    case     'App\\Models\\CampanhaAgendamento':
-                        return 'Capanha de Agendamento'
-                    case     'App\\Models\\CampanhaCancelado':
-                        return 'Capanha de Cancelado'
-                    case     'App\\Models\\Whatsapplist':
-                        return 'Capanha de Whatsapplist'
-                    case 'App\\Models\\Users':
-                        return obj.origem.name;
-                    default:
-                        return 'Sistema'
-                }
+                if (obj.origem_type == 'App\\Models\\Users') return obj.origem.name; else return obj.origem.nome;
             }
         },
         computed: {
