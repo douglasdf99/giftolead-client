@@ -294,6 +294,7 @@
                 remetenteNumero: '',
                 remetenteComplemento: '',
                 status: true,
+                telefone : '',
             },
             estados: [
                 {value: '', text: "Selecione um estado"},
@@ -739,6 +740,7 @@
                         formData.append('remetenteEstado', this.item.remetenteEstado);
                         formData.append('remetenteNumero', this.item.remetenteNumero);
                         formData.append('remetenteComplemento', this.item.remetenteComplemento);
+                        formData.append('telefone', this.item.telefone);
 
                         this.$store.dispatch('contratos/update', {id: this.item.id, dados: formData})
                             .then(() => {
@@ -795,8 +797,9 @@
                         formData.append('remetenteEstado', this.item.remetenteEstado);
                         formData.append('remetenteNumero', this.item.remetenteNumero);
                         formData.append('remetenteComplemento', this.item.remetenteComplemento);
+                        formData.append('telefone', this.item.telefone);
 
-                        this.$store.dispatch('contratos/store', formData)
+                      this.$store.dispatch('contratos/store', formData)
                             .then(() => {
                                 console.log('enviou')
                                 this.$vs.loading.close();
