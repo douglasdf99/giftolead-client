@@ -20,21 +20,23 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-1/2">
             <div class="flex items-center">
-              <img :src="get_img_api(data.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
-              <p class="font-bold text-dark text-xl">{{data.name}}</p>
+              <img :src="get_img_api(data.user.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
+              <p class="font-bold text-dark text-xl">{{data.user.name}}</p>
             </div>
           </div>
           <div class="vx-col w-1/2">
-            <p class="font-bold text-xl">Valor Total: R$ {{somaComissao}}</p>
+            <div class="flex items-center">
+            <h3 class="font-bold ">Valor Total: R$ {{somaComissao}}</h3>
+            </div>
           </div>
         </div>
         <div class="vx-row my-5 mt-10">
           <div class="vx-col w-full">
-            <vs-table :data="listaComissao" class="table-items">
+            <vs-table :data="data.comissaos" class="table-items">
 
               <template slot="thead">
                 <vs-th>Item</vs-th>
-                <vs-th>Quantidade</vs-th>
+                <vs-th>Origem</vs-th>
                 <vs-th>Ticket médio</vs-th>
                 <vs-th>Comissão</vs-th>
               </template>
@@ -42,14 +44,38 @@
               <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" v-bind:class="{'row-table-disabled': true}">
                   <vs-td>
-                    Produto: {{ tr.nome }} <br/>
-                    Motivo: {{ tr.motivo }}
-                  </vs-td>
-                  <vs-td :data="tr.updated_at">
-                    {{ tr.quantidade }}
+                    <div class="font-bold" v-if="tr.responsavel.lead_produto">
+                      {{tr.responsavel.lead_produto.lead.nome}}
+                    </div>
+                    Motivo: {{ tr.natureza }}<br/>
+                    Produto: {{ tr.produto.nome }}
                   </vs-td>
                   <vs-td>
-                    R$ {{ formatPrice( tr.valor / tr.quantidade)  }}
+                    <div class="" v-if="tr.origem">
+                      <vx-tooltip delay=".5s" :text="tr.origem.nome">
+                        <img src="@/assets/images/util/checkout.svg" width="40" class="ml-4 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaCarrinho'">
+                      </vx-tooltip>
+                      <vx-tooltip delay=".5s" :text="tr.origem.nome">
+                        <img src="@/assets/images/util/boleto.svg" width="40" class="ml-4 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaBoleto'">
+                      </vx-tooltip>
+                      <vx-tooltip delay=".5s" :text="tr.origem.nome">
+                        <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-4 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaWhatsapp'">
+                      </vx-tooltip>
+                      <vx-tooltip delay=".5s" :text="tr.origem.nome">
+                        <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-4 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
+                      </vx-tooltip>
+                      <vx-tooltip delay=".5s" :text="tr.origem.nome">
+                        <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-4 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
+                      </vx-tooltip>
+                      <vx-tooltip delay=".5s" :text="tr.origem.name">
+                        <img :src="get_img_api(tr.origem.avatar)" width="40" class="ml-4 rounded-full" v-if="tr.origem.avatar">
+                      </vx-tooltip>
+                    </div>
+                  </vs-td>
+                  <vs-td>
+                    <div class="" v-if="tr.comissoes_conquistas.length > 0">
+                      R$ {{ formatPrice(somaConquistas(tr.comissoes_conquistas)) }}
+                    </div>
                   </vs-td>
                   <vs-td class="font-bold">
                     R$ {{ formatPrice(tr.valor) }}
@@ -99,8 +125,7 @@
         set(val) {
           if (!val) {
             this.$emit('closeSidebar')
-            // this.$validator.reset()
-            // this.initValues()
+
           }
         }
       },
@@ -109,51 +134,9 @@
         this.data.comissaos.forEach(item => {
           soma += parseFloat(item.valor);
         });
-
         return this.formatPrice(soma);
       },
-      listaComissao() {
-        let nomes = [];
-        this.data.comissaos.forEach(item => {
-          nomes.push(item.produto.nome);
-        });
 
-        let prods = [...new Set(nomes)];
-
-        let arrFinal = [];
-        prods.forEach(prod => {
-          let quantidadeAtendimento = 0;
-          let valorAtendimento = 0;
-          let quantidadInsercao = 0;
-          let valorInsercao = 0;
-          this.data.comissaos.forEach(item => {
-            if (item.natureza == 'Atendimento') {
-              quantidadeAtendimento++;
-              valorAtendimento += parseInt(item.valor);
-            } else {
-              quantidadInsercao++;
-              valorInsercao += parseInt(item.valor);
-            }
-          });
-          let insercaoProduto = {
-            'nome': prod,
-            'motivo': 'Inserção',
-            'valor': valorInsercao,
-            'quantidade': quantidadInsercao,
-          };
-          let atendimentoProduto = {
-            'nome': prod,
-            'motivo': 'Atendimento',
-            'valor': valorAtendimento,
-            'quantidade': quantidadeAtendimento,
-          };
-          arrFinal.push(insercaoProduto);
-          arrFinal.push(atendimentoProduto);
-        });
-        console.log('arrFinal', arrFinal);
-
-        return arrFinal;
-      }
     },
     methods: {
       getResponsavel(val) {
@@ -163,6 +146,13 @@
           default:
             return val
         }
+      },
+      somaConquistas(val){
+        let valor = 0;
+        val.forEach((item)=>{
+          valor += parseFloat(item.valor);
+        });
+       return valor;
       }
     },
     components: {

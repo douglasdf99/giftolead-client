@@ -1,7 +1,7 @@
 <template>
     <div>
-        <!--<detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                          :data="sidebarData"/>-->
+        <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+                          :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -37,13 +37,13 @@
                 <vs-tabs :color="colorx">
                     <vs-tab @click="colorx = 'warning'; getItems(0); dados.aba = 'pagar'" color="warning" value="10"
                             :label="'pagar ordens' + ( dados.aba === 'pagar' ? ` (${ordens.length})` : '')">
-                        <listagem :items="ordens" @pagarOrdens="pagandoOrdens" tipo="pagar"></listagem>
+                        <listagem :items="ordens" @pagarOrdens="pagandoOrdens" @visualizar="visualizar"  tipo="pagar"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems(1); dados.aba = 'pago'" color="success"
                             :label="'ordens pagas' + ( dados.aba === 'pago' ? ` (${ordens.length})` : '')">
-                        <listagem :items="ordens" tipo="pago"></listagem>
+                        <listagem :items="ordens" @visualizar="visualizar"  tipo="pago"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-    import DetalheComissao from '../ordens/DetalheComissao'
+    import DetalheComissao from '../ordens/DetalheOrdem'
     import listagem from './Listagem'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";

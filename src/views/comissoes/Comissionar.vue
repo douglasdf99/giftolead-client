@@ -1,6 +1,6 @@
 <template>
     <div>
-        <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+        <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar"  @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import DetalheComissao from '../ordens/DetalheComissao'
+    import DetalheComissao from '../comissoes/DetalheComissao'
     import listagem from './ListComissoes'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
