@@ -1,8 +1,6 @@
 <template>
     <div>
-        <!--<side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate"
-                  @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>-->
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -11,7 +9,7 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="search" id="search_input_trans" size="large"
+                                      v-model="dados.search" id="search_input_trans" size="large"
                                       placeholder="Pesquisar por usuário"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
@@ -28,28 +26,35 @@
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
-                    <span class="destaque">Comissões Pendentes</span>
-                    <p class="font-bold text-3xl my-5 text-war ning">R$ {{formatPrice(soma)}}</p>
+                    <span class="destaque">Comissões {{dados.aba}}</span>
+                    <p class="font-bold text-3xl my-5" v-bind:style="{'color' : colorx}">R$ {{formatPrice(soma)}}</p>
                 </vx-card>
             </div>
         </div>
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
-                            :label="'gerar ordens' + ( dados.aba === 'usuario' ? ` (${comissoes.length})` : '')">
-                        <listagem :items="comissoes" tipo="usuario"></listagem>
+                    <vs-tab @click="colorx = '#E7BE00'; getItems('pendentes'); dados.aba = 'pendentes'" color="warning" label="pendentes">
+                        <listagem @updateData="updateData" :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'" color="success"
-                            :label="'comissões' + ( dados.aba === 'comissao' ? ` (${comissoes.length})` : '')">
-                        <listagem :items="comissoes" tipo="comissao"></listagem>
+                    <vs-tab @click="colorx = '#9344C4'; getItems('aprovadas'); dados.aba = 'aprovadas'" color="primary" label="aprovadas">
+                        <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab @click="colorx = '#4DE98A'; getItems('comissionadas'); dados.aba = 'comissionadas'" color="success" label="comissionadas">
+                        <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page"
+                                       v-model="currentx"></vs-pagination>
+                    </vs-tab>
+                    <vs-tab @click="colorx = '#F03165'; getItems('reprovadas'); dados.aba = 'reprovadas'" color="danger" label="reprovadas">
+                        <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
-
             </vs-col>
         </vs-row>
     </div>
@@ -66,7 +71,7 @@
         components: {SideBar, listagem},
         data() {
             return {
-                colorx: 'warning',
+                colorx: '#E7BE00',
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
@@ -88,7 +93,8 @@
                 selectedUser: {id: null},
                 selectedResp: {id: null},
                 soma: 0,
-                usuarios: []
+                usuarios: [],
+                comissoes: [],
             }
         },
         created() {
@@ -115,14 +121,16 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getItems() {
-                this.$store.dispatch('getVarios', {rota: 'brindes', params: this.dados}).then(response => {
+            getItems(tipo = 'pendentes') {
+                this.dados.tipo = tipo;
+                this.$store.dispatch('getVarios', {rota: 'comissaos/minhas', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
-                    this.comissoes = response.data
-                    this.pagination = response;
+                    this.comissoes = [...response[0].data]
+                    this.pagination = response[0];
+                    this.soma = parseFloat(response.soma);
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             pesquisar(e) {

@@ -10,8 +10,7 @@
                 </div>
             </div>
         </div>
-        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" @click="$emit('visualizar', item)"
-             v-bind:class="{'cursor-pointer' : (item.tipo != 'reprovado'), 'clicavel' : (item.tipo != 'reprovado')}" >
+        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" @click="$emit('visualizar', item)">
             <div class="vx-col w-3/12">
                 <p>{{item.id}}</p>
                 <p class="destaque text-lg">{{item.ticket.lead.nome}}</p>
@@ -21,47 +20,18 @@
                 <p class="mt-2">comissão</p>
                 <p class="preco">R$ {{formatPrice(item.comissao_criador + item.comissao_atendente)}}</p>
             </div>
-            <div class="vx-col w-3/12 flex items-center text-center">
-                <vx-tooltip position="top" :text="nameCriador(item)" class="img-criador">
-                    <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
-                    <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
-                    <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
-                    <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                    <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full">
-                </vx-tooltip>
-                <vx-tooltip position="top" :text="item.atendente.name" style="margin-left: -8%">
-                    <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full">
-                </vx-tooltip>
+            <div class="vx-col w-3/12">
+                <p class="mt-2">{{item.ticket.lead.email}}</p>
+                <p class="font-bold">{{item.ticket.lead.ddd + item.ticket.lead.telefone | VMask('(##) ####-####')}}</p>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
-                <vx-tooltip position="top" text="Possui anexo" v-if="true" class="cursor-default">
-                    <vs-icon icon-pack="material-icons" icon="attach_file"
-                             class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
+                <vx-tooltip position="top" text="Adicionar imagem">
+                    <vs-icon icon-pack="material-icons" icon="publish" @click="$emit('updateData', item)"
+                             class="icon-grande font-bold mx-3 cursor-pointer text-black"></vs-icon>
                 </vx-tooltip>
-                <vx-tooltip position="top" text="Não possui anexo" v-else class="cursor-default">
-                    <vs-icon icon-pack="material-icons" icon="attach_file"
-                             class="icon-grande font-bold text-dark"></vs-icon>
-                </vx-tooltip>
-                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning" v-if="item.tipo == 'pendente'"></vs-icon>
-                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-danger" v-else></vs-icon>
-            </div>
-            <div class="vx-col w-1/12 flex items-center justify-center">
-                <!--<vx-tooltip position="top" text="Detalhar" v-if="item.tipo != 'reprovado'">
+                <vx-tooltip position="top" text="Visualizar">
                     <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', item)"
-                             class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
-                </vx-tooltip>-->
-                <!--<vx-tooltip position="top" text="Aprovar" v-if="item.tipo == 'pendente'">
-                    <vs-icon icon-pack="material-icons" icon="done_all" @click="$emit('action', {id: item.id, method: 'aprovar'})"
-                             class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
-                </vx-tooltip>
-                <vx-tooltip position="top" text="Reprovar" v-if="item.tipo == 'pendente'">
-                    <vs-icon icon-pack="material-icons" icon="highlight_off" @click="$emit('action', {id: item.id, method: 'reprovar'})"
-                             class="icon-grande font-bold mx-3 cursor-pointer text-danger"></vs-icon>
-                </vx-tooltip>-->
-                <vx-tooltip position="top" text="Restaurar" v-if="item.tipo == 'reprovado'">
-                    <vs-icon icon-pack="material-icons" icon="undo" @click="$emit('action', {id: item.id, method: 'restaurar'})"
-                             class="icon-grande font-bold mx-3 cursor-pointer text-warning"></vs-icon>
+                             class="icon-grande font-bold mx-3 cursor-pointer text-black"></vs-icon>
                 </vx-tooltip>
             </div>
         </div>
@@ -71,7 +41,7 @@
 <script>
     export default {
         name: "Listagem",
-        props: ['items'],
+        props: ['items', 'tipo', 'colorx'],
         data() {
             return {
                 currentx: 1,
