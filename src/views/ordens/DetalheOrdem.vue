@@ -1,219 +1,229 @@
-<!-- =========================================================================================
-  File Name: AddNewDataSidebar.vue
-  Description: Add New Data - Sidebar component
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
-  <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
-              class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
-    <div class="my-6 flex items-center justify-between px-6">
-      <h4>Valores a comissionar</h4>
-      <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
-    </div>
-    <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
-      <div class="p-10">
-        <div class="vx-row mb-5">
-          <div class="vx-col w-1/2">
-            <div class="flex items-center">
-              <img :src="get_img_api(data.user.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
-              <p class="font-bold text-dark text-xl">{{data.user.name}}</p>
-            </div>
-          </div>
-          <div class="vx-col w-1/2">
-            <div class="flex items-center">
-              <h3 class="font-bold ">Valor Total: R$ {{somaComissao}}</h3>
-            </div>
-          </div>
+    <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
+                class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+        <div class="my-6 flex items-center justify-between px-6">
+            <h4>Valores a comissionar</h4>
+            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
-        <div class="vx-row my-5 mt-10">
-          <div class="vx-col w-full">
-            <vs-table :data="listaComissao" class="table-items">
+        <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
+            <div class="p-10">
+                <div class="vx-row mb-5 flex items-center">
+                    <div class="vx-col w-1/2">
+                        <img :src="get_img_api(empresa.logo)" width="35%" class="mx-5"/>
+                    </div>
+                    <div class="vx-col w-1/2 text-right">
+                        <p class="font-bold text-2xl">Ordem: {{data.id}}</p>
+                        <p>Data: <b>{{data.created_at | formatDateTime}}</b></p>
+                        <vs-chip class="text-white text-lg float-right mt-3" v-bind:class="{'bg-success' : data.pago, 'bg-warning' : !data.pago}">{{data.pago ? 'pago' : 'pendente'}}</vs-chip>
+                    </div>
+                </div>
+                <div class="vx-row">
+                    <div class="vx-col w-full lg:w-1/2">
+                        <div class="flex items-center">
+                            <p class="font-bold text-dark tex t-xl">{{data.user.name}}</p>
+                        </div>
+                        <p class="mt-4">{{empresa.descricao}}</p>
+                    </div>
+                </div>
+                <div class="vx-row my-5 mt-10">
+                    <div class="vx-col w-full">
+                        <vs-table :data="listaComissao" class="table-items">
 
-              <template slot="thead">
-                <vs-th>Item</vs-th>
-                <vs-th>Quantidade</vs-th>
-                <vs-th>Ticket médio</vs-th>
-                <vs-th>Comissão</vs-th>
-              </template>
+                            <template slot="thead">
+                                <vs-th>Item</vs-th>
+                                <vs-th>Quantidade</vs-th>
+                                <vs-th>Ticket médio</vs-th>
+                                <vs-th>Comissão</vs-th>
+                            </template>
 
-              <template slot-scope="{data}">
-                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" v-bind:class="{'row-table-disabled': true}">
-                  <vs-td>
-                    Produto: {{ tr.nome }} <br/>
-                    Motivo: {{ tr.motivo }}
-                  </vs-td>
-                  <vs-td :data="tr.updated_at">
-                    {{ tr.quantidade }}
-                  </vs-td>
-                  <vs-td>
-                    R$ {{ formatPrice( tr.valor / tr.quantidade)  }}
-                  </vs-td>
-                  <vs-td class="font-bold">
-                    R$ {{ formatPrice(tr.valor) }}
-                  </vs-td>
-                </vs-tr>
-              </template>
-            </vs-table>
-          </div>
+                            <template slot-scope="{data}">
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" v-bind:class="{'row-table-disabled': true}">
+                                    <vs-td>
+                                        Produto: {{ tr.nome }} <br/>
+                                        Motivo: {{ tr.motivo }}
+                                    </vs-td>
+                                    <vs-td :data="tr.updated_at">
+                                        {{ tr.quantidade }}
+                                    </vs-td>
+                                    <vs-td>
+                                        R$ {{ formatPrice( tr.valor / tr.quantidade) }}
+                                    </vs-td>
+                                    <vs-td class="font-bold">
+                                        R$ {{ formatPrice(tr.valor) }}
+                                    </vs-td>
+                                </vs-tr>
+                            </template>
+                        </vs-table>
+                    </div>
+                </div>
+                <div class="vx-row flex items-center mt-5">
+                    <div class="vx-col w-full lg:w-1/2">
+                        <p class="text-gray text-sm">
+                            Notas: {{empresa.rodape}}
+                        </p>
+                    </div>
+                    <div class="vx-col w-full lg:w-1/2">
+                        <h3 class="float-right text-right">Valor Total: <b>R$ {{somaComissao}}</b></h3>
+                    </div>
+                </div>
+            </div>
+        </VuePerfectScrollbar>
+        <div class="flex flex-wrap items-center p-6" slot="footer">
+            <vs-button class="mr-6 text-lg flex items-center" color="primary">
+                Imprimir Ordem
+            </vs-button>
         </div>
-      </div>
-    </VuePerfectScrollbar>
-    <!--<div class="flex flex-wrap items-center p-6" slot="footer">
-        <vs-button class="mr-6" color="primary">
-            Imprimir Ordem
-        </vs-button>
-    </div>-->
-  </vs-sidebar>
+    </vs-sidebar>
 </template>
 
 <script>
-  import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 
-  export default {
-    props: {
-      isSidebarActive: {
-        type: Boolean,
-        required: true
-      },
-      data: {
-        type: Object,
-        default: () => {
+    export default {
+        props: {
+            isSidebarActive: {
+                type: Boolean,
+                required: true
+            },
+            data: {
+                type: Object,
+                default: () => {
+                },
+            },
+            empresa: {
+                type: Object,
+                default: () => {
+                },
+            },
         },
-      },
-    },
-    data() {
-      return {}
-    },
-    created() {
-      console.log('dados', this.data);
-      console.log('listagem', this.listaComissao);
-    },
-    computed: {
-      isSidebarActiveLocal: {
-        get() {
-          return this.isSidebarActive
+        data() {
+            return {}
         },
-        set(val) {
-          if (!val) {
-            this.$emit('closeSidebar')
+        created() {
+            console.log('dados', this.data);
+            console.log('listagem', this.listaComissao);
+        },
+        computed: {
+            isSidebarActiveLocal: {
+                get() {
+                    return this.isSidebarActive
+                },
+                set(val) {
+                    if (!val) {
+                        this.$emit('closeSidebar')
 
-          }
-        }
-      },
-      somaComissao() {
-        let soma = 0.0
-        this.data.comissaos.forEach(item => {
-          soma += parseFloat(item.valor);
-        });
-        return this.formatPrice(soma);
-      },
-      listaComissao() {
-        let nomes = [];
-        this.data.comissaos.forEach(item => {
-          nomes.push(item.produto.nome);
-        });
-        let prods = [...new Set(nomes)];
-        let arrFinal = [];
-        prods.forEach(prod => {
-          let quantidadeAtendimento = 0;
-          let valorAtendimento = 0;
-          let quantidadInsercao = 0;
-          let valorInsercao = 0;
-          this.data.comissaos.forEach(item => {
-            if(item.produto.nome == prod){
-              if (item.natureza == 'Atendimento') {
-                quantidadeAtendimento++;
-                valorAtendimento += parseInt(item.valor);
-              } else  {
-                quantidadInsercao++;
-                valorInsercao += parseInt(item.valor);
-              }
+                    }
+                }
+            },
+            somaComissao() {
+                let soma = 0.0
+                this.data.comissaos.forEach(item => {
+                    soma += parseFloat(item.valor);
+                });
+                return this.formatPrice(soma);
+            },
+            listaComissao() {
+                let nomes = [];
+                this.data.comissaos.forEach(item => {
+                    nomes.push(item.produto.nome);
+                });
+                let prods = [...new Set(nomes)];
+                let arrFinal = [];
+                prods.forEach(prod => {
+                    let quantidadeAtendimento = 0;
+                    let valorAtendimento = 0;
+                    let quantidadInsercao = 0;
+                    let valorInsercao = 0;
+                    this.data.comissaos.forEach(item => {
+                        if (item.produto.nome == prod) {
+                            if (item.natureza == 'Atendimento') {
+                                quantidadeAtendimento++;
+                                valorAtendimento += parseInt(item.valor);
+                            } else {
+                                quantidadInsercao++;
+                                valorInsercao += parseInt(item.valor);
+                            }
+                        }
+                    });
+                    let insercaoProduto = {
+                        'nome': prod,
+                        'motivo': 'Inserção',
+                        'valor': valorInsercao,
+                        'quantidade': quantidadInsercao,
+                    };
+                    let atendimentoProduto = {
+                        'nome': prod,
+                        'motivo': 'Atendimento',
+                        'valor': valorAtendimento,
+                        'quantidade': quantidadeAtendimento,
+                    };
+                    if (quantidadInsercao > 0)
+                        arrFinal.push(insercaoProduto);
+
+                    if (quantidadeAtendimento > 0)
+                        arrFinal.push(atendimentoProduto);
+                });
+                console.log('arrFinal', arrFinal);
+                return arrFinal;
             }
-          });
-          let insercaoProduto = {
-            'nome': prod,
-            'motivo': 'Inserção',
-            'valor': valorInsercao,
-            'quantidade': quantidadInsercao,
-          };
-          let atendimentoProduto = {
-            'nome': prod,
-            'motivo': 'Atendimento',
-            'valor': valorAtendimento,
-            'quantidade': quantidadeAtendimento,
-          };
-          if (quantidadInsercao>0)
-            arrFinal.push(insercaoProduto);
-
-          if (quantidadeAtendimento>0)
-            arrFinal.push(atendimentoProduto);
-        });
-        console.log('arrFinal', arrFinal);
-        return arrFinal;
-      }
-    },
-    methods: {
-      getResponsavel(val) {
-        switch (val) {
-          case 'App\\Models\\PreComissao':
-            return 'Pré Comissão'
-          default:
-            return val
-        }
-      },
-      somaConquistas(val) {
-        let valor = 0;
-        val.forEach((item) => {
-          valor += parseFloat(item.valor);
-        });
-        return valor;
-      }
-    },
-    components: {
-      VuePerfectScrollbar,
-    },
-  }
+        },
+        methods: {
+            getResponsavel(val) {
+                switch (val) {
+                    case 'App\\Models\\PreComissao':
+                        return 'Pré Comissão'
+                    default:
+                        return val
+                }
+            },
+            somaConquistas(val) {
+                let valor = 0;
+                val.forEach((item) => {
+                    valor += parseFloat(item.valor);
+                });
+                return valor;
+            }
+        },
+        components: {
+            VuePerfectScrollbar,
+        },
+    }
 </script>
 
 <style lang="scss" scoped>
-  .add-new-data-sidebar {
-    ::v-deep .vs-sidebar--background {
-      z-index: 52010;
-    }
-
-    ::v-deep .vs-sidebar {
-      z-index: 52010;
-      width: 750px;
-      max-width: 90vw;
-
-      .img-upload {
-        margin-top: 2rem;
-
-        .con-img-upload {
-          padding: 0;
+    .add-new-data-sidebar {
+        ::v-deep .vs-sidebar--background {
+            z-index: 52010;
         }
 
-        .con-input-upload {
-          width: 100%;
-          margin: 0;
-        }
-      }
-    }
-  }
+        ::v-deep .vs-sidebar {
+            z-index: 52010;
+            width: 750px;
+            max-width: 90vw;
 
-  .scroll-area--data-list-add-new {
-    // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
-  }
+            .img-upload {
+                margin-top: 2rem;
+
+                .con-img-upload {
+                    padding: 0;
+                }
+
+                .con-input-upload {
+                    width: 100%;
+                    margin: 0;
+                }
+            }
+        }
+    }
+
+    .scroll-area--data-list-add-new {
+        // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
+        height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+    }
 </style>
 
 <style>
-  .vs-sidebar--background {
-    background: rgba(0, 0, 0, .2) !important;
-  }
+    .vs-sidebar--background {
+        background: rgba(0, 0, 0, .2) !important;
+    }
 </style>

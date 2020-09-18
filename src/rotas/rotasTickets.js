@@ -56,6 +56,24 @@ const rotasTickets = [
             submenu: subtickets
         },
     },
+    {
+        path: '/minhas-comissoes',
+        name: 'minhas-comissoes',
+        component: () => import('@/views/minhasComissoes/Index.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Tickets'},
+                {title: 'Meus atendimentos comissionados', active: true},
+            ],
+            pageTitle: 'Meus atendimentos comissionados',
+            rule: 'editor',
+            pai: 'tickets',
+            subTitle: 'Tickets',
+            //subIcon: 'settings',
+            submenu: subtickets
+        },
+    },
 ]
 
 export default rotasTickets

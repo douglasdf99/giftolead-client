@@ -17,6 +17,7 @@
                     </p>
                 </div>-->
                 <div class="conquista" style="cursor: default !important">
+                    <div class="py-5 w-full flex my-2"></div>
                     <div class="w-full">
                         <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
                         <p class="nome-conq mb-4 text-base">

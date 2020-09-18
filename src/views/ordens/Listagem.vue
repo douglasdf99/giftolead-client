@@ -10,7 +10,7 @@
                 </div>
             </div>
         </div>
-        <vs-table multiple v-model="selecteds" @selected="handleSelected" v-else :data="items" class="table-items" :multiple="tipo == 'pagar'">
+        <vs-table v-model="selecteds" @selected="handleSelected" v-else :data="items" class="table-items" multiple>
             <template slot="thead">
                 <vs-th></vs-th>
                 <vs-th></vs-th>
@@ -45,8 +45,14 @@
         <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="pagarOrdens" v-if="tipo == 'pagar'">
+                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('payOrdens')" v-if="tipo == 'pagar'">
                         Pagar ordens
+                    </vs-button>
+                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('unpayOrdens')" v-if="tipo == 'pago'">
+                        Reverter ordens
+                    </vs-button>
+                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="imprimirPDF()">
+                        Imprimir PDF
                     </vs-button>
                     <div class="float-right" v-if="tipo == 'pagar'">
                         <span class="font-bold text-2xl">R$ {{formatPrice(somaSelecionados)}}</span>
@@ -59,6 +65,8 @@
 </template>
 
 <script>
+    import axios from "@/axios.js"
+
     export default {
         name: "Listagem",
         props: ['items', 'tipo'],
@@ -81,20 +89,39 @@
                 });
                 return this.formatPrice(parseFloat(soma));
             },
-            pagarOrdens() {
+            action(method) {
                 this.$vs.dialog({
                     color: 'primary',
-                    title: 'Pagar ordens',
-                    text: `Deseja pagar estas ordens selecionadas?`,
+                    title: method == 'payOrdens' ? 'Pagar' : 'Reverter' + ' ordens',
+                    text: `Deseja ${method == 'payOrdens' ? 'pagar' : 'reverter'} estas ordens selecionadas?`,
                     acceptText: 'Sim',
                     accept: () => {
-                        this.$emit('pagarOrdens', this.selecteds);
+                        console.log('selecionados', this.selecteds, 'método', method);
+                        this.$emit('action', {ids: this.selecteds, method: method});
                         this.selecteds = [];
                     }
                 })
             },
             nameCriador(obj) {
                 if (obj.origem_type == 'App\\Models\\User') return obj.origem.name; else return (obj.origem) ? obj.origem.nome : 'Sem origem';
+            },
+            imprimirPDF() {
+                let ids = this.selecteds.map(item => {
+                    return item.id
+                });
+
+                axios.get(`/ordems/imprimir`, {params: {ids: ids}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        window.open(url);
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+                //this.$store.dispatch('ordens/imprimePdf', ids);
             }
         },
         computed: {

@@ -23,16 +23,14 @@
                         </form>
                     </div>
                 </div>
-                <div class="vx-row my-3" v-if="dados.aba == 'comissao'">
+                <div class="vx-row my-3" v-show="dados.aba == 'comissao'">
+                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
+                        <select-responsaveis @chooseResp="chooseResp" />
+                    </div>
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <label class="vs-input--label">Usuário</label>
                         <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="true" class="bg-white"
                                   :options="usuarios"/>
-                    </div>
-                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
-                        <label class="vs-input--label">Responsável</label>
-                        <v-select v-model="selectedResp" :class="'select-large-base'" :clearable="true" class="bg-white"
-                                  :options="responsaveis"/>
                     </div>
                 </div>
                 <!-- SEARCH INPUT -->
@@ -46,14 +44,14 @@
         </div>
         <vs-row class="mt-10">
             <vs-col vs-w="12">
-                <vs-tabs :color="colorx">
+                <vs-tabs :color="colorx" style="z-index: 5">
                     <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
                             :label="'gerar ordens' + ( dados.aba === 'usuario' ? ` (${comissoes.length})` : '')">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="usuario"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'" color="success"
+                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'; getOpcoes();" color="success"
                             :label="'comissões' + ( dados.aba === 'comissao' ? ` (${comissoes.length})` : '')">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="comissao"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
@@ -73,10 +71,11 @@
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
+    import SelectResponsaveis from "../components/SelectResponsaveis";
 
     export default {
         name: "Comissionar",
-        components: {DetalheComissao, listagem, 'v-select': vSelect},
+        components: {DetalheComissao, listagem, 'v-select': vSelect, SelectResponsaveis},
         data() {
             return {
                 colorx: 'warning',
@@ -99,8 +98,8 @@
                 currentx: 1,
                 comissoes: [],
                 tipoCom: 'pendente',
-                selectedUser: {id: null},
-                selectedResp: {id: null},
+                selectedUser: null,
+                selectedResp: null,
                 responsaveis: [
                     {id: 'whatsapplist', label: 'WhatsappList'},
                     {id: 'campanhacancelado', label: 'Campanha de Cancelados'},
@@ -123,7 +122,6 @@
                 this.$store.registerModule('usuarios', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
-            this.getOpcoes();
             this.getItems();
         },
         methods: {
@@ -150,12 +148,14 @@
                     control++;
                 }
 
-                if(this.selectedUser.id){
+                if(this.selectedUser){
                     this.dados.user_id = this.selectedUser.id;
                 }
 
-                if(this.selectedResp.id){
-                    this.dados.responsavel_type = this.selectedResp.id;
+                if(this.selectedResp){
+                    //this.dados.responsavel_type = this.selectedResp.id;
+                    this.dados.responsavel_type = this.selectedResp.criador_type;
+                    this.dados.responsavel_id = this.selectedResp.id;
                 }
 
                 if (control >= 2)
@@ -195,6 +195,10 @@
                 }).catch(erro => {
                     console.log('erro', erro);
                 })
+            },
+
+            chooseResp(obj){
+                this.selectedResp = obj;
             }
         },
         watch: {

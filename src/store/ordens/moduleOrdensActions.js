@@ -48,7 +48,7 @@ export default {
                 })
         })
     },
-    payOrdens({commit}, ids){
+    payOrdens({commit}, ids) {
         return new Promise((resolve, reject) => {
             axios.post(`ordems/setpago`, {ids: ids}).then(response => {
                 console.log(response);
@@ -59,7 +59,18 @@ export default {
             })
         });
     },
-    getOrdens({commit}, dados){
+    unpayOrdens({commit}, ids) {
+        return new Promise((resolve, reject) => {
+            axios.post(`ordems/unsetpago`, {ids: ids}).then(response => {
+                console.log(response);
+                resolve();
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
+    },
+    getOrdens({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/ordems`, {params: dados})
                 .then((response) => {

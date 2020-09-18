@@ -6,6 +6,12 @@ const subtickets = [
         icon: 'people_outline'
     },
     {
+        url: '/minhas-comissoes',
+        name: "Minhas Comissões",
+        slug: "leads-list",
+        icon: 'monetization_on'
+    },
+    {
         url: '/agenda',
         name: "Agenda",
         slug: "leads-list",

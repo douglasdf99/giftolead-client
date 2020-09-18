@@ -55,7 +55,8 @@ export default {
                     resolve(response.data.data)
                 })
                 .catch((error) => {
-                    reject(error)
+                    console.log(error)
+                    reject()
                 })
         })
     },
