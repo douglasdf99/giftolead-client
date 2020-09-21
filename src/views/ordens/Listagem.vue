@@ -52,9 +52,9 @@
                         Reverter ordens
                     </vs-button>
                     <vs-button class="mr-3 float-left" color="primary" type="filled" @click="imprimirPDF()">
-                        Imprimir PDF
+                        Imprimir Ordens
                     </vs-button>
-                    <div class="float-right" v-if="tipo == 'pagar'">
+                    <div class="float-right">
                         <span class="font-bold text-2xl">R$ {{formatPrice(somaSelecionados)}}</span>
                         <p>valor total selecionado</p>
                     </div>
@@ -106,6 +106,7 @@
                 if (obj.origem_type == 'App\\Models\\User') return obj.origem.name; else return (obj.origem) ? obj.origem.nome : 'Sem origem';
             },
             imprimirPDF() {
+                this.$vs.loading();
                 let ids = this.selecteds.map(item => {
                     return item.id
                 });
@@ -117,11 +118,11 @@
                         });
                         var url = window.URL.createObjectURL(blob);
                         window.open(url);
+                        this.$vs.loading.close();
                     })
                     .catch((error) => {
                         console.log(error)
                     })
-                //this.$store.dispatch('ordens/imprimePdf', ids);
             }
         },
         computed: {

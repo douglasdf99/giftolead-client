@@ -127,7 +127,7 @@
                 currentx: 1,
                 comissoes: [],
                 tipoCom: 'pendente',
-                selectedAten: null,
+                selectedAten: {id: null, label: 'Selecione atendente'},
                 selectedResp: null,
 
                 //responsaveis
@@ -171,7 +171,7 @@
                 this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
-
+            this.getOpcoes();
             this.getItems();
         },
         methods: {
@@ -220,7 +220,7 @@
                     this.dados.criador_type = null;
                 }
 
-                if (this.selectedAten != null) {
+                if (this.selectedAten.id != null) {
                     this.dados.atendente_id = this.selectedAten.id
                 }
 
@@ -235,6 +235,13 @@
                     this.comissoes = response.data
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
+                });
+            },
+            getOpcoes(){
+                this.selectedAten.label = 'Carregando...';
+                this.$store.dispatch('users/get').then(response => {
+                    this.usuarios = [...this.arraySelect(response)];
+                    this.selectedAten.label = 'Selecione o atendente';
                 });
             },
             deletar(id) {

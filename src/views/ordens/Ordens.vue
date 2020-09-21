@@ -27,7 +27,7 @@
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
-                    <span class="destaque">Ordens a gerar</span>
+                    <span class="destaque">Valor das Ordens</span>
                     <p class="font-bold text-3xl my-5" v-bind:class="{'text-warning' : !dados.pago, 'text-success' : dados.pago}">R$ {{formatPrice(soma)}}</p>
                 </vx-card>
             </div>

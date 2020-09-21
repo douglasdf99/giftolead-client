@@ -69,7 +69,7 @@
             </div>
         </VuePerfectScrollbar>
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6 text-lg flex items-center" color="primary">
+            <vs-button class="mr-6 text-lg flex items-center" color="primary" @click="imprimir(data.id)">
                 Imprimir Ordem
             </vs-button>
         </div>
@@ -78,6 +78,7 @@
 
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import axios from "@/axios";
 
     export default {
         props: {
@@ -182,6 +183,23 @@
                     valor += parseFloat(item.valor);
                 });
                 return valor;
+            },
+            imprimir(id) {
+                this.$vs.loading();
+                let ids = [id]
+
+                axios.get(`/ordems/imprimir`, {params: {ids: ids}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        window.open(url);
+                        this.$vs.loading.close();
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
             }
         },
         components: {

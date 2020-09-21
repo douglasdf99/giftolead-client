@@ -22,7 +22,7 @@
                 <p class="preco">R$ {{formatPrice(item.comissao_criador + item.comissao_atendente)}}</p>
             </div>
             <div class="vx-col w-3/12 flex items-center text-center">
-                <vx-tooltip position="top" :text="nameCriador(item)" class="img-criador">
+                <vx-tooltip position="top" :text="'Responsável | ' + nameCriador(item)" class="img-criador">
                     <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
                     <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
                     <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
@@ -30,7 +30,7 @@
                     <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
                     <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full">
                 </vx-tooltip>
-                <vx-tooltip position="top" :text="item.atendente.name" style="margin-left: -8%">
+                <vx-tooltip position="top" :text="'Atendente | ' + item.atendente.name" style="margin-left: -15px">
                     <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full">
                 </vx-tooltip>
             </div>
@@ -80,7 +80,7 @@
         methods: {
             nameCriador(obj) {
                 switch (obj.criador_type) {
-                    case 'App\\Models\\Users':
+                    case 'App\\Models\\User':
                         return obj.criador.name;
                     default:
                         return obj.criador.nome;

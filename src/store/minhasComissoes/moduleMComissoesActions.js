@@ -11,23 +11,11 @@
 import axios from "@/axios.js"
 
 export default {
-    getId({commit}, id) {
+    setAnexos({commit}, obj) {
         return new Promise((resolve, reject) => {
-            axios.get(`/leads/${id}`)
+            axios.post(`/pre_comissaos/setAnexo/`, obj)
                 .then((response) => {
                     console.log('lead resgatado', response);
-                    resolve(response.data.data)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    },
-    get({commit}) {
-        return new Promise((resolve, reject) => {
-            axios.get(`/produtos`, {params: {}})
-                .then((response) => {
-                    console.log('produtos resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

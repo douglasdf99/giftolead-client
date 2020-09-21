@@ -65,6 +65,7 @@
     import listagem from './Listagem'
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
     import saveleadsConfig from "../../../saveleadsConfig";
+    import moduleMComissoes from "@/store/minhasComissoes/moduleMComissoes";
 
     export default {
         name: "Index",
@@ -99,9 +100,9 @@
         },
         created() {
             this.$vs.loading();
-            if (!moduleBrindes.isRegistered) {
-                this.$store.registerModule('brindes', moduleBrindes);
-                moduleBrindes.isRegistered = true;
+            if (!moduleMComissoes.isRegistered) {
+                this.$store.registerModule('mcomissoes', moduleMComissoes);
+                moduleMComissoes.isRegistered = true;
             }
             this.getItems();
         },
@@ -128,8 +129,6 @@
                     this.comissoes = [...response[0].data]
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
             },

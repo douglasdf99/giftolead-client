@@ -98,7 +98,7 @@
                 currentx: 1,
                 comissoes: [],
                 tipoCom: 'pendente',
-                selectedUser: null,
+                selectedUser: {id: null, label: 'Selecione o atendente'},
                 selectedResp: null,
                 responsaveis: [
                     {id: 'whatsapplist', label: 'WhatsappList'},
@@ -119,7 +119,7 @@
             }
 
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuarios', moduleUsuario)
+                this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
             this.getItems();
@@ -148,7 +148,7 @@
                     control++;
                 }
 
-                if(this.selectedUser){
+                if(this.selectedUser.id != null){
                     this.dados.user_id = this.selectedUser.id;
                 }
 
@@ -173,8 +173,10 @@
                 });
             },
             getOpcoes(){
-                this.$store.dispatch('usuarios/get').then(response => {
+                this.selectedAten.label = 'Carregando...';
+                this.$store.dispatch('users/get').then(response => {
                     this.usuarios = [...this.arraySelect(response)];
+                    this.selectedAten.label = 'Selecione o atendente';
                 });
             },
             pesquisar(e) {

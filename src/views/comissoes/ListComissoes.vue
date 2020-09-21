@@ -47,12 +47,12 @@
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
-                    <vs-td>
+                    <vs-td v-if="tr.responsavel">
                         <p class="destaque text-lg">{{tr.responsavel.lead_produto.lead.nome}}</p>
                         <vs-chip :color="tr.produto.cor || ''">{{tr.produto.nome}}</vs-chip>
                     </vs-td>
                     <vs-td>
-                        <div class="flex items-center">
+                        <div class="flex items-center" v-if="tr.user">
                             <img :src="get_img_api(tr.user.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
                             <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
                         </div>
