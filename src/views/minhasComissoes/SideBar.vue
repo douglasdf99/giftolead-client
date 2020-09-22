@@ -17,8 +17,8 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-10">
-                <div class="vx-row">
-                    <div class="vx-col w-full mb-5" v-if="data.action == 1">
+                <div class="vx-row" v-if="data.action == 1">
+                    <div class="vx-col w-full mb-5">
                         <span class="font-bold mb-3 ml-2 text-lg">Imagens (clique na caixa ou arraste e solte a imagem para dentro)</span>
                         <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter" @dragleave="OnDragLeave" @dragover.prevent @drop="onDrop" :class="{ dragging: isDragging }">
                             <div class="uploader py-3 mt-3">
@@ -47,6 +47,27 @@
                     <div class="vx-col w-full">
                         <p class="font-bold mb-3 ml-2 text-lg">Descrição</p>
                         <vs-textarea v-model="obj.descricao" id="text-area" class="w-full bg-white" rows="6"/>
+                    </div>
+                </div>
+                <div class="vx-row flex items-center" v-else>
+                    <div class="vx-col w-full lg:w-1/2">
+                        <p class="font-bold text-dark text-xl">{{data.ticket.lead.nome}}</p>
+                        <p class="font-bold text-primary text-xl">{{data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####')}}</p>
+                        <p class="font-bold text-gray text-md">{{data.ticket.lead.email}}</p>
+                        <p class="font-bold text-gray text-md">CPF: {{data.ticket.lead.cpf || '' | VMask('###.###.###-##')}}</p>
+                    </div>
+                    <div class="vx-col w-full lg:w-1/2 text-right">
+                        <p class="font-bold text-2xl text-dark">Ticket: {{data.ticket.id}}</p>
+                        <p>Data: <b>{{data.created_at | formatDateTime}}</b></p>
+                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{data.tipo}}</vs-chip>
+                    </div>
+                </div>
+                <vs-divider></vs-divider>
+                <div class="vx-row my-3 px-3" style="max-height: 280px; overflow: auto" v-if="data.action == 2">
+                    <div class="item-img-container bg-white h-32 flex items-center justify-center lg:w-1/3 w-full relative my-3"
+                         v-for="(image, index) in data.anexos" :key="index">
+                        <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger cursor-pointer remove-img" @click="removeImg(index)"></vs-icon>
+                        <img :src="get_img_api(image.arquivo)" style="max-width: 200px; max-height: 100px" alt="logotipo" class="grid-view-img px-4 cursor-pointer" @click="expandeImg(image.arquivo)">
                     </div>
                 </div>
             </div>
@@ -135,6 +156,9 @@ export default {
         removeImg(id) {
             this.images.splice(id, 1);
             this.files.splice(id, 1);
+        },
+        expandeImg(){
+
         },
 
         //drag

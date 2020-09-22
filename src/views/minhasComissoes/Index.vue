@@ -123,9 +123,10 @@
                 this.addNewDataSidebar = val
             },
             getItems(tipo = 'pendentes') {
+                this.$vs.loading();
                 this.dados.tipo = tipo;
                 this.$store.dispatch('getVarios', {rota: 'comissaos/minhas', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
+                    this.$vs.loading.close();
                     this.comissoes = [...response[0].data]
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
