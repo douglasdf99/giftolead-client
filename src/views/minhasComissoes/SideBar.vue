@@ -51,24 +51,20 @@
                 </div>
                 <div class="vx-row flex items-center" v-else>
                     <div class="vx-col w-full lg:w-1/2">
-                        <p class="font-bold text-dark text-xl">{{data.ticket.lead.nome}}</p>
-                        <p class="font-bold text-primary text-xl">{{data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####')}}</p>
-                        <p class="font-bold text-gray text-md">{{data.ticket.lead.email}}</p>
-                        <p class="font-bold text-gray text-md">CPF: {{data.ticket.lead.cpf || '' | VMask('###.###.###-##')}}</p>
+                        <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
+                        <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
+                        <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
+                        <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
                     </div>
                     <div class="vx-col w-full lg:w-1/2 text-right">
-                        <p class="font-bold text-2xl text-dark">Ticket: {{data.ticket.id}}</p>
-                        <p>Data: <b>{{data.created_at | formatDateTime}}</b></p>
-                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{data.tipo}}</vs-chip>
+                        <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>
+                        <p>Data: <b>{{ data.created_at | formatDateTime }}</b></p>
+                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{ data.tipo }}</vs-chip>
                     </div>
                 </div>
                 <vs-divider></vs-divider>
-                <div class="vx-row my-3 px-3" style="max-height: 280px; overflow: auto" v-if="data.action == 2">
-                    <div class="item-img-container bg-white h-32 flex items-center justify-center lg:w-1/3 w-full relative my-3"
-                         v-for="(image, index) in data.anexos" :key="index">
-                        <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger cursor-pointer remove-img" @click="removeImg(index)"></vs-icon>
-                        <img :src="get_img_api(image.arquivo)" style="max-width: 200px; max-height: 100px" alt="logotipo" class="grid-view-img px-4 cursor-pointer" @click="expandeImg(image.arquivo)">
-                    </div>
+                <div class="vx-row my-3 px-3" v-if="data.action == 2">
+                    <galeria v-if="data.anexos" :imagens="data.anexos"></galeria>
                 </div>
             </div>
         </VuePerfectScrollbar>
@@ -77,12 +73,18 @@
                 Salvar
             </vs-button>
         </div>
+
+        <!-- Modal da Galeria -->
+        <vs-popup id="pdf-with-loading" class="popup-iframe vs-con-loading__container" style="overflow: hidden" title="Galeria" :active.sync="modalGaleria">
+
+        </vs-popup>
     </vs-sidebar>
 </template>
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import vSelect from 'vue-select'
+import galeria from '../components/Galeria';
 
 export default {
     props: {
@@ -97,7 +99,7 @@ export default {
         },
     },
     components: {
-        'v-select': vSelect,
+        'v-select': vSelect, galeria,
         VuePerfectScrollbar,
     },
     data() {
@@ -111,7 +113,9 @@ export default {
 
             obj: {
                 descricao: ''
-            }
+            },
+
+            modalGaleria: false,
         }
     },
     created() {
@@ -157,8 +161,8 @@ export default {
             this.images.splice(id, 1);
             this.files.splice(id, 1);
         },
-        expandeImg(){
-
+        expandeImg(index) {
+            this.modalGaleria = true;
         },
 
         //drag
@@ -250,6 +254,20 @@ export default {
 </style>
 
 <style>
+.popup-iframe .vs-popup {
+    width: 100vw !important;
+    height: 80vh !important;
+}
+
+.popup-iframe .vs-popup--content {
+    height: 100% !important;
+    overflow: hidden;
+}
+
+/*.popup-iframe .swiper-wrappe {
+    align-items: center !important;
+}*/
+
 .vs-sidebar--background {
     background: rgba(0, 0, 0, .2) !important;
 }
