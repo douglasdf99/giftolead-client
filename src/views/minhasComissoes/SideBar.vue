@@ -18,7 +18,7 @@
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-10">
                 <div class="vx-row">
-                    <div class="vx-col w-full mb-5">
+                    <div class="vx-col w-full mb-5" v-if="data.action == 1">
                         <span class="font-bold mb-3 ml-2 text-lg">Imagens (clique na caixa ou arraste e solte a imagem para dentro)</span>
                         <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter" @dragleave="OnDragLeave" @dragover.prevent @drop="onDrop" :class="{ dragging: isDragging }">
                             <div class="uploader py-3 mt-3">
@@ -94,6 +94,7 @@ export default {
         }
     },
     created() {
+        console.log(this.data)
     },
     computed: {
         isSidebarActiveLocal: {
