@@ -1,8 +1,8 @@
 <template>
-    <div class="carousel-example">
+    <div class="carousel-example w-full">
         <swiper :options="swiperOption" :dir="$vs.rtl ? 'rtl' : 'ltr'" :key="$vs.rtl">
             <swiper-slide v-for="img in imagens">
-                <img class="responsive" :src="get_img_api(img.arquivo)" :alt="img.descricao">
+                <img class="responsive cursor-pointer" :src="get_img_api(img.arquivo)" :alt="img.descricao" @click="$emit('expandeImg', img)">
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -18,7 +18,7 @@ export default {
     data() {
         return {
             swiperOption: {
-                slidesPerView: 3,
+                slidesPerView: 5,
                 spaceBetween: 30,
                 pagination: {
                     el: '.swiper-pagination',
