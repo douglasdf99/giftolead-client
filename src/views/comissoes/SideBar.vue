@@ -214,11 +214,11 @@
 <style lang="scss" scoped>
     .add-new-data-sidebar {
         ::v-deep .vs-sidebar--background {
-            z-index: 5200;
+          z-index: 52010;
         }
 
         ::v-deep .vs-sidebar {
-            z-index: 52000;
+          z-index: 52010;
             width: 750px;
             max-width: 90vw;
 
