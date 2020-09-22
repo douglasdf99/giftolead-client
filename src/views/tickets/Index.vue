@@ -173,7 +173,7 @@
             }
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             if (!moduleTickets.isRegistered) {
                 this.$store.registerModule('tickets', moduleTickets)
                 moduleTickets.isRegistered = true

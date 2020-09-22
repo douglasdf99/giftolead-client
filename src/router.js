@@ -43,6 +43,7 @@ import rotasExtensoes from "./rotas/rotasExtensoes";
 import rotasBrindes from "./rotas/rotasBrindes";
 import rotasAutomacao from "./rotas/rotasAutomacao";
 import rotasComissoes from "./rotas/rotasComissoes";
+import rotasDashboard from "@/rotas/rotasDashboard";
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
@@ -1311,18 +1312,7 @@ const router = new Router({
             component: () => import('./layouts/main/Base.vue'),
             meta: {authRequired: true},
             children: [
-                {
-                    path: '/',
-                    redirect: '/dashboard'
-                },
-                {
-                    path: '/dashboard',
-                    name: 'dashboard',
-                    component: () => import('./views/DashboardAnalytics.vue'),
-                    meta: {
-                        rule: 'editor',
-                    }
-                },
+                ...rotasDashboard,
                 // =============================================================================
                 // Configurações
                 // =============================================================================

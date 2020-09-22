@@ -6,7 +6,7 @@
                 <img src="@/assets/images/util/zenvia.svg" width="50%" class="absolute" v-bind:style="{top: instalado ? '10%' : '20%'}" style="border-radius: 10px;left: 25%;">
                 <div class="rounded-b-lg text-center" style="background-color: #E8EBF2">
                     <p class="pt-20 font-bold text-black">Zenvia</p>
-                    <p class="my-2">Faça ligações de dentro do Moskit e as mantenha registradas na linha do tempo de seus contatos!</p>
+                    <p class="my-2">Faça ligações de dentro do Saveleads e as mantenha registradas na linha do tempo de seus contatos!</p>
                     <vs-button color="dark" class="my-5 w-10/12" @click="instalar">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
                     <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado">Recarregar</vs-button>
                 </div>

@@ -36,13 +36,13 @@
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
                     <vs-tab @click="colorx = 'warning'; getItems(0); dados.aba = 'pagar'" color="warning" value="10"
-                            :label="'pagar ordens' + ( dados.aba === 'pagar' ? ` (${ordens.length})` : '')">
+                            :label="'pendentes' + ( dados.aba === 'pagar' ? ` (${ordens.length})` : '')">
                         <listagem :items="ordens" @action="action" @visualizar="visualizar" tipo="pagar"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems(1); dados.aba = 'pago'" color="success"
-                            :label="'ordens pagas' + ( dados.aba === 'pago' ? ` (${ordens.length})` : '')">
+                            :label="'pagas' + ( dados.aba === 'pago' ? ` (${ordens.length})` : '')">
                         <listagem :items="ordens" @action="action" @visualizar="visualizar" tipo="pago"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>

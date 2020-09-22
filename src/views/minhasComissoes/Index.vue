@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
+        <side-bar v-show="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -44,7 +44,7 @@
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = '#4DE98A'; getItems('comissionadas'); dados.aba = 'comissionadas'" color="success" label="comissionadas">
+                    <vs-tab @click="colorx = '#4DE98A'; getItems('comissionadas'); dados.aba = 'comissionadas'" color="success" label="comissões pagas">
                         <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
@@ -75,7 +75,11 @@
                 colorx: '#E7BE00',
                 // Data Sidebar
                 addNewDataSidebar: false,
-                sidebarData: {},
+                sidebarData: {
+                    ticket: {
+                        lead: {}
+                    }
+                },
                 routeTitle: 'Brindes',
                 dados: {
                     search: null,
@@ -121,6 +125,8 @@
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
+                if(!val)
+                    this.getItems();
             },
             getItems(tipo = 'pendentes') {
                 this.$vs.loading();

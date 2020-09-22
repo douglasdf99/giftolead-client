@@ -1,19 +1,9 @@
-<!-- =========================================================================================
-  File Name: AddNewDataSidebar.vue
-  Description: Add New Data - Sidebar component
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="my-6 flex items-center justify-between px-6">
             <h4>Comprovação de venda</h4>
-            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
+            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false;" class="cursor-pointer"></feather-icon>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-10">
@@ -50,7 +40,7 @@
                     </div>
                 </div>
                 <div class="vx-row flex items-center" v-else>
-                    <div class="vx-col w-full lg:w-1/2">
+                    <div class="vx-col w-full lg:w-1/2" v-if="data.ticket.lead.nome">
                         <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
                         <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
                         <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
@@ -76,6 +66,9 @@
         </div>
 
         <!-- Modal da Galeria -->
+        <div class="modal-galeria" v-if="modalGaleria">
+            <img :src="get_img_api(imgExpandida.arquivo)" :alt="imgExpandida.descricao" class="img-expandida w-full">
+        </div>
         <vs-popup id="pdf-with-loading" class="popup-galeria vs-con-loading__container text-center" style="overflow: hidden" :title="'Galeria - ' + imgExpandida.descricao || 'sem descrição'" :active.sync="modalGaleria">
             <img :src="get_img_api(imgExpandida.arquivo)" :alt="imgExpandida.descricao" class="img-expandida w-full">
         </vs-popup>
@@ -95,8 +88,7 @@ export default {
         },
         data: {
             type: Object,
-            default: () => {
-            },
+            default: () => {},
         },
     },
     components: {
@@ -150,7 +142,7 @@ export default {
                 this.$vs.notify({
                     color: 'success',
                     text: 'Imagens anexadas com sucesso.'
-                })
+                });
                 this.$emit('closeSidebar');
                 this.$vs.loading.close();
             });
