@@ -187,7 +187,8 @@
             visualizar(obj){
                 console.log('entrou no visualizar')
                 this.sidebarData = obj;
-                this.toggleDataSidebar(true);
+              console.log('entrou no visualizar',obj)
+              this.toggleDataSidebar(true);
             },
             gerandoOrdem(arr){
                 let ids = arr.map(item => {return item.id});

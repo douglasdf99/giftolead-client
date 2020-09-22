@@ -20,8 +20,8 @@
         <div class="vx-row mb-5">
           <div class="vx-col w-1/2">
             <div class="flex items-center">
-              <img :src="get_img_api(data.user.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
-              <p class="font-bold text-dark text-xl">{{data.user.name}}</p>
+              <img :src="get_img_api(data.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
+              <p class="font-bold text-dark text-xl">{{data.name}}</p>
             </div>
           </div>
           <div class="vx-col w-1/2">

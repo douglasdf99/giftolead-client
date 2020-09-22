@@ -134,7 +134,6 @@
                                 </vs-dropdown-menu>
                             </vs-dropdown>
                           <vs-button color="primary" class="text-white px-6 py-4 mx-3" @click="imprimirDeclaracao(null)">Imprimir Declaração de conteúdo</vs-button>
-
                           <vs-button class="ml-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/brindes/expedicoes'})">
                                 Voltar
