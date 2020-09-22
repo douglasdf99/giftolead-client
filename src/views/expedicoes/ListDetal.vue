@@ -79,6 +79,10 @@
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Imprimir Etiqueta
                                 </vs-dropdown-item>
+                                <vs-dropdown-item @click="imprimirDeclaracao(tr.id)" v-if="expedicao.fechado">
+                                    <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
+                                    Imprimir Declaração de Conteúdo
+                                </vs-dropdown-item>
                                 <vs-dropdown-item @click="editarEndereco(tr)" v-if="!expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
@@ -129,7 +133,9 @@
                                     </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
-                            <vs-button class="ml-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                          <vs-button color="primary" class="text-white px-6 py-4 mx-3" @click="imprimirDeclaracao(null)">Imprimir Declaração de conteúdo</vs-button>
+
+                          <vs-button class="ml-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
                                        @click="$router.push({path: '/brindes/expedicoes'})">
                                 Voltar
                             </vs-button>
@@ -436,6 +442,37 @@
                     container: '#pdf-with-loading'
                 })
                 axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id, 'tipo': tipo}, responseType: 'arraybuffer'})
+                    .then((response) => {
+                        console.log(response);
+                        var blob = new Blob([response.data], {
+                            type: 'application/pdf'
+                        });
+                        var url = window.URL.createObjectURL(blob);
+                        console.log(url);
+                        this.urlIframe = url;
+                        //window.open(url);
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    })
+                    .catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado. Contate o suporte'
+                        });
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+
+                    });
+            },
+            imprimirDeclaracao(automacao) {
+                this.urlIframe = false;
+                this.modalIframe = true;
+                this.$vs.loading({
+                    container: '#pdf-with-loading'
+                })
+                let params = {
+                  'expedicao_id':this.expedicao.id,
+                  'automacao_id':automacao
+                };
+                axios.get("expedicaos/declaracaodeconteudo", {params: params, responseType: 'arraybuffer'})
                     .then((response) => {
                         console.log(response);
                         var blob = new Blob([response.data], {
