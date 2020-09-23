@@ -1,11 +1,7 @@
 <template>
     <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
-        <div class="text-right leading-tight hidden sm:block">
-            <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
-            <small>Available</small>
-        </div>
         <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
-            <div class="con-img ml-3">
+            <div class="con-img mr-3">
                 <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="get_img_api(activeUserInfo.photoURL)" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block"/>
             </div>
             <vs-dropdown-menu class="vx-navbar-dropdown">
@@ -22,6 +18,9 @@
                 </ul>
             </vs-dropdown-menu>
         </vs-dropdown>
+        <div class="text-right leading-tight hidden sm:block">
+            <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
+        </div>
     </div>
 </template>
 

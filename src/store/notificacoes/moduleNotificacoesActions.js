@@ -35,5 +35,7 @@ export default {
                 })
         })
     },
-
+    get({commit}) {
+        return new Promise()
+    }
 }
