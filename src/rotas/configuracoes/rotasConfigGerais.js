@@ -369,6 +369,26 @@ const rotasConfigGerais = [
             submenu: subRotaConfiguracoes
         },
     },
+    {
+        path: '/configuracoes/notificacoes',
+        name: 'notificacoes',
+        component: () => import('@/views/configuracoes/Notificacoes.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Configurações'},
+                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Mensagem Padrão', url: '/configuracoes/notificacoes'},
+                {title: 'Criar', active: true},
+            ],
+            pageTitle: 'Notificações',
+            rule: 'editor',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subRotaConfiguracoes
+        },
+    },
 ];
 
 export default rotasConfigGerais

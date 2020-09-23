@@ -303,9 +303,9 @@
                 this.$vs.loading();
                 console.log('teste')
                 this.$store.dispatch('tickets/getId', id).then(response => {
-                    this.ticket = response;
-                    this.ticket.nome_destinatario = response.lead.nome;
-                    this.ticket.email_destinatario = response.lead.email;
+                    // this.ticket = response;
+                    // this.ticket.nome_destinatario = response.lead.nome;
+                    // this.ticket.email_destinatario = response.lead.email;
 
                     this.$vs.loading.close();
                 });

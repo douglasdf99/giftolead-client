@@ -26,7 +26,6 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
