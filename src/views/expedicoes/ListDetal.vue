@@ -77,11 +77,11 @@
                                 </vs-dropdown-item>
                                 <vs-dropdown-item @click="imprimir(tr.id)" v-if="expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                    Imprimir Etiqueta
+                                    Etiqueta
                                 </vs-dropdown-item>
                                 <vs-dropdown-item @click="imprimirDeclaracao(tr.id)" v-if="expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                    Imprimir Declaração de Conteúdo
+                                    Declaração de Conteúdo
                                 </vs-dropdown-item>
                                 <vs-dropdown-item @click="editarEndereco(tr)" v-if="!expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
@@ -347,12 +347,12 @@
                 moduleContrato.isRegistered = true;
             }
 
-            this.getId(this.$route.params.id);
+            this.getItem(this.$route.params.id);
             this.getContratos();
             console.log('valido', this.valido)
         },
         methods: {
-            getId(id) {
+            getItem(id) {
                 this.$vs.loading();
                 this.$store.dispatch('expedicoes/getId', id).then(response => {
                     console.log(response);
@@ -363,13 +363,13 @@
             },
             atualiza() {
                 this.modalGerarPlp = false;
-                this.getId(this.expedicao.id);
+                this.getItem(this.expedicao.id);
                 this.$vs.loading.close();
             },
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getId(this.$route.params.id);
+                this.getItem(this.$route.params.id);
             },
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
@@ -499,7 +499,7 @@
                         color: 'success',
                         text: 'Rastreio enviado com sucesso.'
                     });
-                    this.getId(this.expedicao.id);
+                    this.getItem(this.expedicao.id);
                 }).catch(erro => {
                     console.log('erro', erro);
                     this.$vs.notify({
@@ -634,7 +634,7 @@
                         title: '',
                         text: 'Salvo com sucesso'
                     });
-                    this.getId(this.$route.params.id);
+                    this.getItem(this.$route.params.id);
                 }).catch(erro => {
                     console.log(erro)
                     this.$vs.notify({
