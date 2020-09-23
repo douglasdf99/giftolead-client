@@ -23,4 +23,19 @@ export default {
                 })
         })
     },
+    removeImagem({commit}, id) {
+        const formData = new FormData();
+        formData.append('_method', 'DELETE');
+        formData.append('id', id);
+        return new Promise((resolve, reject) => {
+            axios.post(`/anexos/${id}`, formData)
+                .then((response) => {
+                    console.log('imagem deletada', response);
+                    resolve()
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
 }

@@ -847,6 +847,19 @@ th > .vs-table-text {
     }
 }
 
+.popup-galeria .vs-popup {
+    min-width: 50% !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.popup-galeria .vs-popup--header {
+    display: none;
+}
+
+.popup-galeria .vs-popup--content {
+    overflow: hidden !important;
+}
 
 /*SWALL ALERT*/
 .swal2-popup.swal2-toast {

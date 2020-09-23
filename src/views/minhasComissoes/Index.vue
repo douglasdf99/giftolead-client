@@ -31,6 +31,23 @@
                 </vx-card>
             </div>
         </div>
+        <div class="vx-row flex items-end my-5" v-if="dados.aba == 'aprovadas' || dados.aba == 'comissionadas'">
+            <div class="vx-col w-full lg:w-6/12">
+                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                </p>
+            </div>
+            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
+                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                   :append-to-body="true" :ranges="ranges">
+                </date-range-picker>
+            </div>
+        </div>
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
@@ -66,10 +83,18 @@
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleMComissoes from "@/store/minhasComissoes/moduleMComissoes";
+    import VueMoment from 'vue-moment';
+    import DateRangePicker from 'vue2-daterange-picker'
+
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
 
     export default {
         name: "Index",
-        components: {SideBar, listagem},
+        components: {SideBar, listagem,
+            DateRangePicker,
+            VueMoment,
+            moment,},
         data() {
             return {
                 colorx: '#E7BE00',
@@ -83,7 +108,10 @@
                 routeTitle: 'Brindes',
                 dados: {
                     search: null,
-                    page: 1
+                    page: 1,
+                    dt_inicio: '',
+                    dt_fim: '',
+                    tipo: 'pendentes'
                 },
 
                 pagination: {
@@ -100,6 +128,30 @@
                 soma: 0,
                 usuarios: [],
                 comissoes: [],
+
+                dateRange: {},
+                localeData: {
+                    direction: 'ltr',
+                    format: 'dd/mm/yyyy',
+                    separator: ' - ',
+                    applyLabel: 'Aplicar',
+                    cancelLabel: 'Cancelar',
+                    weekLabel: 'M',
+                    customRangeLabel: 'Período',
+                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    firstDay: 0,
+                    startDate: '05/26/2020',
+                    endDate: '05/26/2020',
+                },
+                ranges: {
+                    //Definindo ranges padronizados
+                    'Hoje': [this.getDay(true), this.getDay(true)],
+                    'Ontem': [this.getDay(false), this.getDay(false)],
+                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
+                }
             }
         },
         created() {
@@ -108,7 +160,11 @@
                 this.$store.registerModule('mcomissoes', moduleMComissoes);
                 moduleMComissoes.isRegistered = true;
             }
-            this.getItems();
+
+            this.dateRange.startDate = moment().subtract(30, 'days');
+            this.dateRange.endDate = moment();
+
+            this.getItems('pendentes');
         },
         methods: {
             paginate() {
@@ -126,11 +182,15 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
                 if(!val)
-                    this.getItems();
+                    this.getItems(this.dados.tipo);
             },
             getItems(tipo = 'pendentes') {
                 this.$vs.loading();
                 this.dados.tipo = tipo;
+                if (this.dateRange.startDate)
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+                if (this.dateRange.endDate)
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
                 this.$store.dispatch('getVarios', {rota: 'comissaos/minhas', params: this.dados}).then(response => {
                     this.$vs.loading.close();
                     this.comissoes = [...response[0].data]
@@ -142,18 +202,50 @@
             pesquisar(e) {
                 e.preventDefault();
                 this.$vs.loading();
-                this.getItems();
-            }
+                this.getItems(this.dados.tipo);
+            },
+            setDate(val) {
+                this.$vs.loading();
+                switch (val) {
+                    case 'hoje':
+                        this.dateRange.startDate = moment();
+                        break;
+                    case '7':
+                        this.dateRange.startDate = moment().subtract(7, 'days');
+                        break;
+                    case '15':
+                        this.dateRange.startDate = moment().subtract(15, 'days');
+                        break;
+                    case '30':
+                        this.dateRange.startDate = moment().subtract(30, 'days');
+                        break;
+                }
+                this.getItems(this.dados.tipo);
+            },
+            getDay(dia) {
+                //Definindo datas usadas nos ranges padronizados
+                let today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                let yesterday = new Date()
+                yesterday.setDate(today.getDate() - 1)
+                yesterday.setHours(0, 0, 0, 0);
+                return (dia ? today : yesterday)
+            },
         },
         watch: {
             currentx(val) {
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getItems();
+                this.getItems(this.dados.tipo);
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
+            },
+            dateRange(val) {
+                this.$vs.loading();
+                this.getItems(this.dados.tipo);
             },
         },
         computed: {

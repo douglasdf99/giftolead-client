@@ -23,15 +23,15 @@
             </div>
             <div class="vx-col w-3/12 flex items-center text-center">
                 <vx-tooltip position="top" :text="'Responsável | ' + nameCriador(item)" class="img-criador">
-                    <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
-                    <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
-                    <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
-                    <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                    <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full">
+                    <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">
+                    <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">
+                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
+                    <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
+                    <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
+                    <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
                 </vx-tooltip>
                 <vx-tooltip position="top" :text="'Atendente | ' + item.atendente.name" style="margin-left: -15px">
-                    <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full">
+                    <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full agente">
                 </vx-tooltip>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
@@ -107,5 +107,16 @@
     .clicavel:hover {
         -webkit-transform: translateY(-4px);
         transform: translateY(-4px);
+    }
+
+    .agente {
+        transition-duration: .3s;
+        border: 2px solid white;
+        background-color: white;
+    }
+
+    .agente:hover {
+        transition-duration: .3s;
+        transform: translateY(-7px);
     }
 </style>

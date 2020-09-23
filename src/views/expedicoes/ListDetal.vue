@@ -31,9 +31,8 @@
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form>
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.pesquisa" id="dadospesquisa" size="large"
+                            <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                                      v-model="dados.pesquisa" id="search_input_trans" size="large"
                                       placeholder="Pesquisar"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->

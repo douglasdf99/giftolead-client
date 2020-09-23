@@ -25,8 +25,8 @@
                 <p class="font-bold">{{ item.ticket.lead.ddd + item.ticket.lead.telefone | VMask('(##) ####-####') }}</p>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
-                <vx-tooltip position="top" text="Adicionar imagem">
-                    <vs-icon icon-pack="material-icons" icon="publish" @click="item.action = 1;$emit('updateData', item);"
+                <vx-tooltip position="top" :text="item.anexos.length > 0 ? 'Anexar mais imagens' : 'Anexar imagens'">
+                    <vs-icon icon-pack="material-icons" :icon="item.anexos.length > 0 ? 'attach_file' : 'publish'" @click="item.action = 1;$emit('updateData', item);"
                              class="icon-grande font-bold mx-3 cursor-pointer text-black"></vs-icon>
                 </vx-tooltip>
                 <vx-tooltip position="top" text="Visualizar">
