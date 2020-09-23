@@ -101,6 +101,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="vx-row my-5 px-3" v-if="data.anexos.length > 0">
+                    <p class="font-bold">Imagens anexadas</p>
+                    <galeria :imagens="data.anexos" :remove="false"></galeria>
+                </div>
             </div>
         </VuePerfectScrollbar>
         <div class="flex flex-wrap items-center p-6" slot="footer">
@@ -115,6 +119,7 @@
 <script>
     import VuePerfectScrollbar from 'vue-perfect-scrollbar'
     import vSelect from 'vue-select'
+    import galeria from '../components/Galeria';
 
     export default {
         props: {
@@ -130,7 +135,7 @@
         },
         components: {
             'v-select': vSelect,
-            VuePerfectScrollbar,
+            VuePerfectScrollbar, galeria
         },
         data() {
             return {

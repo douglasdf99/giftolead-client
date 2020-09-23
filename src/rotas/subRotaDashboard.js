@@ -8,8 +8,20 @@ const subdashboard = [
     {
         url: '/minhas-comissoes',
         name: "Minhas Comissões",
-        slug: "leads-list",
+        slug: "minhas-comissoes",
         icon: 'monetization_on'
+    },
+    {
+        url: '/minhas-comissoes',
+        name: "Meus Links",
+        slug: "meus-links",
+        icon: 'link'
+    },
+    {
+        url: '/minhas-comissoes',
+        name: "Perfil",
+        slug: "perfil",
+        icon: 'account_circle'
     },
 ]
 

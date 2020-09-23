@@ -1,7 +1,7 @@
 <template>
     <div>
         <label class="vs-input--label">Responsável</label>
-        <multiselect group-values="libs" group-label="tipo" v-model="selectedResp" :options="agentes" placeholder="Selecione o responsável" deselect-label="Remover seleção"
+        <multiselect selectedLabel="Selecionado" group-values="libs" group-label="tipo" v-model="selectedResp" :options="agentes" placeholder="Selecione o responsável" deselect-label="Remover seleção"
                      selectLabel="Clique para selecionar" track-by="id" label="label"></multiselect>
     </div>
 </template>

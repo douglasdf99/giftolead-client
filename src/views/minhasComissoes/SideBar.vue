@@ -55,7 +55,7 @@
                 <vs-divider></vs-divider>
                 <div class="vx-row my-3 px-3">
                     <p v-if="data.action == 1" class="font-bold">Imagens já anexadas</p>
-                    <galeria v-if="data.anexos" :imagens="data.anexos" @expandeImg="expandeImg"></galeria>
+                    <galeria v-if="data.anexos" :imagens="data.anexos" @removeImg="removeImg" :remove="data.action == 1"></galeria>
                 </div>
             </div>
         </VuePerfectScrollbar>
@@ -64,14 +64,6 @@
                 Salvar
             </vs-button>
         </div>
-
-        <!-- Modal da Galeria -->
-        <div class="modal-galeria" v-if="modalGaleria">
-            <img :src="get_img_api(imgExpandida.arquivo)" :alt="imgExpandida.descricao" class="img-expandida w-full">
-        </div>
-        <vs-popup id="pdf-with-loading" class="popup-galeria vs-con-loading__container text-center" style="overflow: hidden" :title="'Galeria - ' + imgExpandida.descricao || 'sem descrição'" :active.sync="modalGaleria">
-            <img :src="get_img_api(imgExpandida.arquivo)" :alt="imgExpandida.descricao" class="img-expandida w-full">
-        </vs-popup>
     </vs-sidebar>
 </template>
 
@@ -88,7 +80,8 @@ export default {
         },
         data: {
             type: Object,
-            default: () => {},
+            default: () => {
+            },
         },
     },
     components: {
@@ -107,9 +100,6 @@ export default {
             obj: {
                 descricao: ''
             },
-
-            modalGaleria: false,
-            imgExpandida: {}
         }
     },
     created() {
@@ -158,10 +148,6 @@ export default {
         removeImg(id) {
             this.images.splice(id, 1);
             this.files.splice(id, 1);
-        },
-        expandeImg(img) {
-            this.modalGaleria = true;
-            this.imgExpandida = img
         },
 
         //drag
@@ -253,11 +239,6 @@ export default {
 </style>
 
 <style>
-@media (min-width: 1336px) {
-    .popup-galeria .vs-popup {
-        min-width: 50% !important;
-    }
-}
 
 .popup-iframe .vs-popup {
     width: 100vw !important;
