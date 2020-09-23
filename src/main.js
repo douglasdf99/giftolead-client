@@ -251,22 +251,51 @@ require('./assets/css/iconfont.css')
 
 
 Vue.config.productionTip = false
+import VueSweetalert2 from 'vue-sweetalert2';
+
+
+Vue.use(VueSweetalert2);
+let self = this;
 axios.interceptors.response.use((response) => { // intercept the global error
-    return response
+  return response
 }, function (error) {
-    let originalRequest = error.config
-    if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
-        console.log(error);
-        originalRequest._retry = true // now it can be retried
-        return
-    }/*
-  if (error.response.status === 404 && !originalRequest._retry) {
-    originalRequest._retry = true
-    window.location.href = '/'
+  let originalRequest = error.config
+  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
+    console.log(error);
+    originalRequest._retry = true // now it can be retried
+
+    Vue.swal({
+      title: "Sessão expirada",
+      text: "Sua sessão foi expirada, para continuar será nescessário realizar login novamente",
+      type: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#8d83f3",
+      confirmButtonText: "OK",
+      closeOnConfirm: false
+    }).then((result) => {
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('accessToken');
+      window.location = '/login';
+    });
     return
-  }*/
-    // Do something with response error
-    return Promise.reject(error)
+  }
+  if (error.response.status === 429 && !originalRequest._retry) {
+    originalRequest._retry = true
+    Vue.swal({
+      title: "Muitas requisições em um curto periodo",
+      text: "Identificamos uma grande quantidade de requisições em um curto periodo, por isso sua últioma requisição foi interrompida por questões de segurança, para continuar a utilizar o sistema, basta atualizar a sua página.",
+      type: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#8d83f3",
+      confirmButtonText: "OK",
+      closeOnConfirm: false
+    }).then((result) => {
+      document.location.reload(true);
+    });
+    return
+  }
+  // Do something with response error
+  return Promise.reject(error)
 })
 new Vue({
     router,

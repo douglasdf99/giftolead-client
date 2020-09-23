@@ -342,6 +342,7 @@ export default {
                 usuario.status = response.data.status ? "online" : "offline";
                 usuario.userRole = "admin";
                 usuario.autenticado = true;
+                usuario.ramal = response.data.name;
                 commit('UPDATE_USER_INFO', usuario, {root: true});
                 resolve(response)
             }).catch((error) => {

@@ -83,7 +83,7 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
-                <div class="vx-row mt-20" v-show="items.length === 0">
+                <div class="vx-row mt-20" v-if="items && items.length === 0">
 
                     <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
                         <div class="w-8/12">
@@ -256,6 +256,8 @@
                     this.tickets = response.data
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
+                }).finally(()=>{
+                  this.$vs.loading.close();
                 });
 
             },

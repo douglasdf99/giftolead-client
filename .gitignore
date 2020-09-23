@@ -9,7 +9,7 @@ temp/
 versions/
 *.zip
 /bin
-.idea
+.idea/
 package-lock.json
 docs/.vuepress/dist/
 yarn.lock
