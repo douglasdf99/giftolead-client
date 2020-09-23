@@ -64,6 +64,8 @@ export default {
             this.$store.registerModule('notificacoes', moduleNotificacoes);
             moduleNotificacoes.isRegistered = true;
         }
+
+        this.getNotificacoes();
     },
     methods: {
         elapsedTime(startTime) {
@@ -110,6 +112,11 @@ export default {
 
             return date
         },
+        getNotificacoes(){
+            this.$store.dispatch('notificacoes/get').then(response => {
+                console.log(response)
+            });
+        }
     }
 }
 

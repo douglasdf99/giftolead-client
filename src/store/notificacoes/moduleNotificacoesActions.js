@@ -36,6 +36,15 @@ export default {
         })
     },
     get({commit}) {
-        return new Promise()
+        return new Promise((resolve, reject) => {
+            axios.get(`/confignotifications/notificacoes`)
+                .then((response) => {
+                    console.log('notificações', response);
+                    resolve(response.data.data);
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        });
     }
 }
