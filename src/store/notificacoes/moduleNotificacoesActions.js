@@ -40,7 +40,7 @@ export default {
             axios.get(`/confignotifications/notificacoes`)
                 .then((response) => {
                     console.log('notificações', response);
-                    resolve(response.data.data);
+                    resolve(response.data);
                 })
                 .catch((error) => {
                     reject(error)

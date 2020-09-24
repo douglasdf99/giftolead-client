@@ -136,7 +136,7 @@
     export default {
         name: "Index",
         components: {SideBar, listagem, 'v-select': vSelect},
-        channel: 'laravel_database_lista-ticket',
+        channel: 'lista-ticket',
         echo: {
             'ListaTicket': (payload, vm) => {
                 console.log('evento disparado', payload);

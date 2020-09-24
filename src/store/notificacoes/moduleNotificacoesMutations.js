@@ -8,11 +8,7 @@
 ==========================================================================================*/
 
 export default {
-  SET_EMPRESA(state, empresa) {
-    console.log('colocando emrepsa no state');
-    state.empresa = empresa
-  },
-  UPDATE_EMPRESA(state, empresa) {
-    state.empresa = empresa
+  NOTIFICATION(state, notifications) {
+    state.notifications = notifications
   }
 }

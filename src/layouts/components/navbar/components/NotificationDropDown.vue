@@ -67,6 +67,16 @@ export default {
 
         this.getNotificacoes();
     },
+  mounted(){
+    // this.$echo.private('App.Models.User.29').listen('BroadcastNotificationCreated', (payload) => {
+    //   console.log('escutou');
+    //   console.log(payload);
+    // });
+    this.$echo.private('App.Models.User.29').notification((notification) => {
+      console.log('escutou');
+      console.log(notification);
+    });
+  },
     methods: {
         elapsedTime(startTime) {
             let x = new Date(startTime)

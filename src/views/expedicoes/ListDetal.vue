@@ -300,7 +300,7 @@
             }
         },
         mounted() {
-            this.$echo.channel(`laravel_database_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
+            this.$echo.channel(`listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
                 console.log('teste');
                 console.log(e);
                 if (this.step < 1) {

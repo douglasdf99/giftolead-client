@@ -40,7 +40,7 @@
 
     <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
       <vx-card title="Ticket" subtitle="Notificações relacionadas a tickets" no-shadow>
-        <span class="font-bold">Ticket</span>
+        <span class="font-bold">Ticket atrasado</span>
         <option-notification class="w-full" :option.sync="dados.ticket_atrasados" ></option-notification>
         <span class="font-bold">Você tem um ticket agendado para logo</span>
         <option-notification :option.sync="dados.ticket_agendado_para" ></option-notification>

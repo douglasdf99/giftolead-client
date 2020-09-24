@@ -13,10 +13,6 @@ import * as io from 'socket.io-client'
 window.io = io
 
 
-Vue.use(VueEcho, {
-    broadcaster: 'socket.io',
-    host: 'https://api.saveleads.com.br:2083',
-});
 
 import Vue from 'vue'
 import App from './App.vue'
@@ -95,6 +91,15 @@ import router from './router'
 // Vuex Store
 import store from './store/store'
 
+Vue.use(VueEcho, {
+  broadcaster: 'socket.io',
+  host: 'https://api.saveleads.com.br:2083',
+  auth: {
+    headers: {
+      Authorization: `Bearer ${store.getters.getToken}`
+    }
+  }
+});
 
 // i18n
 import i18n from './i18n/i18n'
