@@ -146,13 +146,12 @@ import {VueHammer} from 'vue2-hammer'
 
 Vue.use(VueHammer)
 
-
 // PrismJS
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
 import VueMoment from 'vue-moment'
-import saveleadsConfig from "../saveleadsConfig";''
+import saveleadsConfig from "../saveleadsConfig";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');

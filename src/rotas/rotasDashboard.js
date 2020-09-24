@@ -8,7 +8,7 @@ const rotasDashboard = [
     {
         path: '/dashboard',
         name: 'dashboard',
-        component: () => import('@/views/DashboardAnalytics.vue'),
+        component: () => import('@/views/Dashboard.vue'),
         meta: {
             rule: 'editor',
             subTitle: 'Home',

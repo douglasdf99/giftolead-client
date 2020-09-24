@@ -9,10 +9,10 @@
 
 <template>
     <div id="dashboard-analytics">
-        <div class="vx-row">
+        <div class="vx-row absolute row-top-dashboard">
             <!-- Topo -->
             <div class="vx-col w-full mb-base">
-                <vx-card slot="no-body" class="bg-primary-gradient greet-user">
+                <vx-card slot="no-body" class="greet-user rounded-none card-top-dashboard">
                     <div class="vx-row">
                         <div class="vx-col w-full mb-3">
                             <p class="mb-6 text-2xl font-bold text-white">Meu painel</p>
@@ -35,7 +35,7 @@
                             <p class="text-white mb-3">Consquistas</p>
                             <div class="flex">
                                 <vx-tooltip position="top" :text="'teste'">
-                                    <img :src="get_img_api(user.avatar)" class="rounded-full mx-3" width="50" alt="" style="border: 2px solid white;">
+                                    <img :src="get_img_api(user.avatar)" class="rounded-full mx-3" width="50" alt="">
                                 </vx-tooltip>
                             </div>
                         </div>
@@ -44,8 +44,7 @@
             </div>
         </div>
 
-        <div class="vx-row">
-
+        <div class="vx-row" style="margin-top: 30vh">
             <!-- CARD 4: SESSION -->
             <div class="vx-col w-full md:w-1/2 mb-base">
                 <vx-card>
@@ -269,6 +268,7 @@ import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from "@/components/timeline/VxTimeline"
 import moduleUsuario from "@/store/usuarios/moduleUsuario";
+import moduleConquistas from "@/store/conquistas/moduleConquistas";
 
 export default {
     data() {
@@ -322,8 +322,11 @@ export default {
 
             analyticsData: analyticsData,
             dispatchedOrders: [],
+
+            //Personalizado
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
-            user: {}
+            user: {},
+            conquistas: []
         }
     },
     components: {
@@ -336,6 +339,11 @@ export default {
         if (!moduleUsuario.isRegistered) {
             this.$store.registerModule('users', moduleUsuario)
             moduleUsuario.isRegistered = true
+        }
+
+        if (!moduleConquistas.isRegistered) {
+            this.$store.registerModule('conquistas', moduleConquistas)
+            moduleConquistas.isRegistered = true
         }
 
         this.getUserInfo(this.userInfo.uid);
@@ -421,13 +429,25 @@ export default {
                 console.log('resposta', response)
                 this.user = response;
             }).finally(() => this.$vs.loading.close());
-        }
+        },
     }
 }
 </script>
 
 
 <style lang="scss">
+.row-top-dashboard {
+    width: 102%;
+    left: 0;
+    top: 60px;
+    z-index: 2;
+}
+
+.card-top-dashboard {
+    background: rgb(147, 68, 196);
+    background: linear-gradient(90deg, rgba(147, 68, 196, 1) 0%, rgba(94, 44, 124, 1) 72%);
+}
+
 /*! rtl:begin:ignore */
 #dashboard-analytics {
     .greet-user {

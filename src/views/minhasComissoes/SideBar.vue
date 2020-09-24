@@ -36,7 +36,7 @@
                     </div>
                     <div class="vx-col w-full">
                         <p class="font-bold mb-3 ml-2 text-lg">Descrição</p>
-                        <vs-textarea v-model="obj.descricao" id="text-area" class="w-full bg-white" rows="6"/>
+                        <vs-textarea v-model="descricao" id="text-area" class="w-full bg-white" rows="6"/>
                     </div>
                 </div>
                 <div class="vx-row flex items-center" v-else>
@@ -53,14 +53,19 @@
                     </div>
                 </div>
                 <vs-divider></vs-divider>
-                <div class="vx-row my-3 px-3">
+                <div class="vx-row mt-3">
+                    <div class="vx-col w-full">
+                        <p class="text-xl">{{descricao}}</p>
+                    </div>
+                </div>
+                <div class="vx-row px-3">
                     <p v-if="data.action == 1" class="font-bold">Imagens já anexadas</p>
                     <galeria v-if="data.anexos" :imagens="data.anexos" @removeImg="removeImg" :remove="data.action == 1"></galeria>
                 </div>
             </div>
         </VuePerfectScrollbar>
         <div class="flex flex-wrap items-center p-6" slot="footer" v-if="data.action == 1">
-            <vs-button class="mr-6 font-bold text-white" color="primary" @click="salvar" :disabled="files.length == 0 || obj.descricao == ''">
+            <vs-button class="mr-6 font-bold text-white" color="primary" @click="salvar" :disabled="files.length == 0 || descricao == ''">
                 Salvar
             </vs-button>
         </div>
@@ -97,13 +102,12 @@ export default {
             edited: false,
             counterDanger: false,
 
-            obj: {
-                descricao: ''
-            },
+            descricao: ''
         }
     },
-    created() {
+    updated() {
         console.log(this.data)
+        this.descricao = this.data.descricao;
     },
     computed: {
         isSidebarActiveLocal: {
@@ -127,7 +131,7 @@ export default {
                 formData.append('arquivo[]', file, file.name);
             });
             formData.append('pre_comissao_id', this.data.id);
-            formData.append('descricao', this.obj.descricao);
+            formData.append('descricao', this.descricao);
             this.$store.dispatch('mcomissoes/setAnexos', formData).then(() => {
                 this.$vs.notify({
                     color: 'success',
