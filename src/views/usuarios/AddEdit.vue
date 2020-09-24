@@ -50,6 +50,10 @@
                         <span class="text-danger text-sm"
                               v-show="errors.has('funcao')">{{ errors.first('funcao') }}</span>
                     </div>
+                    <div class="vx-col w-full mt-4">
+                        <span class="font-regular mb-2">WebHook Slack</span>
+                        <vs-input class="w-full" v-model="usuario.wehookslack" size="large" type="text" v-validate="'url:require_protocol'"/>
+                    </div>
                 </div>
             </div>
             <div class="vx-col w-full xlg:w-4/12 lg:w-4/12">

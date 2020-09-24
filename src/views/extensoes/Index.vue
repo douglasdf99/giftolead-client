@@ -69,6 +69,27 @@
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
                             </div>
                         </div>
+                        <div class="vx-col col-conquista mb-10">
+                            <div class="conquista">
+                                <div class="flex items-center text-left">
+                                    <div class="py-2 w-1/2">
+                                        <p class="font-bold text-black text-md mb-0">Notificações via Slack</p>
+                                    </div>
+                                    <div class="py-2 w-1/2">
+                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
+                                    </div>
+                                </div>
+                                <div class="w-full my-3">
+                                    <img src="@/assets/images/util/slack.png" class="img-conquista my-4" alt="" width="150">
+                                    <p class="mb-4">Integre o Slack da sua empresa ao sistema, possibilitando envio automático de notificações.</p>
+                                </div>
+                                <div class="conquista-clicavel w-full cursor-pointer my-3">
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4"
+                                               @click="$router.push({name: 'extensoes-slack-config'})">{{extensoes.slack != null ? 'Detalhar' : 'Instalar'}}</vs-button>
+                                </div>
+                                <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </vs-col>
@@ -108,6 +129,7 @@
                 extensoes: {
                     correios: null,
                     totalvoice: null,
+                    slack: null
                 }
                 //items: {}
             }
@@ -154,6 +176,9 @@
                         arr.forEach(item => {
                             if(item.extensao_type === "App\\Models\\Extensoes\\Totalvoice"){
                                 this.extensoes.totalvoice = item;
+                            }
+                            if(item.extensao_type === "App\\Models\\Extensoes\\Slack"){
+                                this.extensoes.slack = item;
                             }
                         });
                     }

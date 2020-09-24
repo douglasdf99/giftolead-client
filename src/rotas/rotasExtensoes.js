@@ -56,6 +56,25 @@ const rotasExtensoes = [
             submenu: subextensoes
         },
     },
+    {
+        path: '/extensoes/slack',
+        name: 'extensoes-slack-config',
+        component: () => import('@/views/extensoes/instalacoes/Slack.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Extensões'},
+                {title: 'Instalar'},
+                {title: 'Zenvia', active: true},
+            ],
+            pageTitle: 'Instalação do Slack',
+            rule: 'editor',
+            pai: 'extensoes',
+            subTitle: 'Extensões',
+            //subIcon: 'settings',
+            submenu: subextensoes
+        },
+    },
 ]
 
 export default rotasExtensoes

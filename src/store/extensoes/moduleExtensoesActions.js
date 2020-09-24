@@ -61,6 +61,18 @@ export default {
                 })
         })
     },
+    storeSlack({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            dados._method = 'PUT';
+            axios.post(`/extensoes/slack/${dados.id}`, dados)
+                .then(() => {
+                    resolve()
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     updateRamal({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.put(`/extensoes/totalvoice/`+dados.id, dados)
