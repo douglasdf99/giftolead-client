@@ -138,67 +138,7 @@ Vue.use(VueGoogleMaps, {
     },
 })
 Vue.mixin({
-    methods: {
-        url_redirect: function (local) {
-            return window.location.protocol + '//' + window.location.host + '/' + local;
-        },
-        url_api: function (local) {
-            return saveleadsConfig.url_api + '/' + local;
-            //return 'http://127.0.0.1:8000/' + local;
-        },
-        get_img_api: function (local) {
-            return saveleadsConfig.url_normal + local;
-            //return 'http://127.0.0.1:8000/' + local;
-        },
-        isNumber: function (evt) {//Obriga o input aceitar apenas números
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-                evt.preventDefault();
-            } else {
-                return true;
-            }
-        },
-        formatDateBanco: function (value) {
-            if (value) {
-                return moment(String(value)).format('DD-MM-YYYY')
-            }
-        },
-        formatPrice(value) {
-            let val = (value / 1).toFixed(2).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        },
-        arraySelect(response){
-            let arr = [...response];
-            let obj = [];
-            arr.forEach(item => {
-                if(item.name)
-                    obj.push({id: item.id, label: item.name});
-                else
-                    obj.push({id: item.id, label: item.nome});
-            });
-            return obj;
-        },
-        getAvatar(email){
-            let md5 = require('md5');
-            email = email.trim();
-            email = md5(email);
-            console.log('email aí', email)
-            return `https://www.gravatar.com/avatar/${email}?d=` + encodeURIComponent('https://api.saveleads.com.br/images/avatar-padrao.png');
-        },
-        removeAccents(str) {
-            let accents = 'ÀÁÂÃÄÅàáâãäåßÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
-            let accentsOut = "AAAAAAaaaaaaBOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz";
-            str = str.split('');
-            str.forEach((letter, index) => {
-                let i = accents.indexOf(letter);
-                if (i != -1) {
-                    str[index] = accentsOut[i];
-                }
-            })
-            return str.join('').toUpperCase();
-        },
-    }
+    methods: {...methods}
 });
 
 // Vuejs - Vue wrapper for hammerjs
@@ -257,6 +197,7 @@ require('./assets/css/iconfont.css')
 
 Vue.config.productionTip = false
 import VueSweetalert2 from 'vue-sweetalert2';
+import methods from "@/globalMethods";
 
 
 Vue.use(VueSweetalert2);

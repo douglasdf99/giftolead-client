@@ -23,6 +23,12 @@ const subdashboard = [
         slug: "perfil",
         icon: 'account_circle'
     },
+    {
+        url: '/todas-notificacoes',
+        name: "Notificações",
+        slug: "notificacoes",
+        icon: 'notifications_active'
+    },
 ]
 
 export default subdashboard;

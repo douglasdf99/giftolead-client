@@ -37,13 +37,38 @@ export default {
     },
     get({commit}) {
         return new Promise((resolve, reject) => {
-            axios.get(`/confignotifications/notificacoes`)
+            axios.get(`/notifications/nlidas`)
                 .then((response) => {
                     console.log('notificações', response);
                     resolve(response.data);
                 })
                 .catch((error) => {
                     reject(error)
+                })
+        });
+    },
+    getAll({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/notifications/todas`, {params: dados})
+                .then((response) => {
+                    console.log('notificações', response);
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        });
+    },
+    setread({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/notifications/setlidas`)
+                .then((response) => {
+                    console.log('notificações', response);
+                    resolve();
+                })
+                .catch((error) => {
+                    console.log('erro', error);
+                    reject()
                 })
         });
     }

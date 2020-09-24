@@ -1,4 +1,5 @@
 import subdashboard from "@/rotas/subRotaDashboard";
+import subRotaConfiguracoes from "@/rotas/subRotaConfiguracoes";
 const rotasDashboard = [
     {
         path: '/',
@@ -26,9 +27,26 @@ const rotasDashboard = [
             ],
             pageTitle: 'Meus atendimentos comissionados',
             rule: 'editor',
-            pai: 'tickets',
+            pai: 'dashboard',
             subTitle: 'Home',
             //subIcon: 'settings',
+            submenu: subdashboard
+        },
+    },
+    {
+        path: '/todas-notificacoes',
+        name: 'todas-notificacoes',
+        component: () => import('@/views/ListNotificacoes.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Todas as Notificações', active: true},
+            ],
+            pageTitle: 'Notificações da última semana',
+            rule: 'editor',
+            pai: 'dashboard',
+            subTitle: 'Savelinks',
+            subIcon: 'notifications_active',
             submenu: subdashboard
         },
     },
