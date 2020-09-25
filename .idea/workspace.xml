@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes campanha carrinho">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="inicio modulo de sino de notificação">
+      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardActions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardGetters.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardMutations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardState.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/components/ChangeDateDashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/comissoes/moduleComissoesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/comissoes/moduleComissoesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/Aprovar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Aprovar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/produtos/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/produtos/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ui-elements/card/analyticsData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ui-elements/card/analyticsData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,50 +24,21 @@
   <component name="ComposerSettings">
     <execution />
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>loading-default</find>
-      <find>tempo</find>
-      <find>notify</find>
-      <find>this.ticket</find>
-      <find>nome</find>
-      <find>default</find>
-      <find>exibirMensagem</find>
-      <find>base.css</find>
-      <find>chamanum</find>
-      <find>sendChamada</find>
-      <find>chamaNumero</find>
-      <find>valido</find>
-      <find>tpl</find>
-      <find>adicionar</find>
-      <find>getU</find>
-      <find>getUsers</find>
-      <find>close</find>
-      <find>not</find>
-      <find>compu</find>
-      <find>atender</find>
-      <find>email</find>
-      <find>selectedUser</find>
-      <find>verificacao</find>
-      <find>store</find>
-      <find>ticket.lead.email</find>
-      <find>jw</find>
-      <find>computed</find>
-      <find>brindes</find>
-      <find>brindesOptions</find>
-      <find>ticket</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>Brindes</replace>
-      <replace>Contrato</replace>
-      <replace>Link</replace>
-      <replace>Cancelar</replace>
-    </replaceStrings>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1gvDq2OboOmeOjmsl3CYM9p7bOZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -68,27 +50,30 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/store/dashboard" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projetos\saveleads3_vue\src\store\dashboard" />
+      <recent name="C:\Projetos\saveleads3_vue\src\views" />
       <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\cancelada" />
       <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\Boleto" />
       <recent name="C:\projects\saveleadsVuexy\src\views" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\links" />
-      <recent name="C:\projects\saveleadsVuexy\src\store" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\cancelada" />
@@ -211,34 +196,9 @@
       <workItem from="1599161588960" duration="640000" />
       <workItem from="1599220801227" duration="4216000" />
       <workItem from="1599566429385" duration="1777000" />
-    </task>
-    <task id="LOCAL-00017" summary="novo topbar e sidebar completo">
-      <created>1587758850808</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1587758850808</updated>
-    </task>
-    <task id="LOCAL-00018" summary="novo topbar e sidebar completo">
-      <created>1587988868504</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1587988868504</updated>
-    </task>
-    <task id="LOCAL-00019" summary="footerbar medias">
-      <created>1588006105392</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1588006105393</updated>
-    </task>
-    <task id="LOCAL-00020" summary="menu li hover">
-      <created>1588009367587</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1588009367587</updated>
+      <workItem from="1600951741760" duration="24871000" />
+      <workItem from="1601037718368" duration="1427000" />
+      <workItem from="1601039217757" duration="23781000" />
     </task>
     <task id="LOCAL-00021" summary="inicio crud brinde e novo select">
       <created>1588080885762</created>
@@ -555,7 +515,35 @@
       <option name="project" value="LOCAL" />
       <updated>1598366283809</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Sprint 22 - Melhoria da galeria de fotos anexadas nas comissões, agora aparecendo na tela de aprovação também.">
+      <created>1600883904647</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1600883904647</updated>
+    </task>
+    <task id="LOCAL-00067" summary="inicio modulo de sino de notificação">
+      <created>1600894188894</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1600894188894</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Sprint 22 - finalizada primeira versão das notificações, com listagem e atualização em tempo real">
+      <created>1600969763419</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1600969763419</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Sprint 22 - Nova extensão do Slack implementada">
+      <created>1600977241110</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1600977241110</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TodoView">
@@ -571,10 +559,6 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="logotipo ok e z-index footerbar" />
-    <MESSAGE value="ajustes 19 01" />
-    <MESSAGE value="ajustes 19 02" />
-    <MESSAGE value="contratos completo" />
     <MESSAGE value="login e preloader com logo corretas" />
     <MESSAGE value="ajuste em rotas sem pai" />
     <MESSAGE value="andamento com crud de links" />
@@ -596,25 +580,47 @@
     <MESSAGE value="alteração de numero que realiza chamda" />
     <MESSAGE value="processo integracao totalvoice encaminhado" />
     <MESSAGE value="inicio de configuracao do email de automacao" />
-    <option name="LAST_COMMIT_MESSAGE" value="inicio de configuracao do email de automacao" />
+    <MESSAGE value="Sprint 22 - Melhoria da galeria de fotos anexadas nas comissões, agora aparecendo na tela de aprovação também." />
+    <MESSAGE value="inicio modulo de sino de notificação" />
+    <MESSAGE value="Sprint 22 - finalizada primeira versão das notificações, com listagem e atualização em tempo real" />
+    <MESSAGE value="Sprint 22 - Nova extensão do Slack implementada" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sprint 22 - Nova extensão do Slack implementada" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1599220822369">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1600977240315">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600977240315" />
+    <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1600965488058">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600965488058" />
     <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599220822369" />
     <state x="461" y="165" key="SettingsEditor" timestamp="1599161636152">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
-    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599050689284">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1600977242392">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600977242392" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1600952153928">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600952153928" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599050689284" />
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1600974468785">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600974468785" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601065716266">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601065716266" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -630,19 +636,9 @@
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/views/contas/SideBar.vue</url>
-          <line>98</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/store/getters.js</url>
           <line>27</line>
           <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/router.js</url>
-          <line>1334</line>
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
@@ -663,6 +659,12 @@
           <url>file://$PROJECT_DIR$/src/views/tickets/Index.vue</url>
           <line>85</line>
           <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/produtos/AddEdit.vue</url>
+          <line>52</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

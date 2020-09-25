@@ -74,10 +74,10 @@
                 <h2 class="subtitulo">Configurar comissão de venda para este produto</h2>
             </div>
             <div class="vx-col w-full lg:w-1/2 mb-6">
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="configComissao" class="float-right switch"/>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="produto.hab_comissao" class="float-right switch"/>
             </div>
             <transition name="fade">
-                <div class="vx-col w-full lg:w-full" v-if="configComissao">
+                <div class="vx-col w-full lg:w-full" v-if="produto.hab_comissao">
                     <div class="vx-row">
                         <div class="vx-col w-full lg:w-1/2">
                             <span class="span-destaque">Tipo de Comissão</span>
@@ -404,10 +404,10 @@
                 this.$vs.loading()
                 this.$store.dispatch('produtos/getId', id).then(data => {
                     this.produto = {...data};
-                    if (this.produto.comi_valor !== 0 || this.produto.comi_percent !== 0 ||
+                    /*if (this.produto.comi_valor !== 0 || this.produto.comi_percent !== 0 ||
                         this.produto.comi_percent !== 0 || this.produto.comi_per_valor !== 0) {
                         this.configComissao = true;
-                    }
+                    }*/
                     if (!this.produto.preco) {
                         this.produto.preco = true;
                     }

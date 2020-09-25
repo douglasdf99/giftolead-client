@@ -288,14 +288,13 @@
                             this.toggleDataSidebar(false);
                             this.getItems();
                         }).catch(erro => {
-                            console.log(erro)
+                            console.log(erro.response.data.message)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: erro.response.data.message
                             })
-                            this.$vs.loading.close();
-                        })
+                        }).finally(() => this.$vs.loading.close())
                     }
                 })
             },
