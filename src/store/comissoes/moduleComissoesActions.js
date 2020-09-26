@@ -79,8 +79,7 @@ export default {
                 console.log(response);
                 resolve();
             }).catch(erro => {
-                console.log('erro', erro);
-                reject();
+                reject(erro);
             })
         });
     },

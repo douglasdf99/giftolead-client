@@ -764,7 +764,7 @@ export default {
         // ],
         // series: [70, 52, 26],
         chartOptions: {
-            labels: ['Finished', 'Pending', 'Rejected'],
+            labels: ['Ganhou', 'Aguardando', 'Perdeu'],
             plotOptions: {
                 radialBar: {
                     size: 165,
@@ -790,8 +790,8 @@ export default {
                         total: {
                             show: true,
                             label: 'Total',
-                            formatter: function() {
-                                return 42459
+                            formatter: function(val) {
+                                    return 42459
                             }
                         }
                     }
@@ -815,7 +815,7 @@ export default {
                     }
                 }
             }],
-            colors: ['#7961F9', '#FF9F43', '#EA5455'],
+            colors: ['#4DE98A', '#FF9F43', '#EA5455'],
             fill: {
                 type: 'gradient',
                 gradient: {
@@ -823,7 +823,7 @@ export default {
                     shade: 'dark',
                     type: 'vertical',
                     shadeIntensity: 0.5,
-                    gradientToColors: ['#9c8cfc', '#FFC085', '#f29292'],
+                    gradientToColors: ['#65dd91', '#FFC085', '#f29292'],
                     inverseColors: false,
                     opacityFrom: 1,
                     opacityTo: 1,
