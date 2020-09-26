@@ -260,8 +260,8 @@
                 moduleMotivos.isRegistered = true
             }
 
-            this.atendimento.nome_destinatario = this.ticket.nome_destinatario;
-            this.atendimento.email_destinatario = this.ticket.email_destinatario;
+            this.atendimento.nome_destinatario = this.ticket.lead.nome;
+            this.atendimento.email_destinatario = this.ticket.lead.email;
 
             let obj = JSON.parse(localStorage.getItem('atendimento'));
             if (obj) {
