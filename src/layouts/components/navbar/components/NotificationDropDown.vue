@@ -42,7 +42,7 @@
 
                 <div class="checkout-footer fixed bottom-0 rounded-b-lg text-primary w-full p-2 font-semibold text-center border border-b-0 border-l-0 border-r-0
                     border-solid d-theme-border-grey-light cursor-pointer">
-                    <span>Ver todas as notificações</span>
+                    <router-link :to="{name: 'todas-notificacoes'}">Ver todas as notificações</router-link>
                 </div>
             </vs-dropdown-menu>
         </vs-dropdown>
