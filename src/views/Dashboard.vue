@@ -138,7 +138,7 @@
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <VuePerfectScrollbar class="scroll-area--data-list-add-new">
-                    <place-holder-loading-dashboard tipo="ultimosTicktes" v-if="!ultimosTicketsPesquisados"/>
+                    <place-holder-loading-dashboard tipo="ultimosTickets" v-if="!ultimosTicketsPesquisados"/>
                     <vx-card v-for="item in ultimosTickets" class="mb-base" v-else style="width: 96%">
                         <div class="vx-row mb-4">
                             <div class="vx-col w-3/12">
@@ -184,7 +184,8 @@
         <div class="vx-row">
             <div class="vx-col w-full">
                 <place-holder-loading-dashboard v-if="this.chartMediaOptions.xaxis.categories.length == 0" tipo="media" />
-                <vx-card v-if="this.chartMediaOptions.xaxis.categories.length > 0" :title="`Comparativo Mensal - ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'}`">
+                <vx-card v-if="this.chartMediaOptions.xaxis.categories.length > 0"
+                         :title="`Comparativo Mensal - ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'}`">
 
                     <template slot="actions">
                         <vs-dropdown vs-trigger-click class="cursor-pointer">
@@ -199,7 +200,7 @@
                         <div class="flex">
                             <div class="mr-6">
                                 <p class="mb-1 font-semibold">Esse mês</p>
-                                <p class="text-3xl text-success">{{ mediaTickets.analyticsData.thisMonth.toLocaleString() }}</p>
+                                <p class="text-3xl" :style="{'color' : '#F97794'}">{{ mediaTickets.analyticsData.thisMonth.toLocaleString() }}</p>
                             </div>
                             <div>
                                 <p class="mb-1 font-semibold">Mês passado</p>
