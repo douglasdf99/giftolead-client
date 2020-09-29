@@ -290,7 +290,7 @@
 
             this.verificacao();
 
-            this.$store.dispatch('users/getUserAuth').then(response => {
+            this.$store.dispatch('usuarios/getUserAuth').then(response => {
                 console.log('usuario', response)
                 let recaptchaScript = document.createElement('script')
                 recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.webphone + '&tipo=hidden&ver=2');
