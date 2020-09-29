@@ -185,7 +185,7 @@
             <div class="vx-col w-full">
                 <place-holder-loading-dashboard v-if="this.chartMediaOptions.xaxis.categories.length == 0" tipo="media" />
                 <vx-card v-if="this.chartMediaOptions.xaxis.categories.length > 0"
-                         :title="`Comparativo Mensal - ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'}`">
+                         :title="`Tickets ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'} - Comparativo Mensal`">
 
                     <template slot="actions">
                         <vs-dropdown vs-trigger-click class="cursor-pointer">

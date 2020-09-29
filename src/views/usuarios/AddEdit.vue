@@ -220,7 +220,7 @@
 
                         if (this.usuario.id !== undefined) {
                             formData.append('_method', 'PUT');
-                            this.$store.dispatch('usuarios/update', {dados: formData, id: this.usuario.id}).then(response => {
+                            this.$store.dispatch('users/update', {dados: formData, id: this.usuario.id}).then(response => {
                                 console.log('response', response);
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -289,7 +289,7 @@
             },
             getUsuario(id) {
                 this.$vs.loading()
-                this.$store.dispatch('usuarios/getId', id).then(data => {
+                this.$store.dispatch('users/getId', id).then(data => {
                     this.usuario = {...data};
                     this.usuario.password = ''
                     this.usuario.password_confirmed = ''

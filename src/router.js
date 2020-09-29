@@ -1502,8 +1502,8 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/pages/not-authorized',
-                    name: 'page-not-authorized',
+                    path: '/nao-autorizado',
+                    name: 'nao-autorizado',
                     component: () => import('@/views/pages/NotAuthorized.vue'),
                     meta: {
                         rule: 'editor'
