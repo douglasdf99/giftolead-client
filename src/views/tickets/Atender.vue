@@ -1,233 +1,232 @@
 <template>
     <div>
-      <div class="" v-if="ticket.lead">
         <div id="widget-evoline-api-container" style="display:inline" width="10" height="20"></div>
         <side-bar v-if="responderTicket" :isSidebarActive="responderTicket" @getId="getId($route.params.id)" @closeSidebar="toggleRespostaSidebar" :data="aresponder"/>
         <email v-if="enviarEmail" :isSidebarActive="enviarEmail" @getId="getId($route.params.id)" @closeSidebar="toggleEmailSidebar" :data="aresponder"/>
         <div class="vx-row mb-3">
-          <div class="vx-col w-1/2">
-            <p class="destaque text-2xl">
-              #{{ticket.id}} <!--{{$route.params.id}}-->
-            </p>
-          </div>
-          <div class="vx-col w-1/2">
-            <p class="destaque text-2xl float-right flex items-center">
-              Status
-              <vs-chip color="primary" class="text-lg ml-4">{{ getStatus(ticket.status) }}</vs-chip>
-            </p>
-          </div>
+            <div class="vx-col w-1/2">
+                <p class="destaque text-2xl">
+                    #{{ticket.id}} <!--{{$route.params.id}}-->
+                </p>
+            </div>
+            <div class="vx-col w-1/2">
+                <p class="destaque text-2xl float-right flex items-center">
+                    Status
+                    <vs-chip color="primary" class="text-lg ml-4">{{ getStatus(ticket.status) }}</vs-chip>
+                </p>
+            </div>
         </div>
         <!-- inicio popup-->
         <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="ticket.lead" v-show="isCallActive">
-          <div class="vs-popup--background"></div>
-          <div class="vs-popup" style="background: rgb(255, 255, 255);">
-            <header class="vs-popup--header">
-              <div class="vs-popup--title">
-              </div>
-            </header>
-            <div class="vs-popup--content">
-              <div class="vx-col w-full">
-                <vx-card class="p-2">
-                  <div class="text-left mb-10">
-                    <h6 class="mb-2"><b>Nome do lead:</b> {{ ticket.lead.nome }}</h6>
-                    <h6 class="mb-2"><b>Numero de telefone:</b> +55{{ticket.lead.ddd}}{{ ticket.lead.telefone}}</h6>
-                    <p class="mb-2"></p>
-                  </div>
-                  <div class="flex items-center">
-                    <div class="fill-row-loading w-full">
-                      <h3><span class="font-14">Status:</span> {{statustext}}</h3>
-                      <div id="loading-sound" :class="{'activeLoading':activeLoading}"
-                           class="vs-con-loading__container loading-example w-full" v-show="chamada.id">
-                      </div>
-                      <div id="loading-default" :class="{'activeLoading':activeLoading}"
-                           class="vs-con-loading__container loading-example w-full" v-show="!chamada.id">
-                      </div>
-                      <h5><span class="font-14 my-2">Tempo:</span> {{time}}</h5>
+            <div class="vs-popup--background"></div>
+            <div class="vs-popup" style="background: rgb(255, 255, 255);">
+                <header class="vs-popup--header">
+                    <div class="vs-popup--title">
                     </div>
-                  </div>
-                  <div class="flex justify-center flex-wrap mt-10">
-                    <vs-button size="large" class="font-bold mx-2 rounded-full" color="success" type="filled" v-if="!muted"
-                               icon-pack="material-icons" icon="volume_up" @click="mute">
-                    </vs-button>
-                    <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled" v-else
-                               icon-pack="material-icons" icon="volume_off" @click="mute">
-                    </vs-button>
-                    <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled"
-                               icon-pack="material-icons" icon="call_end" @click="desligaChamada">
+                </header>
+                <div class="vs-popup--content">
+                    <div class="vx-col w-full">
+                        <vx-card class="p-2">
+                            <div class="text-left mb-10">
+                                <h6 class="mb-2"><b>Nome do lead:</b> {{ ticket.lead.nome }}</h6>
+                                <h6 class="mb-2"><b>Numero de telefone:</b> +55{{ticket.lead.ddd}}{{ ticket.lead.telefone}}</h6>
+                                <p class="mb-2"></p>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="fill-row-loading w-full">
+                                    <h3><span class="font-14">Status:</span> {{statustext}}</h3>
+                                    <div id="loading-sound" :class="{'activeLoading':activeLoading}"
+                                         class="vs-con-loading__container loading-example w-full" v-show="chamada.id">
+                                    </div>
+                                    <div id="loading-default" :class="{'activeLoading':activeLoading}"
+                                         class="vs-con-loading__container loading-example w-full" v-show="!chamada.id">
+                                    </div>
+                                    <h5><span class="font-14 my-2">Tempo:</span> {{time}}</h5>
+                                </div>
+                            </div>
+                            <div class="flex justify-center flex-wrap mt-10">
+                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="success" type="filled" v-if="!muted"
+                                           icon-pack="material-icons" icon="volume_up" @click="mute">
+                                </vs-button>
+                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled" v-else
+                                           icon-pack="material-icons" icon="volume_off" @click="mute">
+                                </vs-button>
+                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled"
+                                           icon-pack="material-icons" icon="call_end" @click="desligaChamada">
 
-                    </vs-button>
-                  </div>
-                  <template slot="footer">
-                    <vs-divider/>
-                    <div class="flex justify-between">
+                                </vs-button>
+                            </div>
+                            <template slot="footer">
+                                <vs-divider/>
+                                <div class="flex justify-between">
                                     <span class="flex items-center">
                                         <vs-icon icon="signal_cellular_alt"></vs-icon>
                                         <span>Internet: {{status.internet}} </span>
                                     </span>
-                      <span class="flex items-center">
+                                    <span class="flex items-center">
                                         <vs-icon icon="computer"></vs-icon>
                                         <span>computador: {{status.computador}} </span>
                                      </span>
+                                </div>
+                            </template>
+                        </vx-card>
                     </div>
-                  </template>
-                </vx-card>
-              </div>
+                </div>
             </div>
-          </div>
         </div>
         <!-- fim popup-->
         <div class="vx-row" v-if="ticket.lead">
-          <div class="vx-col w-full lg:w-1/2 pr-1">
-            <div class="w-full h-full bg-white p-5 rounded-lg">
-              <div class="vx-row my-4">
-                <div class="vx-col w-1/4 text-center">
-                  <img :src="getAvatar(ticket.lead.email)" width="80" class="rounded-full">
-                </div>
-                <div class="vx-col w-3/3" v-if="ticket.lead">
-                  <p class="text-black text-xl font-bold">
-                    {{ticket.lead.nome}}
-                  </p>
-                  <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
-                    {{'(' + ticket.lead.ddd + ') ' + ticket.lead.telefone}}
-                  </p>
-                  <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
-                  <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
-                  <div class="w-full flex my-5">
-                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="!conectado" v-if="conectado">
-                      Ligar
-                      <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
-                    </vs-button>
-                    <vx-tooltip text="Nenhum ramal está vinculado ao seu usuário" position="top">
-                      <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">
-                        Sem ramal
-                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>
-                      </vs-button>
-                    </vx-tooltip>
+            <div class="vx-col w-full lg:w-1/2 pr-1">
+                <div class="w-full h-full bg-white p-5 rounded-lg">
+                    <div class="vx-row my-4">
+                        <div class="vx-col w-1/4 text-center">
+                            <img :src="getAvatar(ticket.lead.email)" width="80" class="rounded-full">
+                        </div>
+                        <div class="vx-col w-3/3" v-if="ticket.lead">
+                            <p class="text-black text-xl font-bold">
+                                {{ticket.lead.nome}}
+                            </p>
+                            <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
+                                {{'(' + ticket.lead.ddd + ') ' + ticket.lead.telefone}}
+                            </p>
+                            <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
+                            <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
+                            <div class="w-full flex my-5">
+                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="!conectado" v-if="conectado">
+                                    Ligar
+                                    <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
+                                </vs-button>
+                                <vx-tooltip text="Nenhum ramal está vinculado ao seu usuário" position="top">
+                                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">
+                                        Sem ramal
+                                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>
+                                    </vs-button>
+                                </vx-tooltip>
 
-                    <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
-                      <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
-                    </vs-button>
-                    <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled" @click="email(ticket)">
-                      <i class="fa fa-envelope-open text-2xl mx-2 text-white"></i>
-                    </vs-button>
-                  </div>
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
+                                    <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
+                                </vs-button>
+                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled" @click="email(ticket)">
+                                    <i class="fa fa-envelope-open text-2xl mx-2 text-white"></i>
+                                </vs-button>
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="vx-col w-full lg:w-1/2 p1-1">
-            <div class="w-full bg-white p-5 rounded-lg h-full">
-              <div class="vx-row my-4 flex justify-between">
-                <div class="vx-col w-full lg:w-1/2">
-                  <p class="text-black text-xl">
-                    <b>{{ticket.created_at | formatDateTime}}</b>
-                  </p>
-                  <p class="text-xl" v-if="ticket.origem">
-                    Origem: {{ticket.origem.nome}}
-                  </p>
-                  <vs-chip v-if="ticket.produto" :color="ticket.produto.cor" class="text-lg mt-3 py-2 font-bold">
-                    {{ticket.produto.nome}}
-                  </vs-chip>
+            <div class="vx-col w-full lg:w-1/2 p1-1">
+                <div class="w-full bg-white p-5 rounded-lg h-full">
+                    <div class="vx-row my-4 flex justify-between">
+                        <div class="vx-col w-full lg:w-1/2">
+                            <p class="text-black text-xl">
+                                <b>{{ticket.created_at | formatDateTime}}</b>
+                            </p>
+                            <p class="text-xl" v-if="ticket.origem">
+                                Origem: {{ticket.origem.nome}}
+                            </p>
+                            <vs-chip v-if="ticket.produto" :color="ticket.produto.cor" class="text-lg mt-3 py-2 font-bold">
+                                {{ticket.produto.nome}}
+                            </vs-chip>
+                        </div>
+                        <div class="vx-col w-full lg:w-1/2">
+                            <p class="text-lg font-semibold text-right mb-2" style="color: #9B9B9B">
+                                Criado por:
+                            </p>
+                            <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
+                                {{ticket.responsavel.nome}}
+                                <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
+                                <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaBoleto'">
+                                <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
+                                <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
+                                <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
+                                <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-if="ticket.responsavel.avatar">
+                            </p>
+                        </div>
+                    </div>
+                    <div class="vx-row my-3">
+                        <div class="vx-col w-full">
+                            <p class="text-xl">
+                                {{ticket.detalhamento}}
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div class="vx-col w-full lg:w-1/2">
-                  <p class="text-lg font-semibold text-right mb-2" style="color: #9B9B9B">
-                    Criado por:
-                  </p>
-                  <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
-                    {{ticket.responsavel.nome}}
-                    <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
-                    <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaBoleto'">
-                    <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
-                    <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
-                    <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                    <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-if="ticket.responsavel.avatar">
-                  </p>
-                </div>
-              </div>
-              <div class="vx-row my-3">
-                <div class="vx-col w-full">
-                  <p class="text-xl">
-                    {{ticket.detalhamento}}
-                  </p>
-                </div>
-              </div>
             </div>
-          </div>
 
         </div>
         <div class="vx-row mt-5">
-          <div class="vx-col w-full">
-            <vs-tabs color="primary" v-model="selectedTab">
-              <vs-tab color="primary" value="10" label="atendimento">
-                <atendimento></atendimento>
-              </vs-tab>
-              <vs-tab color="primary"  v-if="ticket.acoesrecebidas" :label="`histórico (${ticket.acoesrecebidas.length})`">
-                <historico :data="ticket.acoesrecebidas" @whatsapp="whatsapp(ticket)"></historico>
-              </vs-tab>
-              <vs-tab color="primary "  v-if="ticket.lead" :label="`transações (${ticket.lead.transacaos.length})`">
-                <transacoes :items="ticket.lead.transacaos"></transacoes>
-              </vs-tab>
-              <vs-tab color="primary" v-if="ticket.lead" :label="`solicitações de brinde (${ticket.lead.solicitacaos.length})`">
-                <div class="vx-row mt-20 flex justify-center" v-if="ticket.lead.solicitacaos.length === 0">
-                  <div class="w-full lg:w-8/12 xlg:w-8/12 s:w-full sem-item">
-                    <div class="w-8/12">
-                      <div>
-                        <p class="span-sem-item">Nenhum registro encontrado</p>
-                      </div>
-                      <br>
-                    </div>
-                  </div>
-                </div>
-                <vs-table :data="ticket.lead" class="table-items" v-else>
-                  <template slot="thead">
-                    <vs-th>Destinatário</vs-th>
-                    <vs-th>E-mail</vs-th>
-                    <vs-th>Brinde</vs-th>
-                    <vs-th></vs-th>
-                  </template>
-                  <template slot-scope="{data}">
-                    <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
-                      <vs-td>{{tr.nome_destinatario}}</vs-td>
-                      <vs-td>{{tr.email_destinatario}}</vs-td>
-                      <vs-td>
-                        <vs-chip color="primary" class="text-md py-2 font-bold">
-                          {{tr.brinde.nome}}
-                        </vs-chip>
-                      </vs-td>
-                      <vs-td :data="data[indextr].status" class="td-icons flex flex-col items-center justify-center">
-                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                 class="icon-grande" v-bind:style="{color: getStatusSoli(tr.status)}"
-                                 v-if="data[indextr].status"></vs-icon>
-                      </vs-td>
-                    </vs-tr>
-                  </template>
-                </vs-table>
-              </vs-tab>
-              <vs-tab color="primary" v-if="ticket.lead.automacaos"   :label="`automações de brinde (${ticket.lead.automacaos.length})`">
-                <automacaos :items="ticket.lead.automacaos" tipo="todos"></automacaos>
-              </vs-tab>
-            </vs-tabs>
-          </div>
+            <div class="vx-col w-full">
+                <vs-tabs color="primary" v-model="selectedTab">
+                    <vs-tab color="primary" value="10" label="atendimento">
+                        <atendimento></atendimento>
+                    </vs-tab>
+                    <vs-tab color="primary" :label="`histórico (${ticket.acoesrecebidas.length})`">
+                        <historico :data="ticket.acoesrecebidas" @whatsapp="whatsapp(ticket)"></historico>
+                    </vs-tab>
+                    <vs-tab color="primary" :label="`transações (${ticket.lead.transacaos.length})`">
+                        <transacoes :items="ticket.lead.transacaos"></transacoes>
+                    </vs-tab>
+                    <vs-tab color="primary" :label="`solicitações de brinde (${ticket.lead.solicitacaos.length})`">
+                        <div class="vx-row mt-20 flex justify-center" v-if="ticket.lead.solicitacaos.length === 0">
+                            <div class="w-full lg:w-8/12 xlg:w-8/12 s:w-full sem-item">
+                                <div class="w-8/12">
+                                    <div>
+                                        <p class="span-sem-item">Nenhum registro encontrado</p>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <vs-table :data="ticket.lead.solicitacaos" class="table-items" v-else>
+                            <template slot="thead">
+                                <vs-th>Destinatário</vs-th>
+                                <vs-th>E-mail</vs-th>
+                                <vs-th>Brinde</vs-th>
+                                <vs-th></vs-th>
+                            </template>
+                            <template slot-scope="{data}">
+                                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
+                                    <vs-td>{{tr.nome_destinatario}}</vs-td>
+                                    <vs-td>{{tr.email_destinatario}}</vs-td>
+                                    <vs-td>
+                                        <vs-chip color="primary" class="text-md py-2 font-bold">
+                                            {{tr.brinde.nome}}
+                                        </vs-chip>
+                                    </vs-td>
+                                    <vs-td :data="data[indextr].status" class="td-icons flex flex-col items-center justify-center">
+                                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                                 class="icon-grande" v-bind:style="{color: getStatusSoli(tr.status)}"
+                                                 v-if="data[indextr].status"></vs-icon>
+                                    </vs-td>
+                                </vs-tr>
+                            </template>
+                        </vs-table>
+                    </vs-tab>
+                    <vs-tab color="primary" :label="`automações de brinde (${ticket.lead.automacaos.length})`">
+                        <automacaos :items="ticket.lead.automacaos" tipo="todos"></automacaos>
+                    </vs-tab>
+                </vs-tabs>
+            </div>
         </div>
         <transition name="fade">
-          <footer-doug>
-            <div class="vx-col sm:w-11/12 mb-2">
-              <div class="container">
-                <div class="vx-row mb-2 relative">
-                  <vs-button class="mr-3" color="primary" type="filled" @click="finalizar" :disabled="!valido">
-                    Finalizar Atendimento
-                  </vs-button>
-                  <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                             @click="cancelarAtendimento(ticket.id)">
-                    Cancelar Atendimento
-                  </vs-button>
+            <footer-doug>
+                <div class="vx-col sm:w-11/12 mb-2">
+                    <div class="container">
+                        <div class="vx-row mb-2 relative">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="finalizar" :disabled="!valido">
+                                Finalizar Atendimento
+                            </vs-button>
+                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                       @click="cancelarAtendimento(ticket.id)">
+                                Cancelar Atendimento
+                            </vs-button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-          </footer-doug>
+            </footer-doug>
         </transition>
-      </div>
+
     </div>
 </template>
 
@@ -291,6 +290,13 @@
 
             this.verificacao();
 
+            this.$store.dispatch('usuarios/getUserAuth').then(response => {
+                console.log('usuario', response)
+                let recaptchaScript = document.createElement('script')
+                recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.webphone + '&tipo=hidden&ver=2');
+                document.body.appendChild(recaptchaScript)
+            });
+
         },
         methods: {
             getId(id) {
@@ -337,7 +343,7 @@
                     text: 'Deseja mesmo cancelar este atendimento?',
                     acceptText: 'Sim!',
                     accept: () => {
-                        this.$vs.loading();a
+                        this.$vs.loading();
                         this.$store.dispatch('tickets/cancelar', id).then(response => {
                             console.log('pora cara', response)
                             if (response.status) {
@@ -581,13 +587,6 @@
             },
         },
         mounted() {
-
-          this.$store.dispatch('usuarios/getUserAuth').then(response => {
-            console.log('usuario', response)
-            let recaptchaScript = document.createElement('script')
-            recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key='+response.webphone+'&tipo=hidden&ver=2');
-            document.body.appendChild(recaptchaScript)
-          });
             //this.getAvailableCustomers();
             var vm = this;
             window.onmessage = function (e) {

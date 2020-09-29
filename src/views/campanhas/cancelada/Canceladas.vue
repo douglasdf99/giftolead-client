@@ -291,7 +291,7 @@
                         this.opcoesOrigens.push({id: item.id, label: item.nome});
                     });
                 });
-                this.$store.dispatch('usuarios/get').then(response => {
+                this.$store.dispatch('users/get').then(response => {
                     let arr = response;
                     this.responsavelSelected = {id: 0, label: 'Responsável'};
                     arr.forEach(item => {
