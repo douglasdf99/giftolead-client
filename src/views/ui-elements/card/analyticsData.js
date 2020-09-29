@@ -191,15 +191,15 @@ export default {
         }
     },
     revenueComparisonLine: {
-        // series: [{
-        //         name: "This Month",
-        //         data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
-        //     },
-        //     {
-        //         name: "Last Month",
-        //         data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
-        //     }
-        // ],
+        series: [{
+                name: "This Month",
+                data: [45000, 47000, 44800, 10500, 45500, 48000, 46500, 48600,100]
+            },
+            {
+                name: "Last Month",
+                data: [46000, 48000, 45500, 10600, 44500, 46500, 45000, 47000,1000]
+            }
+        ],
         chartOptions: {
             chart: {
                 toolbar: { show: false },
@@ -251,7 +251,7 @@ export default {
                 axisTicks: {
                     show: false,
                 },
-                categories: ['01', '05', '09', '13', '17', '21', '26', '31'],
+                categories: ['01/10', '05/11', '09/12', '13/13', '17/46', '21/9', '26/2020', '31/30','13','68','78'],
                 axisBorder: {
                     show: false,
                 },

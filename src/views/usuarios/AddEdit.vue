@@ -170,7 +170,7 @@
         },
         created() {
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuarios', moduleUsuario)
+                this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
             this.getOpcoes();

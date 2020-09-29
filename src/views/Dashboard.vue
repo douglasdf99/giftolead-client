@@ -9,8 +9,8 @@
 
 <template>
     <div id="dashboard-analytics">
+        <!-- Topo -->
         <div class="vx-row absolute row-top-dashboard">
-            <!-- Topo -->
             <div class="vx-col w-full mb-base">
                 <vx-card slot="no-body" class="greet-user rounded-none card-top-dashboard">
                     <div class="vx-row">
@@ -46,11 +46,11 @@
             </div>
         </div>
         <div class="vx-row" style="margin-top: 30vh">
-            <!-- CARD 4: SESSION -->
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <div class="vx-row">
                     <div class="vx-col w-full">
-                        <vx-card>
+                        <place-holder-loading-dashboard tipo="comissoes" v-if="comissoes.length == 0" />
+                        <vx-card v-else>
                             <div class="vx-row">
                                 <div class="vx-col w-full">
                                     <p>Comissões a receber</p>
@@ -65,7 +65,8 @@
                         </vx-card>
                     </div>
                     <div class="vx-col w-full">
-                        <vx-card title="Venda por produto" class="mt-base">
+                        <place-holder-loading-dashboard tipo="produtos" v-if="produtos.length == 0" />
+                        <vx-card title="Venda por produto" class="mt-base" v-else>
                             <template slot="actions">
                                 <change-date-dashboard @changeDate="getVendaPorProduto"></change-date-dashboard>
                             </template>
@@ -75,14 +76,6 @@
                                         <span class="mb-1">{{ item.nome }}</span>
                                         <h4>{{ parseFloat(item.ratio).toFixed(2) }}%</h4>
                                     </div>
-                                    <!--<div class="flex flex-col text-right">
-                                <span class="flex -mr-1">
-                                    <span class="mr-1">{{ item.comparedResult }}</span>
-                                    <feather-icon :icon=" item.comparedResult < 0 ? 'ArrowDownIcon' : 'ArrowUpIcon'"
-                                                  :svgClasses="[item.comparedResult < 0 ? 'text-danger' : 'text-success'  ,'stroke-current h-4 w-4 mb-1 mr-1']"></feather-icon>
-                                </span>
-                                        <span class="text-grey">{{ item.time | time(true) }}</span>
-                                    </div>-->
                                 </div>
                                 <vs-progress :percent="item.ratio"></vs-progress>
                             </div>
@@ -91,13 +84,21 @@
                 </div>
             </div>
 
-            <!-- CARD 5: SUPPORT TRACKER -->
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <div class="vx-row">
+                    <!-- Meus Tickets -->
                     <div class="vx-col w-full mb-base">
-                        <vx-card title="Meus Tickets">
+                        <place-holder-loading-dashboard tipo="meusTickets" v-if="meusTickets.analyticsData.length == 0"/>
+                        <vx-card v-else title="Meus Tickets">
                             <!-- CARD ACTION -->
-                            <template slot="actions">
+                            <template slot="actions" class="flex items-center">
+                                <vs-dropdown vs-trigger-click class="cursor-pointer">
+                                    <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey mr-4"></feather-icon>
+                                    <vs-dropdown-menu class="w-32">
+                                        <vs-dropdown-item @click="tipoMeusTickets = 'atendimento'">Atendidos</vs-dropdown-item>
+                                        <vs-dropdown-item @click="tipoMeusTickets = 'inseridor'">Inseridos</vs-dropdown-item>
+                                    </vs-dropdown-menu>
+                                </vs-dropdown>
                                 <change-date-dashboard @changeDate="getMeusTickets"></change-date-dashboard>
                             </template>
 
@@ -106,11 +107,6 @@
                                 <vue-apex-charts type=radialBar height=420
                                                  :options="chartOptions"
                                                  :series="meusTickets.series"/>
-                                <div class="flex justify-center items-center font-bold">
-                                    Inseriu
-                                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="switchMeusTickets" class="float-right switch mx-3"/>
-                                    Atendeu
-                                </div>
                             </div>
                             <ul>
                                 <li v-for="orderData in meusTickets.analyticsData" :key="orderData.orderType"
@@ -125,86 +121,92 @@
                             </ul>
                         </vx-card>
                     </div>
+                    <!-- Tickets Atrasados -->
                     <div class="vx-col w-full">
-                        <statistics-card-line
-                            hideChart
-                            class="mb-base"
-                            icon="ServerIcon"
-                            icon-right
-                            statistic="1.2gb"
-                            statisticTitle="Memory Usage"
-                            color="success"/>
+                        <place-holder-loading-dashboard v-if="qtdAtrasados == null" tipo="whatsapplist" />
+                        <statistics-card-line hideChart class="mb-base" chart-data="" icon="ClockIcon" v-else
+                            icon-right :statistic="qtdAtrasados" statisticTitle="Tickets Atrasados" color="danger"/>
                     </div>
+
+                    <!-- Whatslist atendidos -->
                     <div class="vx-col w-full">
-                        <statistics-card-line
-                            hideChart
-                            icon="ServerIcon"
-                            icon-right
-                            statistic="1.2gb"
-                            statisticTitle="Memory Usage"
-                            color="success"/>
+                        <place-holder-loading-dashboard v-if="qtdWhats == null" tipo="whatsapplist" />
+                        <statistics-card-line v-else hideChart icon="SmartphoneIcon" icon-right :statistic="qtdWhats"
+                            statisticTitle="WhatsappLists Respondidos" color="success"/>
                     </div>
                 </div>
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
-                <vx-card>
-                    <VuePerfectScrollbar class="scroll-area--data-list-add-new">
-                        <div class="vx-row">
-                            <div class="vx-col w-6/12">
-                                <p>1454</p>
-                                <p class="font-bold">Lucimar dos Santos</p>
-                                <vs-chip color="primary" class="text-white font-bold p-2 ml-0 mt-1">Pompoarismo</vs-chip>
+                <VuePerfectScrollbar class="scroll-area--data-list-add-new">
+                    <place-holder-loading-dashboard tipo="ultimosTicktes" v-if="!ultimosTicketsPesquisados"/>
+                    <vx-card v-for="item in ultimosTickets" class="mb-base" v-else style="width: 96%">
+                        <div class="vx-row mb-4">
+                            <div class="vx-col w-3/12">
+                                <p class="text-lg mb-3">#{{ item.id }}</p>
+                                <vx-tooltip position="top" :text="'Responsável | ' + nameCauser(item.ultima_acao)" class="img-criador">
+                                    <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente" v-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCarrinho'">
+                                    <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaBoleto'">
+                                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaWhatsapp'">
+                                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\Whatsapplist'">
+                                    <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente"
+                                         v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaAgendamento'">
+                                    <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente"
+                                         v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCancelado'">
+                                    <img :src="get_img_api(item.ultima_acao.causer.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
+                                </vx-tooltip>
                             </div>
-                            <div class="vx-col w-5/12">
-                                <!--                            <vx-tooltip position="top" :text="'Responsável | ' + nameCriador(item)" class="img-criador">-->
-                                <!--                                <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente" v-if="item.criador_type == 'App\\Models\\CampanhaCarrinho'">-->
-                                <!--                                <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaBoleto'">-->
-                                <!--                                <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">-->
-                                <!--                                <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">-->
-                                <!--                                <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">-->
-                                <!--                                <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full agente">-->
-                                <!--                            </vx-tooltip>-->
-                                <!--                            <vx-tooltip position="top" :text="'Atendente | ' + item.atendente.name" style="margin-left: -15px">-->
-                                <!--                                <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full agente">-->
-                                <!--                            </vx-tooltip>-->
+                            <div class="vx-col w-7/12">
+                                <p class="font-bold">{{ item.lead.nome }}</p>
+                                <vs-chip color="primary" class="text-white font-bold p-2 pr-4 mt-1">{{ item.produto.nome }}</vs-chip>
                             </div>
-                            <div class="vx-col w-1/12 flex flex-col items-center justify-center">
-                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning"></vs-icon>
+                            <div class="vx-col w-1/12">
+                                <p class="mb-3">
+                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                             :class="`text-${(item.status == 0 || item.status == 3) ? 'success' : item.status == 1 ? 'warning' : 'danger'}`"></vs-icon>
+                                </p>
                             </div>
-                            <vs-divider></vs-divider>
                         </div>
-                    </VuePerfectScrollbar>
-                </vx-card>
+                        <div class="vx-row p-2" style="background-color: #f4f4f4">
+                            <div class="vx-col w-full">
+                                <p class="text-sm">{{ elapsedTime(item.ultima_acao.created_at) }}</p>
+                                <p class="text-lg">{{ item.ultima_acao.description }}</p>
+                            </div>
+                        </div>
+                    </vx-card>
+                    <div class="text-center" v-if="this.paginationUltimos && this.paginationUltimos.current_page < this.paginationUltimos.last_page">
+                        <p class="font-bold text-primary text-lg cursor-pointer" @click="loadMoreTicket">Carregar mais...</p>
+                    </div>
+                </VuePerfectScrollbar>
             </div>
 
         </div>
 
         <div class="vx-row">
             <div class="vx-col w-full">
-                <vx-card title="Revenue">
+                <place-holder-loading-dashboard v-if="this.chartMediaOptions.xaxis.categories.length == 0" tipo="media" />
+                <vx-card v-if="this.chartMediaOptions.xaxis.categories.length > 0" :title="`Comparativo Mensal - ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'}`">
 
                     <template slot="actions">
-                        <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
+                        <vs-dropdown vs-trigger-click class="cursor-pointer">
+                            <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey mr-4"></feather-icon>
+                            <vs-dropdown-menu class="w-32">
+                                <vs-dropdown-item @click="tipoMediaMensal = 'atendimentos'">Atendidos</vs-dropdown-item>
+                                <vs-dropdown-item @click="tipoMediaMensal = 'inseridos'">Inseridos</vs-dropdown-item>
+                            </vs-dropdown-menu>
+                        </vs-dropdown>
                     </template>
-
                     <div slot="no-body" class="p-6 pb-0">
-
-                        <div class="flex" v-if="revenueComparisonLine.analyticsData">
+                        <div class="flex">
                             <div class="mr-6">
-                                <p class="mb-1 font-semibold">This Month</p>
-                                <p class="text-3xl text-success"><sup class="text-base mr-1">$</sup>{{ revenueComparisonLine.analyticsData.thisMonth.toLocaleString() }}</p>
+                                <p class="mb-1 font-semibold">Esse mês</p>
+                                <p class="text-3xl text-success">{{ mediaTickets.analyticsData.thisMonth.toLocaleString() }}</p>
                             </div>
                             <div>
-                                <p class="mb-1 font-semibold">Last Month</p>
-                                <p class="text-3xl"><sup class="text-base mr-1">$</sup>{{ revenueComparisonLine.analyticsData.lastMonth.toLocaleString() }}</p>
+                                <p class="mb-1 font-semibold">Mês passado</p>
+                                <p class="text-3xl">{{ mediaTickets.analyticsData.lastMonth.toLocaleString() }}</p>
                             </div>
                         </div>
-
-                        <vue-apex-charts
-                            type=line
-                            height=266
-                            :options="analyticsData.revenueComparisonLine.chartOptions"
-                            :series="revenueComparisonLine.series"/>
+                        <vue-apex-charts type=line height=266 :options="chartMediaOptions" :series="mediaTickets.series"/>
                     </div>
                 </vx-card>
             </div>
@@ -214,14 +216,15 @@
 </template>
 
 <script>
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
 import VueApexCharts from 'vue-apexcharts'
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
-import analyticsData from './ui-elements/card/analyticsData.js'
 import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
 import VxTimeline from "@/components/timeline/VxTimeline"
 import moduleUsuario from "@/store/usuarios/moduleUsuario";
 import moduleDashboard from "@/store/dashboard/moduleDashboard";
 import ChangeDateDashboard from '@/views/components/ChangeDateDashboard';
+import PlaceHolderLoadingDashboard from "@/views/components/PlaceHolderLoadingDashboard";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -229,63 +232,11 @@ require('moment/locale/pt-br');
 export default {
     data() {
         return {
-            checkpointReward: {},
-            subscribersGained: {},
-            ordersRecevied: {},
-            salesBarSession: {},
-            supportTracker: {},
-            productsOrder: {},
-            salesRadar: {},
-
-            timelineData: [
-                {
-                    color: "primary",
-                    icon: "PlusIcon",
-                    title: "Client Meeting",
-                    desc: "Bonbon macaroon jelly beans gummi bears jelly lollipop apple",
-                    time: "25 mins Ago"
-                },
-                {
-                    color: "warning",
-                    icon: "MailIcon",
-                    title: "Email Newsletter",
-                    desc: "Cupcake gummi bears soufflé caramels candy",
-                    time: "15 Days Ago"
-                },
-                {
-                    color: "danger",
-                    icon: "UsersIcon",
-                    title: "Plan Webinar",
-                    desc: "Candy ice cream cake. Halvah gummi bears",
-                    time: "20 days ago"
-                },
-                {
-                    color: "success",
-                    icon: "LayoutIcon",
-                    title: "Launch Website",
-                    desc: "Candy ice cream cake. Halvah gummi bears Cupcake gummi bears soufflé caramels candy.",
-                    time: "25 days ago"
-                },
-                {
-                    color: "primary",
-                    icon: "TvIcon",
-                    title: "Marketing",
-                    desc: "Candy ice cream cake. Halvah gummi bears Cupcake gummi bears.",
-                    time: "28 days ago"
-                }
-            ],
-
-
-            analyticsData: analyticsData,
-            dispatchedOrders: [],
-            browserStatistics: [],
-            revenueComparisonLine: {},
-
             //Topo
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
             user: {},
             conquistas: [],
-            comissoes: {},
+            comissoes: [],
 
             //Venda por Produto
             por_produto: [],
@@ -323,9 +274,7 @@ export default {
                             total: {
                                 show: true,
                                 label: 'Total',
-                                formatter: function(val) {
-                                    return 42459
-                                }
+                                formatter: this.somaTickets
                             }
                         }
                     },
@@ -377,17 +326,103 @@ export default {
                     },
                 }
             },
-            switchMeusTickets: false
+            tipoMeusTickets: 'atendimento',
 
+            //Últimos Tickets
+            ultimosTickets: [],
+            ultimosTicketsPesquisados: false,
+            paginationUltimos: null,
+
+            //Média Mensagel
+            mediaTickets: {
+                analyticsData: {
+                    thisMonth: 0,
+                    lastMonth: 0
+                },
+                series: [
+                    {name: 'Este mês', data: []},
+                    {name: 'Mês passado', data: []},
+                ]
+            },
+            chartMediaOptions: {
+                chart: {
+                    toolbar: {show: false},
+                    dropShadow: {
+                        enabled: true,
+                        top: 5,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.10,
+                    },
+                },
+                stroke: {
+                    curve: 'smooth',
+                    dashArray: [0, 8],
+                    width: [4, 2],
+                },
+                grid: {
+                    borderColor: '#e7e7e7',
+                },
+                legend: {
+                    show: false,
+                },
+                colors: ['#F97794', '#b8c2cc'],
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        inverseColors: false,
+                        gradientToColors: ['#7367F0', '#b8c2cc'],
+                        shadeIntensity: 1,
+                        type: 'horizontal',
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100, 100, 100]
+                    },
+                },
+                markers: {
+                    size: 0,
+                    hover: {
+                        size: 5
+                    }
+                },
+                xaxis: {
+                    labels: {
+                        style: {
+                            cssClass: 'text-grey fill-current',
+                        }
+                    },
+                    axisTicks: {
+                        show: false,
+                    },
+                    categories: [],
+                    axisBorder: {
+                        show: false,
+                    },
+                },
+                yaxis: {
+                    tickAmount: 5,
+                    labels: {
+                        style: {
+                            cssClass: 'text-grey fill-current',
+                        },
+                        formatter: function (val) {
+                            return val > 999 ? (val / 1000).toFixed(1) + 'k' : val;
+                        }
+                    }
+                },
+                tooltip: {
+                    x: {show: false}
+                }
+            },
+            tipoMediaMensal: 'atendimentos',
+
+            //Quantidades
+            qtdWhats: null,
+            qtdAtrasados: null,
         }
     },
-    components: {
-        VueApexCharts,
-        StatisticsCardLine,
-        ChangeTimeDurationDropdown,
-        VxTimeline,
-        ChangeDateDashboard
-    },
+    components: {VueApexCharts, VuePerfectScrollbar, StatisticsCardLine, ChangeTimeDurationDropdown, VxTimeline, ChangeDateDashboard, PlaceHolderLoadingDashboard},
     created() {
         if (!moduleUsuario.isRegistered) {
             this.$store.registerModule('users', moduleUsuario)
@@ -400,96 +435,6 @@ export default {
         }
 
         this.getUserInfo(this.userInfo.uid);
-
-        this.$http.get("/api/card/card-analytics/browser-analytics")
-            .then((response) => {
-                this.browserStatistics = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Revenue Comparison
-        this.$http.get("/api/card/card-analytics/revenue-comparison")
-            .then((response) => {
-                this.revenueComparisonLine = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        //  User Reward Card
-        this.$http.get("/api/user/checkpoint-reward")
-            .then((response) => {
-                this.checkpointReward = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Subscribers gained - Statistics
-        this.$http.get("/api/card/card-statistics/subscribers")
-            .then((response) => {
-                this.subscribersGained = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Orders - Statistics
-        this.$http.get("/api/card/card-statistics/orders")
-            .then((response) => {
-                this.ordersRecevied = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Sales bar - Analytics
-        this.$http.get("/api/card/card-analytics/sales/bar")
-            .then((response) => {
-                this.salesBarSession = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Support Tracker
-        this.$http.get("/api/card/card-analytics/support-tracker")
-            .then((response) => {
-                this.supportTracker = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Products Order
-        this.$http.get("/api/card/card-analytics/products-orders")
-            .then((response) => {
-                this.productsOrder = response.data
-                console.log('productsorder', this.productsOrder);
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Sales Radar
-        this.$http.get("/api/card/card-analytics/sales/radar")
-            .then((response) => {
-                this.salesRadar = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-        // Dispatched Orders
-        this.$http.get("/api/table/dispatched-orders")
-            .then((response) => {
-                this.dispatchedOrders = response.data
-            })
-            .catch((error) => {
-                console.log(error)
-            })
 
         //Personalizado
         this.getComissoes();
@@ -504,20 +449,19 @@ export default {
                 this.user = response;
             }).finally(() => this.$vs.loading.close());
         },
-        nameCriador(obj) {
-            switch (obj.criador_type) {
+        nameCauser(obj) {
+            switch (obj.causer_type) {
                 case 'App\\Models\\User':
-                    return obj.criador.name;
+                    return obj.causer.name;
                 default:
-                    return obj.criador.nome;
+                    return obj.causer.nome;
             }
         },
         getComissoes() {
-            this.$store.dispatch('dashboard/comissoes').then(response => {
+            this.$store.dispatch('dashboard/getData', {rota: 'comissaos', params: {}}).then(response => {
                 console.log('chegou', response);
                 this.comissoes = response
-                this.getVendaPorProduto();
-            });
+            }).finally(() => this.getVendaPorProduto());
         },
         getVendaPorProduto(datas = null) {
             if (datas == null) {
@@ -527,7 +471,7 @@ export default {
                 }
             }
             this.produtos = [];
-            this.$store.dispatch('dashboard/porProduto', datas).then(response => {
+            this.$store.dispatch('dashboard/getData', {rota: 'dados_venda_por_produto', params: datas}).then(response => {
                 this.por_produto = response; //armazenando array que já vem agrupado por produto
                 this.por_produto.forEach(prod => {
                     this.produtos.push({nome: prod[0].produto.nome, quantidade: prod.length});//salvando cada produto com suas quantidades
@@ -540,8 +484,7 @@ export default {
                     //calculando a parcela da quantidade de cada produto. Porcentagem de venda = quantidaede do item vendido 8 100 dividido
                     item.ratio = (item.quantidade * 100) / somaQuantidade;
                 });
-                this.getMeusTickets();
-            });
+            }).finally(() => this.getMeusTickets());
         },
         getMeusTickets(datas = null) {
             if (datas == null) {
@@ -550,13 +493,13 @@ export default {
                     dt_fim: moment().format('YYYY-MM-DD'),
                 }
             }
-            this.$store.dispatch('dashboard/meusTickets', {...datas, type: this.switchMeusTickets ? 'atendimento' : 'inseridor'}).then(response => {
+            this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets', params: {...datas, type: this.tipoMeusTickets}}).then(response => {
                 let soma = 0;
                 this.meusTickets = {
                     analyticsData: [],
                     series: []
                 }
-                if(this.switchMeusTickets){
+                if (this.tipoMeusTickets == 'atendimento') {
                     this.chartOptions.colors[2] = '#EA5455';
                     this.chartOptions.fill.gradient.gradientToColors[2] = '#f29292';
                     this.chartOptions.labels = ['Ganhou', 'Aguardando', 'Perdeu'];
@@ -583,12 +526,77 @@ export default {
                     this.meusTickets.series.push(((response.tickets_pendentes * 100) / soma).toFixed(2));
                     this.meusTickets.series.push(((response.tickets_finalizados * 100) / soma).toFixed(2));
                 }
+            }).finally(() => this.getTicketsAtrasados());
+        },
+        getTicketsAtrasados(){
+            this.$store.dispatch('dashboard/getData', {rota: 'tickets_atrasados', params: {}}).then(response => {
+                this.qtdAtrasados = response;
+            }).finally(() => this.getWhatsList());
+        },
+        getWhatsList() {
+            this.$store.dispatch('dashboard/getData', {rota: 'whatsapplist_respondidos', params: {}}).then(response => {
+                this.qtdWhats = response;
+            }).finally(() => this.getUltimosTickets());
+        },
+        getUltimosTickets(page = 1) {
+            this.ultimosTicketsPesquisados = false;
+            this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets_atividades', params: {page: page}}).then(response => {
+                this.ultimosTickets = response.data;
+                this.paginationUltimos = response;
+                this.ultimosTicketsPesquisados = true;
+            }).finally(() => this.getMediaMensal());
+        },
+        getMediaMensal(rota = 'atendimentos') {
+            let datas = {
+                dt_inicio: moment().subtract(30, 'days').format('YYYY-MM-DD'),
+                dt_fim: moment().format('YYYY-MM-DD'),
+            }
+            this.$store.dispatch('dashboard/getData', {rota: this.tipoMediaMensal, params: datas}).then(response => {
+                response.periodo_anterior.forEach(item => {
+                    this.mediaTickets.analyticsData.lastMonth += item.quantidade;
+                    this.mediaTickets.series[1].data.push(item.quantidade);
+                });
+                response.periodo_atual.forEach((item, index) => {
+                    this.mediaTickets.analyticsData.thisMonth += item.quantidade;
+                    this.mediaTickets.series[0].data.push(item.quantidade);
+                    this.chartMediaOptions.xaxis.categories.push(item.dia);
+                });
+                console.log('dados', this.mediaTickets.series[0], this.chartMediaOptions)
             });
+        },
+        somaTickets() {
+            let soma = 0;
+            this.meusTickets.analyticsData.forEach(item => {
+                soma += item.counts;
+            })
+            return soma
+        },
+        loadMoreTicket() {
+            if (this.paginationUltimos.current_page < this.paginationUltimos.last_page) {
+                let page = this.paginationUltimos.current_page + 1;
+                this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets_atividades', params: {page: page}}).then(response => {
+                    response.data.forEach(item => {
+                        this.ultimosTickets.push(item);
+                    })
+                    this.paginationUltimos = response;
+                })
+            }
         }
     },
     watch: {
-        switchMeusTickets(val) {
+        tipoMeusTickets(val) {
             this.getMeusTickets();
+        },
+        tipoMediaMensal() {
+            this.chartMediaOptions.xaxis.categories = [];
+            this.mediaTickets.series[0].data = [];
+            this.mediaTickets.series[1].data = [];
+            this.mediaTickets.analyticsData.thisMonth = 0;
+            this.mediaTickets.analyticsData.lastMonth = 0;
+            this.getMediaMensal();
+        },
+        userInfo() {
+            this.getUserInfo(this.userInfo.id);
         }
     }
 }
@@ -596,6 +604,8 @@ export default {
 
 
 <style lang="scss">
+@import "node_modules/placeholder-loading/src/scss/placeholder-loading.scss";
+
 .row-top-dashboard {
     width: 102%;
     left: 0;
@@ -634,4 +644,19 @@ export default {
 }
 
 /*! rtl:end:ignore */
+</style>
+<style scoped>
+.scroll-area--data-list-add-new {
+    /*/ /height: calc(var(--vh, 1 vh) * 100 - 4.3 rem);*/
+    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 10px);
+}
+
+::-webkit-scrollbar-track {
+    z-index: 5000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    z-index: 5000;
+}
 </style>

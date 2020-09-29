@@ -11,11 +11,11 @@
 import axios from "@/axios.js"
 
 export default {
-    comissoes({commit}){
+    getData({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.get('dashboard/comissaos')
+            axios.get(`dashboard/${dados.rota}`, {params: dados.params})
                 .then((response) => {
-                    console.log('comissões', response);
+                    console.log(dados.rota, response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -23,28 +23,4 @@ export default {
                 })
         })
     },
-    porProduto({commit}, datas){
-        return new Promise((resolve, reject) => {
-            axios.get('dashboard/dados_venda_por_produto', {params: datas})
-                .then((response) => {
-                    console.log('vendas por produto', response);
-                    resolve(response.data.data)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    },
-    meusTickets({commit}, datas){
-        return new Promise((resolve, reject) => {
-            axios.get('dashboard/meus_tickets', {params: datas})
-                .then((response) => {
-                    console.log('meus tickets', response);
-                    resolve(response.data.data)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
-    }
 }
