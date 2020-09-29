@@ -77,7 +77,6 @@
                         <template slot="thead">
                             <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
-                            <vs-th>Token</vs-th>
                             <vs-th>Integração</vs-th>
                         </template>
                         <template slot-scope="{data}">
@@ -105,9 +104,6 @@
                                 </vs-td>
                                 <vs-td :data="data[indextr].nome" class="relative">
                                     <span class="destaque">{{ data[indextr].nome }}</span>
-                                </vs-td>
-                                <vs-td :data="data[indextr].token" class="relative">
-                                    {{ data[indextr].token }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].integracao.descricao" class="relative">
                                     {{ data[indextr].integracao.descricao }}
