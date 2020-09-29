@@ -9,8 +9,8 @@
 
 <template>
     <div id="dashboard-analytics">
+        <!-- Topo -->
         <div class="vx-row absolute row-top-dashboard">
-            <!-- Topo -->
             <div class="vx-col w-full mb-base">
                 <vx-card slot="no-body" class="greet-user rounded-none card-top-dashboard">
                     <div class="vx-row">
@@ -46,29 +46,11 @@
             </div>
         </div>
         <div class="vx-row" style="margin-top: 30vh">
-            <!-- CARD 4: SESSION -->
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <div class="vx-row">
                     <div class="vx-col w-full">
-                        <div class="ph-item" v-if="comissoes.length == 0">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-6"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-6 big mb-1"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-2"></div>
-                                </div>
-                                <div class="ph-row">
-                                    <div class="ph-col-6"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-6 big mb-1"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-2"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <vx-card id="chart-comissoes" class="vs-con-loading__container">
+                        <place-holder-loading-dashboard tipo="comissoes" v-if="comissoes.length == 0" />
+                        <vx-card v-else>
                             <div class="vx-row">
                                 <div class="vx-col w-full">
                                     <p>Comissões a receber</p>
@@ -83,28 +65,8 @@
                         </vx-card>
                     </div>
                     <div class="vx-col w-full">
-                        <div class="ph-item mt-base" v-if="produtos.length == 0">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-8 big"></div>
-                                    <div class="ph-col-2 empty"></div>
-                                    <div class="ph-col-2 "></div>
-                                </div>
-                                <div class="ph-row">
-                                    <div class="ph-col-4"></div>
-                                    <div class="ph-col-8 empty"></div>
-                                    <div class="ph-col-2 big"></div>
-                                    <div class="ph-col-10 empty"></div>
-                                </div>
-                                <div class="ph-row">
-                                    <div class="ph-col-4"></div>
-                                    <div class="ph-col-8 empty"></div>
-                                    <div class="ph-col-2 big"></div>
-                                    <div class="ph-col-10 empty"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <vx-card title="Venda por produto" class="mt-base">
+                        <place-holder-loading-dashboard tipo="produtos" v-if="produtos.length == 0" />
+                        <vx-card title="Venda por produto" class="mt-base" v-else>
                             <template slot="actions">
                                 <change-date-dashboard @changeDate="getVendaPorProduto"></change-date-dashboard>
                             </template>
@@ -126,28 +88,8 @@
                 <div class="vx-row">
                     <!-- Meus Tickets -->
                     <div class="vx-col w-full mb-base">
-                        <div class="ph-item mt-base" v-if="meusTickets.analyticsData.length == 0" >
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-8 big"></div>
-                                    <div class="ph-col-2 empty"></div>
-                                    <div class="ph-col-2 "></div>
-                                </div>
-                                <div class="ph-picture mb-10"></div>
-                                <div class="ph-row">
-                                    <div class="ph-col-4"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-2"></div>
-                                    <div class="ph-col-4"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-2"></div>
-                                    <div class="ph-col-4"></div>
-                                    <div class="ph-col-6 empty"></div>
-                                    <div class="ph-col-2"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <vx-card title="Meus Tickets">
+                        <place-holder-loading-dashboard tipo="meusTickets" v-if="meusTickets.analyticsData.length == 0"/>
+                        <vx-card v-else title="Meus Tickets">
                             <!-- CARD ACTION -->
                             <template slot="actions" class="flex items-center">
                                 <vs-dropdown vs-trigger-click class="cursor-pointer">
@@ -181,77 +123,23 @@
                     </div>
                     <!-- Tickets Atrasados -->
                     <div class="vx-col w-full">
-                        <div class="ph-item mt-base" style="display: none">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-4 big"></div>
-                                    <div class="ph-col-8 empty"></div>
-                                </div>
-                                <div class="ph-row">
-                                    <div class="ph-col-6"></div>
-                                    <div class="ph-col-4 empty"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <statistics-card-line
-                            hideChart
-                            class="mb-base"
-                            icon="ClockIcon"
-                            icon-right
-                            statistic="1.2gb"
-                            statisticTitle="Tickets Atrasados"
-                            color="danger"/>
+                        <place-holder-loading-dashboard v-if="qtdAtrasados == null" tipo="whatsapplist" />
+                        <statistics-card-line hideChart class="mb-base" chart-data="" icon="ClockIcon" v-else
+                            icon-right :statistic="qtdAtrasados" statisticTitle="Tickets Atrasados" color="danger"/>
                     </div>
 
                     <!-- Whatslist atendidos -->
                     <div class="vx-col w-full">
-                        <div class="ph-item mt-base" v-if="qtdWhats == null">
-                            <div class="ph-col-12">
-                                <div class="ph-row">
-                                    <div class="ph-col-4 big"></div>
-                                    <div class="ph-col-8 empty"></div>
-                                </div>
-                                <div class="ph-row">
-                                    <div class="ph-col-6"></div>
-                                    <div class="ph-col-4 empty"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <statistics-card-line
-                            hideChart
-                            icon="SmartphoneIcon"
-                            icon-right
-                            :statistic="qtdWhats"
-                            statisticTitle="WhatsappLists Respondidos"
-                            color="success"/>
+                        <place-holder-loading-dashboard v-if="qtdWhats == null" tipo="whatsapplist" />
+                        <statistics-card-line v-else hideChart icon="SmartphoneIcon" icon-right :statistic="qtdWhats"
+                            statisticTitle="WhatsappLists Respondidos" color="success"/>
                     </div>
                 </div>
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <VuePerfectScrollbar class="scroll-area--data-list-add-new">
-                    <div class="ph-item mt-base" style="width: 96%;" v-if="!ultimosTicketsPesquisados">
-                        <div class="ph-col-12">
-                            <div class="ph-row">
-                                <div class="ph-col-2"></div>
-                                <div class="ph-col-2 empty"></div>
-                                <div class="ph-col-6"></div>
-                            </div>
-                        </div>
-                        <div class="ph-col-2">
-                            <div class="ph-avatar"></div>
-                        </div>
-                        <div>
-                            <div class="ph-row">
-                                <div class="ph-col-6"></div>
-                                <div class="ph-col-6 empty"></div>
-                            </div>
-                            <div class="ph-row">
-                                <div class="ph-col-6"></div>
-                                <div class="ph-col-6"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <vx-card v-for="item in ultimosTickets" class="mb-base" style="width: 96%">
+                    <place-holder-loading-dashboard tipo="ultimosTicktes" v-if="!ultimosTicketsPesquisados"/>
+                    <vx-card v-for="item in ultimosTickets" class="mb-base" v-else style="width: 96%">
                         <div class="vx-row mb-4">
                             <div class="vx-col w-3/12">
                                 <p class="text-lg mb-3">#{{ item.id }}</p>
@@ -295,17 +183,7 @@
 
         <div class="vx-row">
             <div class="vx-col w-full">
-                <div class="ph-item" v-if="this.chartMediaOptions.xaxis.categories.length == 0">
-                    <div class="ph-col-12">
-                        <div class="ph-row">
-                            <div class="ph-col-4 big"></div>
-                            <div class="ph-col-8 empty"></div>
-                        </div>
-                        <div class="ph-row">
-                            <div class="ph-picture"></div>
-                        </div>
-                    </div>
-                </div>
+                <place-holder-loading-dashboard v-if="this.chartMediaOptions.xaxis.categories.length == 0" tipo="media" />
                 <vx-card v-if="this.chartMediaOptions.xaxis.categories.length > 0" :title="`Comparativo Mensal - ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'}`">
 
                     <template slot="actions">
@@ -346,6 +224,7 @@ import VxTimeline from "@/components/timeline/VxTimeline"
 import moduleUsuario from "@/store/usuarios/moduleUsuario";
 import moduleDashboard from "@/store/dashboard/moduleDashboard";
 import ChangeDateDashboard from '@/views/components/ChangeDateDashboard';
+import PlaceHolderLoadingDashboard from "@/views/components/PlaceHolderLoadingDashboard";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -540,9 +419,10 @@ export default {
 
             //Quantidades
             qtdWhats: null,
+            qtdAtrasados: null,
         }
     },
-    components: {VueApexCharts, VuePerfectScrollbar, StatisticsCardLine, ChangeTimeDurationDropdown, VxTimeline, ChangeDateDashboard},
+    components: {VueApexCharts, VuePerfectScrollbar, StatisticsCardLine, ChangeTimeDurationDropdown, VxTimeline, ChangeDateDashboard, PlaceHolderLoadingDashboard},
     created() {
         if (!moduleUsuario.isRegistered) {
             this.$store.registerModule('users', moduleUsuario)
@@ -646,6 +526,11 @@ export default {
                     this.meusTickets.series.push(((response.tickets_pendentes * 100) / soma).toFixed(2));
                     this.meusTickets.series.push(((response.tickets_finalizados * 100) / soma).toFixed(2));
                 }
+            }).finally(() => this.getTicketsAtrasados());
+        },
+        getTicketsAtrasados(){
+            this.$store.dispatch('dashboard/getData', {rota: 'tickets_atrasados', params: {}}).then(response => {
+                this.qtdAtrasados = response;
             }).finally(() => this.getWhatsList());
         },
         getWhatsList() {
