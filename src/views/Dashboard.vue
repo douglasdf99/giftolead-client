@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="vx-col w-7/12">
+                        <div class="vx-col w-7/12" v-if="user.conquistas.length > 0">
                             <p class="text-white mb-3">Consquistas</p>
                             <div class="flex">
                                 <div v-for="conq in user.conquistas">
@@ -49,7 +49,7 @@
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <div class="vx-row">
                     <div class="vx-col w-full">
-                        <place-holder-loading-dashboard tipo="comissoes" v-if="comissoes.length == 0" />
+                        <place-holder-loading-dashboard tipo="comissoes" v-if="comissoes.length == 0"/>
                         <vx-card v-else>
                             <div class="vx-row">
                                 <div class="vx-col w-full">
@@ -65,12 +65,12 @@
                         </vx-card>
                     </div>
                     <div class="vx-col w-full">
-                        <place-holder-loading-dashboard tipo="produtos" v-if="produtos.length == 0" />
-                        <vx-card title="Venda por produto" class="mt-base" v-else>
+                        <place-holder-loading-dashboard tipo="produtos" v-if="!por_produto_pesquisado"/>
+                        <vx-card :title="produtos.length > 0 ? 'Venda por produto' : 'Nenhuma venda encontrada'" class="mt-base" v-else>
                             <template slot="actions">
                                 <change-date-dashboard @changeDate="getVendaPorProduto"></change-date-dashboard>
                             </template>
-                            <div v-for="(item, index) in produtos" :key="index" :class="{'mt-4': index}">
+                            <div v-for="(item, index) in produtos" :key="index" :class="{'mt-4': index}" v-if="produtos.length > 0">
                                 <div class="flex justify-between">
                                     <div class="flex flex-col">
                                         <span class="mb-1">{{ item.nome }}</span>
@@ -88,15 +88,15 @@
                 <div class="vx-row">
                     <!-- Meus Tickets -->
                     <div class="vx-col w-full mb-base">
-                        <place-holder-loading-dashboard tipo="meusTickets" v-if="meusTickets.analyticsData.length == 0"/>
+                        <place-holder-loading-dashboard tipo="meus_tickets" v-if="meus_tickets.analyticsData.length == 0"/>
                         <vx-card v-else title="Meus Tickets">
                             <!-- CARD ACTION -->
                             <template slot="actions" class="flex items-center">
                                 <vs-dropdown vs-trigger-click class="cursor-pointer">
                                     <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey mr-4"></feather-icon>
                                     <vs-dropdown-menu class="w-32">
-                                        <vs-dropdown-item @click="tipoMeusTickets = 'atendimento'">Atendidos</vs-dropdown-item>
-                                        <vs-dropdown-item @click="tipoMeusTickets = 'inseridor'">Inseridos</vs-dropdown-item>
+                                        <vs-dropdown-item @click="tipo_meus_tickets = 'atendimento'">Atendidos</vs-dropdown-item>
+                                        <vs-dropdown-item @click="tipo_meus_tickets = 'inseridor'">Inseridos</vs-dropdown-item>
                                     </vs-dropdown-menu>
                                 </vs-dropdown>
                                 <change-date-dashboard @changeDate="getMeusTickets"></change-date-dashboard>
@@ -105,11 +105,11 @@
                             <!-- Chart -->
                             <div slot="no-body">
                                 <vue-apex-charts type=radialBar height=420
-                                                 :options="chartOptions"
-                                                 :series="meusTickets.series"/>
+                                                 :options="chart_options"
+                                                 :series="meus_tickets.series"/>
                             </div>
                             <ul>
-                                <li v-for="orderData in meusTickets.analyticsData" :key="orderData.orderType"
+                                <li v-for="orderData in meus_tickets.analyticsData" :key="orderData.orderType"
                                     class="flex mb-3 justify-between">
                                     <span class="flex items-center">
                                             <span class="inline-block h-4 w-4 rounded-full mr-2 bg-white border-3 border-solid"
@@ -123,37 +123,54 @@
                     </div>
                     <!-- Tickets Atrasados -->
                     <div class="vx-col w-full">
-                        <place-holder-loading-dashboard v-if="qtdAtrasados == null" tipo="whatsapplist" />
+                        <place-holder-loading-dashboard v-if="qtdAtrasados == null" tipo="whatsapplist"/>
                         <statistics-card-line hideChart class="mb-base" chart-data="" icon="ClockIcon" v-else
-                            icon-right :statistic="qtdAtrasados" statisticTitle="Tickets Atrasados" color="danger"/>
+                                              icon-right :statistic="qtdAtrasados" statisticTitle="Tickets Atrasados" color="danger"/>
                     </div>
 
                     <!-- Whatslist atendidos -->
                     <div class="vx-col w-full">
-                        <place-holder-loading-dashboard v-if="qtdWhats == null" tipo="whatsapplist" />
+                        <place-holder-loading-dashboard v-if="qtdWhats == null" tipo="whatsapplist"/>
                         <statistics-card-line v-else hideChart icon="SmartphoneIcon" icon-right :statistic="qtdWhats"
-                            statisticTitle="WhatsappLists Respondidos" color="success"/>
+                                              statisticTitle="WhatsappLists Respondidos" color="success"/>
                     </div>
                 </div>
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <VuePerfectScrollbar class="scroll-area--data-list-add-new">
-                    <place-holder-loading-dashboard tipo="ultimosTickets" v-if="!ultimosTicketsPesquisados"/>
-                    <vx-card v-for="item in ultimosTickets" class="mb-base" v-else style="width: 96%">
+                    <place-holder-loading-dashboard tipo="ultimos_tickets" v-if="!ultimos_tickets_esquisados"/>
+                    <vx-card v-for="item in ultimos_tickets" class="mb-base" v-else style="width: 96%">
                         <div class="vx-row mb-4">
                             <div class="vx-col w-3/12">
                                 <p class="text-lg mb-3">#{{ item.id }}</p>
-                                <vx-tooltip position="top" :text="'Responsável | ' + nameCauser(item.ultima_acao)" class="img-criador">
-                                    <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente" v-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCarrinho'">
-                                    <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaBoleto'">
-                                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaWhatsapp'">
-                                    <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\Whatsapplist'">
-                                    <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente"
-                                         v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaAgendamento'">
-                                    <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente"
-                                         v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCancelado'">
-                                    <img :src="get_img_api(item.ultima_acao.causer.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
-                                </vx-tooltip>
+                                <div class="flex items-center text-center">
+                                    <vx-tooltip position="top" :text="'Responsável | ' + nameCauser(item.responsavel, item.responsavel_type)" v-if="item.responsavel != null">
+                                        <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-if="item.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
+                                        <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.responsavel_type == 'App\\Models\\CampanhaBoleto'">
+                                        <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
+                                        <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.responsavel_type == 'App\\Models\\Whatsapplist'">
+                                        <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
+                                        <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.responsavel_type == 'App\\Models\\CampanhaCancelado'">
+                                        <img :src="get_img_api(item.responsavel.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
+                                    </vx-tooltip>
+                                    <vx-tooltip position="top" :text="'Última Ação | ' + nameCauser(item.ultima_acao)" style="margin-left: -15px" class="img-criador">
+                                        <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente" v-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCarrinho'">
+                                        <img src="@/assets/images/util/boleto.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaBoleto'">
+                                        <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaWhatsapp'">
+                                        <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.ultima_acao.causer_type == 'App\\Models\\Whatsapplist'">
+                                        <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaAgendamento'">
+                                        <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente"
+                                             v-else-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCancelado'">
+                                        <img :src="get_img_api(item.ultima_acao.causer.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
+                                    </vx-tooltip>
+                                </div>
                             </div>
                             <div class="vx-col w-7/12">
                                 <p class="font-bold">{{ item.lead.nome }}</p>
@@ -183,16 +200,15 @@
 
         <div class="vx-row">
             <div class="vx-col w-full">
-                <place-holder-loading-dashboard v-if="this.chartMediaOptions.xaxis.categories.length == 0" tipo="media" />
-                <vx-card v-if="this.chartMediaOptions.xaxis.categories.length > 0"
-                         :title="`Tickets ${tipoMediaMensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'} - Comparativo Mensal`">
-
+                <place-holder-loading-dashboard v-if="this.chart_media_options.xaxis.categories.length == 0" tipo="media"/>
+                <vx-card v-if="this.chart_media_options.xaxis.categories.length > 0"
+                         :title="`Tickets ${tipo_media_mensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'} - Comparativo Mensal`">
                     <template slot="actions">
                         <vs-dropdown vs-trigger-click class="cursor-pointer">
                             <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey mr-4"></feather-icon>
                             <vs-dropdown-menu class="w-32">
-                                <vs-dropdown-item @click="tipoMediaMensal = 'atendimentos'">Atendidos</vs-dropdown-item>
-                                <vs-dropdown-item @click="tipoMediaMensal = 'inseridos'">Inseridos</vs-dropdown-item>
+                                <vs-dropdown-item @click="tipo_media_mensal = 'atendimentos'">Atendidos</vs-dropdown-item>
+                                <vs-dropdown-item @click="tipo_media_mensal = 'inseridos'">Inseridos</vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </template>
@@ -200,14 +216,14 @@
                         <div class="flex">
                             <div class="mr-6">
                                 <p class="mb-1 font-semibold">Esse mês</p>
-                                <p class="text-3xl" :style="{'color' : '#F97794'}">{{ mediaTickets.analyticsData.thisMonth.toLocaleString() }}</p>
+                                <p class="text-3xl" :style="{'color' : '#F97794'}">{{ media_tickets.analyticsData.thisMonth.toLocaleString() }}</p>
                             </div>
                             <div>
                                 <p class="mb-1 font-semibold">Mês passado</p>
-                                <p class="text-3xl">{{ mediaTickets.analyticsData.lastMonth.toLocaleString() }}</p>
+                                <p class="text-3xl">{{ media_tickets.analyticsData.lastMonth.toLocaleString() }}</p>
                             </div>
                         </div>
-                        <vue-apex-charts type=line height=266 :options="chartMediaOptions" :series="mediaTickets.series"/>
+                        <vue-apex-charts type=line height=266 :options="chart_media_options" :series="media_tickets.series"/>
                     </div>
                 </vx-card>
             </div>
@@ -235,20 +251,23 @@ export default {
         return {
             //Topo
             userInfo: JSON.parse(localStorage.getItem('userInfo')),
-            user: {},
+            user: {
+                conquistas: []
+            },
             conquistas: [],
             comissoes: [],
 
             //Venda por Produto
             por_produto: [],
             produtos: [],
+            por_produto_pesquisado: false,
 
             //Meus tickets
-            meusTickets: {
+            meus_tickets: {
                 analyticsData: [],
                 series: []
             },
-            chartOptions: {
+            chart_options: {
                 labels: ['Ganhou', 'Aguardando', 'Perdeu'],
                 plotOptions: {
                     radialBar: {
@@ -327,15 +346,15 @@ export default {
                     },
                 }
             },
-            tipoMeusTickets: 'atendimento',
+            tipo_meus_tickets: 'atendimento',
 
             //Últimos Tickets
-            ultimosTickets: [],
-            ultimosTicketsPesquisados: false,
+            ultimos_tickets: [],
+            ultimos_tickets_esquisados: false,
             paginationUltimos: null,
 
             //Média Mensagel
-            mediaTickets: {
+            media_tickets: {
                 analyticsData: {
                     thisMonth: 0,
                     lastMonth: 0
@@ -345,7 +364,7 @@ export default {
                     {name: 'Mês passado', data: []},
                 ]
             },
-            chartMediaOptions: {
+            chart_media_options: {
                 chart: {
                     toolbar: {show: false},
                     dropShadow: {
@@ -416,7 +435,7 @@ export default {
                     x: {show: false}
                 }
             },
-            tipoMediaMensal: 'atendimentos',
+            tipo_media_mensal: 'atendimentos',
 
             //Quantidades
             qtdWhats: null,
@@ -437,8 +456,27 @@ export default {
 
         this.getUserInfo(this.userInfo.uid);
 
+        var self = this;
+
+        async function init() {
+            await self.getComissoes();
+
+            await self.getVendaPorProduto();
+
+            await self.getMeusTickets();
+
+            await self.getTicketsAtrasados();
+
+            await self.getWhatsList();
+
+            await self.getUltimosTickets();
+
+            await self.getMediaMensal();
+
+        }
+
         //Personalizado
-        this.getComissoes();
+        init();
 
         this.$store.dispatch('ativarMenu', true);
     },
@@ -450,21 +488,34 @@ export default {
                 this.user = response;
             }).finally(() => this.$vs.loading.close());
         },
-        nameCauser(obj) {
-            switch (obj.causer_type) {
-                case 'App\\Models\\User':
-                    return obj.causer.name;
-                default:
-                    return obj.causer.nome;
+        nameCauser(obj, responsavel_type = null) {
+            if (obj.causer_type) {
+                switch (obj.causer_type) {
+                    case 'App\\Models\\User':
+                        return obj.causer.name;
+                    default:
+                        return obj.causer.nome;
+                }
+            } else if (responsavel_type) {
+                switch (responsavel_type) {
+                    case 'App\\Models\\User':
+                        return obj.name;
+                    default:
+                        return obj.nome;
+                }
             }
         },
         getComissoes() {
-            this.$store.dispatch('dashboard/getData', {rota: 'comissaos', params: {}}).then(response => {
-                console.log('chegou', response);
-                this.comissoes = response
-            }).finally(() => this.getVendaPorProduto());
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: 'comissaos', params: {}}).then(response => {
+                    console.log('chegou', response);
+                    this.comissoes = response;
+                    resolve();
+                });
+            });
         },
         getVendaPorProduto(datas = null) {
+
             if (datas == null) {
                 datas = {
                     dt_inicio: moment().subtract(7, 'days').format('YYYY-MM-DD'),
@@ -472,20 +523,27 @@ export default {
                 }
             }
             this.produtos = [];
-            this.$store.dispatch('dashboard/getData', {rota: 'dados_venda_por_produto', params: datas}).then(response => {
-                this.por_produto = response; //armazenando array que já vem agrupado por produto
-                this.por_produto.forEach(prod => {
-                    this.produtos.push({nome: prod[0].produto.nome, quantidade: prod.length});//salvando cada produto com suas quantidades
+            this.por_produto_pesquisado = false;
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: 'dados_venda_por_produto', params: datas}).then(response => {
+                    this.por_produto = response; //armazenando array que já vem agrupado por produto
+                    this.por_produto_pesquisado = true;
+                    if (this.por_produto.length > 0) {
+                        this.por_produto.forEach(prod => {
+                            this.produtos.push({nome: prod[0].produto.nome, quantidade: prod.length});//salvando cada produto com suas quantidades
+                        });
+                        let somaQuantidade = 0;
+                        this.produtos.forEach(item => {
+                            somaQuantidade += item.quantidade;//guarda a soma da quantidade de todas as vendas, independente do produto
+                        });
+                        this.produtos.forEach(item => {
+                            //calculando a parcela da quantidade de cada produto. Porcentagem de venda = quantidaede do item vendido 8 100 dividido
+                            item.ratio = (item.quantidade * 100) / somaQuantidade;
+                        });
+                    }
+                    resolve();
                 });
-                let somaQuantidade = 0;
-                this.produtos.forEach(item => {
-                    somaQuantidade += item.quantidade;//guarda a soma da quantidade de todas as vendas, independente do produto
-                });
-                this.produtos.forEach(item => {
-                    //calculando a parcela da quantidade de cada produto. Porcentagem de venda = quantidaede do item vendido 8 100 dividido
-                    item.ratio = (item.quantidade * 100) / somaQuantidade;
-                });
-            }).finally(() => this.getMeusTickets());
+            });
         },
         getMeusTickets(datas = null) {
             if (datas == null) {
@@ -494,80 +552,99 @@ export default {
                     dt_fim: moment().format('YYYY-MM-DD'),
                 }
             }
-            this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets', params: {...datas, type: this.tipoMeusTickets}}).then(response => {
-                let soma = 0;
-                this.meusTickets = {
-                    analyticsData: [],
-                    series: []
-                }
-                if (this.tipoMeusTickets == 'atendimento') {
-                    this.chartOptions.colors[2] = '#EA5455';
-                    this.chartOptions.fill.gradient.gradientToColors[2] = '#f29292';
-                    this.chartOptions.labels = ['Ganhou', 'Aguardando', 'Perdeu'];
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets', params: {...datas, type: this.tipo_meus_tickets}}).then(response => {
+                    let soma = 0;
+                    this.meus_tickets = {
+                        analyticsData: [],
+                        series: []
+                    }
+                    if (this.tipo_meus_tickets == 'atendimento') {
+                        this.chart_options.colors[2] = '#EA5455';
+                        this.chart_options.fill.gradient.gradientToColors[2] = '#f29292';
+                        this.chart_options.labels = ['Ganhou', 'Aguardando', 'Perdeu'];
 
-                    soma = (response.tickets_aguardando + response.tickets_ganhou + response.tickets_perdeu);
-                    this.meusTickets.analyticsData.push({color: 'success', counts: response.tickets_ganhou, orderType: 'Ganhou'});
-                    this.meusTickets.analyticsData.push({color: 'warning', counts: response.tickets_aguardando, orderType: 'Aguardando'});
-                    this.meusTickets.analyticsData.push({color: 'danger', counts: response.tickets_perdeu, orderType: 'Perdeu'});
+                        soma = (response.tickets_aguardando + response.tickets_ganhou + response.tickets_perdeu);
+                        this.meus_tickets.analyticsData.push({color: 'success', counts: response.tickets_ganhou, orderType: 'Ganhou'});
+                        this.meus_tickets.analyticsData.push({color: 'warning', counts: response.tickets_aguardando, orderType: 'Aguardando'});
+                        this.meus_tickets.analyticsData.push({color: 'danger', counts: response.tickets_perdeu, orderType: 'Perdeu'});
 
-                    this.meusTickets.series.push(((response.tickets_ganhou * 100) / soma).toFixed(2));
-                    this.meusTickets.series.push(((response.tickets_aguardando * 100) / soma).toFixed(2));
-                    this.meusTickets.series.push(((response.tickets_perdeu * 100) / soma).toFixed(2));
-                } else {
-                    this.chartOptions.colors[2] = '#0c0c0c';
-                    this.chartOptions.fill.gradient.gradientToColors[2] = '#353434';
-                    this.chartOptions.labels = ['Abertos', 'Pendentes', 'Finalizadas'];
+                        this.meus_tickets.series.push(((response.tickets_ganhou * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_aguardando * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_perdeu * 100) / soma).toFixed(2));
+                    } else {
+                        this.chart_options.colors[2] = '#0c0c0c';
+                        this.chart_options.fill.gradient.gradientToColors[2] = '#353434';
+                        this.chart_options.labels = ['Abertos', 'Pendentes', 'Finalizadas'];
 
-                    soma = (response.tickets_pendentes + response.tickets_abertos + response.tickets_finalizados);
-                    this.meusTickets.analyticsData.push({color: 'success', counts: response.tickets_abertos, orderType: 'Abertos'});
-                    this.meusTickets.analyticsData.push({color: 'warning', counts: response.tickets_pendentes, orderType: 'Pendentes'});
-                    this.meusTickets.analyticsData.push({color: 'dark', counts: response.tickets_finalizados, orderType: 'Finalizados'});
+                        soma = (response.tickets_pendentes + response.tickets_abertos + response.tickets_finalizados);
+                        this.meus_tickets.analyticsData.push({color: 'success', counts: response.tickets_abertos, orderType: 'Abertos'});
+                        this.meus_tickets.analyticsData.push({color: 'warning', counts: response.tickets_pendentes, orderType: 'Pendentes'});
+                        this.meus_tickets.analyticsData.push({color: 'dark', counts: response.tickets_finalizados, orderType: 'Finalizados'});
 
-                    this.meusTickets.series.push(((response.tickets_abertos * 100) / soma).toFixed(2));
-                    this.meusTickets.series.push(((response.tickets_pendentes * 100) / soma).toFixed(2));
-                    this.meusTickets.series.push(((response.tickets_finalizados * 100) / soma).toFixed(2));
-                }
-            }).finally(() => this.getTicketsAtrasados());
+                        this.meus_tickets.series.push(((response.tickets_abertos * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_pendentes * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_finalizados * 100) / soma).toFixed(2));
+                    }
+                    resolve()
+                });
+            });
         },
-        getTicketsAtrasados(){
-            this.$store.dispatch('dashboard/getData', {rota: 'tickets_atrasados', params: {}}).then(response => {
-                this.qtdAtrasados = response;
-            }).finally(() => this.getWhatsList());
+        getTicketsAtrasados() {
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: 'tickets_atrasados', params: {}}).then(response => {
+                    this.qtdAtrasados = response;
+                    resolve()
+                });
+            });
         },
         getWhatsList() {
-            this.$store.dispatch('dashboard/getData', {rota: 'whatsapplist_respondidos', params: {}}).then(response => {
-                this.qtdWhats = response;
-            }).finally(() => this.getUltimosTickets());
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: 'whatsapplist_respondidos', params: {}}).then(response => {
+                    this.qtdWhats = response;
+                    resolve();
+                });
+            });
         },
         getUltimosTickets(page = 1) {
-            this.ultimosTicketsPesquisados = false;
-            this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets_atividades', params: {page: page}}).then(response => {
-                this.ultimosTickets = response.data;
-                this.paginationUltimos = response;
-                this.ultimosTicketsPesquisados = true;
-            }).finally(() => this.getMediaMensal());
+            this.ultimos_tickets_esquisados = false;
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets_atividades', params: {page: page}}).then(response => {
+                    this.ultimos_tickets = response.data;
+                    this.paginationUltimos = response;
+                    this.ultimos_tickets_esquisados = true;
+                    resolve()
+                });
+            });
         },
         getMediaMensal(rota = 'atendimentos') {
             let datas = {
                 dt_inicio: moment().subtract(30, 'days').format('YYYY-MM-DD'),
                 dt_fim: moment().format('YYYY-MM-DD'),
             }
-            this.$store.dispatch('dashboard/getData', {rota: this.tipoMediaMensal, params: datas}).then(response => {
-                response.periodo_anterior.forEach(item => {
-                    this.mediaTickets.analyticsData.lastMonth += item.quantidade;
-                    this.mediaTickets.series[1].data.push(item.quantidade);
+            this.media_tickets.series[0].data = [];
+            this.media_tickets.series[1].data = [];
+            this.media_tickets.analyticsData.thisMonth = 0;
+            this.media_tickets.analyticsData.lastMonth = 0;
+            return new Promise(resolve => {
+                this.$store.dispatch('dashboard/getData', {rota: this.tipo_media_mensal, params: datas}).then(response => {
+                    response.periodo_anterior.forEach(item => {
+                        this.media_tickets.analyticsData.lastMonth += item.quantidade;
+                        this.media_tickets.series[1].data.push(item.quantidade);
+                    });
+                    response.periodo_atual.forEach((item, index) => {
+                        this.media_tickets.analyticsData.thisMonth += item.quantidade;
+                        this.media_tickets.series[0].data.push(item.quantidade);
+                        this.chart_media_options.xaxis.categories.push(item.dia);
+                    });
+                    console.log('dados', this.media_tickets.series[0], this.chart_media_options)
+                    resolve()
                 });
-                response.periodo_atual.forEach((item, index) => {
-                    this.mediaTickets.analyticsData.thisMonth += item.quantidade;
-                    this.mediaTickets.series[0].data.push(item.quantidade);
-                    this.chartMediaOptions.xaxis.categories.push(item.dia);
-                });
-                console.log('dados', this.mediaTickets.series[0], this.chartMediaOptions)
             });
         },
         somaTickets() {
             let soma = 0;
-            this.meusTickets.analyticsData.forEach(item => {
+            this.meus_tickets.analyticsData.forEach(item => {
                 soma += item.counts;
             })
             return soma
@@ -577,7 +654,7 @@ export default {
                 let page = this.paginationUltimos.current_page + 1;
                 this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets_atividades', params: {page: page}}).then(response => {
                     response.data.forEach(item => {
-                        this.ultimosTickets.push(item);
+                        this.ultimos_tickets.push(item);
                     })
                     this.paginationUltimos = response;
                 })
@@ -585,15 +662,15 @@ export default {
         }
     },
     watch: {
-        tipoMeusTickets(val) {
+        tipo_meus_tickets(val) {
             this.getMeusTickets();
         },
-        tipoMediaMensal() {
-            this.chartMediaOptions.xaxis.categories = [];
-            this.mediaTickets.series[0].data = [];
-            this.mediaTickets.series[1].data = [];
-            this.mediaTickets.analyticsData.thisMonth = 0;
-            this.mediaTickets.analyticsData.lastMonth = 0;
+        tipo_media_mensal() {
+            this.chart_media_options.xaxis.categories = [];
+            this.media_tickets.series[0].data = [];
+            this.media_tickets.series[1].data = [];
+            this.media_tickets.analyticsData.thisMonth = 0;
+            this.media_tickets.analyticsData.lastMonth = 0;
             this.getMediaMensal();
         },
         userInfo() {

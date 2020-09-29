@@ -767,6 +767,21 @@ th > .vs-table-text {
     transition-duration: .3s;
 }
 
+.img-criador:hover {
+    z-index: 5000 !important;
+}
+
+.agente {
+    transition-duration: .3s;
+    border: 2px solid white;
+    background-color: white;
+}
+
+.agente:hover {
+    transition-duration: .3s;
+    transform: translateY(-7px);
+}
+
 @media (max-width: 450px) {
     .dropdown-menu-list {
         transform: translate(-100%);
