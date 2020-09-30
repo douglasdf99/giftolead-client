@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="inicio modulo de sino de notificação">
-      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardActions.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardGetters.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardMutations.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store/dashboard/moduleDashboardState.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/components/ChangeDateDashboard.vue" afterDir="false" />
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Sprint 23 -">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/comissoes/moduleComissoesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/comissoes/moduleComissoesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/globalMethods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/globalMethods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/configuracoes/rotasConfigGerais.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/configuracoes/rotasConfigGerais.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/rotasDashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasDashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/extensoes/moduleExtensoesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/extensoes/moduleExtensoesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/notificacoes/moduleNotificacoesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/notificacoes/moduleNotificacoesActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/comissoes/Aprovar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Aprovar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/Comissionar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Comissionar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/comissoes/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/SideBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/produtos/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/produtos/AddEdit.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/ui-elements/card/analyticsData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ui-elements/card/analyticsData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/components/ChangeDateDashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/components/ChangeDateDashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/components/OptionsNotification.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/components/OptionsNotification.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Conquistas.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Conquistas.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Notificacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Notificacoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/conquistas/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/conquistas/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/empresa/Show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/empresa/Show.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/extensoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/extensoes/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/minhasComissoes/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/minhasComissoes/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ordens/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ordens/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atender.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atender.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Historico.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Historico.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/usuarios/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/usuarios/AddEdit.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +44,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Vue Single File Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -47,7 +64,12 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/store/dashboard" />
@@ -63,7 +85,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -198,42 +220,9 @@
       <workItem from="1599566429385" duration="1777000" />
       <workItem from="1600951741760" duration="24871000" />
       <workItem from="1601037718368" duration="1427000" />
-      <workItem from="1601039217757" duration="23781000" />
-    </task>
-    <task id="LOCAL-00021" summary="inicio crud brinde e novo select">
-      <created>1588080885762</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1588080885763</updated>
-    </task>
-    <task id="LOCAL-00022" summary="crud contas arrumado">
-      <created>1588084198481</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1588084198481</updated>
-    </task>
-    <task id="LOCAL-00023" summary="refatoração sistema de login, bearer usando localstorage">
-      <created>1588174655010</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1588174655010</updated>
-    </task>
-    <task id="LOCAL-00024" summary="inicio do dropdown">
-      <created>1588251333510</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1588251333511</updated>
-    </task>
-    <task id="LOCAL-00025" summary="crud produto e inicio brinde">
-      <created>1588275842128</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1588275842128</updated>
+      <workItem from="1601039217757" duration="24152000" />
+      <workItem from="1601294851228" duration="26173000" />
+      <workItem from="1601382538316" duration="37529000" />
     </task>
     <task id="LOCAL-00026" summary="brindes meio">
       <created>1588615217118</created>
@@ -543,7 +532,42 @@
       <option name="project" value="LOCAL" />
       <updated>1600977241110</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="Sprint 22 - andamento Dashboard">
+      <created>1601068617759</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1601068617761</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Sprint 22 - finalizada primeira versão do Dashboard.vue">
+      <created>1601388631625</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1601388631625</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Sprint 22 - hotfix Dashboard">
+      <created>1601391921655</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1601391921655</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Sprint 22 - Hotfix chamadas do módulo de usuários">
+      <created>1601398117441</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1601398117441</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Sprint 22 - push do dia e alterações no dashboard para utilizar uma promisse">
+      <created>1601416098865</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1601416098865</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TodoView">
@@ -559,11 +583,6 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="login e preloader com logo corretas" />
-    <MESSAGE value="ajuste em rotas sem pai" />
-    <MESSAGE value="andamento com crud de links" />
-    <MESSAGE value="paginacao brinde" />
-    <MESSAGE value="sistema de links e meus link 90%" />
     <MESSAGE value="sistema de links e meus link 100%" />
     <MESSAGE value="tela de campanha email pre definida" />
     <MESSAGE value="Novos inputs crição/edição de email" />
@@ -584,43 +603,53 @@
     <MESSAGE value="inicio modulo de sino de notificação" />
     <MESSAGE value="Sprint 22 - finalizada primeira versão das notificações, com listagem e atualização em tempo real" />
     <MESSAGE value="Sprint 22 - Nova extensão do Slack implementada" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sprint 22 - Nova extensão do Slack implementada" />
+    <MESSAGE value="Sprint 22 - andamento Dashboard" />
+    <MESSAGE value="Sprint 22 - finalizada primeira versão do Dashboard.vue" />
+    <MESSAGE value="Sprint 22 - hotfix Dashboard" />
+    <MESSAGE value="Sprint 22 - Hotfix chamadas do módulo de usuários" />
+    <MESSAGE value="Sprint 22 - push do dia e alterações no dashboard para utilizar uma promisse" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sprint 22 - push do dia e alterações no dashboard para utilizar uma promisse" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
-    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1600977240315">
+    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1601474250656">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600977240315" />
+    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601474250656" />
     <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1600965488058">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600965488058" />
     <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599220822369" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1599161636152">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="369" y="115" key="SettingsEditor" timestamp="1601323036631">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="369" y="115" key="SettingsEditor/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601323036631" />
     <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1600977242392">
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1601416103570">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600977242392" />
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1600952153928">
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601416103570" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601474370101">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600952153928" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601474370101" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599050689284" />
-    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1600974468785">
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1601490328833">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600974468785" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601065716266">
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601490328833" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1601384177904">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601065716266" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601384177904" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601491773543">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601491773543" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -632,7 +661,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/router.js</url>
-          <line>1421</line>
+          <line>1401</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -663,7 +692,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/produtos/AddEdit.vue</url>
           <line>52</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="30" />
         </line-breakpoint>
       </breakpoints>

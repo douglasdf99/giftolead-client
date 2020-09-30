@@ -389,7 +389,6 @@
                         console.log('watch', val, this.datetime);
                         if (this.datetime != null && this.atendimento.tipo == 1)
                             this.atendimento.data_agendamento = this.datetime;
-
                         let obj = {...this.ticket, ...this.atendimento};
                         localStorage.setItem("atendimento", JSON.stringify(obj));
                         this.$store.commit('tickets/SET_TICKET_ATENDIDO', obj);

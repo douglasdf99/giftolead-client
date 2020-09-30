@@ -161,7 +161,7 @@
                                 <div v-show="!images.length" class="flex items-center justify-center">
                                     <label for="file">
                                         <i class="fa fa-cloud-upload"></i>
-                                        <img :src="url_api('images/upload.png')">
+                                        <img :src="get_img_api('images/upload.png')">
                                         <p class="text-lg">Arraste e solte ou clique aqui</p>
                                         <div class="file-input" style="display: none">
                                             <input type="file" hidden id="file" @change="onInputChange">

@@ -39,23 +39,25 @@
                         <vs-textarea v-model="descricao" id="text-area" class="w-full bg-white" rows="6"/>
                     </div>
                 </div>
-                <div class="vx-row flex items-center" v-else>
-                    <div class="vx-col w-full lg:w-1/2" v-if="data.ticket.lead.nome">
-                        <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
-                        <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
-                        <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
-                        <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
+                <div v-else>
+                    <div class="vx-row flex items-center">
+                        <div class="vx-col w-full lg:w-1/2" v-if="data.ticket.lead.nome">
+                            <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
+                            <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
+                            <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
+                            <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
+                        </div>
+                        <div class="vx-col w-full lg:w-1/2 text-right">
+                            <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>
+                            <p>Data: <b>{{ data.created_at | formatDateTime }}</b></p>
+                            <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{ data.tipo }}</vs-chip>
+                        </div>
                     </div>
-                    <div class="vx-col w-full lg:w-1/2 text-right">
-                        <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>
-                        <p>Data: <b>{{ data.created_at | formatDateTime }}</b></p>
-                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{ data.tipo }}</vs-chip>
-                    </div>
-                </div>
-                <vs-divider></vs-divider>
-                <div class="vx-row mt-3">
-                    <div class="vx-col w-full">
-                        <p class="text-xl">{{descricao}}</p>
+                    <vs-divider></vs-divider>
+                    <div class="vx-row mt-3">
+                        <div class="vx-col w-full">
+                            <p class="text-xl">{{ descricao }}</p>
+                        </div>
                     </div>
                 </div>
                 <div class="vx-row px-3">
@@ -107,7 +109,14 @@ export default {
     },
     updated() {
         console.log(this.data)
-        this.descricao = this.data.descricao;
+        if(this.data.action == 2)
+            this.descricao = this.data.descricao;
+    },
+    created() {
+        if(this.data.action == 1){
+            this.images = [];
+            this.files = [];
+        }
     },
     computed: {
         isSidebarActiveLocal: {

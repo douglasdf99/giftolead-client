@@ -49,7 +49,7 @@
                         Pagar ordens
                     </vs-button>
                     <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('unpayOrdens')" v-if="tipo == 'pago'">
-                        Reverter ordens
+                        Reverter pagamentos
                     </vs-button>
                     <vs-button class="mr-3 float-left" color="primary" type="filled" @click="imprimirPDF()">
                         Imprimir Ordens

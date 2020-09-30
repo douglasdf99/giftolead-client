@@ -3,7 +3,7 @@
         <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar"  @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-8/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
@@ -29,7 +29,7 @@
                     </div>
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <label class="vs-input--label">Usuário</label>
-                        <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="true" class="bg-white"
+                        <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
                                   :options="usuarios"/>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
                 currentx: 1,
                 comissoes: [],
                 tipoCom: 'pendente',
-                selectedUser: {id: null, label: 'Selecione o atendente'},
+                selectedAten: {id: null, label: 'Selecione o atendente'},
                 selectedResp: null,
                 responsaveis: [
                     {id: 'whatsapplist', label: 'WhatsappList'},
@@ -148,8 +148,8 @@
                     control++;
                 }
 
-                if(this.selectedUser.id != null){
-                    this.dados.user_id = this.selectedUser.id;
+                if(this.selectedAten.id != null){
+                    this.dados.user_id = this.selectedAten.id;
                 }
 
                 if(this.selectedResp){
@@ -175,6 +175,7 @@
             getOpcoes(){
                 this.selectedAten.label = 'Carregando...';
                 this.$store.dispatch('users/get').then(response => {
+                    console.log('ae, doido', response)
                     this.usuarios = [...this.arraySelect(response)];
                     this.selectedAten.label = 'Selecione o atendente';
                 });
@@ -214,7 +215,7 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-            selectedUser() {
+            selectedAten() {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getItems();

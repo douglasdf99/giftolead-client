@@ -25,7 +25,7 @@ export default {
     },
     getId({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/confignotifications/1`)
+            axios.get(`/notifications/1`)
                 .then((response) => {
                     console.log('produto resgatado', response);
                     resolve(response.data.data)

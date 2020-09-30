@@ -66,7 +66,7 @@
                     </div>
                     <div class="vx-col w-full">
                         <place-holder-loading-dashboard tipo="produtos" v-if="!por_produto_pesquisado"/>
-                        <vx-card :title="produtos.length > 0 ? 'Venda por produto' : 'Nenhuma venda encontrada'" class="mt-base" v-else>
+                        <vx-card :title="produtos.length > 0 ? 'Venda por produto' : 'Nenhuma venda encontrada'" class="mt-base" v-show="por_produto_pesquisado">
                             <template slot="actions">
                                 <change-date-dashboard @changeDate="getVendaPorProduto"></change-date-dashboard>
                             </template>
@@ -179,7 +179,7 @@
                             <div class="vx-col w-1/12">
                                 <p class="mb-3">
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
-                                             :class="`text-${(item.status == 0 || item.status == 3) ? 'success' : item.status == 1 ? 'warning' : 'danger'}`"></vs-icon>
+                                             :class="`text-${(item.status == 0 || item.status == 3) ? 'success' : item.status == 1 ? 'warning' : 'dark'}`"></vs-icon>
                                 </p>
                             </div>
                         </div>
@@ -268,7 +268,7 @@ export default {
                 series: []
             },
             chart_options: {
-                labels: ['Ganhou', 'Aguardando', 'Perdeu'],
+                labels: ['Perdeu', 'Aguardando', 'Ganhou'],
                 plotOptions: {
                     radialBar: {
                         size: 165,
@@ -317,7 +317,7 @@ export default {
                         }
                     }
                 }],
-                colors: ['#4DE98A', '#FF9F43', '#EA5455'],
+                colors: ['#EA5455', '#FF9F43', '#4DE98A'],
                 fill: {
                     type: 'gradient',
                     gradient: {
@@ -325,7 +325,7 @@ export default {
                         shade: 'dark',
                         type: 'vertical',
                         shadeIntensity: 0.5,
-                        gradientToColors: ['#65dd91', '#FFC085', '#f29292'],
+                        gradientToColors: ['#f29292', '#FFC085', '#65dd91'],
                         inverseColors: false,
                         opacityFrom: 1,
                         opacityTo: 1,
@@ -460,22 +460,14 @@ export default {
 
         async function init() {
             await self.getComissoes();
-
             await self.getVendaPorProduto();
-
             await self.getMeusTickets();
-
             await self.getTicketsAtrasados();
-
             await self.getWhatsList();
-
             await self.getUltimosTickets();
-
             await self.getMediaMensal();
-
         }
 
-        //Personalizado
         init();
 
         this.$store.dispatch('ativarMenu', true);
@@ -515,7 +507,6 @@ export default {
             });
         },
         getVendaPorProduto(datas = null) {
-
             if (datas == null) {
                 datas = {
                     dt_inicio: moment().subtract(7, 'days').format('YYYY-MM-DD'),
@@ -560,31 +551,31 @@ export default {
                         series: []
                     }
                     if (this.tipo_meus_tickets == 'atendimento') {
-                        this.chart_options.colors[2] = '#EA5455';
-                        this.chart_options.fill.gradient.gradientToColors[2] = '#f29292';
-                        this.chart_options.labels = ['Ganhou', 'Aguardando', 'Perdeu'];
+                        this.chart_options.colors[0] = '#EA5455';
+                        this.chart_options.fill.gradient.gradientToColors[0] = '#f29292';
+                        this.chart_options.labels = ['Perdeu', 'Aguardando', 'Ganhou'];
 
                         soma = (response.tickets_aguardando + response.tickets_ganhou + response.tickets_perdeu);
-                        this.meus_tickets.analyticsData.push({color: 'success', counts: response.tickets_ganhou, orderType: 'Ganhou'});
-                        this.meus_tickets.analyticsData.push({color: 'warning', counts: response.tickets_aguardando, orderType: 'Aguardando'});
                         this.meus_tickets.analyticsData.push({color: 'danger', counts: response.tickets_perdeu, orderType: 'Perdeu'});
+                        this.meus_tickets.analyticsData.push({color: 'warning', counts: response.tickets_aguardando, orderType: 'Aguardando'});
+                        this.meus_tickets.analyticsData.push({color: 'success', counts: response.tickets_ganhou, orderType: 'Ganhou'});
 
-                        this.meus_tickets.series.push(((response.tickets_ganhou * 100) / soma).toFixed(2));
-                        this.meus_tickets.series.push(((response.tickets_aguardando * 100) / soma).toFixed(2));
                         this.meus_tickets.series.push(((response.tickets_perdeu * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_aguardando * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_ganhou * 100) / soma).toFixed(2));
                     } else {
-                        this.chart_options.colors[2] = '#0c0c0c';
-                        this.chart_options.fill.gradient.gradientToColors[2] = '#353434';
-                        this.chart_options.labels = ['Abertos', 'Pendentes', 'Finalizadas'];
+                        this.chart_options.colors[0] = '#0c0c0c';
+                        this.chart_options.fill.gradient.gradientToColors[0] = '#353434';
+                        this.chart_options.labels = ['Finalizadas', 'Pendentes', 'Abertas'];
 
                         soma = (response.tickets_pendentes + response.tickets_abertos + response.tickets_finalizados);
-                        this.meus_tickets.analyticsData.push({color: 'success', counts: response.tickets_abertos, orderType: 'Abertos'});
-                        this.meus_tickets.analyticsData.push({color: 'warning', counts: response.tickets_pendentes, orderType: 'Pendentes'});
                         this.meus_tickets.analyticsData.push({color: 'dark', counts: response.tickets_finalizados, orderType: 'Finalizados'});
+                        this.meus_tickets.analyticsData.push({color: 'warning', counts: response.tickets_pendentes, orderType: 'Pendentes'});
+                        this.meus_tickets.analyticsData.push({color: 'success', counts: response.tickets_abertos, orderType: 'Abertos'});
 
-                        this.meus_tickets.series.push(((response.tickets_abertos * 100) / soma).toFixed(2));
-                        this.meus_tickets.series.push(((response.tickets_pendentes * 100) / soma).toFixed(2));
                         this.meus_tickets.series.push(((response.tickets_finalizados * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_pendentes * 100) / soma).toFixed(2));
+                        this.meus_tickets.series.push(((response.tickets_abertos * 100) / soma).toFixed(2));
                     }
                     resolve()
                 });
@@ -726,7 +717,7 @@ export default {
 <style scoped>
 .scroll-area--data-list-add-new {
     /*/ /height: calc(var(--vh, 1 vh) * 100 - 4.3 rem);*/
-    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 10px);
+    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - -45px);
 }
 
 ::-webkit-scrollbar-track {

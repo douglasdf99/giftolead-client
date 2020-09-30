@@ -50,7 +50,7 @@
                         <span class="text-danger text-sm"
                               v-show="errors.has('funcao')">{{ errors.first('funcao') }}</span>
                     </div>
-                    <div class="vx-col w-full mt-4">
+                    <div class="vx-col w-full mt-4" v-if="slack">
                         <span class="font-regular mb-2">WebHook Slack</span>
                         <vs-input class="w-full" v-model="usuario.wehookslack" size="large" type="text" v-validate="'url:require_protocol'"/>
                     </div>
@@ -68,7 +68,7 @@
                             <template slot="no-body">
                                 <!-- ITEM IMAGE -->
                                 <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                    <img :src="url_api(usuario.avatar)" style="width: 200px" alt="avatar"
+                                    <img :src="get_img_api(usuario.avatar)" style="width: 200px" alt="avatar"
                                          class="grid-view-img px-4">
                                 </div>
                                 <div class="item-details px-4">
@@ -106,7 +106,7 @@
                             <div v-show="!images.length">
                                 <label for="file">
                                     <i class="fa fa-cloud-upload"></i>
-                                    <img :src="url_api('images/upload.png')">
+                                    <img :src="get_img_api('images/upload.png')">
                                     <p class="text-lg">Arraste e solte ou clique aqui</p>
                                     <div class="file-input" style="display: none">
                                         <input type="file" id="file" @change="onInputChange">
@@ -173,6 +173,7 @@
                 this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
+            this.verificaExt();
             this.getOpcoes();
 
             if (this.$route.name === 'usuario-editar') {
@@ -197,6 +198,7 @@
                 files: [],
                 images: [],
                 isDragging: false,
+                slack: false
             }
         },
         methods: {
@@ -269,8 +271,7 @@
                             color: 'danger'
                         })
                     }
-                })
-
+                });
             },
             enableValidate(){
                 if (this.$route.name === 'usuario-editar')
@@ -345,6 +346,11 @@
                 }
                 return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
             },
+            verificaExt(){
+                this.verficaExtesoes().then(response => {
+                    this.slack = response.includes('slack');
+                });
+            }
         },
         computed: {
             isValid() {

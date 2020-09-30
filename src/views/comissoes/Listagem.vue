@@ -1,10 +1,10 @@
 <template>
     <div>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+            <div class="w-full lg:w-8/12 s:w-full sem-item">
                 <div class="w-8/12">
                     <div>
-                        <p class="span-sem-item">Nenhuma registro encontrado</p>
+                        <p class="span-sem-item">Nenhum registro encontrado</p>
                     </div>
                     <br>
                 </div>
@@ -35,13 +35,9 @@
                 </vx-tooltip>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
-                <vx-tooltip position="top" text="Possui anexo" v-if="true" class="cursor-default">
+                <vx-tooltip position="top" text="Possui anexo" v-if="item.anexos.length > 0" class="cursor-default">
                     <vs-icon icon-pack="material-icons" icon="attach_file"
                              class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
-                </vx-tooltip>
-                <vx-tooltip position="top" text="Não possui anexo" v-else class="cursor-default">
-                    <vs-icon icon-pack="material-icons" icon="attach_file"
-                             class="icon-grande font-bold text-dark"></vs-icon>
                 </vx-tooltip>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning" v-if="item.tipo == 'pendente'"></vs-icon>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-danger" v-else></vs-icon>

@@ -101,6 +101,7 @@
                         </div>
                     </div>
                 </div>
+                <p v-if="data.descricao">{{data.descricao}}</p>
                 <div class="vx-row my-5 px-3" v-if="data.anexos.length > 0">
                     <p class="font-bold">Imagens anexadas</p>
                     <galeria :imagens="data.anexos" :remove="false"></galeria>

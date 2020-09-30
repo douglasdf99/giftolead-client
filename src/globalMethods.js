@@ -1,4 +1,5 @@
 import saveleadsConfig from "../saveleadsConfig";
+import axios from "@/axios.js";
 
 let methods = {
     url_redirect: function (local) {
@@ -30,18 +31,18 @@ let methods = {
         let val = (value / 1).toFixed(2).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     },
-    arraySelect(response){
+    arraySelect(response) {
         let arr = [...response];
         let obj = [];
         arr.forEach(item => {
-            if(item.name)
+            if (item.name)
                 obj.push({id: item.id, label: item.name});
             else
                 obj.push({id: item.id, label: item.nome});
         });
         return obj;
     },
-    getAvatar(email){
+    getAvatar(email) {
         let md5 = require('md5');
         email = email.trim();
         email = md5(email);
@@ -94,6 +95,31 @@ let methods = {
 
         return 'Agora'
     },
+    verficaExtesoes() {
+        var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+        let arr = [];
+        if(!subdomain)
+            subdomain = 'app';
+        return new Promise((resolve, reject) => {
+            axios.get(`/extensoes/company`, {params: {subdomain: subdomain}})
+                .then((response) => {
+                    let resultado = response.data.data;
+                    resultado.extensoes.forEach(item => {
+                        if (item.extensao_type == 'App\\Models\\Extensoes\\Slack') {
+                            if (item.ativo == 1)
+                                arr.push('slack');
+                        } else if (item.extensao_type == 'App\\Models\\Extensoes\\TotalVoice') {
+                            if (item.ativo == 1)
+                                arr.push('totalvoice');
+                        }
+                    })
+                    resolve(arr);
+                })
+                .catch((error) => {
+                    console.log('erro get extensoes', error)
+                })
+        });
+    }
 };
 
 export default methods

@@ -31,7 +31,10 @@ export default {
         }
     },
     mounted() {
-        this.$store.registerModule('users', moduleUsuario)
+        if (!moduleUsuario.isRegistered) {
+            this.$store.registerModule('users', moduleUsuario)
+            moduleUsuario.isRegistered = true
+        }
 
         if (!moduleCampAgendamentos.isRegistered) {
             this.$store.registerModule('agendadas', moduleCampAgendamentos)

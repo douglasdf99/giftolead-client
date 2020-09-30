@@ -51,7 +51,7 @@
                                     <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>-->
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/configuracoes/conquistas/editar/' + item.id})">
-                                    <img :src="url_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
+                                    <img :src="get_img_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
                                     <p class="nome-conq">
                                         {{item.nome}}
                                     </p>

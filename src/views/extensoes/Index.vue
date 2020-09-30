@@ -34,7 +34,7 @@
                                         <p class="font-bold text-black text-md mb-0">Contrato com os correios</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.correios.ativo" class="float-right switch" v-if="extensoes.correios != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.correios)" vs-icon-on="check" color="#0FB599" v-model="extensoes.correios.ativo" class="float-right switch" v-if="extensoes.correios != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -55,7 +55,7 @@
                                         <p class="font-bold text-black text-md mb-0">Ligações internas com a Zenvia</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.totalvoice)" vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -76,7 +76,7 @@
                                         <p class="font-bold text-black text-md mb-0">Notificações via Slack</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.slack)" vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -148,8 +148,9 @@
                 this.$vs.loading();
                 this.getItems();
             },
-            ativaConquista(e) {
+            ativaExt(e) {
                 console.log(this.countSwitch)
+                e._method = 'PUT';
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.ativo = !e.ativo;
                     this.$vs.notify({
@@ -162,9 +163,27 @@
                 } else {
                     console.log(e)
                     const formData = new FormData();
-                    /*let ativo = e.ativo ? 0 : 1;
+                    let ativo = e.ativo ? 0 : 1;
                     let text = e.ativo ? 'Desativada' : 'Ativada';
-                    formData.append('_method', 'PUT');*/
+                    let obj = {...e}
+                    obj.ativo = ativo;
+                    this.$store.dispatch('extensoes/switchExt', {id: e.id, dados: obj}).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },

@@ -23,11 +23,11 @@
                          class="icon-grande text-blue" v-if="ticket.status == 3"></vs-icon>
             </div>
             <div class="vx-col w-2/12 flex justify-around items-center">
-                <i class="material-icons cursor-pointer" v-if="ticket.status != 2"
+                <i class="material-icons hover:text-primary cursor-pointer" v-if="ticket.status != 2"
                    @click="$emit('atender', ticket.id)">call</i>
-                <i class="material-icons ">visibility</i>
-                <i class="material-icons cursor-pointer" @click="$emit('update', ticket)">edit</i>
-                <i class="material-icons cursor-pointer" @click="$emit('delete', ticket.id)">delete</i>
+                <i class="material-icons hover:text-primary ">visibility</i>
+                <i class="material-icons hover:text-primary cursor-pointer" @click="$emit('update', ticket)">edit</i>
+                <i class="material-icons hover:text-primary cursor-pointer" @click="$emit('delete', ticket.id)">delete</i>
             </div>
         </div>
     </div>
@@ -44,7 +44,3 @@
         },
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -40,10 +40,10 @@
         </vs-table>
         <vs-table :data="items" class="table-items" v-else>
             <template slot="thead">
-                <vs-th></vs-th>
-                <vs-th></vs-th>
-                <vs-th></vs-th>
-                <vs-th></vs-th>
+                <vs-th>Lead / Produto</vs-th>
+                <vs-th>Atendente</vs-th>
+                <vs-th>Comissão</vs-th>
+                <vs-th>Responsável</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
@@ -53,16 +53,14 @@
                     </vs-td>
                     <vs-td>
                         <div class="flex items-center" v-if="tr.user">
-                            <img :src="get_img_api(tr.user.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                            <img :src="get_img_api(tr.user.avatar)" width="40px" class="rounded-full mr-5 ml-1" style="margin-left: -8%"/>
                             <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
                         </div>
                     </vs-td>
                     <vs-td>
-                        <p>comissão</p>
                         <p class="preco">R$ {{formatPrice(tr.valor)}}</p>
                     </vs-td>
                     <vs-td>
-                        <p>responsável</p>
                         <div class="flex items-center">
                             <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaCarrinho'">
                             <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaBoleto'">

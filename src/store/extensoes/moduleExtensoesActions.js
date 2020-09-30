@@ -106,4 +106,16 @@ export default {
                 }).catch(erro => reject(erro))
         });
     },
+    switchExt({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/extensoes/company/${dados.id}`, dados.dados)
+                .then((response) => {
+                    console.log('resposta zenvia', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

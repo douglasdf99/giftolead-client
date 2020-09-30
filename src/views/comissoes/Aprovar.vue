@@ -2,6 +2,23 @@
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData" @action="action"/>
+        <div class="vx-row flex items-end">
+            <div class="vx-col w-full lg:w-6/12">
+                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                </p>
+            </div>
+            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
+                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                   :append-to-body="true" :ranges="ranges">
+                </date-range-picker>
+            </div>
+        </div>
         <div class="vx-row flex items-end lg:mt-5 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -31,7 +48,7 @@
             </div>
             <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Atendente</label>
-                <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
+                <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="false" class="bg-white"
                           :options="usuarios"/>
             </div>
         </div>
@@ -66,25 +83,6 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
-                <div class="vx-row mt-20" v-show="comissoes.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                </div>
             </vs-col>
         </vs-row>
     </div>
@@ -94,6 +92,8 @@
     import SelectResponsaveis from "../components/SelectResponsaveis";
     import SideBar from './SideBar'
     import listagem from './Listagem'
+    import DateRangePicker from 'vue2-daterange-picker'
+    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
@@ -103,9 +103,12 @@
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
     import moduleCampWhatsapp from "../../store/campanha_whatsapp/moduleCampWhatsapp";
 
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
+
     export default {
         name: "Index",
-        components: {SideBar, listagem, 'v-select': vSelect, SelectResponsaveis},
+        components: {SideBar, listagem, 'v-select': vSelect, SelectResponsaveis, DateRangePicker},
         data() {
             return {
                 colorx: 'rgb(16, 233, 179)',
@@ -114,7 +117,7 @@
                 sidebarData: {},
                 search: '',
                 dados: {
-                    search: '',
+                    pesquisa: '',
                     page: 1,
                     length: 25
                 },
@@ -122,6 +125,29 @@
                     last_page: 1,
                     page: 1,
                     current_page: 1
+                },
+                dateRange: {},
+                localeData: {
+                    direction: 'ltr',
+                    format: 'dd/mm/yyyy',
+                    separator: ' - ',
+                    applyLabel: 'Aplicar',
+                    cancelLabel: 'Cancelar',
+                    weekLabel: 'M',
+                    customRangeLabel: 'Período',
+                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    firstDay: 0,
+                    startDate: '',
+                    endDate: '',
+                },
+                ranges: {
+                    //Definindo ranges padronizados
+                    'Hoje': [this.getDay(true), this.getDay(true)],
+                    'Ontem': [this.getDay(false), this.getDay(false)],
+                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 },
                 lengths: saveleadsConfig.lengths,
                 currentx: 1,
@@ -141,7 +167,9 @@
             }
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
+            this.dateRange.startDate = moment().subtract(30, 'days');
+            this.dateRange.endDate = moment();
             if (!moduleComissoes.isRegistered) {
                 this.$store.registerModule('comissoes', moduleComissoes)
                 moduleComissoes.isRegistered = true
@@ -175,6 +203,36 @@
             this.getItems();
         },
         methods: {
+            getDay(dia) {
+                //Definindo datas usadas nos ranges padronizados
+                let today = new Date()
+                today.setHours(0, 0, 0, 0)
+
+                let yesterday = new Date()
+                yesterday.setDate(today.getDate() - 1)
+                yesterday.setHours(0, 0, 0, 0);
+                return (dia ? today : yesterday)
+            },
+            setDate(val) {
+                this.$vs.loading();
+                switch (val) {
+                    case 'hoje':
+                        this.dateRange.startDate = moment();
+                        break;
+                    case '7':
+                        this.dateRange.startDate = moment().subtract(7, 'days');
+                        break;
+                    case '15':
+                        this.dateRange.startDate = moment().subtract(15, 'days');
+                        break;
+                    case '30':
+                        this.dateRange.startDate = moment().subtract(30, 'days');
+                        break;
+                }
+                this.dateRange.endDate = moment();
+                this.dados.page = 1
+                this.getItems();
+            },
             openAlert(title, text, color, id = null) {
                 this.$vs.dialog({
                     color: color,
@@ -206,11 +264,6 @@
 
                 let url = '';
                 let control = 0;//Controla entradas em cada condição
-                if (this.search !== '') {
-                    url += 'lead.email:' + this.search + ';';
-                    url += 'ticket.id:' + this.search;
-                    control++;
-                }
 
                 if (this.selectedResp != null) {
                     this.dados.criador_type = this.selectedResp.criador_type;
@@ -224,10 +277,12 @@
                     this.dados.atendente_id = this.selectedAten.id
                 }
 
-                if (control >= 2)
-                    url += '&searchJoin=and';
+                if (this.dateRange.startDate)
+                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+                if (this.dateRange.endDate)
+                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
-                this.dados.search = url;
+                this.dados.pesquisa = this.search;
 
                 this.$store.dispatch('comissoes/getPreCom', {params: this.dados}).then(response => {
                     console.log('retornado com sucessso', response)
@@ -345,6 +400,10 @@
                     }
                 },
                 deep: true
+            },
+            dateRange() {
+                this.$vs.loading();
+                this.getItems();
             },
         },
         mounted() {

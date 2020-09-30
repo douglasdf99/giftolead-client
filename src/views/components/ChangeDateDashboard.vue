@@ -4,7 +4,7 @@
             <span>{{ label }}</span>
             <feather-icon icon='ChevronDownIcon' svgClasses='h-4 w-4' class='ml-1'/>
         </small>
-        <vs-dropdown-menu class="w-32">
+        <vs-dropdown-menu class="w-60">
             <vs-dropdown-item @click="setDate('7'); label = 'Últimos 7 dias'">Últimos 7 dias</vs-dropdown-item>
             <vs-dropdown-item @click="setDate('31'); label = 'Último mês'">Último mês</vs-dropdown-item>
             <vs-dropdown-item @click="setDate('365'); label = 'Último ano'">Último ano</vs-dropdown-item>
