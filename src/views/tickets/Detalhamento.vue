@@ -91,26 +91,6 @@
                             </p>
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
-                            <div class="w-full flex my-5">
-                                <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="!conectado" v-if="conectado">
-                                    Ligar
-                                    <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
-                                </vs-button>
-                                <vx-tooltip text="Nenhum ramal está vinculado ao seu usuário" position="top">
-                                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">
-                                        Sem ramal
-                                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>
-                                    </vs-button>
-                                </vx-tooltip>
-
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
-                                    <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
-                                </vs-button>
-                                <vs-button class="rounded-full mx-2 px-1 py-1" color="#F23257" type="filled" @click="email(ticket)">
-                                    <i class="fa fa-envelope-open text-2xl mx-2 text-white"></i>
-                                </vs-button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -158,9 +138,6 @@
         <div class="vx-row mt-5" v-if="ticket.lead">
             <div class="vx-col w-full">
                 <vs-tabs color="primary" v-model="selectedTab">
-                    <vs-tab color="primary" value="10" label="atendimento">
-                        <atendimento></atendimento>
-                    </vs-tab>
                     <vs-tab color="primary" :label="`histórico (${ticket.acoesrecebidas.length})`">
                         <historico :data="ticket.acoesrecebidas" @whatsapp="whatsapp(ticket)"></historico>
                     </vs-tab>
@@ -283,14 +260,6 @@
                 this.$store.registerModule('tickets', moduleTickets)
                 moduleTickets.isRegistered = true
             }
-            if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('users', moduleUsuario)
-                moduleUsuario.isRegistered = true
-            }
-
-            this.verificacao();
-
-
 
         },
         methods: {
@@ -391,45 +360,6 @@
                     }
                 })
             },
-            verificacao() {
-                this.$store.dispatch('tickets/verificaDisponibilidade', this.$route.params.id).then(response => {
-                    console.log('olha o response', response)
-                    if (response.status == 'ok')
-                        this.getId(this.$route.params.id);
-                    else if (response.status == 'atendendo') {
-                        this.openAlert('Ticket em atendimento', response.msg, 'danger');
-                    } else if (response.status == 'jaatendendo') {
-                        this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
-                    } else {
-                        this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
-                    }
-                });
-            },
-            openAlert(title, text, color, id = null) {
-                this.$vs.dialog({
-                    color: color,
-                    title: title,
-                    text: text,
-                    type: 'confirm',
-                    cancelText: 'Voltar',
-                    accept: () => {
-                        if (id != null) {
-                            this.$router.push({name: 'tickets-atender', params: {id}});
-                            this.getId(id);
-                        } else
-                            this.$router.push({name: 'tickets-list'});
-                    },
-                    cancel: () => {
-                        this.$router.push({name: 'tickets-list'});
-                    },
-                    acceptText: 'Ir até ele'
-                })
-            },
-            sendChamada(id) {
-                this.$store.dispatch('tickets/chamaNumero', {ticket: this.ticket, chamada_id: id}).then(response => {
-                    console.log('response também da chamada realizada', response)
-                });
-            },
             getStatus(val) {
                 switch (val) {
                     case 0:
@@ -442,18 +372,6 @@
                         return 'reaberto';
                 }
             },
-
-            /* TOTAL VOICE */
-            //Conecta o webphone para coloca-lo em operação
-            conectar() {
-                webphone.contentWindow.postMessage({message: 'conectar'}, '*');
-            },
-
-            //desconecta o webphone - ele nao recebe nem envia mais chamadas
-            desconectar() {
-                webphone.contentWindow.postMessage({message: 'desconectar'}, '*');
-            },
-
             tratamentoTelefone(ddd, telefone) {
                 if (ddd) {
                     ddd = ddd.replace(/[{()}]/g, '');
@@ -469,103 +387,11 @@
 
                 return ddd + telefone;
             },
-
-            //telefona para um número
-            chamaNumero() {
-                this.isCallActive = true;
-
-                this.$vs.loading({
-                    container: `#loading-sound`,
-                    type: 'sound',
-                });
-                this.$vs.loading({
-                    container: `#loading-default`,
-                    type: 'default',
-                });
-
-                let teletone = this.tratamentoTelefone(this.ticket.lead.ddd, this.ticket.lead.telefone)
-                console.log('numero', teletone)
-                webphone.contentWindow.postMessage({
-                    message: 'chamaNumero',
-                    //'numero': '61981489175',
-                    'numero': teletone
-                }, '*');
-            },
-            desligaChamada() {
-                console.log(this.chamada);
-                webphone.contentWindow.postMessage({
-                    message: 'hangup'
-                }, '*');
-                let text = (this.chamada.id != null) ? 'Chamada encerrada e registrada no histórico do Ticket.' : 'Chamada encerrada.';
-                this.$vs.notify({
-                    color: 'primary',
-                    title: '',
-                    text: text
-                });
-                this.getId(this.$route.params.id);
-                /* this.$store.dispatch('tickets/desligaChamada', this.chamada).then(response => {
-                   console.log('response também da chamada desligada', response)
-                   this.$vs.loading.close();
-                 });*/
-            },
-
-
-            //mute microfone
-            mute() {
-                this.muted = !this.muted;
-                webphone.contentWindow.postMessage({
-                    message: 'mute'
-                }, '*');
-
-            },
-
-
-            //cronometro//
-
-            start() {
-                this.cron = setInterval(() => {
-                    this.timer();
-                }, this.tempo);
-            },
-            //Para o temporizador e limpa as variáveis
-            stop() {
-                clearInterval(this.cron);
-                this.hh = 0;
-                this.mm = 0;
-                this.ss = 0;
-
-                this.time = '00:00:00';
-            },
-
-            //Faz a contagem do tempo e exibição
-            timer() {
-                this.ss++; //Incrementa +1 na variável ss
-
-                if (this.ss == 59) { //Verifica se deu 59 segundos
-                    this.ss = 0; //Volta os segundos para 0
-                    this.mm++; //Adiciona +1 na variável mm
-
-                    if (this.mm == 59) { //Verifica se deu 59 minutos
-                        this.mm = 0;//Volta os minutos para 0
-                        this.hh++;//Adiciona +1 na variável hora
-                    }
-                }
-                //Cria uma variável com o valor tratado HH:MM:SS
-                let format = (this.hh < 10 ? '0' + this.hh : this.hh) + ':' + (this.mm < 10 ? '0' + this.mm : this.mm) + ':' + (this.ss < 10 ? '0' + this.ss : this.ss);
-                console.log('timer', format)
-                this.time = format;
-            },
-
         },
         computed: {
             ticket() {
                 return this.$store.state.tickets.ticketAtendimento;
             },
-            valido() {
-                let temfollow = this.ticket.follow_up != null && this.ticket.follow_up != "";
-                console.log('status', this.ticket);
-                return (temfollow && this.ticket.status_atendimento_id != '');
-            }
         },
         watch: {
             '$refs': {
@@ -582,66 +408,7 @@
             },
         },
         mounted() {
-          this.$store.dispatch('users/getUserAuth').then(response => {
-            console.log('usuario', response);
-            async function f2() {
-              let recaptchaScript = await document.createElement('script');
-              if (recaptchaScript){
-                console.log('recaptch', recaptchaScript);
-                await recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.webphone + '&tipo=hidden&ver=2');
-                await document.body.appendChild(recaptchaScript)
-              }
-            }
-            f2();
-          });
-            //this.getAvailableCustomers();
-            var vm = this;
-            window.onmessage = function (e) {
-                //quando receber uma ligacao
-                console.log('evento', e)
-                if (e.data.message == 'chegandoChamada') {
-                    alert('Chegando Chamada de ' + e.data.numeroChegando + ' para: ' + e.data.numeroDestino + ' chamada_recebida_id: ' + e.data.chamadaRecebidaId);
-                }
-                //conectado, chamando, encerrada, conversando
-                if (e.data.message == 'status') {
-                    vm.statustext = e.data.status;
-                    if (e.data.status == 'encerrada') {
-                        vm.stop();
-                        vm.isCallActive = false;
-                    } else if (e.data.status == 'chamando') {
-                        vm.isCallActive = true;
-                    } else if (e.data.status == 'conectado') {
-                        vm.conectado = true;
-                    } else if (e.data.status == 'conversando') {
-                        vm.start();
-                        vm.isCallActive = true;
-                    }
-                }
-                //o id é único e pode ser utilizado na api para recuperação de mais informações (get na api ou webhooks)
-                if (e.data.message == 'chamada_id') {
-                    vm.chamada.id = e.data.chamada_id;
-                    if (e.data.chamada_id) {
-                        vm.sendChamada(e.data.chamada_id);
-                    }
 
-                }
-                //os erros são finais
-                if (e.data.message == 'status_erro') {
-                    alert('Sem Permissão: ' + e.data.status_erro);
-                    vm.isCallActive = false;
-                    vm.conectado = false;
-                }
-                //rebendo o statu0s de diagnóstico de internet e computador para verificar qualidade de ligação
-                if (e.data.message == 'stats_webphone') {
-                    vm.status.internet = e.data.internet;
-                    vm.status.computador = e.data.computador;
-
-                }
-                //os erros são finais
-                if (e.data.message == 'status_erro') {
-                    alert('Sem Permissão: ' + e.data.status_erro);
-                }
-            };
         }
     }
 </script>
