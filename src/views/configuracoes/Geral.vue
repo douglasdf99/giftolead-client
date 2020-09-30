@@ -31,10 +31,6 @@
                         routername: 'links'
                     },
                     {
-                        nome: 'Cadastrar ou alterar brindes',
-                        routername: 'brindes'
-                    },
-                    {
                         nome: 'Gerenciar notificações do sistema',
                         routername: 'notificacoes'
                     },

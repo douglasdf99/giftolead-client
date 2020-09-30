@@ -47,18 +47,6 @@
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-danger" v-else></vs-icon>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
-                <!--<vx-tooltip position="top" text="Detalhar" v-if="item.tipo != 'reprovado'">
-                    <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', item)"
-                             class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
-                </vx-tooltip>-->
-                <!--<vx-tooltip position="top" text="Aprovar" v-if="item.tipo == 'pendente'">
-                    <vs-icon icon-pack="material-icons" icon="done_all" @click="$emit('action', {id: item.id, method: 'aprovar'})"
-                             class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
-                </vx-tooltip>
-                <vx-tooltip position="top" text="Reprovar" v-if="item.tipo == 'pendente'">
-                    <vs-icon icon-pack="material-icons" icon="highlight_off" @click="$emit('action', {id: item.id, method: 'reprovar'})"
-                             class="icon-grande font-bold mx-3 cursor-pointer text-danger"></vs-icon>
-                </vx-tooltip>-->
                 <vx-tooltip position="top" text="Restaurar" v-if="item.tipo == 'reprovado'">
                     <vs-icon icon-pack="material-icons" icon="undo" @click="$emit('action', {id: item.id, method: 'restaurar'})"
                              class="icon-grande font-bold mx-3 cursor-pointer text-warning"></vs-icon>
@@ -89,34 +77,3 @@
         }
     }
 </script>
-
-<style scoped>
-    .linha {
-        transition-duration: .2s;
-    }
-
-    .linha:hover {
-        background-color: transparent !important;
-        transition-duration: .2s;
-    }
-
-    .img-criador:hover {
-        z-index: 5000 !important;
-    }
-
-    .clicavel:hover {
-        -webkit-transform: translateY(-4px);
-        transform: translateY(-4px);
-    }
-
-    .agente {
-        transition-duration: .3s;
-        border: 2px solid white;
-        background-color: white;
-    }
-
-    .agente:hover {
-        transition-duration: .3s;
-        transform: translateY(-7px);
-    }
-</style>
