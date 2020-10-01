@@ -51,8 +51,8 @@ const rotasDashboard = [
         },
     },
     {
-        path: '/meuslinks/produto/:id',
-        name: 'meuslinks-produto',
+        path: '/meus-links',
+        name: 'meus-links',
         component: () => import('@/views/links/MeusLinks.vue'),
         meta: {
             breadcrumb: [
@@ -60,13 +60,13 @@ const rotasDashboard = [
                 {title: 'Configurações'},
                 {title: 'Geral', url: '/configuracoes/geral'},
                 {title: 'Links', url: '/configuracoes/links'},
-                {title: 'Editar', active: true},
+                {title: 'Meus links', active: true},
             ],
-            pageTitle: 'Savelinks',
+            pageTitle: 'Meus Links',
             rule: 'editor',
             pai: 'configuracoes',
             subTitle: 'Savelinks',
-            subIcon: 'settings',
+            subIcon: 'bell',
             submenu: subRotaConfiguracoes
         },
     },

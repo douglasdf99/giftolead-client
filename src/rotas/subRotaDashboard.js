@@ -12,13 +12,13 @@ const subdashboard = [
         icon: 'monetization_on'
     },
     {
-        url: '/minhas-comissoes',
+        url: '/meus-links',
         name: "Meus Links",
         slug: "meus-links",
         icon: 'link'
     },
     {
-        url: '/minhas-comissoes',
+        url: '/perfil',
         name: "Perfil",
         slug: "perfil",
         icon: 'account_circle'
