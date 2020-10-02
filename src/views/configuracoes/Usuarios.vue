@@ -25,6 +25,10 @@
                         nome: 'Cadastrar ou alterar conquistas',
                         routername: 'conquistas'
                     },
+                    {
+                        nome: 'Cadastrar ou alterar funções',
+                        routername: 'funcoes'
+                    },
                 ]
             }
         },

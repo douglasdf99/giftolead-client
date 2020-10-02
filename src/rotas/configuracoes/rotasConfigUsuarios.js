@@ -134,6 +134,62 @@ const rotasConfigUsuarios = [
             submenu: subRotaConfiguracoes
         },
     },
+    {
+        path: '/configuracoes/funcoes',
+        name: 'funcoes',
+        component: () => import('@/views/configuracoes/Funcoes.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Configurações'},
+                {title: 'Funções', active: true},
+            ],
+            pageTitle: 'Configurações das Funções',
+            rule: 'editor',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subRotaConfiguracoes
+        },
+    },
+    {
+        path: '/configuracoes/funcoes/criar',
+        name: 'funcoes-criar',
+        component: () => import('@/views/funcoes/AddEdit'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Configurações'},
+                {title: 'Funções', url: '/configuracoes/funcoes'},
+                {title: 'Criar', active: true},
+            ],
+            pageTitle: 'Criar função',
+            rule: 'editor',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subRotaConfiguracoes
+        },
+    },
+    {
+        path: '/configuracoes/funcoes/editar/:id',
+        name: 'funcoes-editar',
+        component: () => import('@/views/funcoes/AddEdit'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Configurações'},
+                {title: 'Funções', url: '/configuracoes/funcoes'},
+                {title: 'Editar', active: true},
+            ],
+            pageTitle: 'Editar função',
+            rule: 'editor',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subRotaConfiguracoes
+        },
+    },
 ];
 
 export default rotasConfigUsuarios
