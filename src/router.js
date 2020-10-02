@@ -77,14 +77,6 @@ const router = new Router({
                         rule: 'editor',
                     }
                 },
-                {
-                    path: '/dashboard/ecommerce',
-                    name: 'dashboard-ecommerce',
-                    component: () => import('./views/DashboardECommerce.vue'),
-                    meta: {
-                        rule: 'admin'
-                    }
-                },
                 // =============================================================================
                 // Application Routes
                 // =============================================================================

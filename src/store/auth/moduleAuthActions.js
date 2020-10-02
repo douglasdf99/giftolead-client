@@ -332,17 +332,16 @@ export default {
             return reject();
           //Getting user data
             axios.get("/user").then((response) => {
-              console.log('retonou getUser');
                 // Update user details
                 const usuario = {}
-                usuario.uid = response.data.id;
-                usuario.displayName = response.data.name;
-                usuario.about = "Dessert chocolate cake lemon drops jujubes. Biscuit cupcake ice cream bear claw brownie brownie marshmallow.";
-                usuario.photoURL = response.data.avatar;
-                usuario.status = response.data.status ? "online" : "offline";
+                usuario.uid = response.data.user.id;
+                usuario.displayName = response.data.user.name;
+                usuario.photoURL = response.data.user.avatar;
+                usuario.status = response.data.user.status ? "online" : "offline";
                 usuario.userRole = "admin";
+                usuario.permissoes = response.data.permissions;
                 usuario.autenticado = true;
-                usuario.ramal = response.data.name;
+                usuario.ramal = response.data.user.name;
                 commit('UPDATE_USER_INFO', usuario, {root: true});
                 resolve(response)
             }).catch((error) => {

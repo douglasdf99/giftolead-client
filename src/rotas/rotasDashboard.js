@@ -10,7 +10,7 @@ const rotasDashboard = [
         name: 'dashboard',
         component: () => import('@/views/Dashboard.vue'),
         meta: {
-            rule: 'editor',
+            rule: 'public',
             subTitle: 'Home',
             submenu: subdashboard
         }

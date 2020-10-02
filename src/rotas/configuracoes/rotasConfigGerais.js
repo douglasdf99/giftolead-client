@@ -16,7 +16,7 @@ const rotasConfigGerais = [
                 {title: 'Geral', active: true},
             ],
             pageTitle: 'Configurações Gerais',
-            rule: 'editor',
+            rule: 'configuracao',
             subTitle: 'Configurações',
             subIcon: 'settings',
             submenu: subRotaConfiguracoes

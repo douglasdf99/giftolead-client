@@ -156,6 +156,7 @@ import themeConfig from '@/../themeConfig.js'
 import VNavMenu from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
 import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue";
 import axios from 'axios'
+import { AclRule } from 'vue-acl'
 
 
 const VxTour = () => import('@/components/VxTour.vue')
@@ -233,6 +234,9 @@ export default {
         }
     },
     computed: {
+
+
+
         titulo() {
             return this.$route.meta.pageTitle
         },
@@ -286,6 +290,10 @@ export default {
         }
     },
     methods: {
+        dashboard() {
+
+            return  new AclRule("public").or("admin").or("editor").generate()
+        },
         activeLink(url) {
             return url === this.$route.path;
         },
@@ -322,6 +330,7 @@ export default {
         }
     },
     created() {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         const color = this.navbarColor == "#fff" && this.isThemeDark ? "#10163a" : this.navbarColor
         this.updateNavbarColor(color)
         this.setNavMenuVisibility(this.$store.state.mainLayoutType)
