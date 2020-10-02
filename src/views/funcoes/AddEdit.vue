@@ -23,25 +23,26 @@
                             <div v-for="sub_module in getDependentes(main.module)">
                                 <!-- Primeira Camada -->
                                 <div class="flex items-center">
-                                    <vs-switch class="tiny-switch mx-4 mb-1" v-model="sub_modules" :vs-value="sub_module"></vs-switch>
+                                    <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="sub_modules" :vs-value="sub_module"></vs-switch>
                                     <p>{{ sub_module.module_name }}</p>
                                 </div>
+                                
                                 <div class="font-bold ml-4" v-if="hasDependentes(sub_module.module)" v-for="ter_module in getDependentes(sub_module.module)">
                                     <!-- Segunda Camada -->
                                     <div class="flex items-center">
-                                        <vs-switch class="tiny-switch mx-4 mb-1" v-model="ter_modules" :vs-value="ter_module"></vs-switch>
+                                        <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="ter_modules" :vs-value="ter_module"></vs-switch>
                                         <p>{{ ter_module.module_name }}</p>
                                     </div>
                                     <div class="font-bold ml-4" v-if="hasDependentes(ter_module.module)" v-for="quar_module in getDependentes(ter_module.module)">
                                         <!-- Terceira Camada -->
                                         <div class="flex items-center">
-                                            <vs-switch class="tiny-switch mx-4 mb-1" v-model="quar_modules" :vs-value="quar_module"></vs-switch>
+                                            <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="quar_modules" :vs-value="quar_module"></vs-switch>
                                             <p>{{ quar_module.module_name }}</p>
                                         </div>
                                         <div class="font-bold ml-4" v-if="hasDependentes(quar_module.module)" v-for="quin_module in getDependentes(quar_module.module)">
                                             <!-- Quarta Camada -->
                                             <div class="flex items-center">
-                                                <vs-switch class="tiny-switch mx-4 mb-1" v-model="quin_modules" :vs-value="quin_module"></vs-switch>
+                                                <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="quin_modules" :vs-value="quin_module"></vs-switch>
                                                 <p>{{ quin_module.module_name }}</p>
                                             </div>
                                         </div>
