@@ -36,11 +36,7 @@ function getPermissoes() {
                 }
             });
             console.log('permissoes', permissoes);
-            permissoes2 = {
-                admin: new AclRule("admin").generate(),
-                configuracao: new AclRule("admin").generate(),
-                editor: new AclRule("editor").or("admin").generate(),
-            };
+
             resolve(permissoes)
         })
     })
