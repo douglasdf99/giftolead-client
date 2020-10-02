@@ -1398,7 +1398,7 @@ const router = new Router({
                     name: 'auth-callback',
                     component: () => import('@/views/Callback.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: '*'
                     }
                 },
                 {
@@ -1406,7 +1406,7 @@ const router = new Router({
                     name: 'login',
                     component: () => import('@/views/pages/login/Login.vue'),
                     meta: {
-                        rule: 'editor'
+                      rule: 'public'
                     }
                 },
                 {
@@ -1414,7 +1414,7 @@ const router = new Router({
                     name: 'page-register',
                     component: () => import('@/views/pages/register/Register.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1422,7 +1422,7 @@ const router = new Router({
                     name: 'page-esqueceu-a-senha',
                     component: () => import('@/views/pages/ForgotPassword.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1430,7 +1430,7 @@ const router = new Router({
                     name: 'page-esqueceu-a-senha',
                     component: () => import('@/views/pages/RecuperarSenha.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1438,7 +1438,7 @@ const router = new Router({
                     name: 'page-reset-password',
                     component: () => import('@/views/pages/ResetPassword.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1446,7 +1446,7 @@ const router = new Router({
                     name: 'page-lock-screen',
                     component: () => import('@/views/pages/LockScreen.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1454,7 +1454,7 @@ const router = new Router({
                     name: 'page-coming-soon',
                     component: () => import('@/views/pages/ComingSoon.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1462,7 +1462,7 @@ const router = new Router({
                     name: 'page-error-404',
                     component: () => import('@/views/pages/Error404.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1470,7 +1470,7 @@ const router = new Router({
                     name: 'page-error-500',
                     component: () => import('@/views/pages/Error500.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1478,7 +1478,7 @@ const router = new Router({
                     name: 'nao-autorizado',
                     component: () => import('@/views/pages/NotAuthorized.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1486,7 +1486,7 @@ const router = new Router({
                     name: 'page-maintenance',
                     component: () => import('@/views/pages/Maintenance.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1494,7 +1494,7 @@ const router = new Router({
                     name: 'sidebar',
                     component: () => import('@/views/pages/sidebar/NovoSidebar.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1502,7 +1502,7 @@ const router = new Router({
                     name: 'sidebar',
                     component: () => import('@/views/pages/AgendamentoLink.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
             ]
@@ -1524,7 +1524,7 @@ router.afterEach(() => {
 })
 
 router.beforeEach((to, from, next) => {
-    firebase.auth().onAuthStateChanged(() => {
+
 
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
@@ -1555,6 +1555,6 @@ router.beforeEach((to, from, next) => {
     });
 
 
-});
+
 
 export default router

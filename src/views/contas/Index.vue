@@ -73,7 +73,6 @@
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items"
                               style="border-spacing: 0 8px;border-collapse: separate;">
-
                         <template slot="thead">
                             <vs-th></vs-th>
                             <vs-th>Nome</vs-th>

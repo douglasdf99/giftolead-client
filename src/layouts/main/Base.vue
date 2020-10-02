@@ -290,10 +290,6 @@ export default {
         }
     },
     methods: {
-        dashboard() {
-
-            return  new AclRule("public").or("admin").or("editor").generate()
-        },
         activeLink(url) {
             return url === this.$route.path;
         },

@@ -14,6 +14,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import router from '@/router'
 import axios from "@/axios.js"
+import {AclRule} from "vue-acl";
 
 export default {
     loginAttempt({dispatch}, payload) {
@@ -311,6 +312,7 @@ export default {
                     if (response.data.access_token) {
                         // Set accessToken
                         localStorage.setItem("accessToken", response.data.access_token);
+                        this.getPermissoes();
                         // Set bearer token in axios
                         commit("SET_BEARER", response.data.access_token);
                         resolve(response.data.access_token)
@@ -353,6 +355,31 @@ export default {
             });
         });
     },
+     getPermissoes({commit}) {
+      let permissoes = {};
+       axios.get('/permissions').then(response => {
+         console.log('permissions_banco', response.data.data);
+         response.data.data.forEach(item => {
+           if (item.permission_role.length > 0) {
+             var ac = new AclRule('admin');
+             item.permission_role.forEach(perfil => {
+               ac = ac.or(perfil.role.nome)
+             });
+             permissoes[item.name] = ac.generate();
+             //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
+           }
+           else {
+             permissoes[item.name] = new AclRule('admin').generate();
+             //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
+           }
+         });
+         console.log('permissoes', permissoes);
+         localStorage.setItem("permissoes", response.data.permissoes);
+
+         resolve(permissoes)
+       })
+  },
+
 
     registerUserJWT({commit}, payload) {
 

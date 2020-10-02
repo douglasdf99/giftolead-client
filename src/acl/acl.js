@@ -6,12 +6,12 @@ import {get} from "echarts/src/component/toolbox/featureManager";
 
 Vue.use(AclInstaller)
 
-let initialRole = "public"
+let initialRole = "public";
 
-let userInfo = JSON.parse(localStorage.getItem("userInfo"))
-if (userInfo && userInfo.userRole) initialRole = userInfo.userRole
+let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+if (userInfo && userInfo.userRole) initialRole = userInfo.userRole;
 
-let permissoes = {};
+let permissoes = [];
 permissoes['admin']= new AclRule("admin").generate();
 permissoes['configuracao']= new AclRule("admin").generate();
 permissoes['editor']= new AclRule("admin").generate();
