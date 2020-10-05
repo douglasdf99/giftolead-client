@@ -11,39 +11,34 @@
         <div class="vx-row mt-10">
             <div class="vx-col w-full mb-10">
                 <p class="text-2xl font-bold text-black">Permissões</p>
+                {{ permiOption }}
             </div>
             <div class="vx-col w-full lg:w-1/3 mb-base" v-for="main in modules">
                 <!-- Card permissão -->
                 <vx-card class="w-full bg-white shadow-none">
-                    <vs-switch class="tiny-switch float-left mr-4" v-model="main_modules" :vs-value="main"></vs-switch>
-                    <p class="text-lg">{{ main.module_name }}</p>
+                    <vs-checkbox v-model="permiOption" @click="checkModules(main)" :vs-value="main.id">{{ main.module_name }}</vs-checkbox>
                     <vs-divider></vs-divider>
                     <div class="vx-row my-4">
                         <div class="vx-col w-full">
                             <div v-for="sub_module in getDependentes(main.module)">
                                 <!-- Primeira Camada -->
-                                <div class="flex items-center">
-                                    <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="sub_modules" :vs-value="sub_module"></vs-switch>
-                                    <p>{{ sub_module.module_name }}</p>
+                                <div class="flex items-center my-3">
+                                    <vs-checkbox v-model="permiOption" @click="checkModules(sub_module)" :vs-value="sub_module.id">{{ sub_module.module_name }}</vs-checkbox>
                                 </div>
-                                
-                                <div class="font-bold ml-4" v-if="hasDependentes(sub_module.module)" v-for="ter_module in getDependentes(sub_module.module)">
+                                <div class="font-bold ml-4 my-2" v-if="hasDependentes(sub_module.module)" v-for="ter_module in getDependentes(sub_module.module)">
                                     <!-- Segunda Camada -->
                                     <div class="flex items-center">
-                                        <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="ter_modules" :vs-value="ter_module"></vs-switch>
-                                        <p>{{ ter_module.module_name }}</p>
+                                        <vs-checkbox v-model="permiOption" @click="checkModules(ter_module)" :vs-value="ter_module.id">{{ ter_module.module_name }}</vs-checkbox>
                                     </div>
-                                    <div class="font-bold ml-4" v-if="hasDependentes(ter_module.module)" v-for="quar_module in getDependentes(ter_module.module)">
+                                    <div class="font-bold ml-4 my-2" v-if="hasDependentes(ter_module.module)" v-for="quar_module in getDependentes(ter_module.module)">
                                         <!-- Terceira Camada -->
                                         <div class="flex items-center">
-                                            <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="quar_modules" :vs-value="quar_module"></vs-switch>
-                                            <p>{{ quar_module.module_name }}</p>
+                                            <vs-checkbox v-model="permiOption" @click="checkModules(quar_module)" :vs-value="quar_module.id">{{ quar_module.module_name }}</vs-checkbox>
                                         </div>
-                                        <div class="font-bold ml-4" v-if="hasDependentes(quar_module.module)" v-for="quin_module in getDependentes(quar_module.module)">
+                                        <div class="font-bold ml-4 my-2" v-if="hasDependentes(quar_module.module)" v-for="quin_module in getDependentes(quar_module.module)">
                                             <!-- Quarta Camada -->
                                             <div class="flex items-center">
-                                                <vs-switch class="tiny-switch ml-4 mr-2 mb-1" v-model="quin_modules" :vs-value="quin_module"></vs-switch>
-                                                <p>{{ quin_module.module_name }}</p>
+                                                <vs-checkbox v-model="permiOption" @click="checkModules(quin_module)" :vs-value="quin_module.id">{{ quin_module.module_name }}</vs-checkbox>
                                             </div>
                                         </div>
                                     </div>
@@ -53,6 +48,7 @@
                     </div>
                 </vx-card>
             </div>
+            <!--            <v-tree ref='tree' :canDeleteRoot="false" :data='modules' :draggable='false' :tpl='tpl' :halfcheck='true' :multiple="true"/>-->
         </div>
         <transition name="fade">
             <footer-doug>
@@ -96,12 +92,12 @@ export default {
                 nome: '',
             },
             permissoes: [],
-
             main_modules: [],
             sub_modules: [],
             ter_modules: [],
             quar_modules: [],
-            quin_modules: []
+            quin_modules: [],
+            permiOption: []
         }
     },
     created() {
@@ -179,7 +175,69 @@ export default {
                     tem = true
             });
             return tem
+        },
+        clicked(name) {
+            let tem = false;
+            this.permiOption.forEach(perm => {
+                if (perm === name)
+                    tem = true
+            });
+            return tem
+        },
+        removeDependes(id) {
+            let index = this.permiOption.indexOf(id);
+            this.permiOption.splice(index, 1);
+        },
+        /* checkModules(arr1, arr2, nivel) {
+             console.log('arrays', arr1, arr2);
+             if (arr2.length > 0) {
+                 arr2.forEach((item, index) => {
+                     if (arr1.length > 0) {
+                         arr1.forEach(sub => {
+                             let dependencia = '';
+                             let arrModuleName = item.module_depends.split('_');//Separando as palavras chave do módulo
+                             for(let i = 0; i <= nivel, i++;){
+                                 dependencia += arrModuleName[i] + (i == nivel ? '' : '_');
+                             }
+                             console.log('dependencia', dependencia);
+                             let achou = false;
+                             if (sub.module == dependencia)//Verificando se o módulo acima ainda se encontra no array
+                                 achou = true
+
+                             if (!achou)
+                                 arr2.splice(index, 1);
+                         });
+                     } else {
+                         arr2 = [];
+                     }
+                 });
+             }
+         }*/
+
+
+        checkModules(modulo) {
+            console.log('id do modulo', modulo.id, 'tem dependete', this.hasDependentes(modulo.module), 'check', this.clicked(modulo.id));
+            if (this.clicked(modulo.id)) {
+                if (this.hasDependentes(modulo.module)) {
+                    let array = [];
+                    array = this.getDependentes(modulo.module);
+                    console.log('dependentes', array)
+                    array.forEach(item => {
+                        this.removeDependes(item.id)
+                    })
+                }
+            } else {
+                console.log('else')
+                if (this.hasDependentes(modulo.module)) {
+                    let array = [];
+                    array = this.getDependentes(modulo.module);
+                    array.forEach(item => {
+                        this.permiOption.push(item.id)
+                    })
+                }
+            }
         }
+
     },
     computed: {
         isValid() {
