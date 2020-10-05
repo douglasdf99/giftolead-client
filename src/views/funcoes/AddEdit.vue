@@ -2,53 +2,62 @@
     <div>
         <div class="vx-row mb-10">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Nome da  Função</span>
+                <p class="font-regular mb-3">Nome da Função</p>
                 <vs-input class="w-full" v-model="funcao.nome" size="large" v-validate="'required'" name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
+            </div>
+            <div class="vx-col w-full lg:w-1/2">
+                <p class="font-regular mb-3">Produtos Permitidos</p>
+                <v-select multiple :closeOnSelect="false" v-model="produtos_permitidos" :options="all_produtos" class="bg-white"/>
             </div>
         </div>
         <vs-divider></vs-divider>
         <div class="vx-row mt-10">
-            <div class="vx-col w-full mb-10">
-                <p class="text-2xl font-bold text-black">Permissões</p>
-                {{ permiOption }}
+            <div class="vx-col w-full mb-5">
+                <p class="font-bold text-2xl text-dark">Permissões</p>
             </div>
-            <div class="vx-col w-full lg:w-1/3 mb-base" v-for="main in modules">
-                <!-- Card permissão -->
-                <vx-card class="w-full bg-white shadow-none">
-                    <vs-checkbox v-model="permiOption" @click="checkModules(main)" :vs-value="main.id">{{ main.module_name }}</vs-checkbox>
-                    <vs-divider></vs-divider>
-                    <div class="vx-row my-4">
-                        <div class="vx-col w-full">
-                            <div v-for="sub_module in getDependentes(main.module)">
+            <div class="vx-col w-full">
+                <vs-collapse type="margin">
+                    <vs-collapse-item v-for="main in modules" class="bg-white">
+                        <div slot="header">
+                            <vs-checkbox class="w-1/3 lg:w-1/4" v-model="main_arr_permissions" @click="checkModules(main)" :vs-value="main.id"><span class="text-xl font-bold">{{ main.module_name }}</span>
+                            </vs-checkbox>
+                        </div>
+                        <div class="vx-row my-4">
+                            <div class="vx-col w-full lg:w-1/4 mb-3" v-for="sub_module in getDependentes(main.module)">
                                 <!-- Primeira Camada -->
                                 <div class="flex items-center my-3">
-                                    <vs-checkbox v-model="permiOption" @click="checkModules(sub_module)" :vs-value="sub_module.id">{{ sub_module.module_name }}</vs-checkbox>
+                                    <vs-checkbox v-model="main_arr_permissions" @click="checkModules(sub_module)" :vs-value="sub_module.id"><span class="text-lg">{{ sub_module.module_name }}</span>
+                                    </vs-checkbox>
                                 </div>
-                                <div class="font-bold ml-4 my-2" v-if="hasDependentes(sub_module.module)" v-for="ter_module in getDependentes(sub_module.module)">
+                                <div class="ml-4 my-2" v-if="hasDependentes(sub_module.module)" v-for="ter_module in getDependentes(sub_module.module)">
                                     <!-- Segunda Camada -->
                                     <div class="flex items-center">
-                                        <vs-checkbox v-model="permiOption" @click="checkModules(ter_module)" :vs-value="ter_module.id">{{ ter_module.module_name }}</vs-checkbox>
+                                        <vs-checkbox v-model="main_arr_permissions" @click="checkModules(ter_module)" :vs-value="ter_module.id"><span class="text-md">{{ ter_module.module_name }}</span>
+                                        </vs-checkbox>
                                     </div>
-                                    <div class="font-bold ml-4 my-2" v-if="hasDependentes(ter_module.module)" v-for="quar_module in getDependentes(ter_module.module)">
+                                    <div class="ml-4 my-2" v-if="hasDependentes(ter_module.module)" v-for="quar_module in getDependentes(ter_module.module)">
                                         <!-- Terceira Camada -->
                                         <div class="flex items-center">
-                                            <vs-checkbox v-model="permiOption" @click="checkModules(quar_module)" :vs-value="quar_module.id">{{ quar_module.module_name }}</vs-checkbox>
+                                            <vs-checkbox v-model="main_arr_permissions" @click="checkModules(quar_module)" :vs-value="quar_module.id"><span class="text-md">{{ quar_module.module_name }}</span>
+                                            </vs-checkbox>
                                         </div>
-                                        <div class="font-bold ml-4 my-2" v-if="hasDependentes(quar_module.module)" v-for="quin_module in getDependentes(quar_module.module)">
+                                        <div class="ml-4 my-2" v-if="hasDependentes(quar_module.module)" v-for="quin_module in getDependentes(quar_module.module)">
                                             <!-- Quarta Camada -->
                                             <div class="flex items-center">
-                                                <vs-checkbox v-model="permiOption" @click="checkModules(quin_module)" :vs-value="quin_module.id">{{ quin_module.module_name }}</vs-checkbox>
+                                                <vs-checkbox v-model="main_arr_permissions" @click="checkModules(quin_module)" :vs-value="quin_module.id"><span class="text-md">{{
+                                                        quin_module.module_name
+                                                    }}</span>
+                                                </vs-checkbox>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </vx-card>
+                    </vs-collapse-item>
+                </vs-collapse>
             </div>
-            <!--            <v-tree ref='tree' :canDeleteRoot="false" :data='modules' :draggable='false' :tpl='tpl' :halfcheck='true' :multiple="true"/>-->
         </div>
         <transition name="fade">
             <footer-doug>
@@ -74,6 +83,8 @@
 import {Validator} from 'vee-validate';
 import moduleFuncoes from "@/store/funcoes/moduleFuncoes";
 import axios from "@/axios.js";
+import moduleProdutos from "@/store/produtos/moduleProdutos";
+import vSelect from 'vue-select';
 
 const dict = {
     custom: {
@@ -85,11 +96,13 @@ const dict = {
 Validator.localize('pt-br', dict);
 export default {
     name: "Edit",
-    components: {},
+    components: {'v-select': vSelect},
     data() {
         return {
             funcao: {
                 nome: '',
+                permissions: [],
+                role_produtos: []
             },
             permissoes: [],
             main_modules: [],
@@ -97,7 +110,9 @@ export default {
             ter_modules: [],
             quar_modules: [],
             quin_modules: [],
-            permiOption: []
+            main_arr_permissions: [],
+            all_produtos: [],
+            produtos_permitidos: []
         }
     },
     created() {
@@ -106,15 +121,23 @@ export default {
             moduleFuncoes.isRegistered = true
         }
 
+        if (!moduleProdutos.isRegistered) {
+            this.$store.registerModule('produtos', moduleProdutos)
+            moduleProdutos.isRegistered = true
+        }
+
+        this.getProdutos();
+
         if (this.$route.name === 'funcoes-editar') {
-            this.getId(this.$route.params.id);
             this.getAllPermissoes();
+            this.getId(this.$route.params.id);
         }
     },
     methods: {
         salvar() {
             this.$validator.validateAll().then(result => {
                 if (result) {
+                    this.funcao.permissions = [...this.main_arr_permissions];
                     this.$vs.loading();
                     this.$store.dispatch('funcoes/store', this.funcao).then(response => {
                         console.log('response', response);
@@ -150,6 +173,8 @@ export default {
             this.$vs.loading()
             this.$store.dispatch('funcoes/getId', id).then(data => {
                 this.funcao = {...data};
+                this.setProdutosPermitidos();
+                this.tratarPermissions(data.permission_roles);
                 this.$vs.loading.close();
             })
         },
@@ -158,17 +183,7 @@ export default {
                 this.permissoes = response.data.data;
             });
         },
-        getDependentes(name) {
-            let arr = [];
-            this.permissoes.forEach(perm => {
-                if (perm.module_depends == name) {
-                    arr.push(perm)
-                }
-            });
-
-            return arr
-        },
-        hasDependentes(name) {
+        hasDependentes(name) {//Verifica se o módulo possui módulos dependentes dele
             let tem = false;
             this.permissoes.forEach(perm => {
                 if (perm.module_depends === name)
@@ -176,77 +191,116 @@ export default {
             });
             return tem
         },
-        clicked(name) {
+        getDependentes(name) {//Busca os módulos dependentes do verificado
+            let arr = [];
+            this.permissoes.forEach(perm => {
+                if (perm.module_depends === name) {
+                    arr.push(perm)
+                }
+            });
+
+            return arr
+        },
+        hasPai(name) {//Verifica se o módulo em questão é dependente de outro
             let tem = false;
-            this.permiOption.forEach(perm => {
-                if (perm === name)
+            this.permissoes.forEach(perm => {
+                if (perm.module === name)
                     tem = true
             });
             return tem
         },
-        removeDependes(id) {
-            let index = this.permiOption.indexOf(id);
-            this.permiOption.splice(index, 1);
-        },
-        /* checkModules(arr1, arr2, nivel) {
-             console.log('arrays', arr1, arr2);
-             if (arr2.length > 0) {
-                 arr2.forEach((item, index) => {
-                     if (arr1.length > 0) {
-                         arr1.forEach(sub => {
-                             let dependencia = '';
-                             let arrModuleName = item.module_depends.split('_');//Separando as palavras chave do módulo
-                             for(let i = 0; i <= nivel, i++;){
-                                 dependencia += arrModuleName[i] + (i == nivel ? '' : '_');
-                             }
-                             console.log('dependencia', dependencia);
-                             let achou = false;
-                             if (sub.module == dependencia)//Verificando se o módulo acima ainda se encontra no array
-                                 achou = true
-
-                             if (!achou)
-                                 arr2.splice(index, 1);
-                         });
-                     } else {
-                         arr2 = [];
-                     }
-                 });
-             }
-         }*/
-
-
-        checkModules(modulo) {
-            console.log('id do modulo', modulo.id, 'tem dependete', this.hasDependentes(modulo.module), 'check', this.clicked(modulo.id));
-            if (this.clicked(modulo.id)) {
-                if (this.hasDependentes(modulo.module)) {
-                    let array = [];
-                    array = this.getDependentes(modulo.module);
-                    console.log('dependentes', array)
-                    array.forEach(item => {
-                        this.removeDependes(item.id)
-                    })
+        getPai(name) {//Resgata módulo pai
+            let obj = null;
+            this.permissoes.forEach(perm => {
+                if (perm.module === name) {
+                    obj = perm;
                 }
+            });
+
+            return obj
+        },
+        clicked(name) {
+            let clicado = false;
+            this.main_arr_permissions.forEach(perm => {
+                if (perm === name)
+                    clicado = true
+            });
+            return clicado
+        },
+        removeDependes(id) {
+            let index = this.main_arr_permissions.indexOf(id);
+            this.main_arr_permissions.splice(index, 1);
+        },
+        checkModules(modulo) {//Executado ao clicar no checkbox.
+            if (this.clicked(modulo.id)) {//Caso ele esteja "preenchido"
+                this.removeOption(modulo)//Remove ele do array fazendo suas verificações de herança
             } else {
-                console.log('else')
-                if (this.hasDependentes(modulo.module)) {
-                    let array = [];
-                    array = this.getDependentes(modulo.module);
-                    array.forEach(item => {
-                        this.permiOption.push(item.id)
-                    })
+                this.checkPai(modulo);//Rotina de verificação "parental"
+                this.pushOption(modulo);
+            }
+        },
+        checkPai(modulo) {//Função executada em loop até encontrar toda a árvore de herança ascendente a ser colocada no array de permissões
+            if (this.hasPai(modulo.module_depends)) {
+                let obj = this.getPai(modulo.module_depends);//Pega as informações do módulo pai
+                if (this.main_arr_permissions.indexOf(obj.id) === -1) {//Verifica a existência dele no array
+                    this.main_arr_permissions.push(obj.id);//Caso não encontrado, insere ele. Marcando-o também visualmente
+                    this.checkPai(obj);//Finaliza a rotina chamando ele mesmo até que não entre na condição acima
                 }
             }
+        },
+        pushOption(modulo) {//Rotina de inserção de dependentes no array de permissões ao clicar em alguma que seja "pai" de outras
+            if (this.hasDependentes(modulo.module)) {
+                let array = [];
+                array = this.getDependentes(modulo.module);//Pega o array que de dependentes do módulo
+                array.forEach(item => {
+                    if (this.main_arr_permissions.indexOf(item.id) === -1) {//Verifica se já não se encontra no array principal
+                        this.main_arr_permissions.push(item.id);//Caso não, o insere
+                        this.pushOption(item);//Chama ela mesmo mais uma vez até que não entre mais na condição acima
+                    }
+                })
+            }
+        },
+        removeOption(modulo) {//Rotina similar à anterior, porém, buscando remover os módulos dependentes.
+            if (this.hasDependentes(modulo.module)) {
+                let array = [];
+                array = this.getDependentes(modulo.module);
+                array.forEach(item => {
+                    if (this.main_arr_permissions.indexOf(item.id) !== -1) {
+                        this.removeDependes(item.id)
+                        this.removeOption(item);
+                    }
+                })
+            }
+        },
+        tratarPermissions(array) {//Joga as permissões que a Função já possui dentro do array principal.
+            this.main_arr_permissions = array.map(item => {
+                return item.permission_id;
+            })
+        },
+        getProdutos() {
+            this.$store.dispatch('produtos/get', {}).then(response => {
+                this.all_produtos = [...this.arraySelect(response)];
+                console.log('produtos', this.all_produtos);
+            });
+        },
+        setProdutosPermitidos(){//Aloca os produtos que a função já tem acesso
+            if (this.funcao.role_produtos.length > 0) {
+                console.log('produtos array', this.funcao.role_produtos);
+                this.produtos_permitidos = this.funcao.role_produtos.map(item => {
+                    return {id: item.id, label: item.produto.nome};
+                })
+                //this.produtos_permitidos = [...this.arraySelect(this.funcao.role_produtos)];
+            }
         }
-
     },
     computed: {
         isValid() {
-            return this.errors.any() || this.funcao.nome == '';
+            return this.errors.any() || this.funcao.nome === '';
         },
-        modules() {
+        modules() {//Tratando módulos principais
             let arr = [];
             this.permissoes.forEach(perm => {
-                if (!perm.module_depends && !perm.depends) {//Tratando módulos principais
+                if (!perm.module_depends && !perm.depends) {//módulos que não possuem ascendência são considerados "principais". Ex.: Configurações, Tickets, Brindes
                     arr.push(perm);
                 }
             });
@@ -255,23 +309,8 @@ export default {
         }
     },
     watch: {
-        currentx(val) {
-            this.$vs.loading();
-            console.log('val', val);
-            this.dados.page = this.currentx;
-            this.getContas();
-        },
         "$route"() {
             this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
         },
     },
 }
