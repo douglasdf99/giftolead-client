@@ -312,7 +312,7 @@ export default {
                     if (response.data.access_token) {
                         // Set accessToken
                         localStorage.setItem("accessToken", response.data.access_token);
-                        this.getPermissoes();
+                         //this.getPermissoes();
                         // Set bearer token in axios
                         commit("SET_BEARER", response.data.access_token);
                         resolve(response.data.access_token)
@@ -355,7 +355,9 @@ export default {
             });
         });
     },
-     getPermissoes({commit}) {
+
+  getPermissoes({commit}) {
+    return new Promise((resolve, reject) => {
       let permissoes = {};
        axios.get('/permissions').then(response => {
          console.log('permissions_banco', response.data.data);
@@ -374,10 +376,10 @@ export default {
            }
          });
          console.log('permissoes', permissoes);
-         localStorage.setItem("permissoes", response.data.permissoes);
-
+         localStorage.setItem("permissoes", JSON.stringify(permissoes));
          resolve(permissoes)
        })
+    })
   },
 
 

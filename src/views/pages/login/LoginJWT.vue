@@ -43,10 +43,10 @@
 </template>
 
 <script>
-    import {Validator} from 'vee-validate';
-    import saveleadsConfig from "../../../../saveleadsConfig";
+  import {Validator} from 'vee-validate';
+  import saveleadsConfig from "../../../../saveleadsConfig";
 
-    const dict = {
+  const dict = {
         custom: {
             email: {
                 required: 'Por favor, insira o seu email para acessar o sistema',
@@ -115,7 +115,10 @@
                     .then((response) => {
                       saveleadsConfig.token = response;
                       console.log(saveleadsConfig);
-                      window.location.href = window.location.protocol + '//' + window.location.host + (this.$router.currentRoute.query.to || '/');
+                      this.$store.dispatch('auth/getPermissoes').then(()=>{
+                        console.log('resolveu permissoes')
+                        window.location.href = window.location.protocol + '//' + window.location.host + (this.$router.currentRoute.query.to || '/');
+                      });
                     })
                     .catch(error => {
                       this.$vs.loading.close();
