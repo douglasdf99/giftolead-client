@@ -109,15 +109,16 @@
                         password: this.password
                     }
                 };
-                var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
-                console.log('sub', subdomain)
+
                 this.$store.dispatch('auth/loginJWT', payload)
                     .then((response) => {
                       saveleadsConfig.token = response;
-                      console.log(saveleadsConfig);
-                      this.$store.dispatch('auth/getPermissoes').then(()=>{
-                        console.log('resolveu permissoes')
-                        window.location.href = window.location.protocol + '//' + window.location.host + (this.$router.currentRoute.query.to || '/');
+                      console.log('config', saveleadsConfig);
+                        this.$store.dispatch('auth/getPermissoes',response).then(()=>{
+                          this.$store.dispatch('auth/getUserLogin',response).then(()=>{
+                          console.log('resolveu permissoes')
+                          window.location.href = window.location.protocol + '//' + window.location.host + (this.$router.currentRoute.query.to || '/');
+                        });
                       });
                     })
                     .catch(error => {

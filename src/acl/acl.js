@@ -15,11 +15,14 @@ permissoes = JSON.parse(localStorage.getItem("permissoes"));
 
 if (!permissoes){
   permissoes = {};
-}
-permissoes['admin']= new AclRule("admin").generate();
+  permissoes['admin']= new AclRule("admin").generate();
 //permissoes['configuracao']= new AclRule("admin").generate();
-permissoes['editor']= new AclRule("admin").generate();
-permissoes['public']= new AclRule("public").or("admin").or("editor").generate()
+  permissoes['editor']= new AclRule("admin").generate();
+
+  permissoes['public'] = new AclRule("public").or("admin").or("editor").generate()
+}
+
+
 console.log('permissoes no acl',permissoes)
 
 

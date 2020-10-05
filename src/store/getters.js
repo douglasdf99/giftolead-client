@@ -10,6 +10,8 @@
 // added so later we can keep breakpoint in sync automatically using this config file
 // import tailwindConfig from "../../tailwind.config.js"
 
+import saveleadsConfig from "../../saveleadsConfig";
+
 const getters = {
 
 	// COMPONENT
@@ -24,7 +26,7 @@ const getters = {
     else if (state.windowWidth >= 576) return "sm"
     else return "xs"
   },
-  getToken: state => state.token
+  getToken: state => state.token || saveleadsConfig.token
 }
 
 export default getters
