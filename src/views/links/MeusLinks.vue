@@ -132,7 +132,6 @@ export default {
             let link = '';
             let user = JSON.parse(localStorage.getItem("userInfo"));
             item.linksexternos.forEach(ext => {
-                console.log('link itens', ext.user_id, user.uid)
                 if (ext.user_id == user.uid) {
                     link = 'https://svlds.me/' + ext.codigo;
                 }

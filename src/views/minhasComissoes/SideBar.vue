@@ -67,7 +67,7 @@
             </div>
         </VuePerfectScrollbar>
         <div class="flex flex-wrap items-center p-6" slot="footer" v-if="data.action == 1">
-            <vs-button class="mr-6 font-bold text-white" color="primary" @click="salvar" :disabled="files.length == 0 || descricao == ''">
+            <vs-button class="mr-6 font-bold text-white" color="primary" @click="salvar" :disabled="descricao == ''">
                 Salvar
             </vs-button>
         </div>
@@ -107,13 +107,8 @@ export default {
             descricao: ''
         }
     },
-    updated() {
-        console.log(this.data)
-        if(this.data.action == 2)
-            this.descricao = this.data.descricao;
-    },
     created() {
-        if(this.data.action == 1){
+        if (this.data.action == 1) {
             this.images = [];
             this.files = [];
         }
@@ -121,6 +116,7 @@ export default {
     computed: {
         isSidebarActiveLocal: {
             get() {
+                if(this.isSidebarActive) this.descricao = this.data.descricao;
                 return this.isSidebarActive
             },
             set(val) {
@@ -133,22 +129,45 @@ export default {
         },
     },
     methods: {
-        salvar() {
+        async salvar() {
             this.$vs.loading();
-            const formData = new FormData();
-            this.files.forEach(file => {
-                formData.append('arquivo[]', file, file.name);
-            });
-            formData.append('pre_comissao_id', this.data.id);
-            formData.append('descricao', this.descricao);
-            this.$store.dispatch('mcomissoes/setAnexos', formData).then(() => {
+            await this.enviar().then(() => {
+                this.$emit('closeSidebar');
+                this.$emit('reload');
+                this.$vs.loading.close();
+                let text = this.files.length > 0 ? 'Imagens anexadas com sucesso.' : 'Atualizado com sucesso';
                 this.$vs.notify({
                     color: 'success',
-                    text: 'Imagens anexadas com sucesso.'
+                    text: text
                 });
-                this.$emit('closeSidebar');
-                this.$vs.loading.close();
+                this.files = [];
+                this.images = [];
             });
+        },
+        enviar() {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                if(this.files.length > 0) {
+                    this.files.forEach(file => {
+                        //formData.append('arquivo', null)
+                        console.log('descri', this.descricao);
+                        formData.append('arquivo', file, file.name);
+                        formData.append('pre_comissao_id', this.data.id);
+                        formData.append('descricao', this.descricao);
+                        this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
+                            console.log(erro)
+                        });
+                    });
+                } else {
+                    formData.append('arquivo', null);
+                    formData.append('pre_comissao_id', this.data.id);
+                    formData.append('descricao', this.descricao);
+                    this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
+                        console.log(erro)
+                    });
+                }
+                resolve();
+            })
         },
         successUpload(event) {
             console.log('evento sucesso', event);

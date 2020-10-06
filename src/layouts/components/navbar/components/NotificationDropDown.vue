@@ -75,7 +75,7 @@ export default {
 
         console.log(localStorage.getItem('userInfo'));
 
-        this.getNotificacoes();
+        //this.getNotificacoes();
     },
     mounted() {
         // this.$echo.private('App.Models.User.29').listen('BroadcastNotificationCreated', (payload) => {

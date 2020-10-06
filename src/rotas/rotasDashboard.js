@@ -1,5 +1,4 @@
 import subdashboard from "@/rotas/subRotaDashboard";
-import subRotaConfiguracoes from "@/rotas/subRotaConfiguracoes";
 const rotasDashboard = [
     {
         path: '/',
@@ -57,17 +56,15 @@ const rotasDashboard = [
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
-                {title: 'Links', url: '/configuracoes/links'},
+                {title: 'Dashboard', url: '/dashboard'},
                 {title: 'Meus links', active: true},
             ],
             pageTitle: 'Meus Links',
             rule: 'public',
-            pai: 'configuracoes',
+            pai: 'dashboard',
             subTitle: 'Savelinks',
             subIcon: 'bell',
-            submenu: subRotaConfiguracoes
+            submenu: subdashboard
         },
     },
 ];
