@@ -377,7 +377,6 @@ const rotasConfigGerais = [
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
                 {title: 'Notificações', active: true},
             ],
             pageTitle: 'Notificações',

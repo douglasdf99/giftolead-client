@@ -27,12 +27,12 @@
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
                 <vx-card title="Conquista" subtitle="Notificações relacionadas a conquista" no-shadow>
-                    <span class="font-bold">Conquista tal alcançada</span>
+                    <span class="font-bold">Conquista alcançada</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.conquista_alcancada"></option-notification>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Correio" subtitle="Notificações relacionadas a conquista" no-shadow>
+                <vx-card title="Correios" subtitle="Notificações relacionadas a conquista" no-shadow>
                     <span class="font-bold">Contrato do correios inativo (admins ou relacionados)</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.contrato_correios_inativo"></option-notification>
                 </vx-card>
