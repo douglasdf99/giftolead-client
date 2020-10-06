@@ -191,13 +191,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="finalizar" :disabled="!valido">
-                                Finalizar Atendimento
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="cancelarAtendimento(ticket.id)">
-                                Cancelar Atendimento
-                            </vs-button>
+<!--                            /-->
                         </div>
                     </div>
                 </div>
@@ -252,6 +246,7 @@
                 tempo: 1000,//Quantos milésimos valem 1 segundo?
                 cron: '',
                 time: '00:00:00',
+                ticket: {}
             }
         },
         created() {
@@ -261,16 +256,15 @@
                 moduleTickets.isRegistered = true
             }
 
+            this.getId(this.$route.params.id)
+
         },
         methods: {
             getId(id) {
                 this.$vs.loading();
                 console.log('teste')
                 this.$store.dispatch('tickets/getId', id).then(response => {
-                    // this.ticket = response;
-                    // this.ticket.nome_destinatario = response.lead.nome;
-                    // this.ticket.email_destinatario = response.lead.email;
-
+                    this.ticket = response;
                     this.$vs.loading.close();
                 });
             },
@@ -389,9 +383,7 @@
             },
         },
         computed: {
-            ticket() {
-                return this.$store.state.tickets.ticketAtendimento;
-            },
+
         },
         watch: {
             '$refs': {

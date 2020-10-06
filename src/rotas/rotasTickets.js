@@ -39,6 +39,25 @@ const rotasTickets = [
         },
     },
     {
+        path: '/tickets/detalhar/:id',
+        name: 'tickets-atender',
+        component: () => import('@/views/tickets/Detalhamento.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Tickets'},
+                {title: 'Listagem', url: '/tickets'},
+                {title: 'Atender', active: true},
+            ],
+            pageTitle: 'Atendendo Ticket',
+            rule: 'ticket_atender',
+            pai: 'tickets',
+            subTitle: 'Tickets',
+            //subIcon: 'settings',
+            submenu: subtickets
+        },
+    },
+    {
         path: '/agenda',
         name: 'agenda',
         component: () => import('@/views/tickets/Agenda.vue'),
