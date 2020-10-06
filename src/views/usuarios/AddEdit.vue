@@ -37,7 +37,7 @@
                     </div>
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <span class="font-regular mb-2">Origem (sck) do usuário</span>
-                        <vs-input class="w-full" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
+                        <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
                         <span class="text-danger text-sm" v-show="errors.has('sck')">{{ errors.first('sck') }}</span>
                     </div>
                 </div>
@@ -173,6 +173,7 @@
                 this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
+            this.getUsers();
             this.verificaExt();
             this.getOpcoes();
 
@@ -197,6 +198,7 @@
                 funcaoSelected: null,
                 files: [],
                 images: [],
+                scks: [],
                 isDragging: false,
                 slack: false
             }
@@ -295,9 +297,23 @@
                     this.usuario.password = ''
                     this.usuario.password_confirmed = ''
                     this.$vs.loading.close();
-
                 })
             },
+            sugereSck(){
+                if(this.usuario.sck == ''){
+                    let part = this.usuario.email.split('@');
+                    if(this.scks.indexOf(part[0]) == -1)
+                        this.usuario.sck = part[0];
+                }
+            },
+            getUsers(){
+                this.$store.dispatch('users/get', {}).then(response => {
+                    this.scks = response.map(item => {
+                        return item.sck
+                    });
+                })
+            },
+
             //drag
             OnDragEnter(e) {
                 e.preventDefault();

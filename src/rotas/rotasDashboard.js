@@ -67,6 +67,24 @@ const rotasDashboard = [
             submenu: subdashboard
         },
     },
+    {
+        path: '/perfil',
+        name: 'perfil',
+        component: () => import('@/views/usuarios/Perfil.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Dashboard', url: '/dashboard'},
+                {title: 'Meu perfil', active: true},
+            ],
+            pageTitle: 'Meu perfil',
+            rule: 'public',
+            pai: 'dashboard',
+            subTitle: 'Meu perfil',
+            subIcon: 'bell',
+            submenu: subdashboard
+        },
+    },
 ];
 
 export default rotasDashboard;
