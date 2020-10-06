@@ -12,7 +12,7 @@ const rotasAutomacao = [
                 {title: 'Automação de entrega', active: true},
             ],
             pageTitle: 'Automação de entrega de Brinde',
-            rule: 'editor',
+            rule: 'brinde_automacao',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -30,7 +30,7 @@ const rotasAutomacao = [
                 {title: 'Configuração de E-mails', active: true},
             ],
             pageTitle: 'Configuração de envio de e-mails automáticos',
-            rule: 'editor',
+            rule: 'brinde_automacao_email',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -48,7 +48,7 @@ const rotasAutomacao = [
                 {title: 'Dados do e-mail', active: true},
             ],
             pageTitle: 'Dados do e-mail',
-            rule: 'editor',
+            rule: 'brinde_automacao_email',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -66,7 +66,7 @@ const rotasAutomacao = [
                 {title: 'Dados do e-mail', active: true},
             ],
             pageTitle: 'Dados do e-mail',
-            rule: 'editor',
+            rule: 'brinde_automacao_email',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes

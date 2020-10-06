@@ -12,7 +12,7 @@ const rotasBrindes = [
                 {title: 'Campanhas', active: true},
             ],
             pageTitle: 'Campanhas',
-            rule: 'editor',
+            rule: 'brinde_campanha',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -30,7 +30,7 @@ const rotasBrindes = [
                 {title: 'Criar', active: true},
             ],
             pageTitle: 'Configuração da campanha de Brinde',
-            rule: 'editor',
+            rule: 'brinde_campanha_adicionar',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -48,7 +48,7 @@ const rotasBrindes = [
                 {title: 'Editar', active: true},
             ],
             pageTitle: 'Configuração da campanha de Brinde',
-            rule: 'editor',
+            rule: 'brinde_campanha_editar',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -66,7 +66,7 @@ const rotasBrindes = [
                 {title: 'Configurar', active: true},
             ],
             pageTitle: 'Configuração da campanha de Brinde',
-            rule: 'editor',
+            rule: 'brinde_campanha_editar',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -83,7 +83,7 @@ const rotasBrindes = [
                 {title: 'Solicitações de Brindes', active: true},
             ],
             pageTitle: 'Solicitações de Brindes',
-            rule: 'editor',
+            rule: 'brinde_solicitacao',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -100,7 +100,7 @@ const rotasBrindes = [
                 {title: 'Expedição de Objetos', active: true},
             ],
             pageTitle: 'Expedição de Objetos',
-            rule: 'editor',
+            rule: 'brinde_expedicao',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes
@@ -117,7 +117,7 @@ const rotasBrindes = [
                 {title: 'Detalhe da Expedição', active: true},
             ],
             pageTitle: 'Detalhe da Expedição',
-            rule: 'editor',
+            rule: 'brinde_expedicao_detalhar',
             pai: 'brindes',
             subTitle: 'Brindes',
             submenu: subbrindes

@@ -12,7 +12,7 @@ const rotasComissoes = [
                 {title: 'Aprovar', active: true},
             ],
             pageTitle: 'Comissões a aprovar',
-            rule: 'editor',
+            rule: 'comissao_pendente',
             pai: 'comissoes',
             subTitle: 'Comissões',
             submenu: subcomissoes
@@ -29,7 +29,7 @@ const rotasComissoes = [
                 {title: 'Comissionar', active: true},
             ],
             pageTitle: 'Comissionar Vendas',
-            rule: 'editor',
+            rule: 'comissao',
             pai: 'comissoes',
             subTitle: 'Comissões',
             submenu: subcomissoes
@@ -46,7 +46,7 @@ const rotasComissoes = [
                 {title: 'Pagamentos', active: true},
             ],
             pageTitle: 'Pagamentos',
-            rule: 'editor',
+            rule: 'comissao_pagamento',
             pai: 'comissoes',
             subTitle: 'Comissões',
             submenu: subcomissoes
