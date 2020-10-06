@@ -563,7 +563,7 @@ export default {
                         this.meus_tickets.series.push(((response.tickets_perdeu * 100) / soma).toFixed(2));
                         this.meus_tickets.series.push(((response.tickets_aguardando * 100) / soma).toFixed(2));
                         this.meus_tickets.series.push(((response.tickets_ganhou * 100) / soma).toFixed(2));
-                    } else {
+                    } else {2
                         this.chart_options.colors[0] = '#0c0c0c';
                         this.chart_options.fill.gradient.gradientToColors[0] = '#353434';
                         this.chart_options.labels = ['Finalizadas', 'Pendentes', 'Abertas'];
