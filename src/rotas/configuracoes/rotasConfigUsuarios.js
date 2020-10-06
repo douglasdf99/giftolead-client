@@ -145,8 +145,8 @@ const rotasConfigUsuarios = [
                 {title: 'Funções', active: true},
             ],
             pageTitle: 'Configurações das Funções',
-            rule: 'editor',
-            pai: 'configuracao_funcao',
+            rule: 'configuracao_funcao',
+            pai: 'configuracoes',
             subTitle: 'Configurações',
             subIcon: 'settings',
             submenu: subRotaConfiguracoes
