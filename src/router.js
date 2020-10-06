@@ -897,7 +897,7 @@ const router = new Router({
                             {title: 'Profile', active: true},
                         ],
                         pageTitle: 'Profile',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
