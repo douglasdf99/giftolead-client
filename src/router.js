@@ -1534,16 +1534,15 @@ router.beforeEach((to, from, next) => {
             console.log('userinbfo', localStorage.getItem('userInfo'));
             console.log('token', store.state.token);
             if (!store.state.token){
-
+              store.dispatch('auth/getUser')
+                .then(() => {
+                  console.log('logado')
+                }).catch(() => {
+                  console.log('deu erro')
+                  router.push({path: '/login', query: {to: to.path}})
+                }
+              );
             }
-          store.dispatch('auth/getUser')
-            .then(() => {
-              console.log('logado')
-            }).catch(() => {
-              console.log('deu erro')
-              router.push({path: '/login', query: {to: to.path}})
-            }
-          );
         }
         // If auth required, check login. If login fails redirect to login page
 
