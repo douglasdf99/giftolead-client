@@ -89,7 +89,7 @@
                     <!-- Meus Tickets -->
                     <div class="vx-col w-full mb-base">
                         <place-holder-loading-dashboard tipo="meus_tickets" v-if="meus_tickets.analyticsData.length == 0"/>
-                        <vx-card v-else title="Meus Tickets">
+                        <vx-card v-else :title="'Meus tickets ' + (tipo_meus_tickets == 'atendimento' ? 'atendidos' : 'inseridos')">
                             <!-- CARD ACTION -->
                             <template slot="actions" class="flex items-center">
                                 <vs-dropdown vs-trigger-click class="cursor-pointer">
@@ -563,7 +563,7 @@ export default {
                         this.meus_tickets.series.push(((response.tickets_perdeu * 100) / soma).toFixed(2));
                         this.meus_tickets.series.push(((response.tickets_aguardando * 100) / soma).toFixed(2));
                         this.meus_tickets.series.push(((response.tickets_ganhou * 100) / soma).toFixed(2));
-                    } else {2
+                    } else {
                         this.chart_options.colors[0] = '#0c0c0c';
                         this.chart_options.fill.gradient.gradientToColors[0] = '#353434';
                         this.chart_options.labels = ['Finalizadas', 'Pendentes', 'Abertas'];
@@ -653,8 +653,12 @@ export default {
         }
     },
     watch: {
-        tipo_meus_tickets(val) {
-            this.getMeusTickets();
+        tipo_meus_tickets() {
+            let datas = {
+                dt_inicio: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+                dt_fim: moment().format('YYYY-MM-DD'),
+            }
+            this.getMeusTickets(datas);
         },
         tipo_media_mensal() {
             this.chart_media_options.xaxis.categories = [];
