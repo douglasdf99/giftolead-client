@@ -27,7 +27,7 @@
                                 <div class="vx-col w-3/2">
                                     <p class="text-white leading-3">{{ user.email }}</p>
                                     <p class="text-white leading-3 text-2xl font-bold">{{ user.name }}</p>
-                                    <p class="text-white leading-3 text-lg">Função</p>
+                                    <p v-if="user.roles" class="text-white leading-3 text-lg">{{ user.roles.nome }}</p>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <VuePerfectScrollbar class="scroll-area--data-list-add-new">
-                    <place-holder-loading-dashboard tipo="ultimos_tickets" v-if="!ultimos_tickets_esquisados"/>
+                    <place-holder-loading-dashboard tipo="ultimos_tickets" v-if="!ultimos_tickets_pesquisados"/>
                     <vx-card v-for="item in ultimos_tickets" class="mb-base" v-else style="width: 96%">
                         <div class="vx-row mb-4">
                             <div class="vx-col w-3/12">
@@ -350,7 +350,7 @@ export default {
 
             //Últimos Tickets
             ultimos_tickets: [],
-            ultimos_tickets_esquisados: false,
+            ultimos_tickets_pesquisados: false,
             paginationUltimos: null,
 
             //Média Mensagel
@@ -598,12 +598,12 @@ export default {
             });
         },
         getUltimosTickets(page = 1) {
-            this.ultimos_tickets_esquisados = false;
+            this.ultimos_tickets_pesquisados = false;
             return new Promise(resolve => {
                 this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets_atividades', params: {page: page}}).then(response => {
                     this.ultimos_tickets = response.data;
                     this.paginationUltimos = response;
-                    this.ultimos_tickets_esquisados = true;
+                    this.ultimos_tickets_pesquisados = true;
                     resolve()
                 });
             });

@@ -7,6 +7,7 @@
                 </div>
                 <div class="text-right leading-tight hidden sm:block">
                     <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
+                    <p class="text-sm">{{ activeUserInfo.userRole }}</p>
                 </div>
             </div>
             <vs-dropdown-menu class="vx-navbar-dropdown">

@@ -336,8 +336,6 @@ export default {
       //Getting user data
       axios.get("/user").then((response) => {
         // Update user details
-        console.log('usuario', response);
-
         // const usuario = {}
         // usuario.uid = response.data.user.id;
         // usuario.displayName = response.data.user.name;
@@ -393,7 +391,7 @@ export default {
         usuario.displayName = response.data.user.name;
         usuario.photoURL = response.data.user.avatar;
         usuario.status = response.data.user.status ? "online" : "offline";
-        usuario.userRole = response.data.user.role_name;
+        usuario.userRole = response.data.user.roles.nome;
         usuario.permissoes = response.data.permissions;
         usuario.autenticado = true;
         usuario.ramal = response.data.user.ramal;

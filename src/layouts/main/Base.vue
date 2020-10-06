@@ -326,7 +326,6 @@ export default {
         }
     },
     created() {
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         const color = this.navbarColor == "#fff" && this.isThemeDark ? "#10163a" : this.navbarColor
         this.updateNavbarColor(color)
         this.setNavMenuVisibility(this.$store.state.mainLayoutType)

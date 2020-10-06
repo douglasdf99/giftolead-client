@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="ph-item mt-base" style="width: 96%;" v-if="tipo == 'ultimosTickets'">
+        <div class="ph-item mt-base" style="width: 96%;" v-if="tipo == 'ultimos_tickets'">
             <div class="ph-col-12">
                 <div class="ph-row">
                     <div class="ph-col-2"></div>

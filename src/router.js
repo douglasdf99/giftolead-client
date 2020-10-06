@@ -1529,10 +1529,6 @@ router.beforeEach((to, from, next) => {
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
         if (to.matched.some(record => record.meta.authRequired)) {
-            console.log('auth', auth.isAuthenticated());
-            console.log('firebase', firebaseCurrentUser);
-            console.log('userinbfo', localStorage.getItem('userInfo'));
-            console.log('token', store.state.token);
             if (!store.state.token){
               store.dispatch('auth/getUser')
                 .then(() => {

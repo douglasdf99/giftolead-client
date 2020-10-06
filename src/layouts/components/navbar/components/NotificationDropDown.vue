@@ -73,8 +73,6 @@ export default {
             moduleNotificacoes.isRegistered = true;
         }
 
-        console.log(localStorage.getItem('userInfo'));
-
         //this.getNotificacoes();
     },
     mounted() {
@@ -84,8 +82,6 @@ export default {
         // });
         let user = JSON.parse(localStorage.getItem('userInfo'));
         this.$echo.private('App.Models.User.' + user.uid).notification((notification) => {
-            console.log('escutou');
-            console.log(notification);
             this.unreadNotifications.push({
                 index: notification.notification.id,
                 title: notification.notification.data.title,
@@ -109,7 +105,6 @@ export default {
         },
         getNotificacoes() {
             this.$store.dispatch('notificacoes/get').then(response => {
-                console.log(response)
                 response.forEach((item, index) => {
                     this.unreadNotifications.push({
                         index: item.id,
@@ -125,7 +120,6 @@ export default {
         setlida() {
             if (this.unreadNotifications.length > 0) {
                 this.$store.dispatch('notificacoes/setread').then(() => {
-                    console.log('lidas com sucesso')
                     this.unreadNotifications.forEach(item => {
                         this.notifications.push(item)
                     })
