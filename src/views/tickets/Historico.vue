@@ -1,17 +1,17 @@
 <template>
     <div>
-        <ul class="vx-timeline">
-            <li v-for="historico in data" class="mt-5">
+        <ul class="vx-timeline ">
+            <li v-for="historico in data" class="mt-5 bg-white">
                 <div class="timeline-icon p-0">
-                <span class="feather-icon select-none relative">
-                  <img :src="get_img_api(historico.causer.avatar)" width="40" height="40" class="rounded-full" v-if="IsUser(historico.causer_type)">
-                  <img src="@/assets/images/util/boleto.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\\Models\\CampanhaBoleto'">
-                  <img src="@/assets/images/util/whatsapp.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\\Models\\CampanhaWhatsapp'">
-                  <img src="@/assets/images/util/agendamento.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\\Models\\CampanhaAgendamento'">
-                  <img src="@/assets/images/util/cancelado.svg" width="40" height="40" class="rounded-full" v-if="historico.causer_type == 'App\\Models\\CampanhaCancelado'">
+                <span class="feather-icon select-none relative ">
+                  <img :src="get_img_api(historico.causer.avatar)" width="40" height="40" class="rounded-full bg-white" v-if="IsUser(historico.causer_type)">
+                  <img src="@/assets/images/util/boleto.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaBoleto'">
+                  <img src="@/assets/images/util/whatsapp.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaWhatsapp'">
+                  <img src="@/assets/images/util/agendamento.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaAgendamento'">
+                  <img src="@/assets/images/util/cancelado.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaCancelado'">
                 </span>
                 </div>
-                <div class="timeline-info">
+                <div class="timeline-info p-4">
                     <p class="font-semibold" v-if="IsUser(historico.causer_type)">{{historico.causer.name}}</p>
                     <p class="font-semibold" v-else>{{historico.causer.nome}}</p>
                     <span class="activity-desc">{{historico.description}}</span>
@@ -41,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <small class="text-grey activity-e-time">{{historico.created_at | formatDateHumanize}}</small>
+                <small class="text-grey activity-e-time pl-4">{{historico.created_at | formatDateHumanize}}</small>
             </li>
         </ul>
         <vs-popup class="holamundo" title="Mensagem enviada" :active.sync="exibirMensagem">

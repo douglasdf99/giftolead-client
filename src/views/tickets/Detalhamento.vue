@@ -16,64 +16,7 @@
                 </p>
             </div>
         </div>
-        <!-- inicio popup-->
-        <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="ticket.lead" v-show="isCallActive">
-            <div class="vs-popup--background"></div>
-            <div class="vs-popup" style="background: rgb(255, 255, 255);">
-                <header class="vs-popup--header">
-                    <div class="vs-popup--title">
-                    </div>
-                </header>
-                <div class="vs-popup--content">
-                    <div class="vx-col w-full">
-                        <vx-card class="p-2">
-                            <div class="text-left mb-10">
-                                <h6 class="mb-2"><b>Nome do lead:</b> {{ ticket.lead.nome }}</h6>
-                                <h6 class="mb-2"><b>Numero de telefone:</b> +55{{ticket.lead.ddd}}{{ ticket.lead.telefone}}</h6>
-                                <p class="mb-2"></p>
-                            </div>
-                            <div class="flex items-center">
-                                <div class="fill-row-loading w-full">
-                                    <h3><span class="font-14">Status:</span> {{statustext}}</h3>
-                                    <div id="loading-sound" :class="{'activeLoading':activeLoading}"
-                                         class="vs-con-loading__container loading-example w-full" v-show="chamada.id">
-                                    </div>
-                                    <div id="loading-default" :class="{'activeLoading':activeLoading}"
-                                         class="vs-con-loading__container loading-example w-full" v-show="!chamada.id">
-                                    </div>
-                                    <h5><span class="font-14 my-2">Tempo:</span> {{time}}</h5>
-                                </div>
-                            </div>
-                            <div class="flex justify-center flex-wrap mt-10">
-                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="success" type="filled" v-if="!muted"
-                                           icon-pack="material-icons" icon="volume_up" @click="mute">
-                                </vs-button>
-                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled" v-else
-                                           icon-pack="material-icons" icon="volume_off" @click="mute">
-                                </vs-button>
-                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled"
-                                           icon-pack="material-icons" icon="call_end" @click="desligaChamada">
 
-                                </vs-button>
-                            </div>
-                            <template slot="footer">
-                                <vs-divider/>
-                                <div class="flex justify-between">
-                                    <span class="flex items-center">
-                                        <vs-icon icon="signal_cellular_alt"></vs-icon>
-                                        <span>Internet: {{status.internet}} </span>
-                                    </span>
-                                    <span class="flex items-center">
-                                        <vs-icon icon="computer"></vs-icon>
-                                        <span>computador: {{status.computador}} </span>
-                                     </span>
-                                </div>
-                            </template>
-                        </vx-card>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- fim popup-->
         <div class="vx-row" v-if="ticket.lead">
             <div class="vx-col w-full lg:w-1/2 pr-1">
@@ -191,7 +134,10 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-<!--                            /-->
+                          <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                                     @click="voltar">
+                            Voltar
+                          </vs-button>
                         </div>
                     </div>
                 </div>
@@ -220,8 +166,7 @@
         },
         data() {
             return {
-
-                activeLoading: false,
+              activeLoading:false,
                 statustext: 'Realizando chamada',
 
                 muted: false,
@@ -294,66 +239,11 @@
                         return ''
                 }
             },
-            cancelarAtendimento(id) {
-                this.$vs.dialog({
-                    color: 'danger',
-                    title: `Cancelar atendimento?`,
-                    text: 'Deseja mesmo cancelar este atendimento?',
-                    acceptText: 'Sim!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('tickets/cancelar', id).then(response => {
-                            console.log('pora cara', response)
-                            if (response.status) {
-                                this.$vs.notify({
-                                    color: 'success',
-                                    title: '',
-                                    text: 'Atendimento cancelado com sucesso'
-                                });
-                                localStorage.removeItem('atendimento');
-                                this.$vs.loading.close();
-                                this.$router.push({name: 'tickets-list'})
-                            }
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao deletar. Contate o suporte.'
-                            })
-                        })
-                    }
-                })
-            },
-            finalizar() {
-                console.log(this.ticket)
-                this.$vs.dialog({
-                    color: 'primary',
-                    title: `Finalizar atendimento?`,
-                    text: 'Deseja mesmo finalizar este atendimento?',
-                    acceptText: 'Sim!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('tickets/finalizar', this.ticket).then(response => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: '',
-                                text: 'Atendimento finalizado com sucesso'
-                            });
-                            localStorage.removeItem('atendimento');
-                            this.$vs.loading.close();
-                            this.$router.push({name: 'tickets-list'});
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                            })
-                        })
-                    }
-                })
-            },
+
+           voltar(){
+             this.$router.push({name:'tickets-list'})
+           },
+
             getStatus(val) {
                 switch (val) {
                     case 0:
@@ -428,10 +318,6 @@
                 padding: 10px;
             }
 
-            &.activeLoading {
-                opacity: 0 !important;
-                transform: scale(0.5);
-            }
         }
     }
 </style>
