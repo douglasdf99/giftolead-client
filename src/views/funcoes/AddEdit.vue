@@ -6,8 +6,11 @@
                 <vs-input class="w-full" v-model="funcao.nome" size="large" v-validate="'required'" name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
             </div>
-            <div class="vx-col w-full">
-                <p class="font-regular mb-3">Produtos Permitidos</p>
+            <div class="vx-col w-full mb-3">
+                <vs-checkbox v-model="funcao.full_products">Permitir todos os produtos</vs-checkbox>
+            </div>
+            <div class="vx-col w-full" v-if="!funcao.full_products">
+                <p class="font-regular mb-2">Produtos Permitidos</p>
                 <v-select multiple :closeOnSelect="false" v-model="produtos_permitidos" :options="all_produtos" class="bg-white"/>
             </div>
         </div>
@@ -102,7 +105,8 @@ export default {
             funcao: {
                 nome: '',
                 permissions: [],
-                role_produtos: []
+                role_produtos: [],
+                produtos: []
             },
             permissoes: [],
             main_modules: [],
@@ -137,7 +141,10 @@ export default {
         salvar() {
             this.$validator.validateAll().then(result => {
                 if (result) {
-                    this.funcao.produtos = this.produtos_permitidos.map(item => {return item.id});
+                    this.funcao.produtos = this.produtos_permitidos.map(item => {
+                        console.log('produto setado', item)
+                        return item.id
+                    });
                     this.funcao.permissions = [...this.main_arr_permissions];
                     this.$vs.loading();
                     this.$store.dispatch('funcoes/store', this.funcao).then(response => {
@@ -288,7 +295,8 @@ export default {
             if (this.funcao.role_produtos.length > 0) {
                 console.log('produtos array', this.funcao.role_produtos);
                 this.produtos_permitidos = this.funcao.role_produtos.map(item => {
-                    return {id: item.id, label: item.produto.nome};
+                    console.log('produto resgatado', item)
+                    return {id: item.produto_id, label: item.produto.nome};
                 })
                 //this.produtos_permitidos = [...this.arraySelect(this.funcao.role_produtos)];
             }
