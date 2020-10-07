@@ -156,7 +156,7 @@ export default {
                             icon: 'icon-check-circle',
                             color: 'success'
                         });
-                        this.$router.push({name: 'funcoes'});
+                      this.$router.push({name:'funcoes'});
                     }).catch(erro => {
                         this.$vs.notify({
                             title: '',
@@ -176,6 +176,12 @@ export default {
                     })
                 }
             })
+        },
+        setPermission(permissoes){
+          return Promise.resolve().then(function () {
+            localStorage.removeItem("permissoes");
+            localStorage.setItem("permissoes", JSON.stringify(permissoes));
+          });
         },
         getId(id) {
             this.$vs.loading()

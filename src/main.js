@@ -239,6 +239,21 @@ axios.interceptors.response.use((response) => { // intercept the global error
     });
     return
   }
+  if (error.response.status === 403 && !originalRequest._retry) {
+    originalRequest._retry = true
+    Vue.swal({
+      title: "Sem Permissão",
+      text: "Parece que você não tem permissão para realizar a ação atual. Contate um administrador do sistema.",
+      type: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#8d83f3",
+      confirmButtonText: "OK",
+      closeOnConfirm: false
+    }).then((result) => {
+      document.location.reload(true);
+    });
+    return
+  }
   // Do something with response error
   return Promise.reject(error)
 })

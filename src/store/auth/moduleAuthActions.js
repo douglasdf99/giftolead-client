@@ -424,39 +424,68 @@ export default {
       if (subdomain)
         domain = "https://api.saveleads.com.br/" + subdomain;
       else
-      //domain = "http://sevaleads3.0.test/app";
         domain = "https://api.saveleads.com.br/app";
 
-      axiosRaiz.get(domain + '/permissions', config).then(response => {
-        console.log('permissions_banco', response.data);
-        response.data.data.forEach(item => {
-          if (item.permission_role.length > 0) {
-            var ac = new AclRule('admin');
-            item.permission_role.forEach(perfil => {
-              ac = ac.or(perfil.role.nome)
-            });
-            permissoes[item.name] = ac.generate();
-            //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
-          } else {
-            permissoes[item.name] = new AclRule('admin').generate();
-            //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
-          }
-        });
-
-        axiosRaiz.get(domain + '/roles', config).then(response => {
-          console.log('funcoes', response.data);
-          var ac = new AclRule('admin');
-          response.data.data.forEach(role => {
-            ac = ac.or(role.nome)
+      if (token2){
+        axiosRaiz.get(domain + '/permissions', config).then(response => {
+          console.log('permissions_banco', response.data);
+          response.data.data.forEach(item => {
+            if (item.permission_role.length > 0) {
+              var ac = new AclRule('admin');
+              item.permission_role.forEach(perfil => {
+                ac = ac.or(perfil.role.nome)
+              });
+              permissoes[item.name] = ac.generate();
+              //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
+            } else {
+              permissoes[item.name] = new AclRule('admin').generate();
+              //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
+            }
           });
-          permissoes['public'] = ac.generate();
-          console.log('permissoes', permissoes);
-          localStorage.setItem("permissoes", JSON.stringify(permissoes));
-          resolve(permissoes)
+
+          axiosRaiz.get(domain + '/roles', config).then(response => {
+            console.log('funcoes', response.data);
+            var ac = new AclRule('admin');
+            response.data.data.forEach(role => {
+              ac = ac.or(role.nome)
+            });
+            permissoes['public'] = ac.generate();
+            console.log('permissoes', permissoes);
+            localStorage.setItem("permissoes", JSON.stringify(permissoes));
+            resolve(permissoes)
+          })
+
         })
+      }
+      else{
+        axios.get(domain + '/permissions').then(response => {
+          console.log('permissions_banco', response.data);
+          response.data.data.forEach(item => {
+            if (item.permission_role.length > 0) {
+              var ac = new AclRule('admin');
+              item.permission_role.forEach(perfil => {
+                ac = ac.or(perfil.role.nome)
+              });
+              permissoes[item.name] = ac.generate();
+              //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
+            } else {
+              permissoes[item.name] = new AclRule('admin').generate();
+              //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
+            }
+          });
 
-      })
+          axios.get(domain + '/roles').then(response => {
+            console.log('funcoes', response.data);
+            var ac = new AclRule('admin');
+            response.data.data.forEach(role => {
+              ac = ac.or(role.nome)
+            });
+            permissoes['public'] = ac.generate();
+            resolve(permissoes)
+          })
 
+        })
+      }
     })
   },
 

@@ -45,7 +45,7 @@
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
                         <span class="font-regular mb-2">Permissões do usuário</span>
-                        <v-select v-model="funcaoSelected" :class="'select-large-base'" :clearable="false"
+                        <v-select v-model="funcaoSelected" v-validate="'required'" :class="'select-large-base'" :clearable="false"
                                   style="background-color: white"
                                   :options="opcoesFuncoes"/>
                         <span class="text-danger text-sm"
@@ -142,6 +142,7 @@
 <script>
 import vSelect from 'vue-select'
 import moduleUsuario from '@/store/usuarios/moduleUsuario.js'
+import moduleFuncao from '@/store/funcoes/moduleFuncoes.js'
 import {Validator} from 'vee-validate';
 
 const dict = {
@@ -171,8 +172,12 @@ export default {
     },
     created() {
         if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('users', moduleUsuario)
+            this.$store.registerModule('users', moduleUsuario);
             moduleUsuario.isRegistered = true
+        }
+        if (!moduleFuncao.isRegistered) {
+            this.$store.registerModule('funcoes', moduleFuncao);
+            moduleFuncao.isRegistered = true
         }
         this.getUsers();
         this.verificaExt();
@@ -219,7 +224,7 @@ export default {
                     formData.append('name', this.usuario.name);
                     formData.append('email', this.usuario.email);
                     formData.append('sck', this.usuario.sck);
-                    formData.append('role_id', 1);
+                    formData.append('role_id', this.funcaoSelected.id);
                     formData.append('status', (this.usuario.status ? 1 : 0));
 
                     if (this.usuario.password)
@@ -286,12 +291,12 @@ export default {
         },
         getOpcoes() {
             this.opcoesFuncoes = [];
-            /*this.$store.dispatch('contas/get').then(response => {
+            this.$store.dispatch('funcoes/get').then(response => {
                 let arr = [...response];
                 arr.forEach(item => {
                     this.opcoesFuncoes.push({id: item.id, label: item.nome})
                 });
-            })*/
+            })
         },
         getUsuario(id) {
             this.$vs.loading()
@@ -299,7 +304,9 @@ export default {
                 this.usuario = {...data};
                 this.usuario.password = ''
                 this.usuario.password_confirmed = ''
-                this.$vs.loading.close();
+              this.funcaoSelected = {id: this.usuario.roles.id, label: this.usuario.roles.nome};
+
+              this.$vs.loading.close();
             })
         },
         sugereSck() {
