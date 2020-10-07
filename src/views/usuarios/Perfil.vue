@@ -10,15 +10,23 @@
                     </div>
                 </div>
                 <div class="vx-row mb-3">
-                    <div class="vx-col w-full md:w-1/2 lg:w-1/2 xlg:w-1/2">
+                    <div class="vx-col w-full md:w-1/2 lg:w-1/2 xlg:w-1/2 mb-2">
                         <span class="font-regular mb-2">Senha</span>
                         <vs-input class="w-full" v-model="usuario.password" size="large" type="password" v-validate="enableValidate"/>
                         <span class="text-danger text-sm" v-show="errors.has('password')">{{ errors.first('password') }}</span>
                     </div>
-                    <div class="vx-col w-full md:w-1/2 lg:w-1/2 xlg:w-1/2">
+                    <div class="vx-col w-full md:w-1/2 lg:w-1/2 xlg:w-1/2 mb-2">
                         <span class="font-regular mb-2">Confirmação da senha</span>
                         <vs-input class="w-full" v-model="usuario.password_confirmed" size="large" type="password" v-validate="enableValidate"/>
                         <span class="text-danger text-sm" v-show="usuario.password !== usuario.password_confirmed">Confirme corretamente a senha</span>
+                    </div>
+                    <div class="vx-col w-full md:w-1/2 lg:w-1/2 xlg:w-1/2">
+                        <span class="font-regular mb-2">E-mail</span>
+                        <vs-input class="w-full" v-model="usuario.email" size="large" type="email" disabled/>
+                    </div>
+                    <div class="vx-col w-full md:w-1/2 lg:w-1/2 xlg:w-1/2">
+                        <span class="font-regular mb-2">Função</span>
+                        <vs-input class="w-full" v-model="usuario.roles.nome" size="large" type="text" disabled/>
                     </div>
                 </div>
                 <div class="vx-row mb-3">

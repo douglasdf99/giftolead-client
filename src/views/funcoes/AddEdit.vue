@@ -1,12 +1,12 @@
 <template>
     <div>
         <div class="vx-row mb-10">
-            <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
+            <div class="vx-col w-full mb-base">
                 <p class="font-regular mb-3">Nome da Função</p>
                 <vs-input class="w-full" v-model="funcao.nome" size="large" v-validate="'required'" name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
             </div>
-            <div class="vx-col w-full lg:w-1/2">
+            <div class="vx-col w-full">
                 <p class="font-regular mb-3">Produtos Permitidos</p>
                 <v-select multiple :closeOnSelect="false" v-model="produtos_permitidos" :options="all_produtos" class="bg-white"/>
             </div>
@@ -137,6 +137,7 @@ export default {
         salvar() {
             this.$validator.validateAll().then(result => {
                 if (result) {
+                    this.funcao.produtos = this.produtos_permitidos.map(item => {return item.id});
                     this.funcao.permissions = [...this.main_arr_permissions];
                     this.$vs.loading();
                     this.$store.dispatch('funcoes/store', this.funcao).then(response => {
