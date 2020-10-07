@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
+            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_produto_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Produto
@@ -30,7 +30,7 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop" v-if="$acl.check('configuracao_produto_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Produto
@@ -45,19 +45,18 @@
                         <div class="w-8/12">
                             <div v-if="dados.search">
                                 <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
+                                <p class="text-sem-item mt-6" v-if="$acl.check('configuracao_produto_incluir')">
                                     Para inserir novos registros você <br> pode clicar em incluir conta.
                                 </p>
                             </div>
                             <div v-else>
                                 <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
+                                <p class="text-sem-item" v-if="$acl.check('configuracao_produto_incluir')">
                                     Para inserir novos registros você <br> pode clicar em incluir conta.
                                 </p>
                             </div>
                             <br>
-
-                            <p>
+                            <p v-if="$acl.check('configuracao_produto_incluir')">
                                 <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
                                            @click="addNewData">
                                     <vs-icon icon-pack="material-icons" icon="check_circle"
@@ -83,24 +82,24 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
                                 <vs-td class="flex justify-center items-center relative">
-                                    <vs-dropdown vs-trigger-click>
+                                    <vs-dropdown vs-trigger-click v-if="checkPerm">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="showLink(tr.id)">
+                                            <vs-dropdown-item @click="showLink(tr.id)" v-if="$acl.check('configuracao_link')">
                                                 <vs-icon icon-pack="material-icons" icon="link"></vs-icon>
                                                 Links
                                             </vs-dropdown-item>
                                             <vs-divider></vs-divider>
-                                            <vs-dropdown-item @click="updateData(tr.id)">
+                                            <vs-dropdown-item @click="updateData(tr.id)" v-if="$acl.check('configuracao_produto_editar')">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_produto_delete')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
@@ -238,6 +237,9 @@
                 e.preventDefault();
                 this.$vs.loading();
                 this.getProdutos();
+            },
+            checkPerm(){
+                return this.$acl.check('configuracao_produto_editar') || this.$acl.check('configuracao_produto_delete') || this.$acl.check('configuracao_link')
             }
         },
         watch: {

@@ -2,44 +2,44 @@
     <div class="">
         <div class="vx-row" v-if="dados">
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Atividades" subtitle="Notificações relacionadas ao usuário" no-shadow>
+                <vx-card title="Atividades" no-shadow>
                     <span class="font-bold">Função Alterada</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.funcao_alterada_para" :option="dados.funcao_alterada_para"></option-notification>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Brinde" subtitle="Notificações relacionadas a brindes" no-shadow>
+                <vx-card title="Brinde" no-shadow>
                     <span class="font-bold">Solicitação de brinde aprovada</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.solicitacao_brinde_foi_aprovada"></option-notification>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Ordem" subtitle="Notificações relacionadas a ordens" no-shadow>
+                <vx-card title="Ordem" no-shadow>
                     <span class="font-bold">Ordem Paga</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.ordem_paga"></option-notification>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Comissão" subtitle="Notificações relacionadas a comissãos" no-shadow>
+                <vx-card title="Comissão" no-shadow>
                     <span class="font-bold">Nova comissão paga</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.comissao_aprovada"></option-notification>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Conquista" subtitle="Notificações relacionadas a conquista" no-shadow>
+                <vx-card title="Conquista" no-shadow>
                     <span class="font-bold">Conquista alcançada</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.conquista_alcancada"></option-notification>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Correios" subtitle="Notificações relacionadas a conquista" no-shadow>
+                <vx-card title="Correios" no-shadow>
                     <span class="font-bold">Contrato do correios inativo (admins ou relacionados)</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.contrato_correios_inativo"></option-notification>
                 </vx-card>
             </div>
 
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Ticket" subtitle="Notificações relacionadas a tickets" no-shadow>
+                <vx-card title="Ticket" no-shadow>
                     <span class="font-bold">Ticket atrasado</span>
                     <option-notification class="w-full" :slack="slack" :option.sync="dados.ticket_atrasados"></option-notification>
                     <span class="font-bold">Você tem um ticket agendado para logo</span>
@@ -49,7 +49,7 @@
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 sm:w-1/2 mb-base">
-                <vx-card title="Zenvia" subtitle="Notificações relacionadas a zenvia" no-shadow>
+                <vx-card title="Zenvia" no-shadow>
                     <span class="font-bold">Recarga Zenvia</span>
                     <option-notification :slack="slack" :option.sync="dados.recarga_zenvia"></option-notification>
 

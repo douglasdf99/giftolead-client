@@ -2,7 +2,7 @@
     <div>
         <ul>
 
-            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome">
+            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-if="$acl.check(line.can)">
 
                 {{line.nome}}
 
@@ -19,23 +19,28 @@
                 lista: [
                     {
                         nome: 'Cadastrar ou alterar Origens',
-                        routername: 'origens'
+                        routername: 'origens',
+                        can: 'configuracao_origem'
                     },
                     {
                         nome: 'Cadastrar ou alterar Tipo de Dúvidas',
-                        routername: 'TipoDeDuvida'
+                        routername: 'TipoDeDuvida',
+                        can: 'configuracao_tipoduvida'
                     },
                     {
                         nome: 'Cadastrar ou alterar Motivos de Perda',
-                        routername: 'motivoDePerda'
+                        routername: 'motivoDePerda',
+                        can: 'configuracao_perda'
                     },
                     {
                         nome: 'Cadastrar ou alterar Status de Finalização',
-                        routername: 'statusDeFinalizacao'
+                        routername: 'statusDeFinalizacao',
+                        can: 'configuracao_status'
                     },
                     {
                         nome: 'Cadastrar ou alterar Mensagem Padrão',
-                        routername: 'mensagem-padrao'
+                        routername: 'mensagem-padrao',
+                        can: 'configuracao_mensagem'
                     },
                 ]
             }

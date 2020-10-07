@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Sprint 23 -">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaConfiguracoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaConfiguracoes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Geral.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Geral.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/brindes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/brindes/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Expedicoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Expedicoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Notificacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Notificacoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Tickets.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Tickets.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Usuarios.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Usuarios.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/contas/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contas/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/contas/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contas/SideBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/empresa/Show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/empresa/Show.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/funcoes/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/funcoes/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/contratos/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contratos/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/embalagens/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/embalagens/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/links/Lista.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/links/Lista.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/mensagemPadrao/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/mensagemPadrao/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/motivoPerda/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/motivoPerda/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/origens/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/origens/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/produtos/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/produtos/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/statusFinalizacao/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/statusFinalizacao/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tipoDuvida/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tipoDuvida/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,14 +214,7 @@
       <workItem from="1601672746995" duration="1747000" />
       <workItem from="1601901070083" duration="24338000" />
       <workItem from="1601988145357" duration="21385000" />
-      <workItem from="1602087176720" duration="7296000" />
-    </task>
-    <task id="LOCAL-00037" summary="retorno 401">
-      <created>1589479868811</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1589479868811</updated>
+      <workItem from="1602087176720" duration="13648000" />
     </task>
     <task id="LOCAL-00038" summary="logotipo ok e z-index footerbar">
       <created>1589482835993</created>
@@ -551,7 +552,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602014663519</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="Sprint 24 - Douglas pediu a versão mais nova">
+      <created>1602095192243</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1602095192243</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TodoView">
@@ -567,7 +575,6 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="integracao total voice 50 porcento" />
     <MESSAGE value="integracao total voice 55 porcento" />
     <MESSAGE value="ajustes campanha carrinho" />
     <MESSAGE value="alteração de numero que realiza chamda" />
@@ -592,17 +599,18 @@
     <MESSAGE value="Sprint 23 - Sugestão de SCK quando vazio" />
     <MESSAGE value="Sprint 23 - Hotfix durante a reunião" />
     <MESSAGE value="Hotfix dashboard" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hotfix dashboard" />
+    <MESSAGE value="Sprint 24 - Douglas pediu a versão mais nova" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sprint 24 - Douglas pediu a versão mais nova" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
-    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1602014662739">
+    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1602095191402">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014662739" />
+    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602095191402" />
     <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1600965488058">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -613,18 +621,18 @@
     </state>
     <state x="369" y="115" key="SettingsEditor/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601323036631" />
     <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1602014665173">
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1602095194221">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014665173" />
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602095194221" />
     <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1601661725120">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601661725120" />
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602087704797">
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602097019500">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602087704797" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602097019500" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599050689284" />
     <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1602091073652">
       <screen x="0" y="0" width="1536" height="824" />
@@ -634,10 +642,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014964998" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1602093395649">
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1602103400546">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602093395649" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602103400546" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

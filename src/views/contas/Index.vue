@@ -74,14 +74,14 @@
                     <vs-table :data="items" class="table-items"
                               style="border-spacing: 0 8px;border-collapse: separate;">
                         <template slot="thead">
-                            <vs-th v-if="$acl.check('configuracao_conta_editar') || $acl.check('configuracao_conta_delete')"></vs-th>
+                            <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
                             <vs-th>Integração</vs-th>
                         </template>
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative">
-                                    <vs-dropdown vs-trigger-click>
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_conta_editar') || $acl.check('configuracao_conta_delete')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
