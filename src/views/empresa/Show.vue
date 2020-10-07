@@ -126,7 +126,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
+                            <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa" v-if="$acl.check('configuracao_empresa_editar')">Salvar</vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle" @click="$router.push({name: 'configuracoes-geral'})">Cancelar</vs-button>
                         </div>
                     </div>

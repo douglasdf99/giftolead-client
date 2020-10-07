@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="inicio feature ACL">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Sprint 23 -">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaConfiguracoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaConfiguracoes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Geral.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Geral.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/contas/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contas/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/contas/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contas/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/empresa/Show.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/empresa/Show.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/funcoes/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/funcoes/AddEdit.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,19 +68,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Projetos\saveleads3_vue\src\views\configuracoes" />
-      <recent name="C:\Projetos\saveleads3_vue\src\store\funcoes" />
-      <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
-      <recent name="C:\Projetos\saveleads3_vue\src\store\dashboard" />
-      <recent name="C:\Projetos\saveleads3_vue\src\views" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Projetos\saveleads3_vue\src\views\funcoes" />
       <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\cancelada" />
       <recent name="C:\projects\saveleadsVuexy\src\views\links" />
       <recent name="C:\projects\saveleadsVuexy\public" />
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\util" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projetos\saveleads3_vue\src\views\configuracoes" />
+      <recent name="C:\Projetos\saveleads3_vue\src\store\funcoes" />
+      <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
+      <recent name="C:\Projetos\saveleads3_vue\src\store\dashboard" />
+      <recent name="C:\Projetos\saveleads3_vue\src\views" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -198,48 +204,9 @@
       <workItem from="1601556131997" duration="28980000" />
       <workItem from="1601640991514" duration="25388000" />
       <workItem from="1601672746995" duration="1747000" />
-    </task>
-    <task id="LOCAL-00031" summary="gatinho do login2">
-      <created>1589293971288</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1589293971288</updated>
-    </task>
-    <task id="LOCAL-00032" summary="git ignore">
-      <created>1589294388424</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1589294388424</updated>
-    </task>
-    <task id="LOCAL-00033" summary="sub menu ok">
-      <created>1589305076888</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1589305076888</updated>
-    </task>
-    <task id="LOCAL-00034" summary="reuniao 3">
-      <created>1589307503061</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1589307503061</updated>
-    </task>
-    <task id="LOCAL-00035" summary="tentativa e erro brinde">
-      <created>1589376179833</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1589376179834</updated>
-    </task>
-    <task id="LOCAL-00036" summary="tentativa e erro brinde">
-      <created>1589479285225</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1589479285225</updated>
+      <workItem from="1601901070083" duration="24338000" />
+      <workItem from="1601988145357" duration="21385000" />
+      <workItem from="1602087176720" duration="7296000" />
     </task>
     <task id="LOCAL-00037" summary="retorno 401">
       <created>1589479868811</created>
@@ -542,7 +509,49 @@
       <option name="project" value="LOCAL" />
       <updated>1601672657750</updated>
     </task>
-    <option name="localTasksCounter" value="80" />
+    <task id="LOCAL-00080" summary="Sprint 23 - tela de permissões da função em andamento">
+      <created>1601919083532</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1601919083533</updated>
+    </task>
+    <task id="LOCAL-00081" summary="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário">
+      <created>1601932525418</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1601932525418</updated>
+    </task>
+    <task id="LOCAL-00082" summary="Sprint 23 - Hotfix no sidebar das Minhas Comissões">
+      <created>1601994374166</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1601994374166</updated>
+    </task>
+    <task id="LOCAL-00083" summary="Sprint 23 - Sugestão de SCK quando vazio">
+      <created>1602002484128</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1602002484128</updated>
+    </task>
+    <task id="LOCAL-00084" summary="Sprint 23 - Hotfix durante a reunião">
+      <created>1602011614963</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1602011614963</updated>
+    </task>
+    <task id="LOCAL-00085" summary="Hotfix dashboard">
+      <created>1602014663519</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1602014663519</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TodoView">
@@ -558,12 +567,6 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="alteracao na tela ed campanha de boleto, envio de valores recuperados" />
-    <MESSAGE value="companhacanceladosContatos" />
-    <MESSAGE value="valores de cards e lista de contatos de campanha cancelado" />
-    <MESSAGE value="ajustes campanha carrinho correto" />
-    <MESSAGE value="ajuste realtime tickets" />
-    <MESSAGE value="inicio de implementação do historico do ticket" />
     <MESSAGE value="integracao total voice 50 porcento" />
     <MESSAGE value="integracao total voice 55 porcento" />
     <MESSAGE value="ajustes campanha carrinho" />
@@ -583,17 +586,23 @@
     <MESSAGE value="Sprint 23 - Ajuste no funcionamento da tela de Meus Links" />
     <MESSAGE value="inicio feature ACL" />
     <MESSAGE value="Sprint 23 - progredindo tela de permissões e edição de função" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sprint 23 - progredindo tela de permissões e edição de função" />
+    <MESSAGE value="Sprint 23 - tela de permissões da função em andamento" />
+    <MESSAGE value="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário" />
+    <MESSAGE value="Sprint 23 - Hotfix no sidebar das Minhas Comissões" />
+    <MESSAGE value="Sprint 23 - Sugestão de SCK quando vazio" />
+    <MESSAGE value="Sprint 23 - Hotfix durante a reunião" />
+    <MESSAGE value="Hotfix dashboard" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hotfix dashboard" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
-    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1601672656770">
+    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1602014662739">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601672656770" />
+    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014662739" />
     <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1600965488058">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -604,31 +613,31 @@
     </state>
     <state x="369" y="115" key="SettingsEditor/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601323036631" />
     <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1601672659805">
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1602014665173">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601672659805" />
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014665173" />
     <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1601661725120">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601661725120" />
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1601671185250">
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602087704797">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601671185250" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602087704797" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599050689284" />
-    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1601657913783">
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1602091073652">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601657913783" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1601650112681">
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602091073652" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1602014964998">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601650112681" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1601665309716">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014964998" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1602093395649">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601665309716" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602093395649" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -640,7 +649,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/store/getters.js</url>
-          <line>27</line>
+          <line>29</line>
           <option name="timeStamp" value="20" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">

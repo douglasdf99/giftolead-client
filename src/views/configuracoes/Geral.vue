@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome">
+            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-if="$acl.check(line.can)">
                 {{line.nome}}
             </router-link>
         </ul>
@@ -16,23 +16,28 @@
                 lista: [
                     {
                         nome: 'Dados da Empresa',
-                        routername: 'dados-empresa'
+                        routername: 'dados-empresa',
+                        can: 'configuracao_empresa_detalhar'
                     },
                     {
                         nome: 'Cadastrar ou alterar contas de produtos',
-                        routername: 'contas'
+                        routername: 'contas',
+                        can: 'configuracao_conta'
                     },
                     {
                         nome: 'Cadastrar ou alterar produtos',
-                        routername: 'produtos'
+                        routername: 'produtos',
+                        can: 'configuracao_produto'
                     },
                     {
                         nome: 'Administrar links de vendas',
-                        routername: 'links'
+                        routername: 'links',
+                        can: 'configuracao_link'
                     },
                     {
                         nome: 'Gerenciar notificações do sistema',
-                        routername: 'notificacoes'
+                        routername: 'notificacoes',
+                        can: 'public'
                     },
                 ]
             }

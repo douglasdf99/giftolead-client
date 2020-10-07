@@ -158,7 +158,6 @@ import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue"
 import axios from 'axios'
 import { AclRule } from 'vue-acl'
 
-
 const VxTour = () => import('@/components/VxTour.vue')
 
 export default {
@@ -234,9 +233,6 @@ export default {
         }
     },
     computed: {
-
-
-
         titulo() {
             return this.$route.meta.pageTitle
         },
@@ -355,6 +351,33 @@ export default {
             this.dynamicWatchers[i]()
             delete this.dynamicWatchers[i]
         })
+    },
+    mounted() {
+        this.$echo.channel(`permissions`).listen('PermissionEvent', (e) => {
+            console.log('permissoes event', e);
+            let permissoes = {};
+            e.permissions.forEach(item => {
+                if (item.permission_role.length > 0) {
+                    var ac = new AclRule('admin');
+                    item.permission_role.forEach(perfil => {
+                        ac = ac.or(perfil.role.nome)
+                    });
+                    permissoes[item.name] = ac.generate();
+                    //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
+                } else {
+                    permissoes[item.name] = new AclRule('admin').generate();
+                    //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
+                }
+            });
+
+            var ac = new AclRule('admin');
+            e.roles.forEach(role => {
+                ac = ac.or(role.nome)
+            });
+            permissoes['public'] = ac.generate();
+            console.log('permissoes', permissoes);
+            localStorage.setItem("permissoes", JSON.stringify(permissoes));
+        });
     }
 }
 

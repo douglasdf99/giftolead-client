@@ -45,7 +45,7 @@
         </VuePerfectScrollbar>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
+            <vs-button class="mr-6" @click="submitData" v-if="$acl.check('configuracao_conta_editar')">Salvar</vs-button>
             <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
