@@ -46,7 +46,7 @@
                     <vx-card :key="link.id" class="mb-1 unsetshadow-setborder bg-card-gray" v-for="(link, index) in items">
                         <div class="vx-row">
                             <div class="vx-col sm:w-1/12 w-full mb-2"
-                                 v-if="$acl.check('configuracao_link_editar') || $acl.check('configuracao_link_delete')">
+                                 v-if="$acl.check('configuracao_link_editar') || $acl.check('configuracao_link_deletar')">
                                 <vs-dropdown vs-trigger-click>
                                     <vs-button radius color="#423b3b" type="filled"
                                                class="btn-more-icon relative botao-menu"
@@ -59,7 +59,7 @@
                                             Editar
                                         </vs-dropdown-item>
 
-                                        <vs-dropdown-item @click="deletar(link.id)" $acl.check('configuracao_link_delete')>
+                                        <vs-dropdown-item @click="deletar(link.id)" v-if="$acl.check('configuracao_link_deletar')">
                                             <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                             Deletar
                                         </vs-dropdown-item>

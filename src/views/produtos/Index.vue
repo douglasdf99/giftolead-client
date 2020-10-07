@@ -99,7 +99,7 @@
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_produto_delete')">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_produto_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
@@ -239,7 +239,7 @@
                 this.getProdutos();
             },
             checkPerm(){
-                return this.$acl.check('configuracao_produto_editar') || this.$acl.check('configuracao_produto_delete') || this.$acl.check('configuracao_link')
+                return this.$acl.check('configuracao_produto_editar') || this.$acl.check('configuracao_produto_deletar') || this.$acl.check('configuracao_link')
             }
         },
         watch: {

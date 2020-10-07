@@ -101,7 +101,7 @@
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_contrato_delete')">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_contrato_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
@@ -302,7 +302,7 @@
                 }
             },
             checkPerm(){
-                return this.$acl.check('configuracao_contrato_editar') || this.$acl.check('configuracao_contrato_delete') || this.$acl.check('configuracao_contrato_frete')
+                return this.$acl.check('configuracao_contrato_editar') || this.$acl.check('configuracao_contrato_deletar') || this.$acl.check('configuracao_contrato_frete')
             }
         },
         watch: {

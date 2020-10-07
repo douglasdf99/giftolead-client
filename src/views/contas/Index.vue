@@ -81,7 +81,7 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative">
-                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_conta_editar') || $acl.check('configuracao_conta_delete')">
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_conta_editar') || $acl.check('configuracao_conta_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
@@ -93,7 +93,7 @@
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_conta_delete')">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_conta_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
