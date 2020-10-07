@@ -93,7 +93,7 @@
                                     {{tr.email}}
                                 </vs-td>
                                 <vs-td :data="tr.role_name">
-                                    {{tr.role_name}}
+                                    {{tr.roles.nome}}
                                 </vs-td>
                                 <vs-td class="relative">
                                     <vs-dropdown vs-trigger-click>
