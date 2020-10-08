@@ -252,14 +252,22 @@
             redirectTicket(calendarItem) {
                 console.log('rota', this.rotaAtual, calendarItem);
                 if (this.rotaAtual != 'agendamentos_natendimento') {
+
                     if (this.$store.state.AppActiveUser.uid == calendarItem.originalEvent.responsavel_id)
+                      if (this.$acl.check('ticket_atender')) {
                         this.$router.push({name: 'tickets-atender', params: {id: calendarItem.originalEvent.ticket.id}});
+                      }else{
+                        this.exibirDetalhe = true;
+                        this.detalhado = calendarItem.originalEvent;
+                      }
                     else {
                         this.exibirDetalhe = true;
                         this.detalhado = calendarItem.originalEvent;
                     }
                 } else {
+                  if (this.$acl.check('ticket_atender')) {
                     this.verificacao(calendarItem.originalEvent.ticket.id);
+                  }
                 }
             },
             updateMonth(val) {
@@ -345,18 +353,20 @@
                 this.reagendando = false;
             },
             verificacao(id) {
+
                 this.$store.dispatch('tickets/verificaDisponibilidade', id).then(response => {
-                    console.log('olha o response', response)
-                    if (response.status == 'ok')
-                        this.$router.push({name: 'tickets-atender', params: {id: id}});
-                    else if (response.status == 'atendendo') {
-                        this.openAlert('Ticket em atendimento', response.msg, 'danger');
-                    } else if (response.status == 'jaatendendo') {
-                        this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
-                    } else {
-                        this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
-                    }
+                  console.log('olha o response', response)
+                  if (response.status == 'ok')
+                    this.$router.push({name: 'tickets-atender', params: {id: id}});
+                  else if (response.status == 'atendendo') {
+                    this.openAlert('Ticket em atendimento', response.msg, 'danger');
+                  } else if (response.status == 'jaatendendo') {
+                    this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
+                  } else {
+                    this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
+                  }
                 });
+
             },
             openAlert(title, text, color, id = null) {
                 this.$vs.dialog({

@@ -23,11 +23,11 @@
                          class="icon-grande text-blue" v-if="ticket.status == 3"></vs-icon>
             </div>
             <div class="vx-col w-2/12 flex justify-around items-center">
-                <i class="material-icons hover:text-primary cursor-pointer"  v-if="ticket.status != 2 && $acl.check('ticket_atender')"
+                <i class="material-icons hover:text-primary cursor-pointer"  v-if="canAtender(ticket)"
                    @click="$emit('atender', ticket.id)">call</i>
-                <i class="material-icons hover:text-primary cursor-pointer" @click="$emit('detalhar', ticket.id)">visibility</i>
-                <i class="material-icons hover:text-primary cursor-pointer" @click="$emit('update', ticket)">edit</i>
-                <i class="material-icons hover:text-primary cursor-pointer" @click="$emit('delete', ticket.id)">delete</i>
+                <i class="material-icons hover:text-primary cursor-pointer" v-if="$acl.check('ticket_detalhar')" @click="$emit('detalhar', ticket.id)">visibility</i>
+                <i class="material-icons hover:text-primary cursor-pointer" v-if="canEditar(ticket)" @click="$emit('update', ticket)">edit</i>
+                <i class="material-icons hover:text-primary cursor-pointer" v-if="canDeletar(ticket)" @click="$emit('delete', ticket.id)">delete</i>
             </div>
         </div>
     </div>
@@ -42,5 +42,47 @@
                 currentx: 1,
             }
         },
+
+      methods:{
+          canAtender(ticket){
+            if (ticket.status != 2 && this.$acl.check('ticket_atender')) {
+              let user = JSON.parse(localStorage.getItem("userInfo"));
+              if (ticket.status == 0){
+                return true;
+              }
+              if (ticket.atendimentos.length > 0 && ticket.atendimentos[0].atendente_id == user.uid){
+                return true;
+              }
+              return false;
+            }
+            return false;
+          },
+          canEditar(ticket){
+            if (ticket.status != 2 && this.$acl.check('ticket_editar_todos')){
+              return true
+            }
+            else if (ticket.status != 2 && this.$acl.check('ticket_editar')) {
+              let user = JSON.parse(localStorage.getItem("userInfo"));
+              if (ticket.responsavel_type == 'App\\Models\\User', ticket.responsavel_id == user.uui){
+                return true;
+              }
+              return false;
+            }
+            return false;
+          },
+          canDeletar(ticket){
+            if (ticket.status != 2 && this.$acl.check('ticket_deletar_todos')){
+              return true
+            }
+            else if (ticket.status != 2 && this.$acl.check('ticket_deletar')) {
+              let user = JSON.parse(localStorage.getItem("userInfo"));
+              if (ticket.responsavel_type == 'App\\Models\\User', ticket.responsavel_id == user.uui){
+                return true;
+              }
+              return false;
+            }
+            return false;
+          }
+      }
     }
 </script>

@@ -96,9 +96,9 @@
                                     Ligar
                                     <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
                                 </vs-button>
-                                <vx-tooltip text="Nenhum ramal está vinculado ao seu usuário" position="top">
+                                <vx-tooltip text="O sistema não conseguiu conectar, contate o administrador" position="top">
                                     <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">
-                                        Sem ramal
+                                        Desconectado
                                         <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>
                                     </vs-button>
                                 </vx-tooltip>
@@ -289,6 +289,15 @@ export default {
         }
 
         this.verificacao();
+      this.$store.dispatch('users/getUserAuth').then(response => {
+        console.log('usuario', response);
+          let recaptchaScript =  document.createElement('script');
+          if (recaptchaScript) {
+            console.log('recaptch', recaptchaScript);
+            recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.user.webphone + '&tipo=hidden&ver=2');
+            document.body.appendChild(recaptchaScript)
+          }
+      });
     },
     methods: {
         getId(id) {
@@ -582,20 +591,7 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch('users/getUserAuth').then(response => {
-            console.log('usuario', response);
 
-            async function f2() {
-                let recaptchaScript = await document.createElement('script');
-                if (recaptchaScript) {
-                    console.log('recaptch', recaptchaScript);
-                    await recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.webphone + '&tipo=hidden&ver=2');
-                    await document.body.appendChild(recaptchaScript)
-                }
-            }
-
-            f2();
-        });
         //this.getAvailableCustomers();
         var vm = this;
         window.onmessage = function (e) {
