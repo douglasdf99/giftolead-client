@@ -12,30 +12,21 @@
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
                     <vs-td class="flex justify-center items-center">
-                        <vs-dropdown vs-trigger-click>
+                        <vs-dropdown vs-trigger-click v-if="checkPerm">
                             <vs-button radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
-                                <vs-dropdown-item @click="$router.push({path: `/brindes/expedicoes/${tr.id}`})">
+                                <vs-dropdown-item @click="$router.push({path: `/brindes/expedicoes/${tr.id}`})" v-if="$acl.check('brinde_expedicao_detalhar')">
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar Expedição
-                                </vs-dropdown-item><!--
-                                <vs-dropdown-item @click="$emit('gerarPlp', tr)" v-if="!tr.fechado">
-                                    <vs-icon icon-pack="material-icons" icon="assignment"></vs-icon>
-                                    Gerar PLP
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="$emit('enviarRastreio', tr.id)" v-if="tr.fechado">
-                                    <vs-icon icon-pack="material-icons" icon="email"></vs-icon>
-                                    Enviar Rastreios
-                                </vs-dropdown-item>
-                                <vs-divider></vs-divider>-->
-                                <vs-dropdown-item @click="$emit('editar', tr)" v-if="!tr.fechado">
+                                <vs-dropdown-item @click="$emit('editar', tr)" v-if="!tr.fechado && $acl.check('brinde_expedicao_editar')">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="$emit('deletar', tr)">
+                                <vs-dropdown-item @click="$emit('deletar', tr)" v-if="$acl.check('brinde_expedicao_deletar')">
                                     <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                     Deletar
                                 </vs-dropdown-item>
@@ -71,22 +62,22 @@
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
                     <vs-td class="flex justify-center items-center" v-if="tipo == 'pendente'">
-                        <vs-dropdown vs-trigger-click>
+                        <vs-dropdown vs-trigger-click v-if="$acl.check('brinde_expedicao_gerarplp') || $acl.check('brinde_expedicao_editar') || $acl.check('brinde_expedicao_deletar')">
                             <vs-button radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
-                                <vs-dropdown-item @click="$emit('gerarPlp', tr)">
+                                <vs-dropdown-item @click="$emit('gerarPlp', tr)" v-if="$acl.check('brinde_expedicao_gerarplp')">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Gerar PLP
                                 </vs-dropdown-item>
                                 <vs-divider></vs-divider>
-                                <vs-dropdown-item @click="$emit('editar', tr)">
+                                <vs-dropdown-item @click="$emit('editar', tr)" v-if="$acl.check('brinde_expedicao_editar')">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="$emit('deletar', tr)">
+                                <vs-dropdown-item @click="$emit('deletar', tr)" v-if="$acl.check('brinde_expedicao_deletar')">
                                     <vs-icon icon-pack="material-icons" icon="trash"></vs-icon>
                                     Deletar
                                 </vs-dropdown-item>
@@ -114,7 +105,8 @@
                     <div class="container">
                         <div class="vx-row mb-2 relative flex items-center">
                             <p class="mr-4 text-lg">{{selecteds.length}} selecionadas</p>
-                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('fecharVarias', selecteds, 'fechar', tipo)" v-if="tipo == 'pendente'">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('fecharVarias', selecteds, 'fechar', tipo)"
+                                       v-if="tipo == 'pendente'" :disabled="!$acl.check('brinde_expedicao_gerarplp')">
                                 Fechar Expedições
                             </vs-button>
                         </div>
@@ -136,7 +128,9 @@
         },
         methods: {
             handleSelected(tr) {
-
+            },
+            checkPerm(){
+                return this.$acl.check('brinde_expedicao_editar') || this.$acl.check('brinde_expedicao_detalhar') || this.$acl.check('brinde_expedicao_deletar')
             }
         }
     }

@@ -55,7 +55,7 @@
                                         <p class="font-bold text-black text-md mb-0">Ligações internas com a Zenvia</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch @click="ativaExt(extensoes.totalvoice)" vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.totalvoice)" :disabled="!$acl.check('extensao_zenvia_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -63,7 +63,7 @@
                                     <p class="mb-4">Faça ligações e as mantenha registradas na linha do tempo de seus contatos!</p>
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4"
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_zenvia_detal')"
                                                @click="$router.push({name: 'extensoes-zenvia-config'})">{{extensoes.totalvoice != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
@@ -76,7 +76,7 @@
                                         <p class="font-bold text-black text-md mb-0">Notificações via Slack</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch @click="ativaExt(extensoes.slack)" vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.slack)" :disabled="!$acl.check('extensao_slack_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -84,7 +84,7 @@
                                     <p class="mb-4">Integre o Slack da sua empresa ao sistema, possibilitando envio automático de notificações.</p>
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4"
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_slack_detal')"
                                                @click="$router.push({name: 'extensoes-slack-config'})">{{extensoes.slack != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>

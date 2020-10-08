@@ -84,7 +84,8 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat" @click="$router.push({name: 'brindes-automacao-emails'})">
+                            <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
+                                       @click="$router.push({name: 'brindes-automacao-emails'})" :disabled="!$acl.check('brinde_automacao_email')">
                                 Configurar E-mails
                             </vs-button>
                         </div>

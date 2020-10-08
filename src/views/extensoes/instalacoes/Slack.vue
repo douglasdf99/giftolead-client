@@ -7,7 +7,7 @@
                 <div class="rounded-b-lg text-center" style="background-color: #E8EBF2">
                     <p class="pt-20 font-bold text-black">Slack</p>
                     <p class="my-2">Integre o Slack da sua empresa ao sistema, possibilitando envio automático de notificações.</p>
-                    <vs-button color="dark" class="my-5 w-10/12" @click="instalar">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
+                    <vs-button color="dark" class="my-5 w-10/12" @click="instalar" v-if="$acl.check('extensao_slack_install')">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
                 </div>
             </div>
             <div class="vx-col w-full lg:w-9/12">
@@ -29,8 +29,8 @@
                     </div>
                     <div class="vx-col w-full" v-if="extensao != null">
                         <span class="font-regular mb-2">WebHook</span>
-                        <vs-input class="w-full" v-model="extensao.extensao.webhook" size="large" type="text" v-validate="'url:require_protocol'"/>
-                        <vs-button class="mt-3" size="medium" color="primary" @click="salvar">Salvar</vs-button>
+                        <vs-input class="w-full" v-model="extensao.extensao.webhook" :disabled="!$acl.check('extensao_slack_editar')" size="large" type="text" v-validate="'url:require_protocol'"/>
+                        <vs-button class="mt-3" size="medium" color="primary" @click="salvar" v-if="$acl.check('extensao_slack_editar')">Salvar</vs-button>
                     </div>
                 </div>
             </div>

@@ -777,7 +777,11 @@ th > .vs-table-text {
     background-color: white;
 }
 
-.agente:hover {
+.clicavel {
+    transition-duration: .3s;
+}
+
+.agente:hover, .clicavel:hover {
     transition-duration: .3s;
     transform: translateY(-7px);
 }

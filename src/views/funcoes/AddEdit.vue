@@ -6,7 +6,7 @@
                 <vs-input class="w-full" v-model="funcao.nome" size="large" v-validate="'required'" name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
             </div>
-            <div class="vx-col w-full mb-3">
+            <div class="vx-col w-full mb-base" v-if="$acl.check('configuracao_funcao_fullprod')">
                 <vs-checkbox v-model="funcao.full_products">Permitir todos os produtos</vs-checkbox>
             </div>
             <div class="vx-col w-full" v-if="!funcao.full_products">
