@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="vx-row">
-                <div class="vx-col col-conquista mb-10">
+                <div class="vx-col col-conquista mb-10" v-if="$acl.check('brinde_campanha_adicionar')">
                     <div class="conquista nova cursor-pointer"
                          @click="$router.push({path: '/brindes/campanhas/criar'})">
                         <div class="img-plus cursor-pointer">
@@ -47,12 +47,12 @@
                     <div class="conquista" v-bind:class="{'desativado': !item.status}">
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
-                                <vs-button @click="deletar(item.id)" type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
-                                <vs-button type="border" color="primary" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
+                                <vs-button @click="deletar(item.id)" :disabled="!$acl.check('brinde_campanha_deletar')" type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
+                                <vs-button type="border" color="primary" :disabled="!$acl.check('brinde_campanha_editar')" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
                             </div>
-                            <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
+                            <vs-switch vs-icon-on="check" :disabled="!$acl.check('brinde_campanha_editar')" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
                         </div>
-                        <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/brindes/campanhas/editar/' + item.id})">
+                        <div class="conquista-clicavel w-full cursor-pointer" @click="editar(item.id)">
                             <img src="@/assets/images/util/brinde.svg" class="img-conquista rounded-none my-8" width="120">
                             <p class="nome-conq">
                                 {{item.nome}}
@@ -187,6 +187,16 @@
                 e.preventDefault();
                 this.$vs.loading();
                 this.getCampanhas();
+            },
+            editar(id){
+                if(this.$acl.check('brinde_campanha_editar'))
+                    this.$router.push({path: '/brindes/campanhas/editar/' + id})
+                else {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Você não possui permissão parar editar campanhas.'
+                    });
+                }
             }
         }
     }

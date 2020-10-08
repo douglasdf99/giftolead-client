@@ -3,7 +3,7 @@
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
+            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_status_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Status
@@ -32,7 +32,7 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop" v-if="$acl.check('configuracao_status_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Status
@@ -47,19 +47,18 @@
                         <div class="w-8/12">
                             <div v-if="dados.search">
                                 <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
+                                <p class="text-sem-item mt-6" v-if="$acl.check('configuracao_status_incluir')">
                                     Para inserir novos registros você <br> pode clicar em incluir conta.
                                 </p>
                             </div>
                             <div v-else>
                                 <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
+                                <p class="text-sem-item" v-if="$acl.check('configuracao_status_incluir')">
                                     Para inserir novos registros você <br> pode clicar em incluir conta.
                                 </p>
                             </div>
                             <br>
-
-                            <p>
+                            <p v-if="$acl.check('configuracao_status_incluir')">
                                 <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
                                            @click="addNewData">
                                     <vs-icon icon-pack="material-icons" icon="check_circle"
@@ -82,19 +81,19 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative w-full">
-                                    <vs-dropdown vs-trigger-click>
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_status_editar') || $acl.check('configuracao_status_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
+                                            <vs-dropdown-item @click="updateData(data[indextr])" v-if="$acl.check('configuracao_status_editar')">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_status_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
@@ -107,15 +106,15 @@
                                 </vs-td>
                                 <vs-td :data="tr.tipo" class="relative">
                                     <div class="emoticon">
-                                        <vs-chip color="#4DE98A" class="product-order-status p-0 m-0"
+                                        <vs-chip color="#4DE98A" class="product-order-status p-0 m-0 rounded-full"
                                                  v-if="tr.tipo === 0">
                                             <img src="@/assets/images/util/ganhou.svg">
                                         </vs-chip>
-                                        <vs-chip color="#E7BE00" class="product-order-status p-0 m-0"
+                                        <vs-chip color="#E7BE00" class="product-order-status p-0 m-0 rounded-full"
                                                  v-if="tr.tipo === 1">
                                             <img src="@/assets/images/util/aguardando.svg">
                                         </vs-chip>
-                                        <vs-chip color="#F03165" class="product-order-status p-0 m-0"
+                                        <vs-chip color="#F03165" class="product-order-status p-0 m-0 rounded-full"
                                                  v-if="tr.tipo === 2">
                                             <img src="@/assets/images/util/perdeu.svg">
                                         </vs-chip>
@@ -193,8 +192,8 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar motivo de perda id: ${id}`,
-                    text: 'Deseja deletar este motivo? Procedimento irreversível',
+                    title: `Deletar status de finalização id: ${id}`,
+                    text: 'Deseja deletar este status? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
@@ -202,7 +201,7 @@
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
-                                text: 'O motivo foi deletada com sucesso'
+                                text: 'O status foi deletado com sucesso'
                             });
                             this.getItems();
                         }).catch(erro => {

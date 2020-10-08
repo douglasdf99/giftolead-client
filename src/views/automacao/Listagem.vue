@@ -26,17 +26,17 @@
                 <template slot-scope="{data}">
                     <vs-tr v-for="tr in data">
                         <vs-td class="flex justify-center items-center">
-                            <vs-dropdown vs-trigger-click>
+                            <vs-dropdown vs-trigger-click v-if="$acl.check('brinde_automacao_editar') || $acl.check('brinde_automacao_deletar')">
                                 <vs-button radius color="#EDEDED" type="filled"
                                            class="btn-more-icon relative botao-menu"
                                            icon-pack="material-icons" icon="more_horiz"
                                 ></vs-button>
                                 <vs-dropdown-menu class="dropdown-menu-list">
-                                    <vs-dropdown-item>
+                                    <vs-dropdown-item v-if="$acl.check('brinde_automacao_editar')">
                                         <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                         Editar
                                     </vs-dropdown-item>
-                                    <vs-dropdown-item>
+                                    <vs-dropdown-item v-if="$acl.check('brinde_automacao_deletar')">
                                         <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                         Deletar
                                     </vs-dropdown-item>

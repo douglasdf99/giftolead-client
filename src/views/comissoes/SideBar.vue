@@ -108,9 +108,9 @@
                 </div>
             </div>
         </VuePerfectScrollbar>
-        <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6 font-bold text-white" color="danger" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
-            <vs-button class="mr-6 font-bold text-white" color="primary"
+        <div class="flex flex-wrap items-center p-6" slot="footer" v-if="$acl.check('comissao_pendente_aprovar')">
+            <vs-button class="mr-6 font-bold text-white" color="danger" v-if="$acl.check('comissao_pendente_aprovar')" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
+            <vs-button class="mr-6 font-bold text-white" color="primary" v-if="$acl.check('comissao_pendente_aprovar')"
                        @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id, nome: data.ticket.lead.nome})" :disabled="selecteds.length == 0">
                 Aprovar</vs-button>
         </div>

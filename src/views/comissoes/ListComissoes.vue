@@ -28,7 +28,7 @@
                         <p class="preco">R$ {{getValComissao(tr.comissaos)}}</p>
                     </vs-td>
                     <vs-td class="td-icons">
-                        <div class="flex items-center">
+                        <div class="flex items-center" v-if="$acl.check('comissao_detal')">
                             <vx-tooltip position="top" text="Detalhar">
                                 <vs-icon icon-pack="material-icons" icon="visibility" @click="$emit('visualizar', tr)"
                                          class="icon-grande font-bold mx-3 cursor-pointer"></vs-icon>
@@ -77,7 +77,7 @@
         <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="gerarOrdens" v-if="tipo == 'usuario'">
+                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="gerarOrdens" v-if="tipo == 'usuario'" :disabled="!$acl.check('comissao_pagamento')">
                         Gerar ordens
                     </vs-button>
                     <div class="float-right" v-if="tipo == 'usuario'">

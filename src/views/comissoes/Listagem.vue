@@ -10,8 +10,9 @@
                 </div>
             </div>
         </div>
-        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" @click="$emit('visualizar', item)"
-             v-bind:class="{'cursor-pointer' : (item.tipo != 'reprovado'), 'clicavel' : (item.tipo != 'reprovado')}" >
+        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" @click="visualizar(item)"
+             v-bind:class="{'cursor-pointer' : (item.tipo != 'reprovado' && $acl.check('comissao_pendente_detalhar')),
+              'clicavel' : (item.tipo != 'reprovado' && $acl.check('comissao_pendente_detalhar'))}">
             <div class="vx-col w-3/12">
                 <p>{{item.id}}</p>
                 <p class="destaque text-lg">{{item.ticket.lead.nome}}</p>
@@ -37,12 +38,12 @@
             <div class="vx-col w-1/12 flex items-center justify-center">
                 <vx-tooltip position="top" text="Possui anexo" v-if="item.anexos.length > 0" class="cursor-default">
                     <vs-icon icon-pack="material-icons" icon="attach_file"
-                             class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
+                             class="icon-grande font-bold text-black"></vs-icon>
                 </vx-tooltip>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-warning" v-if="item.tipo == 'pendente'"></vs-icon>
                 <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande text-danger" v-else></vs-icon>
             </div>
-            <div class="vx-col w-1/12 flex items-center justify-center">
+            <div class="vx-col w-1/12 flex items-center justify-center" v-if="$acl.check('comissao_pendente_restaurar')">
                 <vx-tooltip position="top" text="Restaurar" v-if="item.tipo == 'reprovado'">
                     <vs-icon icon-pack="material-icons" icon="undo" @click="$emit('action', {id: item.id, method: 'restaurar'})"
                              class="icon-grande font-bold mx-3 cursor-pointer text-warning"></vs-icon>
@@ -68,6 +69,16 @@
                         return obj.criador.name;
                     default:
                         return obj.criador.nome;
+                }
+            },
+            visualizar(item){
+                if(this.$acl.check('comissao_pendente_detalhar'))
+                    this.$emit('visualizar', item)
+                else {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Você não possui permissão para detalhar.'
+                    });
                 }
             }
         }

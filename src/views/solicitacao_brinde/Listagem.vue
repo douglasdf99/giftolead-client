@@ -25,13 +25,13 @@
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
-                    <vs-td>{{tr.nome_destinatario}}</vs-td>
-                    <vs-td>{{tr.email_destinatario}}</vs-td>
+                    <vs-td>{{ tr.nome_destinatario }}</vs-td>
+                    <vs-td>{{ tr.email_destinatario }}</vs-td>
                     <vs-td>
                         <p class="flex items-center">
-                            {{tr.brinde.nome}}
+                            {{ tr.brinde.nome }}
                             <vx-tooltip position="top" text="Brinde desativado">
-                            <vs-chip color="danger" class="text-md ml-5 py-2 font-bold" v-if="!tr.brinde.ativo">!</vs-chip>
+                                <vs-chip color="danger" class="text-md ml-5 py-2 font-bold" v-if="!tr.brinde.ativo">!</vs-chip>
                             </vx-tooltip>
                         </p>
                     </vs-td>
@@ -58,7 +58,7 @@
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
                     <vs-td class="flex justify-center items-center" v-if="tipo == 'pendente'">
-                        <vs-dropdown vs-trigger-click>
+                        <vs-dropdown vs-trigger-click v-if="$acl.check('brinde_solicitacao_aprovar')">
                             <vs-button radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
@@ -71,11 +71,11 @@
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
-                    <vs-td>{{tr.nome_destinatario}}</vs-td>
-                    <vs-td>{{tr.email_destinatario}}</vs-td>
+                    <vs-td>{{ tr.nome_destinatario }}</vs-td>
+                    <vs-td>{{ tr.email_destinatario }}</vs-td>
                     <vs-td>
                         <vs-chip color="primary" class="text-md py-2 font-bold">
-                            {{tr.brinde.nome}}
+                            {{ tr.brinde.nome }}
                         </vs-chip>
                     </vs-td>
                     <vs-td :data="data[indextr].status" class="td-icons flex flex-col items-center justify-center">
@@ -94,14 +94,17 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative flex items-center">
-                            <p class="mr-4 text-lg">{{selecteds.length}} selecionadas</p>
-                            <vs-button class="mr-3 text-black" color="primary" type="border" icon-pack="material-icons" icon="check" @click="$emit('aprovarVarias', selecteds, 'restaurar')" v-if="tipo == 'reprovado'">
+                            <p class="mr-4 text-lg">{{ selecteds.length }} selecionadas</p>
+                            <vs-button class="mr-3 text-black" color="primary" type="border" icon-pack="material-icons" icon="check" @click="$emit('aprovarVarias', selecteds, 'restaurar')"
+                                       v-if="tipo == 'reprovado'" :disabled="!$acl.check('brinde_solicitacao_aprovar')">
                                 Restaurar Etiquetas
                             </vs-button>
-                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('aprovarVarias', selecteds, 'aprovar', tipo)" v-if="(tipo == 'pendente' || tipo == 'reprovado')">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="$emit('aprovarVarias', selecteds, 'aprovar', tipo)"
+                                       v-if="(tipo == 'pendente' || tipo == 'reprovado')" :disabled="!$acl.check('brinde_solicitacao_aprovar')">
                                 Aprovar Etiquetas
                             </vs-button>
-                            <vs-button class="mr-3 text-black" color="danger" type="border" icon-pack="material-icons" icon="close" @click="$emit('aprovarVarias', selecteds, 'reprovar')" v-if="tipo == 'pendente'">
+                            <vs-button class="mr-3 text-black" color="danger" type="border" icon-pack="material-icons" icon="close"
+                                       @click="$emit('aprovarVarias', selecteds, 'reprovar')" v-if="tipo == 'pendente'" :disabled="!$acl.check('brinde_solicitacao_reprovar')">
                                 Reprovar Etiquetas
                             </vs-button>
                         </div>
@@ -113,30 +116,31 @@
 </template>
 
 <script>
-    export default {
-        name: "Listagem",
-        props: ['items', 'tipo'],
-        data() {
-            return {
-                selecteds: []
+export default {
+    name: "Listagem",
+    props: ['items', 'tipo'],
+    data() {
+        return {
+            selecteds: []
+        }
+    },
+    methods: {
+        getStatus(status) {
+            switch (status) {
+                case 'pendente':
+                    return '#ff9f43'
+                case 'aprovado':
+                    return '#28c76f'
+                case 'emexpedicao':
+                    return '#31aef0'
+                default:
+                    return ''
             }
         },
-        methods: {
-            getStatus(status) {
-                switch (status) {
-                    case 'pendente':
-                        return '#ff9f43'
-                    case 'aprovado':
-                        return '#28c76f'
-                    case 'emexpedicao':
-                        return '#31aef0'
-                    default:
-                        return ''
-                }
-            },
-            handleSelected(){}
+        handleSelected() {
         }
     }
+}
 </script>
 
 <style scoped>

@@ -7,8 +7,8 @@
                 <div class="rounded-b-lg text-center" style="background-color: #E8EBF2">
                     <p class="pt-20 font-bold text-black">Zenvia</p>
                     <p class="my-2">Faça ligações de dentro do Saveleads e as mantenha registradas na linha do tempo de seus contatos!</p>
-                    <vs-button color="dark" class="my-5 w-10/12" @click="instalar">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
-                    <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado">Recarregar</vs-button>
+                    <vs-button color="dark" class="my-5 w-10/12" @click="instalar" v-if="$acl.check('extensao_zenvia_install')">{{instalado ? 'Desinstalar' : 'Instalar'}}</vs-button>
+                    <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado" :disabled="!$acl.check('extensao_zenvia_recarregar')">Recarregar</vs-button>
                 </div>
                 <div class="w-full" v-if="extensao != null">
                     <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="saldo" statisticTitle="Saldo" color="success"/>
@@ -18,7 +18,7 @@
             <div class="vx-col w-full lg:w-9/12">
                 <div class="vx-row mb-5">
                     <div class="vx-col w-full" v-if="extensao != null">
-                        <vs-switch vs-icon-on="check" v-model="extensao.ativo" color="#0FB599" class="float-right switch" @click="ativaExtensao"/>
+                        <vs-switch vs-icon-on="check" v-model="extensao.ativo" color="#0FB599" class="float-right switch" @click="ativaExtensao" v-if="$acl.check('extensao_zenvia_ativar')"/>
                         <span class="float-right mt-1 mx-4"
                               style="font-weight: bold">{{extensao.ativo ? 'Ativado' : 'Desativado'}}</span>
                     </div>
@@ -151,7 +151,7 @@
                                 </vs-row>
                             </vs-tab>
                             <vs-tab color="primary" value="10" :label="'ramais (' + ramais.length + ')'" v-if="ramais">
-                                <div class="vx-row">
+                                <div class="vx-row" v-if="$acl.check('extensao_zenvia_ramal')">
                                     <div class="vx-col w-full">
                                         <vs-button color="primary" class="float-right" @click="addRamal">Adicionar Ramal</vs-button>
                                     </div>
@@ -179,7 +179,7 @@
                                                             <vs-chip>Nenhum usuario vinculado</vs-chip>
                                                         </vs-td>
                                                         <vs-td>
-                                                            <vs-dropdown vs-trigger-click>
+                                                            <vs-dropdown vs-trigger-click v-if="$acl.check('extensao_zenvia_ramal_vincular')">
                                                                 <vs-button radius color="#EDEDED" type="filled"
                                                                            class="btn-more-icon relative botao-menu"
                                                                            icon-pack="material-icons" icon="more_horiz"
@@ -337,7 +337,7 @@
             }
 
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuario', moduleUsuario)
+                this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
 
@@ -525,7 +525,7 @@
                 this.modalramaledit = true;
             },
             getUsers() {
-                this.$store.dispatch('usuario/get').then(response => {
+                this.$store.dispatch('users/get').then(response => {
                     console.log('usuarios', response);
                     this.usersall = response;
                 });

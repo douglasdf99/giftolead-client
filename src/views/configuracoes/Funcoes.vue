@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row my-6">
+        <div class="vx-row mt-3" v-if="$acl.check('configuracao_funcao_incluir')">
             <div class="vx-col w-full mb-3">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="$router.push({path: '/configuracoes/funcoes/criar'})">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
@@ -17,13 +17,13 @@
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data">
                     <vs-td class="flex justify-center items-center">
-                        <vs-dropdown vs-trigger-click>
+                        <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_funcao_editar')">
                             <vs-button radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
-                                <vs-dropdown-item @click="$router.push({path: '/configuracoes/funcoes/editar/' + tr.id})">
+                                <vs-dropdown-item @click="$router.push({path: '/configuracoes/funcoes/editar/' + tr.id})" v-if="$acl.check('configuracao_funcao_editar')">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
