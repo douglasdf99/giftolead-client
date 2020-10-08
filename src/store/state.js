@@ -13,6 +13,7 @@ import colors from "@/../themeConfig.js"
 import auth from "@/auth/authService";
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import paginas from "@/paginas";
 
 
 // /////////////////////////////////////////////
@@ -65,7 +66,7 @@ const state = {
     verticalNavMenuWidth: "default",
     verticalNavMenuItemsMin: false,
     scrollY: 0,
-    starredPages: navbarSearchAndPinList["pages"].data.filter((page) => page.is_bookmarked),
+    starredPages: paginas.pages.filter((page) => page.is_bookmarked),
     theme: themeConfig.theme || "light",
     themePrimaryColor: "#1E1E1E",
     animacaoMenu: '',
