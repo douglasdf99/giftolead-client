@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="vx-row">
-                <div class="vx-col col-conquista mb-10">
+                <div class="vx-col col-conquista mb-10" v-if="$acl.check('planos_campanhas_incluir')">
                     <div class="conquista nova cursor-pointer"
                          @click="$router.push({path: '/planos/gerenciar/' + plano.id + '/campanha/criar'})">
                         <div class="img-plus cursor-pointer">
@@ -36,13 +36,13 @@
                 <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
                     <div class="conquista" v-bind:class="{'desativado': !campanha.campanhable.status}">
                         <div class="py-2 w-full flex justify-between">
-                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash"
+                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" :disabled="!$acl.check('planos_campanhas_deletar')"
                                        @click="deletar(campanha.id)"></vs-button>
                             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
-                                       class="float-right switch"
+                                       class="float-right switch" :disabled="!$acl.check('planos_campanhas_editar')"
                                        @click="ativaCampanha(campanha.campanhable, campanha.campanhable_type)"/>
                         </div>
-                        <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
+                        <div class="conquista-clicavel w-full cursor-pointer"  @click="configurarCampanha(campanha)">
                             <img src="@/assets/images/util/checkout.svg" class="img-conquista rounded-none my-8"
                                  width="120" v-if="campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`">
                             <img src="@/assets/images/util/agendamento.svg" class="img-conquista rounded-none my-8"
@@ -359,25 +359,32 @@
                 })
             },
             configurarCampanha(item) {
-                let rota = '';
-                switch (item.campanhable_type) {
-                    case 'App\\Models\\CampanhaCarrinho':
-                        rota = 'configurar-checkout';
-                        break;
-                    case 'App\\Models\\CampanhaAgendamento':
-                        rota = 'configurar-agendamento';
-                        break;
-                    case 'App\\Models\\CampanhaCancelado':
-                        rota = 'configurar-canceladas';
-                        break;
-                    case 'App\\Models\\CampanhaBoleto':
-                        rota = 'configurar-boleto';
-                        break;
-                    case 'App\\Models\\CampanhaWhatsapp':
-                        rota = 'configurar-whatsapp';
-                        break;
+                if(this.$acl.check('planos_campanhas_detalhar')){
+                    let rota = '';
+                    switch (item.campanhable_type) {
+                        case 'App\\Models\\CampanhaCarrinho':
+                            rota = 'configurar-checkout';
+                            break;
+                        case 'App\\Models\\CampanhaAgendamento':
+                            rota = 'configurar-agendamento';
+                            break;
+                        case 'App\\Models\\CampanhaCancelado':
+                            rota = 'configurar-canceladas';
+                            break;
+                        case 'App\\Models\\CampanhaBoleto':
+                            rota = 'configurar-boleto';
+                            break;
+                        case 'App\\Models\\CampanhaWhatsapp':
+                            rota = 'configurar-whatsapp';
+                            break;
+                    }
+                    this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
+                } else {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Você não possui acesso ao painel de configuração desta campanha.'
+                    });
                 }
-                this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
             },
             selecionaTipoComissao(val) {
                 this.plano.comissao_tipo = val;

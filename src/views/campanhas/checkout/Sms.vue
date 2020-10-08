@@ -107,8 +107,9 @@
                 this.$vs.loading();
                 this.$store.dispatch('checkout/getSms', id).then(response => {
                     this.sms = response;
-                    this.$vs.loading.close();
-                });
+                }).catch(erro => {
+                    console.log('erro no front', erro)
+                }).finally(() => this.$vs.loading.close());
             },
             deletar(id) {
                 this.$vs.dialog({

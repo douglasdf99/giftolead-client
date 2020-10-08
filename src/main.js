@@ -220,6 +220,7 @@ axios.interceptors.response.use((response) => { // intercept the global error
     }).then((result) => {
       localStorage.removeItem('userInfo');
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('permissoes');
       window.location = '/login';
     });
     return

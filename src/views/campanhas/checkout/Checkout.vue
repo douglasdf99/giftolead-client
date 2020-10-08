@@ -4,7 +4,7 @@
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
                   style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch" :disabled="!$acl.check('planos_campanhas_editar')"/>
             </div>
         </div>
         <div class="vx-row mb-3">
@@ -137,11 +137,11 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid" v-if="edited">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && !$acl.check('planos_campanhas_editar')" v-if="edited">
                                 Salvar
                             </vs-button>
                             <vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="modal = true" v-if="campanha.id">
+                                       @click="modal = true" v-if="campanha.id" :disabled="!$acl.check('planos_campanhas_config')">
                                 Configurar envios
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -221,7 +221,25 @@
             },
             configEnvio(val) {
                 this.modal = false;
-                this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + `/${val}`});
+                if(val == 'emails'){
+                    if(this.$acl.check('planos_campanhas_config_email'))
+                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + `/${val}`});
+                    else {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Você não possui permissão para alterar as configurações de envio de ' + val
+                        })
+                    }
+                } else {
+                    if(this.$acl.check('planos_campanhas_sms'))
+                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + `/${val}`});
+                    else {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Você não possui permissão para alterar as configurações de envio de ' + val
+                        })
+                    }
+                }
             },
             salvar() {
                 this.$validator.validateAll().then(result => {

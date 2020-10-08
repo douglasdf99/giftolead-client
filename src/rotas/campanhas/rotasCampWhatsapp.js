@@ -13,7 +13,7 @@ const rotasCampWhats = [
                 {title: 'Configurar Campanha', active: true},
             ],
             pageTitle: 'Configuração da Campanha de recuperação de Whatsapp',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -32,7 +32,7 @@ const rotasCampWhats = [
                 {title: 'Contatos Ativos', active: true}
             ],
             pageTitle: 'Contatos respondidos da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -51,7 +51,7 @@ const rotasCampWhats = [
                 {title: 'Contatos Inativos', active: true}
             ],
             pageTitle: 'Contatos pendentes da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -70,7 +70,7 @@ const rotasCampWhats = [
                 {title: 'Todos os contatos', active: true}
             ],
             pageTitle: 'Todos os contatos da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',

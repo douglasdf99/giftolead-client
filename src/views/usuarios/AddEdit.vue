@@ -39,7 +39,7 @@
                         <span class="font-regular mb-2">Origem (sck) do usuário</span>
                         <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
                         <span class="text-danger text-sm" v-show="errors.has('sck')">{{ errors.first('sck') }}</span>
-                        <span class="text-danger text-sm" v-show="sckRepetido">{{ sugestoes }}</span>
+                        <!--<span class="text-danger text-sm" v-show="sckRepetido">{{ sugestoes }}</span>-->
                     </div>
                 </div>
                 <div class="vx-row mb-3">
@@ -124,7 +124,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && this.sckRepetido">
                                 Salvar
                             </vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
@@ -304,28 +304,39 @@ export default {
                 this.usuario = {...data};
                 this.usuario.password = ''
                 this.usuario.password_confirmed = ''
-              this.funcaoSelected = {id: this.usuario.roles.id, label: this.usuario.roles.nome};
+                this.funcaoSelected = {id: this.usuario.roles.id, label: this.usuario.roles.nome};
 
-              this.$vs.loading.close();
+                this.$vs.loading.close();
             })
         },
         sugereSck() {
             if (this.usuario.sck == '') {
                 let part = this.usuario.email.split('@');
-                if (this.scks.indexOf(part[0]) == -1)
+                if (this.scks.indexOf(part[0]) == -1) {
                     this.usuario.sck = part[0];
-                else {
+                    this.sckRepetido = false;
+                } else {
                     this.montaSugestoes();
+                }
+            } else {
+                if (this.scks.indexOf(this.usuario.sck) != -1) {
+                    this.$vs.notify({
+                        color: 'warning',
+                        text: 'O SCK escolhido já se encontrada vinculado a outro usuário.'
+                    });
+                    this.usuario.sck = '';
+                    this.sckRepetido = true;
                 }
             }
         },
-        montaSugestoes(){
+        montaSugestoes() {
 
         },
         getUsers() {
             this.$store.dispatch('users/get', {}).then(response => {
                 this.scks = response.map(item => {
-                    return item.sck
+                    if (item.id != this.$route.params.id && item.sck !== null)
+                        return item.sck
                 });
             })
         },
@@ -398,16 +409,6 @@ export default {
         },
         "$route"() {
             this.routeTitle = this.$route.meta.pageTitle
-        },
-        usuario: {
-            handler(val) {
-                console.log('mudou');
-                console.log('mudou2');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
         },
     },
 }

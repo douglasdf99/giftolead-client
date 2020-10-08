@@ -129,7 +129,7 @@ export default {
                     resolve(response.data.data)
                 })
                 .catch((error) => {
-                    reject(error)
+                    reject('erro aí', error)
                 })
         })
     },
