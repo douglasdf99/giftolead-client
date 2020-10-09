@@ -319,6 +319,12 @@ export default {
         },
         toggleHideScrollToTop(val) {
             this.hideScrollToTop = val
+        },
+        getMenus(){
+            this.$store.dispatch('getMainMenu').then(response => {
+                this.navMenuItems = [...response];
+                console.log('nav', this.navMenuItems)
+            })
         }
     },
     created() {
@@ -345,6 +351,8 @@ export default {
             this.disableThemeTour = true
             this.dynamicWatchers.rtl()
         })
+
+        this.getMenus();
     },
     beforeDestroy() {
         Object.keys(this.dynamicWatchers).map(i => {
@@ -377,6 +385,7 @@ export default {
             permissoes['public'] = ac.generate();
             console.log('permissoes', permissoes);
             localStorage.setItem("permissoes", JSON.stringify(permissoes));
+            this.getMenus();
         });
     }
 }

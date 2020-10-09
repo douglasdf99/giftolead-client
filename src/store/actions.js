@@ -132,6 +132,13 @@ const actions = {
             commit('SET_GLOBAL_SEARCH', val)
             resolve();
         });
+    },
+    getMainMenu({commit}){
+        return new Promise((resolve, reject) => {
+            axios.get('/menus').then(response => {
+                resolve(response.data.data)
+            }).catch(erro => {reject(erro)});
+        })
     }
 };
 

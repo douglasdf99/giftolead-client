@@ -36,7 +36,6 @@ export default [
         tagColor: "warning",
         icon: "dashboard",
         slug: 'dashboard',
-        submenu: subdashboard,
     },
     {
         url: '/tickets',

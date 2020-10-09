@@ -254,6 +254,22 @@ axios.interceptors.response.use((response) => { // intercept the global error
       document.location.reload(true);
     });
     return
+  } else if(error.response.status === 405 && !originalRequest._retry){
+      originalRequest._retry = true
+      console.log('response cota', error.response.data)
+      //self.$vs.loading.close();
+      Vue.swal({
+          title: "Upgrade necessário",
+          text: error.response.data.message,
+          type: "warning",
+          showCancelButton: false,
+          confirmButtonColor: "#8d83f3",
+          confirmButtonText: "OK",
+          closeOnConfirm: false
+      }).then((result) => {
+          document.location.reload(true);
+      });
+      return
   }
   // Do something with response error
   return Promise.reject(error)

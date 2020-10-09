@@ -48,7 +48,10 @@ export default {
             axios.post(`/${rota}`, dados)
                 .then((response) => {
                     console.log('campanha criada', response);
-                    resolve(response)
+                    if(response != undefined)
+                        resolve(response)
+                    else
+                        reject(response)
                 })
                 .catch((error) => {
                     reject(error)
