@@ -19,6 +19,8 @@
 ==========================================================================================*/
 
 
+import subdashboard from "@/rotas/subRotaDashboard";
+
 export default [
     // {
     //   url: "/apps/email",
@@ -33,7 +35,8 @@ export default [
         tag: "2",
         tagColor: "warning",
         icon: "dashboard",
-        slug: 'dashboard'
+        slug: 'dashboard',
+        submenu: subdashboard,
     },
     {
         url: '/tickets',

@@ -137,7 +137,7 @@
                 })
             },
             actionClicked(item) {
-                this.$store.dispatch('updateStarredPage', {url: item.url, val: !item.is_bookmarked})
+                this.$store.dispatch('updateStarredPage', {url: item.url, val: !item.is_bookmarked, pages: this.$store.state.pages})
                 // this.$refs.bookmarkAutoSuggest.filterData()
             },
             outside: function () {

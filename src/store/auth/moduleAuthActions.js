@@ -395,6 +395,7 @@ export default {
         usuario.permissoes = response.data.permissions;
         usuario.autenticado = true;
         usuario.ramal = response.data.user.ramal;
+        usuario.menu_rapido = response.data.user.menu_rapido;
         commit('UPDATE_USER_INFO', usuario, {root: true});
         resolve(response)
       }).catch((error) => {

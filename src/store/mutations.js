@@ -8,6 +8,8 @@
 ==========================================================================================*/
 
 
+import axios from "@/axios";
+
 const mutations = {
 
 
@@ -58,6 +60,19 @@ const mutations = {
             // remove item using index
             state.starredPages.splice(index, 1)
         }
+
+        let user = JSON.parse(localStorage.getItem('userInfo'));
+        payload.pages.forEach(item => {
+            if (item.url == payload.url)
+                item.is_bookmarked = payload.val;
+        })
+        axios.post(`/users/${user.uid}`, {menu_rapido: JSON.stringify(payload.pages), _method: 'PUT'}).then((response) => {
+            console.log('menu_rapido alterado com sucesso', response);
+            user.menu_rapido = response.data.data.menu_rapido;
+            localStorage.setItem('userInfo', JSON.stringify(user));
+        }).catch(erro => {
+            console.log('erro ao atualizar menu rápido', erro);
+        });
     },
 
     // Navbar-Vertical
