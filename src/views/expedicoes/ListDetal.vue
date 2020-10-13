@@ -337,7 +337,7 @@ export default {
     },
     created() {
         if (!moduleExpedicoesBrindes.isRegistered) {
-            this.$store.registerModule('expedicoes', moduleExpedicoesBrindes);
+            this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
             moduleExpedicoesBrindes.isRegistered = true;
         }
 
@@ -353,7 +353,7 @@ export default {
     methods: {
         getItem(id) {
             this.$vs.loading();
-            this.$store.dispatch('expedicoes/getId', id).then(response => {
+            this.$store.dispatch('expedicaos/getId', id).then(response => {
                 console.log(response);
                 this.expedicao = {...response};
                 this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato.nome};
@@ -389,7 +389,7 @@ export default {
                 acceptText: 'Sim, arquivar!',
                 cancelText: 'Cancelar',
                 accept: () => {
-                    this.$store.dispatch('expedicoes/arquivar', obj.id).then(() => {
+                    this.$store.dispatch('expedicaos/arquivar', obj.id).then(() => {
                         this.atualiza();
                         this.$vs.notify({
                             color: 'success',
@@ -493,7 +493,7 @@ export default {
         },
         enviarRastreio(id) {
             this.$vs.loading();
-            this.$store.dispatch('expedicoes/enviarRastreio', {expedicao_id: this.expedicao.id, automacao_id: id}).then(() => {
+            this.$store.dispatch('expedicaos/enviarRastreio', {expedicao_id: this.expedicao.id, automacao_id: id}).then(() => {
                 this.$vs.notify({
                     color: 'success',
                     text: 'Rastreio enviado com sucesso.'
@@ -517,7 +517,7 @@ export default {
                 acceptText: 'Sim, gerar!',
                 accept: () => {
                     this.modalGerarPlp = true;
-                    this.$store.dispatch('expedicoes/gerarPlp', this.expedicao.id).then(() => {
+                    this.$store.dispatch('expedicaos/gerarPlp', this.expedicao.id).then(() => {
                     }).catch(erro => {
                         console.log('erro', erro);
                         this.modalGerarPlp = false;
@@ -626,7 +626,7 @@ export default {
         update() {
             this.$vs.loading();
             this.expedicao.contrato_id = this.selectedContrato.id;
-            this.$store.dispatch('expedicoes/store', this.expedicao).then(() => {
+            this.$store.dispatch('expedicaos/store', this.expedicao).then(() => {
                 this.val = {};
                 this.$vs.notify({
                     color: 'success',

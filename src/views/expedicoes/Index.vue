@@ -197,7 +197,7 @@
             }
 
             if (!moduleExpedicoesBrindes.isRegistered) {
-                this.$store.registerModule('expedicao', moduleExpedicoesBrindes);
+                this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
                 moduleExpedicoesBrindes.isRegistered = true;
             }
 
@@ -271,7 +271,7 @@
             },
             enviarRastreio(id) {
                 this.$vs.loading();
-                this.$store.dispatch('expedicao/enviarRastreio', {expedicao_id: id}).then(() => {
+                this.$store.dispatch('expedicaos/enviarRastreio', {expedicao_id: id}).then(() => {
                     this.$vs.notify({
                         color: 'success',
                         text: 'Rastreios enviados com sucesso.'
@@ -339,7 +339,7 @@
                     acceptText: 'Sim!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('expedicao/fecharVarias', {arr: arr2, rota: rota}).then(() => {
+                        this.$store.dispatch('expedicaos/fecharVarias', {arr: arr2, rota: rota}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: '',
@@ -375,7 +375,7 @@
                 console.log(this.selectedEditBrinde);
                 this.val.brinde_id = this.selectedEditBrinde.id;
                 this.$vs.loading();
-                this.$store.dispatch('expedicao/store', this.val).then(() => {
+                this.$store.dispatch('expedicaos/store', this.val).then(() => {
                     this.val = {};
                     this.$vs.notify({
                         color: 'success',

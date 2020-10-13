@@ -173,7 +173,7 @@
       this.getEndereco(this.data.id);
 
       if (!moduleExpedicoesBrindes.isRegistered) {
-        this.$store.registerModule('expedicoes', moduleExpedicoesBrindes);
+        this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
         moduleExpedicoesBrindes.isRegistered = true;
       }
       /*this.$vs.loading({
@@ -209,7 +209,7 @@
         console.log(this.endereco);
         this.endereco.nome = this.removeAccents(this.endereco.nome);
         this.$vs.loading();
-        this.$store.dispatch('expedicoes/storeEndereco', this.endereco).then(response => {
+        this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(response => {
           console.log(response);
           this.$vs.loading.close();
           this.isSidebarActiveLocal = false;
@@ -235,7 +235,7 @@
       getEndereco(id) {
         console.log(this.endereco);
         this.$vs.loading();
-        this.$store.dispatch('expedicoes/getEndereco', id).then(response => {
+        this.$store.dispatch('expedicaos/getEndereco', id).then(response => {
           console.log(response);
           this.endereco = response.data;
           this.endereco.ddd = this.endereco.telefone.substring(0, 2);
