@@ -109,7 +109,8 @@
                             <p class="destaque text-black mb-3">
                                 Selecione o motivo
                             </p>
-                            <v-select v-model="selectedMotivo" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="motivos" name="motivo"/>
+                          <span class="text-danger text-sm" v-show="errors.has('motivo')">Preenchimento obrigatório</span>
+                          <v-select v-model="selectedMotivo" v-validate="'required'" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="motivos" name="motivo"/>
                         </div>
                     </div>
                 </div>
