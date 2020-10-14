@@ -55,6 +55,14 @@
                         <span class="font-regular mb-2">WebHook Slack</span>
                         <vs-input class="w-full" v-model="usuario.wehookslack" size="large" type="text" v-validate="'url:require_protocol'"/>
                     </div>
+                    <div class="vx-col w-full my-4" v-if="slack">
+                        <div class="p-5 rounded-lg bg-white">
+                            <p>
+                                Importante: a URL do Webhook individual pode ser encontrada
+                                <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none">aqui</a>.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="vx-col w-full xlg:w-4/12 lg:w-4/12">
