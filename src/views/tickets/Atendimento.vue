@@ -1,5 +1,6 @@
 <template>
     <div class="py-5">
+      <form @submit.prevent="finalizar">
         <div class="vx-row mb-5">
             <div class="vx-col w-full mb-2">
                 <p class="destaque text-black">Informações de follow-up</p>
@@ -14,7 +15,7 @@
                         <div class="vx-col lg:w-4/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao ganhou bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 0)}"
-                                 @click="atendimento.tipo = 0; selectedStatus = {}; datetime = null">
+                                 @click="atendimento.tipo = 0; selectedStatus = ''; datetime = null">
                                 <span>Ganhou</span>
                                 <img src="@/assets/images/util/ganhou.svg">
                             </div>
@@ -22,7 +23,7 @@
                         <div class="vx-col lg:w-4/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao aguardando bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 1)}"
-                                 @click="atendimento.tipo = 1; selectedStatus = {}; habbrinde = false; habperda = false;">
+                                 @click="atendimento.tipo = 1; selectedStatus = ''; habbrinde = false; habperda = false;">
                                 <span>Aguardando</span>
                                 <img src="@/assets/images/util/aguardando.svg">
                             </div>
@@ -30,7 +31,7 @@
                         <div class="vx-col lg:w-4/12 md:w-1/3 sm:w-full">
                             <div class="card-finalizacao perdeu bg-white"
                                  v-bind:class="{'tipoAtivo' : (atendimento.tipo == 2)}"
-                                 @click="atendimento.tipo = 2; selectedStatus = {}; habbrinde = false; habperda = false; datetime = null">
+                                 @click="atendimento.tipo = 2; selectedStatus = ''; habbrinde = false; habperda = false; datetime = null">
                                 <span>Perdeu</span>
                                 <img src="@/assets/images/util/perdeu.svg">
                             </div>
@@ -44,10 +45,15 @@
                         </div>
                         <div class="vx-col w-full lg:w-11/12 ml-auto">
                             <ul class="list-tipo-comissao mt-2">
-                                <li class="my-3" v-for="item in statusGanhou" @click="verificaHabBrinde(item)">
-                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id" class="hover:font-bold">
-                                        {{item.nome}}
-                                    </vs-radio>
+                              <span class="text-danger text-sm" v-show="errors.has('foobar')">Preenchimento obrigatório</span>
+                              <li class="my-3" v-for="item in statusGanhou" @click="verificaHabBrinde(item)">
+                                  <label data-v-7d8956fe="" class="vs-component con-vs-radio hover:font-bold vs-radio-dark">
+                                    <input name="foobar" v-validate="'required'" v-model="selectedStatus" type="radio" class="vs-radio--input" :value="item.id">
+                                    <span class="vs-radio">
+                                          <span class="vs-radio--borde" style="border: 2px solid rgb(200, 200, 200);"></span>
+                                          <span class="vs-radio--circle"></span></span>
+                                    <span class="vs-radio--label">{{item.nome}}</span>
+                                  </label>
                                 </li>
                             </ul>
                         </div>
@@ -59,17 +65,23 @@
                             </p>
                         </div>
                         <div class="vx-col w-full lg:w-3/12 ml-10 relative">
-                            <flat-pickr :config="configdateTimePicker" v-model="datetime" id="teste" class="flatpickr-custom w-full rounded-lg px-5 py-4 border-none cursor-pointer ml-0"
+                          <span class="text-danger text-sm" v-show="errors.has('datetime')">Preenchimento obrigatório</span>
+                          <flat-pickr :config="configdateTimePicker" v-model="datetime" name="datetime" v-validate="'required'" id="teste" class="flatpickr-custom w-full rounded-lg px-5 py-4 border-none cursor-pointer ml-0"
                                         placeholder="Agendar para uma data futura"/>
                             <i class="material-icons absolute" style="top: 0.7rem;right: 2rem;">today</i>
                         </div>
                         <div class="vx-col w-full lg:w-9/12"></div>
                         <div class="vx-col w-full lg:w-11/12 ml-auto">
                             <ul class="list-tipo-comissao mt-2">
-                                <li class="my-3" v-for="item in statusAguardando">
-                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id" class="hover:font-bold">
-                                        {{item.nome}}
-                                    </vs-radio>
+                              <span class="text-danger text-sm" v-show="errors.has('foobar')">Preenchimento obrigatório</span>
+                              <li class="my-3" v-for="item in statusAguardando">
+                                  <label data-v-7d8956fe="" class="vs-component con-vs-radio hover:font-bold vs-radio-dark">
+                                    <input name="foobar" v-validate="'required'" v-model="selectedStatus" type="radio" class="vs-radio--input" :value="item.id">
+                                    <span class="vs-radio">
+                                      <span class="vs-radio--borde" style="border: 2px solid rgb(200, 200, 200);"></span>
+                                      <span class="vs-radio--circle"></span></span>
+                                    <span class="vs-radio--label">{{item.nome}}</span>
+                                  </label>
                                 </li>
                             </ul>
                         </div>
@@ -80,10 +92,15 @@
                                 Por que você não concluiu a venda?
                             </p>
                             <ul class="list-tipo-comissao mt-2 ml-10">
-                                <li class="my-3" v-for="item in statusPerdeu" @click="verificaHabPerda(item)">
-                                    <vs-radio color="dark" v-model="selectedStatus" :vs-value="item.id" class="hover:font-bold">
-                                        {{item.nome}}
-                                    </vs-radio>
+                              <span class="text-danger text-sm" v-show="errors.has('foobar')">Preenchimento obrigatório</span>
+                              <li class="my-3" v-for="item in statusPerdeu" @click="verificaHabPerda(item)">
+                                    <label data-v-7d8956fe="" class="vs-component con-vs-radio hover:font-bold vs-radio-dark">
+                                      <input name="foobar" v-validate="'required'" v-model="selectedStatus" type="radio" class="vs-radio--input" :value="item.id">
+                                      <span class="vs-radio">
+                                          <span class="vs-radio--borde" style="border: 2px solid rgb(200, 200, 200);"></span>
+                                          <span class="vs-radio--circle"></span></span>
+                                      <span class="vs-radio--label">{{item.nome}}</span>
+                                    </label>
                                 </li>
                             </ul>
                         </div>
@@ -92,7 +109,8 @@
                             <p class="destaque text-black mb-3">
                                 Selecione o motivo
                             </p>
-                            <v-select v-model="selectedMotivo" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="motivos" name="motivo"/>
+                          <span class="text-danger text-sm" v-show="errors.has('motivo')">Preenchimento obrigatório</span>
+                          <v-select v-model="selectedMotivo" v-validate="'required'" :class="'select-large-base'" :clearable="false" style="background-color: white" :options="motivos" name="motivo"/>
                         </div>
                     </div>
                 </div>
@@ -114,20 +132,26 @@
                                 Preencha com as informações do brinde
                             </p>
                         </div>
-                        <div class="vx-col w-full lg:w-1/3">
-                            <span class="font-regular mb-2">Selecione o brinde</span>
-                            <v-select v-model="selectedBrinde" :class="'select-large-base'" :clearable="false"
+
+                      <div class="vx-col w-full lg:w-1/3">
+
+                          <span class="font-regular mb-2">Selecione o brinde</span>
+                            <v-select v-model="selectedBrinde"  :class="'select-large-base'" :clearable="false"
                                       style="background-color: white" :options="brindesOptions" v-validate="'required'" name="brinde"/>
-                        </div>
+                        <span class="text-danger text-sm w-full block" v-show="errors.has('brinde')">Preenchimento obrigatório</span>
+
+                      </div>
                         <div class="vx-col w-full lg:w-1/3">
-                            <span class="font-regular mb-2">Nome do destinatário</span>
-                            <vs-input class="w-full" v-model="atendimento.nome_destinatario" size="large"/>
+
+                          <span class="font-regular mb-2">Nome do destinatário</span>
+                            <vs-input class="w-full" v-model="atendimento.nome_destinatario"  v-validate="'required'" :name="'nome_destinatario'" size="large"/>
+                          <span class="text-danger text-sm" v-show="errors.has('nome_destinatario')">Preenchimento obrigatório</span>
+
                         </div>
                         <div class="vx-col w-full lg:w-1/3">
                             <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
                             <vs-input class="w-full" type="email" v-model="atendimento.email_destinatario" name="email" size="large" v-validate="'required|email'"/>
-                            <span class="text-danger text-sm"
-                                  v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                            <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                         </div>
                     </div>
                 </transition>
@@ -152,6 +176,8 @@
                             <span class="font-regular mb-2">Selecione o produto</span>
                             <v-select v-model="selectedUpsell" :class="'select-large-base'" :clearable="false"
                                       style="background-color: white" :options="opcoes" v-validate="'required'" name="produtoUpsell"/>
+                          <span class="text-danger text-sm" v-show="errors.has('produtoUpsell')">Preenchimento obrigatório</span>
+
                         </div>
                         <div class="vx-col w-full">
                             <p class="destaque text-black mb-3">Nas seguintes condições abaixo</p>
@@ -168,7 +194,36 @@
                 </transition>
             </div>
         </div>
+        <transition name="fade">
+          <footer-doug>
+            <div class="vx-col sm:w-11/12 mb-2">
+              <div class="container">
+                <div class="vx-row mb-2 relative">
+                  <button type="submit" name="button" :disabled="isInvalid" class="vs-component vs-button mr-3 vs-button-primary vs-button-filled">
+                    <span class="vs-button-backgroundx vs-button--background"
+                          style="opacity: 1; left: 20px; top: 20px; width: 0px; height: 0px; transition: width 0.3s ease 0s, height 0.3s ease 0s, opacity 0.3s ease 0s;">
+                    </span>
+                    <span class="vs-button-text vs-button--text">
+                            Finalizar Atendimento
+                        </span><span class="vs-button-linex" style="top: auto; bottom: -2px; left: 50%; transform: translate(-50%);">
+
+                  </span>
+                  </button>
+
+                  <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                             @click="cancelarAtendimento(ticket.id)">
+                    Cancelar Atendimento
+                  </vs-button>
+                </div>
+              </div>
+            </div>
+          </footer-doug>
+        </transition>
+      </form>
+
+
     </div>
+
 </template>
 
 <script>
@@ -293,39 +348,103 @@
             this.getOpcoes();
         },
         methods: {
-            getOpcoes() {
-                this.$store.dispatch('status/get').then(response => {
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        switch (item.tipo) {
-                            case 0:
-                                this.statusGanhou.push(item);
-                                break;
-                            case 1:
-                                this.statusAguardando.push(item);
-                                break;
-                            default:
-                                this.statusPerdeu.push(item);
-                        }
-                    });
-                });
-
-                this.$store.dispatch('brindes/get').then(response => {
-                    //let arr = [...response];
-                    this.brindes = [...response];
-                    /*arr.forEach(item => {
-                        if(this.ticket.produto.id == item.produto_id)
-                            this.brindes.push({id: item.id, label: item.nome});
-                    });*/
-                });
-
-                this.$store.dispatch('motivos/get').then(response => {
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        this.motivos.push({id: item.id, label: item.nome});
-                    });
-                });
+            finalizar() {
+              this.$validator.validateAll().then(result => {
+                if (result) {
+                  console.log(this.ticket)
+                  this.$vs.dialog({
+                    color: 'primary',
+                    title: `Finalizar atendimento?`,
+                    text: 'Deseja mesmo finalizar este atendimento?',
+                    acceptText: 'Sim!',
+                    accept: () => {
+                      this.$vs.loading();
+                      this.$store.dispatch('tickets/finalizar', this.ticket).then(response => {
+                        this.$vs.notify({
+                          color: 'success',
+                          title: '',
+                          text: 'Atendimento finalizado com sucesso'
+                        });
+                        localStorage.removeItem('atendimento');
+                        this.$vs.loading.close();
+                        this.$router.push({name: 'tickets-list'});
+                      }).catch(erro => {
+                        console.log(erro)
+                        this.$vs.notify({
+                          color: 'danger',
+                          title: 'Erro',
+                          text: 'Algo deu errado ao finalizar. Reinicie a página.'
+                        })
+                      })
+                    }
+                  })
+                }
+              });
             },
+            cancelarAtendimento(id) {
+              this.$vs.dialog({
+                color: 'danger',
+                title: `Cancelar atendimento?`,
+                text: 'Deseja mesmo cancelar este atendimento?',
+                acceptText: 'Sim!',
+                accept: () => {
+                  this.$vs.loading();
+                  this.$store.dispatch('tickets/cancelar', id).then(response => {
+                    console.log('pora cara', response)
+                    if (response.status) {
+                      this.$vs.notify({
+                        color: 'success',
+                        title: '',
+                        text: 'Atendimento cancelado com sucesso'
+                      });
+                      localStorage.removeItem('atendimento');
+                      this.$vs.loading.close();
+                      this.$router.push({name: 'tickets-list'})
+                    }
+                  }).catch(erro => {
+                    console.log(erro)
+                    this.$vs.notify({
+                      color: 'danger',
+                      title: 'Erro',
+                      text: 'Algo deu errado ao deletar. Contate o suporte.'
+                    })
+                  })
+                }
+              })
+            },
+            getOpcoes() {
+                  this.$store.dispatch('status/get').then(response => {
+                      let arr = [...response];
+                      arr.forEach(item => {
+                          switch (item.tipo) {
+                              case 0:
+                                  this.statusGanhou.push(item);
+                                  break;
+                              case 1:
+                                  this.statusAguardando.push(item);
+                                  break;
+                              default:
+                                  this.statusPerdeu.push(item);
+                          }
+                      });
+                  });
+
+                  this.$store.dispatch('brindes/get').then(response => {
+                      //let arr = [...response];
+                      this.brindes = [...response];
+                      /*arr.forEach(item => {
+                          if(this.ticket.produto.id == item.produto_id)
+                              this.brindes.push({id: item.id, label: item.nome});
+                      });*/
+                  });
+
+                  this.$store.dispatch('motivos/get').then(response => {
+                      let arr = [...response];
+                      arr.forEach(item => {
+                          this.motivos.push({id: item.id, label: item.nome});
+                      });
+                  });
+              },
             verificaHabBrinde(obj) {
                 this.habbrinde = (this.atendimento.tipo == 0 && obj.hab_brinde) ? true : false;
             },
