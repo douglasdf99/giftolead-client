@@ -1540,12 +1540,8 @@ router.beforeEach((to, from, next) => {
               );
             }
         }
-        // If auth required, check login. If login fails redirect to login page
 
         return next()
-        // Specify the current path as the customState parameter, meaning it
-        // will be returned to the application after auth
-        // auth.login({ target: to.path });
 
     });
 
