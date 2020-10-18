@@ -350,6 +350,7 @@ export default {
       }).catch((error) => {
         console.log('retonou erro getUser');
         localStorage.removeItem('userInfo');
+        localStorage.removeItem("permissoes");
         reject(error)
       }).finally(() => {
         console.log('final getUser');
@@ -401,6 +402,8 @@ export default {
       }).catch((error) => {
         console.log('retonou erro getUser');
         localStorage.removeItem('userInfo');
+        localStorage.removeItem("permissoes");
+
         reject(error)
       }).finally(() => {
         console.log('final getUser');
