@@ -5,7 +5,7 @@
                 <div class="con-img mr-3">
                     <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="get_img_api(activeUserInfo.photoURL)" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block"/>
                 </div>
-                <div class="text-right leading-tight hidden sm:block">
+                <div class="text-left leading-tight hidden sm:block">
                     <p class="font-semibold">{{ activeUserInfo.displayName }}</p>
                     <p class="text-sm">{{ activeUserInfo.userRole }}</p>
                 </div>

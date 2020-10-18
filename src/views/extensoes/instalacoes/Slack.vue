@@ -22,7 +22,7 @@
                     <div class="vx-col w-full mb-4">
                         <div class="p-5 rounded-lg bg-white">
                             <p>
-                                Importante: a URL do Webhook da plataforma, pode ser encontrada
+                                Importante: a URL do Webhook da plataforma pode ser encontrada
                                 <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none">aqui</a>.
                             </p>
                         </div>

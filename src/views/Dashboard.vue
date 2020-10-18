@@ -66,7 +66,8 @@
                     </div>
                     <div class="vx-col w-full">
                         <place-holder-loading-dashboard tipo="produtos" v-if="!por_produto_pesquisado"/>
-                        <vx-card :title="produtos.length > 0 ? 'Venda por produto' : 'Nenhuma venda encontrada'" class="mt-base" v-show="por_produto_pesquisado">
+                        <vx-card :title="produtos.length > 0 ? 'Venda por produto' : 'Nenhuma venda encontrada'" class="mt-base" :class="{'venda-por-produto' : produtos.length == 0}"
+                                 v-show="por_produto_pesquisado">
                             <template slot="actions">
                                 <change-date-dashboard @changeDate="getVendaPorProduto"></change-date-dashboard>
                             </template>
@@ -347,6 +348,10 @@ export default {
                 }
             },
             tipo_meus_tickets: 'atendimento',
+            datas_tipo_meus_tickets: {
+                dt_inicio: moment().subtract(7, 'days').format('YYYY-MM-DD'),
+                dt_fim: moment().format('YYYY-MM-DD')
+            },
 
             //Últimos Tickets
             ultimos_tickets: [],
@@ -537,12 +542,11 @@ export default {
             });
         },
         getMeusTickets(datas = null) {
-            if (datas == null) {
-                datas = {
-                    dt_inicio: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-                    dt_fim: moment().format('YYYY-MM-DD'),
-                }
-            }
+            if (datas == null)
+                datas = this.datas_tipo_meus_tickets;
+            else
+                this.datas_tipo_meus_tickets = datas;
+
             return new Promise(resolve => {
                 this.$store.dispatch('dashboard/getData', {rota: 'meus_tickets', params: {...datas, type: this.tipo_meus_tickets}}).then(response => {
                     let soma = 0;
@@ -654,11 +658,7 @@ export default {
     },
     watch: {
         tipo_meus_tickets() {
-            let datas = {
-                dt_inicio: moment().subtract(7, 'days').format('YYYY-MM-DD'),
-                dt_fim: moment().format('YYYY-MM-DD'),
-            }
-            this.getMeusTickets(datas);
+            this.getMeusTickets(this.datas_tipo_meus_tickets);
         },
         tipo_media_mensal() {
             this.chart_media_options.xaxis.categories = [];
@@ -678,6 +678,10 @@ export default {
 
 <style lang="scss">
 @import "node_modules/placeholder-loading/src/scss/placeholder-loading.scss";
+
+[dir] .venda-por-produto .vx-card__header {
+    padding-bottom: 1.5rem !important;
+}
 
 .row-top-dashboard {
     width: 102%;

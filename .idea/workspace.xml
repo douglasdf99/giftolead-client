@@ -1,23 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Sprint 24 - Hotfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/brindes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/brindes/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Expedicoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Expedicoes.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Notificacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Notificacoes.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Tickets.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Tickets.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Usuarios.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Usuarios.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/contas/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contas/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/contratos/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/contratos/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/embalagens/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/embalagens/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/links/Lista.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/links/Lista.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/mensagemPadrao/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/mensagemPadrao/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/motivoPerda/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/motivoPerda/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/origens/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/origens/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/produtos/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/produtos/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/statusFinalizacao/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/statusFinalizacao/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tipoDuvida/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tipoDuvida/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/extensoes/instalacoes/Slack.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/extensoes/instalacoes/Slack.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/usuarios/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/usuarios/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/usuarios/Perfil.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/usuarios/Perfil.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +20,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="Vue Single File Component" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -58,7 +48,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views/configuracoes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -214,42 +204,14 @@
       <workItem from="1601672746995" duration="1747000" />
       <workItem from="1601901070083" duration="24338000" />
       <workItem from="1601988145357" duration="21385000" />
-      <workItem from="1602087176720" duration="13648000" />
-    </task>
-    <task id="LOCAL-00038" summary="logotipo ok e z-index footerbar">
-      <created>1589482835993</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1589482835993</updated>
-    </task>
-    <task id="LOCAL-00039" summary="ajustes 19 01">
-      <created>1589899700872</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1589899700872</updated>
-    </task>
-    <task id="LOCAL-00040" summary="ajustes 19 02">
-      <created>1589916245546</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1589916245546</updated>
-    </task>
-    <task id="LOCAL-00041" summary="contratos completo">
-      <created>1589985738400</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1589985738400</updated>
-    </task>
-    <task id="LOCAL-00042" summary="login e preloader com logo corretas">
-      <created>1590078394690</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1590078394690</updated>
+      <workItem from="1602087176720" duration="15750000" />
+      <workItem from="1602160950500" duration="22813000" />
+      <workItem from="1602245510040" duration="21641000" />
+      <workItem from="1602274402738" duration="1992000" />
+      <workItem from="1602590543287" duration="984000" />
+      <workItem from="1602593329541" duration="2172000" />
+      <workItem from="1602617497584" duration="3942000" />
+      <workItem from="1602677623179" duration="1403000" />
     </task>
     <task id="LOCAL-00043" summary="ajuste em rotas sem pai">
       <created>1590080963451</created>
@@ -559,7 +521,42 @@
       <option name="project" value="LOCAL" />
       <updated>1602095192243</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="Sprint 24 - Aplicando acl">
+      <created>1602103723630</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1602103723630</updated>
+    </task>
+    <task id="LOCAL-00088" summary="Sprint 24 - Aplicando acl">
+      <created>1602176938729</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1602176938729</updated>
+    </task>
+    <task id="LOCAL-00089" summary="Sprint 24 - Finalizando primeira aplicação de ACL em todo o sistema. Correção de BUG na tela de configuração de email de Campanha de Carrinho.">
+      <created>1602188613548</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1602188613548</updated>
+    </task>
+    <task id="LOCAL-00090" summary="Sprint 24 - finalizada primeira versão do menu rápido">
+      <created>1602266107889</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1602266107890</updated>
+    </task>
+    <task id="LOCAL-00091" summary="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real">
+      <created>1602274190311</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1602274190312</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TodoView">
@@ -574,11 +571,17 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="integracao total voice 55 porcento" />
-    <MESSAGE value="ajustes campanha carrinho" />
-    <MESSAGE value="alteração de numero que realiza chamda" />
-    <MESSAGE value="processo integracao totalvoice encaminhado" />
     <MESSAGE value="inicio de configuracao do email de automacao" />
     <MESSAGE value="Sprint 22 - Melhoria da galeria de fotos anexadas nas comissões, agora aparecendo na tela de aprovação também." />
     <MESSAGE value="inicio modulo de sino de notificação" />
@@ -600,52 +603,56 @@
     <MESSAGE value="Sprint 23 - Hotfix durante a reunião" />
     <MESSAGE value="Hotfix dashboard" />
     <MESSAGE value="Sprint 24 - Douglas pediu a versão mais nova" />
-    <option name="LAST_COMMIT_MESSAGE" value="Sprint 24 - Douglas pediu a versão mais nova" />
+    <MESSAGE value="Sprint 24 - Aplicando acl" />
+    <MESSAGE value="Sprint 24 - Finalizando primeira aplicação de ACL em todo o sistema. Correção de BUG na tela de configuração de email de Campanha de Carrinho." />
+    <MESSAGE value="Sprint 24 - finalizada primeira versão do menu rápido" />
+    <MESSAGE value="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real" />
+    <option name="LAST_COMMIT_MESSAGE" value="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
-    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1602095191402">
+    <state x="387" y="0" key="CommitChangelistDialog2" timestamp="1602593488732">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602095191402" />
-    <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1600965488058">
+    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602593488732" />
+    <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1602594934086">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1600965488058" />
+    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602594934086" />
     <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599220822369" />
     <state x="369" y="115" key="SettingsEditor" timestamp="1601323036631">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="369" y="115" key="SettingsEditor/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601323036631" />
     <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1602095194221">
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2" timestamp="1602593490860">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602095194221" />
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602593490860" />
     <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1601661725120">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1601661725120" />
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602097019500">
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1602595561607">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602097019500" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602595561607" />
     <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599050689284" />
-    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1602091073652">
+    <state x="478" y="145" width="579" height="534" key="find.popup" timestamp="1602273529092">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602091073652" />
-    <state x="425" y="187" key="run.anything.popup" timestamp="1602014964998">
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602273529092" />
+    <state x="425" y="187" key="run.anything.popup" timestamp="1602248042326">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602014964998" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1602103400546">
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602248042326" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1602678993819">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602103400546" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" timestamp="1602678993819" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
