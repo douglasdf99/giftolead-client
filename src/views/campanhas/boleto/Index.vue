@@ -73,7 +73,7 @@
                 <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4" v-if="verMaisCards">
                     <vx-card class="shadow-none">
                         <span class="destaque">Vendas recuperadas</span>
-                        <p class="font-bold text-3xl my-5">{{ campanha.transacaos_count }}</p>
+                        <p class="font-bold text-3xl my-5">{{ campanha.transacaos_count }} </p>
                     </vx-card>
                 </div>
             </transition>

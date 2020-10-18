@@ -76,14 +76,14 @@
             </div>
             <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                 <vx-card class="shadow-none">
-                    <span class="destaque">Valor recuperado</span>
-                    <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
+                    <span class="destaque">Valor co-recuperado</span>
+                    <p class="font-bold text-3xl my-5">R$ {{formatPrice(campanha.valor_recuperado)}}</p>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                 <vx-card class="shadow-none">
                     <span class="destaque">Vendas co-recuperadas</span>
-                    <p class="font-bold text-3xl my-5">23</p>
+                    <p class="font-bold text-3xl my-5">{{campanha.tickets_vendidos.length}}  </p>
                 </vx-card>
             </div>
             <div class="vx-col mt-5 w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">

@@ -366,19 +366,19 @@ export default {
             let permissoes = {};
             e.permissions.forEach(item => {
                 if (item.permission_role.length > 0) {
-                    var ac = new AclRule('admin');
+                    var ac = new AclRule('Administrador');
                     item.permission_role.forEach(perfil => {
                         ac = ac.or(perfil.role.nome)
                     });
                     permissoes[item.name] = ac.generate();
                     //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
                 } else {
-                    permissoes[item.name] = new AclRule('admin').generate();
-                    //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
+                    permissoes[item.name] = new AclRule('Administrador').generate();
+                    //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('Administrador').generate()});
                 }
             });
 
-            var ac = new AclRule('admin');
+            var ac = new AclRule('Administrador');
             e.roles.forEach(role => {
                 ac = ac.or(role.nome)
             });

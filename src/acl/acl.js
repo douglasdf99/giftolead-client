@@ -15,11 +15,11 @@ permissoes = JSON.parse(localStorage.getItem("permissoes"));
 
 if (!permissoes){
   permissoes = {};
-  permissoes['admin']= new AclRule("admin").generate();
-//permissoes['configuracao']= new AclRule("admin").generate();
-  permissoes['editor']= new AclRule("admin").generate();
+  permissoes['Administrador']= new AclRule("Administrador").generate();
+//permissoes['configuracao']= new AclRule("Administrador").generate();
+  permissoes['editor']= new AclRule("Administrador").generate();
 
-  permissoes['public'] = new AclRule("public").or("admin").or("editor").generate()
+  permissoes['public'] = new AclRule("public").or("Administrador").or("editor").generate()
 }
 
 
@@ -32,7 +32,7 @@ console.log('permissoes no acl',permissoes)
 //             console.log('permissions_banco', response.data.data);
 //             response.data.data.forEach(item => {
 //                 if (item.permission_role.length > 0) {
-//                     var ac = new AclRule('admin');
+//                     var ac = new AclRule('Administrador');
 //                     item.permission_role.forEach(perfil => {
 //                         ac = ac.or(perfil.role.nome)
 //                     });
@@ -40,8 +40,8 @@ console.log('permissoes no acl',permissoes)
 //                     //permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
 //                 }
 //                 else {
-//                     permissoes[item.name] = new AclRule('admin').generate();
-//                     //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('admin').generate()});
+//                     permissoes[item.name] = new AclRule('Administrador').generate();
+//                     //permissoes.push({'permissao':item.name, 'funcoes':new AclRule('Administrador').generate()});
 //                 }
 //             });
 //             console.log('permissoes', permissoes);
@@ -59,10 +59,10 @@ export default new AclCreate({
         router,
         acceptLocalRules: true,
         // globalRules: {
-        //     admin: new AclRule("admin").generate(),
-        //     configuracao: new AclRule("admin").generate(),
-        //     editor: new AclRule("editor").or("admin").generate(),
-        //     public: new AclRule("public").or("admin").or("editor").generate(),
+        //     Administrador: new AclRule("Administrador").generate(),
+        //     configuracao: new AclRule("Administrador").generate(),
+        //     editor: new AclRule("editor").or("Administrador").generate(),
+        //     public: new AclRule("public").or("Administrador").or("editor").generate(),
         //
         // }
         globalRules:permissoes,
