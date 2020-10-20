@@ -326,7 +326,7 @@
                     color: 'primary',
                     type: 'confirm',
                     title: `Deseja ativar essa campanha?`,
-                    text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
+                    text: 'Ao ativar essa campanha, outra campanha desse mesmo tipo e de mesmo produto será desativada.',
                     acceptText: 'Sim, ativar!',
                     accept: () => {
                         this.$store.dispatch('campanhas/ativaEspecifica', {

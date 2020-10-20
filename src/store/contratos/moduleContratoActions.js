@@ -61,6 +61,18 @@ export default {
                 })
         })
     },
+    logarind({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/correios-logarind`, {params: dados})
+                .then((response) => {
+                    console.log('contrato resgatado', response);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     servicos({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios-servicos`, {params: dados})

@@ -10,11 +10,14 @@
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Nome da campanha</span>
-                <vs-input class="w-full" v-model="campanha.nome" size="large" name="nome"/>
+                <vs-input class="w-full" v-validate="'required'" v-model="campanha.nome" size="large" name="nome"/>
+              <span class="text-danger text-sm" v-show="errors.has('nome')">Obrigatório selecionar uma origem</span>
+
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Produto da campanha</span>
                 <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
+              <span class="text-danger text-sm" v-show="errors.has('produto')">Obrigatório selecionar uma origem</span>
             </div>
         </div>
         <div class="vx-row my-10">
@@ -22,12 +25,16 @@
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Descrição</span>
-                        <vs-textarea v-model="campanha.descricao" id="text-area" class="w-full bg-white" rows="6"/>
+                        <vs-textarea v-model="campanha.descricao"  v-validate="'required'" id="text-area" class="w-full bg-white" name="descricao" rows="6"/>
+                      <span class="text-danger text-sm" v-show="errors.has('descricao')">Obrigatório selecionar uma origem</span>
+
                     </div>
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Página de Obrigado</span>
                         <vs-input class="w-full" id="search_input_trans" v-model="campanha.obrigado"
-                                  placeholder="https://" size="large" name="nome" v-validate="'required'"/>
+                                  placeholder="https://" size="large" name="obrigado" v-validate="'required'"/>
+                      <span class="text-danger text-sm" v-show="errors.has('obrigado')">Obrigatório selecionar uma origem</span>
+
                     </div>
                     <div class="vx-col w-full lg:w-1/2 mb-3">
                         <span class="font-regular mb-2">Origem</span>
@@ -163,13 +170,13 @@
                     <div class="vx-col w-full mb-4">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">23</p>
+                            <p class="font-bold text-3xl my-5">{{campanha.tickets_vendidos.length}}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Valor recuperado</span>
-                            <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
+                            <p class="font-bold text-3xl my-5">R$ {{formatPrice(campanha.valor_recuperado)}}</p>
                         </vx-card>
                     </div>
                 </div>
@@ -280,7 +287,6 @@
 
                         this.campanha.plano_id = this.$route.params.id;
                         this.campanha._method = 'PUT';
-                        this.campanha.infusion = this.campanha.infusion == "" ? false : true;
                         if (this.campanha.id !== undefined) {
                             this.$store.dispatch('agendamento/update', {
                                 id: this.campanha.id,

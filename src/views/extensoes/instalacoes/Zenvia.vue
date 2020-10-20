@@ -11,7 +11,7 @@
                     <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado" :disabled="!$acl.check('extensao_zenvia_recarregar')">Recarregar</vs-button>
                 </div>
                 <div class="w-full" v-if="extensao != null">
-                    <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="saldo" statisticTitle="Saldo" color="success"/>
+                    <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="'R$ '+saldo" statisticTitle="Saldo" color="success"/>
                     <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="custo" statisticTitle="Total de recargas" color="success"/>
                 </div>
             </div>
