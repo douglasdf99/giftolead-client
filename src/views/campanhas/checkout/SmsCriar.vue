@@ -2,7 +2,7 @@
     <div>
         <div class="vx-row">
             <div class="vx-col w-full mb-5">
-                <p class="destaque">Configure o período de envio depois do último e-mail enviado</p>
+                <p class="destaque">Configure o período de envio depois do último sms enviado</p>
             </div>
         </div>
         <div class="vx-row mb-4">
@@ -143,14 +143,14 @@
                 min_value: 'O valor minimo é de 1',
             },
             assunto: {
-                required: 'Por favor, insira o assunto do e-mail',
+                required: 'Por favor, insira o assunto do sms',
             },
             responder: {
                 required: 'Por favor, insira o email que irá receber a resposta',
                 email: 'Por favor, insira um email válido'
             },
             titulo: {
-                required: 'Por favor, insira o título do e-mail',
+                required: 'Por favor, insira o título do sms',
             },
         }
     };
@@ -220,7 +220,7 @@
                                 color: 'primary',
                                 title: `Atenção`,
                                 type: 'alert',
-                                text: ' Este SMS só será enviado ao contato caso o período selecionado seja maior do que o último e-mail que ele recebeu.',
+                                text: ' Este SMS só será enviado ao contato caso o período selecionado seja maior do que o último sms que ele recebeu.',
                                 acceptText: 'Ok',
                                 buttonCancel: false,
                                 accept: () => {
@@ -243,7 +243,7 @@
 
             },
             validarPeriodo() {
-                //Validando o período deste e-mail em relação aos já cadastrados, afim de barrar na excedência de 31 dias
+                //Validando o período deste sms em relação aos já cadastrados, afim de barrar na excedência de 31 dias
                 let somaTotal = this.somaPeriodo + (this.email.unidade_tempo * this.periodoSelected.id)
                 if (somaTotal > 44640) {
                     this.$vs.dialog({
@@ -318,12 +318,12 @@
                 this.$store.dispatch('checkout/getSms', this.$route.params.id).then(response => {
                     let arr = response;
                     arr.forEach(item => {
-                        //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
+                        //Somando os períodos cadastrados nos outros smss, desconsiderando o que está sendo editado
                         if (this.$route.name === 'campanha-config-checkout-sms-editar') {
                             if (item.id != this.$route.params.idEmail && item.status)
                                 this.somaPeriodo += item.periodo;
                         } else {
-                            //Somando os períodos cadastrados nos outros e-mails
+                            //Somando os períodos cadastrados nos outros smss
                             this.somaPeriodo += item.periodo;
                         }
                     });
