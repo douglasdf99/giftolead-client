@@ -96,12 +96,12 @@
                                     Ligar
                                     <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
                                 </vs-button>
-                                <vx-tooltip text="O sistema não conseguiu conectar, contate o administrador" position="top">
-                                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">
-                                        Desconectado
-                                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>
-                                    </vs-button>
-                                </vx-tooltip>
+<!--                                <vx-tooltip text="O sistema não conseguiu conectar, contate o administrador" position="top">-->
+<!--                                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">-->
+<!--                                        Desconectado-->
+<!--                                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>-->
+<!--                                    </vs-button>-->
+<!--                                </vx-tooltip>-->
 
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>

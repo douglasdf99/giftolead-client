@@ -131,32 +131,32 @@
                     </div>
                     <div class="vx-col lg:w-1/3 w-full mb-2">
                         <span class="font-regular mb-2">CEP</span>
-                        <vs-input class="w-full" v-validate="'required'" name="remetenteCep" v-model="item.remetenteCep" size="large"/>
+                        <vs-input class="w-full" v-validate="'required'" name="remetenteCep" v-mask="'#####-###'" v-model="item.remetenteCep" size="large" @blur="buscaCep"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteCep')">{{ errors.first('remetenteCep') }}</span>
                     </div>
                 </div>
                 <div class="vx-row mb-6">
                     <div class="vx-col lg:w-3/12 w-full mb-2">
                         <span class="font-regular mb-2">Estado/Unidade Federativa</span>
-                        <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="item.remetenteEstado" size="large"/>
+                        <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="item.remetenteEstado" size="large" :disabled="true"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteEstado')">{{ errors.first('remetenteEstado') }}</span>
                     </div>
                     <div class="vx-col lg:w-3/12 w-full mb-2">
                         <span class="font-regular mb-2">Cidade</span>
-                        <vs-input class="w-full" v-validate="'required'" name="remetenteCidade" v-model="item.remetenteCidade" size="large"/>
+                        <vs-input class="w-full" v-validate="'required'" name="remetenteCidade" v-model="item.remetenteCidade" size="large" :disabled="true"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteCidade')">{{ errors.first('remetenteCidade') }}</span>
                     </div>
                     <div class="vx-col lg:w-6/12 w-full mb-2">
                         <span class="font-regular mb-2">Endereço</span>
                         <vs-input class="w-full" v-validate="'required'" name="remetenteEndereco"
-                                  v-model="item.remetenteEndereco" size="large"/>
+                                  v-model="item.remetenteEndereco" size="large" :disabled="true"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteEndereco')">{{ errors.first('remetenteEndereco') }}</span>
                     </div>
                 </div>
                 <div class="vx-row mb-20">
                     <div class="vx-col lg:w-1/3 w-full mb-2">
                         <span class="font-regular mb-2">Bairro</span>
-                        <vs-input class="w-full" v-validate="'required'" name="remetenteBairro" v-model="item.remetenteBairro" size="large"/>
+                        <vs-input class="w-full" v-validate="'required'" name="remetenteBairro" v-model="item.remetenteBairro" size="large" :disabled="true"/>
                         <span class="text-danger text-sm" v-show="errors.has('remetenteBairro')">{{ errors.first('remetenteBairro') }}</span>
                     </div>
                     <div class="vx-col lg:w-3/12 w-full mb-2">
@@ -227,6 +227,7 @@
     // register custom messages
     import {Validator} from 'vee-validate';
     import vSelect from 'vue-select'
+    const {consultarCep} = require("correios-brasil");
 
     const dict = {
         custom: {
@@ -347,6 +348,8 @@
             counterDanger: false,
             salvando: false,
             modalexcecao: false,
+            valido: false,
+            antigoCep: '',
             val: {
                 tipo: '',
                 variavel: '',
@@ -414,6 +417,36 @@
             },
         },
         methods: {
+          buscaCep() {
+
+            if (this.valido) {
+              console.log('teste')
+            } else {
+              this.remetenteComplemento = '';
+              this.remetenteNumero = '';
+              consultarCep(this.item.remetenteCep).then(response => {
+                console.log('resposta', response);
+                this.valido = true;
+                this.antigoCep = this.item.remetenteCep;
+                this.item.remetenteCidade = this.removeAccents(response.localidade);
+                this.item.remetenteBairro = this.removeAccents(response.bairro);
+                this.item.remetenteEndereco = this.removeAccents(response.logradouro);
+                this.item.remetenteEstado = this.removeAccents(response.uf);
+                this.$vs.notify({
+                  title: '',
+                  color: 'success',
+                  text: 'CEP encontrado e informações preenchidas'
+                })
+              }).catch(erro => {
+                console.log(erro);
+                this.$vs.notify({
+                  title: '',
+                  color: 'danger',
+                  text: erro.message
+                })
+              });
+            }
+          },
             configurar() {
                 this.$router.push({path: '/configuracoes/contratos/servicos/' + this.item.id});
             },
@@ -551,26 +584,38 @@
                 })
             },
             correiosLogar() {
+              if (!this.item.usuario || !this.item.senha){
+                this.$vs.notify({
+                  title: 'Falha',
+                  text: 'Para realizar o login é nescessário preencher todos os dados do contrato.',
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                })
+              }else{
                 this.$vs.loading();
                 console.log('chama etiquetas');
-                this.$store.dispatch('contratos/logar', this.item)
-                    .then(() => {
-                        console.log('login contrato')
-                        this.$vs.loading.close();
-                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Login realizado com sucesso'})
+                this.$store.dispatch('contratos/logarind', this.item)
+                  .then(() => {
+                    console.log('login contrato')
+                    this.$vs.loading.close();
+                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Login realizado com sucesso'})
+                  })
+                  .catch(() => {
+                    this.$vs.loading.close();
+                    this.$vs.notify({
+                      title: 'Falha',
+                      text: 'Não foi possível realizar o login com os dados acima.',
+                      iconPack: 'feather',
+                      icon: 'icon-alert-circle',
+                      color: 'danger'
                     })
-                    .catch(() => {
-                        this.$vs.loading.close();
-                        this.$vs.notify({
-                            title: 'Falha',
-                            text: 'Não foi possível realizar o login com os dados acima.',
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    }).finally(() => {
-                    this.salvando = false;
+                  }).finally(() => {
+                  this.salvando = false;
                 });
+              }
+
+
             },
             openLoadingInDiv() {
                 this.$vs.loading({

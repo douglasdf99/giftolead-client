@@ -199,7 +199,9 @@
                         text: 'Erro ao salvar. Contate o suporte.'
                     });
                     console.log('erro', erro)
-                });
+                }).finally(()=>{
+
+              });
             },
             deleteCondicao(id) {
                 this.$vs.dialog({

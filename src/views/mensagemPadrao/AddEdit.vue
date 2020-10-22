@@ -58,15 +58,6 @@
                         <li class="variavel" @click="addVarText('[NOME_PRODUTO]')">
                             <span>Nome do Produto</span>
                         </li>
-                        <li class="variavel" @click="addVarText('[NOME_BRINDE]')">
-                            <span>Nome do Brinde</span>
-                        </li>
-                        <!--<li class="variavel" @click="addVarText('[CODIGO_RASTREIO]')">
-                            <span>Código de Rastreio</span>
-                        </li>
-                        <li class="variavel" @click="addVarText('[LINK_RASTREIO_CORREIOS]')">
-                            <span>Link rastreio dos Correios</span>
-                        </li>-->
                         <li class="variavel" @click="addLinkCheckoutVarText">
                             <span>Links do Sistema</span>
                         </li>

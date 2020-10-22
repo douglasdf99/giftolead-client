@@ -104,7 +104,7 @@
                             color: 'danger',
                             title: `Você realmente deseja ativar a campanha?`,
                             text: 'Mais de uma campanha ativa para o mesmo produto pode ocasionar duplicação de brinde.',
-                            acceptText: 'Alterar',
+                            acceptText: 'Ativar',
                             cancelText: 'Cancelar',
                             accept: () => {this.ativaCamp(obj);},
                             cancel: () => {obj.status = !obj.status}
