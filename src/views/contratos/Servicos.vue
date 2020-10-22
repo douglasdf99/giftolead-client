@@ -750,7 +750,8 @@
                 this.$store.dispatch('contratos/addexcecao', obj)
                     .then(() => {
                         console.log('editar excecao');
-                        this.getContrato(this.item.id);
+                        this.item.config_padrao.servico = item.codigo
+                        //this.getContrato(this.item.id);
                         this.$vs.loading.close('#div-servicos > .con-vs-loading');
                         this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'});
                     })

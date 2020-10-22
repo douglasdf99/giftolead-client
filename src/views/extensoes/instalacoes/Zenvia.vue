@@ -27,8 +27,8 @@
                     <div class="vx-col w-full mb-4">
                         <div class="p-5 rounded-lg bg-white">
                             <p>
-                                Durante um bom tempo nós pesquisamos a melhor ferramenta para fazer ligações para integrar ao Moskit e encontramos na Zenvia a qualidade e confiança que buscávamos.
-                                A nossa parceria com eles torna possível fazer chamadas direto do Moskit e ter essas conversas salvas na linha do tempo para ouvir a qualquer momento. Habilite a integração e ganhe R$
+                                Durante um bom tempo nós pesquisamos a melhor ferramenta para fazer ligações para integrar ao Saveleads e encontramos na Zenvia a qualidade e confiança que buscávamos.
+                                A nossa parceria com eles torna possível fazer chamadas direto do Saveleads e ter essas conversas salvas na linha do tempo para ouvir a qualquer momento. Habilite a integração e ganhe R$
                                 30,00 para
                                 testar!
                             </p>

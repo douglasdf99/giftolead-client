@@ -93,7 +93,6 @@
                     }
                 }
             },
-
         },
         methods: {
             getOpcoes() {
@@ -153,7 +152,6 @@
                                 this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
-
                             }).catch(error => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -164,10 +162,11 @@
                                 })
                             })
                         }
-
-                        this.$emit('closeSidebar')
-                        this.initValues()
                     }
+                }).finally(()=>{
+                  this.$emit('closeSidebar')
+                  this.$emit('finish')
+                  this.initValues()
                 })
             },
         },

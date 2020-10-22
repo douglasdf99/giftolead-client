@@ -70,6 +70,9 @@
                 tipo: 'password'
             }
         },
+      created(){
+       // localStorage.removeItem("permissoes");
+      },
         computed: {
             validateForm() {
                 return !this.errors.any() && this.email != '' && this.password != '';

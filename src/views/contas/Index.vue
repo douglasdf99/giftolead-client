@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" @finish="getContas"
                   :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_conta_incluir')">
@@ -168,8 +168,6 @@
                 this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
                 });
             },
@@ -187,7 +185,6 @@
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.getContas();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -195,6 +192,8 @@
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
                             })
+                        }).finally(()=>{
+                          this.getContas();
                         })
                     }
                 })

@@ -45,16 +45,16 @@
         <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('payOrdens')" v-if="tipo == 'pagar'">
+                    <vs-button class="mr-3 float-right" color="primary" type="filled" @click="action('payOrdens')" v-if="tipo == 'pagar'">
                         Pagar ordens
                     </vs-button>
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('unpayOrdens')" v-if="tipo == 'pago'">
+                    <vs-button class="mr-3 float-right" color="primary" type="filled" @click="action('unpayOrdens')" v-if="tipo == 'pago'">
                         Reverter pagamentos
                     </vs-button>
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="imprimirPDF()">
+                    <vs-button class="mr-3 float-right" color="primary" type="filled" @click="imprimirPDF()">
                         Imprimir Ordens
                     </vs-button>
-                    <div class="float-right">
+                    <div class="float-left">
                         <span class="font-bold text-2xl">R$ {{formatPrice(somaSelecionados)}}</span>
                         <p>valor total selecionado</p>
                     </div>

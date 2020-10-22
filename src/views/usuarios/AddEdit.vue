@@ -130,17 +130,13 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && this.sckRepetido">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'usuarios'})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                  <vs-button class="float-right mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                             @click="$router.push({name: 'usuarios'})">
+                    Cancelar
+                  </vs-button>
+                  <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && this.sckRepetido">
+                    Salvar
+                  </vs-button>
                 </div>
             </footer-doug>
         </transition>

@@ -25,13 +25,13 @@
                 </div>
                 <div class="vx-row my-3" v-show="dados.aba == 'comissao'">
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
-                        <select-responsaveis @chooseResp="chooseResp" />
-                    </div>
-                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <label class="vs-input--label">Usuário</label>
                         <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
                                   :options="usuarios"/>
                     </div>
+                  <div class="vx-col w-full lg:w-1/2 sm:w-full">
+                    <select-responsaveis @chooseResp="chooseResp" />
+                  </div>
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
@@ -58,7 +58,6 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
-
             </vs-col>
         </vs-row>
     </div>

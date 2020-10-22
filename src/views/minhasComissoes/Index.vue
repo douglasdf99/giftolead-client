@@ -57,12 +57,12 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = '#9344C4'; getItems('aprovadas'); dados.aba = 'aprovadas'" color="primary" label="aprovadas">
-                        <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
+                        <listagemcomi :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagemcomi>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = '#4DE98A'; getItems('comissionadas'); dados.aba = 'comissionadas'" color="success" label="comissões pagas">
-                        <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
+                        <listagemcomi :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagemcomi>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -80,6 +80,7 @@
 <script>
     import SideBar from './SideBar'
     import listagem from './Listagem'
+    import listagemcomi from './ListagemComissao'
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleMComissoes from "@/store/minhasComissoes/moduleMComissoes";
@@ -91,7 +92,7 @@
 
     export default {
         name: "Index",
-        components: {SideBar, listagem,
+        components: {SideBar, listagem,listagemcomi,
             DateRangePicker,
             VueMoment,
             moment,},

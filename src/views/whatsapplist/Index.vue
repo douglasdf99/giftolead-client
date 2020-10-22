@@ -45,15 +45,9 @@
             </div>
         </div>
         <div class="vx-row mt-3">
+
             <div class="vx-col w-full lg:w-4/12 sm:w-full">
-                <label class="vs-input--label">Tipo</label>
-                <v-select v-model="selectedTipo" :class="'select-large-base'" :clearable="true" class="bg-white"
-                          :options="tipos"/>
-            </div>
-            <div class="vx-col w-full lg:w-4/12 sm:w-full">
-                <label class="vs-input--label">Campanha</label>
-                <v-select v-model="selectedCampanha" :clearable="true" class="bg-white select-large-base"
-                          :options="campanhas" v-bind:class="{'disabled' : selectedTipo == null}"/>
+              <select-responsaveis @chooseResp="chooseResp" />
             </div>
             <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Produto</label>
@@ -120,6 +114,8 @@
     import moduleProdutos from "../../store/produtos/moduleProdutos";
     import listagem from './Listagem'
     import saveleadsConfig from "../../../saveleadsConfig";
+    import SelectResponsaveis from "../components/SelectResponsaveis";
+
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -127,7 +123,7 @@
     export default {
         name: "Index",
         components: {
-            SideBar, Datepicker, VueMoment, moment, DateRangePicker, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
+            SideBar, Datepicker, VueMoment, moment, DateRangePicker,SelectResponsaveis, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
         channel: 'laravel_database_whatsapp-list',
         echo: {
@@ -137,6 +133,7 @@
         },
         data() {
             return {
+              selectedResp: null,
                 // Data Sidebar
                 responderTicket: false,
                 transformarTicket: false,
@@ -238,6 +235,10 @@
             this.$store.dispatch('whatsapplist/setFilter', false);
         },
         methods: {
+
+            chooseResp(obj){
+              this.selectedResp = obj;
+            },
             getDay(dia) {
                 //Definindo datas usadas nos ranges padronizados
                 let today = new Date()
@@ -282,14 +283,15 @@
                 this.transformarTicket = val;
             },
             getItems(tipo = null) {
-                if (this.selectedTipo.id != null)
-                    this.dados.tipo = this.selectedTipo.id;
-                else this.dados.tipo = '';
-
-                if (this.selectedCampanha !== null)
-                    this.dados.campanha_id = this.selectedCampanha.id;
-                else this.dados.campanha_id = '';
-
+              console.log('getItems')
+                if(this.selectedResp){
+                  //this.dados.responsavel_type = this.selectedResp.id;
+                  this.dados.campanhable_type = this.selectedResp.criador_type;
+                  this.dados.campanhable_id = this.selectedResp.id;
+                }else{
+                  this.dados.campanhable_type = null;
+                  this.dados.campanhable_id = null;
+                }
                 if (this.selectedProduto !== null)
                     this.dados.produto_id = this.selectedProduto.id;
                 else this.dados.produto_id = '';
@@ -303,7 +305,9 @@
                     this.dados.situacao = tipo;
 
                 this.$store.dispatch('whatsapplist/getVarios', this.dados).then(response => {
-                    this.items = response.data.data
+                  console.log('getItems',response.data.data)
+
+                  this.items = response.data.data
                     this.pagination = response.data;
                     this.numeros = {...response.numeros};
                     this.$vs.loading.close();
@@ -383,15 +387,11 @@
                 this.dados.page = 1;
                 this.getItems();
             },
-            selectedTipo() {
-                this.$vs.loading();
-                this.dados.page = 1;
-                if (this.selectedTipo == null)
-                    this.selectedTipo = {id: null, text: null}
-                if (this.selectedTipo.id != null)
-                    this.getCampanhas(this.selectedTipo.id);
-                this.getItems();
-            },
+          selectedResp() {
+            this.$vs.loading();
+            this.dados.page = 1;
+            this.getItems();
+          },
             selectedCampanha() {
                 this.$vs.loading();
                 this.dados.page = 1;

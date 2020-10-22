@@ -31,27 +31,6 @@
                             <div class="conquista">
                                 <div class="flex items-center text-left">
                                     <div class="py-2 w-1/2">
-                                        <p class="font-bold text-black text-md mb-0">Contrato com os correios</p>
-                                    </div>
-                                    <div class="py-2 w-1/2">
-                                        <vs-switch @click="ativaExt(extensoes.correios)" vs-icon-on="check" color="#0FB599" v-model="extensoes.correios.ativo" class="float-right switch" v-if="extensoes.correios != null"/>
-                                    </div>
-                                </div>
-                                <div class="w-full my-3">
-                                    <img src="@/assets/images/util/correios.svg" class="img-conquista my-4" alt="" width="150">
-                                    <p class="mb-4">Integre o seu contrato com os correios para enviar brindes físicos à seus clientes</p>
-                                </div>
-                                <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4">
-                                        {{extensoes.correios != null ? 'Detalhar' : 'Instalar'}}</vs-button>
-                                </div>
-                                <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês</p>
-                            </div>
-                        </div>
-                        <div class="vx-col col-conquista mb-10">
-                            <div class="conquista">
-                                <div class="flex items-center text-left">
-                                    <div class="py-2 w-1/2">
                                         <p class="font-bold text-black text-md mb-0">Ligações internas com a Zenvia</p>
                                     </div>
                                     <div class="py-2 w-1/2">

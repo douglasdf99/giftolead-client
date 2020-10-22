@@ -69,6 +69,18 @@ const actions = {
         localStorage.setItem('submenu', JSON.stringify(obj))
     },
 
+  selectResponsaveis({commit},) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/selects/responsaveis`)
+        .then((response) => {
+          console.log('retorno selects', response)
+          resolve(response.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
     /* CRUD básico */
     getVarios({commit}, dados) {
         return new Promise((resolve, reject) => {

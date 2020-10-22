@@ -97,7 +97,6 @@
                     altFormat: 'd/m/Y H:i',
                     locale: Portuguese
                 },
-
                 //Modal
                 modal: false,
                 selectedLink: {id: null, label: 'Selecione o link'},
@@ -155,8 +154,8 @@
                             let self = this;
                             this.$vs.dialog({
                                 color: 'danger',
-                                title: `Procedimento mal sucedido`,
-                                text: 'Já existe um ticket criado para esse contato.',
+                                title: `Ops`,
+                                text: 'Algo de errado ocorreu na criação do ticket',
                                 accept: this.fechar(),
                                 acceptText: 'Ok'
                             })
