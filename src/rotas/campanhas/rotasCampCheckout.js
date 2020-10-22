@@ -164,7 +164,7 @@ const rotasCampCheckout = [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
                 {title: 'Gerenciar'},
-                {title: 'Configurar E-mails', active: true}
+                {title: 'Configurar SMS', active: true}
             ],
             pageTitle: 'Configuração de SMSs',
             rule: 'planos_campanhas_sms',
@@ -183,10 +183,10 @@ const rotasCampCheckout = [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
                 {title: 'Gerenciar'},
-                {title: 'Configurar E-mails'},
-                {title: 'Criar configuração de e-mail', active: true},
+                {title: 'Configurar SMS'},
+                {title: 'Criar configuração de SMS', active: true},
             ],
-            pageTitle: 'Configurar novo E-mail',
+            pageTitle: 'Configurar novo SMS',
             rule: 'planos_campanhas_sms',
             pai: 'planos',
             subTitle: 'Planos',

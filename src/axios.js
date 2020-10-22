@@ -7,8 +7,8 @@ var domain = '';
 if(subdomain)
   domain = "https://api.saveleads.com.br/" + subdomain;
 else
-   //domain = "http://sevaleads3.0.test/app";
-   domain = "https://api.saveleads.com.br/app";
+   domain = "http://sevaleads3.0.test/app";
+     //domain = "https://api.saveleads.com.br/app";
 
 console.log('domain', subdomain, domain)
 
