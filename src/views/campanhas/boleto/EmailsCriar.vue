@@ -238,7 +238,7 @@
       validar() {
         this.$validator.validateAll().then(result => {
           if (result) {
-            if (this.$route.name === 'campanha-config-checkout-emails-editar' && this.email.campanha.contatos.length > 0) {
+            if (this.$route.name === 'campanha-config-boleto-emails-editar' && this.email.campanha.contatos.length > 0) {
               this.$vs.dialog({
                 color: 'primary',
                 title: `Atenção`,
@@ -342,7 +342,7 @@
           let arr = response;
           arr.forEach(item => {
             //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
-            if (this.$route.name === 'campanha-config-checkout-emails-editar') {
+            if (this.$route.name === 'campanha-config-boleto-emails-editar') {
               if (item.id != this.$route.params.idEmail && item.status)
                 this.somaPeriodo += item.periodo;
             } else {
@@ -367,6 +367,9 @@
           this.getLinks(this.email.campanha.produto_id);
         });
       },
+      metodoCriar(){
+        this.get
+      },
       formatPrice(value) {
         let val = (value / 1).toFixed(2).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -377,16 +380,19 @@
         this.editor.insertText($txt2.index, value, '', true);
       },
       confereCampanha() {
-        this.$store.dispatch('boleto/getId', this.$route.params.id).then(response => {
-          if (response.id)
-            this.produto_id = response.produto_id;
-          else
-            this.$router.push({name: 'meus-planos'})
-        }).catch(erro => {
-          console.log(erro);
-          this.$router.push({name: 'meus-planos'})
+        this.$store.dispatch('boleto/getEmails', this.$route.params.id).then(response => {
+          let arr = response;
+          arr.forEach(item => {
+            if (this.$route.name === 'campanha-config-boleto-emails-editar') {
+              if (item.id != this.$route.params.idEmail && item.status)
+                this.somaPeriodo += item.periodo;
+            } else {
+              this.somaPeriodo += item.periodo;
+            }
+          });
+          console.log('somaperiodo', this.somaPeriodo)
         });
-        this.getLinks(this.produto_id);
+        this.getLinksCamp( this.$route.params.id);
       },
       getLinks(id) {
         this.$store.dispatch('getLinks', id).then(response => {
@@ -397,7 +403,20 @@
           this.linkSelected = {id: null, label: 'Selecione o link'}
         });
         this.$vs.loading.close()
-      }
+      },
+      getLinksCamp(){
+        let params = {
+          campanha:this.$route.params.id,
+          campanha_tipo:'boleto'
+        };
+        this.$store.dispatch('getLinksCamp',params).then(response => {
+          let arr = [...response];
+          arr.forEach(item => {
+            this.links.push({id: item.identidade, label: item.descricao});
+          });
+          this.linkSelected = {id: null, label: 'Selecione o link'}
+        });
+      },
     },
     computed: {
       isValid() {
@@ -407,9 +426,10 @@
         let dias = 0;
         let horas = 0;
         let mins = 0;
+
         let periodoDisponivel = 44640 - this.somaPeriodo;
 
-        dias = (periodoDisponivel / 1440);//Descobrindo quantidade de dias
+        dias = (periodoDisponivel / 1440);
         //Se existem minutos para serem calculados, considerando o período de minutos que está disponível
         if ((periodoDisponivel - (parseInt(dias) * 1440)) > 0) {
           let restoDias = periodoDisponivel - (parseInt(dias) * 1440);

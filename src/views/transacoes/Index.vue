@@ -98,27 +98,6 @@
 
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
-                                <!--<vs-td class="flex justify-center items-center relative">
-                                    <vs-dropdown vs-trigger-click>
-                                        <vs-button radius color="#EDEDED" type="filled"
-                                                   class="btn-more-icon relative botao-menu"
-                                                   icon-pack="material-icons" icon="more_horiz"
-                                        ></vs-button>
-                                        <vs-dropdown-menu class="dropdown-menu-list">
-                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
-                                                <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                                Editar
-                                            </vs-dropdown-item>
-
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
-                                                <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                                Deletar
-                                            </vs-dropdown-item>
-
-                                        </vs-dropdown-menu>
-                                    </vs-dropdown>
-                                </vs-td>-->
                                 <vs-td :data="tr.transaction">
                                     {{ tr.transaction }}
                                 </vs-td>
@@ -136,7 +115,7 @@
                                     <span class="destaque">{{ tr.updated_at | formatDateTime}}</span>
                                 </vs-td>
                                 <vs-td>
-                                    <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
+                                    <span class="preco">R$ {{formatPrice(tr.cms_vendor)}}</span>
                                 </vs-td>
                                 <vs-td v-if="tr.produto">
                                     <span class="preco">R$ {{formatPrice(tr.produto.preco)}}</span>

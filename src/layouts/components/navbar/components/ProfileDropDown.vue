@@ -56,8 +56,9 @@ export default {
                 })
             }
           // Change role on logout. Same value as initialRole of acj.js
-          this.$acl.change('admin')
+          this.$acl.change('Administrador')
           localStorage.removeItem('userInfo')
+          localStorage.removeItem('permissoes')
             // If JWT login
             if (localStorage.getItem("accessToken")) {
                 localStorage.removeItem("accessToken")

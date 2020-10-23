@@ -55,13 +55,17 @@
                         </div>
                         <div class="vx-row mt-5 flex items-end">
                             <div class="vx-col w-full lg:w-1/2">
-                                <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" v-model="transacao.email" id="search_input_trans" size="large"
-                                          placeholder="E-mail"/>
+                                <vs-input autocomplete v-validate="'required|email'" class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                                          v-model="transacao.email" id="search_input_trans" size="large"
+                                          placeholder="E-mail" name="email"/>
+                              <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                             </div>
                             <div class="vx-col w-full lg:w-1/2">
                                 <label class="vs-input--label">Tipo de Transação</label>
-                                <v-select v-model="transacao.payment_type" :class="'select-large-base'" :clearable="true" class="bg-white"
-                                          :options="opcoes"/>
+                                <v-select v-model="transacao.payment_type" v-validate="'required'" :class="'select-large-base'" :clearable="true" class="bg-white"
+                                          :options="opcoes" name="tipo"/>
+                              <span class="text-danger text-sm" v-show="errors.has('tipo')">{{ errors.first('tipo') }}</span>
+
                             </div>
                             <div class="vx-col w-full mt-5 text-center">
                                 <vs-button class="font-bold text-white" color="primary" type="filled" @click="storeTransacao">Criar transação</vs-button>
@@ -167,7 +171,12 @@
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.transacao.email = '';
+                        this.transacao.tipo=  '';
+                      this.resultado = [],
+                      this.dados.search = '';
+                      this.pesquisado = false;
+                      this.$emit('closeSidebar')
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -190,7 +199,7 @@
                 this.$vs.loading();
                 this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
                     console.log('response', response);
-                    this.resultado = [...response];
+                    this.resultado = response;
                     console.log('result', this.resultado);
                     this.$vs.loading.close();
                 });
@@ -198,18 +207,24 @@
             handleSelected(e){
                 console.log(e)
             },
-            storeTransacao(){
-                this.$vs.loading();
-                this.$store.dispatch('comissoes/storeTrans', {produto_id: this.data.lead_produto.produto_id, email: this.transacao.email, payment_type: this.transacao.payment_type.id}).then(() => {
+            storeTransacao() {
+              this.$validator.validateAll().then(result => {
+                if (result) {
+                  this.$vs.loading();
+                  this.$store.dispatch('comissoes/storeTrans', {produto_id: this.data.lead_produto.produto_id, email: this.transacao.email, payment_type: this.transacao.payment_type.id}).then(() => {
                     this.$vs.notify({
-                        color: 'success',
-                        title: '',
-                        text: 'Transação salva com sucesso.'
+                      color: 'success',
+                      title: '',
+                      text: 'Transação salva com sucesso.'
                     });
                     this.dados.search = this.transacao.email;
                     this.pesquisarTrans();
                     this.$vs.loading.close();
-                }).catch(erro => {console.log(erro)});
+                  }).catch(erro => {
+                    console.log(erro)
+                  });
+                }
+              });
             }
         },
         watch: {

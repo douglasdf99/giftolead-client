@@ -70,9 +70,6 @@
                 tipo: 'password'
             }
         },
-      created(){
-       // localStorage.removeItem("permissoes");
-      },
         computed: {
             validateForm() {
                 return !this.errors.any() && this.email != '' && this.password != '';
@@ -80,12 +77,7 @@
         },
         methods: {
             checkLogin() {
-                // If user is already logged in notify
                 if (this.$store.state.auth.isUserLoggedIn()) {
-
-                    // Close animation if passed as payload
-                    // this.$vs.loading.close()
-
                     this.$vs.notify({
                         title: 'Tentativa de Login',
                         text: 'Você já está logado!',
@@ -93,7 +85,6 @@
                         icon: 'icon-alert-circle',
                         color: 'warning'
                     })
-
                     return false
                 }
                 return true

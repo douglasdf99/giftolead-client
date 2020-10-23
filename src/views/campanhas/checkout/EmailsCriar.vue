@@ -99,12 +99,13 @@
     <transition name="fade">
       <footer-doug>
         <div class="vx-col sm:w-11/12 mb-2">
-          <vs-button class="float-right mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
-            Salvar
-          </vs-button>
-          <vs-button class="float-right mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+
+          <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
                      @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails'})">
             Cancelar
+          </vs-button>
+          <vs-button class="float-right mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
+            Salvar
           </vs-button>
         </div>
       </footer-doug>
@@ -191,10 +192,12 @@
         this.$store.registerModule('checkout', moduleCampCheckouts)
         moduleCampCheckouts.isRegistered = true
       }
-      if (this.$route.name === 'campanha-config-checkout-emails-editar')
+      if (this.$route.name === 'campanha-config-checkout-emails-editar'){
         this.getId(this.$route.params.idEmail);
-
-      this.getCampanha();
+      }
+      else {
+        this.confereCampanha();
+      }
     },
     data() {
       return {
@@ -221,7 +224,9 @@
         somaPeriodo: 0,
         modal: false,
         links: [],
-        selectedLink: null,
+        selectedLink: {
+          id:null
+        },
         modalWhats: false,
         mensagemWhats: '',
       }
@@ -373,6 +378,21 @@
           this.$vs.loading.close();
         });
       },
+      confereCampanha() {
+        this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
+          let arr = response;
+          arr.forEach(item => {
+            if (this.$route.name === 'campanha-config-checkout-emails-editar') {
+              if (item.id != this.$route.params.idEmail && item.status)
+                this.somaPeriodo += item.periodo;
+            } else {
+              this.somaPeriodo += item.periodo;
+            }
+          });
+          console.log('somaperiodo', this.somaPeriodo)
+        });
+        this.getLinksCamp( this.$route.params.id);
+      },
       formatPrice(value) {
         let val = (value / 1).toFixed(2).replace('.', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -397,7 +417,21 @@
           });
           this.selectedLink = {id: null, label: 'Selecione o link'}
         });
-      }
+      },
+      getLinksCamp(){
+        let params = {
+          campanha:this.$route.params.id,
+          campanha_tipo:'boleto'
+        };
+        this.$store.dispatch('getLinksCamp',params).then(response => {
+          let arr = [...response];
+          arr.forEach(item => {
+            this.links.push({id: item.identidade, label: item.descricao});
+          });
+          this.linkSelected = {id: null, label: 'Selecione o link'}
+        });
+      },
+
     },
     computed: {
       isValid() {

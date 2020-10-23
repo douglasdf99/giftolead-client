@@ -139,6 +139,19 @@ const actions = {
                 });
         });
     },
+    /* Fim*/
+    getLinksCamp({commit}, params) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/links`, {params: params})
+                .then((response) => {
+                    console.log('links resgatados', response);
+                    resolve(response.data.data)
+                })
+                .catch(erro => {
+                    reject(erro)
+                });
+        });
+    },
     globalSearchParams({commit}, val) {
         return new Promise((resolve) => {
             commit('SET_GLOBAL_SEARCH', val)

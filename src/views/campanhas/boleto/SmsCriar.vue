@@ -165,6 +165,8 @@
       }
       if (this.$route.name === 'campanha-config-boleto-sms-editar')
         this.getId(this.$route.params.idEmail);
+      else
+        this.confereCampanha();
     },
     data() {
       return {
@@ -283,7 +285,8 @@
               color: 'danger'
             })
           })
-        } else {
+        }
+        else {
           this.$store.dispatch('boleto/storeSms', this.email).then(response => {
             console.log('response', response);
             this.$vs.notify({
@@ -336,14 +339,48 @@
             default:
               this.periodoSelected = {id: 1, label: 'minutos'}
           }
-          this.$store.dispatch('getLinks', this.email.campanha.produto_id).then(response => {
-            let arr = [...response];
-            arr.forEach(item => {
-              this.links.push({id: item.identidade, label: item.descricao});
-            });
-            this.linkSelected = {id: null, label: 'Selecione o link'}
-          });
+          this.getLinks(this.email.campanha.produto_id);
           this.$vs.loading.close();
+        });
+      },
+      getLinks(produto){
+        this.$store.dispatch('getLinks',produto).then(response => {
+          let arr = [...response];
+          arr.forEach(item => {
+            this.links.push({id: item.identidade, label: item.descricao});
+          });
+          this.linkSelected = {id: null, label: 'Selecione o link'}
+        });
+      },
+
+      confereCampanha() {
+        this.$store.dispatch('boleto/getSms', this.$route.params.id).then(response => {
+          let arr = response;
+          arr.forEach(item => {
+            //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
+            if (this.$route.name === 'campanha-config-boleto-sms-editar') {
+              if (item.id != this.$route.params.idEmail && item.status)
+                this.somaPeriodo += item.periodo;
+            } else {
+              //Somando os períodos cadastrados nos outros e-mails
+              this.somaPeriodo += item.periodo;
+            }
+          });
+          console.log('somaperiodo', this.somaPeriodo)
+        });
+        this.getLinksCamp();
+      },
+      getLinksCamp(){
+        let params = {
+          campanha:this.$route.params.id,
+          campanha_tipo:'boleto'
+        };
+        this.$store.dispatch('getLinksCamp',params).then(response => {
+          let arr = [...response];
+          arr.forEach(item => {
+            this.links.push({id: item.identidade, label: item.descricao});
+          });
+          this.linkSelected = {id: null, label: 'Selecione o link'}
         });
       },
       formatPrice(value) {
