@@ -116,8 +116,9 @@
                 icon: 'icon-alert-circle',
                 color: 'danger'
               })
-            });
-            this.$vs.loading.close();
+            }).finally(()=>{
+              this.$vs.loading.close();
+            })
           } else {
             this.$vs.notify({
               title: 'Error',

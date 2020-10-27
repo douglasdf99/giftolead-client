@@ -116,7 +116,6 @@
                       });
                     })
                     .catch(error => {
-                      this.$vs.loading.close();
                         console.log(error);
                         this.$vs.notify({
                             title: 'Error',
@@ -126,6 +125,7 @@
                             color: 'danger'
                         })
                     }).finally(()=>{
+                  this.$vs.loading.close();
                 })
             },
             registerUser() {
