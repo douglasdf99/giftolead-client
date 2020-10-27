@@ -389,6 +389,23 @@ export default {
             localStorage.setItem("permissoes", JSON.stringify(permissoes));
             this.getMenus();
         });
+
+      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+      this.$echo.channel(`${subdomain}_profile_${userInfo.uid}`).listen('ProfileEvent', (e) => {
+            console.log('user event', e);
+            let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+            console.log(userInfo);
+
+            userInfo.photoURL = e.user.avatar;
+            userInfo.userRole = e.user.roles.nome;
+            userInfo.displayName = e.user.name;
+            userInfo.about = e.user.roles.nome;
+            console.log(userInfo);
+
+            localStorage.setItem("userInfo", JSON.stringify(userInfo));
+            this.$store.state.AppActiveUser = userInfo;
+        });
     }
 }
 
