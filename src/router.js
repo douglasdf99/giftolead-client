@@ -1505,6 +1505,14 @@ const router = new Router({
                         rule: 'public'
                     }
                 },
+                {
+                    path: '/agendamentoNiovo',
+                    name: 'sidebar',
+                    component: () => import('@/views/pages/AgendamentoLinkNovo.vue'),
+                    meta: {
+                        rule: 'public'
+                    }
+                },
             ]
         },
         // Redirect to 404 page, if no match found

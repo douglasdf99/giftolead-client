@@ -22,7 +22,7 @@
     require('moment/locale/pt-br');
 
     export default {
-        name: "AgendamentoLink",
+        name: "AgendamentoLinkNovo",
         components: {
             flatPickr
         },
