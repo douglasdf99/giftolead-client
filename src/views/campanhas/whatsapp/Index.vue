@@ -52,18 +52,31 @@
         </div>
         <div class="vx-row mb-4">
           <div class="vx-col w-4/12">
-            <vs-input class="w-full" id="search_input_trans" v-mask="'(##)'" v-model="campanha.ddd" placeholder="DDD" size="large" name="nome" v-validate="'required'"/>
+            <vs-input class="w-full" id="input-ddd" v-mask="'(##)'" v-model="campanha.ddd" placeholder="DDD" size="large" name="nome" v-validate="'required'"/>
           </div>
           <div class="vx-col w-8/12">
-            <vs-input class="w-full" id="search_input_trans" v-mask="'#####-####'" v-model="campanha.telefone" placeholder="Telefone" size="large" name="nome" v-validate="'required'"/>
+            <vs-input class="w-full" id="input-telefone" v-mask="'#####-####'" v-model="campanha.telefone" placeholder="Telefone" size="large" name="nome" v-validate="'required'"/>
           </div>
         </div>
         <div class="vx-row">
           <div class="vx-col w-full relative" v-if="!campanha.infusion">
-            <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-            <prism language="markup" class="rounded-lg">
-              {{codigohtml()}}
-            </prism>
+            <vs-tabs>
+              <vs-tab label="Sem estilo">
+                <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
+                <prism language="markup" class="rounded-lg">
+                  {{codigohtml()}}
+                </prism>
+              </vs-tab>
+              <vs-tab label="Widget">
+                  <i class="material-icons text-black mt-5" id="copy-icon" @click="copyScripts">file_copy</i>
+                  <div class="w-full bg-white rounded-lg p-5">
+                    <p class="font-regular text-lg" v-for="val in scripts">
+                      {{val}}
+                    </p>
+                  </div>
+              </vs-tab>
+            </vs-tabs>
+
           </div>
         </div>
         <div class="vx-row">
@@ -200,7 +213,6 @@
         this.$store.registerModule('whatsapplist', moduleWhatsList)
         moduleWhatsList.isRegistered = true
       }
-
       this.getId(this.$route.params.id);
     },
     data() {
@@ -216,11 +228,14 @@
         edited: false,
         customcor: '',
         html: '',
-        verMaisCards: false
+        verMaisCards: false,
+        scripts: []
       }
     },
     mounted() {
       this.verifica()
+
+
     },
     methods: {
       verifica() {
@@ -298,6 +313,20 @@
           this.campanha = JSON.parse(JSON.stringify(response));
           this.campanhaOld = JSON.parse(JSON.stringify(response));
           this.$vs.loading.close();
+          var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+
+          var scripts = [
+            "https://d1nc450dx9gaoz.cloudfront.net/widgets/whatsapp/form.js",
+          ];
+          scripts.forEach((script, index) => {
+            let tag = document.createElement("script");
+            tag.setAttribute("type", 'text/javascript');
+            tag.setAttribute("src", script);
+            tag.setAttribute("token", this.campanha.token);
+            tag.setAttribute("slug", subdomain);
+            console.log(tag.outerHTML);
+            this.scripts.push(tag.outerHTML)
+          });
         });
       },
       formatPrice(value) {
@@ -321,6 +350,31 @@
       copyText() {
         const thisIns = this;
         this.$copyText(this.html).then(function () {
+          thisIns.$vs.notify({
+            title: '',
+            text: 'Copiado para sua área de transferência',
+            color: 'success',
+            iconPack: 'feather',
+            icon: 'icon-check-circle'
+          })
+        }, function () {
+          thisIns.$vs.notify({
+            title: 'Failed',
+            text: 'Erro ao copiar',
+            color: 'danger',
+            iconPack: 'feather',
+            position: 'top-center',
+            icon: 'icon-alert-circle'
+          })
+        })
+      },
+      copyScripts() {
+        var thisIns = this;
+        let str = ''
+        this.scripts.forEach(val => {
+          str += val + '\n';
+        });
+        this.$copyText(str).then(function () {
           thisIns.$vs.notify({
             title: '',
             text: 'Copiado para sua área de transferência',

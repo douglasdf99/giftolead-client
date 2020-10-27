@@ -101,7 +101,6 @@
               </div>
             </div>
           </div>
-
         </vx-card>
         <div class="vx-row">
           <div class="vx-col w-full" v-if="campanha.infusion">

@@ -119,13 +119,14 @@
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
+    var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
     export default {
         name: "Index",
         components: {
             SideBar, Datepicker, VueMoment, moment, DateRangePicker,SelectResponsaveis, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
         },
-        channel: 'laravel_database_whatsapp-list',
+        channel: subdomain+'_whatsapp-list',
         echo: {
             'WhatsapplistEvent': (payload, vm) => {
                 console.log('evento disparado', payload);
@@ -409,9 +410,6 @@
             },
         },
         computed: {
-            /*pagination() {
-                return this.$store.state.pagination;
-            },*/
         },
         mounted() {
             this.channel.listen('WhatsapplistEvent', (payload) => {

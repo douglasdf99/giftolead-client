@@ -132,11 +132,11 @@
     import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js'
     import moduleProdutos from '@/store/produtos/moduleProdutos.js'
     import saveleadsConfig from "../../../saveleadsConfig";
-
+    var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
     export default {
         name: "Index",
         components: {SideBar, listagem, 'v-select': vSelect},
-        channel: 'lista-ticket',
+        channel: subdomain+'_lista-ticket',
         echo: {
             'ListaTicket': (payload, vm) => {
                 console.log('evento disparado', payload);

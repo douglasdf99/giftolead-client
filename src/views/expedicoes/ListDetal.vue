@@ -298,7 +298,9 @@
       }
     },
     mounted() {
-      this.$echo.channel(`listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
+      var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+
+      this.$echo.channel(`${subdomain}_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
         console.log('teste');
         console.log(e);
         if (this.step < 1) {

@@ -132,11 +132,12 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', {rota: 'contas', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close();
-                                });
                             }).catch(err => {
                                 console.error(err)
+                            }).finally(()=>{
+                              this.$emit('closeSidebar')
+                              this.$emit('finish')
+                              this.initValues()
                             })
                         } else {
                             delete obj.id
@@ -149,9 +150,6 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 })
-                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close()
-                                });
                             }).catch(error => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -160,13 +158,13 @@
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
                                 })
+                            }).finally(()=>{
+                              this.$emit('closeSidebar')
+                              this.$emit('finish')
+                              this.initValues()
                             })
                         }
                     }
-                }).finally(()=>{
-                  this.$emit('closeSidebar')
-                  this.$emit('finish')
-                  this.initValues()
                 })
             },
         },

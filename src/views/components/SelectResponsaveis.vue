@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="selected-resp">
     <label class="vs-input--label">Responsável</label>
     <multiselect selectedLabel="Selecionado" group-values="libs" group-label="tipo" v-model="selectedResp" :options="agentes" placeholder="Selecione o responsável" deselect-label="Remover seleção"
                  selectLabel="Clique para selecionar" track-by="id" label="label"></multiselect>
@@ -175,3 +175,9 @@
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+
+<style scoped>
+  .selected-resp *{
+    z-index: 200;
+  }
+</style>

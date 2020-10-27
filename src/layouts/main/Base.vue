@@ -361,7 +361,9 @@ export default {
         })
     },
     mounted() {
-        this.$echo.channel(`permissions`).listen('PermissionEvent', (e) => {
+      var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+
+      this.$echo.channel(`${subdomain}_permissions`).listen('PermissionEvent', (e) => {
             console.log('permissoes event', e);
             let permissoes = {};
             e.permissions.forEach(item => {
