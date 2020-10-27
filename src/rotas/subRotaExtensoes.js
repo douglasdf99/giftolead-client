@@ -6,13 +6,6 @@ const subextensoes = [
         icon: 'apps',
         can: 'public'
     },
-    {
-        url: '/extensoes/relatorio',
-        name: "Relatórios",
-        slug: "extensoes-rel",
-        icon: 'bar_chart',
-        can: 'public'
-    },
 ];
 
 export default subextensoes
