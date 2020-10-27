@@ -1506,7 +1506,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/agendamentoNiovo',
+                    path: '/agendamentoNovo',
                     name: 'sidebar',
                     component: () => import('@/views/pages/AgendamentoLinkNovo.vue'),
                     meta: {
