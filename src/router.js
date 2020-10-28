@@ -1498,7 +1498,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/agendamento',
+                    path: '/agendamentoAntigo',
                     name: 'sidebar',
                     component: () => import('@/views/pages/AgendamentoLink.vue'),
                     meta: {
@@ -1506,7 +1506,7 @@ const router = new Router({
                     }
                 },
                 {
-                    path: '/agendamentoNovo',
+                    path: '/agendamento',
                     name: 'sidebar',
                     component: () => import('@/views/pages/AgendamentoLinkNovo.vue'),
                     meta: {

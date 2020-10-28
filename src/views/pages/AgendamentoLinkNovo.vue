@@ -1,16 +1,16 @@
 <template>
-
   <div class="h-screen flex w-full bg-agendamento content">
     <vs-row>
-      <vs-col vs-offset="2" v-tooltip="'col - 8'" vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
+      <vs-col vs-offset="2"  vs-type="flex" vs-justify="center" v-show="formDisplay"
+              vs-align="center" vs-w="8">
         <div class="w-1/2 bg-grid-color  vx-col w-full sm:w-1/2 lg:w-1/1 mb-base">
           <div class="vx-card"><!---->
             <div class="vx-card__collapsible-content vs-con-loading__container">
               <div class="vx-card__body center">
                 <vs-row>
-                  <vs-col vs-offset="2" v-tooltip="'col - 10'" vs-type="flex" vs-justify="center" vs-align="center"
+                  <vs-col vs-offset="2"  vs-type="flex" vs-justify="center" vs-align="center"
                           vs-w="8">
-                    <h3 class="mb-2 text-center">Nos diga qual melhor horario e dia para te ligarmos</h3>
+                    <h4 class="mb-2 text-center">Nos diga qual melhor horario e dia para te ligarmos</h4>
                   </vs-col>
                 </vs-row>
                 <div class="flex justify-between flex-wrap">
@@ -21,7 +21,7 @@
                       </option>
                     </select>
 
-                    <select>
+                    <select v-model="horaSelecionada">
                       <option v-for="hora in horas" v-bind:value="hora">
                         {{ hora }}
                       </option>
@@ -29,9 +29,87 @@
 
                   </div>
 
-                  <button onclick="sendData()" type="button">
+                  <button @click="salvar()" type="button">
                     Enviar
                   </button>
+
+                  <div class="powerby">
+                    <h4>Power By</h4>
+                    <img src="https://api.saveleads.com.br/images/logo2.svg" alt="save leads logo">
+                  </div>
+                </div>
+              </div>  <!----></div>
+            <div class="vx-card__code-container collapsed" style="max-height: 0px; display: none;">
+              <div class="code-content">
+                <pre class="language-markup"><code class="language-markup"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </vs-col>
+      <vs-col vs-offset="2" vs-type="flex" vs-justify="center" style="" vs-align="center"
+              vs-w="8" v-show="sucessDisplay">
+        <div class="w-1/2 bg-grid-color  vx-col w-full sm:w-1/2 lg:w-1/1 mb-base">
+          <div class="vx-card"><!---->
+            <div class="vx-card__collapsible-content vs-con-loading__container">
+              <div class="vx-card__body center">
+                <vs-row class="mb-10">
+                  <vs-col vs-offset="2"  vs-type="flex" vs-justify="center" vs-align="center"
+                          vs-w="8">
+                    <img src="https://d1nc450dx9gaoz.cloudfront.net/widgets/Agendamento/check.svg" height="150">
+                  </vs-col>
+                </vs-row>
+                <vs-row>
+                  <vs-col vs-offset="2"  vs-type="flex" vs-justify="center" vs-align="center"
+                          vs-w="8">
+                    <h4 class="mb-10 text-center">Obrigado pelo contato nos te ligaremos no dia {{ diaformated }} ás
+                      {{ horaSelecionada }}</h4>
+                  </vs-col>
+                </vs-row>
+                <div class="flex justify-between flex-wrap">
+                  <div class="campos">
+
+                  </div>
+
+
+                  <div class="powerby">
+                    <h4>Power By</h4>
+                    <img src="https://api.saveleads.com.br/images/logo2.svg" alt="save leads logo">
+                  </div>
+                </div>
+              </div>  <!----></div>
+            <div class="vx-card__code-container collapsed" style="max-height: 0px; display: none;">
+              <div class="code-content">
+                <pre class="language-markup"><code class="language-markup"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </vs-col>
+      <vs-col vs-offset="2" vs-type="flex" vs-justify="center" style="" vs-align="center"
+              vs-w="8" v-show="errorDisplay">
+        <div class="w-1/2 bg-grid-color  vx-col w-full sm:w-1/2 lg:w-1/1 mb-base">
+          <div class="vx-card"><!---->
+            <div class="vx-card__collapsible-content vs-con-loading__container">
+              <div class="vx-card__body center">
+                <vs-row class="mb-10">
+                  <vs-col vs-offset="2" vs-type="flex" vs-justify="center" vs-align="center"
+                          vs-w="8">
+                    <img src="https://d1nc450dx9gaoz.cloudfront.net/widgets/Agendamento/error.svg" height="100">
+                  </vs-col>
+                </vs-row>
+                <vs-row>
+                  <vs-col vs-offset="2" vs-type="flex" vs-justify="center" vs-align="center"
+                          vs-w="8">
+                    <h4 class="mb-10 text-center">Não foi possivel agendar a sua ligação por favor tente novamente mais
+                      tarde</h4>
+                  </vs-col>
+                </vs-row>
+                <div class="flex justify-between flex-wrap">
+                  <div class="campos">
+
+                  </div>
+
 
                   <div class="powerby">
                     <h4>Power By</h4>
@@ -66,14 +144,18 @@ export default {
   name: "AgendamentoLinkNovo",
   data() {
     return {
-      datetime: null,
       leadInfo: this.$route.query,
       enviado: false,
       dias: [],
       horas: [],
       horaInicio: 8,
       horaFim: "19",
-      diaSelecionado: 'Hoje'
+      diaSelecionado: '',
+      horaSelecionada: '',
+      sucessDisplay: false,
+      formDisplay: true,
+      errorDisplay: false,
+
     }
   },
   created() {
@@ -87,7 +169,7 @@ export default {
   },
   methods: {
     salvar() {
-      this.leadInfo.data_agendamento = this.datetime;
+      this.leadInfo.data_agendamento = this.diaSelecionado + ' ' + this.horaSelecionada;
       this.$store.dispatch('agendamento/store', this.leadInfo).then(() => {
         this.enviado = true;
         this.$vs.notify({
@@ -98,13 +180,21 @@ export default {
           icon: 'icon-check',
           time: 120000,
         });
-      }).catch(erro => console.log(erro))
+        this.formDisplay = false;
+        this.sucessDisplay = true;
+      }).catch((erro) => {
+        console.log(erro);
+        this.formDisplay = false;
+        this.errorDisplay = true;
+
+
+      })
     },
     datas() {
       let hoje = new Date();
-      this.dias.push({dia:this.formatarData(hoje),diaForm:this.formatarDataForm(hoje)})
+      this.dias.push({dia: this.formatarData(hoje), diaForm: this.formatarDataForm(hoje)})
       let day = hoje;
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 5; i++) {
         var nextDay = new Date(day);
         nextDay.setDate(day.getDate() + 1);
         if (nextDay.getUTCDay() == 0) {
@@ -112,27 +202,37 @@ export default {
         } else if (nextDay.getUTCDay() == 6) {
           nextDay.setDate(day.getDate() + 3);
         }
-        this.dias.push({dia:this.formatarData(nextDay),diaForm:this.formatarDataForm(nextDay)})
+        this.dias.push({dia: this.formatarData(nextDay), diaForm: this.formatarDataForm(nextDay)})
         day = nextDay;
       }
       console.log(this.dias)
     },
-    horasfunc() {
+    horasfunc(dia) {
       this.horas = [];
-      let now = new Date();
-      if (this.diaSelecionado == 'Hoje') {
+      let now = new Date(dia);
+      let hoje = new Date();
+      let amanha = new Date();
+      amanha.setDate(now.getDate() + 1);
+
+      if (this.diaSelecionado == this.formatarDataForm(hoje)) {
         now = new Date();
-      } else if (this.diaSelecionado == 'Amanha') {
+      } else if (this.diaSelecionado == this.formatarDataForm(amanha)) {
         now = new Date();
         now.setDate(now.getDate() + 1);
         now.setHours(0);
+        now.setMinutes(0);
+
       } else {
         now = new Date(this.diaSelecionado);
+        now.setHours(0);
+        now.setMinutes(0);
       }
       let minutes = now.getMinutes();
       let hours = now.getHours();
       if (hours < this.horaInicio) {
         hours = this.horaInicio;
+        hours = hours - 1;
+        minutes = 30;
       }
       let horaAtual = now.getHours() + ':' + now.getMinutes();
       let minutesWile = minutes;
@@ -162,6 +262,7 @@ export default {
           horaWhile++;
         }
       }
+      this.horaSelecionada = this.horas[0];
     },
     formatarData(data) {
       let hoje = new Date();
@@ -179,15 +280,15 @@ export default {
           anoF = data.getFullYear();
         return mesF + "/" + diaF + "/" + anoF;
       }
-    },formatarDataForm(data) {
+    }, formatarDataForm(data) {
 
-        var data = data,
-          dia = data.getDate().toString(),
-          diaF = (dia.length == 1) ? '0' + dia : dia,
-          mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
-          mesF = (mes.length == 1) ? '0' + mes : mes,
-          anoF = data.getFullYear();
-        return mesF + "/" + diaF + "/" + anoF;
+      var data = data,
+        dia = data.getDate().toString(),
+        diaF = (dia.length == 1) ? '0' + dia : dia,
+        mes = (data.getMonth() + 1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+        mesF = (mes.length == 1) ? '0' + mes : mes,
+        anoF = data.getFullYear();
+      return anoF + "-" + mesF + "-" + diaF;
 
     }
 
@@ -195,7 +296,14 @@ export default {
   },
   mounted() {
     this.datas();
-    this.horasfunc(new Date());
+    this.diaSelecionado = this.formatarDataForm(new Date())
+    this.horasfunc(this.diaSelecionado);
+  },
+  computed: {
+    diaformated: function () {
+      let res = this.diaSelecionado.split("-");
+      return res[2] + '/' + res[1];
+    }
   }
 }
 </script>
@@ -230,7 +338,6 @@ select {
 
 .campos {
   width: 100%;
-
   display: flex;
   font-family: Maven Pro, Helvetica, sans-serif !important;
 }
@@ -252,6 +359,9 @@ select {
 
 .powerby img {
   width: 60px;
+}
+.vx-card{
+    max-width: 600px;
 }
 
 </style>
