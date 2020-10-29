@@ -179,7 +179,9 @@
                                 text: 'Erro ao deletar. Contate o suporte.'
                             });
                             console.log('erro', erro)
-                        });
+                        }).finally(()=>{
+                          this.$vs.loading.close();
+                        })
                     }
                 });
             },

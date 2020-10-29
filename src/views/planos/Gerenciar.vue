@@ -171,6 +171,8 @@
                         icon: 'icon-alert-circle',
                         color: 'danger'
                       })
+                    }).finally(()=>{
+                      this.$vs.loading.close();
                     })
                   },
                   cancel: () => {
@@ -185,7 +187,6 @@
                     icon: 'icon-check-circle',
                     color: 'success'
                   });
-                  this.$vs.loading.close();
                   this.getPlano(this.$route.params.id);
                 }).catch(erro => {
                   this.$vs.notify({
@@ -195,6 +196,8 @@
                     icon: 'icon-alert-circle',
                     color: 'danger'
                   })
+                }).finally(()=>{
+                  this.$vs.loading.close();
                 })
               }
             } else {//Criando um novo
@@ -216,6 +219,8 @@
                   icon: 'icon-alert-circle',
                   color: 'danger'
                 })
+              }).finally(()=>{
+                this.$vs.loading.close();
               })
             }
             this.$vs.loading.close();
@@ -256,6 +261,8 @@
                 title: 'Erro',
                 text: 'Algo deu errado ao deletar. Contate o suporte.'
               })
+            }).finally(()=>{
+              this.$vs.loading.close();
             })
           }
         })
@@ -312,8 +319,9 @@
                 icon: 'icon-alert-circle',
                 color: 'danger'
               })
-            });
-            this.$vs.loading.close();
+            }).finally(()=>{
+              this.$vs.loading.close();
+            })
             this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
           } else {
             e.status = !e.status;

@@ -254,6 +254,8 @@ export default {
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
                             })
+                        }).finally(()=>{
+                          this.$vs.loading.close();
                         })
                     } else {
                         this.$store.dispatch('addItem', {item: formData, rota: 'users'}).then(response => {
@@ -274,6 +276,8 @@ export default {
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
                             })
+                        }).finally(()=>{
+                          this.$vs.loading.close();
                         })
                     }
                 } else {
