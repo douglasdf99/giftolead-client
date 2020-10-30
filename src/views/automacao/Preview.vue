@@ -86,19 +86,7 @@
                                       </tr>
                                       </tbody>
                                     </table>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
-                                      <tbody>
-                                      <tr>
-                                        <td style="background-color:#ffffff;padding:10px 40px 5px 40px;line-height:22px;text-align:inherit" height="100%" valign="top" bgcolor="#ffffff">
-                                          <div>
-                                            <div style="font-family:inherit;text-align:center"><span style="font-size:10px"><font style="vertical-align:inherit"><font
-                                              style="vertical-align:inherit">Clique no botão abaixo para preencher seu endereço.</font></font></span></div>
-                                            <div></div>
-                                          </div>
-                                        </td>
-                                      </tr>
-                                      </tbody>
-                                    </table>
+
                                     <table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed" width="100%"
                                            data-muid="bKHWQMgPkL5opYCkxiM6aS">
                                       <tbody>
@@ -113,6 +101,19 @@
                                             </tr>
                                             </tbody>
                                           </table>
+                                        </td>
+                                      </tr>
+                                      </tbody>
+                                    </table>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout:fixed">
+                                      <tbody>
+                                      <tr>
+                                        <td style="background-color:#ffffff;padding:10px 40px 5px 40px;line-height:22px;text-align:inherit" height="100%" valign="top" bgcolor="#ffffff">
+                                          <div>
+                                            <div style="font-family:inherit;text-align:center"><span style="font-size:10px"><font style="vertical-align:inherit"><font
+                                              style="vertical-align:inherit">Esse é seu token de acesso ao weentrega.</font></font></span></div>
+                                            <div></div>
+                                          </div>
                                         </td>
                                       </tr>
                                       </tbody>
