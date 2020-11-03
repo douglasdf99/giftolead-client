@@ -8,6 +8,7 @@
                 </vs-button>
             </div>
         </div>
+        <nenhum-registro :add="true" module="Função" @addEvent="$router.push({path: '/configuracoes/funcoes/criar'})" v-if="tickets.length === 0"/>
         <nenhum-registro text="Nenhum registro encontrado" v-if="items.length === 0"/>
         <vs-table v-else :data="items" class="table-items">
             <template slot="thead">
