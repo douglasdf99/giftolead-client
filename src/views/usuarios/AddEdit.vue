@@ -37,7 +37,7 @@
                     </div>
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <span class="font-regular mb-2">Origem (sck) do usuário</span>
-                        <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
+                        <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required|alpha_num'"/>
                         <span class="text-danger text-sm" v-show="errors.has('sck')">{{ errors.first('sck') }}</span>
                         <!--<span class="text-danger text-sm" v-show="sckRepetido">{{ sugestoes }}</span>-->
                     </div>
@@ -165,6 +165,7 @@ const dict = {
         },
         sck: {
             required: 'Por favor, insira a origem do usuário',
+            alpha_num: 'O código SCK não pode conter espaços ou caracteres especiais.',
         },
     }
 };
