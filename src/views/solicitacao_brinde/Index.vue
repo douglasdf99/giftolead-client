@@ -40,7 +40,7 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems('aprovado')" color="success" value="10"
-                            :label="'aprovados' + (dados.status == 'aprovado' ? ' (' + items.length + ')' : '')">
+                            :label="'aprovadas' + (dados.status == 'aprovado' ? ' (' + items.length + ')' : '')">
                         <listagem @visualizar="visualizar" :items="items" tipo="aprovado" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
