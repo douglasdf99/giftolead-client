@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="vx-row mb-4">
+   <!-- <div class="vx-row mb-4">
       <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
                   style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
         <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch" :disabled="!$acl.check('planos_campanhas_editar')"/>
       </div>
-    </div>
+    </div>-->
     <div class="vx-row mb-3">
       <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
         <span class="font-regular mb-2">Nome da campanha</span>

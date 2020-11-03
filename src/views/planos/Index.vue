@@ -185,6 +185,8 @@ export default {
                             title: 'Erro',
                             text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
                         })
+                    }).finally(()=>{
+                      this.$vs.loading.close();
                     })
                 }
             })

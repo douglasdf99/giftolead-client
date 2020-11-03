@@ -337,7 +337,6 @@ export default {
                                 text: 'Atendimento cancelado com sucesso'
                             });
                             localStorage.removeItem('atendimento');
-                            this.$vs.loading.close();
                             this.$router.push({name: 'tickets-list'})
                         }
                     }).catch(erro => {
@@ -347,6 +346,8 @@ export default {
                             title: 'Erro',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
                         })
+                    }).finally(()=>{
+                      this.$vs.loading.close();
                     })
                 }
             })
@@ -376,6 +377,8 @@ export default {
                             title: 'Erro',
                             text: 'Algo deu errado ao finalizar. Reinicie a página.'
                         })
+                    }).finally(()=>{
+                      this.$vs.loading.close();
                     })
                 }
             })

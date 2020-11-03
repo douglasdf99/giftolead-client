@@ -307,10 +307,10 @@
                                 this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close()
                                 });
-
-
                             }).catch(err => {
                                 console.error(err)
+                            }).finally(()=>{
+                              this.$vs.loading.close();
                             })
                         } else {
                             delete obj.id;
@@ -335,6 +335,8 @@
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
                                 })
+                            }).finally(()=>{
+                              this.$vs.loading.close();
                             })
                         }
                         console.log('chegou no emit')

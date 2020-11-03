@@ -211,6 +211,8 @@
                   icon: 'icon-alert-circle',
                   color: 'danger'
                 })
+              }).finally(()=>{
+                this.$vs.loading.close();
               })
             } else {
               this.$store.dispatch('addItem', {item: formData, rota: 'users'}).then(response => {
@@ -231,6 +233,8 @@
                   icon: 'icon-alert-circle',
                   color: 'danger'
                 })
+              }).finally(()=>{
+                this.$vs.loading.close();
               })
             }
           } else {
