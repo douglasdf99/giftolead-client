@@ -124,9 +124,7 @@
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         })
-                    }).finally(()=>{
-                  this.$vs.loading.close();
-                })
+                    })
             },
             registerUser() {
                 if (!this.checkLogin()) return

@@ -75,12 +75,12 @@
                     </vs-tab>
                     <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black"
                             :label="'fechados ( ' + nums.fechados + ' )'">
-                        <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar"  @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
-                        <listagem @update="updateData" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar"  @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>

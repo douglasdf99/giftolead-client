@@ -16,10 +16,10 @@
                 <vs-th>Nome</vs-th>
             </template>
             <template slot-scope="{data}">
-                <vs-tr :key="indextr" v-for="(tr, indextr) in data">
-                    <vs-td class="flex justify-center items-center">
-                        <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_funcao_editar')">
-                            <vs-button radius color="#EDEDED" type="filled"
+                <vs-tr :key="tr.id" v-for="(tr, indextr) in data">
+                    <vs-td class="flex justify-center items-center" >
+                        <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_funcao_editar') "  >
+                            <vs-button v-if="!tr.isAdmin" radius color="#EDEDED" type="filled"
                                        class="btn-more-icon relative botao-menu"
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
@@ -27,6 +27,10 @@
                                 <vs-dropdown-item @click="$router.push({path: '/configuracoes/funcoes/editar/' + tr.id})" v-if="$acl.check('configuracao_funcao_editar')">
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
+                                </vs-dropdown-item>
+                                <vs-dropdown-item @click="" v-if="$acl.check('configuracao_funcao_editar')">
+                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                    Excluir
                                 </vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>

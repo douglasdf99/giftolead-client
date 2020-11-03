@@ -15,6 +15,11 @@
             return {
                 lista: [
                     {
+                        nome: 'Meu Plano',
+                        routername: 'meu-plano',
+                        can: 'configuracao_empresa_detalhar'
+                    },
+                    {
                         nome: 'Dados da Empresa',
                         routername: 'dados-empresa',
                         can: 'configuracao_empresa_detalhar'

@@ -146,7 +146,7 @@
       }
     },
     created() {
-            if (!moduleAgendamentoLink.isRegistered) {
+      if (!moduleAgendamentoLink.isRegistered) {
         this.$store.registerModule('agendamento', moduleAgendamentoLink)
         moduleAgendamentoLink.isRegistered = true
       }
