@@ -69,18 +69,18 @@
                 <vs-tabs :color="colorx" v-if="nums.abertos">
                     <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
                             :label="'abertos ( ' + nums.abertos + ' )'">
-                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="transferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black"
                             :label="'fechados ( ' + nums.fechados + ' )'">
-                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar"  @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
-                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar"  @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="transferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -176,8 +176,10 @@ export default {
                 accept: () => {
                     if (id != null)
                         this.$router.push({path: `/tickets/atender/${id}`});
+                    else
+                        this.getTickets();
                 },
-                acceptText: 'Ir até ele'
+                acceptText: color == 'danger' ? 'Ok' : 'Ir até ele'
             })
         },
         addNewData() {
@@ -188,6 +190,9 @@ export default {
             console.log('editando', obj)
             this.sidebarData = obj
             this.toggleDataSidebar(true)
+        },
+        transferir(ticket_id) {
+            console.log('transferindo', ticket_id);
         },
         toggleDataSidebar(val = false) {
             this.addNewDataSidebar = val
@@ -203,7 +208,7 @@ export default {
             let control = 0;//Controla entradas em cada condição
             if (this.search !== '') {
                 url += 'lead.email:' + this.search + ';';
-                url += 'ticket.id:' + this.search;
+                url += 'id:' + this.search;
                 control++;
             }
 

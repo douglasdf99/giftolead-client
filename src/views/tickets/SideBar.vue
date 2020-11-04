@@ -227,15 +227,25 @@
                 });
             },
             verificaLead() {
-                if (this.ticket.lead.email !== this.data.lead.email) {
+                console.log('ticket', this.ticket, 'data', this.data)
+                if(this.data.lead){
+                    if (this.ticket.lead.email !== this.data.lead.email) {
+                        this.$store.dispatch('tickets/verificaLead', {
+                            email: this.ticket.lead.email,
+                            produto_id: this.selectedProduto.id
+                        }).then(response => {
+                            this.verificaLeadEmail = response.verificacao;
+                        });
+                    } else {
+                        this.verificaLeadEmail = false;
+                    }
+                } else {
                     this.$store.dispatch('tickets/verificaLead', {
                         email: this.ticket.lead.email,
                         produto_id: this.selectedProduto.id
                     }).then(response => {
                         this.verificaLeadEmail = response.verificacao;
                     });
-                } else {
-                    this.verificaLeadEmail = false;
                 }
             },
             initValues() {

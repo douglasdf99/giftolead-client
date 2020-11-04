@@ -8,8 +8,7 @@
                 </vs-button>
             </div>
         </div>
-        <nenhum-registro :add="true" module="Função" @addEvent="$router.push({path: '/configuracoes/funcoes/criar'})" v-if="tickets.length === 0"/>
-        <nenhum-registro text="Nenhum registro encontrado" v-if="items.length === 0"/>
+        <nenhum-registro :add="true" module="Função" @addEvent="$router.push({path: '/configuracoes/funcoes/criar'})" v-if="items.length === 0"/>
         <vs-table v-else :data="items" class="table-items">
             <template slot="thead">
                 <vs-th class="w-2/12"></vs-th>
@@ -29,7 +28,7 @@
                                     Editar
                                 </vs-dropdown-item>
                                 <vs-dropdown-item @click="" v-if="$acl.check('configuracao_funcao_editar')">
-                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                                    <vs-icon icon-pack="material-icons" icon="trash"></vs-icon>
                                     Excluir
                                 </vs-dropdown-item>
                             </vs-dropdown-menu>
