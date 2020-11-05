@@ -1,7 +1,9 @@
 <template>
   <div>
+    <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+              :data="sidebarData"/>
     <div class="vx-row flex items-end mb-4">
-      <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-6/12">
+      <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
         <div class="flex items-center">
           <div class="relative w-full">
             <!-- SEARCH INPUT -->
@@ -48,6 +50,13 @@
         <v-select @change="getItems()" v-model="selectedBrinde" :class="'select-large-base'" :clearable="true" class="bg-white"
                   :options="brindes"/>
       </div>
+      <div class="vx-col w-full lg:w-2/12 sm:w-full">
+        <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
+          <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
+          Incluir Automacão
+        </vs-button>
+      </div>
+
     </div>
     <div class="vx-row">
       <div class="vx-col w-full">
@@ -97,16 +106,21 @@
   import moduleAutomacao from "../../store/automacao/moduleAutomacao";
   import Listagem from './Listagem'
   import moduleBrindes from "../../store/brindes/moduleBrindes";
+  import SideBar from './SideBar'
 
   export default {
     name: "ListEntrega",
     components: {
       'v-select': vSelect,
-      Listagem
+      Listagem,
+      SideBar
     },
     data() {
       return {
         items: [],
+        addNewDataSidebar: false,
+
+        sidebarData:'',
         dados: {
           dt_inicio: '',
           dt_fim: '',
@@ -156,6 +170,13 @@
           this.pagination = response
           this.$vs.loading.close();
         });
+      },
+      addNewData() {
+        this.sidebarData = {'brindes':this.brindes}
+        this.toggleDataSidebar(true)
+      },
+      toggleDataSidebar(val = false) {
+        this.addNewDataSidebar = val
       },
       getBrindes() {
         this.$store.dispatch('brindes/get').then(response => {

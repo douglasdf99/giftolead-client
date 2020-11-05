@@ -58,5 +58,17 @@ export default {
                     reject(error)
                 })
         })
-    }
+    },
+    store({commit}, dados) {
+    return new Promise((resolve, reject) => {
+      axios.post(`/automacaos/manual`, dados)
+        .then((response) => {
+          console.log('Automacao inserida', response);
+          resolve(response)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
 }
