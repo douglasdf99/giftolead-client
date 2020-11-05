@@ -81,7 +81,7 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative w-full">
-                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_tipoduvida_editar') || $acl.check('configuracao_tipoduvida_deletar')"
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_tipoduvida_editar') || $acl.check('configuracao_tipoduvida_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
