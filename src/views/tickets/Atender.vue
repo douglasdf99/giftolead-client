@@ -96,13 +96,6 @@
                                     Ligar
                                     <div class="h-3 w-3 inline-block rounded-full mr-2" :class="{'bg-success' : conectado,'bg-danger' : !conectado}"></div>
                                 </vs-button>
-<!--                                <vx-tooltip text="O sistema não conseguiu conectar, contate o administrador" position="top">-->
-<!--                                    <vs-button class="font-bold rounded-full mx-2" color="primary" type="filled" icon-pack="material-icons" icon="call" @click="chamaNumero" :disabled="true" v-if="!conectado">-->
-<!--                                        Desconectado-->
-<!--                                        <div class="h-3 w-3 inline-block rounded-full mr-2 bg-danger"></div>-->
-<!--                                    </vs-button>-->
-<!--                                </vx-tooltip>-->
-
                                 <vs-button class="rounded-full mx-2 px-1 py-1" color="#8ED839" type="filled" @click="whatsapp(ticket)">
                                     <i class="fab fa-whatsapp text-3xl mx-2 text-white"></i>
                                 </vs-button>
@@ -261,7 +254,6 @@ export default {
         }
     },
     created() {
-
         if (!moduleTickets.isRegistered) {
             this.$store.registerModule('tickets', moduleTickets)
             moduleTickets.isRegistered = true
@@ -270,27 +262,22 @@ export default {
             this.$store.registerModule('users', moduleUsuario)
             moduleUsuario.isRegistered = true
         }
-
         this.verificacao();
-      this.$store.dispatch('users/getUserAuth').then(response => {
-        console.log('usuario', response);
-          let recaptchaScript =  document.createElement('script');
-          if (recaptchaScript) {
-            console.log('recaptch', recaptchaScript);
-            recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.user.webphone + '&tipo=hidden&ver=2');
-            document.body.appendChild(recaptchaScript)
-          }
-      });
+        this.$store.dispatch('users/getUserAuth').then(response => {
+            console.log('usuario', response);
+            let recaptchaScript = document.createElement('script');
+            if (recaptchaScript) {
+                console.log('recaptch', recaptchaScript);
+                recaptchaScript.setAttribute('src', 'https://api2.totalvoice.com.br/w3/?key=' + response.user.webphone + '&tipo=hidden&ver=2');
+                document.body.appendChild(recaptchaScript)
+            }
+        });
     },
     methods: {
         getId(id) {
             this.$vs.loading();
             console.log('teste')
             this.$store.dispatch('tickets/getId', id).then(response => {
-                // this.ticket = response;
-                // this.ticket.nome_destinatario = response.lead.nome;
-                // this.ticket.email_destinatario = response.lead.email;
-
                 this.$vs.loading.close();
             });
         },
@@ -346,8 +333,8 @@ export default {
                             title: 'Erro',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
                         })
-                    }).finally(()=>{
-                      this.$vs.loading.close();
+                    }).finally(() => {
+                        this.$vs.loading.close();
                     })
                 }
             })
@@ -377,8 +364,8 @@ export default {
                             title: 'Erro',
                             text: 'Algo deu errado ao finalizar. Reinicie a página.'
                         })
-                    }).finally(()=>{
-                      this.$vs.loading.close();
+                    }).finally(() => {
+                        this.$vs.loading.close();
                     })
                 }
             })

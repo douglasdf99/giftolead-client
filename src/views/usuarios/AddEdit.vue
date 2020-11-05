@@ -57,9 +57,10 @@
                     </div>
                     <div class="vx-col w-full my-4" v-if="slack">
                         <div class="p-5 rounded-lg bg-white">
-                            <p>
+                            <p class="flex items-center">
+                                <img src="@/assets/images/util/slack.png" class="img-conquista mr-4" alt="" width="100">
                                 Importante: a URL do Webhook individual pode ser encontrada
-                                <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none">aqui</a>.
+                                <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none" class="ml-1">aqui</a>.
                             </p>
                         </div>
                     </div>

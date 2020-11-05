@@ -31,7 +31,7 @@
                 </vx-card>
             </div>
         </div>
-        <div class="vx-row flex items-end my-5" v-if="dados.aba == 'aprovadas' || dados.aba == 'comissionadas'">
+        <!--<div class="vx-row flex items-end my-5" v-if="dados.aba == 'aprovadas' || dados.aba == 'comissionadas'">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
                 </p>
@@ -47,7 +47,7 @@
                                    :append-to-body="true" :ranges="ranges">
                 </date-range-picker>
             </div>
-        </div>
+        </div>-->
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">

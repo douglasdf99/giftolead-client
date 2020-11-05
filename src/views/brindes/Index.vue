@@ -79,8 +79,7 @@
                                             <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_brinde_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
-                                            </vs-dropdown-item>N
-
+                                            </vs-dropdown-item>
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
@@ -212,9 +211,8 @@
                 this.$store.dispatch('getVarios', {rota: 'brindes', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                }).finally(()=>{
+                  this.$vs.loading.close()
                 });
             },
             deletar(id) {
@@ -233,12 +231,13 @@
                             });
                             this.getBrindes();
                         }).catch(erro => {
-                            console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
+                        }).finally(()=>{
+                          this.$vs.loading.close()
                         })
                     }
                 })
