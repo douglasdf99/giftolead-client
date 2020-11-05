@@ -41,7 +41,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20" v-if="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
+                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item mx-auto">
                         <div class="w-8/12">
                             <div v-if="dados.search">
                                 <p class="span-sem-item">Nenhum item foi encontrado</p>

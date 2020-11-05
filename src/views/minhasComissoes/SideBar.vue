@@ -131,18 +131,21 @@ export default {
     methods: {
         async salvar() {
             this.$vs.loading();
-            await this.enviar().then(() => {
-                this.$emit('closeSidebar');
-                this.$emit('reload');
-                this.$vs.loading.close();
-                let text = this.files.length > 0 ? 'Imagens anexadas com sucesso.' : 'Atualizado com sucesso';
-                this.$vs.notify({
-                    color: 'success',
-                    text: text
+            await this.files.forEach(file => {
+                this.enviar2(file).then(() => {
+                    this.$emit('closeSidebar');
+                    this.$emit('reload');
+                    this.$vs.loading.close();
+                    let text = this.files.length > 0 ? 'Imagens anexadas com sucesso.' : 'Atualizado com sucesso';
+                    this.$vs.notify({
+                        color: 'success',
+                        text: text
+                    });
+                    this.files = [];
+                    this.images = [];
                 });
-                this.files = [];
-                this.images = [];
             });
+
         },
         enviar() {
             return new Promise((resolve, reject) => {
@@ -166,6 +169,20 @@ export default {
                         console.log(erro)
                     });
                 }
+                resolve();
+            })
+        },
+        enviar2(file) {
+            return new Promise((resolve, reject) => {
+                let formData = new FormData();
+                        //formData.append('arquivo', null)
+                        console.log('descri', this.descricao);
+                        formData.append('arquivo', file, file.name);
+                        formData.append('pre_comissao_id', this.data.id);
+                        formData.append('descricao', this.descricao);
+                        this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
+                            console.log(erro)
+                        });
                 resolve();
             })
         },
