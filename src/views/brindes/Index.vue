@@ -68,7 +68,7 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="$router.push({path: '/configuracoes/contratos/editar/' + tr.contrato.id})" v-if="$acl.check('configuracao_contrato_editar')">
+                                            <vs-dropdown-item @click="$router.push({path: '/configuracoes/contratos/editar/' + tr.contrato.id})" v-if="$acl.check('configuracao_contrato_editar') && !tr.contrato.deleted_at">
                                                 <vs-icon icon-pack="feather" icon="icon-file-text"></vs-icon>
                                                 Editar Contrato
                                             </vs-dropdown-item>
@@ -112,7 +112,7 @@
                                              v-if="data[indextr].ativo"></vs-icon>
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
                                              v-else></vs-icon>
-                                    <vx-tooltip text="Contrato desativado" position="top">
+                                    <vx-tooltip text="Contrato desativado ou deletado" position="top">
                                         <vs-icon icon-pack="material-icons" icon="cancel"
                                                  class="icon-grande text-danger"
                                                  v-if="!tr.contrato.status"></vs-icon>
