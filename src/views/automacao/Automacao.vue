@@ -1,7 +1,7 @@
 <template>
   <div>
     <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-              :data="sidebarData"/>
+              :data="sidebarData" @getItems="getItems('pendente')"/>
     <div class="vx-row flex items-end mb-4">
       <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
         <div class="flex items-center">

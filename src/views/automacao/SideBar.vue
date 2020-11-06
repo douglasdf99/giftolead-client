@@ -23,29 +23,29 @@
               <span class="font-regular mb-2">Email</span>
               <vs-input autocomplete
                         class="w-full "
-                        v-model="lead.email" id="lead_email" size="large"
+                        v-model="lead.email" v-validate="'required|email'" name="email" id="lead_email" size="large"
                         placeholder="Email do lead" type="email"/>
 
               <span class="text-danger text-sm"
-                    v-show="errors.has('lead.email')">{{ errors.first('lead.email') }}</span>
+                    v-show="errors.has('email')">{{ errors.first('email') }}</span>
             </div>
             <div class="vx-col w-full lg:w-1/2">
-              <span class="font-regular mb-2">Campanha</span>
+              <span class="font-regular mb-2">Nome</span>
               <vs-input autocomplete
                         class="w-full "
-                        v-model="lead.nome" id="lead_nome" size="large"
+                        v-model="lead.nome" id="lead_nome" v-validate="'required'" name="nome" size="large"
                         placeholder="Nome do lead"/>
               <span class="text-danger text-sm"
-                    v-show="errors.has('lead.nome')">{{ errors.first('lead.nome') }}</span>
+                    v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
             </div>
           </div>
           <div class="vx-row mt-5">
             <div class="vx-col w-full">
               <span class="font-regular mb-2">Brinde</span>
-              <v-select id="produto" name="produto" v-validate="'required'" v-model="selectedBrinde"
+              <v-select id="brinde"  v-validate="'required'" name="brinde" v-model="selectedBrinde"
                         :options="brindes" :clearable="false"/>
               <span class="text-danger text-sm"
-                    v-show="errors.has('selectedBrinde')">{{ errors.first('selectedBrinde') }}</span>
+                    v-show="errors.has('brinde')">{{ errors.first('brinde') }}</span>
             </div>
           </div>
           <div class="vx-row mt-5">
@@ -55,7 +55,7 @@
                         :options="campanhas" :clearable="false" label="nome" />
 
               <span class="text-danger text-sm"
-                    v-show="errors.has('selectedCampanha')">{{ errors.first('selectedCampanha') }}</span>
+                    v-show="errors.has('campanha')">{{ errors.first('campanha') }}</span>
             </div>
           </div>
         </div>
@@ -80,17 +80,18 @@ import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 
 const dict = {
   custom: {
-    origem: {
-      required: 'Por favor, selecione uma origem',
+    email: {
+      required: 'Por favor,insira um email ',
+      email: 'Por favor,insira um email valido',
     },
-    produto: {
-      required: 'Por favor, selecione um produto',
+    nome: {
+      required: 'Por favor, insira um nome',
     },
-    duvida: {
-      required: 'Por favor, selecione uma dúvida',
+    brinde: {
+      required: 'Por favor, selecione um brinde',
     },
-    lead_nome: {
-      required: 'Por favor, insira o nome',
+    campanha: {
+      required: 'Por favor, selecione uma campanha',
     },
     lead_email: {
       required: 'Por favor, insira o e-mail',
@@ -169,35 +170,55 @@ export default {
     },
 
     submitData() {
-      const obj = {};
+      this.$validator.validateAll().then(result => {
+        if (result) {
+          const obj = {};
 
-      obj.nome = this.lead.nome;
-      obj.email = this.lead.email;
-      obj.brinde = this.selectedBrinde.id;
-      obj.campanha = this.selectedCampanha.id
-      this.$vs.loading()
+          obj.nome = this.lead.nome;
+          obj.email = this.lead.email;
+          obj.brinde = this.selectedBrinde.id;
+          obj.campanha = this.selectedCampanha.id
+          this.$vs.loading()
 
-      console.log(obj);
-      this.$store.dispatch("automacao/store", {rota: 'automacaos', item: obj}).then(() => {
-        this.$vs.notify({
-          title: '',
-          text: "Automação criada com sucesso.",
-          iconPack: 'feather',
-          icon: 'icon-check-circle',
-          color: 'success'
-        })
-        this.$vs.loading.close();
-      }).catch(error => {
-        this.$vs.notify({
-          title: '',
-          text: error.message,
-          iconPack: 'feather',
-          icon: 'icon-alert-circle',
-          color: 'danger'
-        })
-      })
+          console.log(obj);
+          this.$store.dispatch("automacao/store", {rota: 'automacaos', item: obj}).then(() => {
+            this.$vs.notify({
+              title: '',
+              text: "Automação criada com sucesso.",
+              iconPack: 'feather',
+              icon: 'icon-check-circle',
+              color: 'success'
+            })
+            this.$vs.loading.close();
+            this.$emit('getItems')
 
-      this.$emit('closeSidebar')
+          }).catch(error => {
+            this.$vs.loading.close();
+
+            this.$vs.notify({
+              title: '',
+              text: error.message,
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
+            })
+          })
+
+          this.$emit('closeSidebar')
+
+        }else{
+          this.$vs.notify({
+            title: '',
+            text: 'verifique os erros específicos',
+            iconPack: 'feather',
+            icon: 'icon-alert-circle',
+            color: 'danger'
+          })
+        }
+
+
+      });
+
 
     },
     getLeads() {
