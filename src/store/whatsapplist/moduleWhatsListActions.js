@@ -85,7 +85,8 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/whatsapplists_trasform/${dados.id}`, dados)
                 .then((response) => {
-                    resolve(response.data.data);
+                    resolve(response);
+
                 }).catch(err => {
                     reject(err);
             });

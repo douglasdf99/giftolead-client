@@ -36,9 +36,13 @@
                                         <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                         Editar
                                     </vs-dropdown-item>
-                                    <vs-dropdown-item v-if="$acl.check('brinde_automacao_deletar')">
+                                    <vs-dropdown-item @click="deleteAlert(tr.id)" v-show="tr.eventos.length == 0"  v-if="$acl.check('brinde_automacao_deletar')">
                                         <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                        Deletar
+                                        Arquivar
+                                    </vs-dropdown-item>
+                                  <vs-dropdown-item @click="restaurarAlert(tr.id)" v-show="tr.arquivado == 1"  v-if="$acl.check('brinde_automacao_deletar')">
+                                        <vs-icon icon-pack="material-icons" icon="star"></vs-icon>
+                                        Restaurar
                                     </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
@@ -82,10 +86,74 @@
 </template>
 
 <script>
+import moduleAutomacao from "../../store/automacao/moduleAutomacao";
+
     export default {
+      data() {
+        return {
+          idSelected:null,
+        }
+        },
         name: "Listagem",
         props: ['items', 'tipo'],
         methods: {
+            deleteAlert(id){
+              this.idSelected = id;
+              this.$vs.dialog({
+                type: 'confirm',
+                color: 'danger',
+                title: `Confirme`,
+                text: 'Tem certeza ao arquivar essa automação',
+                accept: this.deleteItem,
+                acceptText: "Deletar",
+                cancelText: "Cancelar"
+
+              })
+            },
+            restaurarAlert(id){
+              this.idSelected = id;
+              this.$vs.dialog({
+                type: 'confirm',
+                color: 'primary',
+                title: `Confirme`,
+                text: 'Tem certeza ao Restaurar essa automação',
+                accept: this.restaurarItem,
+                acceptText: "Restaurar",
+                cancelText: "Cancelar"
+
+              })
+            },
+            deleteItem(){
+              this.$store.dispatch('automacao/deleteItem', this.idSelected).then(()=>{
+                this.$vs.notify({
+                  title: '',
+                  text: "Automação aquivada com sucesso.",
+                  iconPack: 'feather',
+                  icon: 'icon-check-circle',
+                  color: 'success'
+                })
+                this.$emit('getItems')
+
+              }).catch(error=>{
+
+              })
+
+            },restaurarItem(){
+              this.$store.dispatch('automacao/restaurarItem', this.idSelected).then(()=>{
+                this.$vs.notify({
+                  title: '',
+                  text: "Automação restaurada com sucesso.",
+                  iconPack: 'feather',
+                  icon: 'icon-check-circle',
+                  color: 'success'
+                })
+                this.$emit('getItems')
+
+              }).catch(error=>{
+
+              })
+
+            },
             getResponsavel(obj){
                 switch (obj.responsavel_type) {
                     case 'App\\Models\\User':
@@ -142,6 +210,13 @@
                 })
             }
         },
+      created() {
+        if (!moduleAutomacao.isRegistered) {
+          this.$store.registerModule('automacao', moduleAutomacao)
+          moduleAutomacao.isRegistered = true
+        }
+
+      },
     }
 </script>
 
