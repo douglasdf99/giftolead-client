@@ -44,6 +44,10 @@
                                         <vs-icon icon-pack="material-icons" icon="star"></vs-icon>
                                         Restaurar
                                     </vs-dropdown-item>
+                                  <vs-dropdown-item @click="getLinkRastreio(tr)"  >
+                                        <vs-icon icon-pack="material-icons" icon="star"></vs-icon>
+                                        Copiar link de entrega
+                                    </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
                         </vs-td>
@@ -162,6 +166,30 @@ import moduleAutomacao from "../../store/automacao/moduleAutomacao";
                         return obj.responsavel.nome;
                 }
             },
+            getLinkRastreio(obj){
+              let url = 'https://weentrega.saveleads.com.br/preencher/'+obj.uuid+'/'+obj.email_destinatario;
+              const thisIns = this;
+              this.$copyText(url).then(function () {
+                  thisIns.$vs.notify({
+                    title: 'Success',
+                    text: 'URL copiada para sua área de transferência',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle'
+                  })
+                },
+                function () {
+                  thisIns.$vs.notify({
+                    title: 'Failed',
+                    text: 'Erro ao copiar link',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    position: 'top-center',
+                    icon: 'icon-alert-circle'
+                  })
+                })
+            },
+
             getOrdemEnvio(obj){
                 if(obj.endereco == null)
                     return 'Pendente'
@@ -210,13 +238,6 @@ import moduleAutomacao from "../../store/automacao/moduleAutomacao";
                 })
             }
         },
-      created() {
-        if (!moduleAutomacao.isRegistered) {
-          this.$store.registerModule('automacao', moduleAutomacao)
-          moduleAutomacao.isRegistered = true
-        }
-
-      },
     }
 </script>
 
