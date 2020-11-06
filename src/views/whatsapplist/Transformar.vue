@@ -154,27 +154,28 @@ export default {
                                 color: 'success'
                             });
 
-                            if (this.metodo){
+                            if (this.metodo) {
                                 this.$emit('closeSidebar')
                                 this.$router.push({name: 'tickets-list'});
                             }
 
 
-                    }).catch(erro => {
-                        console.log(erro);
-                        let self = this;
-                        this.$vs.dialog({
-                            color: 'danger',
-                            title: `Ops`,
-                            text: 'Algo de errado ocorreu na criação do ticket',
-                            accept: this.fechar(),
-                            acceptText: 'Ok'
-                        })
+                        }).catch(erro => {
+                            console.log(erro);
+                            let self = this;
+                            this.$vs.dialog({
+                                color: 'danger',
+                                title: `Ops`,
+                                text: 'Algo de errado ocorreu na criação do ticket',
+                                accept: this.fechar(),
+                                acceptText: 'Ok'
+                            })
+                        });
+                        this.$vs.loading.close();
+                        this.fechar();
                     });
-                    this.$vs.loading.close();
-                    this.fechar();
                 }
-            })
+            });
         },
         fechar() {
             this.$emit('getItems')
