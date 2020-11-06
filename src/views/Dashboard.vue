@@ -45,7 +45,7 @@
                 </vx-card>
             </div>
         </div>
-        <div class="vx-row" style="margin-top: 30vh">
+        <div class="vx-row main-content-row">
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <div class="vx-row">
                     <div class="vx-col w-full">
@@ -683,6 +683,10 @@ export default {
     padding-bottom: 1.5rem !important;
 }
 
+.main-content-row {
+    margin-top: 30vh;
+}
+
 .row-top-dashboard {
     width: 102%;
     left: 0;
@@ -713,6 +717,12 @@ export default {
         }
     }
 
+    @media(min-width: 1366px) and (max-width: 1400px) {
+        .main-content-row {
+            margin-top: 40vh;
+        }
+    }
+
     @media(max-width: 576px) {
         .decore-left, .decore-right {
             width: 140px;
@@ -725,7 +735,7 @@ export default {
 <style scoped>
 .scroll-area--data-list-add-new {
     /*/ /height: calc(var(--vh, 1 vh) * 100 - 4.3 rem);*/
-    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - -45px);
+    height: calc(var(--vh, 1vh) * 100px - 16px - 45px);
 }
 
 ::-webkit-scrollbar-track {

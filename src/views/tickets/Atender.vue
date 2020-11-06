@@ -87,7 +87,7 @@
                                 {{ ticket.lead.nome }}
                             </p>
                             <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
-                                {{ '(' + ticket.lead.ddd + ') ' + ticket.lead.telefone }}
+                                {{ '(' + ticket.lead.ddd + ') '}} {{ ticket.lead.telefone | VMask(ticket.lead.telefone.length === 9 ? '#####-####' : '####-####')}}
                             </p>
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ ticket.lead.email }}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ ticket.lead.cpf }}</p>

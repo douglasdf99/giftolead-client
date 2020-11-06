@@ -117,6 +117,7 @@
                     })
                     .catch(error => {
                         console.log(error);
+                      this.$vs.loading.close();
                         this.$vs.notify({
                             title: 'Error',
                             text: error.response.data,

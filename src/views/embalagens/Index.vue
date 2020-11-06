@@ -199,11 +199,11 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'embalagens'}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'embalagems'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: '',
-                                text: 'Deletado com sucesso'
+                                text: 'Deletado com sucesso' 
                             });
                             this.getBrindes();
                         }).catch(erro => {

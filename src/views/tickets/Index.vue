@@ -69,7 +69,10 @@
                 <vs-tabs :color="colorx" v-if="nums.abertos">
                     <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
                             :label="'abertos ( ' + nums.abertos + ' )'">
-                        <listagem @update="updateData" @transfer="transferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
+                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white" @click="getTickets">
+                            Novos Tickets foram inseridos. Clique aqui para atualizar a listagem.
+                        </vs-alert>
+                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -80,7 +83,7 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
-                        <listagem @update="updateData" @transfer="transferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -88,6 +91,24 @@
                 <nenhum-registro :add="true" module="Ticket" @addEvent="addNewData" v-if="tickets.length === 0"/>
             </vs-col>
         </vs-row>
+        <!-- Prompt Reagendamento -->
+        <vs-prompt
+            class="calendar-event-dialog"
+            title="Transferir Ticket para"
+            accept-text="Confirmar"
+            cancel-text="Cancelar"
+            button-cancel="border"
+            @cancel="selectedUser = {}; modalTransfer = false;"
+            @accept="transferir"
+            :active.sync="modalTransfer">
+            <div class="p-5 flex justify-center w-full">
+                <div class="vx-col w-full">
+                    <label class="vs-input--label">Usuário</label>
+                    <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="false" class="bg-white w-full"
+                              :options="users"/>
+                </div>
+            </div>
+        </vs-prompt>
     </div>
 </template>
 
@@ -101,6 +122,7 @@ import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js'
 import moduleProdutos from '@/store/produtos/moduleProdutos.js'
 import saveleadsConfig from "../../../saveleadsConfig";
 import NenhumRegistro from "@/views/components/NenhumRegistro";
+import moduleUsuario from "@/store/usuarios/moduleUsuario";
 
 var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 export default {
@@ -139,7 +161,14 @@ export default {
             tipoTicket: 'abertos',
             nums: {},
             selectedProduto: null,
-            produtos: []
+            produtos: [],
+            newTickets: false,
+
+            //modal transferência
+            modalTransfer: false,
+            selectedUser: {},
+            users: [],
+            ticket_id_transfer: null
         }
     },
     created() {
@@ -162,6 +191,11 @@ export default {
         if (!moduleDuvidas.isRegistered) {
             this.$store.registerModule('duvidas', moduleDuvidas)
             moduleDuvidas.isRegistered = true
+        }
+
+        if (!moduleUsuario.isRegistered) {
+            this.$store.registerModule('users', moduleUsuario)
+            moduleUsuario.isRegistered = true
         }
 
         this.getProdutos();
@@ -191,8 +225,19 @@ export default {
             this.sidebarData = obj
             this.toggleDataSidebar(true)
         },
-        transferir(ticket_id) {
+        popupTransferir(ticket_id) {
             console.log('transferindo', ticket_id);
+            this.modalTransfer = true;
+        },
+        transferir() {
+            let obj = {
+                ticket_id: id,
+                user_id: this.selectedUser.id
+            };
+            this.$vs.loading();
+            this.$store.dispatch('tickets/transferir', obj).then(() => {
+                this.newTickets = true;
+            }).finally(() => this.$vs.loading.close());
         },
         toggleDataSidebar(val = false) {
             this.addNewDataSidebar = val
@@ -228,7 +273,8 @@ export default {
             this.$store.dispatch('tickets/getTickets', {tipo: tipo, params: this.dados}).then(response => {
                 console.log('retornado com sucessso', response)
                 this.pagination = response;
-                this.tickets = response.data
+                this.tickets = response.data;
+                this.newTickets = false;
                 //this.dados.page = this.pagination.current_page
                 this.$vs.loading.close();
             }).finally(() => {
@@ -242,6 +288,9 @@ export default {
                 arr.forEach(item => {
                     this.produtos.push({id: item.id, label: item.nome})
                 });
+            });
+            this.$store.dispatch('users/get').then(response => {
+                this.users = [...this.arraySelect(response)];
             });
         },
         deletar(id) {
@@ -324,7 +373,15 @@ export default {
     },
     mounted() {
         this.channel.listen('ListaTicket', (payload) => {
-            this.getTickets();
+            this.tickets = this.tickets.filter(function (item) {
+                console.log('Playload', payload);
+                if (payload.array.tipo == "excluir") {
+                    if (item.id !== payload.array.ticket.id) {
+                        return item;
+                    }
+                } else return item
+            });
+            if(payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') this.newTickets = true;
         });
     },
 }

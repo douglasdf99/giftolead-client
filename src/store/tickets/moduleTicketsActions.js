@@ -238,5 +238,16 @@ export default {
                     resolve(response.data);
                 })
         });
+    },
+    transferir({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.post(`/ticketsTransferir`, obj)
+                .then((response) => {
+                    console.log(response.data)
+                    commit('SET_TICKET_ATENDIDO', {})
+                    commit('SET_TICKET_VERIFICADO', '')
+                    resolve(response.data);
+                })
+        });
     }
 }

@@ -251,7 +251,7 @@ axios.interceptors.response.use((response) => { // intercept the global error
       confirmButtonText: "OK",
       closeOnConfirm: false
     }).then((result) => {
-      document.location.reload(true);
+      window.history.back();
     });
     return
   } else if(error.response.status === 405 && !originalRequest._retry){
