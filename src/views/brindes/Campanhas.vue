@@ -171,7 +171,7 @@
                                 title: '',
                                 text: 'Deletado com sucesso!'
                             });
-                            this.getConfig();
+                            this.getCampanhas();
                         }).catch(erro => {
                             this.$vs.notify({
                                 color: 'danger',
