@@ -228,10 +228,16 @@ export default {
         popupTransferir(ticket_id) {
             console.log('transferindo', ticket_id);
             this.modalTransfer = true;
-            this.ticket_id_transfer = true;
         },
         transferir() {
-
+            let obj = {
+                ticket_id: id,
+                user_id: this.selectedUser.id
+            };
+            this.$vs.loading();
+            this.$store.dispatch('tickets/transferir', obj).then(() => {
+                this.newTickets = true;
+            }).finally(() => this.$vs.loading.close());
         },
         toggleDataSidebar(val = false) {
             this.addNewDataSidebar = val
