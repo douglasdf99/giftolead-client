@@ -124,6 +124,7 @@ export default {
   watch: {},
   data() {
     return {
+      confimado :false,
       prosseguiu: false,
       origens: [],
       produtos: [],
@@ -173,7 +174,7 @@ export default {
       this.$validator.validateAll().then(result => {
         if (result) {
           const obj = {};
-
+          obj.confirmado = this.confimado;
           obj.nome = this.lead.nome;
           obj.email = this.lead.email;
           obj.brinde = this.selectedBrinde.id;
@@ -191,22 +192,37 @@ export default {
             })
             this.$vs.loading.close();
             this.$emit('getItems')
+            this.$emit('closeSidebar')
 
           }).catch(error => {
             this.$vs.loading.close();
+            console.log(error.response)
+            if (error.response.status == 412){
+              this.$vs.dialog({
+                type: 'confirm',
+                color: 'primary',
+                title: `Confirme`,
+                text: error.response.data.message,
+                accept: this.acceptAlert,
+                acceptText: "Confirmar",
+                cancelText: "Cancelar"
 
-            this.$vs.notify({
+              })
+            }else{
+              this.$vs.notify({
               title: '',
-              text: error.message,
+              text: error.response.data.message,
               iconPack: 'feather',
               icon: 'icon-alert-circle',
               color: 'danger'
             })
+            }
+
+
           }).finally(()=>{
             this.$vs.loading.close();
           })
 
-          this.$emit('closeSidebar')
 
         }else{
           this.$vs.notify({
@@ -222,6 +238,10 @@ export default {
       });
 
 
+    },
+    acceptAlert() {
+      this.confimado = true;
+      this.submitData();
     },
     getBrindes() {
       this.$store.dispatch('brindes/get').then(response => {
@@ -258,11 +278,11 @@ export default {
 <style lang="scss" scoped>
 .add-new-data-sidebar {
   ::v-deep .vs-sidebar--background {
-    z-index: 52010;
+    z-index: 12010;
   }
 
   ::v-deep .vs-sidebar {
-    z-index: 52010;
+    z-index: 42010;
     width: 750px;
     max-width: 90vw;
 

@@ -62,7 +62,7 @@
       <div class="vx-col w-full">
         <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
           <vs-tab color="primary" value="10" :label="'pendentes'" @click="getItems('pendente')">
-            <listagem :items="items" tipo="pendente"></listagem>
+            <listagem :items="items" tipo="pendente" @getItems="getItems('pendente')" ></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
@@ -77,8 +77,8 @@
             <listagem :items="items" tipo="comexpedicao"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
-          <vs-tab color="primary" value="10" :label="'arquivadas'" @click="getItems('arquivadas')">
-            <listagem :items="items" tipo="arquivadas"></listagem>
+          <vs-tab color="primary" value="10" :label="'arquivadas'"  @click="getItems('arquivadas')">
+            <listagem :items="items" tipo="arquivadas" @getItems="getItems('arquivadas')"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'todos'" @click="getItems()">

@@ -50,7 +50,7 @@
                     </div>
                     <div class="vx-col w-full">
                         <div class="border-2 border-solid rounded-lg px-5 py-3 cursor-pointer option" style="border-color: #C7C7C7"
-                             :class="{'conquista-ativa': (metodo == 1 && metodo != null)}" @click="metodo = 1">
+                             :class="{'conquista-ativa': (metodo == 1 && metodo != null)}" @click="metodo = 1;datetime=null">
                             <p class="mb-0 font-bold text-normal">Atender ele agora</p>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                             console.log('puta vida', this.datetime)
                             obj.data = this.datetime;
                         }
-                        this.$store.dispatch('whatsapplist/transformar', obj).then(() => {
+                        this.$store.dispatch('whatsapplist/transformar', obj).then(response => {
                             console.log('eita')
                             this.$vs.notify({
                                 title: '',

@@ -71,4 +71,25 @@ export default {
         })
     })
   },
+  deleteItem({commit}, id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/automacaos/arquivar/${id}`)
+        .then((response) => {
+          resolve(response.data.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },restaurarItem({commit}, id) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/automacaos/restaurar/${id}`)
+        .then((response) => {
+          resolve(response.data.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
 }
