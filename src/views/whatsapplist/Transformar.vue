@@ -134,8 +134,8 @@
                             console.log('puta vida', this.datetime)
                             obj.data = this.datetime;
                         }
-                        this.$store.dispatch('whatsapplist/transformar', obj).then(() => {
-                            console.log('eita')
+                        this.$store.dispatch('whatsapplist/transformar', obj).then((response) => {
+                            console.log('eita',response)
                             this.$vs.notify({
                                 title: '',
                                 text: "Ticket criado com sucesso.",
@@ -146,7 +146,7 @@
 
                             if (this.metodo){
                                 this.$emit('closeSidebar')
-                                this.$router.push({name: 'tickets-list'});
+                                this.$router.push({path: '/tickets/atender/'+response.ticket_id});
                             }
 
                         }).catch(erro => {

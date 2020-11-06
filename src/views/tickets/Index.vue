@@ -324,7 +324,15 @@ export default {
     },
     mounted() {
         this.channel.listen('ListaTicket', (payload) => {
-            this.getTickets();
+
+          this.tickets = this.tickets.filter(function (item) {
+            console.log('Playload', payload);
+            if (payload.array.tipo == "excluir"){
+              if (item.id !== payload.array.ticket.id){
+                return item;
+              }
+            }
+          })
         });
     },
 }
