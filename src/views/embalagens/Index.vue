@@ -203,7 +203,7 @@
                             this.$vs.notify({
                                 color: 'success',
                                 title: '',
-                                text: 'Deletado com sucesso'
+                                text: 'Deletado com sucesso' 
                             });
                             this.getBrindes();
                         }).catch(erro => {
