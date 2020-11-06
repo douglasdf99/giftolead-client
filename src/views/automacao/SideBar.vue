@@ -202,6 +202,8 @@ export default {
               icon: 'icon-alert-circle',
               color: 'danger'
             })
+          }).finally(()=>{
+            this.$vs.loading.close();
           })
 
           this.$emit('closeSidebar')
@@ -220,16 +222,6 @@ export default {
       });
 
 
-    },
-    getLeads() {
-      this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
-        console.log('retornado com sucesso', response)
-        this.leads = response.data;
-        console.log(this.leads.nome)
-        //this.items = response.data
-        //this.dados.page = this.pagination.current_page
-        this.$vs.loading.close()
-      });
     },
     getBrindes() {
       this.$store.dispatch('brindes/get').then(response => {
@@ -257,7 +249,6 @@ export default {
       moduleAutomacao.isRegistered = true
     }
 
-    this.getLeads();
     this.getBrindes();
     this.getCampanhas();
   }
