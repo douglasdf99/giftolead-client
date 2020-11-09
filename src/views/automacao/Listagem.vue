@@ -36,15 +36,15 @@
                                         <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                         Editar
                                     </vs-dropdown-item>
-                                    <vs-dropdown-item @click="deleteAlert(tr.id)" v-show="tr.eventos.length == 0"  v-if="$acl.check('brinde_automacao_deletar')">
+                                    <vs-dropdown-item @click="deleteAlert(tr.id)" v-show="tr.eventos.length == 0" v-if="$acl.check('brinde_automacao_deletar')">
                                         <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                         Arquivar
                                     </vs-dropdown-item>
-                                  <vs-dropdown-item @click="restaurarAlert(tr.id)" v-show="tr.arquivado == 1"  v-if="$acl.check('brinde_automacao_deletar')">
+                                    <vs-dropdown-item @click="restaurarAlert(tr.id)" v-show="tr.arquivado == 1" v-if="$acl.check('brinde_automacao_deletar')">
                                         <vs-icon icon-pack="material-icons" icon="star"></vs-icon>
                                         Restaurar
                                     </vs-dropdown-item>
-                                  <vs-dropdown-item @click="getLinkRastreio(tr)"  >
+                                    <vs-dropdown-item @click="getLinkRastreio(tr)">
                                         <vs-icon icon-pack="material-icons" icon="star"></vs-icon>
                                         Copiar link de entrega
                                     </vs-dropdown-item>
@@ -52,26 +52,32 @@
                             </vs-dropdown>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">{{tr.lead.nome}}</p>
-                            <p class="">{{tr.lead.email}}</p>
+                            <p class="font-bold">{{ tr.lead.nome }}</p>
+                            <p class="">{{ tr.lead.email }}</p>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">{{getResponsavel(tr)}}</p>
+                            <p class="font-bold">{{ getResponsavel(tr) }}</p>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">{{tr.brinde.nome}}</p>
+                            <p class="font-bold">{{ tr.brinde.nome }}</p>
+                        </vs-td>
+                        <vs-td class="flex justify-center">
+                            <vx-tooltip text="Enviando" position="top">
+                                <vs-icon icon-pack="material-icons" icon="watch_later" color="gray" v-if="tr.eventos.length == 0" class="text-2xl"/>
+                            </vx-tooltip>
+                            <vx-tooltip text="Não enviado" position="top">
+                                <vs-icon icon-pack="material-icons" icon="cancel" color="danger" v-if="getEventoRed(tr)" class="text-2xl"/>
+                            </vx-tooltip>
+                            <vx-tooltip text="Enviado" position="top">
+                                <vs-icon icon-pack="material-icons" icon="check" color="success" v-if="getEventoGreen(tr)" class="text-2xl"/>
+                            </vx-tooltip>
                         </vs-td>
                         <vs-td>
-                            <vs-icon icon-pack="material-icons" icon="watch_later" color="gray" v-if="tr.eventos.length == 0" class="text-2xl"/>
-                            <vs-icon icon-pack="material-icons" icon="cancel" color="danger" v-if="getEventoRed(tr)" class="text-2xl"/>
-                            <vs-icon icon-pack="material-icons" icon="check" color="success" v-if="getEventoGreen(tr)" class="text-2xl"/>
-                        </vs-td>
-                        <vs-td>
-                            {{tr.uuid}}
+                            {{ tr.uuid }}
                         </vs-td>
                         <vs-td>
                             <p class="font-bold flex items-center" v-bind:class="getOrdemColor(tr)">
-                                {{getOrdemEnvio(tr)}}
+                                {{ getOrdemEnvio(tr) }}
                                 <i class="material-icons ml-3" v-bind:class="getOrdemColor(tr)">fiber_manual_record</i>
                             </p>
                         </vs-td>
@@ -92,18 +98,18 @@
 <script>
 import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 
-    export default {
-      data() {
+export default {
+    data() {
         return {
-          idSelected:null,
+            idSelected: null,
         }
-        },
-        name: "Listagem",
-        props: ['items', 'tipo'],
-        methods: {
-            deleteAlert(id){
-              this.idSelected = id;
-              this.$vs.dialog({
+    },
+    name: "Listagem",
+    props: ['items', 'tipo'],
+    methods: {
+        deleteAlert(id) {
+            this.idSelected = id;
+            this.$vs.dialog({
                 type: 'confirm',
                 color: 'danger',
                 title: `Confirme`,
@@ -112,11 +118,11 @@ import moduleAutomacao from "../../store/automacao/moduleAutomacao";
                 acceptText: "Deletar",
                 cancelText: "Cancelar"
 
-              })
-            },
-            restaurarAlert(id){
-              this.idSelected = id;
-              this.$vs.dialog({
+            })
+        },
+        restaurarAlert(id) {
+            this.idSelected = id;
+            this.$vs.dialog({
                 type: 'confirm',
                 color: 'primary',
                 title: `Confirme`,
@@ -125,120 +131,120 @@ import moduleAutomacao from "../../store/automacao/moduleAutomacao";
                 acceptText: "Restaurar",
                 cancelText: "Cancelar"
 
-              })
-            },
-            deleteItem(){
-              this.$store.dispatch('automacao/deleteItem', this.idSelected).then(()=>{
+            })
+        },
+        deleteItem() {
+            this.$store.dispatch('automacao/deleteItem', this.idSelected).then(() => {
                 this.$vs.notify({
-                  title: '',
-                  text: "Automação aquivada com sucesso.",
-                  iconPack: 'feather',
-                  icon: 'icon-check-circle',
-                  color: 'success'
+                    title: '',
+                    text: "Automação aquivada com sucesso.",
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle',
+                    color: 'success'
                 })
                 this.$emit('getItems')
 
-              }).catch(error=>{
+            }).catch(error => {
 
-              })
+            })
 
-            },restaurarItem(){
-              this.$store.dispatch('automacao/restaurarItem', this.idSelected).then(()=>{
+        }, restaurarItem() {
+            this.$store.dispatch('automacao/restaurarItem', this.idSelected).then(() => {
                 this.$vs.notify({
-                  title: '',
-                  text: "Automação restaurada com sucesso.",
-                  iconPack: 'feather',
-                  icon: 'icon-check-circle',
-                  color: 'success'
+                    title: '',
+                    text: "Automação restaurada com sucesso.",
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle',
+                    color: 'success'
                 })
                 this.$emit('getItems')
 
-              }).catch(error=>{
+            }).catch(error => {
 
-              })
+            })
 
-            },
-            getResponsavel(obj){
-                switch (obj.responsavel_type) {
-                    case 'App\\Models\\User':
-                        return obj.responsavel.name;
-                    default:
-                        return obj.responsavel.nome;
-                }
-            },
-            getLinkRastreio(obj){
-              let url = 'https://weentrega.saveleads.com.br/preencher/'+obj.uuid+'/'+obj.email_destinatario;
-              const thisIns = this;
-              this.$copyText(url).then(function () {
-                  thisIns.$vs.notify({
-                    title: 'Success',
-                    text: 'URL copiada para sua área de transferência',
-                    color: 'success',
-                    iconPack: 'feather',
-                    icon: 'icon-check-circle'
-                  })
-                },
-                function () {
-                  thisIns.$vs.notify({
-                    title: 'Failed',
-                    text: 'Erro ao copiar link',
-                    color: 'danger',
-                    iconPack: 'feather',
-                    position: 'top-center',
-                    icon: 'icon-alert-circle'
-                  })
-                })
-            },
-
-            getOrdemEnvio(obj){
-                if(obj.endereco == null)
-                    return 'Pendente'
-                else
-                    return 'Preenchida'
-            },
-            getOrdemColor(obj){
-                if(obj.endereco == null)
-                    return 'text-warning'
-                else
-                    return 'text-primary'
-            },
-            getEventoRed(obj){
-                console.log('obj', obj)
-                console.log(obj.eventos[obj.eventos.length - 1])
-                if(obj.eventos.length > 0)
-                    return obj.eventos[obj.eventos.length - 1].resposta == 'error';
-                else
-                    return false;
-            },
-            getEventoGreen(obj){
-                if(obj.eventos.length > 0)
-                    return obj.eventos[obj.eventos.length - 1].resposta == 'success';
-                else
-                    return false;
-            },
-            copyText(val){
-                const thisIns = this;
-                this.$copyText(val).then(function () {
+        },
+        getResponsavel(obj) {
+            switch (obj.responsavel_type) {
+                case 'App\\Models\\User':
+                    return obj.responsavel.name;
+                default:
+                    return obj.responsavel.nome;
+            }
+        },
+        getLinkRastreio(obj) {
+            let url = 'https://weentrega.saveleads.com.br/preencher/' + obj.uuid + '/' + obj.email_destinatario;
+            const thisIns = this;
+            this.$copyText(url).then(function () {
                     thisIns.$vs.notify({
                         title: 'Success',
-                        text: 'Código de rastreio copiado para sua área de transferência',
+                        text: 'URL copiada para sua área de transferência',
                         color: 'success',
                         iconPack: 'feather',
                         icon: 'icon-check-circle'
                     })
-                }, function () {
+                },
+                function () {
                     thisIns.$vs.notify({
                         title: 'Failed',
-                        text: 'Erro ao copiar código',
+                        text: 'Erro ao copiar link',
                         color: 'danger',
                         iconPack: 'feather',
                         position: 'top-center',
                         icon: 'icon-alert-circle'
                     })
                 })
-            }
         },
-    }
+
+        getOrdemEnvio(obj) {
+            if (obj.endereco == null)
+                return 'Pendente'
+            else
+                return 'Preenchida'
+        },
+        getOrdemColor(obj) {
+            if (obj.endereco == null)
+                return 'text-warning'
+            else
+                return 'text-primary'
+        },
+        getEventoRed(obj) {
+            console.log('obj', obj)
+            console.log(obj.eventos[obj.eventos.length - 1])
+            if (obj.eventos.length > 0)
+                return obj.eventos[obj.eventos.length - 1].resposta == 'error';
+            else
+                return false;
+        },
+        getEventoGreen(obj) {
+            if (obj.eventos.length > 0)
+                return obj.eventos[obj.eventos.length - 1].resposta == 'success';
+            else
+                return false;
+        },
+        copyText(val) {
+            const thisIns = this;
+            this.$copyText(val).then(function () {
+                thisIns.$vs.notify({
+                    title: 'Success',
+                    text: 'Código de rastreio copiado para sua área de transferência',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle'
+                })
+            }, function () {
+                thisIns.$vs.notify({
+                    title: 'Failed',
+                    text: 'Erro ao copiar código',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    position: 'top-center',
+                    icon: 'icon-alert-circle'
+                })
+            })
+        }
+    },
+}
 </script>
 
 <style scoped>
