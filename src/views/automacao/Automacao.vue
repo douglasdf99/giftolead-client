@@ -2,6 +2,8 @@
   <div>
     <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
               :data="sidebarData" @getItems="getItems('pendente')"/>
+    <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems('pendente')" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
+              :data="endereco"/>
     <div class="vx-row flex items-end mb-4">
       <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
         <div class="flex items-center">
@@ -62,27 +64,27 @@
       <div class="vx-col w-full">
         <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
           <vs-tab color="primary" value="10" :label="'pendentes'" @click="getItems('pendente')">
-            <listagem :items="items" tipo="pendente" @getItems="getItems('pendente')" ></listagem>
+            <listagem :items="items" tipo="pendente" @editarEnd="editarEndereco" @getItems="getItems('pendente')"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
-            <listagem :items="items" tipo="comerro"></listagem>
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="comerro"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'preenchida'" @click="getItems('preenchida')">
-            <listagem :items="items" tipo="preenchida"></listagem>
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="preenchida"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'com expedição'" @click="getItems('comexpedicao')">
-            <listagem :items="items" tipo="comexpedicao"></listagem>
+            <listagem :items="items " @editarEnd="editarEndereco" tipo="comexpedicao"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
-          <vs-tab color="primary" value="10" :label="'arquivadas'"  @click="getItems('arquivadas')">
-            <listagem :items="items" tipo="arquivadas" @getItems="getItems('arquivadas')"></listagem>
+          <vs-tab color="primary" value="10" :label="'arquivadas'" @click="getItems('arquivadas')">
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="arquivadas" @getItems="getItems('arquivadas')"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'todos'" @click="getItems()">
-            <listagem :items="items" tipo="todos"></listagem>
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="todos"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
         </vs-tabs>
@@ -106,21 +108,28 @@
   import moduleAutomacao from "../../store/automacao/moduleAutomacao";
   import Listagem from './Listagem'
   import moduleBrindes from "../../store/brindes/moduleBrindes";
-  import SideBar from './SideBar'
+  import SideBar from './SideBar';
+  import endereco from './Endereco'
+
 
   export default {
     name: "ListEntrega",
     components: {
       'v-select': vSelect,
       Listagem,
-      SideBar
+      SideBar, endereco
     },
     data() {
       return {
         items: [],
         addNewDataSidebar: false,
 
-        sidebarData:'',
+        sidebarData: '',
+        modalEndereco: false,
+        automacaoSelected: {},
+        endereco: {
+          telefone: ''
+        },
         dados: {
           dt_inicio: '',
           dt_fim: '',
@@ -155,6 +164,21 @@
       this.getItems('pendente');
     },
     methods: {
+
+      toggleDataSidebarEnd(val = false) {
+        this.modalEndereco = val
+      },
+      //Editar endereço da automação
+      editarEndereco(obj) {
+        this.automacaoSelected = {...obj};
+        if (obj.endereco) {
+          this.endereco = {...obj.endereco};
+          this.endereco.ddd = this.endereco.telefone.substring(0, 2);
+          this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
+        }
+
+        this.modalEndereco = true;
+      },
       getItems(tipo = '') {
         this.$vs.loading();
         if (tipo != 'arquivadas') {
@@ -172,7 +196,7 @@
         });
       },
       addNewData() {
-        this.sidebarData = {'brindes':this.brindes}
+        this.sidebarData = {'brindes': this.brindes}
         this.toggleDataSidebar(true)
       },
       toggleDataSidebar(val = false) {

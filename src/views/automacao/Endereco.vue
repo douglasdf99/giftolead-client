@@ -27,8 +27,7 @@
             </div>
             <div class="vx-row mt-2">
               <div class="vx-col w-3/12">
-                <p class="gray-wdc mb-2 font-
-                bold">DDD</p>
+                <p class="gray-wdc mb-2 font-bold">DDD</p>
                 <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3"
                           v-model="endereco.ddd" type="text" required v-mask="'##'" @keypress="isNumber"/>
               </div>
@@ -133,7 +132,7 @@
         default: () => {
         },
       },
-      expedicao: {
+      automacao: {
         type: Object,
         default: () => {
         },
@@ -143,7 +142,9 @@
     data() {
       return {
         endereco: {
-          telefone: ''
+          telefone: '',
+          complemento:'',
+          numero:''
         },
         valido: false,
         antigoCep: '',
@@ -171,16 +172,14 @@
     },
     created() {
       console.log(this.data)
+      if (this.data.id)
       this.getEndereco(this.data.id);
 
       if (!moduleExpedicoesBrindes.isRegistered) {
         this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
         moduleExpedicoesBrindes.isRegistered = true;
       }
-      /*this.$vs.loading({
-          container: '#div-with-loading',
-          scale: 0.6
-      });*/
+
     },
     computed: {
       invalidoEntrega() {
@@ -203,30 +202,57 @@
       storeEndereco() {
         this.$validator.validateAll().then(result => {
           if(result) {
+            //automacao_enderecos
+            this.endereco.telefone = this.endereco.ddd + this.endereco.telefone.replace('-', '');
+            console.log(this.endereco);
+            this.endereco.nome = this.removeAccents(this.endereco.nome);
+            this.$vs.loading();
+            if ( this.endereco.id){
+              this.$store.dispatch('expedicaos/storeEndereco', this.endereco)
+                .then(response => {
+                  console.log(response);
+                  this.$vs.loading.close();
+                  this.isSidebarActiveLocal = false;
+                  this.$vs.notify({
+                    color: 'success',
+                    title: '',
+                    text: 'Salvo com sucesso'
+                  });
+                  this.$emit('getItems');
+                })
+                .catch(erro => {
+                  console.log(erro);
+                  this.$vs.notify({
+                    title: '',
+                    color: 'danger',
+                    text: erro.message
+                  })
+                });
+            }
+            else{
+              this.endereco.automacao_id = this.automacao.id
+              this.$store.dispatch('expedicaos/storeEnderecoNovo', this.endereco)
+                .then(response => {
+                  console.log(response);
+                  this.$vs.loading.close();
+                  this.isSidebarActiveLocal = false;
+                  this.$vs.notify({
+                    color: 'success',
+                    title: '',
+                    text: 'Salvo com sucesso'
+                  });
+                  this.$emit('getItems');
+                })
+                .catch(erro => {
+                  console.log(erro);
+                  this.$vs.notify({
+                    title: '',
+                    color: 'danger',
+                    text: erro.message
+                  })
 
-
-        //automacao_enderecos
-        this.endereco.telefone = this.endereco.ddd + this.endereco.telefone.replace('-', '');
-        console.log(this.endereco);
-        this.endereco.nome = this.removeAccents(this.endereco.nome);
-        this.$vs.loading();
-        this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(response => {
-          console.log(response);
-          this.$vs.loading.close();
-          this.isSidebarActiveLocal = false;
-          this.$vs.notify({
-            color: 'success',
-            title: '',
-            text: 'Salvo com sucesso'
-          });
-        }).catch(erro => {
-          console.log(erro);
-          this.$vs.notify({
-            title: '',
-            color: 'danger',
-            text: erro.message
-          })
-        });
+                });
+            }
           }else{
             alert('Verifique os erros');
           }

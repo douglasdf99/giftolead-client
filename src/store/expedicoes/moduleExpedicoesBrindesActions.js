@@ -123,6 +123,19 @@ export default {
         })
     })
   },
+  storeEnderecoNovo({commit}, dados) {
+    return new Promise((resolve, reject) => {
+      axios.post("/automacao_enderecos/", dados)
+        .then((response) => {
+          console.log('automacao_enderecos 2', response)
+          resolve(response.data);
+        })
+        .catch((error) => {
+          console.log('error', error)
+          reject(error)
+        })
+    })
+  },
   getEndereco({commit}, id) {
     return new Promise((resolve, reject) => {
       axios.get("/automacao_enderecos/"+id)
