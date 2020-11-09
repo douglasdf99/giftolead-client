@@ -11,9 +11,9 @@
 var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
 var domain = '';
 if(subdomain)
-    domain = "https://api.saveleads.com.br/" + subdomain;
+    domain = "https://apidev.saveleads.com.br/" + subdomain;
 else
-    domain = "https://api.saveleads.com.br/app";
+    domain = "https://apidev.saveleads.com.br/app";
 
 const saveleadsConfig = {
     token : localStorage.getItem("accessToken")|| null,
