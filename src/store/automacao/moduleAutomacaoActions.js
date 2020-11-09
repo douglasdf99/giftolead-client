@@ -36,9 +36,9 @@ export default {
                 })
         })
     },
-    getEmails({commit}) {
+    getEmails({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/automacao_emails`, {params: {}})
+            axios.get(`/automacao_emails`, {params: {brinde_id: id}})
                 .then((response) => {
                     console.log('emails resgatados', response);
                     resolve(response.data.data)
@@ -60,36 +60,36 @@ export default {
         })
     },
     store({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      axios.post(`/automacaos/manual`, dados)
-        .then((response) => {
-          console.log('Automacao inserida', response);
-          resolve(response)
+        return new Promise((resolve, reject) => {
+            axios.post(`/automacaos`, dados)
+                .then((response) => {
+                    console.log('Automacao inserida', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          reject(error)
+    },
+    deleteItem({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/automacaos/arquivar/${id}`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-    })
-  },
-  deleteItem({commit}, id) {
-    return new Promise((resolve, reject) => {
-      axios.get(`/automacaos/arquivar/${id}`)
-        .then((response) => {
-          resolve(response.data.data)
+    }, restaurarItem({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/automacaos/restaurar/${id}`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },restaurarItem({commit}, id) {
-    return new Promise((resolve, reject) => {
-      axios.get(`/automacaos/restaurar/${id}`)
-        .then((response) => {
-          resolve(response.data.data)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
+    },
 }
