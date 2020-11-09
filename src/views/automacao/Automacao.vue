@@ -1,8 +1,8 @@
 <template>
   <div>
-    <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar"  @closeSidebar="toggleDataSidebar"
+    <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
               :data="sidebarData" @getItems="getItems('pendente')"/>
-    <endereco v-if="modalEndereco" :automacao="automacaoSelected" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
+    <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems('pendente')" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
               :data="endereco"/>
     <div class="vx-row flex items-end mb-4">
       <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
@@ -64,27 +64,27 @@
       <div class="vx-col w-full">
         <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
           <vs-tab color="primary" value="10" :label="'pendentes'" @click="getItems('pendente')">
-            <listagem :items="items" tipo="pendente" @editarEnd="editarEndereco"  @getItems="getItems('pendente')" ></listagem>
+            <listagem :items="items" tipo="pendente" @editarEnd="editarEndereco" @getItems="getItems('pendente')"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
-            <listagem :items="items" @editarEnd="editarEndereco"  tipo="comerro"></listagem>
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="comerro"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'preenchida'" @click="getItems('preenchida')">
-            <listagem :items="items"  @editarEnd="editarEndereco"  tipo="preenchida"></listagem>
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="preenchida"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'com expedição'" @click="getItems('comexpedicao')">
-            <listagem :items="items " @editarEnd="editarEndereco"  tipo="comexpedicao"></listagem>
+            <listagem :items="items " @editarEnd="editarEndereco" tipo="comexpedicao"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
-          <vs-tab color="primary" value="10" :label="'arquivadas'"  @click="getItems('arquivadas')">
-            <listagem :items="items" @editarEnd="editarEndereco"  tipo="arquivadas" @getItems="getItems('arquivadas')"></listagem>
+          <vs-tab color="primary" value="10" :label="'arquivadas'" @click="getItems('arquivadas')">
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="arquivadas" @getItems="getItems('arquivadas')"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
           <vs-tab color="primary" value="10" :label="'todos'" @click="getItems()">
-            <listagem :items="items" @editarEnd="editarEndereco"  tipo="todos"></listagem>
+            <listagem :items="items" @editarEnd="editarEndereco" tipo="todos"></listagem>
             <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
           </vs-tab>
         </vs-tabs>
@@ -117,16 +117,16 @@
     components: {
       'v-select': vSelect,
       Listagem,
-      SideBar,endereco
+      SideBar, endereco
     },
     data() {
       return {
         items: [],
         addNewDataSidebar: false,
 
-        sidebarData:'',
+        sidebarData: '',
         modalEndereco: false,
-        automacaoSelected:{},
+        automacaoSelected: {},
         endereco: {
           telefone: ''
         },
@@ -196,7 +196,7 @@
         });
       },
       addNewData() {
-        this.sidebarData = {'brindes':this.brindes}
+        this.sidebarData = {'brindes': this.brindes}
         this.toggleDataSidebar(true)
       },
       toggleDataSidebar(val = false) {

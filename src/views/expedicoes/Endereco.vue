@@ -27,7 +27,8 @@
             </div>
             <div class="vx-row mt-2">
               <div class="vx-col w-3/12">
-                <p class="gray-wdc mb-2 font-bold">DDD</p>
+                <p class="gray-wdc mb-2 font-
+                bold">DDD</p>
                 <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3"
                           v-model="endereco.ddd" type="text" required v-mask="'##'" @keypress="isNumber"/>
               </div>

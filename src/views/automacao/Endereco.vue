@@ -202,55 +202,57 @@
       storeEndereco() {
         this.$validator.validateAll().then(result => {
           if(result) {
-        //automacao_enderecos
-        this.endereco.telefone = this.endereco.ddd + this.endereco.telefone.replace('-', '');
-        console.log(this.endereco);
-        this.endereco.nome = this.removeAccents(this.endereco.nome);
-        this.$vs.loading();
-        if ( this.endereco.id){
-          this.$store.dispatch('expedicaos/storeEndereco', this.endereco)
-            .then(response => {
-              console.log(response);
-              this.$vs.loading.close();
-              this.isSidebarActiveLocal = false;
-              this.$vs.notify({
-                color: 'success',
-                title: '',
-                text: 'Salvo com sucesso'
-              });
-            })
-            .catch(erro => {
-              console.log(erro);
-              this.$vs.notify({
-                title: '',
-                color: 'danger',
-                text: erro.message
-              })
-            });
-        }
-        else{
-          this.endereco.automacao_id = this.automacao.id
-          this.$store.dispatch('expedicaos/storeEnderecoNovo', this.endereco)
-            .then(response => {
-              console.log(response);
-              this.$vs.loading.close();
-              this.isSidebarActiveLocal = false;
-              this.$vs.notify({
-                color: 'success',
-                title: '',
-                text: 'Salvo com sucesso'
-              });
-            })
-            .catch(erro => {
-              console.log(erro);
-              this.$vs.notify({
-                title: '',
-                color: 'danger',
-                text: erro.message
-              })
-            });
-        }
+            //automacao_enderecos
+            this.endereco.telefone = this.endereco.ddd + this.endereco.telefone.replace('-', '');
+            console.log(this.endereco);
+            this.endereco.nome = this.removeAccents(this.endereco.nome);
+            this.$vs.loading();
+            if ( this.endereco.id){
+              this.$store.dispatch('expedicaos/storeEndereco', this.endereco)
+                .then(response => {
+                  console.log(response);
+                  this.$vs.loading.close();
+                  this.isSidebarActiveLocal = false;
+                  this.$vs.notify({
+                    color: 'success',
+                    title: '',
+                    text: 'Salvo com sucesso'
+                  });
+                  this.$emit('getItems');
+                })
+                .catch(erro => {
+                  console.log(erro);
+                  this.$vs.notify({
+                    title: '',
+                    color: 'danger',
+                    text: erro.message
+                  })
+                });
+            }
+            else{
+              this.endereco.automacao_id = this.automacao.id
+              this.$store.dispatch('expedicaos/storeEnderecoNovo', this.endereco)
+                .then(response => {
+                  console.log(response);
+                  this.$vs.loading.close();
+                  this.isSidebarActiveLocal = false;
+                  this.$vs.notify({
+                    color: 'success',
+                    title: '',
+                    text: 'Salvo com sucesso'
+                  });
+                  this.$emit('getItems');
+                })
+                .catch(erro => {
+                  console.log(erro);
+                  this.$vs.notify({
+                    title: '',
+                    color: 'danger',
+                    text: erro.message
+                  })
 
+                });
+            }
           }else{
             alert('Verifique os erros');
           }
