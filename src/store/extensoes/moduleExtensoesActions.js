@@ -75,7 +75,7 @@ export default {
     },
     updateRamal({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.put(`/extensoes/totalvoice/`+dados.id, dados)
+            axios.post(`/extensoes/totalvoice/`, dados)
                 .then((response) => {
                     console.log('resposta zenvia', response);
                     resolve(response.data.data)
