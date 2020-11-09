@@ -101,7 +101,7 @@
                                         </h6>
                                     </div>
                                 </div>
-                                <div class="vx-col w-full lg:w-1/2">
+                                <div class="vx-col w-full lg:w-1/2" v-if="$acl.check('ticket_gravacao')">
                                     <h6 class="mb-5"><b>Gravação :</b>
                                     </h6>
                                     <vs-chip color="danger" v-if="!detalheChamada.dados.url_gravacao">Não houve gravação</vs-chip>
