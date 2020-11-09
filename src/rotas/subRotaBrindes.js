@@ -27,6 +27,13 @@ const subbrindes = [
         icon: 'local_shipping',
         can: 'brinde_expedicao'
     },
+    {
+        url: '/brindes/automacao/emails',
+        name: "Configurar e-mails",
+        slug: "brindes-expedicoes",
+        icon: 'email',
+        can: 'brinde_automacao_email'
+    },
 ];
 
 export default subbrindes
