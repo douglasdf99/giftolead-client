@@ -50,9 +50,10 @@
                     let nome = item.lead.nome.split(' ');
 
                     if(item.responsavel)
-                        item.title = `<img class='rounded-full' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
+                        item.title = `<img class='rounded-full responsavel-img' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
                     else
-                        item.title = `<img class='rounded-full' src='${this.get_img_api('images/icon-padrao.jpg')}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
+                        item.title = `<img class='rounded-full responsavel-img' src='${this.get_img_api('images/icon-padrao.jpg')}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
+
                     item.startDate = data_agendamento;
                     item.endDate = data_agendamento;
                     item.label = this.getSituacao(data_agendamento);
@@ -89,6 +90,14 @@
 
             this.getAtendimentos();
         },
+        updated() {
+            let imgs = document.getElementsByClassName('cv-event');
+            console.log('imgs', imgs.length)
+            for(let i = 0; i < imgs.length; i++){
+                console.log('img aí', imgs[i], i)
+                imgs[i].removeAttribute('title')
+            }
+        }
     }
 </script>
 

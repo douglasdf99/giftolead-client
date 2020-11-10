@@ -253,7 +253,8 @@ export default {
             let control = 0;//Controla entradas em cada condição
             if (this.search !== '') {
                 url += 'lead.email:' + this.search + ';';
-                url += 'id:' + this.search;
+                url += 'id:' + this.search + ';';
+                url += 'lead.telefone:' + this.search;
                 control++;
             }
 

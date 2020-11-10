@@ -87,7 +87,7 @@
                                 {{ ticket.lead.nome }}
                             </p>
                             <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
-                                {{ '(' + ticket.lead.ddd + ') '}} {{ ticket.lead.telefone | VMask(ticket.lead.telefone.length === 9 ? '#####-####' : '####-####')}}
+                                {{ '(' + ticket.lead.ddd + ') ' }} {{ ticket.lead.telefone | VMask(ticket.lead.telefone.length === 9 ? '#####-####' : '####-####') }}
                             </p>
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ ticket.lead.email }}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ ticket.lead.cpf }}</p>
@@ -127,13 +127,13 @@
                                 Criado por:
                             </p>
                             <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
-                                {{ ticket.responsavel.nome }}
+                                {{ ticket.responsavel.nome || ticket.responsavel.name }}
                                 <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
                                 <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaBoleto'">
                                 <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
                                 <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
                                 <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                                <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-if="ticket.responsavel.avatar">
+                                <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel.avatar">
                             </p>
                         </div>
                     </div>
