@@ -241,6 +241,52 @@
           <v-select v-model="selectedUser" class="mb-2" :class="'select-large-base'" :clearable="false"
                     :options="users" v-validate="'required'" name="tipo"/>
         </div>
+        <div class="mt-3 w-full"  v-show="!val.bina_inteligente">
+          <span class="font-regular mb-2">Bina</span>
+          <vs-input :disabled="val.bina_inteligente" sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.bina"
+                    v-mask="'(##) #####-####'"/>
+
+          <span class="text-secondary text-sm"
+                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
+        </div>
+        <span class="text-secondary text-sm"
+              v-show="val.bina_inteligente">Com a bina inteligente ativada a opção de bina ficara desativada</span>
+        <div class="vx-row">
+          <div class="mt-3 lg:w-6/12 sm:w-12/12">
+            <span class="font-regular mb-2 ml-4">Ligações Por celular</span>
+
+            <vs-switch class="ml-4" v-model="val.ligacao_celular" vs-value="ligacao_celular">
+              <span slot="on">Ativo</span>
+              <span slot="off">Inativo</span>
+            </vs-switch>
+          </div>
+          <div class="mt-3 lg:w-6/12 sm:w-12/12">
+            <span class="font-regular mb-2 ml-4">Ligações externas</span>
+
+            <vs-switch class="ml-4" v-model="val.ligacao_externa" vs-value="ligacao_externa">
+              <span slot="on">Ativo</span>
+              <span slot="off">Inativo</span>
+            </vs-switch>
+          </div>
+        </div>
+        <div class="vx-row">
+          <div class="mt-3 lg:w-6/12 sm:w-12/12">
+            <span class="font-regular mb-2 ml-4">Gravar audio</span>
+
+            <vs-switch class="ml-4" v-model="val.gravar_audio" vs-value="gravar_audio">
+              <span slot="on">Ativo</span>
+              <span slot="off">Inativo</span>
+            </vs-switch>
+          </div>
+          <div class="mt-3 lg:w-6/12 sm:w-12/12">
+            <span class="font-regular mb-2 ml-4">Bina inteligente</span>
+
+            <vs-switch class="ml-4" v-model="val.bina_inteligente" vs-value="bina_inteligente">
+              <span slot="on">Ativo</span>
+              <span slot="off">Inativo</span>
+            </vs-switch>
+          </div>
+        </div>
       </div>
     </vs-prompt>
     <vs-prompt
@@ -263,7 +309,7 @@
                     v-mask="'(##) #####-####'"/>
 
           <span class="text-secondary text-sm"
-                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opcção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
+                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
         </div>
         <span class="text-secondary text-sm"
               v-show="val.bina_inteligente">Com a bina inteligente ativada a opção de bina ficara desativada</span>
@@ -391,7 +437,7 @@ export default {
       modalramaledit: false,
       val: {
         ramal: '',
-        bina: '',
+        bina: 0,
         ligacao_celular: '',
         gravar_audio: '',
         bina_inteligente: '',
@@ -468,6 +514,7 @@ export default {
       if (this.dateRange.endDate)
         this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
       this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
+
         if (response.chamadas.dados.relatorio.length > 0)
           this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
         if (response.recarga.dados.relatorio != null)
@@ -583,6 +630,16 @@ export default {
 
     //Modal
     addRamal() {
+     let obj = {
+        ramal: '',
+        bina: '',
+        ligacao_celular: '',
+        gravar_audio: '',
+        bina_inteligente: '',
+        ligacao_externa: ''
+      }
+      this.val = obj;
+
       this.modalramal = true;
     },
     editRamal(obj) {
@@ -631,22 +688,28 @@ export default {
       this.$vs.loading.close();
     },
     updateRamal() {
+
       this.$vs.loading();
       this.val.ramal_id = this.val.id;
       this.val.user_id = this.selectedUser.id;
       this.val.type = 'totalvoiceUpdateRamal';
+      if (this.val.bina == null ){
+        this.val.bina = 0;
+      }
       this.val.subdomain = this.dados.subdomain;
       this.$store.dispatch('extensoes/updateRamal', this.val).then(response => {
         console.log('retornou', response);
+        this.$vs.loading.close();
+
         this.getHistorico();
         this.$vs.notify({
-          title: '',
+          title: 'Sucesso',
           text: 'Alterações realizadas com sucesso',
           iconPack: 'feather',
           icon: 'icon-alert-circle',
           color: 'success'
         });
-        this.$vs.loading.close();
+
       })
         .catch((erro) => {
           this.$vs.loading.close();
