@@ -63,7 +63,7 @@
         <div class="vx-row">
             <div class="vx-col w-full">
                 <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
-                    <vs-tab color="primary" value="10" :label="'todos'" @click="getItems()">
+                    <vs-tab color="primary" value="10" :label="'todos'" @click="getItems('')">
                         <listagem :items="items" @editarEnd="editarEndereco" tipo="todos"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>

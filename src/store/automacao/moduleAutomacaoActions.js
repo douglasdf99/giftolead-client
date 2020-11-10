@@ -81,9 +81,21 @@ export default {
                     reject(error)
                 })
         })
-    }, restaurarItem({commit}, id) {
+    },
+    restaurarItem({commit}, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/automacaos/restaurar/${id}`)
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    enviarEmail({commit}, obj) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/automacao_enviar_email`, obj)
                 .then((response) => {
                     resolve(response.data.data)
                 })

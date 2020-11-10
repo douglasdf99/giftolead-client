@@ -69,20 +69,25 @@
                 <vs-tabs :color="colorx" v-if="nums.abertos">
                     <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
                             :label="'abertos ( ' + nums.abertos + ' )'">
-                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white" @click="getTickets">
-                            Novos Tickets foram inseridos. Clique aqui para atualizar a listagem.
+                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
+                            Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
                         <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black"
-                            :label="'fechados ( ' + nums.fechados + ' )'">
+                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black" :label="'fechados ( ' + nums.fechados + ' )'">
+                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
+                            Clique aqui e atualize a listagem para visualizar os novos Tickets.
+                        </vs-alert>
                         <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
+                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
+                            Clique aqui e atualize a listagem para visualizar os novos Tickets.
+                        </vs-alert>
                         <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
