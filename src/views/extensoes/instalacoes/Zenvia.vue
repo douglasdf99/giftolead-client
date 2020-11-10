@@ -639,6 +639,7 @@ export default {
         ligacao_externa: ''
       }
       this.val = obj;
+      this.selectedUser = {id: null, label: 'Selecione o responsável pelo ramal'};
 
       this.modalramal = true;
     },
