@@ -1,15 +1,6 @@
 <template>
     <div>
-        <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                <div class="w-8/12">
-                    <div>
-                        <p class="span-sem-item">Nenhuma registro encontrado</p>
-                    </div>
-                    <br>
-                </div>
-            </div>
-        </div>
+        <nenhum-registro class="mt-20" :add="false" module="Link" v-if="items.length === 0"/>
         <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items">
             <div class="vx-col w-3/12">
                 <p>{{ item.id }}</p>
@@ -39,8 +30,10 @@
 </template>
 
 <script>
+import NenhumRegistro from "@/views/components/NenhumRegistro";
 export default {
     name: "Listagem",
+    components: {NenhumRegistro},
     props: ['items', 'tipo', 'colorx'],
     data() {
         return {
