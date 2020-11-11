@@ -74,9 +74,9 @@ export default {
     },
     sendMsg({commit}, dados){
         return new Promise((resolve, reject) => {
-            axios.post(`/whatsapplists_resposta/${dados.id}`, {mensagem: dados.mensagem})
+            axios.post(`/${dados.rota}/${dados.id}`, dados)
                 .then((response) => {
-                    commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
+                    commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem, avatar: dados.avatar || null});
                     resolve(response.data.data.url);
                 })
         });

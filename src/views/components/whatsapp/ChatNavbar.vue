@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import moduleMensagem from "../../store/mensagemPadrao/moduleMensagem";
+    import moduleMensagem from "../../../store/mensagemPadrao/moduleMensagem";
 
     export default {
         props: {

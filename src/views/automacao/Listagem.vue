@@ -49,7 +49,11 @@
                                     </vs-dropdown-item>
                                     <vs-dropdown-item v-if="getEventoRed(tr)" @click="reenviar(tr.uuid)">
                                         <vs-icon icon-pack="material-icons" icon="mail"></vs-icon>
-                                        Reenviar e-mail
+                                        Reenviar por e-mail
+                                    </vs-dropdown-item>
+                                    <vs-dropdown-item v-if="tr.endereco == null" @click="$emit('reenviarWhats', tr)">
+                                        <vs-icon icon-pack="material-icons" icon="forward"></vs-icon>
+                                        Enviar por whatsapp
                                     </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
@@ -244,13 +248,14 @@ export default {
             })
         },
         reenviar(token) {
+            let self = this
             this.$vs.dialog({
                 type: 'confirm',
                 color: 'primary',
                 title: `Confirme`,
                 text: 'Certeza de que deseja reenviar este e-mail?',
                 accept() {
-                    this.$store.dispatch('automacao/enviarEmail', {uuid: token, evento: 1}).then(() => {
+                    self.$store.dispatch('automacao/enviarEmail', {uuid: token, evento: 1}).then(() => {
                         this.$vs.notify({
                             text: 'Enviado com sucesso.',
                             color: 'success'
