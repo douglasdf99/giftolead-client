@@ -248,13 +248,14 @@ export default {
             })
         },
         reenviar(token) {
+            let self = this
             this.$vs.dialog({
                 type: 'confirm',
                 color: 'primary',
                 title: `Confirme`,
                 text: 'Certeza de que deseja reenviar este e-mail?',
                 accept() {
-                    this.$store.dispatch('automacao/enviarEmail', {uuid: token, evento: 1}).then(() => {
+                    self.$store.dispatch('automacao/enviarEmail', {uuid: token, evento: 1}).then(() => {
                         this.$vs.notify({
                             text: 'Enviado com sucesso.',
                             color: 'success'
