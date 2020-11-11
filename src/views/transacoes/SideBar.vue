@@ -136,10 +136,18 @@
 
                         </li>
                         <li class="flex">
-                          <div class="w-1/2 text-lg">Origem</div>
+                          <div class="w-1/2 text-lg">Origem sck</div>
                           <div class="w-1/2  text-lg text-left">
                             {{ data.sck }}
                             <span v-if="!data.sck">Sem infromações</span>
+                          </div>
+
+                        </li>
+                        <li class="flex">
+                          <div class="w-1/2 text-lg">Origem src</div>
+                          <div class="w-1/2  text-lg text-left">
+                            {{ data.src }}
+                            <span v-if="!data.src">Sem infromações</span>
                           </div>
 
                         </li>
@@ -423,6 +431,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+li {
+  border-bottom: 1px solid #f1f1f1;
+}
 .add-new-data-sidebar {
   ::v-deep .vs-sidebar--background {
     z-index: 52000;
