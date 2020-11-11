@@ -42,7 +42,7 @@
                 <div class="vx-col  ">
                   <div class="w-full">
 
-                    <div class="conquista-clicavel w-full cursor-pointer pt-3"
+                    <div class=" w-full  pt-3"
                     >
                       <!--<img :src="get_img_api(cliente.company_plano.plano.imagem)" class="img-conquista my-4" alt="" width="150">-->
                       <div class="w-full text-left">
@@ -84,7 +84,7 @@
                         <li class="flex">
                           <div class="w-1/2 text-lg">Valor da compra</div>
                           <div class="w-1/2 text-left text-lg">
-                            {{ data.full_price }} {{ numParcecelas }}
+                            {{data.currency}} {{ data.full_price }} {{ numParcecelas }}
                           </div>
 
                         </li>
@@ -159,7 +159,7 @@
                 <div class="vx-col  ">
                   <div class="w-full">
 
-                    <div class="conquista-clicavel w-full cursor-pointer pt-3"
+                    <div class=" w-full  pt-3"
                     >
                       <!--<img :src="get_img_api(cliente.company_plano.plano.imagem)" class="img-conquista my-4" alt="" width="150">-->
                       <div class="w-full text-left">
@@ -177,24 +177,24 @@
                         <li class="flex">
                           <div class="w-1/2 text-lg">Valor pago pelo comprador</div>
                           <div class="w-1/2 text-left text-lg">
-                            R$ {{ formatPrice(data.full_price) }}
+                            {{data.currency}} {{ formatPrice(data.full_price) }}
                           </div>
                         </li>
                         <li class="flex">
                           <div class="w-1/2 text-lg">Valor pago pelo comprador sem tarifas e impostos</div>
-                          <div class="w-1/2  text-left text-lg">R$ {{ formatPrice(data.cms_vendor) }}
+                          <div class="w-1/2  text-left text-lg">{{data.currency}} {{ formatPrice(data.cms_vendor) }}
                           </div>
 
                         </li>
                         <li class="flex">
                           <div class="w-1/2 text-lg">Tarifa hotmart</div>
-                          <div class="w-1/2  text-left text-lg">R$ {{ formatPrice(data.cms_marketplace) }}
+                          <div class="w-1/2  text-left text-lg">{{data.currency}} {{ formatPrice(data.cms_marketplace) }}
                           </div>
 
                         </li>
                         <li class="flex">
                           <div class="w-1/2 text-lg">Sua comissão</div>
-                          <div class="w-1/2  text-left text-lg">R$ {{ formatPrice(data.cms_vendor) }}
+                          <div class="w-1/2  text-left text-lg">{{data.currency}} {{ formatPrice(data.cms_vendor) }}
                           </div>
 
                         </li>
@@ -366,6 +366,13 @@ export default {
         // code block
       }
     },
+    currency(){
+      if (this.data.currency != 'BRL'){
+        return '$'
+      }else{
+        return 'R$'
+      }
+    }
   },
   methods: {
     pesquisarTrans(e) {

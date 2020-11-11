@@ -102,6 +102,7 @@
               <vs-th>Comissão do Hotmart</vs-th>
               <vs-th>Comissão Cadastrada</vs-th>
               <vs-th>Status</vs-th>
+              <vs-th></vs-th>
             </template>
 
             <template slot-scope="{data}">
@@ -125,7 +126,7 @@
                   <span class="destaque">{{ tr.updated_at | formatDateTime }}</span>
                 </vs-td>
                 <vs-td>
-                  <span class="preco">R$ {{ formatPrice(tr.cms_vendor) }}</span>
+                  <span class="preco"> {{tr.currency}} {{ formatPrice(tr.cms_vendor) }}</span>
                 </vs-td>
                 <vs-td v-if="tr.produto">
                   <span class="preco">R$ {{ formatPrice(tr.produto.preco) }}</span>
@@ -135,6 +136,10 @@
                            :color="status[1]" class="product-order-status">
                     {{ status[0] }}
                   </vs-chip>
+                </vs-td>
+                <vs-td>
+                  <vs-icon icon-pack="material-icons" icon="visibility"  @click="visualizar(tr)"
+                           class="icon-grande font-bold mx-3 cursor-pointer text-black"></vs-icon>
                 </vs-td>
               </vs-tr>
             </template>
@@ -378,6 +383,13 @@ export default {
           break;
       }
       this.getTransacoes();
+    },
+    currency(data){
+      if (data.currency != 'BRL'){
+        return '$'
+      }else{
+        return 'R$'
+      }
     }
   },
   watch: {
@@ -434,6 +446,7 @@ export default {
         return this.$store.state.pagination;
     },*/
   },
+
 
 }
 </script>
