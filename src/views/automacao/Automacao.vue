@@ -4,6 +4,8 @@
                   :data="sidebarData" @getItems="getItems('pendente')"/>
         <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems('pendente')" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
                   :data="endereco"/>
+        <reenviar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
+                  :data="aresponder"/>
         <div class="vx-row flex items-end mb-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
                 <div class="flex items-center">
@@ -64,11 +66,11 @@
             <div class="vx-col w-full">
                 <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
                     <vs-tab color="primary" value="10" :label="'todos'" @click="getItems('')">
-                        <listagem :items="items" @editarEnd="editarEndereco" tipo="todos"></listagem>
+                        <listagem @reenviarWhats="reenviarWhats" :items="items" @editarEnd="editarEndereco" tipo="todos"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab color="primary" value="10" :label="'pendentes'" @click="getItems('pendente')">
-                        <listagem :items="items" tipo="pendente" @editarEnd="editarEndereco" @getItems="getItems('pendente')"></listagem>
+                        <listagem @reenviarWhats="reenviarWhats" :items="items" tipo="pendente" @editarEnd="editarEndereco" @getItems="getItems('pendente')"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
@@ -110,20 +112,22 @@ import Listagem from './Listagem'
 import moduleBrindes from "../../store/brindes/moduleBrindes";
 import SideBar from './SideBar';
 import endereco from './Endereco'
+import reenviar from './Whatsapp'
+import moduleWhatsList from "@/store/whatsapplist/moduleWhatsList";
 
 
 export default {
     name: "ListEntrega",
     components: {
-        'v-select': vSelect,
-        Listagem,
-        SideBar, endereco
+        'v-select': vSelect, Listagem,
+        SideBar, endereco, reenviar
     },
     data() {
         return {
             items: [],
             addNewDataSidebar: false,
-
+            responderTicket: false,
+            aresponder: {},
             sidebarData: '',
             modalEndereco: false,
             automacaoSelected: {},
@@ -160,13 +164,24 @@ export default {
             this.$store.registerModule('brindes', moduleBrindes)
             moduleBrindes.isRegistered = true
         }
+
+        if (!moduleWhatsList.isRegistered) {
+            this.$store.registerModule('whatsapplist', moduleWhatsList)
+            moduleWhatsList.isRegistered = true
+        }
         this.getBrindes();
         this.getItems();
     },
     methods: {
-
         toggleDataSidebarEnd(val = false) {
             this.modalEndereco = val
+        },
+        reenviarWhats(dados){
+            this.aresponder = dados;
+            this.toggleRespostaSidebar(true);
+        },
+        toggleRespostaSidebar(val = false) {
+            this.responderTicket = val;
         },
         //Editar endereço da automação
         editarEndereco(obj) {

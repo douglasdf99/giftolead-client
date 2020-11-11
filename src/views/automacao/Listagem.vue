@@ -49,7 +49,11 @@
                                     </vs-dropdown-item>
                                     <vs-dropdown-item v-if="getEventoRed(tr)" @click="reenviar(tr.uuid)">
                                         <vs-icon icon-pack="material-icons" icon="mail"></vs-icon>
-                                        Reenviar e-mail
+                                        Reenviar por e-mail
+                                    </vs-dropdown-item>
+                                    <vs-dropdown-item v-if="tr.endereco == null" @click="$emit('reenviarWhats', tr)">
+                                        <vs-icon icon-pack="material-icons" icon="forward"></vs-icon>
+                                        Enviar por whatsapp
                                     </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
