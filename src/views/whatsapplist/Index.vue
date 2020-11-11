@@ -78,6 +78,9 @@
                 <vs-tabs :color="colorx" v-model="selectedTab">
                     <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
                             :label="'pendentes (' + numeros.pendentes + ')'" v-if="numeros">
+                      <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white" @click="getItems('pendentes')">
+                        Novos Whastapps foram inseridos. Clique aqui para atualizar a listagem.
+                      </vs-alert>
                         <listagem @responder="responder" @transformar="transformar" :items="items"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
@@ -134,6 +137,8 @@
         },
         data() {
             return {
+              newTickets: false,
+
               selectedResp: null,
                 // Data Sidebar
                 responderTicket: false,
@@ -313,6 +318,7 @@
                     this.numeros = {...response.numeros};
                     this.$vs.loading.close();
                 });
+                this.newTickets = false;
             },
             getCampanhas(val) {
                 let rota = '';
@@ -413,8 +419,23 @@
         },
         mounted() {
             this.channel.listen('WhatsapplistEvent', (payload) => {
-                this.getItems();
             });
+          this.channel.listen('WhatsapplistEvent', (payload) => {
+            console.log('escutou')
+            this.tickets = this.items.filter(function (item) {
+              console.log('Playload', payload);
+              console.log('ITEM DO PAYLOAD', item);
+              if (payload.array.tipo == "excluir") {
+                if (item.id !== payload.array.whatsapp.id) {
+                  return item;
+                }
+              } else return item
+            });
+            if(payload.array.tipo != "excluir" && payload.array.tipo != 'alterar'){
+              this.newTickets = true;
+
+            }
+          });
         },
 
     }

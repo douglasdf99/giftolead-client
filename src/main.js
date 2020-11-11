@@ -93,7 +93,7 @@ import store from './store/store'
 
 Vue.use(VueEcho, {
   broadcaster: 'socket.io',
-  host: 'https://api.saveleads.com.br:2083',
+  host: 'https://apidev.saveleads.com.br:2083',
   auth: {
     headers: {
       Authorization: `Bearer ${store.getters.getToken}`
