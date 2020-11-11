@@ -139,6 +139,7 @@
                           <div class="w-1/2 text-lg">Origem</div>
                           <div class="w-1/2  text-lg text-left">
                             {{ data.sck }}
+                            <span v-if="!data.sck">Sem infromações</span>
                           </div>
 
                         </li>
