@@ -51,7 +51,9 @@
                       v-if="historico">
                 <div class="vx-row flex items-end">
                   <div class="vx-col w-full lg:w-5/12">
-                    <p>Resultado considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
+                    <p>Resultado considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{
+                        dateRange.endDate | formatDate
+                      }}</span>
                     </p>
                   </div>
                   <div class="vx-col w-full relative lg:w-7/12 sm:w-1/2 flex justify-end">
@@ -241,16 +243,7 @@
           <v-select v-model="selectedUser" class="mb-2" :class="'select-large-base'" :clearable="false"
                     :options="users" v-validate="'required'" name="tipo"/>
         </div>
-        <div class="mt-3 w-full"  v-show="!val.bina_inteligente">
-          <span class="font-regular mb-2">Bina</span>
-          <vs-input :disabled="val.bina_inteligente" sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.bina"
-                    v-mask="'(##) #####-####'"/>
 
-          <span class="text-secondary text-sm"
-                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
-        </div>
-        <span class="text-secondary text-sm"
-              v-show="val.bina_inteligente">Com a bina inteligente ativada a opção de bina ficara desativada</span>
         <div class="vx-row">
           <div class="mt-3 lg:w-6/12 sm:w-12/12">
             <span class="font-regular mb-2 ml-4">Ligações Por celular</span>
@@ -287,6 +280,17 @@
             </vs-switch>
           </div>
         </div>
+        <div class="mt-3 w-full" v-show="!val.bina_inteligente">
+          <span class="font-regular mb-2">Bina</span>
+          <vs-input :disabled="val.bina_inteligente" sizy="large" class="bg-white w-full" @keypress="isNumber"
+                    v-model="val.bina"
+                    v-mask="'(##) #####-####'"/>
+
+          <span class="text-secondary text-sm"
+                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
+        </div>
+        <span class="text-secondary text-sm"
+              v-show="val.bina_inteligente">Com a bina inteligente ativada a opção de bina ficara desativada</span>
       </div>
     </vs-prompt>
     <vs-prompt
@@ -303,16 +307,7 @@
           <v-select v-model="selectedUser" class="mb-2" :class="'select-large-base'" :clearable="false"
                     :options="users" v-validate="'required'" name="tipo"/>
         </div>
-        <div class="mt-3 w-full"  v-show="!val.bina_inteligente">
-          <span class="font-regular mb-2">Bina</span>
-          <vs-input :disabled="val.bina_inteligente" sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.bina"
-                    v-mask="'(##) #####-####'"/>
 
-          <span class="text-secondary text-sm"
-                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
-        </div>
-        <span class="text-secondary text-sm"
-              v-show="val.bina_inteligente">Com a bina inteligente ativada a opção de bina ficara desativada</span>
         <div class="vx-row">
           <div class="mt-3 lg:w-6/12 sm:w-12/12">
             <span class="font-regular mb-2 ml-4">Ligações Por celular</span>
@@ -349,6 +344,17 @@
             </vs-switch>
           </div>
         </div>
+        <div class="mt-3 w-full" v-show="!val.bina_inteligente">
+          <span class="font-regular mb-2">Bina</span>
+          <vs-input :disabled="val.bina_inteligente" sizy="large" class="bg-white w-full" @keypress="isNumber"
+                    v-model="val.bina"
+                    v-mask="'(##) #####-####'"/>
+
+          <span class="text-secondary text-sm"
+                v-show="!val.bina">Ao gravar um numero como bina ele ficara gravado a esse ramal, até que seja trocado por outro ou até que a opção de bina inteligente seja ativada, não permitindo voltar ao estado original de nenhum numero gravado</span>
+        </div>
+        <span class="text-secondary text-sm"
+              v-show="val.bina_inteligente">Com a bina inteligente ativada a opção de bina ficara desativada</span>
 
 
       </div>
@@ -440,7 +446,7 @@ export default {
         bina: 0,
         ligacao_celular: '',
         gravar_audio: '',
-        bina_inteligente: '',
+        bina_inteligente: null,
         ligacao_externa: ''
       },
       selectedUser: {id: null, label: 'Selecione o responsável pelo ramal'},
@@ -630,12 +636,12 @@ export default {
 
     //Modal
     addRamal() {
-     let obj = {
+      let obj = {
         ramal: '',
         bina: '',
         ligacao_celular: '',
         gravar_audio: '',
-        bina_inteligente: '',
+        bina_inteligente: null,
         ligacao_externa: ''
       }
       this.val = obj;
@@ -694,7 +700,7 @@ export default {
       this.val.ramal_id = this.val.id;
       this.val.user_id = this.selectedUser.id;
       this.val.type = 'totalvoiceUpdateRamal';
-      if (this.val.bina == null ){
+      if (this.val.bina == null) {
         this.val.bina = 0;
       }
       this.val.subdomain = this.dados.subdomain;
@@ -768,9 +774,10 @@ export default {
       this.dados.page = this.currentx;
       this.getHistorico();
     },
-  },mounted() {
+  }, mounted() {
 
-  }}
+  }
+}
 </script>
 
 <style scoped>
