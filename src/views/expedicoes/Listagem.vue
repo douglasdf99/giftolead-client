@@ -26,10 +26,10 @@
 <!--                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>-->
 <!--                                    Editar-->
 <!--                                </vs-dropdown-item>-->
-                                <vs-dropdown-item @click="$emit('deletar', tr)" v-if="$acl.check('brinde_expedicao_deletar')">
-                                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                    Deletar
-                                </vs-dropdown-item>
+<!--                                <vs-dropdown-item @click="$emit('deletar', tr)" v-if="$acl.check('brinde_expedicao_deletar')">-->
+<!--                                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>-->
+<!--                                    Deletar-->
+<!--                                </vs-dropdown-item>-->
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
