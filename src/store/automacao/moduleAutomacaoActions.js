@@ -25,8 +25,13 @@ export default {
         })
     },
     storeEmail({commit}, dados) {
+        let rota = '/automacao_emails/';
+        if(dados.id != null){
+            dados._method = 'PUT';
+            rota += dados.id;
+        }
         return new Promise((resolve, reject) => {
-            axios.post(`/automacao_emails`, dados)
+            axios.post(rota, dados)
                 .then((response) => {
                     console.log('email criado', response);
                     resolve(response)

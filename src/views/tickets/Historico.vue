@@ -13,7 +13,7 @@
                 </div>
                 <div class="timeline-info p-4">
                     <p class="font-semibold" v-if="IsUser(historico.causer_type)">{{historico.causer.name}}</p>
-                    <p class="font-semibold" v-else>{{historico.causer.nome}}</p>
+                    <p class="font-semibold" v-else>{{historico.causer ? historico.causer.nome : ''}}</p>
                     <span class="activity-desc">{{historico.description}}</span>
                     <div class="vx-row my-3" v-if="historico.properties">
                         <div class="vx-col w-full">
