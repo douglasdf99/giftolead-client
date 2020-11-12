@@ -22,10 +22,10 @@
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar Expedição
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="$emit('editar', tr)" v-if="!tr.fechado && $acl.check('brinde_expedicao_editar')">
-                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                    Editar
-                                </vs-dropdown-item>
+<!--                                <vs-dropdown-item @click="$emit('editar', tr)" v-if="!tr.fechado && $acl.check('brinde_expedicao_editar')">-->
+<!--                                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>-->
+<!--                                    Editar-->
+<!--                                </vs-dropdown-item>-->
                                 <vs-dropdown-item @click="$emit('deletar', tr)" v-if="$acl.check('brinde_expedicao_deletar')">
                                     <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                     Deletar
