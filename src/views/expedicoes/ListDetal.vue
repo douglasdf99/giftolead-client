@@ -86,7 +86,7 @@
                   <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                   Editar Endereço
                 </vs-dropdown-item>
-                <vs-dropdown-item @click="enviarRastreio(tr.id)">
+                <vs-dropdown-item v-if="expedicao.fechado" @click="enviarRastreio(tr.id)">
                   <vs-icon icon-pack="material-icons" icon="email"></vs-icon>
                   Enviar Rastreio
                 </vs-dropdown-item>
