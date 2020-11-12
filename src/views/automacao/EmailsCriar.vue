@@ -169,6 +169,8 @@ export default {
         },
         salvar() {
             this.$vs.loading();
+            if (this.$route.name === 'brindes-automacao-emails-criar')
+                this.email.evento = this.$route.params.tipo;
             this.$store.dispatch('automacao/storeEmail', this.email).then(response => {
                 console.log('response', response);
                 this.$vs.notify({
@@ -178,7 +180,7 @@ export default {
                     icon: 'icon-check-circle',
                     color: 'success'
                 });
-                this.$router.push({name: 'brindes-automacao-emails', params: {brinde: this.$route.params.brinde}});
+                this.$router.push({path: '/brindes/automacao/emails'});
             }).catch(erro => {
                 this.$vs.notify({
                     title: 'Error',
@@ -221,6 +223,11 @@ export default {
             //Quill Editor
             var $txt2 = this.editor.getSelection(true);
             this.editor.insertText($txt2.index, value, '', true);
+        },
+        getAutomacao() {
+            this.$store.dispatch('automacao/getId', this.$route.params.id).then(response => {
+                this.automacao = {...response};
+            });
         },
         getLinks() {
             this.$store.dispatch('getLinks', this.campanha.produto_id).then(response => {

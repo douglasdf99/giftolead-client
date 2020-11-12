@@ -238,7 +238,7 @@
                 this.data.mensagens.forEach(msg => {
                     if(msg.tipo == 'whatsapp'){
                         console.log('mensagem', msg.mensagem);
-                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem});
+                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem, avatar: msg.responsavel.avatar})
                     }
                 })
             }
