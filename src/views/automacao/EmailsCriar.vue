@@ -144,7 +144,7 @@ export default {
                         color: 'primary',
                         title: `Atenção`,
                         type: 'confirm',
-                        text: 'Você tem certeza que deseja criar este e-mail?',
+                        text: 'Você tem certeza que deseja alterar este e-mail?',
                         acceptText: 'Sim',
                         cancelText: 'Cancelar',
                         buttonCancel: false,
@@ -152,9 +152,6 @@ export default {
                             this.salvar();
                         },
                     });
-                    /*} else {
-                        this.salvar();
-                    }*/
                 } else {
                     this.$vs.notify({
                         title: 'Error',
