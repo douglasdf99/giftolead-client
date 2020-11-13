@@ -74,23 +74,7 @@
           </vs-tab>
         </vs-tabs>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-          <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-            <div class="w-8/12">
-              <div v-if="dados.search === null">
-                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                <p class="text-sem-item">
-                  Para inserir novos registros você <br> pode clicar em incluir conta.
-                </p>
-              </div>
-              <div v-else>
-                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                <p class="text-sem-item mt-6">
-                  Para inserir novos registros você <br> pode clicar em incluir conta.
-                </p>
-              </div>
-              <br>
-            </div>
-          </div>
+          <nenhum-registro/>
         </div>
       </vs-col>
     </vs-row>

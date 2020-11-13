@@ -16,20 +16,8 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-10" v-if="items.length === 0">
-                    <div class="w-full lg:w-8/12 s:w-full sem-item mx-auto">
-                        <div class="w-8/12">
-                            <div v-if="selectedProduto.id == null">
-                                <p class="span-sem-item">Selecione um produto para efetuar a busca</p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                            </div>
-                            <br>
-                            <p>
-                            </p>
-                        </div>
-                    </div>
+                <div class="vx-row mt-10 sem-item" v-if="items.length === 0">
+                  <nenhum-registro></nenhum-registro>
                 </div>
                 <div class="com-item mt-10" v-else>
                     <vx-card :key="link.id" class=" mb-1 unsetshadow-setborder p-0" v-for="link in items">
@@ -66,11 +54,12 @@ import SideBar from './SideBar'
 import moduleProdutos from '@/store/produtos/moduleProdutos.js'
 import moduleLinks from '@/store/links/moduleLinks.js'
 import vSelect from 'vue-select'
+import NenhumRegistro from "../components/NenhumRegistro";
 
 export default {
     name: "Index",
 
-    components: {SideBar, 'v-select': vSelect},
+    components: {NenhumRegistro, SideBar, 'v-select': vSelect},
 
     data() {
         return {

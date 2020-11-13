@@ -40,31 +40,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20" v-show="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6" v-if="$acl.check('configuracao_contrato_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir Contrato.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item" v-if="$acl.check('configuracao_contrato_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir Contrato.
-                                </p>
-                            </div>
-                            <br>
-                            <p v-if="$acl.check('configuracao_contrato_incluir')">
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Contrato
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro/>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items vs-con-loading__container" id="div-contrato-list">
