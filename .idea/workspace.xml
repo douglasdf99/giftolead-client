@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Ajuste de tela de brinde quando contrato é excluido e history back quando não tem permissão">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajuste feature brindes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/automacao/Automacao.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Automacao.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/automacao/Endereco.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Endereco.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Endereco.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Endereco.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saveleadsConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/saveleadsConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Index.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -18,20 +17,62 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/views/automacao/Endereco.vue">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/tickets/Atender.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="220" column="41" selection-start-line="220" selection-start-column="41" selection-end-line="220" selection-end-column="41" />
+            <state relative-caret-position="3384">
+              <caret line="350" column="59" selection-start-line="350" selection-start-column="50" selection-end-line="350" selection-end-column="59" />
+              <folding>
+                <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#1;n#div#2;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" />
+                <element signature="n#div#4;n#div#0;n#template#0;n#!!top" />
+                <element signature="e#16615#17975#0" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
+        <entry file="file://$PROJECT_DIR$/src/views/tickets/Atendimento.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1272">
-              <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+            <state relative-caret-position="11640">
+              <caret line="493" column="26" selection-start-line="493" selection-start-column="26" selection-end-line="493" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/views/tickets/Index.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="514">
+              <caret line="252" column="46" selection-start-line="252" selection-start-column="46" selection-end-line="252" selection-end-column="46" />
+              <folding>
+                <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/produtos/moduleProdutoGetters.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/store/tickets/moduleTicketsActions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5256">
+              <caret line="232" column="43" selection-start-line="232" selection-start-column="40" selection-end-line="232" selection-end-column="43" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -56,9 +97,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="10920">
               <caret line="461" column="8" selection-start-line="461" selection-start-column="8" selection-end-line="461" selection-end-column="8" />
-              <folding>
-                <element signature="e#12683#12768#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -66,11 +104,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/automacao/Listagem.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4776">
-              <caret line="243" column="12" selection-start-line="243" selection-start-column="12" selection-end-line="243" selection-end-column="12" />
-              <folding>
-                <element signature="e#8381#9089#0" />
-              </folding>
+            <state relative-caret-position="5544">
+              <caret line="231" column="12" selection-start-line="231" selection-start-column="12" selection-end-line="231" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -78,26 +113,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/automacao/Preview.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
+            <state relative-caret-position="480">
               <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/ChatLog.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="15" column="84" lean-forward="true" selection-start-line="15" selection-start-column="84" selection-end-line="15" selection-end-column="84" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/ChatNavbar.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -106,7 +123,7 @@
         <entry file="file://$PROJECT_DIR$/src/views/automacao/Automacao.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="96">
-              <caret line="4" column="75" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="75" />
+              <caret line="4" column="75" selection-start-line="4" selection-start-column="75" selection-end-line="4" selection-end-column="75" />
             </state>
           </provider>
         </entry>
@@ -123,13 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>channel</find>
-      <find>mount</find>
-      <find>agenda</find>
-      <find>.catch(</find>
-      <find>dias</find>
-      <find>console</find>
-      <find>this.upsellers</find>
       <find>upsellers</find>
       <find>produtos</find>
       <find>getOpcoes</find>
@@ -153,6 +163,13 @@
       <find>expedicaos</find>
       <find>getEndereco</find>
       <find>$emit</find>
+      <find>sock</find>
+      <find>api.sa</find>
+      <find>apidev</find>
+      <find>selectedUpsell</find>
+      <find>apide</find>
+      <find>this.getTickets();</find>
+      <find>his.$vs.loading</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -161,11 +178,15 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Release/1.0.1" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" />
         <option value="$PROJECT_DIR$/src/views/transacoes/Index.vue" />
         <option value="$PROJECT_DIR$/src/views/contratos/AddEdit.vue" />
         <option value="$PROJECT_DIR$/src/views/comissoes/SideBar.vue" />
@@ -207,26 +228,28 @@
         <option value="$PROJECT_DIR$/src/views/DashboardECommerce.vue" />
         <option value="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListActions.js" />
         <option value="$PROJECT_DIR$/src/views/whatsapplist/Transformar.vue" />
-        <option value="$PROJECT_DIR$/src/views/tickets/Index.vue" />
         <option value="$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue" />
-        <option value="$PROJECT_DIR$/src/main.js" />
         <option value="$PROJECT_DIR$/src/views/brindes/Index.vue" />
         <option value="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/Endereco.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/Listagem.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/Automacao.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/Endereco.vue" />
+        <option value="$PROJECT_DIR$/saveleadsConfig.js" />
+        <option value="$PROJECT_DIR$/src/main.js" />
+        <option value="$PROJECT_DIR$/src/views/tickets/Index.vue" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1912" />
+    <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="2576" />
+    <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
   <component name="ProjectId" id="1gvDq2OboOmeOjmsl3CYM9p7bOZ" />
   <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
@@ -234,6 +257,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -250,19 +274,6 @@
               <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
               <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="store" type="462c0819:PsiDirectoryNode" />
-              <item name="expedicoes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -270,20 +281,12 @@
               <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="automacao" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="whatsapplist" type="462c0819:PsiDirectoryNode" />
+              <item name="tickets" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -302,7 +305,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../weentrega" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../gogo-react" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -505,21 +508,12 @@
       <workItem from="1604750034379" duration="1026000" />
       <workItem from="1604751390355" duration="8587000" />
       <workItem from="1604886684991" duration="21000" />
-      <workItem from="1604924846892" duration="3404000" />
-    </task>
-    <task id="LOCAL-00058" summary="ajuste realtime tickets">
-      <created>1594321353036</created>
-      <option name="number" value="00058" />
-      <option name="presentableId" value="LOCAL-00058" />
-      <option name="project" value="LOCAL" />
-      <updated>1594321353036</updated>
-    </task>
-    <task id="LOCAL-00059" summary="inicio de implementação do historico do ticket">
-      <created>1596482556016</created>
-      <option name="number" value="00059" />
-      <option name="presentableId" value="LOCAL-00059" />
-      <option name="project" value="LOCAL" />
-      <updated>1596482556017</updated>
+      <workItem from="1604924846892" duration="5113000" />
+      <workItem from="1604964386071" duration="1763000" />
+      <workItem from="1605016069136" duration="6993000" />
+      <workItem from="1605104236797" duration="2353000" />
+      <workItem from="1605182568906" duration="7043000" />
+      <workItem from="1605268642101" duration="778000" />
     </task>
     <task id="LOCAL-00060" summary="integracao total voice 50 porcento">
       <created>1597062815310</created>
@@ -850,11 +844,25 @@
       <option name="project" value="LOCAL" />
       <updated>1604938014086</updated>
     </task>
-    <option name="localTasksCounter" value="107" />
+    <task id="LOCAL-00107" summary="ajuste feature brindes">
+      <created>1604940873707</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1604940873707</updated>
+    </task>
+    <task id="LOCAL-00108" summary="fix index ticket">
+      <created>1605269859265</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1605269859265</updated>
+    </task>
+    <option name="localTasksCounter" value="109" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="139480000" />
+    <option name="totallyTimeSpent" value="160119000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -866,15 +874,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="2576" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info id="npm" order="1" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="2" weight="0.37813333" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.39093333" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="TypeScript" order="0" />
-      <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.46986666" weight="0.22185062" />
+      <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.46986666" visible="true" weight="0.22185062" />
       <window_info anchor="bottom" id="Database Changes" order="2" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5301333" side_tool="true" weight="0.22185062" />
       <window_info anchor="bottom" id="Version Control" order="4" sideWeight="0.4832" weight="0.5373467" />
@@ -892,7 +900,7 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="Remote Host" order="4" />
+      <window_info anchor="right" id="Remote Host" order="4" weight="0.3296" />
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -951,8 +959,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sprint 23 - progredindo tela de permissões e edição de função" />
-    <MESSAGE value="Sprint 23 - tela de permissões da função em andamento" />
     <MESSAGE value="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário" />
     <MESSAGE value="Sprint 23 - Hotfix no sidebar das Minhas Comissões" />
     <MESSAGE value="Sprint 23 - Sugestão de SCK quando vazio" />
@@ -976,7 +982,9 @@
     <MESSAGE value="fix ajustes" />
     <MESSAGE value="Ajuste de tela de brinde quando contrato é excluido e history back quando não tem permissão" />
     <MESSAGE value="ajustes expedicao e endereco" />
-    <option name="LAST_COMMIT_MESSAGE" value="ajustes expedicao e endereco" />
+    <MESSAGE value="ajuste feature brindes" />
+    <MESSAGE value="fix index ticket" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix index ticket" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" />
@@ -1040,42 +1048,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="39" column="50" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/pages/AgendamentoLinkNovo.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="147" column="15" selection-start-line="147" selection-start-column="15" selection-end-line="147" selection-end-column="15" />
-          <folding>
-            <element signature="n#vs-col#0;n#vs-row#0;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#vs-col#1;n#vs-row#0;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#vs-col#2;n#vs-row#0;n#div#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/campanhas/agendamento/Agendamento.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="56" column="20" selection-start-line="56" selection-start-column="20" selection-end-line="56" selection-end-column="20" />
-          <folding>
-            <element signature="e#17814#18415#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/rotas/configuracoes/rotasConfigUsuarios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1992">
-          <caret line="83" column="65" selection-start-line="83" selection-start-column="55" selection-end-line="83" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/configuracoes/Conquistas.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1272">
@@ -1155,21 +1127,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/tickets/Atender.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="77" selection-start-line="77" selection-end-line="149" selection-end-column="10" />
-          <folding>
-            <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#1;n#div#2;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" />
-            <element signature="n#div#4;n#div#0;n#template#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/rotas/subRotaConfiguracoes.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1215,9 +1172,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/tickets/Atendimento.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/campanhas/whatsapp/Index.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="322">
@@ -1253,13 +1207,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3408">
           <caret line="145" selection-start-line="145" selection-end-line="145" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/tickets/Index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8952">
-          <caret line="382" column="13" selection-start-line="382" selection-start-column="13" selection-end-line="382" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1307,16 +1254,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="251" column="27" selection-start-line="245" selection-start-column="6" selection-end-line="251" selection-end-column="27" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1341,10 +1278,83 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/Endereco.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/automacao/Endereco.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="170" column="5" selection-start-line="170" selection-start-column="5" selection-end-line="170" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/ChatLog.vue" />
+    <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/ChatNavbar.vue" />
+    <entry file="file://$PROJECT_DIR$/src/axios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1272">
-          <caret line="61" column="28" selection-start-line="61" selection-start-column="28" selection-end-line="61" selection-end-column="28" />
+        <state relative-caret-position="1056">
+          <caret line="52" column="48" selection-start-line="52" selection-start-column="48" selection-end-line="52" selection-end-column="48" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2016">
+          <caret line="95" column="23" selection-start-line="95" selection-start-column="23" selection-end-line="95" selection-end-column="23" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/saveleadsConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Atender.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3384">
+          <caret line="350" column="59" selection-start-line="350" selection-start-column="50" selection-end-line="350" selection-end-column="59" />
+          <folding>
+            <element signature="n#div#2;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#1;n#div#2;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#0;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#1;n#div#0;n#div#0;n#div#0;n#div#3;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" />
+            <element signature="n#div#4;n#div#0;n#template#0;n#!!top" />
+            <element signature="e#16615#17975#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Atendimento.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="11640">
+          <caret line="493" column="26" selection-start-line="493" selection-start-column="26" selection-end-line="493" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/tickets/moduleTicketsActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5256">
+          <caret line="232" column="43" selection-start-line="232" selection-start-column="40" selection-end-line="232" selection-end-column="43" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -1365,61 +1375,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10920">
           <caret line="461" column="8" selection-start-line="461" selection-start-column="8" selection-end-line="461" selection-end-column="8" />
-          <folding>
-            <element signature="e#12683#12768#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/ChatNavbar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="648">
-          <caret line="27" column="25" selection-start-line="27" selection-start-column="25" selection-end-line="27" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/whatsapplist/ChatLog.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="15" column="84" lean-forward="true" selection-start-line="15" selection-start-column="84" selection-end-line="15" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/automacao/Preview.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/Endereco.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/automacao/Listagem.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4776">
-          <caret line="243" column="12" selection-start-line="243" selection-start-column="12" selection-end-line="243" selection-end-column="12" />
-          <folding>
-            <element signature="e#8381#9089#0" />
-          </folding>
+        <state relative-caret-position="5544">
+          <caret line="231" column="12" selection-start-line="231" selection-start-column="12" selection-end-line="231" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/automacao/Preview.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/automacao/Automacao.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
-          <caret line="4" column="75" selection-start-line="4" selection-start-column="67" selection-end-line="4" selection-end-column="75" />
+          <caret line="4" column="75" selection-start-line="4" selection-start-column="75" selection-end-line="4" selection-end-column="75" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/automacao/Endereco.vue">
+    <entry file="file://$PROJECT_DIR$/src/store/produtos/moduleProdutoGetters.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="220" column="41" selection-start-line="220" selection-start-column="41" selection-end-line="220" selection-end-column="41" />
+        <state relative-caret-position="264">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/tickets/Index.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="252" column="46" selection-start-line="252" selection-start-column="46" selection-end-line="252" selection-end-column="46" />
+          <folding>
+            <element signature="n#div#1;n#div#0;n#div#0;n#template#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
