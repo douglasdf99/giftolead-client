@@ -14,6 +14,7 @@
                     </vs-dropdown-menu>
                 </vs-dropdown>
             </vx-tooltip>
+
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-5">
