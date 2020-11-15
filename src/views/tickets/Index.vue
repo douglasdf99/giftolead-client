@@ -66,7 +66,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <vs-tabs :color="colorx" v-if="nums.abertos">
+                <vs-tabs :color="colorx">
                     <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
                             :label="'abertos ( ' + nums.abertos + ' )'">
                         <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
