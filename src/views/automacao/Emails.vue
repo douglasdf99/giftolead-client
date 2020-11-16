@@ -9,18 +9,9 @@
             </div>
         </div>
         <vs-divider class="mt-base"></vs-divider>
-        <div class="vx-row mt-10" v-if="selectedBrinde.id != null">
+        <div class="vx-row mt-10" v-show="selectedBrinde.id != null">
             <div class="vx-col col-conquista mb-10">
                 <h4 class="text-center mb-4">Ao entrar</h4>
-                <!--<div v-if="!emailCriar" class="conquista nova cursor-pointer"
-                     @click="$router.push({path: `/brindes/automacao/emails/criar/1`})">
-                    <div class="img-plus cursor-pointer">
-                        <i class="material-icons">add</i>
-                    </div>
-                    <p class="nome-conq">
-                        Adicionar <br> novo e-mail
-                    </p>
-                </div>-->
                 <div class="conquista" style="cursor: default !important">
                     <div class="py-2 w-full flex my-2"></div>
                     <div class="w-full">
@@ -30,7 +21,7 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: `/brindes/automacao/emails/editar/${emailCriar.id}/1`})">
+                               @click="$router.push({path: `/brindes/${selectedBrinde.id}/emails/editar/${emailCriar.id}`})">
                         Editar e-mail
                     </vs-button>
                 </div>
@@ -49,7 +40,7 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: `/brindes/automacao/emails/editar/${emailRastreio.id}/2`})">
+                               @click="$router.push({path: `/brindes/${selectedBrinde.id}/emails/editar/${emailRastreio.id}`})">
                         Editar e-mail
                     </vs-button>
                 </div>
@@ -90,6 +81,10 @@ export default {
             this.$store.registerModule('brindes', moduleBrindes)
             moduleBrindes.isRegistered = true
         }
+        console.log('params', this.$route.params);
+        if(this.$route.params.brinde != null){
+            this.getId(this.$route.params.brinde);
+        }
         this.getBrindes();
     },
     data() {
@@ -127,12 +122,16 @@ export default {
         toggleDataSidebar(val = false) {
             this.addNewDataSidebar = val
         },
-        getId() {
+        getId(id = null) {
             this.$vs.loading();
-            this.$store.dispatch('automacao/getEmails', this.selectedBrinde.id).then(response => {
-                console.log('emails', response);
+            console.log('entrou', this.selectedBrinde)
+            if(id == null) id = this.selectedBrinde.id;
+            this.$store.dispatch('automacao/getEmails', id).then(response => {
                 this.emails = response;
+                console.log('emails aí', this.emails)
                 this.$vs.loading.close();
+                if(this.selectedBrinde.id == null) this.selectedBrinde.id = this.$route.params.brinde;
+                this.selectedBrinde.label = this.emails[0].brinde.nome;
             });
         },
         ativaEmail(e) {
@@ -148,13 +147,15 @@ export default {
                 });
             } else {
                 console.log(e)
-                const formData = new FormData();
                 let ativo = e.status ? 0 : 1;
                 let text = e.status ? 'Desativada' : 'Ativada';
-                formData.append('status', ativo);
-                formData.append('_method', 'PUT');
-                formData.append('assunto', e.assunto);
-                this.$store.dispatch('checkout/updateEmail', {id: e.id, dados: formData}).then(() => {
+                let obj = {
+                    status: ativo,
+                    _method: 'put',
+                    assunto: e.assunto,
+                    id: e.id
+                }
+                this.$store.dispatch('updateItem', {rota: 'automacao_emails', item: obj}).then(() => {
                     this.$vs.notify({
                         title: '',
                         text: text + " com sucesso.",
@@ -164,7 +165,7 @@ export default {
                     });
                 }).catch(erro => {
                     this.$vs.notify({
-                        title: 'Error',
+                        title: '',
                         text: erro.message,
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
@@ -200,7 +201,8 @@ export default {
         },
         selectedBrinde: {
             handler(val) {
-                this.getId();
+                if(val.id != this.$route.params.brinde)
+                    this.getId();
             },
             deep: true
         },

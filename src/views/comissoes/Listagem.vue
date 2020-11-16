@@ -1,14 +1,7 @@
 <template>
     <div>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-            <div class="w-full lg:w-8/12 s:w-full sem-item">
-                <div class="w-8/12">
-                    <div>
-                        <p class="span-sem-item">Nenhum registro encontrado</p>
-                    </div>
-                    <br>
-                </div>
-            </div>
+            <nenhum-registro/>
         </div>
         <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items" @click="visualizar(item)"
              v-bind:class="{'cursor-pointer' : (item.tipo != 'reprovado' && $acl.check('comissao_pendente_detalhar')),

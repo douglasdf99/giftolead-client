@@ -44,11 +44,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <p class="span-sem-item">{{ dados.search ? 'Nenhum item foi encontrado' : 'Você não possui nenhum item cadastrado'}}</p>
-                        </div>
-                    </div>
+                  <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items">

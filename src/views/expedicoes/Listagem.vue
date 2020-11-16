@@ -33,14 +33,14 @@
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
-                    <vs-td>15</vs-td>
+                    <vs-td>{{ tr.automacaos.length }}</vs-td>
                     <vs-td>{{ tr.automacaos.length }}</vs-td>
                     <vs-td>
                         <vs-chip color="primary" class="text-md py-2 font-bold">
                             {{ tr.brinde.nome }}
                         </vs-chip>
                     </vs-td>
-                    <vs-td>{{ tr.brinde.peso }}</vs-td>
+                    <vs-td >{{ (tr.brinde.peso * tr.automacaos.length).toFixed(2)}}</vs-td>
                     <vs-td class="td-icons flex flex-col items-center justify-center">
                         <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
                                  class="icon-grande text-warning" v-if="!tr.fechado"></vs-icon>

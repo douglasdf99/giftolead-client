@@ -125,32 +125,7 @@
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
                 <div class="vx-row mt-20 flex justify-center" v-else>
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search === null">
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item" v-if="$acl.check('configuracao_brinde_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6" v-if="$acl.check('configuracao_brinde_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-
-                            </div>
-                            <br>
-                            <p v-if="$acl.check('configuracao_brinde_incluir')">
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Brinde
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro></nenhum-registro>
                 </div>
             </vs-col>
         </vs-row>
@@ -160,10 +135,11 @@
 <script>
     import SideBar from './SideBar'
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import NenhumRegistro from "../components/NenhumRegistro";
 
     export default {
         name: "Index",
-        components: {SideBar},
+        components: {NenhumRegistro, SideBar},
         data() {
             return {
                 // Data Sidebar

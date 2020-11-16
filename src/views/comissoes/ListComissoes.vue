@@ -1,14 +1,7 @@
 <template>
     <div>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                <div class="w-8/12">
-                    <div>
-                        <p class="span-sem-item">Nenhuma registro encontrado</p>
-                    </div>
-                    <br>
-                </div>
-            </div>
+            <nenhum-registro/>
         </div>
       <div class="" v-else>
         <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items" v-if="tipo == 'usuario'">

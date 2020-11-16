@@ -41,32 +41,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20" v-if="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item mx-auto">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6" v-if="$acl.check('configuracao_mensagem_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir mensagem.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item" v-if="$acl.check('configuracao_mensagem_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir mensagem.
-                                </p>
-                            </div>
-                            <br>
-
-                            <p v-if="$acl.check('configuracao_mensagem_incluir')">
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Mensagem
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items"
