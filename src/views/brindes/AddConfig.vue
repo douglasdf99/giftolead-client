@@ -78,9 +78,9 @@ export default {
             brindes: [],
             tiposSelected: {},
             tipos: [
-                {id: 'aprovada', label: 'Compra aprovada'},
-                {id: 'completa', label: 'Completa'},
-                {id: 'boletogerado', label: 'Boleto Gerado'}
+                {id: 'approved', label: 'Compra aprovada'},
+                {id: 'completed', label: 'Completa'},
+                {id: 'billet_printed', label: 'Boleto Gerado'}
             ],
         }
     },

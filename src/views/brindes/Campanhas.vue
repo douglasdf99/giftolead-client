@@ -43,7 +43,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="vx-col col-conquista mb-10" v-for="item in items">
+                <div class="vx-col col-conquista mb-10" v-for="item in items" :key="item">
                     <div class="conquista" v-bind:class="{'desativado': !item.status}">
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
