@@ -40,7 +40,7 @@ const rotasTickets = [
     },
     {
         path: '/tickets/detalhar/:id',
-        name: 'tickets-atender',
+        name: 'tickets-detalhar',
         component: () => import('@/views/tickets/Detalhamento.vue'),
         meta: {
             breadcrumb: [

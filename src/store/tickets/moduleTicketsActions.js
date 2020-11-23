@@ -249,5 +249,18 @@ export default {
                     resolve(response.data);
                 })
         });
+    },
+    reabrir({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.post(`/ticketsReabrir`, obj)
+                .then((response) => {
+                    console.log(response.data)
+                    commit('SET_TICKET_ATENDIDO', {})
+                    commit('SET_TICKET_VERIFICADO', '')
+                    resolve(response.data);
+                }).catch((error)=>{
+                    reject(error);
+                })
+        });
     }
 }

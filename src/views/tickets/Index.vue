@@ -72,7 +72,7 @@
                         <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar"  @open="open" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -80,7 +80,7 @@
                         <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"   @open="open" ></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -88,7 +88,7 @@
                         <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar"   @open="open"  :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -230,6 +230,11 @@ export default {
             this.sidebarData = obj
             this.toggleDataSidebar(true)
         },
+        openData(obj) {
+            console.log('abrindo', obj)
+            this.sidebarData = obj
+            this.toggleDataSidebar(true)
+        },
         popupTransferir(ticket_id) {
             console.log('transferindo', ticket_id);
             this.modalTransfer = true;
@@ -298,6 +303,34 @@ export default {
             this.$store.dispatch('users/get').then(response => {
                 this.users = [...this.arraySelect(response)];
             });
+        },
+        open(obj) {
+            this.$vs.dialog({
+                color: 'primary',
+                title: `reabrir registro`,
+                text: 'Deseja reabrir este ticket? Procedimento irreversível',
+                acceptText: 'Sim, reabrir!',
+                accept: () => {
+                    this.$vs.loading();
+                    this.$store.dispatch('tickets/reabrir', obj).then(() => {
+                        this.$vs.notify({
+                            color: 'success',
+                            title: 'Sucesso',
+                            text: 'A URL foi deletada com sucesso'
+                        });
+                        this.$vs.loading.close()
+                    }).catch(erro => {
+                        console.log(erro)
+                        this.$vs.notify({
+                            color: 'danger',
+                            title: 'Erro',
+                            text: erro.response.data.message
+                        })
+                    }).finally(() => {
+                        this.$vs.loading.close();
+                    })
+                }
+            })
         },
         deletar(id) {
             this.$vs.dialog({

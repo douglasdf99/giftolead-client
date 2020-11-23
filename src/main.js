@@ -93,7 +93,7 @@ import store from './store/store'
 
 Vue.use(VueEcho, {
   broadcaster: 'socket.io',
-  host: 'https://apidev.saveleads.com.br:2083',
+  host: 'https://api.saveleads.com.br:2083',
   auth: {
     headers: {
       Authorization: `Bearer ${store.getters.getToken}`
@@ -208,7 +208,6 @@ axios.interceptors.response.use((response) => { // intercept the global error
   if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
     console.log(error);
     originalRequest._retry = true // now it can be retried
-
     Vue.swal({
       title: "Sessão expirada",
       text: "Sua sessão foi expirada, para continuar será nescessário realizar login novamente",
@@ -254,7 +253,8 @@ axios.interceptors.response.use((response) => { // intercept the global error
       window.history.back();
     });
     return
-  } else if(error.response.status === 405 && !originalRequest._retry){
+  }
+  else if(error.response.status === 405 && !originalRequest._retry){
       originalRequest._retry = true
       console.log('response cota', error.response.data)
       //self.$vs.loading.close();
