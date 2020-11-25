@@ -172,13 +172,14 @@
     },
     created() {
       console.log(this.data)
-      if (this.data.id)
-      this.getEndereco(this.data.id);
 
       if (!moduleExpedicoesBrindes.isRegistered) {
         this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
         moduleExpedicoesBrindes.isRegistered = true;
       }
+      if (this.data.id)
+      this.getEndereco(this.data.id);
+
 
     },
     computed: {
