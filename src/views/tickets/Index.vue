@@ -72,7 +72,7 @@
                         <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar"  @open="open" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir($event)" @atender="atender" @detalhar="detalhar" @delete="deletar"  @open="open" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -88,7 +88,7 @@
                         <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @transfer="popupTransferir" @atender="atender" @detalhar="detalhar" @delete="deletar"   @open="open"  :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir($event)" @atender="atender" @detalhar="detalhar" @delete="deletar"   @open="open"  :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -141,6 +141,7 @@ export default {
     },
     data() {
         return {
+           ticketIdTrasnfer:'',
             colorx: 'rgb(16, 233, 179)',
             iconsucess: '<vs-icon icon-pack="material-icons" icon="fiber_manual_record"\n' +
                 '                                           class="icon-grande text-success"\n' +
@@ -236,12 +237,13 @@ export default {
             this.toggleDataSidebar(true)
         },
         popupTransferir(ticket_id) {
+          this.ticketIdTrasnfer = ticket_id;
             console.log('transferindo', ticket_id);
             this.modalTransfer = true;
         },
         transferir() {
             let obj = {
-                ticket_id: id,
+                ticket_id: this.ticketIdTrasnfer,
                 user_id: this.selectedUser.id
             };
             this.$vs.loading();

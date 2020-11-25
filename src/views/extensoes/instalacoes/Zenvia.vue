@@ -300,12 +300,12 @@
       <div class="con-exemple-prompt">
         <div class="mt-3 w-full">
           <span class="font-regular mb-2">Ramal</span>
-          <vs-input sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.ramal" v-mask="'####'"/>
+          <vs-input sizy="large" class="bg-white w-full" @keypress="isNumber" v-model="val.ramal" v-mask="'####'" disabled="true"/>
         </div>
         <div class="mt-3 w-full">
           <span class="font-regular mb-2">Responsável</span>
           <v-select v-model="selectedUser" class="mb-2" :class="'select-large-base'" :clearable="false"
-                    :options="users" v-validate="'required'" name="tipo"/>
+                    :options="users" v-validate="'required'" name="tipo" disabled="true"/>
         </div>
 
         <div class="vx-row">
@@ -717,12 +717,12 @@ export default {
           color: 'success'
         });
 
-      })
-        .catch((erro) => {
+      }).catch((erro) => {
+          console.log(erro.response,'erro')
           this.$vs.loading.close();
           this.$vs.notify({
             title: '',
-            text: erro.response.menssagem,
+            text: erro.response,
             iconPack: 'feather',
             icon: 'icon-alert-circle',
             color: 'danger'

@@ -198,6 +198,9 @@
       else {
         this.confereCampanha();
       }
+      this.getCampanha();
+      this.getLinksCamp();
+
     },
     data() {
       return {
@@ -405,6 +408,7 @@
       getCampanha() {
         this.$store.dispatch('checkout/getId', this.$route.params.id).then(response => {
           this.campanha = {...response};
+          console.log(this.campanha,'campanha');
           this.getLinks();
         });
       },
@@ -421,8 +425,10 @@
       getLinksCamp(){
         let params = {
           campanha:this.$route.params.id,
-          campanha_tipo:'boleto'
+          campanha_tipo:'boleto',
+          produto_id:this.campanha.produto_id
         };
+        console.log(params,'parametros');
         this.$store.dispatch('getLinksCamp',params).then(response => {
           let arr = [...response];
           arr.forEach(item => {
