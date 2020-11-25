@@ -14,7 +14,7 @@
             <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
               <vs-td class="flex items-center">
                 <div class="flex items-center">
-                  <img :src="get_img_api(tr.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                  <img :src="null" width="40px" class="rounded-full mx-5" :style="{ backgroundImage: 'url('+get_img_api(tr.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
                   <p class="font-bold text-dark text-xl">{{tr.name}}</p>
                 </div>
               </vs-td>

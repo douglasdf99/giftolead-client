@@ -22,10 +22,11 @@
                     <img src="@/assets/images/util/whatsapp.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaWhatsapp'">
                     <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
                     <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
-                    <img :src="get_img_api(item.criador.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
+                    <img :src="null" width="40px" class="ml-2 rounded-full agente" v-else :style="{ backgroundImage: 'url('+get_img_api(item.criador.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
+
                 </vx-tooltip>
                 <vx-tooltip position="top" :text="'Atendente | ' + item.atendente.name" style="margin-left: -15px">
-                    <img :src="get_img_api(item.atendente.avatar)" width="40px" class="rounded-full agente">
+                    <img :src="null" width="40px" class="rounded-full agente" :style="{ backgroundImage: 'url('+get_img_api(item.atendente.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
                 </vx-tooltip>
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">

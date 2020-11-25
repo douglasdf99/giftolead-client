@@ -158,7 +158,8 @@
                                              v-else-if="item.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
                                         <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente"
                                              v-else-if="item.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                                        <img :src="get_img_api(item.responsavel.avatar)" v-else width="40px" class="ml-2 rounded-full agente">
+                                        <img :src="null" width="40px" class="ml-2 rounded-full agente" v-else :style="{ backgroundImage: 'url('+get_img_api(item.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
+
                                     </vx-tooltip>
                                     <vx-tooltip position="top" :text="'Última Ação | ' + nameCauser(item.ultima_acao)" style="margin-left: -15px" class="img-criador">
                                         <img src="@/assets/images/util/checkout.svg" width="40px" class="ml-2 rounded-full agente" v-if="item.ultima_acao.causer_type == 'App\\Models\\CampanhaCarrinho'">

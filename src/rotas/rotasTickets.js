@@ -50,7 +50,7 @@ const rotasTickets = [
                 {title: 'Atender', active: true},
             ],
             pageTitle: 'Atendendo Ticket',
-            rule: 'ticket_atender',
+            rule: 'ticket_detalhar',
             pai: 'tickets',
             subTitle: 'Tickets',
             //subIcon: 'settings',

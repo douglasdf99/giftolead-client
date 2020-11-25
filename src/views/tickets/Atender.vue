@@ -143,7 +143,8 @@
                 <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
                 <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
                 <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel.avatar">
+                <img :src="null" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel.avatar" :style="{ backgroundImage: 'url('+get_img_api(ticket.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '60px', height:'60px' }">
+
               </p>
             </div>
           </div>
