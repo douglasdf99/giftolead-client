@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajuste feature brindes">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/rotasTickets.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasTickets.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/auth/moduleAuthActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/auth/moduleAuthActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atender.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atender.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Detalhamento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Detalhamento.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -24,28 +19,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/tickets/Listagem.vue">
+        <entry file="file://$PROJECT_DIR$/src/http/requests/auth/jwt/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="4" column="19" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="19" />
+            <state relative-caret-position="540">
+              <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/tickets/Detalhamento.vue">
+        <entry file="file://$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1560">
-              <caret line="65" column="187" selection-start-line="65" selection-start-column="149" selection-end-line="65" selection-end-column="187" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/tickets/Atender.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3600">
-              <caret line="150" column="35" selection-start-line="150" selection-start-column="35" selection-end-line="150" selection-end-column="35" />
+            <state relative-caret-position="1508">
+              <caret line="98" column="39" selection-start-line="98" selection-start-column="39" selection-end-line="98" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -53,26 +39,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/comissoes/Listagem.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="24" column="161" selection-start-line="24" selection-end-line="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="16" column="85" selection-start-line="16" selection-end-line="17" />
+            <state relative-caret-position="504">
+              <caret line="24" column="66" selection-start-line="24" selection-end-line="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue">
+        <entry file="file://$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="15" column="76" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
+            <state relative-caret-position="260">
+              <caret line="126" column="91" selection-start-line="126" selection-start-column="91" selection-end-line="126" selection-end-column="91" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/axios.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/saveleadsConfig.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -146,7 +144,6 @@
       <find>logo</find>
       <find>edit</find>
       <find>lead</find>
-      <find>api.sa</find>
       <find>datetime</find>
       <find>responsavel</find>
       <find>&lt;img :src=&quot;get_img_api(ticket.responsavel.avatar)&quot;</find>
@@ -155,6 +152,7 @@
       <find>avat</find>
       <find>avatar</find>
       <find>the-navbar__user-meta flex items-center</find>
+      <find>api.sa</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -173,13 +171,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/store/whatsapplist/moduleWhatsListActions.js" />
-        <option value="$PROJECT_DIR$/src/views/whatsapplist/Transformar.vue" />
         <option value="$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue" />
         <option value="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/Endereco.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/Automacao.vue" />
-        <option value="$PROJECT_DIR$/src/views/automacao/Endereco.vue" />
         <option value="$PROJECT_DIR$/src/views/tickets/Email.vue" />
         <option value="$PROJECT_DIR$/src/views/tickets/Links.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/PreviewRastreio.vue" />
@@ -216,19 +211,22 @@
         <option value="$PROJECT_DIR$/src/views/tickets/Index.vue" />
         <option value="$PROJECT_DIR$/src/rotas/rotasTickets.js" />
         <option value="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" />
-        <option value="$PROJECT_DIR$/saveleadsConfig.js" />
         <option value="$PROJECT_DIR$/src/views/tickets/Listagem.vue" />
         <option value="$PROJECT_DIR$/src/views/tickets/Detalhamento.vue" />
         <option value="$PROJECT_DIR$/src/views/tickets/Atender.vue" />
-        <option value="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" />
-        <option value="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" />
         <option value="$PROJECT_DIR$/src/views/Dashboard.vue" />
         <option value="$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue" />
+        <option value="$PROJECT_DIR$/src/views/automacao/Endereco.vue" />
+        <option value="$PROJECT_DIR$/src/store/auth/moduleAuthActions.js" />
+        <option value="$PROJECT_DIR$/saveleadsConfig.js" />
+        <option value="$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue" />
+        <option value="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" />
+        <option value="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
+    <option name="x" value="1912" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
@@ -243,7 +241,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -260,22 +257,22 @@
               <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
               <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="layouts" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
               <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="layouts" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
               <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="layouts" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="horizontal-nav-menu" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
@@ -283,10 +280,18 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="saveleadsVuexy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsVuexy" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="comissoes" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -323,19 +328,19 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\projects\saveleadsVuexy\src\views\tickets" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
-      <recent name="C:\projects\saveleadsVuexy\src\views" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\pages" />
-      <recent name="C:\projects\saveleadsVuexy\src\store" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\pages" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\funcoes" />
       <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\cancelada" />
       <recent name="C:\projects\saveleadsVuexy\src\views\links" />
       <recent name="C:\projects\saveleadsVuexy\public" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projects\saveleadsVuexy\src\views\tickets" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
+      <recent name="C:\projects\saveleadsVuexy\src\views" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\pages" />
+      <recent name="C:\projects\saveleadsVuexy\src\store" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -528,21 +533,9 @@
       <workItem from="1606139234976" duration="43000" />
       <workItem from="1606140895437" duration="3972000" />
       <workItem from="1606221691026" duration="8900000" />
-      <workItem from="1606308223769" duration="589000" />
-    </task>
-    <task id="LOCAL-00066" summary="Sprint 22 - Melhoria da galeria de fotos anexadas nas comissões, agora aparecendo na tela de aprovação também.">
-      <created>1600883904647</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1600883904647</updated>
-    </task>
-    <task id="LOCAL-00067" summary="inicio modulo de sino de notificação">
-      <created>1600894188894</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1600894188894</updated>
+      <workItem from="1606308223769" duration="3009000" />
+      <workItem from="1606393004001" duration="5187000" />
+      <workItem from="1606482164927" duration="3066000" />
     </task>
     <task id="LOCAL-00068" summary="Sprint 22 - finalizada primeira versão das notificações, com listagem e atualização em tempo real">
       <created>1600969763419</created>
@@ -873,11 +866,25 @@
       <option name="project" value="LOCAL" />
       <updated>1606140976889</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="ajuste feature brindes">
+      <created>1606309937289</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1606309937290</updated>
+    </task>
+    <task id="LOCAL-00116" summary="ajuste editar endereco automacao">
+      <created>1606310161687</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1606310161687</updated>
+    </task>
+    <option name="localTasksCounter" value="117" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="216143000" />
+    <option name="totallyTimeSpent" value="226816000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -889,14 +896,15 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info id="npm" order="1" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.24213333" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.18453333" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="TypeScript" order="0" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="1" sideWeight="0.46986666" visible="true" weight="0.22185062" />
+      <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.46986666" visible="true" weight="0.22185062" />
       <window_info anchor="bottom" id="Database Changes" order="2" />
       <window_info anchor="bottom" id="Event Log" order="3" sideWeight="0.5301333" side_tool="true" weight="0.22185062" />
       <window_info anchor="bottom" id="Version Control" order="4" sideWeight="0.4832" weight="0.5373467" />
@@ -973,7 +981,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sprint 24 - Douglas pediu a versão mais nova" />
     <MESSAGE value="Sprint 24 - Aplicando acl" />
     <MESSAGE value="Sprint 24 - Finalizando primeira aplicação de ACL em todo o sistema. Correção de BUG na tela de configuração de email de Campanha de Carrinho." />
     <MESSAGE value="Sprint 24 - finalizada primeira versão do menu rápido" />
@@ -991,14 +998,15 @@
     <MESSAGE value="fix ajustes" />
     <MESSAGE value="Ajuste de tela de brinde quando contrato é excluido e history back quando não tem permissão" />
     <MESSAGE value="ajustes expedicao e endereco" />
-    <MESSAGE value="ajuste feature brindes" />
     <MESSAGE value="fix index ticket" />
     <MESSAGE value="disponib ilização de links na tela de atendimento" />
     <MESSAGE value="sema expedicao;&#10;listagem de links na tela de atendimento;&#10;fix email de rastreio" />
     <MESSAGE value="fix component de nenhum registro encontrado" />
     <MESSAGE value="ajuste demostrativo de avatar" />
     <MESSAGE value="feature de reabrir e ajuste de permissão na rota de detalhar" />
-    <option name="LAST_COMMIT_MESSAGE" value="feature de reabrir e ajuste de permissão na rota de detalhar" />
+    <MESSAGE value="ajuste feature brindes" />
+    <MESSAGE value="ajuste editar endereco automacao" />
+    <option name="LAST_COMMIT_MESSAGE" value="ajuste editar endereco automacao" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" />
@@ -1062,36 +1070,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/store/store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="8" selection-start-line="8" selection-end-line="16" selection-end-column="31" />
-          <folding>
-            <element signature="e#470#491#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="8" selection-start-line="16" selection-start-column="8" selection-end-line="16" selection-end-column="8" />
-          <folding>
-            <element signature="e#621#666#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/Callback.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/usuarios/Index.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="98" column="10" selection-start-line="98" selection-start-column="10" selection-end-line="98" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vue.config.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
@@ -1334,20 +1312,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/axios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="111" column="65" selection-start-line="111" selection-start-column="53" selection-end-line="111" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/tickets/Atendimento.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -1365,16 +1329,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
           <caret line="44" column="4" selection-start-line="44" selection-start-column="4" selection-end-line="44" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/saveleadsConfig.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="12" column="13" lean-forward="true" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1399,17 +1353,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/comissoes/Listagem.vue">
+    <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="24" column="161" selection-start-line="24" selection-end-line="25" />
+        <state relative-caret-position="360">
+          <caret line="15" column="76" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue">
+    <entry file="file://$PROJECT_DIR$/src/views/automacao/Endereco.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="85" selection-start-line="16" selection-end-line="17" />
+        <state relative-caret-position="3672">
+          <caret line="156" column="40" selection-start-line="156" selection-start-column="40" selection-end-line="156" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/pages/login/LoginJWT.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2520">
+          <caret line="106" column="51" selection-start-line="106" selection-start-column="43" selection-end-line="106" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/auth/moduleAuthActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2136">
+          <caret line="310" column="13" selection-start-line="310" selection-start-column="10" selection-end-line="310" selection-end-column="15" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#842#1847#0" />
+            <element signature="e#1893#3856#0" />
+            <element signature="e#3921#4674#0" />
+            <element signature="e#4743#5498#0" />
+            <element signature="e#5565#6319#0" />
+            <element signature="e#6384#7137#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1441,10 +1418,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/layouts/components/navbar/components/ProfileDropDown.vue">
+    <entry file="file://$PROJECT_DIR$/src/http/requests/auth/jwt/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="15" column="76" selection-start-line="15" selection-start-column="76" selection-end-line="15" selection-end-column="76" />
+        <state relative-caret-position="540">
+          <caret line="39" column="22" lean-forward="true" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/axios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/saveleadsConfig.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="15" column="24" selection-start-line="15" selection-start-column="24" selection-end-line="15" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1508">
+          <caret line="98" column="39" selection-start-line="98" selection-start-column="39" selection-end-line="98" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/comissoes/Listagem.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="24" column="66" selection-start-line="24" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="126" column="91" selection-start-line="126" selection-start-column="91" selection-end-line="126" selection-end-column="91" />
         </state>
       </provider>
     </entry>

@@ -61,6 +61,7 @@
                   <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaWhatsapp'">
                   <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
                   <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
+                  <img src="@/assets/images/util/link.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\Link'">
                   <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">
                   <p class="font-bold text-dark text-xl ml-3">{{nameCriador(tr)}}</p>
                 </div>
@@ -122,7 +123,9 @@
                 })
             },
             nameCriador(obj) {
-                if (obj.origem_type == 'App\\Models\\User') return obj.origem.name; else return (obj.origem) ? obj.origem.nome : 'Sem origem';
+                if (obj.origem_type == 'App\\Models\\User') return obj.origem.name;
+                else if(obj.origem_type == 'App\\Models\\Link') return obj.origem.descricao;
+                else return (obj.origem) ? obj.origem.nome : 'Sem origem';
             }
         },
         computed: {

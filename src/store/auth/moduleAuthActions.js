@@ -245,6 +245,7 @@ export default {
       })
     })
   },
+
   registerUser({dispatch}, payload) {
 
     // create user using firebase
