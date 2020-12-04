@@ -114,6 +114,37 @@
                 </div>
             </div>
         </vs-prompt>
+      <!-- inicio popup-->
+      <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="modalGerarPlp">
+        <div class="vs-popup--background"></div>
+        <div class="vs-popup" style="background: rgb(255, 255, 255);">
+          <header class="vs-popup--header">
+            <div class="vs-popup--title">
+            </div>
+          </header>
+          <div class="vs-popup--content">
+            <div class="vx-col w-full">
+              <vx-card class="p-2">
+                <div class="text-left mb-10">
+                  <h2 class="text-center"> Gerando PLP </h2>
+                  <h6 class="mb-2 mt-4"><b>Numero da Expedição :</b> #{{ expedicao.id }}</h6>
+                  <h6 class="mb-2"><b>Brinde a ser enviado :</b> {{ expedicao.brinde.nome }}</h6>
+                  <p class="mb-2"></p>
+                </div>
+                <vs-divider/>
+                <div class="flex items-center">
+                  <div class="fill-row-loading w-full">
+                    <h6 class="mb-6"><b>Status atual:</b> <span> Fechando Expedições </span></h6>
+                    <h6 class="text-center mb-2"> {{atual}}/{{total}} </h6>
+                    <vs-progress :height="12" :percent="(atual / total)* 100" color="success"></vs-progress>
+                  </div>
+                </div>
+              </vx-card>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- fim popup-->
     </div>
 </template>
 
@@ -144,6 +175,17 @@
         },
         data() {
             return {
+              modalGerarPlp: false,
+              atual: 0,
+              total: 1,
+              expedicao: {
+                brinde: {
+                  nome: '',
+                  produto: {
+                    nome: ''
+                  }
+                }
+              },
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
@@ -331,32 +373,42 @@
             //Procedimentos
             fecharVarias(arr, rota, tipo){
                 console.log('fechando várias', arr)
-                let arr2 = arr.map(item => {return item.id});
+                var self = this;
                 this.$vs.dialog({
                     color: 'primary',
                     title: (rota == 'fechar' ? 'Fechar' : 'Restaurar' ) + ` expedições?`,
                     text: 'Deseja mesmo ' + rota + ' as expedições selecionadas?',
                     acceptText: 'Sim!',
                     accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('expedicaos/fecharVarias', {arr: arr2, rota: rota}).then(() => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: '',
-                                text: 'Procedimento realizado com sucesso'
+                      self.$vs.loading({
+                        color: self.colorLoading,
+                        container: "#button-with-loading-fecharPlp",
+                        scale: 0.45
+                      });
+                      self.total = arr.length;
+                      self.modalGerarPlp = true;
+                      async function diags() {
+                        for (const [idx, item] of arr.entries()) {
+                          self.atual = idx;
+                          self.expedicao = item;
+                          const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
+                            self.items.splice(idx, 1);
+                          }).catch(erro => {
+                            console.log('erro', erro);
+                            self.$vs.notify({
+                              color: 'danger',
+                              text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
                             });
-                            this.getItems(tipo);
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                            })
-                        });
+                          }).finally(() => {
+                          });
+                        }
+                        self.modalGerarPlp = false;
+                        self.getItems(tipo);
+                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
+                      }
+                      diags();
                     }
                 })
-
             },
 
             //Prompt Editar

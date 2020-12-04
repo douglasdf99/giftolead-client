@@ -291,7 +291,7 @@
                                     this.$store.dispatch("updateItem", {rota: 'tickets', item: obj}).then(() => {
                                         this.$vs.notify({
                                             title: 'Sucesso',
-                                            text: "A conta foi atualizada com sucesso.",
+                                            text: "O Ticket foi editado com sucesso.",
                                             iconPack: 'feather',
                                             icon: 'icon-check-circle',
                                             color: 'success'
@@ -316,15 +316,17 @@
                                             icon: 'icon-check-circle',
                                             color: 'success'
                                         })
-                                        this.$vs.loading.close();
+
                                     }).catch(error => {
                                         this.$vs.notify({
                                             title: '',
-                                            text: error.message,
+                                            text: error.response.data.message,
                                             iconPack: 'feather',
                                             icon: 'icon-alert-circle',
                                             color: 'danger'
                                         })
+                                    }).finally(()=>{
+                                      this.$vs.loading.close();
                                     })
                                 }
 
@@ -332,7 +334,8 @@
                                 this.initValues()
                             }
                         }
-                    } else {
+                    }
+                    else {
                         this.$vs.notify({
                             title: '',
                             text: 'verifique os erros específicos',
