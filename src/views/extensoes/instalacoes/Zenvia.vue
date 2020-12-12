@@ -9,21 +9,21 @@
           <p class="pt-20 font-bold text-black">Zenvia</p>
           <p class="my-2">Faça ligações de dentro do Saveleads e as mantenha registradas na linha do tempo de seus
             contatos!</p>
-          <vs-button color="dark" class="my-5 w-10/12" @click="instalar" v-if="$acl.check('extensao_zenvia_install')">
+          <vs-button color="dark" class="my-5 w-10/12 vs-con-loading__container" id="cards-zenvia-instalar" @click="instalar" v-if="$acl.check('extensao_zenvia_install')">
             {{ instalado ? 'Desinstalar' : 'Instalar' }}
           </vs-button>
           <vs-button color="primary" target :href="{url: link_recarga}" class="mb-5 w-10/12" v-if="instalado"
                      :disabled="!$acl.check('extensao_zenvia_recarregar')">Recarregar
           </vs-button>
         </div>
-        <div class="w-full" v-if="extensao != null">
+        <div id="cards-zenvia-saldo" class="w-full vs-con-loading__container" v-if="extensao != null" >
           <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="'R$ '+saldo"
                                 statisticTitle="Saldo" color="success"/>
           <statistics-card-line hideChart class="mt-3" icon="DollarSignIcon" icon-right :statistic="custo"
                                 statisticTitle="Total de recargas" color="success"/>
         </div>
       </div>
-      <div class="vx-col w-full lg:w-9/12">
+      <div id="cards-zenvia-conteudo-geral" class="vx-col w-full lg:w-9/12 vs-con-loading__container">
         <div class="vx-row mb-5">
           <div class="vx-col w-full" v-if="extensao != null">
             <vs-switch vs-icon-on="check" v-model="extensao.ativo" color="#0FB599" class="float-right switch"
@@ -91,6 +91,7 @@
                           <vs-th>Data e Hora</vs-th>
                           <vs-th>Valor Cobrado</vs-th>
                           <vs-th>Origem</vs-th>
+                          <vs-th>Status</vs-th>
                         </template>
 
                         <template slot-scope="{data}">
@@ -112,6 +113,10 @@
                             </vs-td>
                             <vs-td>
                               {{ tr.origem.tipo == 'ramal' ? 'Interno' : 'Default' }}
+                            </vs-td>
+                            <vs-td>
+                              <p class="capitalize">{{ tr.destino.status }}</p>
+                              <p v-if="tr.destino.status == 'atendida'"><strong>Duração: </strong> {{tr.destino.duracao}} </p>
                             </vs-td>
                           </vs-tr>
                         </template>
@@ -468,6 +473,8 @@ export default {
     this.dados.dt_fim = moment().format('YYYY-MM-DD');
     this.dateRange.startDate = moment().subtract(1, 'days')
     this.dateRange.endDate = moment();
+  },
+  mounted(){
     this.verifica();
   },
   computed: {
@@ -498,28 +505,39 @@ export default {
       });
       return id
     },
-    verifica() {
+    async verifica() {
       this.dados.subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
-      this.$store.dispatch('extensoes/get', this.dados.subdomain).then(response => {
+      this.$vs.loading({
+        container: "#cards-zenvia-instalar",
+        scale: 0.45
+      });
+      await this.$store.dispatch('extensoes/get', this.dados.subdomain).then(response => {
         let arr = response.extensoes;
         if (arr.length > 0) {
           arr.forEach(item => {
             if (item.extensao_type === "App\\Models\\Extensoes\\Totalvoice") {
+              this.instalado = true;
               this.getHistorico();
             }
           });
         } else {
           this.$vs.loading.close();
         }
+      }).finally(()=>{
+        this.$vs.loading.close("#cards-zenvia-instalar > .con-vs-loading")
       });
     },
-    getHistorico() {
-      this.$vs.loading();
+    async getHistorico() {
+      this.$vs.loading({
+        container: "#cards-zenvia-conteudo-geral",
+        scale: 0.45
+      });
+
       if (this.dateRange.startDate)
         this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
       if (this.dateRange.endDate)
         this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-      this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
+      await this.$store.dispatch('extensoes/getZenviaHistorico', this.dados).then(response => {
 
         if (response.chamadas.dados.relatorio.length > 0)
           this.historico = [...response.chamadas.dados.relatorio]; //Histórico de chamadas
@@ -537,13 +555,13 @@ export default {
         });
         this.saldo = response.geral.dados.saldo;
         this.pagination.total = Math.round(response.chamadas.dados.total / response.chamadas.dados.limite);
-        this.$vs.loading.close();
         this.getUsers();
+      }).finally(()=>{
+        this.$vs.loading.close("#cards-zenvia-conteudo-geral > .con-vs-loading")
       })
 
     },
     setDate(val) {
-      this.$vs.loading();
       switch (val) {
         case 'hoje':
           this.dateRange.startDate = moment();
@@ -766,17 +784,13 @@ export default {
   },
   watch: {
     dateRange() {
-      this.$vs.loading();
       this.getHistorico();
     },
     currentx() {
-      this.$vs.loading();
       this.dados.page = this.currentx;
       this.getHistorico();
     },
-  }, mounted() {
-
-  }
+  },
 }
 </script>
 

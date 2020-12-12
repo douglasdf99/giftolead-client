@@ -130,7 +130,7 @@
                 if (control >= 2)
                     url += '&searchJoin=and';
 
-                this.dados.search = url;
+                this.dados.search = this.search;
 
                 this.$store.dispatch('ordens/getOrdens', this.dados).then(response => {
                     console.log('retornado com sucessso', response)
@@ -143,6 +143,7 @@
                 });
             },
             pesquisar(e) {
+                this.dados.page =1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems(this.dados.pago);

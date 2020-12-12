@@ -1,271 +1,271 @@
 <template>
-    <div>
-        <h4 class="font-bold mb-10 mt-20">Dados do contrato
-        </h4>
-        <vs-alert color="danger" title="Atenção: verificar problema do contrato." active="true" class="mb-4"
-                  v-if="item.erros">
-            {{item.erros}}
-        </vs-alert>
-        <vx-card class="grid-view-item mb-base overflow-hidden">
-            <div class="vx-row mb-2">
-                <div class="vx-col w-full">
-                    <vs-button radius color="primary" type="border" icon-pack="material-icons" icon="edit"
-                               class="float-right"
-                               @click="$router.push({path: '/configuracoes/contratos/editar/' + item.id})"></vs-button>
-                </div>
+     <div>
+    <h4 class="font-bold mb-10 mt-20">Dados do contrato
+    </h4>
+    <vs-alert color="danger" title="Atenção: verificar problema do contrato." active="true" class="mb-4"
+              v-if="item.erros">
+      {{item.erros}}
+    </vs-alert>
+    <vx-card class="grid-view-item mb-base overflow-hidden">
+      <div class="vx-row mb-2">
+        <div class="vx-col w-full">
+          <vs-button radius color="primary" type="border" icon-pack="material-icons" icon="edit"
+                     class="float-right"
+                     @click="$router.push({path: '/configuracoes/contratos/editar/' + item.id})"></vs-button>
+        </div>
+      </div>
+      <div class="vx-row mb-6">
+        <div class="vx-col sm:w-2/3 w-full mb-2">
+          <div class="vx-row mb-6">
+            <div class="vx-col w-full mb-2">
+              <span class="font-regular mb-2">Nome de Contrato</span>
+              <h4 class="flex items-center"> {{item.nome}}
+                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                         class="icon-grande text-success" style="margin-left: 1rem;margin-top: 3px;"
+                         v-if="item.status"></vs-icon>
+                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                         class="icon-grande text-danger"
+                         style="margin-left: 1rem;margin-top: 3px;" v-else></vs-icon>
+              </h4>
             </div>
-            <div class="vx-row mb-6">
-                <div class="vx-col sm:w-2/3 w-full mb-2">
-                    <div class="vx-row mb-6">
-                        <div class="vx-col w-full mb-2">
-                            <span class="font-regular mb-2">Nome de Contrato</span>
-                            <h4 class="flex items-center"> {{item.nome}}
-                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                         class="icon-grande text-success" style="margin-left: 1rem;margin-top: 3px;"
-                                         v-if="item.status"></vs-icon>
-                                <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                         class="icon-grande text-danger"
-                                         style="margin-left: 1rem;margin-top: 3px;" v-else></vs-icon>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="vx-row mb-6">
-                        <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <span class="font-regular mb-2">Cartão de postagem</span>
-                            <h4> {{item.cartaoPostagem}}</h4>
-                        </div>
-                        <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <span class="font-regular mb-2">Número do contrato</span>
-                            <h4> {{item.contrato}}</h4>
-                        </div>
-                    </div>
-                    <div class="vx-row mb-6">
-                        <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <span class="font-regular mb-2">Usuário SIGEP WEB</span>
-                            <h4> {{item.usuario}}</h4>
-                        </div>
-                        <div class="vx-col sm:w-1/2 w-full mb-2">
-                            <span class="font-regular mb-2">Senha SIGEP WEB</span>
-                            <h4> {{item.senha}}</h4>
-                        </div>
-                    </div>
-                    <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
-                        <a class="py-2 cursor-pointer" @click="correiosLogar"><u><span
-                                class="font-14 text-primary font-bold ml-2 mr-2">Logar no sistema do correios </span></u></a>
-                        <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="vpn_key"
-                                   @click="correiosLogar"></vs-button>
-                    </div>
-                </div>
-                <div class="vx-col sm:w-1/3 w-full mb-2">
-                    <div class="mb-6 p-5 pt-0">
-                        <span class="font-regular mb-3 ml-2">Logotipo da etiqueta</span>
-                        <div class="flex justify-left content-left" v-if="item.logotipo">
-                            <!-- ITEM IMAGE -->
-                            <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4">
-                                <img :src="get_img_api(item.logotipo)" style="width: 200px" alt="logotipo"
-                                     class="grid-view-img px-4">
-                            </div>
-                            <div class="item-details px-4">
-                            </div>
-                            <div class="flex flex-wrap">
-                            </div>
-                        </div>
-
-                        <div class="w-full text-center mt-10 m-4" v-else>
-                            <h6 class="text-center"><i>Sem logotipo</i></h6>
-                        </div>
-
-                    </div>
-                </div>
+          </div>
+          <div class="vx-row mb-6">
+            <div class="vx-col sm:w-1/2 w-full mb-2">
+              <span class="font-regular mb-2">Cartão de postagem</span>
+              <h4> {{item.cartaoPostagem}}</h4>
             </div>
-        </vx-card>
-        <vs-divider></vs-divider>
-        <div class="" v-if="item.id">
-            <h4 class="font-bold mb-8">Configurações das formas de frete</h4>
-            <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
-                <u class="py-2"><span class="font-14 text-black font-bold ml-2 mr-2">Buscar formas de frete deste contrato </span></u>
-                <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync"
-                           @click="correiosservicos"></vs-button>
+            <div class="vx-col sm:w-1/2 w-full mb-2">
+              <span class="font-regular mb-2">Número do contrato</span>
+              <h4> {{item.contrato}}</h4>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <vs-alert :active="!item.config_padrao" color="danger" icon-pack="feather" icon="icon-info">
-                        <span>Atenção, é nescessário selecionar o serviço padrão do Contrato</span>
-                    </vs-alert>
-                </div>
+          </div>
+          <div class="vx-row mb-6">
+            <div class="vx-col sm:w-1/2 w-full mb-2">
+              <span class="font-regular mb-2">Usuário SIGEP WEB</span>
+              <h4> {{item.usuario}}</h4>
             </div>
-            <div id="div-servicos" class="col-12 mb-20 vs-con-loading__container">
-                <div class="com-item" v-if="item.servicos && item.servicos.length > 0">
-                    <vs-table :data="item" class="table-items  mt-4" style="z-index: 2">
-
-                        <template slot="thead">
-                            <vs-th>Descricao</vs-th>
-                            <vs-th>Código do serviço</vs-th>
-                            <vs-th>Padrão</vs-th>
-                        </template>
-
-                        <template slot-scope="{}">
-                            <vs-tr :key="servico.id" v-for="servico in item.servicos" class="mb-3">
-                                <vs-td :data="servico.descricao">
-                                    <span class="destaque">{{servico.descricao }}</span>
-                                </vs-td>
-                                <vs-td :data="servico.codigo">
-                                    <span class="destaque">{{servico.codigo}}</span>
-                                </vs-td>
-                                <vs-td>
-                                    <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark" v-if="item.config_padrao">
-                                        <a v-if="servico.codigo === item.config_padrao.servico" class="text-dark"><span
-                                                class="material-icons">star</span></a>
-                                        <a v-else :class="{'disabled' : salvando}" @click="setPadrao(servico)"
-                                           style="cursor: pointer;" class="text-dark">
-                                            <span class="material-icons">star_outline</span>
-                                        </a>
-                                    </p>
-                                    <a v-else class="" :class="{'disabled' : salvando}" @click="setPadrao(servico)"
-                                       style="cursor: pointer;">
-                                        <span class="material-icons">star_outline</span>
-                                    </a>
-                                </vs-td>
-                            </vs-tr>
-                        </template>
-
-                    </vs-table>
-                </div>
-                <div class="col-12 mb-20" v-else>
-                    <div class="card-box mb-0">
-                        <div class="row align-items-center">
-                            <div class="col-sm-12">
-                                <p class="mb-1 mt-2 mt-sm-0 font-bold text-center text-dark">
-                                    Nenhum serviço encontrado</p>
-                            </div>
-                        </div> <!-- end row -->
-                    </div>
-                </div>
+            <div class="vx-col sm:w-1/2 w-full mb-2">
+              <span class="font-regular mb-2">Senha SIGEP WEB</span>
+              <h4> {{item.senha}}</h4>
+            </div>
+          </div>
+          <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
+            <a class="py-2 cursor-pointer" @click="correiosLogar"><u><span
+              class="font-14 text-primary font-bold ml-2 mr-2">Logar no sistema do correios </span></u></a>
+            <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="vpn_key"
+                       @click="correiosLogar"></vs-button>
+          </div>
+        </div>
+        <div class="vx-col sm:w-1/3 w-full mb-2">
+          <div class="mb-6 p-5 pt-0">
+            <span class="font-regular mb-3 ml-2">Logotipo da etiqueta</span>
+            <div class="flex justify-left content-left" v-if="item.logotipo">
+              <!-- ITEM IMAGE -->
+              <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4">
+                <img :src="get_img_api(item.logotipo)" style="width: 200px" alt="logotipo"
+                     class="grid-view-img px-4">
+              </div>
+              <div class="item-details px-4">
+              </div>
+              <div class="flex flex-wrap">
+              </div>
             </div>
 
+            <div class="w-full text-center mt-10 m-4" v-else>
+              <h6 class="text-center"><i>Sem logotipo</i></h6>
+            </div>
 
-            <div id="div-excecao" class="vs-con-loading__container">
-                <h4 class="font-bold mb-2">Exceções</h4>
-                <h6 class="font-regular mb-8">Voocê pode criar regras alternativas de serviço postal para entregas
-                    diferenciadas</h6>
-                <vx-card :key="config.id" class="mb-10" v-for="(config, index) in item.configs"
-                         v-bind:style="{border: (config.error ? '2px solid #ff000066' : '')}">
+          </div>
+        </div>
+      </div>
+    </vx-card>
+    <vs-divider></vs-divider>
+    <div class="" v-if="item.id">
+      <h4 class="font-bold mb-8">Configurações das formas de frete</h4>
+      <div class="vx-col w-full mb-2 d-inline-flex font-bold" style="display: flex">
+        <u class="py-2"><span class="font-14 text-black font-bold ml-2 mr-2">Buscar formas de frete deste contrato </span></u>
+        <vs-button radius color="dark" type="border" icon-pack="material-icons" icon="sync"
+                   @click="correiosservicos"></vs-button>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <vs-alert :active="!item.config_padrao" color="danger" icon-pack="feather" icon="icon-info">
+            <span>Atenção, é nescessário selecionar o serviço padrão do Contrato</span>
+          </vs-alert>
+        </div>
+      </div>
+      <div id="div-servicos" class="col-12 mb-20 vs-con-loading__container">
+        <div class="com-item" v-if="item.servicos && item.servicos.length > 0">
+          <vs-table :data="item" class="table-items  mt-4" style="z-index: 2">
+
+            <template slot="thead">
+              <vs-th>Descricao</vs-th>
+              <vs-th>Código do serviço</vs-th>
+              <vs-th>Padrão</vs-th>
+            </template>
+
+            <template slot-scope="{}">
+              <vs-tr :key="servico.id" v-for="servico in item.servicos" class="mb-3">
+                <vs-td :data="servico.descricao">
+                  <span class="destaque">{{servico.descricao }}</span>
+                </vs-td>
+                <vs-td :data="servico.codigo">
+                  <span class="destaque">{{servico.codigo}}</span>
+                </vs-td>
+                <vs-td>
+                  <p class="mb-1 mt-2 mt-sm-0 font-weight-bold text-dark" v-if="item.config_padrao">
+                    <a v-if="servico.codigo === item.config_padrao.servico" class="text-dark"><span
+                      class="material-icons">star</span></a>
+                    <a v-else :class="{'disabled' : salvando}" @click="setPadrao(servico)"
+                       style="cursor: pointer;" class="text-dark">
+                      <span class="material-icons">star_outline</span>
+                    </a>
+                  </p>
+                  <a v-else class="" :class="{'disabled' : salvando}" @click="setPadrao(servico)"
+                     style="cursor: pointer;">
+                    <span class="material-icons">star_outline</span>
+                  </a>
+                </vs-td>
+              </vs-tr>
+            </template>
+
+          </vs-table>
+        </div>
+        <div class="col-12 mb-20" v-else>
+          <div class="card-box mb-0">
+            <div class="row align-items-center">
+              <div class="col-sm-12">
+                <p class="mb-1 mt-2 mt-sm-0 font-bold text-center text-dark">
+                  Nenhum serviço encontrado</p>
+              </div>
+            </div> <!-- end row -->
+          </div>
+        </div>
+      </div>
+
+
+      <div id="div-excecao" class="vs-con-loading__container">
+        <h4 class="font-bold mb-2">Exceções</h4>
+        <h6 class="font-regular mb-8">Voocê pode criar regras alternativas de serviço postal para entregas
+          diferenciadas</h6>
+        <vx-card :key="config.id" class="mb-10" v-for="(config, index) in item.configs"
+                 v-bind:style="{border: (config.error ? '2px solid #ff000066' : '')}">
                     <span class="btn btn-dark btn-rounded font-13 text-white font-weight-bold text-ou" v-if="index > 0"><vs-button
-                            size="small" color="dark">OU</vs-button></span>
-                    <div class="vx-row">
-                        <div class="vx-col sm:w-1/12 w-full mb-2">
-                            <vs-dropdown vs-trigger-click>
-                                <vs-button radius color="#EDEDED" type="filled"
-                                           class="btn-more-icon relative botao-menu"
-                                           icon-pack="material-icons" icon="more_horiz"
-                                ></vs-button>
-                                <vs-dropdown-menu class="dropdown-menu-list">
-                                    <vs-dropdown-item @click="showEditarExcecao(config)">
-                                        <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                        Editar
-                                    </vs-dropdown-item>
+                      size="small" color="dark">OU</vs-button></span>
+          <div class="vx-row">
+            <div class="vx-col sm:w-1/12 w-full mb-2">
+              <vs-dropdown vs-trigger-click>
+                <vs-button radius color="#EDEDED" type="filled"
+                           class="btn-more-icon relative botao-menu"
+                           icon-pack="material-icons" icon="more_horiz"
+                ></vs-button>
+                <vs-dropdown-menu class="dropdown-menu-list">
+                  <vs-dropdown-item @click="showEditarExcecao(config)">
+                    <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
+                    Editar
+                  </vs-dropdown-item>
 
-                                    <vs-dropdown-item @click="showRemoverExcecao(config.id)">
-                                        <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
-                                        Deletar
-                                    </vs-dropdown-item>
+                  <vs-dropdown-item @click="showRemoverExcecao(config.id)">
+                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
+                    Deletar
+                  </vs-dropdown-item>
 
-                                </vs-dropdown-menu>
-                            </vs-dropdown>
-                        </div>
-                        <div class="vx-col sm:w-1/12 w-full mb-2 flex" v-if="config.error">
-                            <vx-tooltip :text="config.error" position="top">
+                </vs-dropdown-menu>
+              </vs-dropdown>
+            </div>
+            <div class="vx-col sm:w-1/12 w-full mb-2 flex" v-if="config.error">
+              <vx-tooltip :text="config.error" position="top">
                                 <span class="rounded-full bg-danger py-2 px-2 text-enum text-white font-bold">
                                     X
                                 </span>
-                            </vx-tooltip>
-                        </div>
-                        <div class="vx-col sm:w-1/12 w-full mb-2" v-else>
-                            <span class="rounded-full bg-primary py-2 px-2 text-enum text-white font-bold">{{index + 1}}</span>
-                        </div>
-                        <div class="vx-col sm:w-4/12 w-full mb-2">
-                            <p class="mb-0 text-base font-bold">Tipo</p>
-                            {{selectedtipo(config.tipo)}}
-                        </div>
-                        <div class="vx-col sm:w-3/12 w-full mb-2" v-if="config.tipo == 'estado'">
-                            <p class="mb-0 text-base font-bold">Variável</p>
-                            {{config.variavel}}
-                        </div>
-                        <div class="vx-col sm:w-3/12 w-full mb-2" v-else>
-                            <p class="mb-0 text-base font-bold">Variável</p>
-                            {{selectedBrinde(config.variavel)}}
-                        </div>
-                        <div class="vx-col sm:w-3/12 w-full mb-2">
-                            <p class="mb-0 text-base font-bold">Serviço Aplicado</p>
-                            <span class="font-15 font-weight-bold">{{servicoconfig(config.servico)}}</span>
-                        </div>
-                    </div>
-                    <!-- end row -->
-                </vx-card>
-
-                <div class="vx-row justify-center align-center mt-10">
-                    <vs-button color="primary" type="filled" icon-pack="material-icons" icon="control_point"
-                               class="font-bold" @click="showAdicionarExcecao">Adicionar Exceção
-                    </vs-button>
-                </div>
-                <div class="mt-20">
-                    <vs-divider></vs-divider>
-                </div>
+              </vx-tooltip>
             </div>
+            <div class="vx-col sm:w-1/12 w-full mb-2" v-else>
+              <span class="rounded-full bg-primary py-2 px-2 text-enum text-white font-bold">{{index + 1}}</span>
+            </div>
+            <div class="vx-col sm:w-4/12 w-full mb-2">
+              <p class="mb-0 text-base font-bold">Tipo</p>
+              {{selectedtipo(config.tipo)}}
+            </div>
+            <div class="vx-col sm:w-3/12 w-full mb-2" v-if="config.tipo == 'estado'">
+              <p class="mb-0 text-base font-bold">Variável</p>
+              {{config.variavel}}
+            </div>
+            <div class="vx-col sm:w-3/12 w-full mb-2" v-else>
+              <p class="mb-0 text-base font-bold">Variável</p>
+              {{selectedBrinde(config.variavel)}}
+            </div>
+            <div class="vx-col sm:w-3/12 w-full mb-2">
+              <p class="mb-0 text-base font-bold">Serviço Aplicado</p>
+              <span class="font-15 font-weight-bold">{{servicoconfig(config.servico)}}</span>
+            </div>
+          </div>
+          <!-- end row -->
+        </vx-card>
+
+        <div class="vx-row justify-center align-center mt-10">
+          <vs-button color="primary" type="filled" icon-pack="material-icons" icon="control_point"
+                     class="font-bold" @click="showAdicionarExcecao">Adicionar Exceção
+          </vs-button>
         </div>
-
-        <!--
-            <transition name="fade">
-              <footer-doug >
-                <div class="vx-col sm:w-11/12 mb-2">
-                  <div class="container">
-                    <div class="vx-row mb-2 relative">
-                      <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa" v-if="item.id">Salvar</vs-button>
-                      <vs-button class="mr-3" color="primary" type="filled" @click="salvarEmpresa" v-else>Salvar</vs-button>
-                      <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"  @click="$router.push({name: 'contratos'})">Cancelar</vs-button>
-                    </div>
-                  </div>
-                </div>
-              </footer-doug>
-            </transition>-->
-        <vs-prompt
-                @cancel="clearValMultiple"
-                @accept="sendexcecao"
-                @close="close"
-                :acceptText="'Salvar'"
-                :cancelText="'Cancelar'"
-                :is-valid="validExcecao"
-                :title="'Adicionar exceção'"
-                :max-width="'600px'"
-                :active.sync="modalexcecao">
-            <div class="con-exemple-prompt">
-                Entre com os dados da configuração...
-
-                <vs-alert v-show="!validExcecao" color="danger" vs-icon="new_releases">
-                    Os campos não podem ficar vazios
-                </vs-alert>
-                <div class="">
-                    <span class="font-regular mb-2">Tipo</span>
-                    <v-select v-model="val.tipo" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
-                              :options="opcoesTipo" v-validate="'required'" name="tipo"/>
-                </div>
-                <div class="">
-                    <span class="font-regular mb-2">Variavel</span>
-                    <v-select v-model="val.variavel" class="mt-4 mb-2" label="text" v-if="val.tipo.id == 'estado'"
-                              :class="'select-large-base'" :clearable="false"
-                              :options="estados" v-validate="'required'" name="variavel"/>
-                    <v-select v-model="val.variavel" class="mt-4 mb-2" v-else :class="'select-large-base'"
-                              :clearable="false"
-                              :options="optionBrindes" v-validate="'required'" name="variavel"/>
-                </div>
-                <div class="">
-                    <span class="font-regular mb-2">Serviço</span>
-                    <v-select v-model="val.servico" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
-                              :options="optionServicos" v-validate="'required'" name="variavel"/>
-                </div>
-            </div>
-        </vs-prompt>
+        <div class="mt-20">
+          <vs-divider></vs-divider>
+        </div>
+      </div>
     </div>
+
+    <!--
+        <transition name="fade">
+          <footer-doug >
+            <div class="vx-col sm:w-11/12 mb-2">
+              <div class="container">
+                <div class="vx-row mb-2 relative">
+                  <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa" v-if="item.id">Salvar</vs-button>
+                  <vs-button class="mr-3" color="primary" type="filled" @click="salvarEmpresa" v-else>Salvar</vs-button>
+                  <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"  @click="$router.push({name: 'contratos'})">Cancelar</vs-button>
+                </div>
+              </div>
+            </div>
+          </footer-doug>
+        </transition>-->
+    <vs-prompt
+      @cancel="clearValMultiple"
+      @accept="sendexcecao"
+      @close="close"
+      :acceptText="'Salvar'"
+      :cancelText="'Cancelar'"
+      :is-valid="validExcecao"
+      :title="'Adicionar exceção'"
+      :max-width="'600px'"
+      :active.sync="modalexcecao">
+      <div class="con-exemple-prompt">
+        Entre com os dados da configuração...
+
+        <vs-alert v-show="!validExcecao" color="danger" vs-icon="new_releases">
+          Os campos não podem ficar vazios
+        </vs-alert>
+        <div class="">
+          <span class="font-regular mb-2">Tipo</span>
+          <v-select v-model="val.tipo" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                    :options="opcoesTipo" v-validate="'required'" name="tipo"/>
+        </div>
+        <div class="">
+          <span class="font-regular mb-2">Variavel</span>
+          <v-select v-model="val.variavel" class="mt-4 mb-2" label="text" v-if="val.tipo.id == 'estado'"
+                    :class="'select-large-base'" :clearable="false"
+                    :options="estados" v-validate="'required'" name="variavel"/>
+          <v-select v-model="val.variavel" class="mt-4 mb-2" v-else :class="'select-large-base'"
+                    :clearable="false"
+                    :options="optionBrindes" v-validate="'required'" name="variavel"/>
+        </div>
+        <div class="">
+          <span class="font-regular mb-2">Serviço</span>
+          <v-select v-model="val.servico" class="mt-4 mb-2" :class="'select-large-base'" :clearable="false"
+                    :options="optionServicos" v-validate="'required'" name="variavel"/>
+        </div>
+      </div>
+    </vs-prompt>
+  </div>
 
 </template>
 

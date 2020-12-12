@@ -11,7 +11,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit.prevent="getItems()">
+                        <form @submit.prevent="pesquisar()">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.pesquisa" id="search_input_trans" size="large"
@@ -32,7 +32,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit.prevent="getItems()">
+                        <form @submit.prevent="pesquisar()">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.responsavel" id="search_input_trans" size="large"
@@ -51,7 +51,7 @@
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <label class="vs-input--label">Brinde</label>
-                <v-select @change="getItems()" v-model="selectedBrinde" :class="'select-large-base'" :clearable="true" class="bg-white"
+                <v-select @change="pesquisar()" v-model="selectedBrinde" :class="'select-large-base'" :clearable="true" class="bg-white"
                           :options="brindes"/>
             </div>
             <div class="vx-col w-full lg:w-2/12 sm:w-full">
@@ -207,8 +207,13 @@ export default {
             this.$store.dispatch('automacao/get', this.dados).then(response => {
                 this.items = response.data;
                 this.pagination = response
-                this.$vs.loading.close();
+            }).finally(()=>{
+              this.$vs.loading.close();
             });
+        },
+        pesquisar(){
+          this.dados.page = 1;
+          this.getItems();
         },
         addNewData() {
             this.sidebarData = {'brindes': this.brindes}

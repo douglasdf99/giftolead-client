@@ -266,6 +266,10 @@
                     this.comissoes = response.data
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
+                }).catch(()=>{
+
+                }).finally(()=>{
+                  this.$vs.loading.close();
                 });
             },
             getOpcoes(){
@@ -330,6 +334,7 @@
                 })
             },
             pesquisar(e) {
+              this.dados.page =1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

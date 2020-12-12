@@ -365,6 +365,7 @@
                 })
             },
             pesquisar(e) {
+              this.data.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

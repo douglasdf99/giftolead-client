@@ -59,6 +59,9 @@
       canAtender(ticket) {
         if (ticket.status != 2 && this.$acl.check('ticket_atender')) {
           let user = JSON.parse(localStorage.getItem("userInfo"));
+          if (ticket.status == 3) {
+            return true;
+          }
           if (ticket.status == 0) {
             return true;
           }

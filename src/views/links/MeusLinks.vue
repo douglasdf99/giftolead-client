@@ -180,8 +180,10 @@ export default {
             this.$vs.loading();
             this.$store.dispatch('getVarios', {rota: 'links', params: this.dados}).then(response => {
                 this.pagination = response;
-                this.$vs.loading.close()
-            });
+
+            }).finally(()=>{
+              this.$vs.loading.close()
+            })
         },
         deletar(id) {
             this.$vs.dialog({
@@ -210,6 +212,7 @@ export default {
             })
         },
         pesquisar(e) {
+          this.dados.page = 1;
             e.preventDefault();
             this.$vs.loading();
             this.getItems();

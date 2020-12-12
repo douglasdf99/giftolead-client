@@ -15,7 +15,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
+                        <form @input="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.search" id="search_input" size="large"
@@ -219,6 +219,7 @@
                 })
             },
             pesquisar(e) {
+                this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getBrindes();

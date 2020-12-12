@@ -291,7 +291,7 @@ export default {
             Array.from(files).forEach(file => this.addImage(file));
         },
         onDrop(e) {
-            e.preventDefault();
+            e.preventDefault();1
             e.stopPropagation();
             this.isDragging = false;
             const files = e.dataTransfer.files;

@@ -380,7 +380,8 @@ export default {
             this.$router.push({path: '/tickets/detalhar/' + id})
         },
         pesquisar(e) {
-            e.preventDefault();
+          this.dados.page = 1;
+          e.preventDefault();
             this.$vs.loading();
             this.getTickets();
         }

@@ -192,6 +192,7 @@
                 })
             },
             pesquisar(e) {
+              this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

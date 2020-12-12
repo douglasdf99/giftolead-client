@@ -73,7 +73,7 @@
                 </vs-dropdown>
             </div>
         </div>
-        <vs-row id="listagem" class="vs-con-loading__container">
+        <vs-row id="listagem-whatsapplist" class="vs-con-loading__container">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx" v-model="selectedTab">
                     <vs-tab @click="colorx = 'warning'; getItems('pendentes')" color="success" value="10"
@@ -228,16 +228,6 @@
                 });
             });
 
-            if (this.$store.state.globalSearch != '') {
-                this.dados.search = this.$store.state.globalSearch;
-                this.dados.situacao = 'todos';
-                this.selectedTab = 2;
-                this.colorx = 'primary';
-                this.$store.dispatch('globalSearchParams', '');
-            } else {
-                this.getItems('pendentes');
-            }
-
             this.$store.dispatch('whatsapplist/setFilter', false);
         },
         methods: {
@@ -290,6 +280,10 @@
             },
             getItems(tipo = null) {
               console.log('getItems')
+              this.$vs.loading({
+                container: "#listagem-whatsapplist",
+                scale: 0.45
+              })
                 if(this.selectedResp){
                   //this.dados.responsavel_type = this.selectedResp.id;
                   this.dados.campanhable_type = this.selectedResp.criador_type;
@@ -310,6 +304,8 @@
                 if (tipo != null)
                     this.dados.situacao = tipo;
 
+                this.dados.search = this.dados.search
+
                 this.$store.dispatch('whatsapplist/getVarios', this.dados).then(response => {
                   console.log('getItems',response.data.data)
 
@@ -317,6 +313,7 @@
                     this.pagination = response.data;
                     this.numeros = {...response.numeros};
                     this.$vs.loading.close();
+                  this.$vs.loading.close("#listagem-whatsapplist > .con-vs-loading")
                 });
                 this.newTickets = false;
             },
@@ -369,8 +366,8 @@
                 })
             },
             pesquisar(e) {
+              this.dados.page= 1;
                 e.preventDefault();
-                this.$vs.loading();
                 this.getItems();
             },
         },
@@ -418,7 +415,16 @@
         computed: {
         },
         mounted() {
-            this.channel.listen('WhatsapplistEvent', (payload) => {
+          if (this.$store.state.globalSearch != '') {
+            this.dados.search = this.$store.state.globalSearch;
+            this.dados.situacao = 'todos';
+            this.selectedTab = 2;
+            this.colorx = 'primary';
+            this.$store.dispatch('globalSearchParams', '');
+          } else {
+            this.getItems('pendentes');
+          }
+          this.channel.listen('WhatsapplistEvent', (payload) => {
             });
           this.channel.listen('WhatsapplistEvent', (payload) => {
             console.log('escutou')

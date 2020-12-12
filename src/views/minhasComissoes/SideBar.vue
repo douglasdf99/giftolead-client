@@ -178,7 +178,7 @@
             if (this.files.length > 0){
               async function diags() {
                 for (const [idx, item] of self.files.entries()) {
-                  const fecha = await self.enviar2(file).then(() => {
+                  const fecha = await self.enviar2(item).then(() => {
                     self.$vs.loading.close();
                     let text = self.files.length > 0 ? 'Imagens anexadas com sucesso.' : 'Atualizado com sucesso';
                     self.$vs.notify({

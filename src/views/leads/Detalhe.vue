@@ -160,8 +160,12 @@
                                             </p>
                                         </vs-td>
                                         <vs-td class="flex">
-                                            <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2" v-if="tr.rastreio != null">
-                                            <img src="@/assets/images/util/expedicao-icon.svg" width="25px" v-if="tr.expedicao && tr.expedicao != null">
+                                          <vx-tooltip :text="tr.rastreio" v-if="tr.rastreio != null">
+                                            <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2" >
+                                          </vx-tooltip>
+                                          <vx-tooltip :text="'Expedição Nº '+tr.expedicao.id" v-if="tr.expedicao && tr.expedicao != null">
+                                            <img src="@/assets/images/util/expedicao-icon.svg" width="25px" >
+                                          </vx-tooltip>
                                         </vs-td>
                                     </vs-tr>
                                 </template>
@@ -230,10 +234,12 @@
 <script>
     import moduleLeads from '@/store/leads/moduleLeads.js'
     import moduleTickets from "../../store/tickets/moduleTickets";
+    import Tooltip from "../components/vuesax/tooltip/Tooltip";
 
     export default {
         name: "Detalhe",
-        data() {
+      components: {Tooltip},
+      data() {
             return {
                 lead: {
                     transacaos: [],

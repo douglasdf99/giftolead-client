@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
+                        <form @input="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome da campanha"/>
@@ -43,7 +43,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="vx-col col-conquista mb-10" v-for="item in items" :key="item">
+                <div class="vx-col col-conquista mb-10" v-for="(item,index) in itemsR" :key="index">
                     <div class="conquista" v-bind:class="{'desativado': !item.status}">
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
@@ -84,9 +84,15 @@
                 this.$store.registerModule('brindes', moduleBrindes)
                 moduleBrindes.isRegistered = true
             }
-
             this.getCampanhas();
         },
+      computed:{
+        itemsR(){
+          return this.items.filter((item)=>{
+            return item.nome.includes(this.dados.search) || item.nome.toLowerCase().includes(this.dados.search);
+          })
+        }
+      },
         methods: {
             getCampanhas() {
                 this.$vs.loading();
@@ -186,10 +192,14 @@
                 });
             },
             pesquisar(e){
-                e.preventDefault();
-                this.$vs.loading();
-                this.getCampanhas();
+                // e.preventDefault();
+                // this.$vs.loading();
+                // this.getCampanhas();
+                return this.items.filter((item)=>{
+                  return item.nome == this.dados.search;
+                })
             },
+
             editar(id){
                 if(this.$acl.check('brinde_campanha_editar'))
                     this.$router.push({path: '/brindes/campanhas/editar/' + id})
