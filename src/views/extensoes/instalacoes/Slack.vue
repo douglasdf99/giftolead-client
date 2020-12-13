@@ -80,7 +80,7 @@ export default {
         }
 
         if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('usuario', moduleUsuario)
+            this.$store.registerModule('users', moduleUsuario)
             moduleUsuario.isRegistered = true
         }
 
@@ -179,7 +179,7 @@ export default {
             })
         },
         getUsers() {
-            this.$store.dispatch('usuario/get').then(response => {
+            this.$store.dispatch('users/get').then(response => {
                 console.log('usuarios', response);
                 this.usersall = response;
             });

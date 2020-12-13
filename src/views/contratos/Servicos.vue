@@ -708,7 +708,8 @@
                                 }).finally(() => {
                                 this.salvando = false;
                             });
-                        } else {
+                        }
+                        else {
                             this.$store.dispatch('contratos/addexcecao', obj)
                                 .then(() => {
                                     console.log('editar excecao');
