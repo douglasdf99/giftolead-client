@@ -28,6 +28,13 @@ const subbrindes = [
         can: 'brinde_expedicao'
     },
     {
+        url: '/brindes/expedicoesMelhorEnvio',
+        name: "Expedições Melhor Envio",
+        slug: "brindes-expedicoes",
+        icon: 'local_shipping',
+        can: 'brinde_expedicao'
+    },
+    {
         url: '/brindes/automacao/emails',
         name: "Configurar e-mails",
         slug: "brindes-expedicoes",

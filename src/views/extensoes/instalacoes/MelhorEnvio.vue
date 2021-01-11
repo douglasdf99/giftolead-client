@@ -531,12 +531,7 @@ export default {
         accept: () => {
           this.$vs.loading();
           this.$store.dispatch('extensoes/instalar', {subdomain: this.dados.subdomain, type: 'MelhorEnvio'}).then((response) => {
-            window.location.href = response;
-            this.$vs.notify({
-              color: 'success',
-              title: '',
-              text: 'Instalado com sucesso'
-            });
+            window.location.href = response.data
             this.verifica();
           }).catch(erro => {
             console.log(erro)

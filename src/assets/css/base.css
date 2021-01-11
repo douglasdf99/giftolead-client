@@ -598,7 +598,15 @@ th > .vs-table-text {
 .img-conquista {
     border-radius: 50%;
 }
-
+.card-option{
+  border: solid;
+  border-color: transparent;
+}
+.card-contexto{
+  border: solid;
+  border-color: #f4f4f4;
+  background-color: #fffefe;
+}
 .img-plus i {
     font-size: 5rem;
 }

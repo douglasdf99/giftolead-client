@@ -107,6 +107,23 @@ const rotasBrindes = [
         },
     },
     {
+        path: '/brindes/expedicoesMelhorEnvio',
+        name: 'brindes-expedicoes',
+        component: () => import('@/views/expedicoes/IndexMelhorEnvio.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Expedição Melhor Envio', active: true},
+            ],
+            pageTitle: 'Expedição Melhor Envio',
+            rule: 'brinde_expedicao',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
+    },
+    {
         path: '/brindes/expedicoes/:id',
         name: 'brindes-expedicoes-detalhe',
         component: () => import('@/views/expedicoes/ListDetal.vue'),
