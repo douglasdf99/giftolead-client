@@ -165,20 +165,15 @@ h4 {
     justify-content: center;
     padding: 2rem;
     position: relative;
-    background-image: url("https://api.saveleads.com.br/images/sem-item.png");
-    background-repeat: no-repeat;
-    background-size: cover;
     flex-wrap: wrap;
-    /*margin-left: 20vw;*/
     height: 330px;
     align-items: center;
 }
 
 .span-sem-item {
-    font-family: "Poppins", sans-serif;
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    color: white;
+    color: #4a4a4a;
     line-height: 1.1;
 }
 
@@ -491,10 +486,6 @@ h4 {
 
 th > .vs-table-text {
     font-weight: 400;
-}
-
-.con-vs-loading {
-    background-color: white !important;
 }
 
 .datepicker-input input {

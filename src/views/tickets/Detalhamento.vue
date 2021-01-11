@@ -56,15 +56,15 @@
                             <p class="text-lg font-semibold text-right mb-2" style="color: #9B9B9B">
                                 Criado por:
                             </p>
-                            <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
-                                {{ticket.responsavel.nome}}
-                                <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
-                                <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaBoleto'">
-                                <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
-                                <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
-                                <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                                <img :src="get_img_api(ticket.responsavel.avatar)" width="40" class="ml-2" v-if="ticket.responsavel.avatar">
-                            </p>
+                          <p class="text-right flex items-center font-bold float-right" v-if="ticket.responsavel">
+                            {{ ticket.responsavel.nome || ticket.responsavel.name }}
+                            <img src="@/assets/images/util/checkout.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCarrinho'">
+                            <img src="@/assets/images/util/boleto.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaBoleto'">
+                            <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
+                            <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
+                            <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
+                            <img :src="null" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel.avatar" :style="{ backgroundImage: 'url('+get_img_api(ticket.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '60px', height:'60px' }">
+                          </p>
                         </div>
                     </div>
                     <div class="vx-row my-3">
@@ -82,7 +82,7 @@
             <div class="vx-col w-full">
                 <vs-tabs color="primary" v-model="selectedTab">
                     <vs-tab color="primary" :label="`histórico (${ticket.acoesrecebidas.length})`">
-                        <historico :data="ticket.acoesrecebidas" @whatsapp="whatsapp(ticket)"></historico>
+                        <historico :data="ticket.acoesrecebidas" :atendimentos="ticket.atendimentos" @whatsapp="whatsapp(ticket)"></historico>
                     </vs-tab>
                     <vs-tab color="primary" :label="`transações (${ticket.lead.transacaos.length})`">
                         <transacoes :items="ticket.lead.transacaos"></transacoes>

@@ -2,8 +2,8 @@
     <div class="the-navbar__user-meta flex items-center" v-if="activeUserInfo.displayName">
         <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
             <div class="flex items-center">
-                <div class="con-img mr-3">
-                    <img v-if="activeUserInfo.photoURL" key="onlineImg" :src="get_img_api(activeUserInfo.photoURL)" alt="user-img" width="40" height="40" class="rounded-full shadow-md cursor-pointer block"/>
+                <div class="con-img mr-3" v-if="activeUserInfo.photoURL">
+                  <div :style="{ backgroundImage: 'url('+get_img_api(activeUserInfo.photoURL)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"  width="40" height="40" class="rounded-full cursor-pointer block"/>
                 </div>
                 <div class="text-left leading-tight hidden sm:block">
                     <p class="font-semibold">{{ activeUserInfo.displayName }}</p>

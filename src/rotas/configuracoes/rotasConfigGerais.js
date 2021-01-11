@@ -41,6 +41,25 @@ const rotasConfigGerais = [
         },
     },
     {
+        path: '/configuracoes/meu-plano',
+        name: 'meu-plano',
+        component: () => import('@/views/meuPlano/Show.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Configurações'},
+                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Meus plano', active: true},
+            ],
+            pageTitle: 'Meu plano',
+            rule: 'configuracao_empresa',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subRotaConfiguracoes
+        },
+    },
+    {
         path: '/configuracoes/empresa',
         name: 'dados-empresa',
         component: () => import('@/views/empresa/Show.vue'),

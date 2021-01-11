@@ -121,7 +121,7 @@
                 <template slot="no-body">
                   <!-- ITEM IMAGE -->
                   <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                    <img :src="url_api(conquista.imagem)" style="width: 200px; border-radius: 50%"
+                    <img :src="get_img_api(conquista.imagem)" style="width: 200px; border-radius: 50%"
                          alt="avatar"
                          class="grid-view-img px-4">
                   </div>
@@ -308,13 +308,16 @@
                   });
                   this.$router.push({name: 'conquistas'});
                 }).catch(erro => {
+                  console.log('erro',erro.response)
                   this.$vs.notify({
                     title: '',
-                    text: erro.message,
+                    text: erro.response.data.message,
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
                   })
+                }).finally(()=>{
+                  this.$vs.loading.close();
                 })
               } else {
                 this.$store.dispatch('conquistas/store', formData).then(response => {

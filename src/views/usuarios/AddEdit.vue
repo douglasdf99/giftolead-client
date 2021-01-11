@@ -37,7 +37,7 @@
                     </div>
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <span class="font-regular mb-2">Origem (sck) do usuário</span>
-                        <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
+                        <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required|alpha_num'"/>
                         <span class="text-danger text-sm" v-show="errors.has('sck')">{{ errors.first('sck') }}</span>
                         <!--<span class="text-danger text-sm" v-show="sckRepetido">{{ sugestoes }}</span>-->
                     </div>
@@ -57,9 +57,10 @@
                     </div>
                     <div class="vx-col w-full my-4" v-if="slack">
                         <div class="p-5 rounded-lg bg-white">
-                            <p>
+                            <p class="flex items-center">
+                                <img src="@/assets/images/util/slack.png" class="img-conquista mr-4" alt="" width="100">
                                 Importante: a URL do Webhook individual pode ser encontrada
-                                <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none">aqui</a>.
+                                <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none" class="ml-1">aqui</a>.
                             </p>
                         </div>
                     </div>
@@ -165,6 +166,7 @@ const dict = {
         },
         sck: {
             required: 'Por favor, insira a origem do usuário',
+            alpha_num: 'O código SCK não pode conter espaços ou caracteres especiais.',
         },
     }
 };

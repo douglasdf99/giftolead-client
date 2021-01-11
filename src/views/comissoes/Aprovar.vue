@@ -97,11 +97,7 @@
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
-    import moduleCampAgendamentos from "../../store/campanha_agendamento/moduleCampAgendamentos";
-    import moduleCampBoletos from "../../store/campanha_boleto/moduleCampBoletos";
-    import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
-    import moduleCampWhatsapp from "../../store/campanha_whatsapp/moduleCampWhatsapp";
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -173,26 +169,6 @@
             if (!moduleComissoes.isRegistered) {
                 this.$store.registerModule('comissoes', moduleComissoes)
                 moduleComissoes.isRegistered = true
-            }
-
-            if (!moduleCampAgendamentos.isRegistered) {
-                this.$store.registerModule('agendadas', moduleCampAgendamentos)
-                moduleCampAgendamentos.isRegistered = true
-            }
-
-            if (!moduleCampBoletos.isRegistered) {
-                this.$store.registerModule('boletos', moduleCampBoletos)
-                moduleCampBoletos.isRegistered = true
-            }
-
-            if (!moduleCampCanceladas.isRegistered) {
-                this.$store.registerModule('canceladas', moduleCampCanceladas)
-                moduleCampCanceladas.isRegistered = true
-            }
-
-            if (!moduleCampWhatsapp.isRegistered) {
-                this.$store.registerModule('whats', moduleCampWhatsapp)
-                moduleCampWhatsapp.isRegistered = true
             }
 
             if (!moduleUsuario.isRegistered) {
@@ -290,6 +266,10 @@
                     this.comissoes = response.data
                     //this.dados.page = this.pagination.current_page
                     this.$vs.loading.close();
+                }).catch(()=>{
+
+                }).finally(()=>{
+                  this.$vs.loading.close();
                 });
             },
             getOpcoes(){
@@ -354,6 +334,7 @@
                 })
             },
             pesquisar(e) {
+              this.dados.page =1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

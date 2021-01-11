@@ -8,7 +8,7 @@
       <div class="vx-col w-full lg:w-3/4">
         <div class="flex items-center justify-around" v-if="expedicao">
           <p class="flex items-center">
-            {{ expedicao.fechado ? 'fechada' : 'pendente' }}
+            {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}
             <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
                      class="ml-5 icon-grande" v-bind:style="{color: expedicao.fechado ? '#4DE98A' : '#E7BE00'}"></vs-icon>
           </p>
@@ -86,7 +86,7 @@
                   <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                   Editar Endereço
                 </vs-dropdown-item>
-                <vs-dropdown-item @click="enviarRastreio(tr.id)">
+                  <vs-dropdown-item v-if="expedicao.fechado" @click="enviarRastreio(tr.id)">
                   <vs-icon icon-pack="material-icons" icon="email"></vs-icon>
                   Enviar Rastreio
                 </vs-dropdown-item>
@@ -316,7 +316,6 @@
             this.automacaosErros.push(e.automacao);
           }
         }
-
         if (e.automacao.status == 'sucesso') {
           this.plpGerada = 10
         }
@@ -438,7 +437,7 @@
         this.modalIframe = true;
         this.$vs.loading({
           container: '#pdf-with-loading'
-        })
+        });
         axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id, 'tipo': tipo}, responseType: 'arraybuffer'})
           .then((response) => {
             console.log(response);
@@ -521,9 +520,14 @@
             }).catch(erro => {
               console.log('erro', erro);
               this.modalGerarPlp = false;
-              this.$vs.notify({
+              // this.$vs.notify({
+              //   color: 'danger',
+              //   text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
+              // });
+              this.$vs.dialog({
                 color: 'danger',
-                text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
+                title: `Algo deu errado ao gerar a PLP`,
+                text: erro.response.data.message + '. Contate o suporte'
               });
             });
           }
@@ -579,7 +583,6 @@
           })
         })
       },
-
       //Editar endereço da automação
       editarEndereco(obj) {
         this.endereco = {...obj.endereco};
@@ -616,7 +619,6 @@
         this.endereco.nome = this.removeAccents(this.endereco.nome);
 
       },
-
       //Trocando contrato
       getContratos() {
         this.$store.dispatch('contratos/get').then(response => {

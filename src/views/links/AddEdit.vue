@@ -56,6 +56,11 @@
         <span class="float-left mt-1 mx-4"
               style="font-weight: bold">Opção de parcelamento em dois cartões de crédito</span>
       </div>
+      <div class="vx-col lg:w-full w-full mb-2">
+        <vs-switch vs-icon-on="check" color="#0FB599" v-model="link.hab_comissao" class="float-left switch"/>
+        <span class="float-left mt-1 mx-4"
+              style="font-weight: bold">Habilitar Comissionamento por link</span>
+      </div>
     </div>
     <vs-divider class="mb-20"/>
 
@@ -147,6 +152,7 @@
           paypal: '',
           debito: '',
           two_cart: '',
+          hab_comissao:''
         },
         url: saveleadsConfig.url_api,
         contaSelected: null,

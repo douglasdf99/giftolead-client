@@ -19,7 +19,7 @@
     <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
       <div class="">
         <div class="p-6 pt-0">
-          <h4 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 my-3">Suas informações pessoais</h4>
+          <h4 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 my-3">Informações pessoais</h4>
           <form class="w-full px-6">
             <div class="flex flex-col">
               <p class="gray-wdc mb-2 font-bold">Destinatário</p>
@@ -27,7 +27,8 @@
             </div>
             <div class="vx-row mt-2">
               <div class="vx-col w-3/12">
-                <p class="gray-wdc mb-2 font-bold">DDD</p>
+                <p class="gray-wdc mb-2 font-
+                bold">DDD</p>
                 <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3"
                           v-model="endereco.ddd" type="text" required v-mask="'##'" @keypress="isNumber"/>
               </div>

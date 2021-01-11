@@ -83,6 +83,17 @@ export default {
             })
         });
     },
+    diagnosticar({commit}, dados){
+        return new Promise((resolve, reject) => {
+            axios.post(`pre_comissao_diagnosticos`, dados).then(response => {
+                console.log(response);
+                resolve(response.data);
+            }).catch(erro => {
+                console.log('erro', erro);
+                reject();
+            })
+        });
+    },
     storeOrdens({commit}, ids){
         return new Promise((resolve, reject) => {
             axios.post(`comissaos/gerarordens`, {ids: ids}).then(response => {

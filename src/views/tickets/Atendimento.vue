@@ -52,7 +52,7 @@
                       <span class="vs-radio">
                                           <span class="vs-radio--borde" style="border: 2px solid rgb(200, 200, 200);"></span>
                                           <span class="vs-radio--circle"></span></span>
-                      <span class="vs-radio--label">{{item.nome}}</span>
+                      <span class="vs-radio--label">{{ item.nome }}</span>
                     </label>
                   </li>
                 </ul>
@@ -66,7 +66,8 @@
               </div>
               <div class="vx-col w-full lg:w-3/12 ml-10 relative">
                 <span class="text-danger text-sm" v-show="errors.has('datetime')">Preenchimento obrigatório</span>
-                <flat-pickr :config="configdateTimePicker" v-model="datetime" name="datetime" v-validate="'required'" id="teste" class="flatpickr-custom w-full rounded-lg px-5 py-4 border-none cursor-pointer ml-0"
+                <flat-pickr :config="configdateTimePicker" v-model="datetime" name="datetime" v-validate="'required'" id="teste"
+                            class="flatpickr-custom w-full rounded-lg px-5 py-4 border-none cursor-pointer ml-0"
                             placeholder="Agendar para uma data futura"/>
                 <i class="material-icons absolute" style="top: 0.7rem;right: 2rem;">today</i>
               </div>
@@ -80,7 +81,7 @@
                       <span class="vs-radio">
                                       <span class="vs-radio--borde" style="border: 2px solid rgb(200, 200, 200);"></span>
                                       <span class="vs-radio--circle"></span></span>
-                      <span class="vs-radio--label">{{item.nome}}</span>
+                      <span class="vs-radio--label">{{ item.nome }}</span>
                     </label>
                   </li>
                 </ul>
@@ -99,7 +100,7 @@
                       <span class="vs-radio">
                                           <span class="vs-radio--borde" style="border: 2px solid rgb(200, 200, 200);"></span>
                                           <span class="vs-radio--circle"></span></span>
-                      <span class="vs-radio--label">{{item.nome}}</span>
+                      <span class="vs-radio--label">{{ item.nome }}</span>
                     </label>
                   </li>
                 </ul>
@@ -132,14 +133,11 @@
                   Preencha com as informações do brinde
                 </p>
               </div>
-
               <div class="vx-col w-full lg:w-1/3">
-
                 <span class="font-regular mb-2">Selecione o brinde</span>
                 <v-select v-model="selectedBrinde" :class="'select-large-base'" :clearable="false"
                           style="background-color: white" :options="brindesOptions" v-validate="'required'" name="brinde"/>
-                <span class="text-danger text-sm w-full block" v-show="errors.has('brinde')">Preenchimento obrigatório</span>
-
+                <span class="text-danger text-sm w-full block" v-if="selectedBrinde == null || selectedBrinde == {}">Preenchimento obrigatório</span>
               </div>
               <div class="vx-col w-full lg:w-1/3">
 
@@ -347,6 +345,10 @@
     methods: {
 
       finalizar() {
+        if (this.atendimento.tipo == 1){
+          this.atendimento.data_agendamento =this.datetime ;
+        }
+
         this.atendimento.ticket_id = this.ticket.id;
         this.atendimento.lead_id = this.ticket.lead_id;
         this.atendimento.lead_produto_id = this.ticket.lead_produto_id;

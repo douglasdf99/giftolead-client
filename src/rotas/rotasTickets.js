@@ -40,7 +40,7 @@ const rotasTickets = [
     },
     {
         path: '/tickets/detalhar/:id',
-        name: 'tickets-atender',
+        name: 'tickets-detalhar',
         component: () => import('@/views/tickets/Detalhamento.vue'),
         meta: {
             breadcrumb: [
@@ -50,7 +50,7 @@ const rotasTickets = [
                 {title: 'Atender', active: true},
             ],
             pageTitle: 'Atendendo Ticket',
-            rule: 'ticket_atender',
+            rule: 'ticket_detalhar',
             pai: 'tickets',
             subTitle: 'Tickets',
             //subIcon: 'settings',

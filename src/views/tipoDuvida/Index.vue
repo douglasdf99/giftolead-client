@@ -43,31 +43,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20" v-show="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6" v-if="$acl.check('configuracao_tipoduvida_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em incluir Incluir Tipo de dúvida.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item" v-if="$acl.check('configuracao_tipoduvida_incluir')">
-                                    Para inserir novos registros você <br> pode clicar em Incluir Tipo de dúvida.
-                                </p>
-                            </div>
-                            <br>
-                            <p v-if="$acl.check('configuracao_tipoduvida_incluir')">
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                  Incluir Tipo de dúvida
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro/>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" class="table-items"
@@ -81,7 +57,7 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative w-full">
-                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_tipoduvida_editar') || $acl.check('configuracao_tipoduvida_deletar')"
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_tipoduvida_editar') || $acl.check('configuracao_tipoduvida_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
@@ -202,6 +178,7 @@
                 })
             },
             pesquisar(e) {
+              this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

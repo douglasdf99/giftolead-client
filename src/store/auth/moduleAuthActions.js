@@ -16,6 +16,7 @@ import router from '@/router'
 import axios from "@/axios.js"
 import {AclRule} from "vue-acl";
 import axiosRaiz from "axios";
+import saveleadsConfig from "../../../saveleadsConfig";
 
 export default {
   loginAttempt({dispatch}, payload) {
@@ -244,6 +245,7 @@ export default {
       })
     })
   },
+
   registerUser({dispatch}, payload) {
 
     // create user using firebase
@@ -372,13 +374,7 @@ export default {
       const bodyParameters = {
         key: "value"
       };
-      var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
-      var domain = '';
-      if (subdomain)
-        domain = "https://api.saveleads.com.br/" + subdomain;
-      else
-      //domain = "http://sevaleads3.0.test/app";
-        domain = "https://api.saveleads.com.br/app";
+      let domain = saveleadsConfig.url_api
 
       axiosRaiz.get(
         domain + '/user',
@@ -423,12 +419,7 @@ export default {
       const bodyParameters = {
         key: "value"
       };
-      var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
-      var domain = '';
-      if (subdomain)
-        domain = "https://api.saveleads.com.br/" + subdomain;
-      else
-        domain = "https://api.saveleads.com.br/app";
+      let domain = saveleadsConfig.url_api
 
       if (token2){
         axiosRaiz.get(domain + '/permissions', config).then(response => {

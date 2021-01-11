@@ -1,14 +1,7 @@
 <template>
   <div>
     <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-      <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-        <div class="w-8/12">
-          <div>
-            <p class="span-sem-item">Nenhuma registro encontrado</p>
-          </div>
-          <br>
-        </div>
-      </div>
+      <nenhum-registro/>
     </div>
     <div class="" v-else>
       <vs-table :data="items" class="table-items" v-if="tipo == 'usuario'">
@@ -42,9 +35,10 @@
       <vs-table :data="items" class="table-items" v-else>
         <template slot="thead">
           <vs-th>Lead / Produto</vs-th>
-          <vs-th>Atendente</vs-th>
+          <vs-th>Comtemplado</vs-th>
           <vs-th>Comissão</vs-th>
-          <vs-th>Responsável</vs-th>
+          <vs-th>Origem</vs-th>
+          <vs-th></vs-th>
         </template>
         <template slot-scope="{data}">
           <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
@@ -54,7 +48,8 @@
             </vs-td>
             <vs-td>
               <div class="flex items-center" v-if="tr.user">
-                <img :src="get_img_api(tr.user.avatar)" width="40px" class="rounded-full mr-5 ml-1" style="margin-left: -8%"/>
+                <div :src="null" width="40px" class="rounded-full mr-5 ml-1"
+                     :style="{ backgroundImage: 'url('+get_img_api(tr.user.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"/>
                 <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
               </div>
             </vs-td>
@@ -68,8 +63,29 @@
                 <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaWhatsapp'">
                 <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
                 <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
-                <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">
-                <p class="font-bold text-dark text-xl ml-3">{{nameCriador(tr)}}</p>
+                <img src="@/assets/images/util/link.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\Link'">
+                <div :src="null" width="40px" class="ml-2 rounded-full agente" v-else-if="tr.origem"
+                     :style="{ backgroundImage: 'url('+get_img_api(tr.origem.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"/>
+
+                <!--                  <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
+                <div class="">
+                  <label class="" style="font-size: 10px" v-if="tr.origem_type == 'App\\Models\\User'">Ticket criado por:</label>
+                  <p class="font-bold text-dark text-xl ml-3">{{nameCriador(tr)}}</p>
+                </div>
+
+              </div>
+            </vs-td>
+            <vs-td>
+              <div class="">
+                <vx-tooltip :text="'ID: '+tr.responsavel_id" >
+                  <div class="">
+                    <label class="" style="font-size: 10px">Comissão vinda de uma:</label>
+                    <p class="font-bold text-dark ml-3">{{nameResponsavel(tr)}}</p>
+                  </div>
+
+                </vx-tooltip >
+                <!--                  <img :src="get_img_api(tr.responsavel.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
+
               </div>
             </vs-td>
           </vs-tr>
@@ -128,7 +144,17 @@
         })
       },
       nameCriador(obj) {
-        if (obj.origem_type == 'App\\Models\\User') return obj.origem.name; else return (obj.origem) ? obj.origem.nome : 'Sem origem';
+        if (obj.origem_type == 'App\\Models\\User') return obj.origem.name;
+        else if (obj.origem_type == 'App\\Models\\Link') return obj.origem.descricao;
+        else return (obj.origem) ? obj.origem.nome : 'Sem origem';
+      },
+
+      nameResponsavel(obj) {
+        if (obj.responsavel_type == 'App\\Models\\PreComissao') return 'Precomissao Aprovada';
+        else if (obj.responsavel_type == 'App\\Models\\Transacao') return 'Transação Aprovada';
+        else if (obj.responsavel_type == 'App\\Models\\Upsell') return 'Upsell Aprovado';
+        else if (obj.responsavel_type == 'App\\Models\\WhatsappList') return 'Whatsapplist Aprovado';
+        else return (obj.responsavel) ? obj.responsavel.nome : 'Sem origem';
       }
     },
     computed: {

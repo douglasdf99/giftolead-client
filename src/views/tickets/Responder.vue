@@ -54,7 +54,7 @@
                             </vs-dropdown>
                         </vx-tooltip>
                         <vs-textarea v-model="typedMessage" id="text-area-chat" class="w-full bg-white mb-0" rows="4" placeholder="Digite uma mensagem"/>
-                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg">send</i>
+                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @dblclick="" @click="sendMsg">send</i>
                     </div>
                 </div>
                 <vs-prompt
@@ -168,13 +168,15 @@
             },
             sendMsg() {
                 if (!this.typedMessage) return
-                this.enviando = true;
-                this.$store.dispatch('tickets/sendMsg', {id: this.data.id, mensagem: this.typedMessage}).then(response => {
-                    this.enviado = true;
-                    this.typedMessage = '';
-                    setTimeout(() => this.redirectWhats(response), 2000);
-                    //this.$emit('getItems')
-                });
+                if(!this.enviando){//Previnindo segundo clique
+                    this.enviando = true;
+                    this.$store.dispatch('tickets/sendMsg', {id: this.data.id, mensagem: this.typedMessage}).then(response => {
+                        this.enviado = true;
+                        this.typedMessage = '';
+                        setTimeout(() => this.redirectWhats(response), 2000);
+                        //this.$emit('getItems')
+                    });
+                }
             },
             redirectWhats(url) {
                 this.enviando = false;
@@ -235,8 +237,8 @@
             if(this.data.mensagens.length > 0){
                 this.data.mensagens.forEach(msg => {
                     if(msg.tipo == 'whatsapp'){
-                        console.log('mensagem', msg.mensagem);
-                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem});
+                        console.log('mensagem', msg);
+                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem, avatar: msg.responsavel.avatar})
                     }
                 })
             }

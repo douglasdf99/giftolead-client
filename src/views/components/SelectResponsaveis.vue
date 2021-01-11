@@ -24,6 +24,7 @@
         whats: [],
         canceladas: [],
         agendadas: [],
+        links: [],
         boletos: [],
 
         agentes: [],
@@ -72,11 +73,11 @@
             });
           });
           response.canceladas.forEach(cancelada => {
-              this.canceladas.push({
-                id: cancelada.id,
-                label: cancelada.nome,
-                criador_type: 'App\\Models\\CampanhaCancelado'
-              });
+            this.canceladas.push({
+              id: cancelada.id,
+              label: cancelada.nome,
+              criador_type: 'App\\Models\\CampanhaCancelado'
+            });
           });
           response.whatsapps.forEach(whats => {
             this.whats.push({
@@ -90,6 +91,13 @@
               id: agendada.id,
               label: agendada.nome,
               criador_type: 'App\\Models\\CampanhaAgendamento'
+            });
+          });
+          response.links.forEach(agendada => {
+            this.links.push({
+              id: agendada.id,
+              label: agendada.descricao,
+              criador_type: 'App\\Models\\Link'
             });
           });
           this.setResponsaveis();
@@ -161,7 +169,8 @@
           {tipo: 'Campanha de Whatsapp', libs: [...this.whats]},
           {tipo: 'Campanha de Boleto', libs: [...this.boletos]},
           {tipo: 'Campanha de Agendamento', libs: [...this.agendadas]},
-          {tipo: 'Campanha de Canceladas', libs: [...this.canceladas]}
+          {tipo: 'Campanha de Canceladas', libs: [...this.canceladas]},
+          {tipo: 'Links', libs: [...this.links]},
         );
       }
     },
@@ -177,7 +186,7 @@
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
-  .selected-resp *{
+  .selected-resp * {
     z-index: 200;
   }
 </style>

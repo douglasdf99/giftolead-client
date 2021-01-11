@@ -1,320 +1,428 @@
 <template>
-    <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
-                class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
-        <div class="my-6 flex items-center justify-between px-6">
-            <h4>Comprovação de venda</h4>
-            <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false;" class="cursor-pointer"></feather-icon>
-        </div>
-        <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
-            <div class="p-10">
-                <div class="vx-row" v-if="data.action == 1">
-                    <div class="vx-col w-full mb-5">
-                        <span class="font-bold mb-3 ml-2 text-lg">Imagens (clique na caixa ou arraste e solte a imagem para dentro)</span>
-                        <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter" @dragleave="OnDragLeave" @dragover.prevent @drop="onDrop" :class="{ dragging: isDragging }">
-                            <div class="uploader py-3 mt-3">
-                                <label for="file">
-                                    <div class="vx-row">
-                                        <div class="vx-col w-full text-center">
-                                            <i class="fa fa-cloud-upload" v-if="images.length == 0"></i>
-                                            <img :src="get_img_api('images/upload.png')" v-if="images.length == 0">
-                                            <p class="text-lg">Clique aqui para anexar imagens</p>
-                                            <div class="file-input hidden">
-                                                <input type="file" id="file" multiple @change="onInputChange">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="vx-row my-3 px-3" style="max-height: 280px; overflow: auto">
-                                <div v-show="images.length > 0" class="item-img-container bg-white h-32 flex items-center justify-center lg:w-1/3 w-full relative my-3"
-                                     v-for="(image, index) in images" :key="index">
-                                    <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger cursor-pointer remove-img" @click="removeImg(index)"></vs-icon>
-                                    <img :src="image" style="max-width: 200px; max-height: 100px" alt="logotipo" class="grid-view-img px-4">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="vx-col w-full">
-                        <p class="font-bold mb-3 ml-2 text-lg">Descrição</p>
-                        <vs-textarea v-model="descricao" id="text-area" class="w-full bg-white" rows="6"/>
-                    </div>
-                </div>
-                <div v-else>
-                    <div class="vx-row flex items-center">
-                        <div class="vx-col w-full lg:w-1/2" v-if="data.ticket.lead.nome">
-                            <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
-                            <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
-                            <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
-                            <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
-                        </div>
-                        <div class="vx-col w-full lg:w-1/2 text-right">
-                            <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>
-                            <p>Data: <b>{{ data.created_at | formatDateTime }}</b></p>
-                            <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{ data.tipo }}</vs-chip>
-                        </div>
-                    </div>
-                    <vs-divider></vs-divider>
-                    <div class="vx-row mt-3">
-                        <div class="vx-col w-full">
-                            <p class="text-xl">{{ descricao }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="vx-row px-3">
-                    <p v-if="data.action == 1" class="font-bold">Imagens já anexadas</p>
-                    <galeria v-if="data.anexos" :imagens="data.anexos" @removeImg="removeImg" :remove="data.action == 1"></galeria>
-                </div>
+  <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
+              class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
+    <div class="my-6 flex items-center justify-between px-6">
+      <h4>Comprovação de venda</h4>
+      <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false;" class="cursor-pointer"></feather-icon>
+    </div>
+    <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
+      <div class="p-10">
+        <div class="vx-row" v-if="data.action == 1">
+          <div class="vx-col w-full">
+            <div class="vx-row mb-4">
+              <div class="vx-col w-full">
+                <vs-checkbox color="dark" v-model="outroemail">
+                  <span class="label-bold-underline">Comprou com outro email</span>
+                </vs-checkbox>
+              </div>
             </div>
-        </VuePerfectScrollbar>
-        <div class="flex flex-wrap items-center p-6" slot="footer" v-if="data.action == 1">
-            <vs-button class="mr-6 font-bold text-white" color="primary" @click="salvar" :disabled="descricao == ''">
-                Salvar
-            </vs-button>
+            <transition name="fade">
+              <div class="vx-row mb-4" v-if="outroemail">
+                <div class="vx-col w-full mb-4">
+                  <span class="font-regular mb-2">Digite o e-mail que foi realizada a compra</span>
+                  <vs-input class="w-full" v-model="email_secundario" v-validate="'required|email'" name="email" size="large"/>
+                  <span class="text-danger text-sm">{{ errors.first('email') }}</span>
+                  <span class="text-danger text-sm" v-show="errors.has('produtoUpsell')">Preenchimento obrigatório</span>
+                  <div class="w-full text-black text-sm p-3" style="background-color: #EDEDED">
+                    A comissão passará por uma análise manual, e se faz nescessário de prints comprovando a venda por esse email.
+                  </div>
+                </div>
+              </div>
+            </transition>
+            <p class="font-bold mb-3 ml-2 text-lg">Descrição</p>
+            <vs-textarea v-model="descricao" v-validate="'required|min:10'"  name="descricao" id="text-area" class="w-full bg-white" rows="6"/>
+            <span class="text-danger text-sm">{{ errors.first('descricao') }}</span>
+          </div>
+          <div class="vx-col w-full mb-5">
+            <span class="font-bold mb-3 ml-2 text-lg">Imagens (clique na caixa ou arraste e solte a imagem para dentro)</span>
+            <div style="width: 100%;     margin-top: 4px;" @dragenter="OnDragEnter" @dragleave="OnDragLeave" @dragover.prevent @drop="onDrop" :class="{ dragging: isDragging }">
+              <div class="uploader py-3 mt-3">
+                <label for="file">
+                  <div class="vx-row">
+                    <div class="vx-col w-full text-center">
+                      <i class="fa fa-cloud-upload" v-if="images.length == 0"></i>
+                      <img :src="get_img_api('images/upload.png')" v-if="images.length == 0">
+                      <p class="text-lg">Clique aqui para anexar imagens</p>
+                      <div class="file-input hidden">
+                        <input type="file" id="file" multiple @change="onInputChange">
+                      </div>
+                    </div>
+                  </div>
+                </label>
+              </div>
+              <div class="vx-row my-3 px-3" style="max-height: 280px; overflow: auto">
+                <div v-show="images.length > 0" class="item-img-container bg-white h-32 flex items-center justify-center lg:w-1/3 w-full relative my-3"
+                     v-for="(image, index) in images" :key="index">
+                  <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger cursor-pointer remove-img" @click="removeImg(index)"></vs-icon>
+                  <img :src="image" style="max-width: 200px; max-height: 100px" alt="logotipo" class="grid-view-img px-4">
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
-    </vs-sidebar>
+        <div v-else>
+          <div class="vx-row flex items-center">
+            <div class="vx-col w-full lg:w-1/2" v-if="data.ticket.lead.nome">
+              <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
+              <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
+              <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
+              <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
+            </div>
+            <div class="vx-col w-full lg:w-1/2 text-right">
+              <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>
+              <p>Data: <b>{{ data.created_at | formatDateTime }}</b></p>
+              <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{ data.tipo }}</vs-chip>
+            </div>
+          </div>
+          <vs-divider></vs-divider>
+          <div class="vx-row mt-3">
+            <div class="vx-col w-full">
+              <p class="text-xl">{{ descricao }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="vx-row px-3">
+          <p v-if="data.action == 1" class="font-bold">Imagens já anexadas</p>
+          <galeria v-if="data.anexos" :imagens="data.anexos" @removeImg="removeImg" :remove="data.action == 1"></galeria>
+        </div>
+      </div>
+    </VuePerfectScrollbar>
+    <div class="flex flex-wrap items-center p-6" slot="footer" v-if="data.action == 1">
+      <vs-button class="mr-6 font-bold text-white" color="primary" @click="salvar" :disabled="descricao == ''">
+        Salvar
+      </vs-button>
+    </div>
+  </vs-sidebar>
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import vSelect from 'vue-select'
-import galeria from '../components/Galeria';
+  import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+  import vSelect from 'vue-select'
+  import galeria from '../components/Galeria';
+  import {Validator} from 'vee-validate';
 
-export default {
+  const dict = {
+    custom: {
+      email: {
+        required: 'Por favor, insira o seu email que foi realizado a compra',
+        email: 'O email informado está com formato inválido',
+      },
+      descricao: {
+        required: 'Por favor, uma descrição detalhando a sua venda',
+        min: 'O campo precisa ter no mínimo 10 caracteres.'
+      }
+    }
+  };
+  Validator.localize('pt-br', dict);
+  export default {
     props: {
-        isSidebarActive: {
-            type: Boolean,
-            required: true
+      isSidebarActive: {
+        type: Boolean,
+        required: true
+      },
+      data: {
+        type: Object,
+        default: () => {
         },
-        data: {
-            type: Object,
-            default: () => {
-            },
-        },
+      },
     },
     components: {
-        'v-select': vSelect, galeria,
-        VuePerfectScrollbar,
+      'v-select': vSelect, galeria,
+      VuePerfectScrollbar,
     },
     data() {
-        return {
-            files: [],
-            images: [],
-            isDragging: false,
-            error: 0,
-            edited: false,
-            counterDanger: false,
-
-            descricao: ''
-        }
+      return {
+        files: [],
+        images: [],
+        isDragging: false,
+        error: 0,
+        edited: false,
+        counterDanger: false,
+        descricao: '',
+        email_secundario: '',
+        outroemail: false
+      }
     },
     created() {
-        if (this.data.action == 1) {
-            this.images = [];
-            this.files = [];
-        }
+      if (this.data.action == 1) {
+        this.images = [];
+        this.files = [];
+      }
     },
     computed: {
-        isSidebarActiveLocal: {
-            get() {
-                if(this.isSidebarActive) this.descricao = this.data.descricao;
-                return this.isSidebarActive
-            },
-            set(val) {
-                if (!val) {
-                    this.$emit('closeSidebar')
-                    // this.$validator.reset()
-                    // this.initValues()
-                }
-            }
+      isSidebarActiveLocal: {
+        get() {
+          if (this.isSidebarActive){
+            this.outroemail = this.data.email_secundario;
+            this.email_secundario = this.data.email_secundario;
+            this.descricao = this.data.descricao;
+          }
+          return this.isSidebarActive
         },
+        set(val) {
+          if (!val) {
+            this.$emit('closeSidebar')
+            // this.$validator.reset()
+            // this.initValues()
+          }
+        }
+      },
     },
     methods: {
-        async salvar() {
+      salvar() {
+        this.$validator.validateAll().then(result => {
+          if (result) {
             this.$vs.loading();
-            await this.enviar().then(() => {
-                this.$emit('closeSidebar');
-                this.$emit('reload');
+            var self = this;
+            if (this.files.length > 0){
+              async function diags() {
+                for (const [idx, item] of self.files.entries()) {
+                  const fecha = await self.enviar2(item).then(() => {
+                    self.$vs.loading.close();
+                    let text = self.files.length > 0 ? 'Imagens anexadas com sucesso.' : 'Atualizado com sucesso';
+                    self.$vs.notify({
+                      color: 'success',
+                      text: text
+                    });
+                    self.files = [];
+                    self.images = [];
+                  })
+                }
+                self.$emit('closeSidebar');
+                self.$emit('reload');
+              }
+              diags();
+            } else{
+              this.enviar2().then(() => {
                 this.$vs.loading.close();
                 let text = this.files.length > 0 ? 'Imagens anexadas com sucesso.' : 'Atualizado com sucesso';
                 this.$vs.notify({
-                    color: 'success',
-                    text: text
+                  color: 'success',
+                  text: text
                 });
                 this.files = [];
                 this.images = [];
-            });
-        },
-        enviar() {
-            return new Promise((resolve, reject) => {
-                const formData = new FormData();
-                if(this.files.length > 0) {
-                    this.files.forEach(file => {
-                        //formData.append('arquivo', null)
-                        console.log('descri', this.descricao);
-                        formData.append('arquivo', file, file.name);
-                        formData.append('pre_comissao_id', this.data.id);
-                        formData.append('descricao', this.descricao);
-                        this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
-                            console.log(erro)
-                        });
-                    });
-                } else {
-                    formData.append('arquivo', null);
-                    formData.append('pre_comissao_id', this.data.id);
-                    formData.append('descricao', this.descricao);
-                    this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
-                        console.log(erro)
-                    });
-                }
-                resolve();
+                self.$emit('closeSidebar');
+                self.$emit('reload');
+              })
+            }
+
+          }
+          else {
+            this.$vs.notify({
+              title: '',
+              text: 'verifique os erros específicos',
+              iconPack: 'feather',
+              icon: 'icon-alert-circle',
+              color: 'danger'
             })
-        },
-        successUpload(event) {
-            console.log('evento sucesso', event);
-            this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
-        },
-        errorUpload(event) {
-            console.log('evento error', event);
-            this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
-        },
-        removeImg(id) {
-            this.images.splice(id, 1);
-            this.files.splice(id, 1);
-        },
+          }
+        })
+      },
+      enviar() {
+        return new Promise((resolve, reject) => {
+          const formData = new FormData();
+          if (this.files.length > 0) {
+            this.files.forEach(file => {
+              //formData.append('arquivo', null)
+              console.log('descri', this.descricao);
+              formData.append('arquivo', file, file.name);
+              formData.append('pre_comissao_id', this.data.id);
+              formData.append('descricao', this.descricao);
+              if (this.outroemail){
+                formData.append('email_secundario', this.email_secundario);
+              }else{
+                formData.append('email_secundario', '');
+              }
+              this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
+                console.log(erro)
+              });
+            });
+          }
+          else {
+            formData.append('arquivo', null);
+            formData.append('pre_comissao_id', this.data.id);
+            formData.append('descricao', this.descricao);
+            if (this.outroemail){
+              formData.append('email_secundario', this.email_secundario);
+            }else{
+              formData.append('email_secundario', '');
+            }            this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
+              console.log(erro)
+            });
+          }
+          resolve();
+        })
+      },
+      enviar2(file) {
+        return new Promise((resolve, reject) => {
+          let formData = new FormData();
+          //formData.append('arquivo', null)
+          console.log('descri', this.descricao);
+          if (file){
+            formData.append('arquivo', file, file.name);
+          }
+          formData.append('pre_comissao_id', this.data.id);
+          formData.append('descricao', this.descricao);
+          if (this.outroemail){
+            formData.append('email_secundario', this.email_secundario);
+          }else{
+            formData.append('email_secundario', '');
+          }
 
-        //drag
-        OnDragEnter(e) {
-            e.preventDefault();
-            this.dragCount++;
-            this.isDragging = true;
-            return false;
-        },
-        OnDragLeave(e) {
-            e.preventDefault();
-            this.dragCount--;
-            if (this.dragCount <= 0)
-                this.isDragging = false;
-        },
-        onInputChange(e) {
-            const files = e.target.files;
-            Array.from(files).forEach(file => this.addImage(file));
-        },
-        onDrop(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            this.isDragging = false;
-            const files = e.dataTransfer.files;
-            Array.from(files).forEach(file => this.addImage(file));
-        },
-        addImage(file) {
-            if (!file.type.match('image.*')) {
-                this.$toastr.e(`${file.name} is not an image`);
-                return;
-            }
-            this.files.push(file);
-            const img = new Image(),
-                reader = new FileReader();
-            reader.onload = (e) => this.images.push(e.target.result);
-            reader.readAsDataURL(file);
-        },
-        getFileSize(size) {
-            const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
-            let i = 0;
+          this.$store.dispatch('mcomissoes/setAnexos', formData).catch(erro => {
+            console.log(erro)
+          });
+          resolve();
+        })
+      },
+      successUpload(event) {
+        console.log('evento sucesso', event);
+        this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
+      },
+      errorUpload(event) {
+        console.log('evento error', event);
+        this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
+      },
+      removeImg(id) {
+        this.images.splice(id, 1);
+        this.files.splice(id, 1);
+      },
 
-            while (size > 900) {
-                size /= 1024;
-                i++;
-            }
-            return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
-        },
+      //drag
+      OnDragEnter(e) {
+        e.preventDefault();
+        this.dragCount++;
+        this.isDragging = true;
+        return false;
+      },
+      OnDragLeave(e) {
+        e.preventDefault();
+        this.dragCount--;
+        if (this.dragCount <= 0)
+          this.isDragging = false;
+      },
+      onInputChange(e) {
+        const files = e.target.files;
+        Array.from(files).forEach(file => this.addImage(file));
+      },
+      onDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.isDragging = false;
+        const files = e.dataTransfer.files;
+        Array.from(files).forEach(file => this.addImage(file));
+      },
+      addImage(file) {
+        if (!file.type.match('image.*')) {
+          this.$toastr.e(`${file.name} is not an image`);
+          return;
+        }
+        this.files.push(file);
+        const img = new Image(),
+          reader = new FileReader();
+        reader.onload = (e) => this.images.push(e.target.result);
+        reader.readAsDataURL(file);
+      },
+      getFileSize(size) {
+        const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
+        let i = 0;
+
+        while (size > 900) {
+          size /= 1024;
+          i++;
+        }
+        return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
+      },
     },
-}
+  }
 </script>
 
 <style lang="scss" scoped>
-.remove-img {
+  .remove-img {
     font-size: 1.5rem;
     position: absolute;
     right: 5px;
     top: 0;
-}
+  }
 
-.add-new-data-sidebar {
+  .add-new-data-sidebar {
     ::v-deep .vs-sidebar--background {
-        z-index: 52000;
+      z-index: 52000;
     }
 
     ::v-deep .vs-sidebar {
-        z-index: 52000;
-        width: 750px;
-        max-width: 90vw;
+      z-index: 52000;
+      width: 750px;
+      max-width: 90vw;
 
-        .img-upload {
-            margin-top: 2rem;
+      .img-upload {
+        margin-top: 2rem;
 
-            .con-img-upload {
-                padding: 0;
-            }
-
-            .con-input-upload {
-                width: 100%;
-                margin: 0;
-            }
+        .con-img-upload {
+          padding: 0;
         }
-    }
-}
 
-.scroll-area--data-list-add-new {
+        .con-input-upload {
+          width: 100%;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .scroll-area--data-list-add-new {
     // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
     height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
-}
+  }
 </style>
 
 <style>
 
-.popup-iframe .vs-popup {
+  .popup-iframe .vs-popup {
     width: 100vw !important;
     height: 80vh !important;
-}
+  }
 
-.popup-iframe .vs-popup--content {
+  .popup-iframe .vs-popup--content {
     height: 100% !important;
     overflow: hidden;
-}
+  }
 
-/*.popup-iframe .swiper-wrappe {
-    align-items: center !important;
-}*/
+  /*.popup-iframe .swiper-wrappe {
+      align-items: center !important;
+  }*/
 
-.vs-sidebar--background {
+  .vs-sidebar--background {
     background: rgba(0, 0, 0, .2) !important;
-}
+  }
 
-.card-images {
+  .card-images {
     overflow-x: hidden;
     max-height: 300px;
-}
+  }
 
-.card-images .vx-card__collapsible-content {
+  .card-images .vx-card__collapsible-content {
     display: flex !important;
     flex-wrap: wrap !important;
-}
+  }
 </style>
 <style>
-.fade-enter-active, .fade-leave-active {
+  .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
-}
+  }
 
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-{
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+  {
     opacity: 0;
-}
+  }
 
-.con-input-upload.disabled-upload {
+  .con-input-upload.disabled-upload {
     display: none;
-}
+  }
 
-.con-img-upload {
+  .con-img-upload {
     width: 100%;
     background: unset;
     margin-top: 5px;
@@ -324,9 +432,9 @@ export default {
     -webkit-column-gap: 5px;
     -moz-column-gap: 5px;
     column-gap: 5px;
-}
+  }
 
-.con-input-upload {
+  .con-input-upload {
     background: #ffffff;
     width: 300px;
     height: 300px;
@@ -351,9 +459,9 @@ export default {
     -ms-flex-direction: column;
     flex-direction: column;
     margin: 0px;
-}
+  }
 
-.con-img-upload .img-upload {
+  .con-img-upload .img-upload {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     background: rgba(0, 80, 0, .5);
@@ -379,9 +487,9 @@ export default {
     height: 300px;
     margin: 5px;
     cursor: pointer;
-}
+  }
 
-.vs-con-textarea {
+  .vs-con-textarea {
     background: white;
     width: 100%;
     position: relative;
@@ -396,17 +504,17 @@ export default {
     -webkit-transform: translate(0);
     transform: translate(0);
     margin-bottom: 16px;
-}
+  }
 </style>
 <style lang="scss" scoped>
-.botaofechar {
+  .botaofechar {
     position: absolute;
     top: 0;
     right: 0;
     margin-top: 5px;
-}
+  }
 
-.uploader {
+  .uploader {
     width: 100%;
     background: #fff;
     color: #0c0808;
@@ -418,96 +526,96 @@ export default {
     position: relative;
 
     &.dragging {
-        background: #fff;
-        color: #2196F3;
-        border: 3px dashed #e7e7e7;
+      background: #fff;
+      color: #2196F3;
+      border: 3px dashed #e7e7e7;
 
-        .file-input label {
-            background: #f0f2f4;
-            color: #fff;
-        }
+      .file-input label {
+        background: #f0f2f4;
+        color: #fff;
+      }
     }
 
     i {
-        font-size: 85px;
+      font-size: 85px;
     }
 
     .file-input {
-        width: 200px;
-        margin: auto;
-        height: 68px;
-        position: relative;
+      width: 200px;
+      margin: auto;
+      height: 68px;
+      position: relative;
 
-        label,
-        input {
-            background: #f1f5f7;
-            color: #0c0808;
-            width: 100%;
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-size: 18px;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 7px;
-            cursor: pointer;
-        }
+      label,
+      input {
+        background: #f1f5f7;
+        color: #0c0808;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-size: 18px;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 7px;
+        cursor: pointer;
+      }
 
-        input {
-            opacity: 0;
-            z-index: -2;
-        }
+      input {
+        opacity: 0;
+        z-index: -2;
+      }
     }
 
     .images-preview {
+      display: flex;
+      flex-wrap: wrap;
+
+      .img-wrapper {
+        width: auto;
         display: flex;
-        flex-wrap: wrap;
+        /*/flex-direction: column;*/
+        margin: 10px;
 
-        .img-wrapper {
-            width: auto;
-            display: flex;
-            /*/flex-direction: column;*/
-            margin: 10px;
-
-            justify-content: space-between;
-            background: #fff0;
-            //box-shadow: 5px 5px 20px #3e3737;
-            img {
-                max-height: 200px;
-                max-width: 200px;
-                width: 100%;
-            }
+        justify-content: space-between;
+        background: #fff0;
+        //box-shadow: 5px 5px 20px #3e3737;
+        img {
+          max-height: 200px;
+          max-width: 200px;
+          width: 100%;
         }
+      }
 
-        .details {
-            font-size: 12px;
-            background: #fff;
-            color: #000;
-            display: flex;
-            flex-direction: column;
-            padding: 3px 6px;
+      .details {
+        font-size: 12px;
+        background: #fff;
+        color: #000;
+        display: flex;
+        flex-direction: column;
+        padding: 3px 6px;
 
-            .name {
-                overflow: hidden;
-                height: 18px;
-            }
+        .name {
+          overflow: hidden;
+          height: 18px;
         }
+      }
     }
 
     .upload-control {
-        button, label {
-            background: #7e57c2;
-            border: 2px solid #7e57c2;
-            border-radius: 3px;
-            color: #fff;
-            font-size: 15px;
-            cursor: pointer;
-        }
+      button, label {
+        background: #7e57c2;
+        border: 2px solid #7e57c2;
+        border-radius: 3px;
+        color: #fff;
+        font-size: 15px;
+        cursor: pointer;
+      }
 
-        label {
-            padding: 2px 5px;
-        }
+      label {
+        padding: 2px 5px;
+      }
     }
 
-}
+  }
 </style>

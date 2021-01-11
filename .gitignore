@@ -15,3 +15,4 @@ docs/.vuepress/dist/
 yarn.lock
 yarn-error.log
 vuexy-shell-scripts
+src/axios.js

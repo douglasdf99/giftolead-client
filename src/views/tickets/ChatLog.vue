@@ -12,9 +12,8 @@
         <div v-for="(msg, index) in chatData.msg" class="msg-grp-container">
             <div class="flex items-start" :class="[{'flex-row-reverse' : msg.isSent}]">
                 <template>
-                    <vs-avatar size="40px" class="border-2 shadow border-solid border-white m-0 flex-shrink-0"
-                               :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
-                               :src="msg.isSent ? get_img_api(activeUserImg) : msg.photoURL"></vs-avatar>
+                    <vs-avatar size="40px" class="border-2 shadow border-solid border-white m-0 flex-shrink-0" :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
+                               :src="msg.isSent ? get_img_api(msg.avatar) : msg.photoURL"></vs-avatar>
                 </template>
 
                 <template v-if="chatData.msg[index-1]">

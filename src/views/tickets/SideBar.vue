@@ -227,15 +227,25 @@
                 });
             },
             verificaLead() {
-                if (this.ticket.lead.email !== this.data.lead.email) {
+                console.log('ticket', this.ticket, 'data', this.data)
+                if(this.data.lead){
+                    if (this.ticket.lead.email !== this.data.lead.email) {
+                        this.$store.dispatch('tickets/verificaLead', {
+                            email: this.ticket.lead.email,
+                            produto_id: this.selectedProduto.id
+                        }).then(response => {
+                            this.verificaLeadEmail = response.verificacao;
+                        });
+                    } else {
+                        this.verificaLeadEmail = false;
+                    }
+                } else {
                     this.$store.dispatch('tickets/verificaLead', {
                         email: this.ticket.lead.email,
                         produto_id: this.selectedProduto.id
                     }).then(response => {
                         this.verificaLeadEmail = response.verificacao;
                     });
-                } else {
-                    this.verificaLeadEmail = false;
                 }
             },
             initValues() {
@@ -281,7 +291,7 @@
                                     this.$store.dispatch("updateItem", {rota: 'tickets', item: obj}).then(() => {
                                         this.$vs.notify({
                                             title: 'Sucesso',
-                                            text: "A conta foi atualizada com sucesso.",
+                                            text: "O Ticket foi editado com sucesso.",
                                             iconPack: 'feather',
                                             icon: 'icon-check-circle',
                                             color: 'success'
@@ -306,15 +316,17 @@
                                             icon: 'icon-check-circle',
                                             color: 'success'
                                         })
-                                        this.$vs.loading.close();
+
                                     }).catch(error => {
                                         this.$vs.notify({
                                             title: '',
-                                            text: error.message,
+                                            text: error.response.data.message,
                                             iconPack: 'feather',
                                             icon: 'icon-alert-circle',
                                             color: 'danger'
                                         })
+                                    }).finally(()=>{
+                                      this.$vs.loading.close();
                                     })
                                 }
 
@@ -322,7 +334,8 @@
                                 this.initValues()
                             }
                         }
-                    } else {
+                    }
+                    else {
                         this.$vs.notify({
                             title: '',
                             text: 'verifique os erros específicos',

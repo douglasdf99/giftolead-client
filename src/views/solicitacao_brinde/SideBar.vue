@@ -12,11 +12,11 @@
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
-            <h4>Dados da Etiqueta</h4>
+            <h4>{{ Object.entries(this.data).length === 0 ? "Nova" : "Dados da" }}  Etiqueta</h4>
             <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
         <vs-divider class="mb-0"></vs-divider>
-        <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
+        <VuePerfectScrollbar v-if="Object.entries(this.data).length" class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-10">
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
@@ -74,6 +74,61 @@
                 </div>
             </div>
         </VuePerfectScrollbar>
+        <VuePerfectScrollbar v-if="!Object.entries(this.data).length" class="scroll-area--data-list-add-new" :key="$vs.rtl">
+            <div class="p-10">
+                <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <p class="text-lg destaque text-black">Lead</p>
+                    </div>
+                </div>
+              <div class="vx-col w-full lg:w-12/12">
+                <v-select v-model="leadSidebar" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="brindes"/>
+              </div>
+              <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <p class="text-lg destaque text-black">Produto</p>
+                    </div>
+                </div>
+              <div class="vx-col w-full lg:w-12/12">
+                <v-select v-model="brindeSidebar" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="brindes"/>
+              </div>
+              <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <p class="text-lg destaque text-black">Brinde</p>
+                    </div>
+                </div>
+              <div class="vx-col w-full lg:w-12/12">
+                <v-select v-model="brindeSidebar" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="brindes"/>
+              </div>
+              <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <p class="text-lg destaque text-black">Nome destinatario</p>
+                    </div>
+                </div>
+              <div class="vx-col w-full lg:w-12/12">
+                <v-select v-model="brindeSidebar" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="brindes"/>
+              </div>
+              <div class="vx-row mb-3">
+                    <div class="vx-col w-full">
+                        <p class="text-lg destaque text-black">Email destinatario</p>
+                    </div>
+                </div>
+              <div class="vx-col w-full lg:w-12/12">
+                <v-select v-model="brindeSidebar" :class="'select-large-base'" :clearable="true" class="bg-white"
+                          :options="brindes"/>
+              </div>
+            </div>
+
+        </VuePerfectScrollbar>
+      <div class="flex flex-wrap items-center p-6" slot="footer">
+        <vs-button class="mr-6" @click="submitData">Enviar
+        </vs-button>
+        <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
+      </div>
     </vs-sidebar>
 </template>
 
@@ -105,7 +160,11 @@
             },
         },
         data() {
-            return {}
+            return {
+              leadSidebar:'',
+              brindeSidebar:'',
+
+            }
         },
         computed: {
             isSidebarActiveLocal: {
@@ -124,7 +183,20 @@
                 }
             },
         },
-        methods: {},
+        methods: {
+          submitData() {
+
+          },
+          getLeads() {
+            this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
+              console.log('retornado com sucesso', response)
+              this.leadSidebar = response;
+              //this.items = response.data
+              //this.dados.page = this.pagination.current_page
+              this.$vs.loading.close()
+            });
+          },
+        },
         components: {
             VuePerfectScrollbar,
             'v-select': vSelect

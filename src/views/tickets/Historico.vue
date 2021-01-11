@@ -13,7 +13,7 @@
                 </div>
                 <div class="timeline-info p-4">
                     <p class="font-semibold" v-if="IsUser(historico.causer_type)">{{historico.causer.name}}</p>
-                    <p class="font-semibold" v-else>{{historico.causer.nome}}</p>
+                    <p class="font-semibold" v-else>{{historico.causer ? historico.causer.nome : ''}}</p>
                     <span class="activity-desc">{{historico.description}}</span>
                     <div class="vx-row my-3" v-if="historico.properties">
                         <div class="vx-col w-full">
@@ -38,6 +38,26 @@
                                 Chamada
                                 </span>
                             </vs-button>
+                            <div  v-if="historico.properties.follow_up">
+                              <div class="p-4 bg-card-gray">
+                                <div class="flex mb-2">
+                                  <span class="font-bold">Fallow Up : </span> <span > {{getAtendimento(historico.properties.id).follow_up}}</span>
+                                </div>
+                                <div class="flex mb-2">
+                                  <span class="font-bold">Status de Atendimento Tipo : </span> <span >  <vs-chip :color="getAtendimento(historico.properties.id).status_atendimento.tipo === 0? 'success' : getAtendimento(historico.properties.id).status_atendimento.tipo === 1 ? 'warning' : 'danger'">{{ getAtendimento(historico.properties.id).status_atendimento.tipo === 0? 'Ganhou' : getAtendimento(historico.properties.id).status_atendimento.tipo === 1 ? 'Aguardando' : 'Perdeu' }}</vs-chip></span>
+                                </div>
+                                <div class="flex mb-2">
+                                  <span class="font-bold">Status de Atendimento Escolhido : </span> <span > {{getAtendimento(historico.properties.id).status_atendimento.nome}}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div  v-if="historico.properties.data_agendamento">
+                              <div class="p-4 bg-card-gray">
+                                <div class="flex mb-2">
+                                  <span class="font-bold">Agendamento para a data : </span> <span > {{historico.properties.data_agendamento | formatDateTime}}</span>
+                                </div>
+                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +121,7 @@
                                         </h6>
                                     </div>
                                 </div>
-                                <div class="vx-col w-full lg:w-1/2">
+                                <div class="vx-col w-full lg:w-1/2" v-if="$acl.check('ticket_gravacao')">
                                     <h6 class="mb-5"><b>Gravação :</b>
                                     </h6>
                                     <vs-chip color="danger" v-if="!detalheChamada.dados.url_gravacao">Não houve gravação</vs-chip>
@@ -140,7 +160,7 @@
 
     export default {
         name: "Historico",
-        props: ['data'],
+        props: ['data','atendimentos'],
         data() {
             return {
                 exibirLigacao: false,
@@ -161,6 +181,15 @@
         },
 
         methods: {
+          getAtendimento(id){
+            let atendimento = {};
+             this.atendimentos.forEach((item)=>{
+               if ( item.id == id){
+                 atendimento = item;
+               }
+            })
+            return atendimento
+          },
             IsUser(type) {
                 return (type == `App\\Models\\User`) ? true : false;
             },
