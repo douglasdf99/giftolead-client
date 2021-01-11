@@ -17,7 +17,7 @@
             <vs-chip class="ml-4 text-lg" :color="expedicao.brinde.produto.cor"> {{ expedicao.brinde.produto.nome }}</vs-chip>
           </p>
           <p class="flex items-center">Brinde: {{ expedicao.brinde.nome }}</p>
-          <p class="flex items-center">Contrato: {{ expedicao.contrato.nome }}
+          <p class="flex items-center">Contrato: <b> {{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</b>
             <vx-tooltip position="top" text="Selecionar Contrato">
               <vs-button color="primary" class="p-2 ml-3" @click="modalContrato = true" icon-pack="material-icons" icon="create"></vs-button>
             </vx-tooltip>
@@ -356,6 +356,12 @@
           console.log(response);
           this.expedicao = {...response};
           this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato.nome};
+        }).catch(()=>{
+          this.$vs.notify({
+            color: 'danger',
+            text: 'Algo deu errado ao carregar a exepdição'
+          });
+        }).finally(()=>{
           this.$vs.loading.close();
         });
       },

@@ -10,6 +10,7 @@
 
 import 'firebase/auth'
 import axios from "@/axios.js"
+import axiosRaiz from "axios"
 
 export default {
     get({commit}, dados) {
@@ -109,4 +110,43 @@ export default {
                 })
         })
     },
+  adiconarCarrinho({commit}, obj) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/automacaos/adiconar_carrinho/${obj}`, obj)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+  login({commit}, dados) {
+    return new Promise((resolve, reject) => {
+      console.log('dados enviados', dados)
+      axiosRaiz.defaults.headers.common = dados.config.headers
+      axiosRaiz.get(`https://www.melhorenvio.com.br/api/v2/me`, dados.params)
+        .then((response) => {
+          console.log('resposta melhorenvio', response);
+          resolve(response)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+  verificaLimite({commit}, dados) {
+    return new Promise((resolve, reject) => {
+      console.log('dados enviados', dados)
+      axiosRaiz.defaults.headers.common = dados.config.headers
+      axiosRaiz.get(`https://www.melhorenvio.com.br/api/v2/me/limits`, dados.params)
+        .then((response) => {
+          console.log('resposta melhorenvio', response);
+          resolve(response)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
 }

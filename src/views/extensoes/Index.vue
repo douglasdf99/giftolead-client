@@ -76,16 +76,16 @@
                                         <p class="font-bold text-black text-md mb-0">Logística com Melhor envio</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch @click="ativaExt(extensoes.slack)" :disabled="!$acl.check('extensao_slack_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.melhor_envio)" :disabled="!$acl.check('extensao_slack_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.melhor_envio.ativo" class="float-right switch" v-if="extensoes.melhor_envio != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
-                                    <img src="@/assets/images/util/melhorenvio.png" class="img-conquista my-4" alt="" width="150">
+                                    <img src="@/assets/images/util/melhorenvio2.png" class="img-conquista my-4" alt="" width="150">
                                   <p class="mb-4">Entregue brindes utilizzando a logistica do <strong>Melhor Envio</strong>, possibilitando várias opções de transporte.</p>
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
                                     <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_slack_detal')"
-                                               @click="$router.push({name: 'extensoes-melhor-envio-config'})">{{extensoes.slack != null ? 'Detalhar' : 'Instalar'}}</vs-button>
+                                               @click="$router.push({name: 'extensoes-melhor-envio-config'})">{{extensoes.melhor_envio != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">Instalação gratuíta  </p>
                             </div>
@@ -129,7 +129,8 @@
                 extensoes: {
                     correios: null,
                     totalvoice: null,
-                    slack: null
+                    slack: null,
+                    melhor_envio: null
                 }
                 //items: {}
             }
@@ -199,6 +200,9 @@
                             }
                             if(item.extensao_type === "App\\Models\\Extensoes\\Slack"){
                                 this.extensoes.slack = item;
+                            }
+                            if(item.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio"){
+                                this.extensoes.melhor_envio = item;
                             }
                         });
                     }

@@ -113,9 +113,11 @@
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
                                              v-else></vs-icon>
                                     <vx-tooltip text="Contrato desativado ou deletado" position="top">
-                                        <vs-icon icon-pack="material-icons" icon="cancel"
-                                                 class="icon-grande text-danger"
-                                                 v-if="!tr.contrato.status"></vs-icon>
+                                        <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger" v-if="!tr.contrato.status && tr.contrato_type == 'App\\Models\\Correio'"></vs-icon>
+                                    </vx-tooltip>
+                                    <vx-tooltip text="Contrato desativado ou deletado" position="top">
+                                        <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger"
+                                                 v-if="tr.contrato.extensao && !tr.contrato.extensao.ativo"></vs-icon>
                                     </vx-tooltip>
                                 </vs-td>
                             </vs-tr>
