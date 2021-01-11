@@ -10,7 +10,9 @@
 
 import 'firebase/auth'
 import axios from "@/axios.js"
-import axiosRaiz from "axios"
+import defaultAxios from "axios"
+
+let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
 
 export default {
     get({commit}, dados) {
@@ -27,7 +29,7 @@ export default {
     },
     storeEmail({commit}, dados) {
         let rota = '/automacao_emails/';
-        if(dados.id != null){
+        if (dados.id != null) {
             dados._method = 'PUT';
             rota += dados.id;
         }
@@ -110,7 +112,7 @@ export default {
                 })
         })
     },
-  adiconarCarrinho({commit}, obj) {
+    adiconarCarrinho({commit}, obj) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/adiconar_carrinho/${obj}`, obj)
                 .then((response) => {
@@ -121,32 +123,44 @@ export default {
                 })
         })
     },
-  login({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      console.log('dados enviados', dados)
-      axiosRaiz.defaults.headers.common = dados.config.headers
-      axiosRaiz.get(`https://www.melhorenvio.com.br/api/v2/me`, dados.params)
-        .then((response) => {
-          console.log('resposta melhorenvio', response);
-          resolve(response)
+    login({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            console.log('dados enviados', dados)
+            defaultAxios.defaults.headers.common = dados.config.headers
+            defaultAxios.get(`${urlMelhorEnvio}`, dados.params)
+                .then((response) => {
+                    console.log('resposta melhorenvio', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          reject(error)
+    },
+    verificaLimite({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            console.log('dados enviados', dados);
+            defaultAxios.defaults.headers.common = dados.config.headers;
+            defaultAxios.get(`${urlMelhorEnvio}/limits`, dados.params)
+                .then((response) => {
+                    console.log('resposta melhorenvio', response);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-    })
-  },
-  verificaLimite({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      console.log('dados enviados', dados)
-      axiosRaiz.defaults.headers.common = dados.config.headers
-      axiosRaiz.get(`https://www.melhorenvio.com.br/api/v2/me/limits`, dados.params)
-        .then((response) => {
-          console.log('resposta melhorenvio', response);
-          resolve(response)
+    },
+    calcular({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/calculate`, dados.payload)
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
+    },
 }

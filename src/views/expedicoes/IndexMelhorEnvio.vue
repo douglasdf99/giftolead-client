@@ -40,32 +40,13 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                  <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10"  v-if="pagination" :label="'pendentes' + (dados.status == 'pendente' ? ' (' + automacaos.length + ')' : '')">
-                    <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacaos" tipo="pendente" v-if="automacaos.length > 0"></listagemAutomacoes>
-                  </vs-tab>
-                  <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10"  v-if="pagination" :label="'Expedicoes' + (dados.status == 'pendente' ? ' (' + automacaos.length + ')' : '')">
-                    <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacaos" tipo="pendente" v-if="automacaos.length > 0"></listagemAutomacoes>
-                  </vs-tab>
+                    <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10" v-if="pagination" :label="'pendentes' + (dados.status == 'pendente' ? ' (' + automacaos.length + ')' : '')">
+                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacaos" tipo="pendente" v-if="automacaos.length > 0"></listagemAutomacoes>
+                    </vs-tab>
+                    <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10" v-if="pagination" :label="'Expedicoes' + (dados.status == 'pendente' ? ' (' + automacaos.length + ')' : '')">
+                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacaos" tipo="pendente" v-if="automacaos.length > 0"></listagemAutomacoes>
+                    </vs-tab>
                 </vs-tabs>
-                <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search === null">
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                </div>
             </vs-col>
         </vs-row>
         <vs-prompt
@@ -92,37 +73,37 @@
                 </div>
             </div>
         </vs-prompt>
-      <!-- inicio popup-->
-      <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="modalGerarPlp">
-        <div class="vs-popup--background"></div>
-        <div class="vs-popup" style="background: rgb(255, 255, 255);">
-          <header class="vs-popup--header">
-            <div class="vs-popup--title">
-            </div>
-          </header>
-          <div class="vs-popup--content">
-            <div class="vx-col w-full">
-              <vx-card class="p-2">
-                <div class="text-left mb-10">
-                  <h2 class="text-center"> Gerando PLP </h2>
-                  <h6 class="mb-2 mt-4"><b>Numero da Expedição :</b> #{{ expedicao.id }}</h6>
-                  <h6 class="mb-2"><b>Brinde a ser enviado :</b> {{ expedicao.brinde.nome }}</h6>
-                  <p class="mb-2"></p>
+        <!-- inicio popup-->
+        <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="modalGerarPlp">
+            <div class="vs-popup--background"></div>
+            <div class="vs-popup" style="background: rgb(255, 255, 255);">
+                <header class="vs-popup--header">
+                    <div class="vs-popup--title">
+                    </div>
+                </header>
+                <div class="vs-popup--content">
+                    <div class="vx-col w-full">
+                        <vx-card class="p-2">
+                            <div class="text-left mb-10">
+                                <h2 class="text-center"> Gerando PLP </h2>
+                                <h6 class="mb-2 mt-4"><b>Numero da Expedição :</b> #{{ expedicao.id }}</h6>
+                                <h6 class="mb-2"><b>Brinde a ser enviado :</b> {{ expedicao.brinde.nome }}</h6>
+                                <p class="mb-2"></p>
+                            </div>
+                            <vs-divider/>
+                            <div class="flex items-center">
+                                <div class="fill-row-loading w-full">
+                                    <h6 class="mb-6"><b>Status atual:</b> <span> Fechando Expedições </span></h6>
+                                    <h6 class="text-center mb-2"> {{atual}}/{{total}} </h6>
+                                    <vs-progress :height="12" :percent="(atual / total)* 100" color="success"></vs-progress>
+                                </div>
+                            </div>
+                        </vx-card>
+                    </div>
                 </div>
-                <vs-divider/>
-                <div class="flex items-center">
-                  <div class="fill-row-loading w-full">
-                    <h6 class="mb-6"><b>Status atual:</b> <span> Fechando Expedições </span></h6>
-                    <h6 class="text-center mb-2"> {{atual}}/{{total}} </h6>
-                    <vs-progress :height="12" :percent="(atual / total)* 100" color="success"></vs-progress>
-                  </div>
-                </div>
-              </vx-card>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- fim popup-->
+        <!-- fim popup-->
     </div>
 </template>
 
@@ -149,25 +130,25 @@
             listagem,
             listagemAutomacoes,
             'v-select': vSelect,
-            SideBar,Datepicker,
+            SideBar, Datepicker,
             VueMoment,
             moment,
             DateRangePicker
         },
         data() {
             return {
-              automacaos: [],
-              modalGerarPlp: false,
-              atual: 0,
-              total: 1,
-              expedicao: {
-                brinde: {
-                  nome: '',
-                  produto: {
-                    nome: ''
-                  }
-                }
-              },
+                automacaos: [],
+                modalGerarPlp: false,
+                atual: 0,
+                total: 1,
+                expedicao: {
+                    brinde: {
+                        nome: '',
+                        produto: {
+                            nome: ''
+                        }
+                    }
+                },
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
@@ -219,10 +200,10 @@
                 this.$store.registerModule('brindes', moduleBrindes);
                 moduleBrindes.isRegistered = true;
             }
-          if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
-          }
+            if (!moduleAutomacao.isRegistered) {
+                this.$store.registerModule('automacao', moduleAutomacao)
+                moduleAutomacao.isRegistered = true
+            }
 
             if (!moduleExpedicoesBrindes.isRegistered) {
                 this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
@@ -274,19 +255,19 @@
                     this.$vs.loading.close();
                 });
             },
-          getAutomacoes(tipo = this.dados.tipo) {
-            this.$vs.loading();
-              this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
-              this.dados.tipo = null;
-            this.$store.dispatch('automacao/get', this.dados).then(response => {
-              console.log('respostas com todas as automacoes' ,response);
-              this.automacaos = response.data;
-              this.pagination = response
-            }).finally(()=>{
-              this.$vs.loading.close();
-            });
-          },
-            getOpcoes(){
+            getAutomacoes(tipo = this.dados.tipo) {
+                this.$vs.loading();
+                this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
+                this.dados.tipo = null;
+                this.$store.dispatch('automacao/get', this.dados).then(response => {
+                    console.log('respostas com todas as automacoes', response);
+                    this.automacaos = response.data;
+                    this.pagination = response
+                }).finally(() => {
+                    this.$vs.loading.close();
+                });
+            },
+            getOpcoes() {
                 this.$store.dispatch('brindes/get').then(response => {
                     this.brindes = [...this.arraySelect(response)];
                     this.brindesCru = [...response];
@@ -364,66 +345,68 @@
                 })
             },
             pesquisar(e) {
-              this.data.page = 1;
+                this.data.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
             },
 
             //Procedimentos
-            fecharVarias(arr, rota, tipo){
+            fecharVarias(arr, rota, tipo) {
                 console.log('fechando várias', arr)
                 var self = this;
                 this.$vs.dialog({
                     color: 'primary',
-                    title: (rota == 'fechar' ? 'Fechar' : 'Restaurar' ) + ` expedições?`,
+                    title: (rota == 'fechar' ? 'Fechar' : 'Restaurar') + ` expedições?`,
                     text: 'Deseja mesmo ' + rota + ' as expedições selecionadas?',
                     acceptText: 'Sim!',
                     accept: () => {
-                      self.$vs.loading({
-                        color: self.colorLoading,
-                        container: "#button-with-loading-fecharPlp",
-                        scale: 0.45
-                      });
-                      self.total = arr.length;
-                      self.modalGerarPlp = true;
-                      async function diags() {
-                        for (const [idx, item] of arr.entries()) {
-                          self.atual = idx;
-                          self.expedicao = item;
-                          const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
-                            self.items.splice(idx, 1);
-                          }).catch(erro => {
-                            console.log('erro', erro);
-                            self.$vs.notify({
-                              color: 'danger',
-                              text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
-                            });
-                          }).finally(() => {
-                          });
+                        self.$vs.loading({
+                            color: self.colorLoading,
+                            container: "#button-with-loading-fecharPlp",
+                            scale: 0.45
+                        });
+                        self.total = arr.length;
+                        self.modalGerarPlp = true;
+
+                        async function diags() {
+                            for (const [idx, item] of arr.entries()) {
+                                self.atual = idx;
+                                self.expedicao = item;
+                                const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
+                                    self.items.splice(idx, 1);
+                                }).catch(erro => {
+                                    console.log('erro', erro);
+                                    self.$vs.notify({
+                                        color: 'danger',
+                                        text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
+                                    });
+                                }).finally(() => {
+                                });
+                            }
+                            self.modalGerarPlp = false;
+                            self.getItems(tipo);
+                            self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
                         }
-                        self.modalGerarPlp = false;
-                        self.getItems(tipo);
-                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
-                      }
-                      diags();
+
+                        diags();
                     }
                 })
             },
 
             //Prompt Editar
-            editar(obj){
+            editar(obj) {
                 this.modaleditar = true;
                 this.brindesEdit = [];
                 this.brindesCru.forEach(item => {
-                    if(obj.produto_id == item.produto_id){
+                    if (obj.produto_id == item.produto_id) {
                         this.brindesEdit.push({id: item.id, label: item.nome});
                     }
                 });
                 this.val = {...obj};
                 this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
             },
-            update(){
+            update() {
                 console.log(this.selectedEditBrinde);
                 this.val.brinde_id = this.selectedEditBrinde.id;
                 this.$vs.loading();
@@ -456,12 +439,12 @@
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-            selectedBrinde(val){
+            selectedBrinde(val) {
                 this.$vs.loading();
                 this.dados.brinde_id = this.selectedBrinde != null ? this.selectedBrinde.id : null;
                 this.getItems();
             },
-            selectedEditBrinde(val){
+            selectedEditBrinde(val) {
                 console.log(val)
             },
             dateRange(val) {
