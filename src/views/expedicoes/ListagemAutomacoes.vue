@@ -192,12 +192,12 @@
                                 <vs-button v-if="modalData.step == 2" @click="modalData.step = 1" class="" color="primary" type="border">
                                     Voltar
                                 </vs-button>
-                                <vx-tooltip v-if="!modalData.finalizado" :text="modalData.liberaCarrinho.message" position="top" class="mr-3 float-right">
+                                <vx-tooltip v-if="!modalData.finalizado || modalData.step == 1" :text="modalData.liberaCarrinho.message" position="top" class="mr-3 float-right">
                                     <vs-button @click="comprarEtiquetas" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
                                         Carrinho
                                     </vs-button>
                                 </vx-tooltip>
-                                <vs-button v-else @click="finalizar" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
+                                <vs-button v-if="modalData.finalizado && modalData.step == 2" @click="finalizar" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
                                     Finalizar
                                 </vs-button>
                             </div>
@@ -389,15 +389,16 @@
                     container: "#table-modal",
                     scale: 0.45
                 });
-                let obj = this.modalData.automacoes.map(item => item.id);
-                console.log('obj', obj);
-                this.$store.dispatch('automacao/finalizar', obj).then(() => {
+                let ids = this.modalData.automacoes.map(item => item.id);
+                console.log('ids', ids);
+                this.$store.dispatch('automacao/finalizar', {ids: ids}).then(response => {
                     this.$vs.loading.close("#table-modal > .con-vs-loading");
                     this.modalcompra = false;
                     this.$vs.notify({
                         text: 'Finalizado com sucesso.',
                         color: 'success'
-                    })
+                    });
+                    this.$router.push({path: '/brindes/expedicoes/' + response.data.id});
                 });
             },
             removeAutomacao(item, index) {
