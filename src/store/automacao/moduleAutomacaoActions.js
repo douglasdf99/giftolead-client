@@ -112,9 +112,9 @@ export default {
                 })
         })
     },
-    adiconarCarrinho({commit}, obj) {
+    adicionarCarrinho({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.post(`/automacaos/adiconar_carrinho/${obj}`, obj)
+            axios.post(`/automacaos/adiconar_carrinho/${id}`, id)
                 .then((response) => {
                     resolve(response.data)
                 })

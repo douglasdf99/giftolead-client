@@ -140,23 +140,30 @@
                     <vs-divider></vs-divider>
                     <div class="vx-row mb-3">
                         <div class="vx-col w-full text-center">
-                            <p class="font-bold h1 text-black">Cálculo de Custo</p>
-                            <p class="font-bold text-3xl text-primary">R$ {{modalData.custo}}</p>
+                            <p class="font-bold h1 text-black mb-4">{{modalData.step == 1 ? 'Cálculo de Custo' : 'Adicionar ao Carrinho'}}</p>
+                            <p class="font-bold text-3xl text-primary" v-if="modalData.step == 1">R$ {{modalData.custo.toFixed(2)}}</p>
                         </div>
                     </div>
                     <div class="vx-row">
                         <div class="vx-col w-full">
                             <div class="table w-full border-solid border-2 border-primary p-5 rounded-lg vs-con-loading__container" id="table-modal">
                                 <div class="table-row-group">
-                                    <div class="table-row rounded-lg" v-for="(auto, index) in modalData.automacoes">
-                                        <div v-if="auto.error" class="table-cell px-3 pb-3">
-                                            <vx-tooltip position="top" :text="auto.error">
-                                                <i class="material-icons text-danger">error</i>
-                                            </vx-tooltip>
-                                        </div>
-                                        <div class="table-cell px-3 pb-3">{{auto.lead.nome}}</div>
-                                        <div class="table-cell px-3 pb-3">{{auto.lead.email}}</div>
+                                    <div class="table-row rounded-lg vs-con-loading__container" :id="'table-row-' + auto.id" v-for="(auto, index) in modalData.automacoes">
                                         <div class="table-cell px-3 pb-3">
+                                            <div class="flex items-center">
+                                                <div v-if="auto.error" class="table-cell mx-3">
+                                                    <vx-tooltip position="top" :text="auto.error">
+                                                        <i class="material-icons text-danger">error</i>
+                                                    </vx-tooltip>
+                                                </div>
+                                                <div v-if="auto.codigo_carrinho_melhor_envio && modalData.step == 2" class="table-cell px-3 pb-3">
+                                                    <i class="material-icons text-success">check_circle_outline</i>
+                                                </div>
+                                                {{auto.lead.nome}}
+                                            </div>
+                                        </div>
+                                        <div class="table-cell px-3 pb-3" v-if="modalData.step == 1">{{auto.lead.email}}</div>
+                                        <div class="table-cell px-3 pb-3" v-if="modalData.step == 1">
                                             <select v-model="auto.servicoSelected" @change="calculoIndividual(auto, index)" :class="'select-large-base'" :clearable="false" class="bg-white default">
                                                 <option v-for="serv in modalData.services" :value="serv.id" :selected="auto.servicoSelected === serv.id">{{serv.label}}</option>
                                             </select>
@@ -164,8 +171,11 @@
                                             <!--                                                      :options="modalData.services"/>-->
                                         </div>
                                         <div class="table-cell px-3 pb-3 font-bold">R$ {{auto.custo}}</div>
-                                        <div class="table-cell px-3 pb-3" style="display: flex;" @click="removeAutomacao(auto, index)">
-                                            <i class="material-icons dark mx-auto my-auto cursor-pointer hover:text-danger" >highlight_off</i>
+                                        <div class="table-cell px-3 pb-3" style="display: flex;" v-if="modalData.step == 1" @click="removeAutomacao(auto, index)">
+                                            <i class="material-icons dark mx-auto my-auto cursor-pointer hover:text-danger">highlight_off</i>
+                                        </div>
+                                        <div v-else class="table-cell px-3 pb-3" style="display: flex;">
+                                            {{auto.codigo_carrinho_melhor_envio}}
                                         </div>
                                     </div>
                                 </div>
@@ -175,9 +185,19 @@
                     <vs-divider></vs-divider>
                     <div class="vx-row mt-5">
                         <div class="vx-col w-full">
-                            <vs-button @click="modalData = {custo: 0, automacoes: []}; modalcompra = false" class="" color="dark" type="border">
-                                Cancelar
-                            </vs-button>
+                            <div class="flex justify-between items-center">
+                                <vs-button @click="modalData = {custo: 0, automacoes: []}; modalcompra = false" class="" color="dark" type="border">
+                                    Cancelar
+                                </vs-button>
+                                <vs-button v-if="modalData.step == 2" @click="modalData.step = 1" class="" color="primary" type="border">
+                                    Voltar
+                                </vs-button>
+                                <vx-tooltip :text="modalData.liberaCarrinho.message" position="top" class="mr-3 float-right">
+                                    <vs-button @click="comprarEtiquetas" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
+                                        Carrinho
+                                    </vs-button>
+                                </vx-tooltip>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -207,8 +227,10 @@
                 modalData: {
                     automacoes: [],
                     custo: 0,
-                    services: []
-                }
+                    services: [],
+                    liberaCarrinho: {},
+                    step: 1
+                },
             }
         },
         name: "Listagem",
@@ -216,9 +238,11 @@
         methods: {
             toggleModalCompra() {
                 this.modalcompra = true;
+                this.modalData.step = 1;
                 this.modalData.services = this.melhorenvio.servicos.map(item => {
                     return {id: item.uuid, label: item.servico}
                 });
+                this.podeCarrinho();
                 this.calcularFrete();
             },
             async getExtensoes() {
@@ -256,17 +280,23 @@
                 });
             },
             async comprarEtiquetas() {
-                for (const [idx, item] of this.selecteds.entries()) {
-                    await this.$store.dispatch('automacao/adiconarCarrinho', item.id).then((response) => {
+                this.modalData.step = 2;
+                for (const [idx, item] of this.modalData.automacoes.entries()) {
+                    this.$vs.loading({
+                        container: "#table-row-" + item.id,
+                        scale: 0.45
+                    });
+                    await this.$store.dispatch('automacao/adicionarCarrinho', item.id).then((response) => {
+                        this.$vs.loading.close("#table-row-" + item.id + " > .con-vs-loading");
                         console.log('retorno loco', response);
+                        item.codigo_carrinho_melhor_envio = response.data.codigo_carrinho_melhor_envio;
                     }).catch(erro => {
                         console.log('erro', erro);
                         this.$vs.notify({
                             color: 'danger',
                             text: 'Algo deu errado ao adicionar ao carrinho'
                         });
-                    }).finally(() => {
-                    });
+                    })
                 }
             },
             async calcularFrete() {
@@ -348,11 +378,12 @@
                     this.modalData.automacoes.forEach(value => this.modalData.custo += parseFloat(value.custo));
                     this.$vs.loading.close("#table-modal > .con-vs-loading");
                 });
+                this.podeCarrinho();
             },
-            removeAutomacao(item, index){
+            removeAutomacao(item, index) {
                 this.modalData.automacoes.splice(index, 1);
                 this.modalData.custo -= parseFloat(item.custo);
-                if(this.modalData.automacoes.length === 0) this.modalcompra = false;
+                if (this.modalData.automacoes.length === 0) this.modalcompra = false;
             },
             getService(val) {
                 const result = this.melhorenvio.servicos.filter(serv => serv.id == val);
@@ -476,9 +507,9 @@
             },
             getOrdemEnvio(obj) {
                 if (obj.endereco == null)
-                    return 'Pendente'
+                    return 'Pendente';
                 else
-                    return 'Preenchida'
+                    return 'Preenchida';
             },
             getOrdemColor(obj) {
                 if (obj.endereco == null)
@@ -551,6 +582,12 @@
                 console.log('editar', obj);
                 this.$emit('editarEnd', obj);
             },
+            podeCarrinho() {
+                this.modalData.liberaCarrinho = {success: true, message: 'Iniciar compra.'};
+                this.modalData.automacoes.forEach(item => {
+                    if (item.error) this.modalData.liberaCarrinho = {success: false, message: 'Uma das automações encontra-se com erro'}
+                });
+            }
         },
         created() {
             if (!moduleExpedicoesBrindes.isRegistered) {
@@ -571,19 +608,19 @@
         },
         computed: {
             podeComprar() {
-                if (this.limites.shipments_available < this.selecteds.length) {
-                    return {success: false, message: 'A quantidade selecionada não corresponde a quantidade liberada para comprar'}
-                }
-                if (this.limites.error) {
-                    return {success: false, message: this.limites.errorMessage}
-                }
+                // if (this.limites.shipments_available < this.selecteds.length) {
+                //     return {success: false, message: 'A quantidade selecionada não corresponde a quantidade liberada para comprar'}
+                // }
+                // if (this.limites.error) {
+                //     return {success: false, message: this.limites.errorMessage}
+                // }
                 return {success: true, message: 'Tudo de boa na lagoa'};
             },
             podeCalcular() {
                 let semEndereco = this.selecteds.filter(item => !item.endereco);
                 if (semEndereco.length > 0) return {success: false, message: 'Não é possível calcular frete de uma automação sem endereço.'};
                 return {success: true, message: 'Ápto a calcular.'}
-            }
+            },
         },
         watch: {
             selecteds(val) {
