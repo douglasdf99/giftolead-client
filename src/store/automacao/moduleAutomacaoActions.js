@@ -163,4 +163,15 @@ export default {
                 })
         })
     },
+    finalizar({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/automacaos/finalizar_carrinho`, dados)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

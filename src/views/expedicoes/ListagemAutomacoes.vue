@@ -146,7 +146,7 @@
                     </div>
                     <div class="vx-row">
                         <div class="vx-col w-full">
-                            <div class="table w-full border-solid border-2 border-primary p-5 rounded-lg vs-con-loading__container" id="table-modal">
+                            <div class="table w-full border-solid border-2 border-primary p-5 rounded-lg vs-con-loading__container" id="table-modal" style="height: 200px;overflow-y: auto;">
                                 <div class="table-row-group">
                                     <div class="table-row rounded-lg vs-con-loading__container" :id="'table-row-' + auto.id" v-for="(auto, index) in modalData.automacoes">
                                         <div class="table-cell px-3 pb-3">
@@ -192,11 +192,14 @@
                                 <vs-button v-if="modalData.step == 2" @click="modalData.step = 1" class="" color="primary" type="border">
                                     Voltar
                                 </vs-button>
-                                <vx-tooltip :text="modalData.liberaCarrinho.message" position="top" class="mr-3 float-right">
+                                <vx-tooltip v-if="!modalData.finalizado" :text="modalData.liberaCarrinho.message" position="top" class="mr-3 float-right">
                                     <vs-button @click="comprarEtiquetas" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
                                         Carrinho
                                     </vs-button>
                                 </vx-tooltip>
+                                <vs-button v-else @click="finalizar" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
+                                    Finalizar
+                                </vs-button>
                             </div>
                         </div>
                     </div>
@@ -229,7 +232,8 @@
                     custo: 0,
                     services: [],
                     liberaCarrinho: {},
-                    step: 1
+                    step: 1,
+                    finalizado: false
                 },
             }
         },
@@ -288,7 +292,6 @@
                     });
                     await this.$store.dispatch('automacao/adicionarCarrinho', item.id).then((response) => {
                         this.$vs.loading.close("#table-row-" + item.id + " > .con-vs-loading");
-                        console.log('retorno loco', response);
                         item.codigo_carrinho_melhor_envio = response.data.codigo_carrinho_melhor_envio;
                     }).catch(erro => {
                         console.log('erro', erro);
@@ -296,8 +299,9 @@
                             color: 'danger',
                             text: 'Algo deu errado ao adicionar ao carrinho'
                         });
-                    })
+                    });
                 }
+                this.modalData.finalizado = true;
             },
             async calcularFrete() {
                 let obj = {payload: {}};
@@ -379,6 +383,22 @@
                     this.$vs.loading.close("#table-modal > .con-vs-loading");
                 });
                 this.podeCarrinho();
+            },
+            finalizar(){
+                this.$vs.loading({
+                    container: "#table-modal",
+                    scale: 0.45
+                });
+                let obj = this.modalData.automacoes.map(item => item.id);
+                console.log('obj', obj);
+                this.$store.dispatch('automacao/finalizar', obj).then(() => {
+                    this.$vs.loading.close("#table-modal > .con-vs-loading");
+                    this.modalcompra = false;
+                    this.$vs.notify({
+                        text: 'Finalizado com sucesso.',
+                        color: 'success'
+                    })
+                });
             },
             removeAutomacao(item, index) {
                 this.modalData.automacoes.splice(index, 1);
