@@ -124,9 +124,9 @@
                 </footer-doug>
             </transition>
         </div>
-        <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-if="modalcompra">
+        <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="z-index: 52000;" v-if="modalcompra">
             <div class="vs-popup--background"></div>
-            <div class="vs-popup" style="background: rgb(255, 255, 255);">
+            <div class="vs-popup" style="background: rgb(255, 255, 255);" id="table-calculo">
                 <header class="vs-popup--header">
                     <div class="vs-popup--title">
                     </div>
@@ -146,17 +146,27 @@
                     </div>
                     <div class="vx-row">
                         <div class="vx-col w-full">
-                            <div class="table w-full border-solid border-2 border-primary p-5 rounded-lg">
+                            <div class="table w-full border-solid border-2 border-primary p-5 rounded-lg vs-con-loading__container" id="table-modal">
                                 <div class="table-row-group">
-                                    <div class="table-row">
-                                        <div class="table-cell">A cell with more content</div>
-                                        <div class="table-cell">Cell 2</div>
-                                        <div class="table-cell">Cell 3</div>
-                                    </div>
-                                    <div class="table-row">
-                                        <div class="table-cell">Cell 4</div>
-                                        <div class="table-cell">A cell with more content</div>
-                                        <div class="table-cell">Cell 6</div>
+                                    <div class="table-row rounded-lg" v-for="(auto, index) in modalData.automacoes">
+                                        <div v-if="auto.error" class="table-cell px-3 pb-3">
+                                            <vx-tooltip position="top" :text="auto.error">
+                                                <i class="material-icons text-danger">error</i>
+                                            </vx-tooltip>
+                                        </div>
+                                        <div class="table-cell px-3 pb-3">{{auto.lead.nome}}</div>
+                                        <div class="table-cell px-3 pb-3">{{auto.lead.email}}</div>
+                                        <div class="table-cell px-3 pb-3">
+                                            <select v-model="auto.servicoSelected" @change="calculoIndividual(auto, index)" :class="'select-large-base'" :clearable="false" class="bg-white default">
+                                                <option v-for="serv in modalData.services" :value="serv.id" :selected="auto.servicoSelected === serv.id">{{serv.label}}</option>
+                                            </select>
+                                            <!--                                            <v-select v-model="auto.servicoSelected" :class="'select-large-base'" :clearable="false" class="bg-white"-->
+                                            <!--                                                      :options="modalData.services"/>-->
+                                        </div>
+                                        <div class="table-cell px-3 pb-3 font-bold">R$ {{auto.custo}}</div>
+                                        <div class="table-cell px-3 pb-3" style="display: flex;" @click="removeAutomacao(auto, index)">
+                                            <i class="material-icons dark mx-auto my-auto cursor-pointer hover:text-danger" >highlight_off</i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +175,7 @@
                     <vs-divider></vs-divider>
                     <div class="vx-row mt-5">
                         <div class="vx-col w-full">
-                            <vs-button @click="modalData = {custo: 0}; modalcompra = false" class="" color="dark" type="border">
+                            <vs-button @click="modalData = {custo: 0, automacoes: []}; modalcompra = false" class="" color="dark" type="border">
                                 Cancelar
                             </vs-button>
                         </div>
@@ -181,9 +191,10 @@
     import NenhumRegistro from "../components/NenhumRegistro";
     import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
     import moduleExtensoes from "../../store/extensoes/moduleExtensoes";
+    import vSelect from 'vue-select'
 
     export default {
-        components: {NenhumRegistro},
+        components: {NenhumRegistro, 'v-select': vSelect},
         data() {
             return {
                 selecteds: [],
@@ -194,15 +205,20 @@
                 //Modal Compra
                 modalcompra: false,
                 modalData: {
-                    custo: 0
+                    automacoes: [],
+                    custo: 0,
+                    services: []
                 }
             }
         },
         name: "Listagem",
         props: ['items', 'tipo'],
         methods: {
-            toggleModalCompra(){
+            toggleModalCompra() {
                 this.modalcompra = true;
+                this.modalData.services = this.melhorenvio.servicos.map(item => {
+                    return {id: item.uuid, label: item.servico}
+                });
                 this.calcularFrete();
             },
             async getExtensoes() {
@@ -259,21 +275,18 @@
                     obj = await this.buildObjPayloadCalculaFrete(item); //Monta o payload a ser enviado à api
 
                     await this.$store.dispatch('automacao/calcular', obj).then((response) => {
-                        console.log('retorno no component', response);
-                        if (response.data.error) {
-                            this.$vs.notify({
-                                title: 'Automação de: ' + item.lead.nome,
-                                text: response.data.error,
-                                iconPack: 'feather',
-                                icon: 'icon-alert-circle',
-                                color: 'danger',
-                                fixed: true,
-                            })
+                        if (response.data.error) item.error = response.data.error;
+                        else {
+                            item.error = null;
+                            item.custo = parseFloat(response.data.price);
                         }
+                        item.servicoSelected = response.data.id;
+                        this.modalData.custo += item.custo;
+                        this.modalData.automacoes.push(item);
                     });
                 }
             },
-            async buildObjPayloadCalculaFrete(item) {
+            async buildObjPayloadCalculaFrete(item, recalculando = false) {
                 let service = '';
                 if (this.melhorenvio.configs.length > 0) {
                     let mudou = false;
@@ -308,14 +321,41 @@
                         "height": item.brinde.altura,
                         "length": item.brinde.comprimento
                     },
-                    "services": service
+                    "services": recalculando ? item.servicoSelected : service
                 };
                 item.headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
                 return item
             },
+            async calculoIndividual(item, index) {
+                this.$vs.loading({
+                    container: "#table-modal",
+                    scale: 0.45
+                });
+                console.log('serv', item);
+                let obj = await this.buildObjPayloadCalculaFrete(item, true);
+                await this.$store.dispatch('automacao/calcular', obj).then((response) => {
+                    console.log('response recalculo', response);
+                    if (response.data.error) {
+                        item.error = response.data.error;
+                        item.custo = 0
+                    } else {
+                        item.error = null;
+                        item.custo = parseFloat(response.data.price);
+                    }
+                    item.servicoSelected = response.data.id;
+                    this.modalData.automacoes[index] = item;
+                    this.modalData.custo = 0;
+                    this.modalData.automacoes.forEach(value => this.modalData.custo += parseFloat(value.custo));
+                    this.$vs.loading.close("#table-modal > .con-vs-loading");
+                });
+            },
+            removeAutomacao(item, index){
+                this.modalData.automacoes.splice(index, 1);
+                this.modalData.custo -= parseFloat(item.custo);
+                if(this.modalData.automacoes.length === 0) this.modalcompra = false;
+            },
             getService(val) {
                 const result = this.melhorenvio.servicos.filter(serv => serv.id == val);
-                console.log('result do caralho', result);
                 return result[0].uuid.toString();
             },
             handleSelected(tr) {
@@ -554,5 +594,7 @@
 </script>
 
 <style scoped>
-
+    #table-calculo {
+        width: 800px
+    }
 </style>

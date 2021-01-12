@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c1239583-b5bd-418b-8314-6d6d34a9f123" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -25,11 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="397" column="25" lean-forward="true" selection-start-line="397" selection-start-column="25" selection-end-line="397" selection-end-column="25" />
-              <folding>
-                <element signature="e#7034#7065#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="278">
+              <caret line="114" column="36" lean-forward="true" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -37,14 +32,19 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="167" column="108" selection-start-line="167" selection-start-column="108" selection-end-line="167" selection-end-column="108" />
+            <state relative-caret-position="422">
+              <caret line="354" column="84" lean-forward="true" selection-start-line="354" selection-start-column="84" selection-end-line="354" selection-end-column="84" />
               <folding>
+                <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#10295#10363#0" expanded="true" />
-                <element signature="e#6516#7246#0" />
-                <element signature="e#7271#7758#0" />
-                <element signature="e#11048#11080#0" />
+                <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#10366#10434#0" expanded="true" />
+                <element signature="e#11226#12219#0" />
+                <element signature="e#12252#12850#0" />
+                <element signature="e#12889#13507#0" />
+                <element signature="e#14812#15598#0" />
+                <element signature="e#14535#16441#0" />
+                <element signature="e#17728#18090#0" />
               </folding>
             </state>
           </provider>
@@ -53,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/motivoPerda/Index.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="73" column="55" lean-forward="true" selection-start-line="73" selection-start-column="55" selection-end-line="73" selection-end-column="55" />
+            <state relative-caret-position="1752">
+              <caret line="73" column="55" selection-start-line="73" selection-start-column="55" selection-end-line="73" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -62,7 +62,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
+            <state relative-caret-position="3552">
               <caret line="157" column="37" selection-start-line="157" selection-start-column="37" selection-end-line="157" selection-end-column="37" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -84,24 +84,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>the-navbar__user-meta flex items-center</find>
-      <find>api.sa</find>
-      <find>nenh</find>
-      <find>computed</find>
-      <find>nenhum</find>
-      <find>watch</find>
-      <find>methdo</find>
-      <find>verificalim</find>
-      <find>melhorenvio</find>
-      <find>for</find>
-      <find>error</find>
-      <find>toolto</find>
-      <find>calcula</find>
-      <find>config</find>
-      <find>calcular</find>
-      <find>Calcular</find>
-      <find>edi</find>
-      <find>editar</find>
       <find>podecal</find>
       <find>handleSelected</find>
       <find>notfy</find>
@@ -113,7 +95,25 @@
       <find>saldo</find>
       <find>primary</find>
       <find>vs-button</find>
+      <find>brindesele</find>
+      <find>import</find>
+      <find>vs-popup {</find>
+      <find>tootl</find>
+      <find>comprar e</find>
+      <find>method</find>
+      <find>cards-limits</find>
+      <find>id=t</find>
+      <find>table</find>
+      <find>table-calculo</find>
+      <find>table-calculo</find>
+      <find>loading</find>
+      <find>#table-modal</find>
+      <find>]</find>
+      <find>table-modal</find>
+      <find>close</find>
       <find>cancelar</find>
+      <find>result do</find>
+      <find>meth</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -445,14 +445,8 @@
       <workItem from="1606308223769" duration="3009000" />
       <workItem from="1606393004001" duration="5187000" />
       <workItem from="1606482164927" duration="3066000" />
-      <workItem from="1610373685597" duration="13076000" />
-    </task>
-    <task id="LOCAL-00068" summary="Sprint 22 - finalizada primeira versão das notificações, com listagem e atualização em tempo real">
-      <created>1600969763419</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1600969763419</updated>
+      <workItem from="1610373685597" duration="13171000" />
+      <workItem from="1610453920983" duration="7497000" />
     </task>
     <task id="LOCAL-00069" summary="Sprint 22 - Nova extensão do Slack implementada">
       <created>1600977241110</created>
@@ -790,11 +784,18 @@
       <option name="project" value="LOCAL" />
       <updated>1606310161687</updated>
     </task>
-    <option name="localTasksCounter" value="117" />
+    <task id="LOCAL-00117" summary="Progredindo na tela de Expedições Melhor Envio">
+      <created>1610398656613</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1610398656614</updated>
+    </task>
+    <option name="localTasksCounter" value="118" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="241082000" />
+    <option name="totallyTimeSpent" value="248674000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -891,7 +892,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sprint 24 - Aplicando acl" />
     <MESSAGE value="Sprint 24 - Finalizando primeira aplicação de ACL em todo o sistema. Correção de BUG na tela de configuração de email de Campanha de Carrinho." />
     <MESSAGE value="Sprint 24 - finalizada primeira versão do menu rápido" />
     <MESSAGE value="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real" />
@@ -916,7 +916,8 @@
     <MESSAGE value="feature de reabrir e ajuste de permissão na rota de detalhar" />
     <MESSAGE value="ajuste feature brindes" />
     <MESSAGE value="ajuste editar endereco automacao" />
-    <option name="LAST_COMMIT_MESSAGE" value="ajuste editar endereco automacao" />
+    <MESSAGE value="Progredindo na tela de Expedições Melhor Envio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Progredindo na tela de Expedições Melhor Envio" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="412" key="#ESLint" />
@@ -1310,27 +1311,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="157" column="37" selection-start-line="157" selection-start-column="37" selection-end-line="157" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#491#513#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="397" column="25" lean-forward="true" selection-start-line="397" selection-start-column="25" selection-end-line="397" selection-end-column="25" />
-          <folding>
-            <element signature="e#7034#7065#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/vue-acl/dist/mixin.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1369,21 +1349,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/motivoPerda/Index.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="73" column="55" lean-forward="true" selection-start-line="73" selection-start-column="55" selection-end-line="73" selection-end-column="55" />
+        <state relative-caret-position="1752">
+          <caret line="73" column="55" selection-start-line="73" selection-start-column="55" selection-end-line="73" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3552">
+          <caret line="157" column="37" selection-start-line="157" selection-start-column="37" selection-end-line="157" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#491#513#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="114" column="36" lean-forward="true" selection-start-line="114" selection-start-column="36" selection-end-line="114" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
-          <caret line="167" column="108" selection-start-line="167" selection-start-column="108" selection-end-line="167" selection-end-column="108" />
+        <state relative-caret-position="422">
+          <caret line="354" column="84" lean-forward="true" selection-start-line="354" selection-start-column="84" selection-end-line="354" selection-end-column="84" />
           <folding>
+            <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#10295#10363#0" expanded="true" />
-            <element signature="e#6516#7246#0" />
-            <element signature="e#7271#7758#0" />
-            <element signature="e#11048#11080#0" />
+            <element signature="n#style#0;n#div#4;n#div#0;n#div#0;n#div#0;n#div#0;n#div#2;n#div#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#10366#10434#0" expanded="true" />
+            <element signature="e#11226#12219#0" />
+            <element signature="e#12252#12850#0" />
+            <element signature="e#12889#13507#0" />
+            <element signature="e#14812#15598#0" />
+            <element signature="e#14535#16441#0" />
+            <element signature="e#17728#18090#0" />
           </folding>
         </state>
       </provider>
