@@ -28,9 +28,9 @@ const subbrindes = [
         can: 'brinde_expedicao'
     },
     {
-        url: '/brindes/expedicoesMelhorEnvio',
+        url: '/brindes/expedicoes-melhor-envio',
         name: "Expedições Melhor Envio",
-        slug: "brindes-expedicoes",
+        slug: "brindes-expedicoes-melhorenvio",
         icon: 'local_shipping',
         can: 'brinde_expedicao'
     },

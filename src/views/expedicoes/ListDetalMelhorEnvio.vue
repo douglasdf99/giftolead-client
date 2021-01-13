@@ -4,25 +4,26 @@
                  :data="sidebarData"/>
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
                   :data="endereco"/>
-        <div class="vx-row mb-5">
-            <div class="vx-col w-full lg:w-3/4">
-                <div class="flex items-center justify-around" v-if="expedicao">
-                    <p class="flex items-center">
-                        {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}
-                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                 class="ml-5 icon-grande" v-bind:style="{color: expedicao.fechado ? '#4DE98A' : '#E7BE00'}"></vs-icon>
-                    </p>
-                    <p>PLP: <b>{{ expedicao.plp || 'Sem PLP gerada' }}</b></p>
-                    <p class="flex items-center">Produto:
-                        <vs-chip class="ml-4 text-lg" :color="expedicao.brinde.produto.cor"> {{ expedicao.brinde.produto.nome }}</vs-chip>
-                    </p>
-                    <p class="flex items-center">Brinde: {{ expedicao.brinde.nome }}</p>
-                    <p class="flex items-center">Contrato: <b> {{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</b>
-                        <vx-tooltip position="top" text="Selecionar Contrato">
-                            <vs-button color="primary" class="p-2 ml-3" @click="modalContrato = true" icon-pack="material-icons" icon="create"></vs-button>
-                        </vx-tooltip>
-                    </p>
-                </div>
+        <div class="vx-row mb-5" v-if="melhorenvio">
+            <div class="vx-col w-full">
+                <vx-card class="shadow-none">
+                    <div class="grid grid-cols-4 gap-4">
+                        <p class="flex items-center">
+                            {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}
+                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                     class="ml-5 icon-grande" v-bind:style="{color: expedicao.fechado ? '#4DE98A' : '#E7BE00'}"></vs-icon>
+                        </p>
+                        <p class="flex items-center">PLP: <b>{{ expedicao.plp || ' Sem PLP gerada' }}</b></p>
+                        <p class="flex items-center">Contrato: <b>{{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</b>
+                            <vx-tooltip position="top" text="Selecionar Contrato">
+                                <vs-button color="primary" class="p-2 ml-3" @click="modalContrato = true" icon-pack="material-icons" icon="create"></vs-button>
+                            </vx-tooltip>
+                        </p>
+                        <p>Saldo: <span class="font-bold text-xl mb-3 text-success">R$ {{ saldo.toFixed(2).replace('.', ',') }}</span></p>
+                        <p>Pode gerar: <span class="font-bold text-xl mb-3 text-success">{{ limites.shipments_available }} envios</span></p>
+                        <p>Limite total: <span class="font-bold text-xl mb-3 text-success">{{ limites.shipments }} envios</span></p>
+                    </div>
+                </vx-card>
             </div>
         </div>
         <div class="vx-row flex items-center">
@@ -53,7 +54,7 @@
                 <vs-th></vs-th>
                 <vs-th>Destinatário</vs-th>
                 <vs-th>E-mail</vs-th>
-                <vs-th>Objeto nos correios</vs-th>
+                <vs-th>Código Carrinho ME</vs-th>
                 <vs-th>CEP</vs-th>
                 <vs-th></vs-th>
             </template>
@@ -96,16 +97,14 @@
                     <vs-td><span class="font-bold">{{ tr.nome_destinatario }}</span></vs-td>
                     <vs-td>{{ tr.email_destinatario }}</vs-td>
                     <vs-td class="flex mb-2">
-                        <vx-tooltip position="top" text="Clique para copiar código de rastreio">
-                            <span class="cursor-pointer font-bold text-primary" @click="copyRastreio(tr.rastreio)"> {{ tr.rastreio }} </span>
+                        <vx-tooltip position="top" text="Clique para copiar código de do carrinho">
+                            <span class="cursor-pointer font-bold text-primary" @click="copyRastreio(tr.codigo_carrinho_melhor_envio)"> {{ tr.codigo_carrinho_melhor_envio.substr(0, 10) }}... </span>
                         </vx-tooltip>
                     </vs-td>
                     <vs-td>{{ tr.endereco.cep | VMask('##.###-###') }}</vs-td>
                     <vs-td class="td-icons flex flex-col items-center justify-center">
-                        <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="tr.erro == null"
-                                 class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
-                        <vs-icon icon-pack="material-icons" icon="highlight_off" v-else
-                                 class="icon-grande font-bold text-danger"></vs-icon>
+                        <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="tr.erro == null" class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
+                        <vs-icon icon-pack="material-icons" icon="highlight_off" v-else class="icon-grande font-bold text-danger"></vs-icon>
 
                     </vs-td>
                 </vs-tr>
@@ -115,10 +114,6 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button class="float-right ml-3  px-6 py-4 mx-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/brindes/expedicoes'})">
-                        Voltar
-                    </vs-button>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="gerarPlp" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">Gerar PLP</vs-button>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirPlp" v-else>Imprimir PLP</vs-button>
                     <vs-dropdown vs-trigger-click class="float-right">
@@ -135,16 +130,15 @@
                         </vs-dropdown-menu>
                     </vs-dropdown>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirDeclaracao(null)">Imprimir Declaração de conteúdo</vs-button>
-
-
+                    <vs-button class="float-left ml-3  px-6 py-4 mx-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/brindes/expedicoes-melhor-envio'})">
+                        Voltar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
         <vs-popup id="pdf-with-loading" class="popup-iframe vs-con-loading__container" style="overflow: hidden" title="Imprimindo etiquetas" :active.sync="modalIframe">
-
-
             <iframe v-if="urlIframe" :src="urlIframe" width="100%" height="100%" title="Imprimindo Etiqueta"></iframe>
-
         </vs-popup>
         <vs-prompt
             @cancel="modalContrato = false"
@@ -174,10 +168,6 @@
                             <div class="text-left mb-10">
                                 <h2 class="text-center"> Gerando PLP </h2>
                                 <h6 class="mb-2 mt-4"><b>Numero da Expedição :</b> #{{ expedicao.id }}</h6>
-                                <h6 class="mb-2"><b>Brinde a ser enviado :</b> {{ expedicao.brinde.nome }}</h6>
-                                <h6 class="mb-2 flex"><b>Pertencente ao produto :</b>
-                                    <vs-chip class="ml-4 text-lg" :color="expedicao.brinde.produto.cor">{{ expedicao.brinde.produto.nome }}</vs-chip>
-                                </h6>
                                 <p class="mb-2"></p>
                             </div>
                             <vs-divider/>
@@ -189,7 +179,6 @@
                                     <vs-progress :height="12" :percent="percent" color="success"></vs-progress>
 
                                 </div>
-
                                 <!--                steep2-->
                                 <div class="fill-row-loading w-full" v-if="step == 1">
                                     <div class="" v-if="!plpGerada">
@@ -244,11 +233,13 @@ import saveleadsConfig from "../../../saveleadsConfig";
 import vSelect from 'vue-select'
 import moduleContrato from "../../store/contratos/moduleContrato";
 import axios from "@/axios.js"
+import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
+import moduleAutomacao from "@/store/automacao/moduleAutomacao";
 
 const {consultarCep} = require("correios-brasil");
 
 export default {
-    name: "ListDetal",
+    name: "ListDetalMelhorEnvio",
     //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
     components: {
         endereco, detalhe, 'v-select': vSelect
@@ -262,8 +253,14 @@ export default {
                 automacaos: [
                     {rastreio: null}
                 ],
-                contrato: {}
+                contrato: {},
             },
+            melhorenvio: {},
+            limites: {
+                shipments: 0,
+                shipments_available: 0
+            },
+            saldo: 0,
             automacaosErros: [],
             city_id: '',
             dados: {
@@ -301,7 +298,6 @@ export default {
         var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
         this.$echo.channel(`${subdomain}_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
-            console.log('teste');
             console.log(e);
             if (this.step < 1) {
                 if (e.automacao.status == 'fechado') {
@@ -333,21 +329,30 @@ export default {
                 this.count = 0;
             }
         });
+
+        this.getContratos();
+        this.getExtensao();
     },
     created() {
         if (!moduleExpedicoesBrindes.isRegistered) {
             this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
             moduleExpedicoesBrindes.isRegistered = true;
         }
-
         if (!moduleContrato.isRegistered) {
             this.$store.registerModule('contratos', moduleContrato);
             moduleContrato.isRegistered = true;
         }
+        if (!moduleExtensoes.isRegistered) {
+            this.$store.registerModule('extensoes', moduleExtensoes)
+            moduleExtensoes.isRegistered = true
+        }
+        if (!moduleAutomacao.isRegistered) {
+            this.$store.registerModule('automacao', moduleAutomacao)
+            moduleAutomacao.isRegistered = true
+        }
+
         if (moduleExpedicoesBrindes.isRegistered)
             this.getItem(this.$route.params.id);
-        this.getContratos();
-        console.log('valido', this.valido)
     },
     methods: {
         getItem(id) {
@@ -355,15 +360,47 @@ export default {
             this.$store.dispatch('expedicaos/getId', id).then(response => {
                 console.log(response);
                 this.expedicao = {...response};
-                this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato.nome};
+                if (this.expedicao.contrato)
+                    this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : this.expedicao.contrato.nome};
             }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
-                    text: 'Algo deu errado ao carregar a exepdição'
+                    text: 'Algo deu errado ao carregar a expedição'
                 });
             }).finally(() => {
                 this.$vs.loading.close();
             });
+        },
+        async getInfos() {
+            await this.$store.dispatch('automacao/saldo', {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}).then(response => {
+                console.log('retorno saldo melhor envio', response);
+                this.saldo = parseFloat(response.balance);
+            });
+        },
+        async getExtensao() {
+            let subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+            await this.$store.dispatch('extensoes/get', subdomain).then(response => {
+                let arr = response.extensoes;
+                if (arr.length > 0) {
+                    arr.forEach(item => {
+                        if (item.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio") {
+                            this.melhorenvio = item.extensao;
+                            this.getLimites();
+                        }
+                    });
+                }
+            });
+        },
+        async getLimites() {
+            console.log('entrou no get limites')
+            await this.$store.dispatch('automacao/verificaLimite', {params: this.dados, config: {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}}).then(response => {
+                this.limites = response.data;
+                this.limites.error = false
+            }).catch(() => {
+                this.limites.error = true;
+                this.limites.errorMessage = 'Não foi possível realizar conexão com a melhor envio';
+            });
+            this.getInfos();
         },
         atualiza() {
             this.modalGerarPlp = false;
@@ -572,8 +609,8 @@ export default {
             const thisIns = this;
             this.$copyText(val).then(function () {
                 thisIns.$vs.notify({
-                    title: 'Success',
-                    text: 'Rastreio copiado para sua área de transferência',
+                    title: 'Copiado!',
+                    text: 'Código copiado para sua área de transferência',
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
@@ -581,7 +618,7 @@ export default {
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
-                    text: 'Erro ao copiar rastreio',
+                    text: 'Erro ao copiar código',
                     color: 'danger',
                     iconPack: 'feather',
                     position: 'top-center',
@@ -621,10 +658,6 @@ export default {
                 });
             }
         },
-        storeEndereco() {
-            this.endereco.nome = this.removeAccents(this.endereco.nome);
-
-        },
         //Trocando contrato
         getContratos() {
             this.$store.dispatch('contratos/get').then(response => {
@@ -658,7 +691,6 @@ export default {
         },
         list() {
             return this.expedicao.automacaos.filter(automacao => {
-                console.log('auto', automacao);
                 let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                 let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                 let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;

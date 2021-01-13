@@ -398,7 +398,7 @@
                         text: 'Finalizado com sucesso.',
                         color: 'success'
                     });
-                    this.$router.push({path: '/brindes/expedicoes/' + response.data.id});
+                    this.$router.push({path: '/brindes/expedicoes-melhor-envio/' + response.data.id});
                 });
             },
             removeAutomacao(item, index) {

@@ -163,6 +163,19 @@ export default {
                 })
         })
     },
+    saldo({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            console.log('buscando saldo')
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.get(`${urlMelhorEnvio}/balance?pretty`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     finalizar({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/finalizar_carrinho`, dados)

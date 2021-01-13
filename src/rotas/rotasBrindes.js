@@ -107,7 +107,24 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoesMelhorEnvio',
+        path: '/brindes/expedicoes/:id',
+        name: 'brindes-expedicoes-detalhe',
+        component: () => import('@/views/expedicoes/ListDetal.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Detalhe da Expedição', active: true},
+            ],
+            pageTitle: 'Detalhe da Expedição',
+            rule: 'brinde_expedicao_detalhar',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
+    },
+    {
+        path: '/brindes/expedicoes-melhor-envio',
         name: 'brindes-expedicoes',
         component: () => import('@/views/expedicoes/IndexMelhorEnvio.vue'),
         meta: {
@@ -124,16 +141,16 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes/:id',
-        name: 'brindes-expedicoes-detalhe',
-        component: () => import('@/views/expedicoes/ListDetal.vue'),
+        path: '/brindes/expedicoes-melhor-envio/:id',
+        name: 'brindes-expedicoes-melhorenvio-detalhe',
+        component: () => import('@/views/expedicoes/ListDetalMelhorEnvio.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Brindes'},
-                {title: 'Detalhe da Expedição', active: true},
+                {title: 'Expedição Melhor Envio', active: true},
             ],
-            pageTitle: 'Detalhe da Expedição',
+            pageTitle: 'Expedição Melhor Envio',
             rule: 'brinde_expedicao_detalhar',
             pai: 'brindes',
             subTitle: 'Brindes',
