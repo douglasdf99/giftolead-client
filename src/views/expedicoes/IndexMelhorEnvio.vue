@@ -168,7 +168,7 @@
                 },
                 currentx: 1,
                 colorx: 'warning',
-                selectedBrinde: {},
+                selectedBrinde: {id: null, label: 'Selecione um brinde a ser filtrado'},
                 brindes: [],
                 brindesCru: [],
                 dateRange: {},

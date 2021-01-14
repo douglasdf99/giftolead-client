@@ -146,36 +146,39 @@
                     </div>
                     <div class="vx-row">
                         <div class="vx-col w-full">
-                            <div class="table w-full border-solid border-2 border-primary p-5 rounded-lg vs-con-loading__container" id="table-modal" style="height: 200px;overflow-y: auto;">
+                            <div class="table w-full p-5 rounded-lg vs-con-loading__container" id="table-modal" style="height: 200px;overflow-y: auto;">
                                 <div class="table-row-group">
-                                    <div class="table-row rounded-lg vs-con-loading__container" :id="'table-row-' + auto.id" v-for="(auto, index) in modalData.automacoes">
-                                        <div class="table-cell px-3 pb-3">
+                                    <div class="table-row rounded-lg vs-con-loading__container" v-bind:class="{'stripe': (index % 2 == 0)}" :id="'table-row-' + auto.id" v-for="(auto, index) in modalData.automacoes">
+                                        <div class="table-cell px-3 py-3">
                                             <div class="flex items-center">
                                                 <div v-if="auto.error" class="table-cell mx-3">
                                                     <vx-tooltip position="top" :text="auto.error">
                                                         <i class="material-icons text-danger">error</i>
                                                     </vx-tooltip>
                                                 </div>
-                                                <div v-if="auto.codigo_carrinho_melhor_envio && modalData.step == 2" class="table-cell px-3 pb-3">
+                                                <div v-if="auto.codigo_carrinho_melhor_envio && modalData.step == 2" class="table-cell px-3 py-3">
                                                     <i class="material-icons text-success">check_circle_outline</i>
                                                 </div>
                                                 {{auto.lead.nome}}
                                             </div>
                                         </div>
-                                        <div class="table-cell px-3 pb-3" v-if="modalData.step == 1">{{auto.lead.email}}</div>
-                                        <div class="table-cell px-3 pb-3" v-if="modalData.step == 1">
+                                        <div class="table-cell px-3 py-3" v-if="modalData.step == 1">{{auto.lead.email}}</div>
+                                        <div class="table-cell px-3 py-3" v-if="modalData.step == 1">
                                             <select v-model="auto.servicoSelected" @change="calculoIndividual(auto, index)" :class="'select-large-base'" :clearable="false" class="bg-white default">
                                                 <option v-for="serv in modalData.services" :value="serv.id" :selected="auto.servicoSelected === serv.id">{{serv.label}}</option>
                                             </select>
                                             <!--                                            <v-select v-model="auto.servicoSelected" :class="'select-large-base'" :clearable="false" class="bg-white"-->
                                             <!--                                                      :options="modalData.services"/>-->
                                         </div>
-                                        <div class="table-cell px-3 pb-3 font-bold">R$ {{auto.custo}}</div>
-                                        <div class="table-cell px-3 pb-3" style="display: flex;" v-if="modalData.step == 1" @click="removeAutomacao(auto, index)">
+                                        <div class="table-cell px-3 py-3 font-bold">R$ {{auto.custo}}</div>
+                                        <div class="table-cell px-3 py-3" style="display: flex;" v-if="modalData.step == 1" @click="removeAutomacao(auto, index)">
                                             <i class="material-icons dark mx-auto my-auto cursor-pointer hover:text-danger">highlight_off</i>
                                         </div>
-                                        <div v-else class="table-cell px-3 pb-3" style="display: flex;">
+                                        <div v-else class="table-cell px-3 py-3" style="display: flex;">
                                             {{auto.codigo_carrinho_melhor_envio}}
+                                        </div>
+                                        <div class="table-cell px-3 py-3" style="display: flex;" v-if="modalData.step == 2" @click="removeCarrinho(auto, index)">
+                                            <i class="material-icons dark mx-auto my-auto cursor-pointer hover:text-danger">highlight_off</i>
                                         </div>
                                     </div>
                                 </div>
@@ -188,9 +191,6 @@
                             <div class="flex justify-between items-center">
                                 <vs-button @click="modalData = {custo: 0, automacoes: []}; modalcompra = false" class="" color="dark" type="border">
                                     Cancelar
-                                </vs-button>
-                                <vs-button v-if="modalData.step == 2" @click="modalData.step = 1" class="" color="primary" type="border">
-                                    Voltar
                                 </vs-button>
                                 <vx-tooltip v-if="!modalData.finalizado || modalData.step == 1" :text="modalData.liberaCarrinho.message" position="top" class="mr-3 float-right">
                                     <vs-button @click="comprarEtiquetas" :disabled="!modalData.liberaCarrinho.success" color="primary" type="filled">
@@ -406,6 +406,18 @@
                 this.modalData.custo -= parseFloat(item.custo);
                 if (this.modalData.automacoes.length === 0) this.modalcompra = false;
             },
+            removeCarrinho(item, index) {
+                this.$vs.loading({
+                    container: "#table-modal",
+                    scale: 0.45
+                });
+                this.$store.dispatch('automacao/removerCarrinho', {id: item.id}).then(response => {
+                    this.modalData.automacoes.splice(index, 1);
+                    this.modalData.custo -= parseFloat(item.custo);
+                    this.$vs.loading.close("#table-modal > .con-vs-loading");
+                });
+                if (this.modalData.automacoes.length === 0) this.modalcompra = false;
+            },
             getService(val) {
                 const result = this.melhorenvio.servicos.filter(serv => serv.id == val);
                 return result[0].uuid.toString();
@@ -611,6 +623,7 @@
             }
         },
         created() {
+
             if (!moduleExpedicoesBrindes.isRegistered) {
                 this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
                 moduleExpedicoesBrindes.isRegistered = true;
@@ -654,5 +667,10 @@
 <style scoped>
     #table-calculo {
         width: 800px
+    }
+
+    .stripe {
+        background-color: #eeeded;
+        border-radius: 5rem !important;
     }
 </style>

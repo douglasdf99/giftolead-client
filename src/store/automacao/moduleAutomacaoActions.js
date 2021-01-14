@@ -187,4 +187,15 @@ export default {
                 })
         })
     },
+    removerCarrinho({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/automacaos/remover_carrinho/${dados.id}`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

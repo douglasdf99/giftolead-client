@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Fix configuração de emails da automação de brinde">
-      <change afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/rotasBrindes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasBrindes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaBrindes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaBrindes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/util/envelope.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/util/envelope.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/util/pacote_caixa.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/util/pacote_caixa.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/images/util/rolo_cilindro.svg" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/images/util/rolo_cilindro.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/campanhas/rotasCampBoleto.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/campanhas/rotasCampBoleto.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -274,6 +275,7 @@
       <workItem from="1610051651009" duration="651000" />
       <workItem from="1610109321051" duration="1987000" />
       <workItem from="1610541414446" duration="21828000" />
+      <workItem from="1610627814806" duration="21475000" />
     </task>
     <task id="LOCAL-00066" summary="Sprint 22 - Melhoria da galeria de fotos anexadas nas comissões, agora aparecendo na tela de aprovação também.">
       <created>1600883904647</created>

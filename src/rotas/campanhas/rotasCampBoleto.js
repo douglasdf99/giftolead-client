@@ -165,7 +165,7 @@ const rotasCampBoleto = [
                 {title: 'Gerenciar'},
                 {title: 'Configurar E-mails', active: true}
             ],
-            pageTitle: 'Configuração de E-mails',
+            pageTitle: 'Configuração de SMSs',
             rule: 'planos_campanhas_sms',
             pai: 'planos',
             subTitle: 'Planos',

@@ -8,13 +8,13 @@
             <div class="vx-col w-full">
                 <vx-card class="shadow-none">
                     <div class="grid grid-cols-4 gap-4">
-                        <p class="flex items-center">
-                            {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}
-                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                     class="ml-5 icon-grande" v-bind:style="{color: expedicao.fechado ? '#4DE98A' : '#E7BE00'}"></vs-icon>
-                        </p>
-                        <p class="flex items-center">PLP: <b>{{ expedicao.plp || ' Sem PLP gerada' }}</b></p>
-                        <p class="flex items-center">Contrato: <b>{{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</b>
+                        <!--                        <p class="flex items-center">-->
+                        <!--                            {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}-->
+                        <!--                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record"-->
+                        <!--                                     class="ml-5 icon-grande" v-bind:style="{color: expedicao.fechado ? '#4DE98A' : '#E7BE00'}"></vs-icon>-->
+                        <!--                        </p>-->
+                        <p class="flex items-center">PLP: <b class="ml-2">{{ expedicao.plp || ' Sem PLP gerada' }}</b></p>
+                        <p class="flex items-center">Contrato: <b class="ml-2">{{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</b>
                             <vx-tooltip position="top" text="Selecionar Contrato">
                                 <vs-button color="primary" class="p-2 ml-3" @click="modalContrato = true" icon-pack="material-icons" icon="create"></vs-button>
                             </vx-tooltip>
@@ -22,6 +22,7 @@
                         <p>Saldo: <span class="font-bold text-xl mb-3 text-success">R$ {{ saldo.toFixed(2).replace('.', ',') }}</span></p>
                         <p>Pode gerar: <span class="font-bold text-xl mb-3 text-success">{{ limites.shipments_available }} envios</span></p>
                         <p>Limite total: <span class="font-bold text-xl mb-3 text-success">{{ limites.shipments }} envios</span></p>
+                        <p>Custo: <span class="font-bold text-xl mb-3 text-primary">R$ {{ custo.toFixed(2).replace('.', ',') }} </span></p>
                     </div>
                 </vx-card>
             </div>
@@ -49,14 +50,14 @@
                 <!-- SEARCH INPUT -->
             </div>
         </div>
-        <vs-table :data="list" class="table-items">
+        <vs-table :data="expedicao.automacaos" class="table-items">
             <template slot="thead">
                 <vs-th></vs-th>
                 <vs-th>Destinatário</vs-th>
                 <vs-th>E-mail</vs-th>
                 <vs-th>Código Carrinho ME</vs-th>
                 <vs-th>CEP</vs-th>
-                <vs-th></vs-th>
+                <vs-th>Status</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
@@ -98,14 +99,16 @@
                     <vs-td>{{ tr.email_destinatario }}</vs-td>
                     <vs-td class="flex mb-2">
                         <vx-tooltip position="top" text="Clique para copiar código de do carrinho">
-                            <span class="cursor-pointer font-bold text-primary" @click="copyRastreio(tr.codigo_carrinho_melhor_envio)"> {{ tr.codigo_carrinho_melhor_envio.substr(0, 10) }}... </span>
+                            <span class="cursor-pointer font-bold text-primary"
+                                  @click="copyRastreio(tr.codigo_carrinho_melhor_envio)"> {{ tr.codigo_carrinho_melhor_envio ? tr.codigo_carrinho_melhor_envio.substr(0, 10) : '' }}... </span>
                         </vx-tooltip>
                     </vs-td>
-                    <vs-td>{{ tr.endereco.cep | VMask('##.###-###') }}</vs-td>
-                    <vs-td class="td-icons flex flex-col items-center justify-center">
-                        <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="tr.erro == null" class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
-                        <vs-icon icon-pack="material-icons" icon="highlight_off" v-else class="icon-grande font-bold text-danger"></vs-icon>
-
+                    <vs-td v-if="tr.endereco">{{ tr.endereco.cep | VMask('##.###-###') }}</vs-td>
+                    <vs-td class="flex justify-center items-center">
+                        <vx-tooltip :text="tr.status.text">
+                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                     class="icon-grande" v-bind:class="`text-${tr.status.color}`"></vs-icon>
+                        </vx-tooltip>
                     </vs-td>
                 </vs-tr>
             </template>
@@ -114,7 +117,8 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="gerarPlp" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">Gerar PLP</vs-button>
+                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="realizarPagamento" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">Realizar Pagamento
+                    </vs-button>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirPlp" v-else>Imprimir PLP</vs-button>
                     <vs-dropdown vs-trigger-click class="float-right">
                         <vs-button color="primary" class="float-right text-white px-6 py-4" v-if="expedicao.fechado">Imprimir Etiquetas</vs-button>
@@ -154,74 +158,20 @@
                           style="background-color: white" :options="contratos" v-validate="'required'" name="produtoUpsell"/>
             </div>
         </vs-prompt>
-        <!-- inicio popup-->
-        <div class="vs-component con-vs-popup holamundo vs-popup-primary" style="" v-show="modalGerarPlp">
-            <div class="vs-popup--background"></div>
-            <div class="vs-popup" style="background: rgb(255, 255, 255);">
-                <header class="vs-popup--header">
-                    <div class="vs-popup--title">
-                    </div>
-                </header>
-                <div class="vs-popup--content">
-                    <div class="vx-col w-full">
-                        <vx-card class="p-2">
-                            <div class="text-left mb-10">
-                                <h2 class="text-center"> Gerando PLP </h2>
-                                <h6 class="mb-2 mt-4"><b>Numero da Expedição :</b> #{{ expedicao.id }}</h6>
-                                <p class="mb-2"></p>
-                            </div>
-                            <vs-divider/>
-
-                            <div class="flex items-center">
-                                <div class="fill-row-loading w-full" v-if="step == 0">
-                                    <h6 class="mb-6"><b>Status atual:</b> <span> Verificando etiquetas </span></h6>
-                                    <h6 class="text-center mb-2"> {{ count }}/{{ expedicao.automacaos.length }} </h6>
-                                    <vs-progress :height="12" :percent="percent" color="success"></vs-progress>
-
-                                </div>
-                                <!--                steep2-->
-                                <div class="fill-row-loading w-full" v-if="step == 1">
-                                    <div class="" v-if="!plpGerada">
-                                        <h6 class="mb-6"><b>Status atual:</b> <span> Realizando comunicação com o sistema de correios </span></h6>
-                                        <vs-progress indeterminate color="primary"></vs-progress>
-                                    </div>
-                                    <div class="" v-if="plpGerada == 5">
-                                        <h6 class="mb-6"><b>Status atual:</b> <span class="text-daner"> A PLP não pode ser gerada </span></h6>
-                                        <vs-divider border-style="dotted" color="primary">Detalhamento</vs-divider>
-                                        <div class="" v-if="automacaosErros.length > 0">
-                                            <h6 class="mb-6"><b></b></h6>
-                                            <vs-list-header :title="'Etiquetas com erro ('+ automacaosErros.length +') :'"></vs-list-header>
-                                            <vs-list-item v-for="(automacao, index) in automacaosErros" :key="index" :title="automacao.nome_destinatario" :subtitle="automacao.email_destinatario">
-                                                <vs-button size="large" class="font-bold mx-2 rounded-full" color="danger" type="filled"
-                                                           icon-pack="material-icons" icon="remove_red_eye">
-                                                </vs-button>
-                                            </vs-list-item>
-                                            <div class="flex justify-center flex-wrap mt-10">
-                                                <vs-button color="warning" type="filled" icon-pack="material-icons" icon="close" @click="atualiza">Fechar</vs-button>
-                                                <vs-button color="warning" type="filled" icon-pack="material-icons" icon="sync" @click="gerarPlp">Tentar novamente</vs-button>
-                                            </div>
-                                        </div>
-                                        <div class="" v-else>
-                                            <h5 class="text-danger text-center" v-if="erroMensage">{{ erroMensage }}</h5>
-                                            <h5 class="text-danger text-center" v-else>Por favor tente novamente mais tarde</h5>
-                                        </div>
-                                    </div>
-                                    <div class="" v-if="plpGerada == 10">
-                                        <h6 class="mb-6"><b>Status atual:</b> <span class="text-daner"> PLP GERADA </span></h6>
-                                        <h5 class="text-center text-success"> PLP GERADA COM SUCESSO!</h5>
-                                        <vs-progress :height="12" :percent="100" color="success"></vs-progress>
-                                        <div class="flex justify-center flex-wrap mt-10">
-                                            <vs-button color="success" type="filled" icon-pack="material-icons" icon="call_made" @click="atualiza">Ir para Expedição</vs-button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </vx-card>
-                    </div>
-                </div>
+        <vs-prompt
+            @cancel="modalPagamento = false"
+            @accept="comprar"
+            acceptText="Comprar"
+            cancelText="Cancelar"
+            :title="'Trocar o contrato'"
+            :max-width="'600px'"
+            :active.sync="modalPagamento">
+            <div class="con-exemple-prompt">
+                <span class="font-regular mb-2">Método de Pagamento</span>
+                <v-select v-model="pagamentoData.tipo_pagamento" :class="'select-large-base'" :clearable="false"
+                          style="background-color: white" :options="pagamentoData.tipos" v-validate="'required'" name="produtoUpsell"/>
             </div>
-        </div>
-        <!-- fim popup-->
+        </vs-prompt>
     </div>
 </template>
 
@@ -261,6 +211,7 @@ export default {
                 shipments_available: 0
             },
             saldo: 0,
+            custo: 0,
             automacaosErros: [],
             city_id: '',
             dados: {
@@ -292,6 +243,13 @@ export default {
             modalContrato: false,
             contratos: [],
             selectedContrato: {},
+
+            //Modal Pagamento
+            modalPagamento: false,
+            pagamentoData: {
+                tipo_pagamento: {id: null, label: 'Escolha uma forma de pagamento'},
+                tipos: [{id: 'moip', label: 'Wirecard'}, {id: 'mercado-pago', label: 'Mercado pago'}, {id: '', label: 'Saldo'}]
+            }
         }
     },
     mounted() {
@@ -355,11 +313,54 @@ export default {
             this.getItem(this.$route.params.id);
     },
     methods: {
-        getItem(id) {
+        async tracking() {
+            if (this.expedicao.plp) {
+                this.$vs.loading();
+                await this.expedicao.automacaos.forEach(item => {
+                    this.$store.dispatch('expedicaos/tracking', {
+                        headers: {Authorization: `Bearer ${this.melhorenvio.token}`, 'accept': 'application/json'},
+                        token: item.codigo_carrinho_melhor_envio
+                    }).then(response => {
+                        item.status = this.translateStatus(response.data[item.codigo_carrinho_melhor_envio].status);
+                        this.expedicao.automacaos = {...this.expedicao.automacaos};
+                    }).catch(erro => {
+                        console.log("caiu no erro", erro)
+                    });
+                });
+                await this.$vs.loading.close();
+            }
+        },
+        translateStatus(status) {
+            let response = ''
+            switch (status) {
+                case 'pending':
+                    response = {text: 'Pendente de pagamento', color: 'warning'};
+                    break;
+                case 'released':
+                    response = {text: 'Liberada para impressão e postagem', color: 'primary'};
+                    break;
+                case 'delivered':
+                    response = {text: 'Envio entregue', color: 'success'};
+                    break;
+                case 'canceled':
+                    response = {text: 'Etiqueta cancelada', color: 'danger'};
+                    break;
+                case 'undelivered':
+                    response = {text: 'Envio não entregue', color: 'danger'};
+                    break;
+                default:
+                    response = {text: 'Status desconhecido, color: ', color: 'black'};
+            }
+
+            return response;
+        },
+        async getItem(id) {
             this.$vs.loading();
-            this.$store.dispatch('expedicaos/getId', id).then(response => {
-                console.log(response);
+            await this.$store.dispatch('expedicaos/getId', id).then(response => {
                 this.expedicao = {...response};
+                this.expedicao.automacaos.forEach(item => {
+                    item.status = '';
+                });
                 if (this.expedicao.contrato)
                     this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : this.expedicao.contrato.nome};
             }).catch(() => {
@@ -373,9 +374,9 @@ export default {
         },
         async getInfos() {
             await this.$store.dispatch('automacao/saldo', {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}).then(response => {
-                console.log('retorno saldo melhor envio', response);
                 this.saldo = parseFloat(response.balance);
             });
+            await this.calcularFrete();
         },
         async getExtensao() {
             let subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
@@ -392,7 +393,6 @@ export default {
             });
         },
         async getLimites() {
-            console.log('entrou no get limites')
             await this.$store.dispatch('automacao/verificaLimite', {params: this.dados, config: {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}}).then(response => {
                 this.limites = response.data;
                 this.limites.error = false
@@ -683,21 +683,107 @@ export default {
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
                 })
             });
-        }
+        },
+        realizarPagamento() {
+            this.modalPagamento = true;
+        },
+        comprar() {
+            this.$vs.loading();
+            this.$store.dispatch('expedicaos/comprar', {id: this.expedicao.id, tipo_pagamento: this.pagamentoData.tipo_pagamento.id}).then(response => {
+                this.$vs.notify({
+                    text: 'Forma de pagamento escolhida com sucesso.',
+                    color: 'success'
+                });
+                console.log('response aí', response);
+                window.open(response.data.redirect, '_blank');
+            }).catch(error => {
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
+        },
+
+        //Calculando o frete e o custo
+        async calcularFrete() {
+            let obj = {payload: {}};
+            for (const [idx, item] of this.expedicao.automacaos.entries()) {
+                obj = await this.buildObjPayloadCalculaFrete(item); //Monta o payload a ser enviado à api
+
+                await this.$store.dispatch('automacao/calcular', obj).then((response) => {
+                    if (response.data.error) item.error = response.data.error;
+                    else {
+                        item.error = null;
+                        item.custo = parseFloat(response.data.price);
+                    }
+                    item.servicoSelected = response.data.id;
+                    this.custo += item.custo;
+                });
+                await this.tracking();
+            }
+        },
+        async buildObjPayloadCalculaFrete(item, recalculando = false) {
+            let service = '';
+            if (this.melhorenvio.configs.length > 0) {
+                let mudou = false;
+                await this.melhorenvio.configs.forEach(conf => {
+                    if (!mudou) {
+                        if (conf.variavel == item.endereco.estado) { //verificação tipo estado
+                            service = this.getService(conf.servico);
+                            mudou = true;
+                        } else if (conf.variavel == item.brinde_id) { //verificação tipo brinde
+                            service = this.getService(conf.servico);
+                            mudou = true;
+                        } else { //retorna valor da configuração padrão
+                            service = this.getService(this.melhorenvio.config_padrao.servico);
+                        }
+                    }
+                });
+            }
+            item.payload = {
+                "from": {
+                    "postal_code": this.melhorenvio.postal_code,
+                    "address": this.melhorenvio.address,
+                    "number": this.melhorenvio.number
+                },
+                "to": {
+                    "postal_code": item.endereco.cep,
+                    "address": item.endereco.endereco,
+                    "number": item.endereco.numero
+                },
+                "package": {
+                    "weight": item.brinde.peso,
+                    "width": item.brinde.largura,
+                    "height": item.brinde.altura,
+                    "length": item.brinde.comprimento
+                },
+                "services": recalculando ? item.servicoSelected : service
+            };
+            item.headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
+            return item
+        },
+        getService(val) {
+            const result = this.melhorenvio.servicos.filter(serv => serv.id == val);
+            return result[0].uuid.toString();
+        },
     },
     computed: {
         invalidoEntrega() {
             return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length <= 8)
         },
         list() {
-            return this.expedicao.automacaos.filter(automacao => {
-                let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
-                let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
-                let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
+            if (this.expedicao.automacaos.length > 0) {
+                return this.expedicao.automacaos.filter(automacao => {
+                    let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
+                    let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
+                    let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
 
-                return email || rastreio || nome
-            })
-        }
+                    return email || rastreio || nome
+                })
+            }
+
+            return []
+        },
     },
     watch: {
         endereco: {

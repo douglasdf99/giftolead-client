@@ -10,6 +10,9 @@
 
 import 'firebase/auth'
 import axios from "@/axios.js"
+import defaultAxios from "axios"
+
+let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
 
 export default {
     get({commit}) {
@@ -74,7 +77,7 @@ export default {
                 })
         })
     },
-    imprimirEtiquetas({commit}, dados ) {
+    imprimirEtiquetas({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
                 .then((response) => {
@@ -86,7 +89,7 @@ export default {
                 })
         })
     },
-    gerarPlp({commit}, id){
+    gerarPlp({commit}, id) {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/fechar/" + id)
                 .then((response) => {
@@ -98,7 +101,7 @@ export default {
                 })
         })
     },
-    enviarRastreio({commit}, dados){
+    enviarRastreio({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/enviaremailrastreio", {params: dados})
                 .then((response) => {
@@ -110,56 +113,83 @@ export default {
                 })
         })
     },
-  storeEndereco({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      axios.put("/automacao_enderecos/"+dados.id, dados)
-        .then((response) => {
-          console.log('automacao_enderecos 2', response)
-          resolve(response.data);
+    storeEndereco({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.put("/automacao_enderecos/" + dados.id, dados)
+                .then((response) => {
+                    console.log('automacao_enderecos 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          console.log('error', error)
-          reject(error)
+    },
+    storeEnderecoNovo({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post("/automacao_enderecos/", dados)
+                .then((response) => {
+                    console.log('automacao_enderecos 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
         })
-    })
-  },
-  storeEnderecoNovo({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      axios.post("/automacao_enderecos/", dados)
-        .then((response) => {
-          console.log('automacao_enderecos 2', response)
-          resolve(response.data);
+    },
+    getEndereco({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get("/automacao_enderecos/" + id)
+                .then((response) => {
+                    console.log('automacao_enderecos 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          console.log('error', error)
-          reject(error)
+    },
+    arquivar({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.get("/automacaos/arquivar/" + id)
+                .then((response) => {
+                    console.log('arquivar 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
         })
-    })
-  },
-  getEndereco({commit}, id) {
-    return new Promise((resolve, reject) => {
-      axios.get("/automacao_enderecos/"+id)
-        .then((response) => {
-          console.log('automacao_enderecos 2', response)
-          resolve(response.data);
+    },
+    comprar({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post("/expedicaos/comprar_melhor_envio/" + dados.id, {...dados})
+                .then((response) => {
+                    console.log('arquivar 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          console.log('error', error)
-          reject(error)
+    },
+    tracking({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/tracking`, {orders: [ dados.token ]})
+                .then((response) => {
+                    console.log('arquivar 2', response)
+                    resolve(response);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
         })
-    })
-  },
-  arquivar({commit}, id) {
-    return new Promise((resolve, reject) => {
-      axios.get("/automacaos/arquivar/"+id)
-        .then((response) => {
-          console.log('arquivar 2', response)
-          resolve(response.data);
-        })
-        .catch((error) => {
-          console.log('error', error)
-          reject(error)
-        })
-    })
-  },
+    },
 }
