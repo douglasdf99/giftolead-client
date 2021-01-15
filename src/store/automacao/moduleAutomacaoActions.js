@@ -176,6 +176,30 @@ export default {
                 })
         })
     },
+    geraEtiqueta({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.get(`${urlMelhorEnvio}/shipment/generate`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    geraEtiquetas({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids})
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     finalizar({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/finalizar_carrinho`, dados)
@@ -194,6 +218,19 @@ export default {
                     resolve(response.data)
                 })
                 .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    comprar({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post("/automacaos/comprarEtiquetas/", dados)
+                .then((response) => {
+                    console.log('arquivar 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
                     reject(error)
                 })
         })

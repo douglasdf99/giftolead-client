@@ -165,15 +165,14 @@ export default {
                 })
         })
     },
-    comprar({commit}, dados) {
+    refreshStatus({commit}, id) {
         return new Promise((resolve, reject) => {
-            axios.post("/expedicaos/comprar_melhor_envio/" + dados.id, {...dados})
+            axios.post("/expedicaos/rastreio_melhor_envio/" + id)
                 .then((response) => {
-                    console.log('arquivar 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
+                    console.log('error', error);
                     reject(error)
                 })
         })
