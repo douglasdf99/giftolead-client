@@ -1,43 +1,14 @@
 <template>
     <div>
-        <div class="bg-card-gray border-rounded mt-2 vs-con-loading__container" id="cards-limits">
-            <div class="flex flex-wrap p-2">
-                <div class="w-full mb-4">
-                    <h5>Limites</h5>
-                </div>
-            </div>
-            <div class="vx-row mb-6">
-                <div class="vx-col sm:w-1/4 w-full mb-2">
-                    <span class="font-regular mb-2">Quantidade Maxima que pode comprar</span>
-                    <h4> {{ limites.shipments }}</h4>
-                </div>
-                <div class="vx-col sm:w-1/4 w-full mb-2">
-                    <span class="font-regular mb-2">Quantidade liberada para comprar</span>
-                    <h4> {{ limites.shipments_available }}</h4>
-                </div>
-                <div class="vx-col sm:w-1/4 w-full mb-2">
-                    <span class="font-regular mb-2">Limite de endereços do usuário no período (origem ou destino se for logística reversa)</span>
-                    <h4> {{ limites.addresses }}</h4>
-                </div>
-                <div class="vx-col sm:w-1/4 w-full mb-2">
-                    <span class="font-regular mb-2">Período limitado pelo limite de endereços (em dias)</span>
-                    <h4> {{ limites.addresses_period }}</h4>
-                </div>
-            </div>
-        </div>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
             <nenhum-registro></nenhum-registro>
         </div>
         <div class="com-item" v-else>
-            <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items">
+            <vs-table v-model="selecteds" @selected="handleSelected" :data="items" class="table-items">
                 <template slot="thead">
                     <vs-th></vs-th>
-                    <vs-th>Cliente</vs-th>
-                    <vs-th>Inserção</vs-th>
-                    <vs-th>Brinde</vs-th>
-                    <vs-th>E-mail</vs-th>
-                    <vs-th>Token</vs-th>
-                    <vs-th>Ordem de envio</vs-th>
+                    <vs-th>ID</vs-th>
+                    <vs-th>Quantidade de Automações</vs-th>
                     <vs-th>Status</vs-th>
                 </template>
                 <template slot-scope="{data}">
@@ -49,57 +20,19 @@
                                            icon-pack="material-icons" icon="more_horiz"
                                 ></vs-button>
                                 <vs-dropdown-menu class="dropdown-menu-list">
-                                    <vs-divider></vs-divider>
-                                    <vs-dropdown-item @click="editarEndereco(tr)" v-if="$acl.check('brinde_automacao_editar') && !tr.expedicao">
-                                        <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                        Editar Endereço
-                                    </vs-dropdown-item>
-                                    <vs-dropdown-item @click="arquivar(tr)" v-if="$acl.check('brinde_automacao_deletar')">
-                                        <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
-                                        Arquivar
-                                    </vs-dropdown-item>
-                                    <vs-dropdown-item @click="restaurarAlert(tr.id)" v-show="tr.arquivado == 1" v-if="$acl.check('brinde_automacao_deletar')">
-                                        <vs-icon icon-pack="material-icons" icon="star"></vs-icon>
-                                        Restaurar
+                                    <vs-dropdown-item @click="$router.push({path: `/brindes/expedicoes-melhor-envio/${tr.id}`})">
+                                        <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
+                                        Detalhar
                                     </vs-dropdown-item>
                                 </vs-dropdown-menu>
                             </vs-dropdown>
                         </vs-td>
+                        <vs-td>{{tr.id}}</vs-td>
                         <vs-td>
-                            <p class="font-bold">{{ tr.lead.nome }}</p>
-                            <p class="">{{ tr.lead.email }}</p>
-                        </vs-td>
-                        <vs-td>
-                            <p class="font-bold">{{ getResponsavel(tr) }}</p>
+                            <p class="font-bold">{{ tr.automacaos.length }}</p>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">{{ tr.brinde.nome }}</p>
-                        </vs-td>
-                        <vs-td class="flex justify-center">
-                            <vx-tooltip text="Enviando" position="top">
-                                <vs-icon icon-pack="material-icons" icon="watch_later" color="gray" v-if="tr.eventos.length == 0" class="text-2xl"/>
-                            </vx-tooltip>
-                            <vx-tooltip text="Não enviado" position="top">
-                                <vs-icon icon-pack="material-icons" icon="cancel" color="danger" v-if="getEventoRed(tr)" class="text-2xl"/>
-                            </vx-tooltip>
-                            <vx-tooltip text="Enviado" position="top">
-                                <vs-icon icon-pack="material-icons" icon="check" color="success" v-if="getEventoGreen(tr)" class="text-2xl"/>
-                            </vx-tooltip>
-                        </vs-td>
-                        <vs-td>
-                            {{ tr.uuid }}
-                        </vs-td>
-                        <vs-td>
-                            <p class="font-bold flex items-center" v-bind:class="getOrdemColor(tr)">
-                                {{ getOrdemEnvio(tr) }}
-                                <i class="material-icons ml-3" v-bind:class="getOrdemColor(tr)">fiber_manual_record</i>
-                            </p>
-                        </vs-td>
-                        <vs-td class="flex">
-                            <vx-tooltip position="top" :text="tr.rastreio">
-                                <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2 cursor-pointer" @click="copyText(tr.rastreio)" v-if="tr.rastreio != null">
-                            </vx-tooltip>
-                            <img src="@/assets/images/util/expedicao-icon.svg" width="25px" v-if="tr.expedicao && tr.expedicao != null">
+                            {{tr.status}}
                         </vs-td>
                     </vs-tr>
                 </template>
@@ -237,7 +170,7 @@
                 },
             }
         },
-        name: "Listagem",
+        name: "ListagemExpedicoes",
         props: ['items', 'tipo'],
         methods: {
             toggleModalCompra() {
@@ -338,7 +271,7 @@
                         }
                     });
                 }else{
-                  service = this.getService(this.melhorenvio.config_padrao.servico);
+                    service = this.getService(this.melhorenvio.config_padrao.servico);
                 }
                 item.payload = {
                     "from": {

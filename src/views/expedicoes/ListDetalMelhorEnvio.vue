@@ -278,6 +278,7 @@
                 custo: 0,
                 automacaosErros: [],
                 city_id: '',
+                counterDanger: false,
                 dados: {
                     pesquisa: '',
                 },
@@ -403,7 +404,6 @@
                 await this.$vs.loading.close();
             },
             translateStatus(status) {
-                console.log('status aí', status);
                 let response = '';
                 switch (status) {
                     case 'pending':
@@ -886,7 +886,7 @@
                             }
                         }
                     });
-                }
+                } else service = this.getService(this.melhorenvio.config_padrao.servico);
                 item.payload = {
                     "from": {
                         "postal_code": this.melhorenvio.postal_code,

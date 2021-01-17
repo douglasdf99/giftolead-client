@@ -40,11 +40,14 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10" v-if="pagination" :label="'pendentes' + (dados.status == 'pendente' ? ' (' + automacaos.length + ')' : '')">
-                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacaos" tipo="pendente" v-if="automacaos.length > 0"></listagemAutomacoes>
+                    <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10" v-if="pagination" :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
+                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacoes" tipo="pendente"></listagemAutomacoes>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10" v-if="pagination" :label="'Expedicoes' + (dados.status == 'pendente' ? ' (' + automacaos.length + ')' : '')">
-                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacaos" tipo="pendente" v-if="automacaos.length > 0"></listagemAutomacoes>
+                    <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente')" color="warning" value="10" v-if="pagination" :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
+                        <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
+                    </vs-tab>
+                    <vs-tab @click="colorx = 'success'; getAutomacoes('fechado')" color="success" value="10" v-if="pagination" :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
+                        <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
                 </vs-tabs>
             </vs-col>
@@ -111,6 +114,7 @@
     import SideBar from './SideBar'
     import listagem from './Listagem'
     import listagemAutomacoes from './ListagemAutomacoes'
+    import listagemExpedicoes from './ListagemExpedicoes'
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
     import vSelect from 'vue-select'
     import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
@@ -129,6 +133,7 @@
         components: {
             listagem,
             listagemAutomacoes,
+            listagemExpedicoes,
             'v-select': vSelect,
             SideBar, Datepicker,
             VueMoment,
@@ -137,7 +142,8 @@
         },
         data() {
             return {
-                automacaos: [],
+                automacoes: [],
+                expedicoes: [],
                 modalGerarPlp: false,
                 atual: 0,
                 total: 1,
@@ -232,7 +238,7 @@
             },
             getItems(status = this.dados.status) {
                 this.$vs.loading();
-                this.dados.status = status
+                this.dados.status = status;
                 switch (status) {
                     case "pendente":
                         this.dados.fechado = 0;
@@ -261,7 +267,20 @@
                 this.dados.tipo = null;
                 this.$store.dispatch('automacao/get', this.dados).then(response => {
                     console.log('respostas com todas as automacoes', response);
-                    this.automacaos = response.data;
+                    this.automacoes = response.data;
+                    this.pagination = response
+                }).finally(() => {
+                    this.$vs.loading.close();
+                });
+            },
+            getExpedicoesME(status = 'pendente') {
+                this.$vs.loading();
+                this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
+                this.dados.tipo = null;
+                this.dados.status = status;
+                this.$store.dispatch('expedicaos/get', this.dados).then(response => {
+                    console.log('respostas com todas as expedicoes', response);
+                    this.expedicoes = response.data.data;
                     this.pagination = response
                 }).finally(() => {
                     this.$vs.loading.close();

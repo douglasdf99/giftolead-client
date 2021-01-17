@@ -15,9 +15,9 @@ import defaultAxios from "axios"
 let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
 
 export default {
-    get({commit}) {
+    get({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.get(`/expedicaos`, {params: {}})
+            axios.get(`/expedicaos`, {params: dados})
                 .then((response) => {
                     console.log('regatadas', response);
                     resolve(response.data)
