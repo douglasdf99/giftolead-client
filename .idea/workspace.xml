@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c1239583-b5bd-418b-8314-6d6d34a9f123" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/dist/" />
     <ignored path="$PROJECT_DIR$/node_modules/" />
@@ -20,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="368" column="35" selection-start-line="368" selection-start-column="35" selection-end-line="368" selection-end-column="35" />
+            <state relative-caret-position="610">
+              <caret line="138" column="19" lean-forward="true" selection-start-line="138" selection-start-column="19" selection-end-line="138" selection-end-column="19" />
               <folding>
                 <element signature="e#6241#6272#0" expanded="true" />
                 <element signature="e#12653#13341#0" />
@@ -37,7 +39,7 @@
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemExpedicoes.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="696">
-              <caret line="29" column="48" lean-forward="true" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+              <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
               <folding>
                 <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -61,15 +63,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="538">
-              <caret line="219" column="51" lean-forward="true" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
+            <state relative-caret-position="48">
+              <caret line="525" column="53" lean-forward="true" selection-start-line="525" selection-start-column="53" selection-end-line="525" selection-end-column="53" />
               <folding>
                 <element signature="n#style#0;n#vs-popup#0;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#1;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#2;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="e#16124#16209#0" expanded="true" />
               </folding>
@@ -105,8 +106,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+            <state relative-caret-position="370">
+              <caret line="205" column="100" lean-forward="true" selection-start-line="205" selection-start-column="100" selection-end-line="205" selection-end-column="100" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#491#513#0" expanded="true" />
@@ -127,36 +128,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>imprimir de</find>
-      <find>gerarEtiqueta</find>
-      <find>headers</find>
-      <find>gerarEtiquet</find>
-      <find>tipos</find>
-      <find>items</find>
-      <find>created</find>
-      <find>getexpe</find>
-      <find>expedicaos</find>
-      <find>get</find>
       <find>getExpedicoesME</find>
-      <find>automa</find>
-      <find>name: '</find>
-      <find>nome</find>
-      <find>detalhar</find>
-      <find>counterdanger</find>
-      <find>data(</find>
-      <find>custo</find>
-      <find>calcularfrete</find>
-      <find>build</find>
-      <find>status</find>
-      <find>rea</find>
-      <find>realizarpaga</find>
-      <find>realizar paga</find>
-      <find>pagamentomo</find>
-      <find>pesquisar</find>
-      <find>submit</find>
-      <find>getAutomacoes</find>
-      <find>getItems</find>
-      <find>getitems</find>
+      <find>activetab</find>
+      <find>activeTab</find>
+      <find>brindesele</find>
+      <find>selectedBrinde</find>
+      <find>== 1</find>
+      <find>pagamentoData</find>
+      <find>soma</find>
+      <find>atualizar</find>
+      <find>comprar</find>
+      <find>geraret</find>
+      <find>individual</find>
+      <find>geraEtiquetas</find>
+      <find>removercarri</find>
+      <find>tabl</find>
+      <find>table-row-</find>
+      <find>imprimirEtiquetas</find>
+      <find>imprimi</find>
+      <find>printerPre</find>
+      <find>gerare</find>
+      <find>gerar</find>
+      <find>imprimiretiquetas</find>
+      <find>imprimir</find>
+      <find>gerarE</find>
+      <find>gerarEtiqueta(</find>
+      <find>imprimir(</find>
+      <find>gerarEtiqueta</find>
+      <find>loading</find>
+      <find>#table</find>
+      <find>refre</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -220,12 +221,12 @@
         <option value="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" />
         <option value="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/Listagem.vue" />
-        <option value="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" />
         <option value="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/ListagemExpedicoes.vue" />
-        <option value="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" />
+        <option value="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" />
+        <option value="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" />
       </list>
     </option>
   </component>
@@ -522,14 +523,7 @@
       <workItem from="1610373685597" duration="13171000" />
       <workItem from="1610453920983" duration="20418000" />
       <workItem from="1610712855315" duration="462000" />
-      <workItem from="1610713322806" duration="26129000" />
-    </task>
-    <task id="LOCAL-00075" summary="Sprint 23 - Ajustes da reunião (detalhado no Meistertask)">
-      <created>1601495781683</created>
-      <option name="number" value="00075" />
-      <option name="presentableId" value="LOCAL-00075" />
-      <option name="project" value="LOCAL" />
-      <updated>1601495781683</updated>
+      <workItem from="1610713322806" duration="31482000" />
     </task>
     <task id="LOCAL-00076" summary="Sprint 23 - Ajuste no funcionamento da tela de Meus Links">
       <created>1601556191138</created>
@@ -867,11 +861,18 @@
       <option name="project" value="LOCAL" />
       <updated>1610889144558</updated>
     </task>
-    <option name="localTasksCounter" value="124" />
+    <task id="LOCAL-00124" summary="Progredindo nos procedimentos do detalhamento de expedição melhor envio">
+      <created>1610889754385</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1610889754385</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="288186000" />
+    <option name="totallyTimeSpent" value="293539000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1416,17 +1417,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#491#513#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
@@ -1449,10 +1439,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="138" column="19" lean-forward="true" selection-start-line="138" selection-start-column="19" selection-end-line="138" selection-end-column="19" />
+          <folding>
+            <element signature="e#6241#6272#0" expanded="true" />
+            <element signature="e#12653#13341#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="205" column="100" lean-forward="true" selection-start-line="205" selection-start-column="100" selection-end-line="205" selection-end-column="100" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#491#513#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemExpedicoes.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="696">
-          <caret line="29" column="48" lean-forward="true" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+          <caret line="29" column="38" selection-start-line="29" selection-start-column="38" selection-end-line="29" selection-end-column="38" />
           <folding>
             <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
@@ -1463,25 +1475,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="538">
-          <caret line="219" column="51" lean-forward="true" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
+        <state relative-caret-position="48">
+          <caret line="525" column="53" lean-forward="true" selection-start-line="525" selection-start-column="53" selection-end-line="525" selection-end-column="53" />
           <folding>
             <element signature="n#style#0;n#vs-popup#0;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#0;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#1;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#2;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="e#16124#16209#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="368" column="35" selection-start-line="368" selection-start-column="35" selection-end-line="368" selection-end-column="35" />
-          <folding>
-            <element signature="e#6241#6272#0" expanded="true" />
-            <element signature="e#12653#13341#0" />
           </folding>
         </state>
       </provider>

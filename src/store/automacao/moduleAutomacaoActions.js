@@ -203,7 +203,7 @@ export default {
     geraEtiquetas({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids})
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids, pretty: 1})
                 .then((response) => {
                     resolve(response.data)
                 })

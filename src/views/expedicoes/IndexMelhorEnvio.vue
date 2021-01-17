@@ -39,13 +39,13 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getAutomacoes()" color="warning" value="10" v-if="pagination" :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
+                    <vs-tab @click="colorx = 'warning'; getAutomacoes(); activeTab = 1" color="warning" value="10" v-if="pagination" :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
                         <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacoes" tipo="pendente"></listagemAutomacoes>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente')" color="warning" value="10" v-if="pagination" :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
+                    <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente'); activeTab = 2" color="warning" value="10" v-if="pagination" :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
                         <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getExpedicoesME('fechado')" color="success" value="10" v-if="pagination" :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
+                    <vs-tab @click="colorx = 'success'; getExpedicoesME('fechado'); activeTab = 3" color="success" value="10" v-if="pagination" :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
                         <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
                 </vs-tabs>
@@ -154,6 +154,7 @@
                         }
                     }
                 },
+                activeTab: 1,
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
@@ -366,7 +367,7 @@
                 this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
-                this.getAutomacoes();
+                this.tabCondition();
             },
 
             //Procedimentos
@@ -445,6 +446,10 @@
                     })
                 });
 
+            },
+            tabCondition(){
+                if(this.activeTab == 1) this.getAutomacoes();
+                else this.getExpedicoesME(this.dados.status)
             }
         },
         watch: {
@@ -459,8 +464,8 @@
             },
             selectedBrinde(val) {
                 this.$vs.loading();
-                this.dados.brinde_id = this.selectedBrinde != null ? this.selectedBrinde.id : null;
-                this.getItems();
+                this.dados.brinde_id = this.selectedBrinde != null ? (this.selectedBrinde.id != null ? val.id : null) : null;
+                this.tabCondition();
             },
             selectedEditBrinde(val) {
                 console.log(val)

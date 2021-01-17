@@ -72,7 +72,7 @@
                 <vs-th></vs-th>
                 <vs-th>Destinatário</vs-th>
                 <vs-th>E-mail</vs-th>
-                <vs-th>Código do envio do ME</vs-th>
+                <vs-th>Rastreio ME</vs-th>
                 <vs-th>CEP</vs-th>
                 <vs-th>Status</vs-th>
             </template>
@@ -93,10 +93,10 @@
                                     <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
                                     Arquivar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="imprimir(tr.id)" v-if="expedicao.fechado && $acl.check('brinde_automacao_imprimir')">
-                                    <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                    Etiqueta
-                                </vs-dropdown-item>
+                                <!--                                <vs-dropdown-item @click="imprimir(tr.codigo_carrinho_melhor_envio, indextr)" v-if="expedicao.fechado && $acl.check('brinde_automacao_imprimir')">-->
+                                <!--                                    <vs-icon icon-pack="material-icons" icon="print"></vs-icon>-->
+                                <!--                                    Etiqueta-->
+                                <!--                                </vs-dropdown-item>-->
                                 <vs-dropdown-item @click="imprimirDeclaracao(tr.id)" v-if="expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Declaração de Conteúdo
@@ -113,12 +113,11 @@
                                     <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                     Remover do Carrinho
                                 </vs-dropdown-item>
-                                {{tr.status}}
-                                <vs-dropdown-item v-if="!tr.rastreio" @click="gerarEtiqueta(tr.codigo_carrinho_melhor_envio)">
+                                <vs-dropdown-item v-if="!tr.rastreio_melhor_envio" @click="gerarEtiqueta(tr.codigo_carrinho_melhor_envio, indextr)">
                                     <vs-icon icon-pack="material-icons" icon="cached"></vs-icon>
                                     Gerar Etiqueta
                                 </vs-dropdown-item>
-                                <vs-dropdown-item v-else @click="gerarEtiqueta(tr.id)">
+                                <vs-dropdown-item @click="imprimir(tr.codigo_carrinho_melhor_envio, indextr)">
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Imprimir Etiqueta
                                 </vs-dropdown-item>
@@ -128,9 +127,15 @@
                     <vs-td><span class="font-bold">{{ tr.nome_destinatario }}</span></vs-td>
                     <vs-td>{{ tr.email_destinatario }}</vs-td>
                     <vs-td class="flex mb-2">
-                        <vx-tooltip position="top" text="Clique para copiar código de envio e ser redirecionada para a página de busca">
-                            <span class="cursor-pointer font-bold text-primary"
-                                  @click="copyRastreio(tr.codigo_pagamento_melhor_envio)"> {{ tr.codigo_pagamento_melhor_envio ? tr.codigo_pagamento_melhor_envio.substr(0, 10) : '' }}... </span>
+                        <vx-tooltip position="top" text="Clique para copiar código de envio e ser redirecionada para a página de busca" v-if="tr.rastreio_melhor_envio">
+                            <span class="cursor-pointer font-bold text-primary" @click="window.open('https://www.melhorrastreio.com.br/rastreio/' + tr.rastreio_melhor_envio, '_blank')">
+                                {{ tr.rastreio_melhor_envio }}
+                            </span>
+                        </vx-tooltip>
+                        <vx-tooltip position="top" text="Clique para gerar a etiqueta desta automação. O rastreio pode levar 1 hora até ser exibido." v-else>
+                            <span class="cursor-pointer font-bold text-primary" @click="gerarEtiqueta(tr.codigo_carrinho_melhor_envio, indextr)">
+                                Gerar etiqueta
+                            </span>
                         </vx-tooltip>
                     </vs-td>
                     <vs-td v-if="tr.endereco">{{ tr.endereco.cep | VMask('##.###-###') }}</vs-td>
@@ -161,19 +166,7 @@
                         </vx-tooltip>
                     </vs-button>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirPlp" v-else>Imprimir PLP</vs-button>
-                    <vs-dropdown vs-trigger-click class="float-right">
-                        <vs-button color="primary" class="float-right text-white px-6 py-4" v-if="expedicao">Imprimir Etiquetas</vs-button>
-                        <vs-dropdown-menu class="dropdown-menu-list">
-                            <vs-dropdown-item @click="imprimirEtiquetas('multi')">
-                                <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                Imprimir 4 por página
-                            </vs-dropdown-item>
-                            <vs-dropdown-item @click="imprimirEtiquetas('single')">
-                                <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                Imprimir 1 por página
-                            </vs-dropdown-item>
-                        </vs-dropdown-menu>
-                    </vs-dropdown>
+                    <!--                    <vs-button color="primary" class="float-right text-white px-6 py-4" @click="imprimirEtiquetas" v-if="expedicao">Imprimir Etiquetas</vs-button>-->
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirDeclaracao(null)">Imprimir Declaração de conteúdo</vs-button>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="gerarEtiquetas()">Gerar Etiquetas</vs-button>
                     <vs-button class="float-left ml-3  px-6 py-4 mx-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
@@ -209,11 +202,11 @@
                 :max-width="'600px'"
                 :active.sync="modalPagamento">
             <div class="con-exemple-prompt">
-                <p class="text-lg text-center mb-5">Valor Total: <span class="text-primary text-2xl font-bold">${{pagamentoData.soma.toFixed(2).replace('.', ',')}}</span></p>
+                <p class="font-regular">Método de Pagamento: <span class="text-success">Saldo</span></p>
+                <p class="font-regular">Saldo disponível: <span class="font-bold text-primary">R${{saldo.toFixed(2).replace('.', ',')}}</span></p>
+                <p class="font-regular">Saldo após o pagamento: <span class="font-bold text-primary">R${{(saldo - pagamentoData.soma).toFixed(2).replace('.', ',')}}</span></p>
                 <vs-divider class="w-full"></vs-divider>
-                <span class="font-regular mb-2">Método de Pagamento</span>
-                <v-select v-model="pagamentoData.tipo_pagamento" :class="'select-large-base'" :clearable="false"
-                          style="background-color: white" :options="pagamentoData.tipos" v-validate="'required'" name="produtoUpsell"/>
+                <p class="text-lg text-center mb-5">Valor Total: <span class="text-primary text-2xl font-bold">${{pagamentoData.soma.toFixed(2).replace('.', ',')}}</span></p>
             </div>
         </vs-prompt>
         <vs-prompt
@@ -231,8 +224,8 @@
                 <v-select v-model="cancelamentoData.reason" :class="'select-large-base'" :clearable="false"
                           style="background-color: white" :options="cancelamentoData.tipos" v-validate="'required'" name="produtoUpsell"/>
                 <span class="font-regular mb-2">Descrição</span>
-              <vs-textarea counter="20" label="Tamanho: 20" v-validate="'max:30'" name="descricao"
-                           :counter-danger.sync="counterDanger" v-model="cancelamentoData.description"/>
+                <vs-textarea counter="20" label="Tamanho: 20" v-validate="'max:30'" name="descricao"
+                             :counter-danger.sync="counterDanger" v-model="cancelamentoData.description"/>
             </div>
         </vs-prompt>
     </div>
@@ -313,17 +306,17 @@
                 modalPagamento: false,
 
                 pagamentoData: {
-                    tipo_pagamento: {id: null, label: 'Escolha uma forma de pagamento'},
-                    tipos: [{id: 'moip', label: 'Wirecard'}, {id: 'mercado-pago', label: 'Mercado pago'}, {id: '', label: 'Saldo'}],
+                    tipo_pagamento: '',
+                    //tipos: [{id: 'moip', label: 'Wirecard'}, {id: 'mercado-pago', label: 'Mercado pago'}, {id: '', label: 'Saldo'}],
                     ids: [],
                     soma: 0
                 },
                 modalCancelamento: false,
                 cancelamentoData: {
-                  ids: [],
-                  reason: {id: null, label: 'Escolha uma forma de pagamento'},
-                  tipos: [{id: 2, label: 'Desistência'}, {id: 4, label: 'Informações incorretas'}, {id: 5, label: 'Rejeição da transportadora'}],
-                  description: ""
+                    ids: [],
+                    reason: {id: null, label: 'Escolha uma forma de pagamento'},
+                    tipos: [{id: 2, label: 'Desistência'}, {id: 4, label: 'Informações incorretas'}, {id: 5, label: 'Rejeição da transportadora'}],
+                    description: ""
                 },
             }
         },
@@ -528,46 +521,57 @@
                     }
                 })
             },
-            imprimir(id) {
+            async imprimir(id, index) {
+                this.$vs.loading({
+                    container: "#table-row-" + index,
+                    scale: 0.45
+                });
+                let gerada = await this.gerarEtiqueta(id, index);
+                if (gerada.status) {
+                    this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading");
+                    this.urlIframe = false;
+                    this.modalIframe = true;
+                    this.$vs.loading({
+                        container: '#pdf-with-loading'
+                    });
+                    this.$vs.loading();
+                    let ids = [id];
+                    let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
+                    this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
+                        console.log('Voltou pro front', response);
+                        this.urlIframe = response.url;
+                    }).catch((error) => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: error.response.data.message
+                        });
+                    }).finally(() => {
+                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    });
+                } else {
+                    this.$vs.notify({color: 'warning', text: 'Aguarde a etiqueta ser gerada para que você possa imprimir', title: 'Aguarde'})
+                    this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading");
+                }
+            },
+            imprimirEtiquetas() {
                 this.urlIframe = false;
                 this.modalIframe = true;
                 this.$vs.loading({
                     container: '#pdf-with-loading'
-                })
-              this.$vs.loading();
-              let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
-              let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
-              this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
-                console.log('Voltou pro front', response);
-                this.urlIframe = response.url;
-              }).catch((error) => {
-                this.$vs.notify({
-                  color: 'danger',
-                  text: error.response.data.message
                 });
-              }).finally(()=>{
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-              });
-            },
-            imprimirEtiquetas() {
-              this.urlIframe = false;
-              this.modalIframe = true;
-              this.$vs.loading({
-                container: '#pdf-with-loading'
-              })
-              let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
-              let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
-              this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
-                console.log('Voltou pro front', response);
-                this.urlIframe = response.url;
-              }).catch((error) => {
-                this.$vs.notify({
-                  color: 'danger',
-                  text: error.response.data.message
+                let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
+                let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
+                this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
+                    console.log('Voltou pro front', response);
+                    this.urlIframe = response.url;
+                }).catch((error) => {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: error.response.data.message
+                    });
+                }).finally(() => {
+                    this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
                 });
-              }).finally(()=>{
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-              });
             },
             imprimirDeclaracao(automacao) {
                 this.urlIframe = false;
@@ -721,21 +725,31 @@
                     this.$vs.loading.close("#table > .con-vs-loading");
                 });
             },
-            gerarEtiqueta(id){
-                this.$vs.loading();
-                let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
-                this.$store.dispatch('automacao/geraEtiqueta', ids).then(response => {
-                    console.log('Voltou pro front', response)
+            async gerarEtiqueta(id, index) {
+                this.$vs.loading({
+                    container: "#table-row-" + index,
+                    scale: 0.45
                 });
+                let ids = [id];
+                let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
+                let retorno = null;
+                await this.$store.dispatch('automacao/geraEtiquetas', {ids, headers}).then(response => {
+                    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', response.data);
+                    retorno = response;
+                    let color = response[id].status ? 'success' : 'danger';
+                    this.$vs.notify({text: response[id].message, color});
+                }).finally(() => this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading"));
+
+                return retorno[id];
             },
-            gerarEtiquetas(){
+            gerarEtiquetas() {
                 this.$vs.loading();
                 let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
                 let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
                 this.$store.dispatch('automacao/geraEtiquetas', {ids, headers}).then(response => {
                     console.log('Voltou pro front', response)
-                }).finally(()=>{
-                  this.$vs.loading.close();
+                }).finally(() => {
+                    this.$vs.loading.close();
                 });
             },
             //Editar endereço da automação
@@ -802,7 +816,7 @@
                 this.selecteds.forEach(item => this.pagamentoData.soma += parseFloat(item.custo));
                 this.pagamentoData.ids = this.selecteds.map(item => item.id);
             },
-          realizarCancelamento() {
+            realizarCancelamento() {
                 this.modalCancelamento = true;
                 this.cancelamentoData.ids = this.selecteds.map(item => item.id);
             },
@@ -825,7 +839,7 @@
                         text: error.response.data.message,
                         color: 'danger'
                     });
-                }).finally(() => this.$vs.loading.close());
+                }).finally(() => this.refresh());
             },
             cancelarCompra() {
                 this.$vs.loading();
