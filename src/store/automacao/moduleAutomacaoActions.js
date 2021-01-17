@@ -177,28 +177,28 @@ export default {
         })
     },
     geraEtiqueta({commit}, dados) {
-      return new Promise((resolve, reject) => {
-        defaultAxios.defaults.headers.common = dados.headers;
-        defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids})
-          .then((response) => {
-            resolve(response.data)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids})
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
     },
-  imprmirMelhorEnvio({commit}, dados) {
-      return new Promise((resolve, reject) => {
-        defaultAxios.defaults.headers.common = dados.headers;
-        defaultAxios.post(`${urlMelhorEnvio}/shipment/print`, {mode: "public",orders: dados.ids})
-          .then((response) => {
-            resolve(response.data)
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      })
+    imprmirMelhorEnvio({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/print`, {mode: "public", orders: dados.ids})
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
     },
     geraEtiquetas({commit}, dados) {
         return new Promise((resolve, reject) => {
@@ -251,11 +251,23 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post("/automacaos/cancelarCompra/", dados)
                 .then((response) => {
-                    console.log('cancelarCompra 2', response)
+                    console.log('cancelarCompra 2', response);
                     resolve(response.data);
                 })
                 .catch((error) => {
                     console.log('error', error)
+                    reject(error)
+                })
+        })
+    },
+    checkCancel({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = dados.headers;
+            defaultAxios.post(`${urlMelhorEnvio}/shipment/cancellable`, {orders: dados.ids})
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
                     reject(error)
                 })
         })

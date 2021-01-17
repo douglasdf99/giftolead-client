@@ -75,6 +75,7 @@
                 <vs-th>Rastreio ME</vs-th>
                 <vs-th>CEP</vs-th>
                 <vs-th>Status</vs-th>
+                <vs-th>Eventos</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" class="vs-con-loading__container" :id="'table-row-' + indextr">
@@ -121,6 +122,10 @@
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Imprimir Etiqueta
                                 </vs-dropdown-item>
+                                <vs-dropdown-item @click="addCarrinho(tr.id, indextr)" v-if="tr.status_melhor_envio == 'canceled'">
+                                    <vs-icon icon-pack="material-icons" icon="add_shopping_cart"></vs-icon>
+                                    Adicionar ao Carrinho
+                                </vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>
                     </vs-td>
@@ -128,7 +133,7 @@
                     <vs-td>{{ tr.email_destinatario }}</vs-td>
                     <vs-td class="flex mb-2">
                         <vx-tooltip position="top" text="Clique para copiar código de envio e ser redirecionada para a página de busca" v-if="tr.rastreio_melhor_envio">
-                            <span class="cursor-pointer font-bold text-primary" @click="window.open('https://www.melhorrastreio.com.br/rastreio/' + tr.rastreio_melhor_envio, '_blank')">
+                            <span class="cursor-pointer font-bold text-primary" @click="abrirRastreio(tr.rastreio_melhor_envio)">
                                 {{ tr.rastreio_melhor_envio }}
                             </span>
                         </vx-tooltip>
@@ -145,8 +150,12 @@
                                      class="icon-grande" v-bind:class="`text-${tr.status.color}`"></vs-icon>
                         </vx-tooltip>
                     </vs-td>
-                    <vs-td v-if="tr.send_canceled" class="flex justify-center items-center">
-                        Solicitado cancelamento
+                    <vs-td>
+                        <div class="flex justify-center items-center">
+                            <vx-tooltip v-if="tr.send_canceled" text="Solicitado cancelamento" position="top">
+                                <i class="material-icons font-bold text-danger">cancel_presentation</i>
+                            </vx-tooltip>
+                        </div>
                     </vs-td>
                 </vs-tr>
             </template>
@@ -160,7 +169,7 @@
                             Realizar Pagamento
                         </vx-tooltip>
                     </vs-button>
-                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="realizarCancelamento" :disabled="!podePagar.success" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">
+                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="checkCancellable" :disabled="!podePagar.success" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">
                         <vx-tooltip :text="podePagar.message" position="top">
                             Cancelar Compra
                         </vx-tooltip>
@@ -220,10 +229,10 @@
             <div class="con-exemple-prompt">
                 <p class="text-center mb-5">Valor TotalAutamoções a serem canceladas: <span class="text-primary font-bold">tabla de automações</span></p>
                 <vs-divider class="w-full"></vs-divider>
-                <span class="font-regular mb-2">Motivo do cancelamento</span>
-                <v-select v-model="cancelamentoData.reason" :class="'select-large-base'" :clearable="false"
+                <label class="font-regular mt-2">Motivo do cancelamento</label>
+                <v-select v-model="cancelamentoData.reason" :class="'select-large-base mb-2'" :clearable="false"
                           style="background-color: white" :options="cancelamentoData.tipos" v-validate="'required'" name="produtoUpsell"/>
-                <span class="font-regular mb-2">Descrição</span>
+                <label class="font-regular mt-2">Descrição</label>
                 <vs-textarea counter="20" label="Tamanho: 20" v-validate="'max:30'" name="descricao"
                              :counter-danger.sync="counterDanger" v-model="cancelamentoData.description"/>
             </div>
@@ -420,11 +429,24 @@
                     case 'paid':
                         response = {text: 'Pago', color: 'success'};
                         break;
+                    case 'posted':
+                        response = {text: 'Postado', color: 'success'};
+                        break;
                     default:
                         response = {text: 'Status desconhecido, color: ', color: 'black'};
                 }
 
                 return response;
+            },
+            renderIncancellables(arr) {
+                let lis = '';
+                arr.forEach((item, index) => {
+                    lis += item[0] + (index > 0 ? ', ' : '');
+                });
+
+                let html = "As automações abaixo não estão aptas a serem canceladas: " + lis + '.';
+
+                return html;
             },
             async getItem(id) {
                 this.$vs.loading();
@@ -522,10 +544,6 @@
                 })
             },
             async imprimir(id, index) {
-                this.$vs.loading({
-                    container: "#table-row-" + index,
-                    scale: 0.45
-                });
                 let gerada = await this.gerarEtiqueta(id, index);
                 if (gerada.status) {
                     this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading");
@@ -549,7 +567,7 @@
                         this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
                     });
                 } else {
-                    this.$vs.notify({color: 'warning', text: 'Aguarde a etiqueta ser gerada para que você possa imprimir', title: 'Aguarde'})
+                    this.$vs.notify({color: 'warning', text: 'Aguarde a etiqueta ser gerada para que você possa imprimir', title: 'Aguarde', time: 10000});
                     this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading");
                 }
             },
@@ -621,61 +639,6 @@
                     this.$vs.loading.close();
                 });
             },
-            gerarPlp() {
-                // this.$vs.loading();
-                this.$vs.dialog({
-                    color: 'primary',
-                    title: `Gerar PLP`,
-                    text: 'Ao gerar PLP, não será mais possível editar os objetos contidos nela.',
-                    acceptText: 'Sim, gerar!',
-                    accept: () => {
-                        this.modalGerarPlp = true;
-                        this.$store.dispatch('expedicaos/gerarPlp', this.expedicao.id).then(() => {
-                        }).catch(erro => {
-                            console.log('erro', erro);
-                            this.modalGerarPlp = false;
-                            // this.$vs.notify({
-                            //   color: 'danger',
-                            //   text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
-                            // });
-                            this.$vs.dialog({
-                                color: 'danger',
-                                title: `Algo deu errado ao gerar a PLP`,
-                                text: erro.response.data.message + '. Contate o suporte'
-                            });
-                        });
-                    }
-                })
-            },
-            imprimirPlp() {
-                /*this.modalIframe = true;
-                this.urlIframe = saveleadsConfig.url_api + '/expedicaos/imprimirplp?expedicao_id=' + this.$route.params.id;*/
-                this.urlIframe = false;
-                this.modalIframe = true;
-                this.$vs.loading({
-                    container: '#pdf-with-loading'
-                })
-                axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
-                    .then((response) => {
-                        console.log(response);
-                        var blob = new Blob([response.data], {
-                            type: 'application/pdf'
-                        });
-                        var url = window.URL.createObjectURL(blob);
-                        console.log(url);
-                        this.urlIframe = url;
-                        //window.open(url);
-                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-                    })
-                    .catch((error) => {
-                        this.$vs.notify({
-                            color: 'danger',
-                            text: 'Algo deu errado. Contate o suporte'
-                        });
-                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-
-                    });
-            },
             copyRastreio(val) {
                 const thisIns = this;
                 this.$copyText(val).then(function () {
@@ -687,7 +650,6 @@
                         icon: 'icon-check-circle',
                         time: 15000
                     });
-                    window.open('https://sandbox.melhorenvio.com.br/painel/meus-envios', '_blank');
                 }, function () {
                     thisIns.$vs.notify({
                         title: 'Failed',
@@ -698,6 +660,18 @@
                         icon: 'icon-alert-circle'
                     })
                 })
+            },
+            addCarrinho(id, index){
+                this.$vs.loading({
+                    container: "#table-row-" + index,
+                    scale: 0.45
+                });
+                this.$store.dispatch('automacao/adicionarCarrinho', id).then(response => {
+                    this.$vs.notify({
+                        text: 'Código do carrinho gerado com sucesso.',
+                        color: 'success'
+                    });
+                }).finally(() => this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading"));
             },
             removeCarrinho(item, index) {
                 console.log('item, index', item, index)
@@ -734,10 +708,13 @@
                 let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
                 let retorno = null;
                 await this.$store.dispatch('automacao/geraEtiquetas', {ids, headers}).then(response => {
-                    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', response.data);
                     retorno = response;
-                    let color = response[id].status ? 'success' : 'danger';
-                    this.$vs.notify({text: response[id].message, color});
+                    let color = '';
+                    if (response[id]) {
+                        color = response[id].status ? 'success' : 'danger';
+                        this.$vs.notify({text: response[id].message, color});
+                    } else this.$vs.notify({text: "Atualize a página.", color: 'danger'});
+
                 }).finally(() => this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading"));
 
                 return retorno[id];
@@ -752,6 +729,10 @@
                     this.$vs.loading.close();
                 });
             },
+            abrirRastreio(hash) {
+                window.open('https://www.melhorrastreio.com.br/rastreio/' + hash, '_blank')
+            },
+
             //Editar endereço da automação
             editarEndereco(obj) {
                 this.endereco = {...obj.endereco};
@@ -820,6 +801,47 @@
                 this.modalCancelamento = true;
                 this.cancelamentoData.ids = this.selecteds.map(item => item.id);
             },
+            checkCancellable() {
+                this.$vs.loading({
+                    container: "#table",
+                    scale: 0.45
+                });
+                let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
+                let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
+                this.$store.dispatch('automacao/checkCancel', {ids, headers}).then(response => {
+                    //console.log(Object.entries(response));
+                    let arr = Object.entries(response);
+                    let incancellable = arr.filter((item, index) => {
+                        if (!item[1].cancellable) return item[0]
+                    });
+                    if (incancellable.length == 0) this.realizarCancelamento();
+                    else {
+                        this.$vs.dialog({
+                            color: 'warning',
+                            type: 'alert',
+                            title: `Itens incanceláveis`,
+                            text: `${this.renderIncancellables(incancellable)}`,
+                            acceptText: 'Ok, vou verificar!',
+                            accept: () => {
+                                this.$store.dispatch('expedicaos/arquivar', obj.id).then(() => {
+                                    this.atualiza();
+                                    this.$vs.notify({
+                                        color: 'success',
+                                        text: 'Arquivado realizado com sucesso'
+                                    });
+                                }).catch(erro => {
+                                    console.log('erro', erro);
+                                    this.modalGerarPlp = false;
+                                    this.$vs.notify({
+                                        color: 'danger',
+                                        text: 'Algo deu errado ao arquivar a automação. Contate o suporte'
+                                    });
+                                });
+                            }
+                        })
+                    }
+                }).finally(() => this.$vs.loading.close("#table > .con-vs-loading"));
+            },
             comprar() {
                 this.$vs.loading();
                 this.$store.dispatch('automacao/comprar', {ids: this.pagamentoData.ids, tipo_pagamento: this.pagamentoData.tipo_pagamento.id}).then(response => {
@@ -843,18 +865,12 @@
             },
             cancelarCompra() {
                 this.$vs.loading();
-                this.$store.dispatch('automacao/cancelar', {ids: this.cancelamentoData.ids}).then(response => {
+                this.$store.dispatch('automacao/cancelar', {ids: this.cancelamentoData.ids, reason: this.cancelamentoData.reason.id, description: this.cancelamentoData.description}).then(response => {
                     this.$vs.notify({
-                        text: 'Cancelamento enviado com sucesso.',
+                        text: 'Solicitação de cancelamento enviada com sucesso.',
                         color: 'success'
                     });
-
-                    this.expedicao.automacaos.forEach(auto => {
-                        response.data.data.forEach(retorno => {
-                            if (auto.id == retorno.id)
-                                auto = retorno
-                        });
-                    });
+                    this.refresh();
                 }).catch(error => {
                     this.$vs.notify({
                         text: error.response.data.message,
@@ -946,24 +962,15 @@
             },
             podePagar() {
                 let v1 = this.selecteds.some(element => {
-                    if (element.status_melhor_envio == 'empty' || element.status_melhor_envio === '' || element.status_melhor_envio === null) {
+                    if (element.status_melhor_envio !== 'pending' || element.status_melhor_envio === '' || element.status_melhor_envio === null
+                        || (element.codigo_carrinho_melhor_envio === '' && element.codigo_carrinho_melhor_envio == null) || (element.codigo_pagamento_melhor_envio !== ''
+                            && element.codigo_pagamento_melhor_envio !== null)) {
                         return true;
                     }
-                    // if (element.codigo_pagamento_melhor_envio !== '' || element.codigo_pagamento_melhor_envio == null) {
-                    //     return true;
-                    // }
                 });
 
                 if (v1) return {success: false, message: 'Verifique o status dos itens selecionados.'};
                 else return {success: true, message: 'Realizar pagamento dos itens selecionados.'};
-                // if (this.selecteds.length == 0) return {success: false, message: 'Nenhuma automação selecionada.'};
-                // this.selecteds.forEach(item => {
-                //     console.log('status foreach', item.status);
-                //     if (item.status.color == 'danger')
-                //         return {success: false, message: 'Pelo menos um dos itens selecionados possui erro.'};
-                // });
-                //
-                // return {success: true, message: 'Realizar pagamento dos itens selecionados.'};
             },
             possuiErro() {
                 let v1 = this.expedicao.automacaos.some(element => {
