@@ -337,6 +337,8 @@
                             }
                         }
                     });
+                }else{
+                  service = this.getService(this.melhorenvio.config_padrao.servico);
                 }
                 item.payload = {
                     "from": {

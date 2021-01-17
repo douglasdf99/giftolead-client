@@ -12,7 +12,7 @@ import 'firebase/auth'
 import axios from "@/axios.js"
 import defaultAxios from "axios"
 
-let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
+let urlMelhorEnvio = 'https://sandbox.melhorenvio.com.br/api/v2/me';
 
 export default {
     get({commit}, dados) {
@@ -177,16 +177,28 @@ export default {
         })
     },
     geraEtiqueta({commit}, dados) {
-        return new Promise((resolve, reject) => {
-            defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.get(`${urlMelhorEnvio}/shipment/generate`)
-                .then((response) => {
-                    resolve(response.data)
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
+      return new Promise((resolve, reject) => {
+        defaultAxios.defaults.headers.common = dados.headers;
+        defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids})
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+  imprmirMelhorEnvio({commit}, dados) {
+      return new Promise((resolve, reject) => {
+        defaultAxios.defaults.headers.common = dados.headers;
+        defaultAxios.post(`${urlMelhorEnvio}/shipment/print`, [orders=> dados.ids])
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
     },
     geraEtiquetas({commit}, dados) {
         return new Promise((resolve, reject) => {
@@ -227,6 +239,19 @@ export default {
             axios.post("/automacaos/comprarEtiquetas/", dados)
                 .then((response) => {
                     console.log('arquivar 2', response)
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
+        })
+    },
+    cancelar({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post("/automacaos/cancelarCompra/", dados)
+                .then((response) => {
+                    console.log('cancelarCompra 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
