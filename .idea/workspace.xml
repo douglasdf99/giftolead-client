@@ -3,28 +3,45 @@
   <component name="ChangeListManager">
     <list default="true" id="c1239583-b5bd-418b-8314-6d6d34a9f123" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/extensoes/moduleExtensoesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/extensoes/moduleExtensoesActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" afterDir="false" />
     </list>
+    <ignored path="$PROJECT_DIR$/dist/" />
+    <ignored path="$PROJECT_DIR$/node_modules/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ComposerSettings">
-    <execution />
+    <execution>
+      <executable />
+    </execution>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="43" column="37" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
+            <state relative-caret-position="298">
+              <caret line="368" column="35" selection-start-line="368" selection-start-column="35" selection-end-line="368" selection-end-column="35" />
               <folding>
                 <element signature="e#6241#6272#0" expanded="true" />
+                <element signature="e#12653#13341#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemExpedicoes.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="696">
+              <caret line="29" column="48" lean-forward="true" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+              <folding>
+                <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#14062#14130#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -33,12 +50,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="195" column="123" lean-forward="true" selection-start-line="195" selection-start-column="123" selection-end-line="195" selection-end-column="123" />
+            <state relative-caret-position="226">
+              <caret line="51" column="54" selection-start-line="51" selection-start-column="54" selection-end-line="51" selection-end-column="54" />
               <folding>
                 <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#23291#23856#0" />
+                <element signature="e#14062#14130#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -48,31 +65,13 @@
         <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="538">
-              <caret line="711" column="82" lean-forward="true" selection-start-line="711" selection-start-column="82" selection-end-line="711" selection-end-column="82" />
+              <caret line="219" column="51" lean-forward="true" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
               <folding>
-                <element signature="e#16070#16914#0" />
-                <element signature="e#16948#17886#0" />
-                <element signature="e#17914#18731#0" />
-                <element signature="e#19948#20319#0" />
-                <element signature="e#19055#19672#0" />
-                <element signature="e#19701#20198#0" />
-                <element signature="e#20219#20353#0" />
-                <element signature="e#20376#20500#0" />
-                <element signature="e#20541#20593#0" />
-                <element signature="e#20637#20685#0" />
-                <element signature="e#20711#20799#0" />
-                <element signature="e#20823#21918#0" />
-                <element signature="e#21941#23095#0" />
-                <element signature="e#23129#24256#0" />
-                <element signature="e#24296#25518#0" />
-                <element signature="e#25547#26203#0" />
-                <element signature="e#26224#27360#0" />
-                <element signature="e#27384#28652#0" />
-                <element signature="e#28680#29427#0" />
-                <element signature="e#29496#29757#0" />
-                <element signature="e#29779#30834#0" />
-                <element signature="e#31067#31795#0" />
-                <element signature="e#32676#33420#0" />
+                <element signature="n#style#0;n#vs-popup#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#2;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="e#16124#16209#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -103,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
-              <caret line="196" column="18" lean-forward="true" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
+            <state relative-caret-position="432">
+              <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#491#513#0" expanded="true" />
@@ -121,43 +120,43 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>table-modal</find>
-      <find>custos</find>
-      <find>custo:</find>
-      <find>vs-button</find>
-      <find>method</find>
-      <find>text</find>
-      <find>refresh</find>
-      <find>realizar</find>
-      <find>realizarPagamento</find>
-      <find>realizarpag</find>
-      <find>vx-t</find>
-      <find>podePagar</find>
-      <find>success</find>
-      <find>to</find>
-      <find>realizar pa</find>
-      <find>realixa</find>
-      <find>resolve</find>
-      <find>computed</find>
-      <find>possuiErro</find>
-      <find>podepagar</find>
-      <find>custo</find>
-      <find>getlimite</find>
-      <find>pagatr</find>
-      <find>translate</find>
-      <find>meth</find>
-      <find>gerarEtique</find>
       <find>imprimir de</find>
       <find>gerarEtiqueta</find>
       <find>headers</find>
       <find>gerarEtiquet</find>
+      <find>tipos</find>
+      <find>items</find>
+      <find>created</find>
+      <find>getexpe</find>
+      <find>expedicaos</find>
+      <find>get</find>
+      <find>getExpedicoesME</find>
+      <find>automa</find>
+      <find>name: '</find>
+      <find>nome</find>
+      <find>detalhar</find>
+      <find>counterdanger</find>
+      <find>data(</find>
+      <find>custo</find>
+      <find>calcularfrete</find>
+      <find>build</find>
+      <find>status</find>
+      <find>rea</find>
+      <find>realizarpaga</find>
+      <find>realizar paga</find>
+      <find>pagamentomo</find>
+      <find>pesquisar</find>
+      <find>submit</find>
+      <find>getAutomacoes</find>
+      <find>getItems</find>
+      <find>getitems</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -176,7 +175,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/views/tickets/Links.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/PreviewRastreio.vue" />
         <option value="$PROJECT_DIR$/src/views/automacao/EmailsCriar.vue" />
         <option value="$PROJECT_DIR$/public/index.html" />
@@ -221,12 +219,13 @@
         <option value="$PROJECT_DIR$/src/views/components/SelectResponsaveis.vue" />
         <option value="$PROJECT_DIR$/src/views/comissoes/Listagem.vue" />
         <option value="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" />
-        <option value="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" />
+        <option value="$PROJECT_DIR$/src/views/automacao/Listagem.vue" />
+        <option value="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" />
         <option value="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" />
-        <option value="$PROJECT_DIR$/src/views/automacao/Listagem.vue" />
+        <option value="$PROJECT_DIR$/src/views/expedicoes/ListagemExpedicoes.vue" />
         <option value="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" />
-        <option value="$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js" />
+        <option value="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" />
       </list>
     </option>
   </component>
@@ -245,7 +244,38 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="saveleadsnovo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsnovo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="saveleadsnovo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsnovo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="saveleadsnovo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsnovo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="saveleadsnovo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="saveleadsnovo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="expedicoes" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -296,7 +326,19 @@
       <recent name="C:\projects\saveleadsVuexy\src\store" />
     </key>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -480,22 +522,7 @@
       <workItem from="1610373685597" duration="13171000" />
       <workItem from="1610453920983" duration="20418000" />
       <workItem from="1610712855315" duration="462000" />
-      <workItem from="1610713322806" duration="20165000" />
-      <workItem from="1610802174094" duration="13248000" />
-    </task>
-    <task id="LOCAL-00073" summary="Sprint 22 - Hotfix chamadas do módulo de usuários">
-      <created>1601398117441</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1601398117441</updated>
-    </task>
-    <task id="LOCAL-00074" summary="Sprint 22 - push do dia e alterações no dashboard para utilizar uma promisse">
-      <created>1601416098865</created>
-      <option name="number" value="00074" />
-      <option name="presentableId" value="LOCAL-00074" />
-      <option name="project" value="LOCAL" />
-      <updated>1601416098865</updated>
+      <workItem from="1610713322806" duration="26129000" />
     </task>
     <task id="LOCAL-00075" summary="Sprint 23 - Ajustes da reunião (detalhado no Meistertask)">
       <created>1601495781683</created>
@@ -826,11 +853,25 @@
       <option name="project" value="LOCAL" />
       <updated>1610482665491</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="Progredindo nos procedimentos do detalhamento de expedição melhor envio">
+      <created>1610746179743</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1610746179743</updated>
+    </task>
+    <task id="LOCAL-00123" summary="Progredindo nos procedimentos do detalhamento de expedição melhor envio">
+      <created>1610889144558</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1610889144558</updated>
+    </task>
+    <option name="localTasksCounter" value="124" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="282222000" />
+    <option name="totallyTimeSpent" value="288186000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -847,8 +888,8 @@
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
       <window_info id="npm" order="1" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="2" weight="0.13326226" />
-      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.1328" />
+      <window_info id="Structure" order="3" side_tool="true" weight="0.2496" />
       <window_info anchor="bottom" id="TypeScript" order="0" />
       <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.46986666" weight="0.22073579" />
       <window_info anchor="bottom" id="Database Changes" order="2" />
@@ -898,7 +939,7 @@
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -925,10 +966,8 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real" />
     <MESSAGE value="fix campanhas e acl de admin to Administrador" />
     <MESSAGE value="fix campanhas trazendo valores e acl de admin to Adiministrador" />
     <MESSAGE value="footer fix" />
@@ -953,7 +992,33 @@
     <MESSAGE value="Progredindo na tela de Expedições Melhor Envio" />
     <MESSAGE value="Calculando frete e manipulando automações selecionadas para compra de etiqueta" />
     <MESSAGE value="Finalizando compra de etiquetas" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finalizando compra de etiquetas" />
+    <MESSAGE value="Progredindo nos procedimentos do detalhamento de expedição melhor envio" />
+    <option name="LAST_COMMIT_MESSAGE" value="Progredindo nos procedimentos do detalhamento de expedição melhor envio" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="828" y="412" key="#ESLint" />
+    <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" />
+    <state x="387" y="0" key="CommitChangelistDialog2" />
+    <state x="387" y="0" key="CommitChangelistDialog2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="592" y="218" key="FileChooserDialogImpl" />
+    <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" />
+    <state x="369" y="115" key="SettingsEditor" />
+    <state x="369" y="115" key="SettingsEditor/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" />
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2" />
+    <state x="361" y="132" key="Vcs.Push.Dialog.v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" />
+    <state x="372" y="23" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" />
+    <state x="622" y="344" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" />
+    <state x="478" y="145" width="579" height="534" key="find.popup" />
+    <state x="478" y="145" width="579" height="534" key="find.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="425" y="187" key="run.anything.popup" />
+    <state x="425" y="187" key="run.anything.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-2560.0.2560.1040@0.0.1536.824" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -992,13 +1057,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/views/tickets/Responder.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5688">
-          <caret line="241" column="21" selection-start-line="241" selection-start-column="21" selection-end-line="241" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/brindes/Campanhas.vue">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1351,26 +1409,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="43" column="37" selection-start-line="43" selection-start-column="37" selection-end-line="43" selection-end-column="37" />
-          <folding>
-            <element signature="e#6241#6272#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="171" column="43" lean-forward="true" selection-start-line="171" selection-start-column="43" selection-end-line="171" selection-end-column="43" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/automacao/Listagem.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1344">
@@ -1378,14 +1416,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue">
+    <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#491#513#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
-          <caret line="195" column="123" lean-forward="true" selection-start-line="195" selection-start-column="123" selection-end-line="195" selection-end-column="123" />
+          <caret line="19" column="51" selection-start-line="19" selection-start-column="51" selection-end-line="19" selection-end-column="51" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="51" column="54" selection-start-line="51" selection-start-column="54" selection-end-line="51" selection-end-column="54" />
           <folding>
             <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#23291#23856#0" />
+            <element signature="e#14062#14130#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListagemExpedicoes.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="696">
+          <caret line="29" column="48" lean-forward="true" selection-start-line="29" selection-start-column="48" selection-end-line="29" selection-end-column="48" />
+          <folding>
+            <element signature="n#style#0;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#3;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#14062#14130#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1393,42 +1464,24 @@
     <entry file="file://$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="538">
-          <caret line="711" column="82" lean-forward="true" selection-start-line="711" selection-start-column="82" selection-end-line="711" selection-end-column="82" />
+          <caret line="219" column="51" lean-forward="true" selection-start-line="219" selection-start-column="51" selection-end-line="219" selection-end-column="51" />
           <folding>
-            <element signature="e#16070#16914#0" />
-            <element signature="e#16948#17886#0" />
-            <element signature="e#17914#18731#0" />
-            <element signature="e#19948#20319#0" />
-            <element signature="e#19055#19672#0" />
-            <element signature="e#19701#20198#0" />
-            <element signature="e#20219#20353#0" />
-            <element signature="e#20376#20500#0" />
-            <element signature="e#20541#20593#0" />
-            <element signature="e#20637#20685#0" />
-            <element signature="e#20711#20799#0" />
-            <element signature="e#20823#21918#0" />
-            <element signature="e#21941#23095#0" />
-            <element signature="e#23129#24256#0" />
-            <element signature="e#24296#25518#0" />
-            <element signature="e#25547#26203#0" />
-            <element signature="e#26224#27360#0" />
-            <element signature="e#27384#28652#0" />
-            <element signature="e#28680#29427#0" />
-            <element signature="e#29496#29757#0" />
-            <element signature="e#29779#30834#0" />
-            <element signature="e#31067#31795#0" />
-            <element signature="e#32676#33420#0" />
+            <element signature="n#style#0;n#vs-popup#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#1;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#v-select#0;n#div#0;n#vs-prompt#2;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#16124#16209#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/store/automacao/moduleAutomacaoActions.js">
+    <entry file="file://$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
-          <caret line="196" column="18" lean-forward="true" selection-start-line="196" selection-start-column="18" selection-end-line="196" selection-end-column="18" />
+        <state relative-caret-position="298">
+          <caret line="368" column="35" selection-start-line="368" selection-start-column="35" selection-end-line="368" selection-end-column="35" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="e#491#513#0" expanded="true" />
+            <element signature="e#6241#6272#0" expanded="true" />
+            <element signature="e#12653#13341#0" />
           </folding>
         </state>
       </provider>

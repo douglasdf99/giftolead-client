@@ -13,9 +13,8 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                        <form @submit.prevent="pesquisar">
+                            <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.pesquisa" id="search_input" size="large"
                                       placeholder="Pesquisar por nome ou email do destinatário"/>
                             <!-- SEARCH LOADING -->
@@ -46,7 +45,7 @@
                     <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente')" color="warning" value="10" v-if="pagination" :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
                         <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getAutomacoes('fechado')" color="success" value="10" v-if="pagination" :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
+                    <vs-tab @click="colorx = 'success'; getExpedicoesME('fechado')" color="success" value="10" v-if="pagination" :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
                         <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
                 </vs-tabs>
@@ -221,7 +220,7 @@
 
             this.$vs.loading.close();
             this.getOpcoes();
-            this.getItems();
+            //this.getItems();
             this.getAutomacoes();
         },
         methods: {
@@ -317,7 +316,7 @@
                         color: 'success',
                         text: 'Rastreios enviados com sucesso.'
                     });
-                    this.getItems()
+                    this.getAutomacoes()
                 }).catch(erro => {
                     console.log('erro', erro);
                     this.$vs.notify({
@@ -351,7 +350,7 @@
                                 title: '',
                                 text: 'Deletado com sucesso'
                             });
-                            this.getItems();
+                            this.getAutomacoes();
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -364,10 +363,10 @@
                 })
             },
             pesquisar(e) {
-                this.data.page = 1;
+                this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
-                this.getItems();
+                this.getAutomacoes();
             },
 
             //Procedimentos
