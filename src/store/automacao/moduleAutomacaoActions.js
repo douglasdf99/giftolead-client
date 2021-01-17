@@ -191,7 +191,7 @@ export default {
   imprmirMelhorEnvio({commit}, dados) {
       return new Promise((resolve, reject) => {
         defaultAxios.defaults.headers.common = dados.headers;
-        defaultAxios.post(`${urlMelhorEnvio}/shipment/print`, [orders=> dados.ids])
+        defaultAxios.post(`${urlMelhorEnvio}/shipment/print`, {mode: "public",orders: dados.ids})
           .then((response) => {
             resolve(response.data)
           })
