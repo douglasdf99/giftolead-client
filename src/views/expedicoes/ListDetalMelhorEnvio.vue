@@ -953,7 +953,7 @@
             },
             possuiErro() {
                 let v1 = this.expedicao.automacaos.some(element => {
-                    if (element.codigo_pagamento_melhor_envio !== '' || element.codigo_pagamento_melhor_envio == null) {
+                    if (element.status_melhor_envio === '' || element.status_melhor_envio == null || element.status_melhor_envio == 'empty') {
                         return true;
                     }
                 });
