@@ -555,7 +555,6 @@
               this.$vs.loading({
                 container: '#pdf-with-loading'
               })
-              this.$vs.loading();
               let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
               let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
               this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
