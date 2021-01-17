@@ -1,6 +1,6 @@
 <template>
     <div>
-        <detalhe v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+        <detalhe-melhor-envio v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                  :data="sidebarData"/>
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
                   :data="endereco"/>
@@ -102,7 +102,7 @@
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Declaração de Conteúdo
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="editarEndereco(tr)" v-if="!expedicao.fechado">
+                                <vs-dropdown-item @click="editarEndereco(tr)" v-if="tr.status_melhor_envio === 'pending'">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
                                 </vs-dropdown-item>
@@ -242,7 +242,6 @@
 
 <script>
     import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
-    import detalhe from './Detalhe'
     import endereco from './Endereco'
     import saveleadsConfig from "../../../saveleadsConfig";
     import vSelect from 'vue-select'
@@ -250,6 +249,7 @@
     import axios from "@/axios.js"
     import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
     import moduleAutomacao from "@/store/automacao/moduleAutomacao";
+    import DetalheMelhorEnvio from "./DetalheMelhorEnvio";
 
     const {consultarCep} = require("correios-brasil");
 
@@ -257,7 +257,7 @@
         name: "ListDetalMelhorEnvio",
         //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
         components: {
-            endereco, detalhe, 'v-select': vSelect
+            DetalheMelhorEnvio, endereco, 'v-select': vSelect
         },
         data() {
             return {
@@ -514,7 +514,7 @@
                 this.modalEndereco = val
             },
             visualizar(obj) {
-                this.sidebarData = obj
+                this.sidebarData = obj;
                 this.toggleDataSidebar(true);
             },
             arquivar(obj) {
