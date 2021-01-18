@@ -5,27 +5,19 @@
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
                   :data="endereco"/>
         <div class="vx-row mb-5" v-if="melhorenvio">
+            <div class="vx-col w-full flex items-center justify-end mb-4">
+                <p class="font-bold flex items-center justify-center ">Atualizar informações
+                    <vs-button @click="refresh" color="primary" type="filled" class="ml-4 relative botao-menu text-white" icon-pack="material-icons" icon="cached"></vs-button>
+                </p>
+            </div>
             <div class="vx-col w-full">
                 <vx-card class="shadow-none">
-                    <div class="grid grid-cols-4 gap-4">
-                        <!--                        <p class="flex items-center">-->
-                        <!--                            {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}-->
-                        <!--                            <vs-icon icon-pack="material-icons" icon="fiber_manual_record"-->
-                        <!--                                     class="ml-5 icon-grande" v-bind:style="{color: expedicao.fechado ? '#4DE98A' : '#E7BE00'}"></vs-icon>-->
-                        <!--                        </p>-->
-                        <p class="flex items-center">PLP: <b class="ml-2">{{ expedicao.plp || ' Sem PLP gerada' }}</b></p>
-                        <p class="flex items-center">Contrato: <b class="ml-2">{{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</b>
-                            <vx-tooltip position="top" text="Selecionar Contrato">
-                                <vs-button color="primary" class="p-2 ml-3" @click="modalContrato = true" icon-pack="material-icons" icon="create"></vs-button>
-                            </vx-tooltip>
-                        </p>
-                        <p>Saldo: <span class="font-bold text-xl mb-3 text-success">R$ {{ saldo.toFixed(2).replace('.', ',') }}</span></p>
-                        <p>Pode gerar: <span class="font-bold text-xl mb-3 text-success">{{ limites.shipments_available }} envios</span></p>
-                        <p>Limite total: <span class="font-bold text-xl mb-3 text-success">{{ limites.shipments }} envios</span></p>
-                        <p>Custo: <span class="font-bold text-xl mb-3 text-primary">R$ {{ custo.toFixed(2).replace('.', ',') }} </span></p>
-                        <vx-tooltip text="Atualizar Status" position="top" class="flex items-center justify-center">
-                            <vs-button @click="refresh" color="primary" type="filled" class="relative botao-menu text-white" icon-pack="material-icons" icon="cached">Atualizar</vs-button>
-                        </vx-tooltip>
+                    <div class="grid grid-cols-5 gap-4 text-center">
+                        <p>Contrato: <span class="mb-3 text-lg font-bold">{{ expedicao.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio' ? 'Melhor Envio' : expedicao.contrato.nome }}</span></p>
+                        <p>Saldo: <span class="font-bold text-lg mb-3 text-success">R$ {{ saldo.toFixed(2).replace('.', ',') }}</span></p>
+                        <p>Pode gerar: <span class="font-bold text-lg mb-3 text-success">{{ limites.shipments_available }} envios</span></p>
+                        <p>Limite total: <span class="font-bold text-lg mb-3 text-success">{{ limites.shipments }} envios</span></p>
+                        <p>Custo: <span class="font-bold text-lg mb-3 text-primary">R$ {{ custo.toFixed(2).replace('.', ',') }} </span></p>
                     </div>
                 </vx-card>
             </div>
@@ -39,14 +31,6 @@
                             <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.pesquisa" id="search_input_trans" size="large"
                                       placeholder="Pesquisar"/>
-                            <!-- SEARCH LOADING -->
-                            <!-- SEARCH ICON -->
-                            <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
-                                <button type="button" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
-                                </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
-                            </div>
                         </form>
                     </div>
                 </div>
@@ -67,7 +51,7 @@
                 </div>
             </div>
         </div>
-        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="expedicao.automacaos" class="table-items vs-con-loading__container" id="table">
+        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="list" class="table-items vs-con-loading__container" id="table">
             <template slot="thead">
                 <vs-th></vs-th>
                 <vs-th>Destinatário</vs-th>
@@ -89,10 +73,7 @@
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="arquivar(tr)" v-if="!expedicao.plp && $acl.check('brinde_automacao_arquivar')">
-                                    <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
-                                    Arquivar
-                                </vs-dropdown-item>
+
                                 <!-- <vs-dropdown-item @click="imprimir(tr.codigo_carrinho_melhor_envio, indextr)" v-if="expedicao.fechado && $acl.check('brinde_automacao_imprimir')"> -->
                                 <!-- <vs-icon icon-pack="material-icons" icon="print"></vs-icon> -->
                                 <!-- Etiqueta -->
@@ -120,6 +101,10 @@
                                 <vs-dropdown-item @click="addCarrinho(tr.id, indextr)" v-if="tr.status_melhor_envio == 'canceled'">
                                     <vs-icon icon-pack="material-icons" icon="add_shopping_cart"></vs-icon>
                                     Adicionar ao Carrinho
+                                </vs-dropdown-item>
+                                <vs-dropdown-item @click="arquivar(tr)" v-if="!expedicao.plp && $acl.check('brinde_automacao_arquivar')">
+                                    <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
+                                    Arquivar
                                 </vs-dropdown-item>
                             </vs-dropdown-menu>
                         </vs-dropdown>
@@ -149,7 +134,7 @@
             </template>
         </vs-table>
 
-        <transition name="fade">
+        <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="realizarPagamento" :disabled="!podePagar.success" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">
@@ -174,20 +159,6 @@
         <vs-popup id="pdf-with-loading" class="popup-iframe vs-con-loading__container" style="overflow: hidden" title="Imprimindo etiquetas" :active.sync="modalIframe">
             <iframe v-if="urlIframe" :src="urlIframe" width="100%" height="100%" title="Imprimindo Etiqueta"></iframe>
         </vs-popup>
-        <vs-prompt
-                @cancel="modalContrato = false"
-                @accept="update"
-                acceptText="Salvar"
-                cancelText="Cancelar"
-                :title="'Trocar o contrato'"
-                :max-width="'600px'"
-                :active.sync="modalContrato">
-            <div class="con-exemple-prompt">
-                <span class="font-regular mb-2">Selecione</span>
-                <v-select v-model="selectedContrato" :class="'select-large-base'" :clearable="false"
-                          style="background-color: white" :options="contratos" v-validate="'required'" name="produtoUpsell"/>
-            </div>
-        </vs-prompt>
         <vs-prompt
                 @cancel="modalPagamento = false"
                 @accept="comprar"
@@ -291,11 +262,6 @@
                 // Data Sidebar
                 addNewDataSidebar: false,
                 sidebarData: {},
-
-                //Modal Contratos
-                modalContrato: false,
-                contratos: [],
-                selectedContrato: {},
 
                 //Modal Pagamento
                 modalPagamento: false,
@@ -931,7 +897,7 @@
             },
             podeGerar() {
                 let v1 = this.selecteds.some(element => {
-                    if (element.rastreio_melhor_envio || !element.codigo_carrinho_melhor_envio) {
+                    if (element.rastreio_melhor_envio && !element.codigo_carrinho_melhor_envio) {
                         return true; //dispara erro
                     }
                 });
@@ -946,7 +912,7 @@
                     }
                 });
                 return v1
-            }
+            },
         },
         watch: {
             endereco: {
@@ -972,6 +938,11 @@
                     }
                 },
                 deep: true
+            },
+            dados: {
+                handler: function (e){
+                    console.log(e.pesquisa)
+                }
             }
         }
     }
