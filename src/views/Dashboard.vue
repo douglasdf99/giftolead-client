@@ -11,7 +11,7 @@
     <div id="dashboard-analytics">
         <!-- Topo -->
         <div class="vx-row absolute row-top-dashboard">
-            <div class="vx-col w-full mb-base">
+            <div class="vx-col w-full mb-base lg:py-0 lg:px-1 p-0">
                 <vx-card slot="no-body" class="greet-user rounded-none card-top-dashboard">
                     <div class="vx-row">
                         <div class="vx-col w-full mb-3">
@@ -174,9 +174,9 @@
                                     </vx-tooltip>
                                 </div>
                             </div>
-                            <div class="vx-col w-7/12">
+                            <div class="vx-col w-7/12 text-center">
                                 <p class="font-bold">{{ item.lead.nome }}</p>
-                                <vs-chip color="primary" class="text-white font-bold p-2 pr-4 mt-1">{{ item.produto.nome }}</vs-chip>
+                                <vs-chip color="primary" class="text-white font-bold p-2 pr-4 mt-1 lg:ml-5">{{ item.produto.nome }}</vs-chip>
                             </div>
                             <div class="vx-col w-1/12">
                                 <p class="mb-3">
@@ -685,7 +685,7 @@ export default {
 }
 
 .main-content-row {
-    margin-top: 30vh;
+    margin-top: 40vh;
 }
 
 .row-top-dashboard {
@@ -718,15 +718,22 @@ export default {
         }
     }
 
-    @media(min-width: 1366px) and (max-width: 1400px) {
+    @media(min-width: 1300px) {
         .main-content-row {
-            margin-top: 40vh;
+            margin-top: 30vh;
         }
     }
 
     @media(max-width: 576px) {
+        .row-top-dashboard {
+            width: 100vw;
+            margin: 0 auto;
+        }
         .decore-left, .decore-right {
             width: 140px;
+        }
+        .main-content-row {
+            margin-top: 45vh;
         }
     }
 }
