@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Fix configuração de emails da automação de brinde">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/assets/scss/vuexy/layout/_layoutVertical.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/vuexy/layout/_layoutVertical.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -269,14 +270,7 @@
       <workItem from="1610109321051" duration="1987000" />
       <workItem from="1610541414446" duration="21828000" />
       <workItem from="1610627814806" duration="21475000" />
-      <workItem from="1610727953793" duration="2801000" />
-    </task>
-    <task id="LOCAL-00066" summary="Sprint 22 - Melhoria da galeria de fotos anexadas nas comissões, agora aparecendo na tela de aprovação também.">
-      <created>1600883904647</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1600883904647</updated>
+      <workItem from="1610727953793" duration="4289000" />
     </task>
     <task id="LOCAL-00067" summary="inicio modulo de sino de notificação">
       <created>1600894188894</created>
@@ -614,7 +608,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605207664375</updated>
     </task>
-    <option name="localTasksCounter" value="115" />
+    <task id="LOCAL-00115" summary="Correções de responsividade">
+      <created>1610975996975</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1610975996975</updated>
+    </task>
+    <option name="localTasksCounter" value="116" />
     <servers />
   </component>
   <component name="TodoView">
@@ -657,7 +658,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sprint 24 - Aplicando acl" />
     <MESSAGE value="Sprint 24 - Finalizando primeira aplicação de ACL em todo o sistema. Correção de BUG na tela de configuração de email de Campanha de Carrinho." />
     <MESSAGE value="Sprint 24 - finalizada primeira versão do menu rápido" />
     <MESSAGE value="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real" />
@@ -682,7 +682,8 @@
     <MESSAGE value="Feature, reenviar mensagem da automação via Whatsapp" />
     <MESSAGE value="Fix listagem de automação ao reenviar email e chatnav do ticket ajustado" />
     <MESSAGE value="Hotfix no crud de  produto, imagem certa no histórico da conversa via whatsapp do ticket e hotifx na tela de automação ao autalizar confg de email" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hotfix no crud de  produto, imagem certa no histórico da conversa via whatsapp do ticket e hotifx na tela de automação ao autalizar confg de email" />
+    <MESSAGE value="Correções de responsividade" />
+    <option name="LAST_COMMIT_MESSAGE" value="Correções de responsividade" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

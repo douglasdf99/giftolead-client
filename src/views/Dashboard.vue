@@ -15,7 +15,7 @@
                 <vx-card slot="no-body" class="greet-user rounded-none card-top-dashboard">
                     <div class="vx-row">
                         <div class="vx-col w-full mb-3">
-                            <p class="mb-6 text-2xl font-bold text-white">Meu painel</p>
+                            <p class="mb-0 text-2xl font-bold text-white">Meu painel</p>
                         </div>
                     </div>
                     <div class="vx-row mt-3">
@@ -753,5 +753,8 @@ export default {
 /* Handle */
 ::-webkit-scrollbar-thumb {
     z-index: 5000;
+}
+[dir] .main-vertical.navbar-sticky .router-content {
+    margin: 20.5rem 0 !important;
 }
 </style>
