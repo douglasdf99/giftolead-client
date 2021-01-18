@@ -75,7 +75,6 @@
                 <vs-th>Rastreio ME</vs-th>
                 <vs-th>CEP</vs-th>
                 <vs-th>Status</vs-th>
-                <vs-th>Eventos</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" class="vs-con-loading__container" :id="'table-row-' + indextr">
@@ -94,14 +93,10 @@
                                     <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
                                     Arquivar
                                 </vs-dropdown-item>
-                                <!--                                <vs-dropdown-item @click="imprimir(tr.codigo_carrinho_melhor_envio, indextr)" v-if="expedicao.fechado && $acl.check('brinde_automacao_imprimir')">-->
-                                <!--                                    <vs-icon icon-pack="material-icons" icon="print"></vs-icon>-->
-                                <!--                                    Etiqueta-->
-                                <!--                                </vs-dropdown-item>-->
-                                <vs-dropdown-item @click="imprimirDeclaracao(tr.id)" v-if="expedicao.fechado">
-                                    <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
-                                    Declaração de Conteúdo
-                                </vs-dropdown-item>
+                                <!-- <vs-dropdown-item @click="imprimir(tr.codigo_carrinho_melhor_envio, indextr)" v-if="expedicao.fechado && $acl.check('brinde_automacao_imprimir')"> -->
+                                <!-- <vs-icon icon-pack="material-icons" icon="print"></vs-icon> -->
+                                <!-- Etiqueta -->
+                                <!-- </vs-dropdown-item> -->
                                 <vs-dropdown-item @click="editarEndereco(tr)" v-if="tr.status_melhor_envio === 'pending'">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
@@ -150,13 +145,6 @@
                                      class="icon-grande" v-bind:class="`text-${tr.status.color}`"></vs-icon>
                         </vx-tooltip>
                     </vs-td>
-                    <vs-td>
-                        <div class="flex justify-center items-center">
-                            <vx-tooltip v-if="tr.send_canceled" text="Solicitado cancelamento" position="top">
-                                <i class="material-icons font-bold text-danger">cancel_presentation</i>
-                            </vx-tooltip>
-                        </div>
-                    </vs-td>
                 </vs-tr>
             </template>
         </vs-table>
@@ -174,10 +162,8 @@
                             Cancelar Compra
                         </vx-tooltip>
                     </vs-button>
-                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirPlp" v-else>Imprimir PLP</vs-button>
                     <!--                    <vs-button color="primary" class="float-right text-white px-6 py-4" @click="imprimirEtiquetas" v-if="expedicao">Imprimir Etiquetas</vs-button>-->
-                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirDeclaracao(null)">Imprimir Declaração de conteúdo</vs-button>
-                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="gerarEtiquetas()">Gerar Etiquetas</vs-button>
+                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" :disabled="!podeGerar.success" @click="gerarEtiquetas()">Gerar Etiquetas</vs-button>
                     <vs-button class="float-left ml-3  px-6 py-4 mx-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
                                @click="$router.push({path: '/brindes/expedicoes-melhor-envio'})">
                         Voltar
@@ -591,37 +577,6 @@
                     this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
                 });
             },
-            imprimirDeclaracao(automacao) {
-                this.urlIframe = false;
-                this.modalIframe = true;
-                this.$vs.loading({
-                    container: '#pdf-with-loading'
-                })
-                let params = {
-                    'expedicao_id': this.expedicao.id,
-                    'automacao_id': automacao
-                };
-                axios.get("expedicaos/declaracaodeconteudo", {params: params, responseType: 'arraybuffer'})
-                    .then((response) => {
-                        console.log(response);
-                        var blob = new Blob([response.data], {
-                            type: 'application/pdf'
-                        });
-                        var url = window.URL.createObjectURL(blob);
-                        console.log(url);
-                        this.urlIframe = url;
-                        //window.open(url);
-                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-                    })
-                    .catch((error) => {
-                        this.$vs.notify({
-                            color: 'danger',
-                            text: 'Algo deu errado. Contate o suporte'
-                        });
-                        this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
-
-                    });
-            },
             enviarRastreio(id) {
                 this.$vs.loading();
                 this.$store.dispatch('expedicaos/enviarRastreio', {expedicao_id: this.expedicao.id, automacao_id: id}).then(() => {
@@ -715,19 +670,21 @@
                         this.$vs.notify({text: response[id].message, color});
                     } else this.$vs.notify({text: "Atualize a página.", color: 'danger'});
 
+                    this.refresh();
                 }).finally(() => this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading"));
 
                 return retorno[id];
             },
             gerarEtiquetas() {
-                this.$vs.loading();
+                this.$vs.loading({
+                    container: "#table",
+                    scale: 0.45
+                });
                 let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
                 let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
                 this.$store.dispatch('automacao/geraEtiquetas', {ids, headers}).then(response => {
-                    console.log('Voltou pro front', response)
-                }).finally(() => {
-                    this.$vs.loading.close();
-                });
+                    this.refresh();
+                }).finally(() => this.$vs.loading.close("#table > .con-vs-loading"));
             },
             abrirRastreio(hash) {
                 window.open('https://www.melhorrastreio.com.br/rastreio/' + hash, '_blank')
@@ -972,6 +929,16 @@
                 if (v1) return {success: false, message: 'Verifique o status dos itens selecionados.'};
                 else return {success: true, message: 'Realizar pagamento dos itens selecionados.'};
             },
+            podeGerar() {
+                let v1 = this.selecteds.some(element => {
+                    if (element.rastreio_melhor_envio || !element.codigo_carrinho_melhor_envio) {
+                        return true; //dispara erro
+                    }
+                });
+
+                if (v1) return {success: false, message: 'Pelo menos um dos itens selecionados não podem gerar etiqueta.'};
+                else return {success: true, message: 'Gerar etiquetas dos itens selecionados.'};
+            },
             possuiErro() {
                 let v1 = this.expedicao.automacaos.some(element => {
                     if (element.status_melhor_envio === '' || element.status_melhor_envio == null || element.status_melhor_envio == 'empty') {
@@ -986,6 +953,22 @@
                 handler: function (e) {
                     if (e.cep != this.antigoCep) {
                         this.valido = false;
+                    }
+                },
+                deep: true
+            },
+            podeGerar: {
+                handler: function (e){
+                    if(!e.success){
+                        this.$vs.notify({text: e.message, color: 'warning', time: 3000});
+                    }
+                },
+                deep: true
+            },
+            podePagar: {
+                handler: function (e){
+                    if(!e.success){
+                        this.$vs.notify({text: e.message, color: 'warning', time: 3000});
                     }
                 },
                 deep: true
