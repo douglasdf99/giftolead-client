@@ -277,6 +277,8 @@ export default {
         peso: 0,
         integracao: {},
         tipo: true,
+        contrato_id: true,
+        contrato_type: true,
         contrato: {}
       },
       tipo_caixa: false,
