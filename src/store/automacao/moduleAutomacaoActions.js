@@ -12,7 +12,7 @@ import 'firebase/auth'
 import axios from "@/axios.js"
 import defaultAxios from "axios"
 
-let urlMelhorEnvio = 'https://sandbox.melhorenvio.com.br/api/v2/me';
+let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
 
 export default {
     get({commit}, dados) {

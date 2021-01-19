@@ -66,12 +66,12 @@
                 <div class="vx-col w-6/12">
                   <p class="gray-wdc mb-2 font-bold">Bairro</p>
                   <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.bairro"
-                            :disabled="true"/>
+                            :disabled="habEndereco"/>
                 </div>
                 <div class="vx-col w-6/12">
                   <p class="gray-wdc mb-2 font-bold">Endereco</p>
                   <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.endereco"
-                            :disabled="true"/>
+                            :disabled="habEndereco"/>
                 </div>
                 <div class="vx-col w-6/12">
                   <p class="gray-wdc mb-2 font-bold">Complemento</p>
@@ -146,6 +146,8 @@
           complemento:'',
           numero:''
         },
+        habBairro: true,
+        habEndereco: true,
         valido: false,
         antigoCep: '',
       }
@@ -269,6 +271,14 @@
           this.endereco.ddd = this.endereco.telefone.substring(0, 2);
           this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
 
+          if (this.endereco.bairro !== null && this.endereco.bairro !== '') {
+            this.habBairro = false
+          }
+          if (this.endereco.logradouro !== null && this.endereco.logradouro !== '') {
+            this.habEndereco = false
+          }
+
+
           this.antigoCep = this.endereco.cep;
           if (this.endereco.cep) {
             this.valido = true;
@@ -301,6 +311,14 @@
             this.endereco.bairro = this.removeAccents(response.bairro);
             this.endereco.endereco = this.removeAccents(response.logradouro);
             this.endereco.estado = this.removeAccents(response.uf);
+
+            if (response.bairro !== null && response.bairro !== '') {
+              this.habBairro = false
+            }
+            if (response.logradouro !== null && response.logradouro !== '') {
+              this.habEndereco = false
+            }
+
           }).catch(erro => {
             console.log(erro);
             this.$vs.notify({

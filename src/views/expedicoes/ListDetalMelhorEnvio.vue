@@ -142,7 +142,7 @@
                             Realizar Pagamento
                         </vx-tooltip>
                     </vs-button>
-                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="checkCancellable" :disabled="!podePagar.success" v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">
+                    <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="checkCancellable"  v-if="!expedicao.plp && $acl.check('brinde_expedicao_gerarplp')">
                         <vx-tooltip :text="podePagar.message" position="top">
                             Cancelar Compra
                         </vx-tooltip>

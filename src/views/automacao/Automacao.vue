@@ -185,11 +185,15 @@ export default {
         },
         //Editar endereço da automação
         editarEndereco(obj) {
-            this.automacaoSelected = {...obj};
+
+          this.automacaoSelected = {...obj};
             if (obj.endereco) {
+
                 this.endereco = {...obj.endereco};
                 this.endereco.ddd = this.endereco.telefone.substring(0, 2);
-                this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
+                thisd.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
+            }else{
+              this.endereco = null;
             }
 
             this.modalEndereco = true;
