@@ -317,18 +317,17 @@ export default {
         },
         codigohtml(value) {
             this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
-    <label for="nome">Nome</label>
-    <input type="text" name="nome" id="nome" placeholder="Nome completo">
-    <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
-    <label for="email">Whatsapp</label>
-    <input type="text" name="ddi" id="ddi" value="+55"><!-- Discagem direta internacional ex. +55 -->
-    <input type="text" name="ddd" id="ddd"><!-- Discagem direta a distância ex. 061 -->
-    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp"> <!-- Dígitos do telefone desconsiderando o DDD -->
-    <button type="submit">Enviar</button>
-</form>
-                `;
+                <form accept-charset="UTF - 8" action="${this.url_api('campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+                    <label for="nome">Nome</label>
+                    <input type="text" name="nome" id="nome" placeholder="Nome completo">
+                    <label for="email">E-mail</label>
+                    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
+                    <label for="email">Whatsapp</label>
+                    <input type="text" name="ddi" id="ddi" value="+55">
+                    <input type="text" name="ddd" id="ddd">
+                    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+                    <button type="submit">Enviar</button>
+                </form>`;
             return this.html;
         },
         copyText() {
