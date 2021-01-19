@@ -130,7 +130,7 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('dados enviados', dados)
       axiosRaiz.defaults.headers.common = dados.config.headers
-      axiosRaiz.get(url_melhorenvio, dados.params)
+      axiosRaiz.get(url_melhorenvio +'/api/v2/me', dados.params)
         .then((response) => {
           console.log('resposta melhorenvio', response);
           resolve(response)
