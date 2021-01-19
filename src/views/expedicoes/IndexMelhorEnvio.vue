@@ -39,7 +39,7 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getAutomacoes(); activeTab = 1" color="warning" value="10" v-if="pagination" :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
+                    <vs-tab @click="colorx = 'warning'; getAutomacoes('pendente'); activeTab = 1" color="warning" value="10" v-if="pagination" :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
                         <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacoes" tipo="pendente"></listagemAutomacoes>
                     </vs-tab>
                     <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente'); activeTab = 2" color="warning" value="10" v-if="pagination" :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
@@ -261,10 +261,11 @@
                     this.$vs.loading.close();
                 });
             },
-            getAutomacoes(tipo = this.dados.tipo) {
+            getAutomacoes(status = 'pendente') {
                 this.$vs.loading();
                 this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
                 this.dados.tipo = null;
+                this.dados.status = status;
                 this.$store.dispatch('automacao/get', this.dados).then(response => {
                     console.log('respostas com todas as automacoes', response);
                     this.automacoes = response.data;

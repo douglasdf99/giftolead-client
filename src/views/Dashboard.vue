@@ -18,7 +18,7 @@
                             <p class="mb-0 text-2xl font-bold text-white">Meu painel</p>
                         </div>
                     </div>
-                    <div class="vx-row mt-3">
+                    <div class="vx-row">
                         <div class="vx-col w-5/12">
                             <div class="vx-row items-center">
                                 <div class="vx-col w-1/4 text-center">
@@ -138,7 +138,7 @@
                 </div>
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
-                <VuePerfectScrollbar class="scroll-area--data-list-add-new">
+                <VuePerfectScrollbar class="scroll-area--data-list-add-new" v-if="false">
                     <place-holder-loading-dashboard tipo="ultimos_tickets" v-if="!ultimos_tickets_pesquisados"/>
                     <vx-card v-for="item in ultimos_tickets" class="mb-base" v-else style="width: 96%">
                         <div class="vx-row mb-4">
@@ -158,7 +158,8 @@
                                              v-else-if="item.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
                                         <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente"
                                              v-else-if="item.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                                        <img :src="null" width="40px" class="ml-2 rounded-full agente" v-else :style="{ backgroundImage: 'url('+get_img_api(item.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
+                                        <img :src="null" width="40px" class="ml-2 rounded-full agente" v-else
+                                             :style="{ backgroundImage: 'url('+get_img_api(item.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
 
                                     </vx-tooltip>
                                     <vx-tooltip position="top" :text="'Última Ação | ' + nameCauser(item.ultima_acao)" style="margin-left: -15px" class="img-criador">
@@ -196,10 +197,12 @@
                         <p class="font-bold text-primary text-lg cursor-pointer" @click="loadMoreTicket">Carregar mais...</p>
                     </div>
                 </VuePerfectScrollbar>
+                <vx-card class="mb-base">
+                    <p>Últimos Tickets em que você participou</p>
+                    <nenhum-registro :add="false" module="Dashboard" img-width="100px" img-height="100px"/>
+                </vx-card>
             </div>
-
         </div>
-
         <div class="vx-row">
             <div class="vx-col w-full">
                 <place-holder-loading-dashboard v-if="this.chart_media_options.xaxis.categories.length == 0" tipo="media"/>
@@ -754,6 +757,7 @@ export default {
 ::-webkit-scrollbar-thumb {
     z-index: 5000;
 }
+
 [dir] .main-vertical.navbar-sticky .router-content {
     margin: 20.5rem 0 !important;
 }

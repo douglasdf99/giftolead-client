@@ -22,10 +22,6 @@ if (!permissoes){
   permissoes['public'] = new AclRule("public").or("Administrador").or("editor").generate()
 }
 
-
-console.log('permissoes no acl',permissoes)
-
-
 export default new AclCreate({
         initial: initialRole,
         notfound: "/nao-autorizado",

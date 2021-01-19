@@ -56,7 +56,7 @@ const getUserInfo = () => {
 // State
 // /////////////////////////////////////////////
 let pages = paginas.pages;
-if(localStorage.getItem('userInfo')){
+if (localStorage.getItem('userInfo')) {
     let user = JSON.parse(localStorage.getItem('userInfo'));
     pages = JSON.parse(user.menu_rapido)
     console.log('usuario state', user)
@@ -101,7 +101,12 @@ const state = {
 
         return (localStorage.getItem('userInfo') && isAuthenticated)
     },
-    globalSearch: ''
+    globalSearch: '',
+    extensoes: {
+        melhorEnvio: {installed: false},
+        slack: {installed: false},
+        zenvia: {installed: false}
+    }
 }
 
 export default state

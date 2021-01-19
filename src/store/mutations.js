@@ -100,9 +100,9 @@ const mutations = {
     // ////////////////////////////////////////////
     // UI
     // ////////////////////////////////////////////
-  CHANGE_URL_BACK (state, url) {
-    state.urlBack = url
-  },
+    CHANGE_URL_BACK(state, url) {
+        state.urlBack = url
+    },
     TOGGLE_CONTENT_OVERLAY(state, val) {
         state.bodyOverlay = val
     },
@@ -168,6 +168,17 @@ const mutations = {
     },
     SET_GLOBAL_SEARCH(state, val) {
         state.globalSearch = val;
+    },
+    SET_EXTENSAO(state, val) {
+        if (val.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio") {
+            state.extensoes.melhorEnvio = {...val.extensao, installed: true};
+        }
+        if (val.extensao_type === "App\\Models\\Extensoes\\Slack") {
+            state.extensoes.slack = {...val.extensao, installed: true};
+        }
+        if (val.extensao_type === "App\\Models\\Extensoes\\TotalVoice") {
+            state.extensoes.zenvia = {...val.extensao, installed: true};
+        }
     }
 }
 

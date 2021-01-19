@@ -323,7 +323,9 @@ export default {
     <label for="email">E-mail</label>
     <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
-    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <input type="text" name="ddi" id="ddi" value="+55"><!-- Discagem direta internacional ex. +55 -->
+    <input type="text" name="ddd" id="ddd"><!-- Discagem direta a distância ex. 061 -->
+    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp"> <!-- Dígitos do telefone desconsiderando o DDD -->
     <button type="submit">Enviar</button>
 </form>
                 `;

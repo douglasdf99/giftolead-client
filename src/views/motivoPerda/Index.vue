@@ -149,7 +149,7 @@
             deletar(id) {
                 this.$vs.dialog({
                     color: 'danger',
-                    title: `Deletar motivo de perda id: ${id}`,
+                    title: `Deletar motivo de perda`,
                     text: 'Deseja deletar este motivo? Procedimento irreversível',
                     acceptText: 'Sim, deletar!',
                     accept: () => {
@@ -157,7 +157,6 @@
                         this.$store.dispatch('deleteItem', {id: id, rota: 'tipo_de_perdas'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
-                                title: 'Sucesso',
                                 text: 'O motivo foi deletada com sucesso'
                             });
                             this.getItems();
@@ -165,8 +164,7 @@
                             console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: 'Algo deu errado ao deletar o motivo de perda. Contate o suporte.'
                             })
                         })
                     }

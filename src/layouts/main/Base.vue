@@ -156,7 +156,8 @@ import themeConfig from '@/../themeConfig.js'
 import VNavMenu from '@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue'
 import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue";
 import axios from 'axios'
-import { AclRule } from 'vue-acl'
+import {AclRule} from 'vue-acl'
+import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
 
 const VxTour = () => import('@/components/VxTour.vue')
 
@@ -217,6 +218,7 @@ export default {
                     }
                 },
             ],
+            subdomain: window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app'
         }
     },
     watch: {
@@ -320,12 +322,22 @@ export default {
         toggleHideScrollToTop(val) {
             this.hideScrollToTop = val
         },
-        getMenus(){
+        getMenus() {
             this.$store.dispatch('getMainMenu').then(response => {
                 this.navMenuItems = [...response];
                 console.log('nav', this.navMenuItems)
             })
-        }
+        },
+        getExtensoes() {
+            this.$store.dispatch('extensoes/get', this.subdomain).then(response => {
+                let arr = response.extensoes;
+                if (arr.length > 0) {
+                    arr.forEach(item => {
+                        this.$store.dispatch('setExtensao', item)
+                    });
+                }
+            });
+        },
     },
     created() {
         const color = this.navbarColor == "#fff" && this.isThemeDark ? "#10163a" : this.navbarColor
@@ -352,7 +364,13 @@ export default {
             this.dynamicWatchers.rtl()
         })
 
+        if (!moduleExtensoes.isRegistered) {
+            this.$store.registerModule('extensoes', moduleExtensoes)
+            moduleExtensoes.isRegistered = true
+        }
+
         this.getMenus();
+        this.getExtensoes();
     },
     beforeDestroy() {
         Object.keys(this.dynamicWatchers).map(i => {
@@ -361,9 +379,9 @@ export default {
         })
     },
     mounted() {
-      var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+        var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
-      this.$echo.channel(`${subdomain}_permissions`).listen('PermissionEvent', (e) => {
+        this.$echo.channel(`${subdomain}_permissions`).listen('PermissionEvent', (e) => {
             console.log('permissoes event', e);
             let permissoes = {};
             e.permissions.forEach(item => {
@@ -390,9 +408,9 @@ export default {
             this.getMenus();
         });
 
-      let userInfo = JSON.parse(localStorage.getItem("userInfo"));
+        let userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
-      this.$echo.channel(`${subdomain}_profile_${userInfo.uid}`).listen('ProfileEvent', (e) => {
+        this.$echo.channel(`${subdomain}_profile_${userInfo.uid}`).listen('ProfileEvent', (e) => {
             console.log('user event', e);
             let userInfo = JSON.parse(localStorage.getItem("userInfo"));
             console.log(userInfo);

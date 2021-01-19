@@ -731,6 +731,12 @@ th > .vs-table-text {
     filter: grayscale(1);
 }
 
+.disabled {
+    filter: saturate(0%);
+    opacity: .3;
+    cursor: no-drop !important;
+}
+
 .div-finalizacoes {
     padding: 2rem 6rem;
     width: 100%;

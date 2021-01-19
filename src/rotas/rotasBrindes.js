@@ -90,9 +90,9 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes',
-        name: 'brindes-expedicoes',
-        component: () => import('@/views/expedicoes/Index.vue'),
+        path: '/brindes/expedicoes-escolha',
+        name: 'brindes-expedicoes-escolha',
+        component: () => import('@/views/expedicoes/Escolha.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
@@ -100,6 +100,23 @@ const rotasBrindes = [
                 {title: 'Expedição de Objetos', active: true},
             ],
             pageTitle: 'Expedição de Objetos',
+            rule: 'brinde_expedicao',
+            pai: 'brindes',
+            subTitle: 'Brindes',
+            submenu: subbrindes
+        },
+    },
+    {
+        path: '/brindes/expedicoes',
+        name: 'brindes-expedicoes',
+        component: () => import('@/views/expedicoes/Index.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes'},
+                {title: 'Expedição de Objetos - Correios', active: true},
+            ],
+            pageTitle: 'Expedição de Objetos - Correios',
             rule: 'brinde_expedicao',
             pai: 'brindes',
             subTitle: 'Brindes',
@@ -125,7 +142,7 @@ const rotasBrindes = [
     },
     {
         path: '/brindes/expedicoes-melhor-envio',
-        name: 'brindes-expedicoes',
+        name: 'brindes-expedicoes-melhor-envio',
         component: () => import('@/views/expedicoes/IndexMelhorEnvio.vue'),
         meta: {
             breadcrumb: [

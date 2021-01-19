@@ -27,8 +27,8 @@
                                     <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                     Editar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="" v-if="$acl.check('configuracao_funcao_editar')">
-                                    <vs-icon icon-pack="material-icons" icon="trash"></vs-icon>
+                                <vs-dropdown-item @click="deletar(tr.id)" v-if="$acl.check('configuracao_funcao_editar')">
+                                    <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                     Excluir
                                 </vs-dropdown-item>
                             </vs-dropdown-menu>
@@ -76,13 +76,36 @@ export default {
     methods: {
         getItems() {
             this.$store.dispatch('funcoes/get').then(response => {
-                console.log('olha elas aí', response);
                 this.items = response;
                 this.$vs.loading.close();
             });
         },
         calcelar() {
             this.$router.push({name: 'configuracoes-geral'})
+        },
+        deletar(id) {
+            this.$vs.dialog({
+                color: 'danger',
+                title: `Deletar Função`,
+                text: 'Deseja deletar esta função? Procedimento irreversível',
+                acceptText: 'Sim, deletar!',
+                accept: () => {
+                    this.$vs.loading();
+                    this.$store.dispatch('deleteItem', {id: id, rota: 'roles'}).then(() => {
+                        this.$vs.notify({
+                            color: 'success',
+                            text: 'O motivo foi deletada com sucesso'
+                        });
+                        this.getItems();
+                    }).catch(erro => {
+                        console.log(erro)
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado ao deletar o motivo de perda. Contate o suporte.'
+                        })
+                    })
+                }
+            })
         },
     }
 }

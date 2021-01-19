@@ -4,11 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Correções de responsividade">
+      <change afterPath="$PROJECT_DIR$/src/views/expedicoes/Escolha.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/scss/vuexy/layout/_layoutVertical.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/vuexy/layout/_layoutVertical.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/acl/acl.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/acl/acl.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/css/base.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/css/base.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/rotasBrindes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasBrindes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaBrindes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaBrindes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/actions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/actions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/mutations.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/mutations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/state.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/state.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/brindes/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/brindes/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/components/NenhumRegistro.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/components/NenhumRegistro.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/configuracoes/Funcoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/configuracoes/Funcoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/embalagens/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/embalagens/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/funcoes/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/funcoes/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/motivoPerda/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/motivoPerda/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +69,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
@@ -63,9 +78,10 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../liveclass_react" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images/util" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -84,11 +100,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projetos\saveleads3_vue\src\assets\images\util" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components\whatsapp" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
       <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
       <recent name="C:\projects\saveleadsVuexy\src\views" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\pages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\pages" />
@@ -270,21 +286,8 @@
       <workItem from="1610109321051" duration="1987000" />
       <workItem from="1610541414446" duration="21828000" />
       <workItem from="1610627814806" duration="21475000" />
-      <workItem from="1610727953793" duration="4289000" />
-    </task>
-    <task id="LOCAL-00067" summary="inicio modulo de sino de notificação">
-      <created>1600894188894</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1600894188894</updated>
-    </task>
-    <task id="LOCAL-00068" summary="Sprint 22 - finalizada primeira versão das notificações, com listagem e atualização em tempo real">
-      <created>1600969763419</created>
-      <option name="number" value="00068" />
-      <option name="presentableId" value="LOCAL-00068" />
-      <option name="project" value="LOCAL" />
-      <updated>1600969763419</updated>
+      <workItem from="1610727953793" duration="19735000" />
+      <workItem from="1611059909758" duration="14263000" />
     </task>
     <task id="LOCAL-00069" summary="Sprint 22 - Nova extensão do Slack implementada">
       <created>1600977241110</created>
@@ -615,7 +618,21 @@
       <option name="project" value="LOCAL" />
       <updated>1610975996975</updated>
     </task>
-    <option name="localTasksCounter" value="116" />
+    <task id="LOCAL-00116" summary="Correções de responsividade">
+      <created>1610977541397</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1610977541397</updated>
+    </task>
+    <task id="LOCAL-00117" summary="Correções de responsividade">
+      <created>1610990213589</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1610990213590</updated>
+    </task>
+    <option name="localTasksCounter" value="118" />
     <servers />
   </component>
   <component name="TodoView">

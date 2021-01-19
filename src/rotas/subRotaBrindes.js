@@ -21,19 +21,19 @@ const subbrindes = [
         can: 'brinde_automacao'
     },
     {
-        url: '/brindes/expedicoes',
+        url: '/brindes/expedicoes-escolha',
         name: "Expedições",
         slug: "brindes-expedicoes",
         icon: 'local_shipping',
         can: 'brinde_expedicao'
     },
-    {
-        url: '/brindes/expedicoes-melhor-envio',
-        name: "Expedições Melhor Envio",
-        slug: "brindes-expedicoes-melhorenvio",
-        icon: 'local_shipping',
-        can: 'brinde_expedicao'
-    },
+    // {
+    //     url: '/brindes/expedicoes-melhor-envio',
+    //     name: "Expedições Melhor Envio",
+    //     slug: "brindes-expedicoes-melhorenvio",
+    //     icon: 'local_shipping',
+    //     can: 'brinde_expedicao'
+    // },
     {
         url: '/brindes/automacao/emails',
         name: "Configurar e-mails",

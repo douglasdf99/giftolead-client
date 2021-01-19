@@ -164,7 +164,10 @@ const actions = {
                 resolve(response.data.data)
             }).catch(erro => {reject(erro)});
         })
-    }
+    },
+    setExtensao({commit}, extensao) {
+        commit('SET_EXTENSAO', extensao)
+    },
 };
 
 export default actions

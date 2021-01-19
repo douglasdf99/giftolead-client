@@ -144,7 +144,7 @@ export default {
                     this.funcao.permissions = [...this.main_arr_permissions];
                     this.$vs.loading();
                     this.$store.dispatch('funcoes/store', this.funcao).then(response => {
-                        console.log('response', response);
+                        console.log('response criado', response);
                         this.$vs.notify({
                             title: '',
                             text: "Atualizada com sucesso.",
@@ -152,7 +152,10 @@ export default {
                             icon: 'icon-check-circle',
                             color: 'success'
                         });
-                      this.$router.push({name:'funcoes'});
+                        this.$vs.loading.close();
+                      this.$router.push({path: '/configuracoes/funcoes/editar/' + response.id});
+                        this.getAllPermissoes();
+                        this.getId(response.id);
                     }).catch(erro => {
                         this.$vs.notify({
                             title: '',
