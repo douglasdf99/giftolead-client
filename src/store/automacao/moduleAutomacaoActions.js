@@ -11,8 +11,9 @@
 import 'firebase/auth'
 import axios from "@/axios.js"
 import defaultAxios from "axios"
+import saveleadsConfig from "../../../saveleadsConfig";
 
-let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
+let {url_melhorenvio} = saveleadsConfig;
 
 export default {
     get({commit}, dados) {
@@ -127,7 +128,7 @@ export default {
         return new Promise((resolve, reject) => {
             console.log('dados enviados', dados)
             defaultAxios.defaults.headers.common = dados.config.headers
-            defaultAxios.get(`${urlMelhorEnvio}`, dados.params)
+            defaultAxios.get(`${url_melhorenvio}`, dados.params)
                 .then((response) => {
                     console.log('resposta melhorenvio', response);
                     resolve(response)
@@ -141,7 +142,7 @@ export default {
         return new Promise((resolve, reject) => {
             console.log('dados enviados', dados);
             defaultAxios.defaults.headers.common = dados.config.headers;
-            defaultAxios.get(`${urlMelhorEnvio}/limits`, dados.params)
+            defaultAxios.get(`${url_melhorenvio}/limits`, dados.params)
                 .then((response) => {
                     console.log('resposta melhorenvio', response);
                     resolve(response)
@@ -154,7 +155,7 @@ export default {
     calcular({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/calculate`, dados.payload)
+            defaultAxios.post(`${url_melhorenvio}/shipment/calculate`, dados.payload)
                 .then((response) => {
                     resolve(response)
                 })
@@ -167,7 +168,7 @@ export default {
         return new Promise((resolve, reject) => {
             console.log('buscando saldo')
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.get(`${urlMelhorEnvio}/balance?pretty`)
+            defaultAxios.get(`${url_melhorenvio}/balance?pretty`)
                 .then((response) => {
                     resolve(response.data)
                 })
@@ -179,7 +180,7 @@ export default {
     geraEtiqueta({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids})
+            defaultAxios.post(`${url_melhorenvio}/shipment/generate`, {orders: dados.ids})
                 .then((response) => {
                     resolve(response.data)
                 })
@@ -191,7 +192,7 @@ export default {
     imprmirMelhorEnvio({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/print`, {mode: "public", orders: dados.ids})
+            defaultAxios.post(`${url_melhorenvio}/shipment/print`, {mode: "public", orders: dados.ids})
                 .then((response) => {
                     resolve(response.data)
                 })
@@ -203,7 +204,7 @@ export default {
     geraEtiquetas({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/generate`, {orders: dados.ids, pretty: 1})
+            defaultAxios.post(`${url_melhorenvio}/shipment/generate`, {orders: dados.ids, pretty: 1})
                 .then((response) => {
                     resolve(response.data)
                 })
@@ -263,7 +264,7 @@ export default {
     checkCancel({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/cancellable`, {orders: dados.ids})
+            defaultAxios.post(`${url_melhorenvio}/shipment/cancellable`, {orders: dados.ids})
                 .then((response) => {
                     resolve(response.data)
                 })

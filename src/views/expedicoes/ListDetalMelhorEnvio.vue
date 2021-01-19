@@ -653,7 +653,8 @@
                 }).finally(() => this.$vs.loading.close("#table > .con-vs-loading"));
             },
             abrirRastreio(hash) {
-                window.open('https://www.melhorrastreio.com.br/rastreio/' + hash, '_blank')
+                let {url_melhorenvio} = saveleadsConfig;
+                window.open(url_melhorenvio + '/rastreio/' + hash, '_blank')
             },
 
             //Editar endereço da automação

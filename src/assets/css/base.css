@@ -859,7 +859,7 @@ th > .vs-table-text {
     }
 }
 
-@media (min-width: 1024px) and (max-width: 1366px) {
+@media (min-width: 1024px) and (max-width: 1600px) {
     .col-conquista {
         width: 33.33333%;
     }

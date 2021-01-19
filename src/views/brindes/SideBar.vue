@@ -59,7 +59,7 @@
                     </div>
                     <div class="vx-col w-full mb-base">
                         <vx-card class="items-center card-option cursor-pointer" @click="brinde.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio'"
-                                 :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio', 'disabled': !$store.state.extensoes.melhorEnvio.installed}" >
+                                 :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio', 'disabled': !$store.state.extensoesState.melhorEnvio.installed}" >
                             <div slot="no-body">
                                 <div class="p-4">
                                     <img src="@/assets/images/util/melhor-envio.png" class="mx-auto rounded-full w-full lg:w-1/3 mx-auto">

@@ -171,13 +171,13 @@ const mutations = {
     },
     SET_EXTENSAO(state, val) {
         if (val.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio") {
-            state.extensoes.melhorEnvio = {...val.extensao, installed: true};
+            state.extensoesState.melhorEnvio = {...val, installed: true};
         }
         if (val.extensao_type === "App\\Models\\Extensoes\\Slack") {
-            state.extensoes.slack = {...val.extensao, installed: true};
+            state.extensoesState.slack = {...val, installed: true};
         }
         if (val.extensao_type === "App\\Models\\Extensoes\\TotalVoice") {
-            state.extensoes.zenvia = {...val.extensao, installed: true};
+            state.extensoesState.zenvia = {...val, installed: true};
         }
     }
 }

@@ -10,6 +10,9 @@
 
 import axios from "@/axios.js"
 import axiosRaiz from "axios"
+import saveleadsConfig from "../../../saveleadsConfig";
+
+let {url_melhorenvio} = saveleadsConfig;
 
 export default {
   get({commit}, subdomain) {
@@ -127,7 +130,7 @@ export default {
     return new Promise((resolve, reject) => {
       console.log('dados enviados', dados)
       axiosRaiz.defaults.headers.common = dados.config.headers
-      axiosRaiz.get(`https://www.melhorenvio.com.br/api/v2/me`, dados.params)
+      axiosRaiz.get(url_melhorenvio, dados.params)
         .then((response) => {
           console.log('resposta melhorenvio', response);
           resolve(response)

@@ -11,8 +11,9 @@
 import 'firebase/auth'
 import axios from "@/axios.js"
 import defaultAxios from "axios"
+import saveleadsConfig from "../../../saveleadsConfig";
 
-let urlMelhorEnvio = 'https://www.melhorenvio.com.br/api/v2/me';
+let {url_melhorenvio} = saveleadsConfig;
 
 export default {
     get({commit}, dados) {
@@ -180,7 +181,7 @@ export default {
     tracking({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${urlMelhorEnvio}/shipment/tracking`, {orders: [ dados.token ]})
+            defaultAxios.post(`${url_melhorenvio}/shipment/tracking`, {orders: [dados.token]})
                 .then((response) => {
                     console.log('arquivar 2', response)
                     resolve(response);

@@ -102,7 +102,7 @@ const state = {
         return (localStorage.getItem('userInfo') && isAuthenticated)
     },
     globalSearch: '',
-    extensoes: {
+    extensoesState: {
         melhorEnvio: {installed: false},
         slack: {installed: false},
         zenvia: {installed: false}

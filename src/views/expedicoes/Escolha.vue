@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-1/2 sm:w-full text-center hover-opacidade cursor-pointer" v-bind:class="{'disabled': !$store.state.extensoes.melhorEnvio.installed}" @click="tryMelhorEnvio">
+            <div class="vx-col w-full lg:w-1/2 sm:w-full text-center hover-opacidade cursor-pointer" v-bind:class="{'disabled': !$store.state.extensoesState.melhorEnvio.installed}" @click="tryMelhorEnvio">
                 <div class="tipo-conquista">
                     <div class="vx-row py-5">
                         <div class="vx-col lg:w-1/2 mx-auto w-full">
@@ -36,11 +36,11 @@ export default {
         return {}
     },
     created() {
-        //if (!this.$store.state.extensoes.melhorEnvio.installed) this.$router.push({name: 'brindes-expedicoes'});
+        //if (!this.$store.state.extensoesState.melhorEnvio.installed) this.$router.push({name: 'brindes-expedicoes'});
     },
     methods: {
       tryMelhorEnvio(){
-          if(this.$store.state.extensoes.melhorEnvio.installed) this.$router.push({name: 'brindes-expedicoes-melhor-envio'})
+          if(this.$store.state.extensoesState.melhorEnvio.installed) this.$router.push({name: 'brindes-expedicoes-melhor-envio'})
           else this.$vs.notify({text: 'É necessário instalar a extensão do Melhor Envio.', color: 'warning'})
       }
     },
