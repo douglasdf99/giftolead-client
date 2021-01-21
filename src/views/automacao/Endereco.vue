@@ -66,7 +66,7 @@
                 <div class="vx-col w-6/12">
                   <p class="gray-wdc mb-2 font-bold">Bairro</p>
                   <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.bairro"
-                            :disabled="habEndereco"/>
+                            :disabled="habBairro"/>
                 </div>
                 <div class="vx-col w-6/12">
                   <p class="gray-wdc mb-2 font-bold">Endereco</p>
@@ -312,10 +312,10 @@
             this.endereco.endereco = this.removeAccents(response.logradouro);
             this.endereco.estado = this.removeAccents(response.uf);
 
-            if (response.bairro !== null && response.bairro !== '') {
+            if (response.bairro == null || response.bairro == '') {
               this.habBairro = false
             }
-            if (response.logradouro !== null && response.logradouro !== '') {
+            if (response.logradouro == null || response.logradouro == '') {
               this.habEndereco = false
             }
 
