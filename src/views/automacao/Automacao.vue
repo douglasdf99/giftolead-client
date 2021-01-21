@@ -185,20 +185,19 @@ export default {
         },
         //Editar endereço da automação
         editarEndereco(obj) {
-
           this.automacaoSelected = {...obj};
             if (obj.endereco) {
-
                 this.endereco = {...obj.endereco};
                 this.endereco.ddd = this.endereco.telefone.substring(0, 2);
-                thisd.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
+                this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
             }else{
-              this.endereco = null;
+              this.endereco = {id: null};
             }
 
             this.modalEndereco = true;
         },
         getItems(tipo = this.dados.tipo) {
+            console.log('tipo', tipo)
             this.$vs.loading();
             if (tipo != 'arquivadas') {
                 this.dados.tipo = tipo;

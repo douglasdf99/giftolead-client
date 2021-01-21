@@ -325,7 +325,6 @@ export default {
         getMenus() {
             this.$store.dispatch('getMainMenu').then(response => {
                 this.navMenuItems = [...response];
-                console.log('nav', this.navMenuItems)
             })
         },
         getExtensoes() {
@@ -382,7 +381,6 @@ export default {
         var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
         this.$echo.channel(`${subdomain}_permissions`).listen('PermissionEvent', (e) => {
-            console.log('permissoes event', e);
             let permissoes = {};
             e.permissions.forEach(item => {
                 if (item.permission_role.length > 0) {
@@ -403,7 +401,6 @@ export default {
                 ac = ac.or(role.nome)
             });
             permissoes['public'] = ac.generate();
-            console.log('permissoes', permissoes);
             localStorage.setItem("permissoes", JSON.stringify(permissoes));
             this.getMenus();
         });
@@ -411,15 +408,12 @@ export default {
         let userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
         this.$echo.channel(`${subdomain}_profile_${userInfo.uid}`).listen('ProfileEvent', (e) => {
-            console.log('user event', e);
             let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-            console.log(userInfo);
 
             userInfo.photoURL = e.user.avatar;
             userInfo.userRole = e.user.roles.nome;
             userInfo.displayName = e.user.name;
             userInfo.about = e.user.roles.nome;
-            console.log(userInfo);
 
             localStorage.setItem("userInfo", JSON.stringify(userInfo));
             this.$store.state.AppActiveUser = userInfo;

@@ -169,7 +169,6 @@
             }
         },
         created() {
-            console.log('paginas', paginas.pages);
             this.paginasFavoritadas = [...paginas.pages];
         }
     }

@@ -59,8 +59,6 @@ let pages = paginas.pages;
 if (localStorage.getItem('userInfo')) {
     let user = JSON.parse(localStorage.getItem('userInfo'));
     pages = JSON.parse(user.menu_rapido)
-    console.log('usuario state', user)
-    console.log('usuario pages', pages)
 }
 
 const state = {

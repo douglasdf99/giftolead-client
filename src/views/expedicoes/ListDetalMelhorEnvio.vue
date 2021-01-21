@@ -17,10 +17,8 @@
                         <p>Saldo: <span class="font-bold text-lg mb-3 text-success">R$ {{ saldo.toFixed(2).replace('.', ',') }}</span></p>
                         <p>Pode gerar: <span class="font-bold text-lg mb-3 text-success">{{ limites.shipments_available }} envios</span></p>
                         <p>Limite total: <span class="font-bold text-lg mb-3 text-success">{{ limites.shipments }} envios</span></p>
-                        <p v-if="melhorenvio.config_padrao">Custo: <span class="font-bold text-lg mb-3 text-primary"> R$ {{ custo.toFixed(2).replace('.', ',') }} </span></p>
-                        <vx-tooltip text="Não foi possível fazer o cálculo do custo por falta da configuração padrão.">
-                            <p>Custo: <span class="font-bold text-lg mb-3 text-danger"> ? </span></p>
-                        </vx-tooltip>
+                        <p id="custo" class="vs-con-loading__container">Custo: <span class="font-bold text-lg mb-3 text-primary"> {{ custo != null ? 'R$ ' + custo.toFixed(2).replace('.', ',') : '?' }} </span>
+                        </p>
                     </div>
                 </vx-card>
             </div>
@@ -77,6 +75,7 @@
                 <vs-th>Rastreio ME</vs-th>
                 <vs-th>CEP</vs-th>
                 <vs-th>Status</vs-th>
+                <vs-th>Custo</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" class="vs-con-loading__container" :id="'table-row-' + indextr">
@@ -91,7 +90,7 @@
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="editarEndereco(tr)" v-if="(tr.status_melhor_envio == ('pending' || tr.status_melhor_envio == 'canceled' || tr.status_melhor_envio == 'undelivered'))">
+                                <vs-dropdown-item @click="editarEndereco(tr)" v-if="(tr.status_melhor_envio == 'pending' || tr.status_melhor_envio == 'canceled' || tr.status_melhor_envio == 'undelivered')">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
                                 </vs-dropdown-item>
@@ -103,7 +102,7 @@
                                     <vs-icon icon-pack="material-icons" icon="add_shopping_cart"></vs-icon>
                                     Adicionar ao Carrinho novamente
                                 </vs-dropdown-item>
-                                <vs-dropdown-item v-if="!tr.codigo_pagamento_melhor_envio && (tr.status_melhor_envio == 'pending' || tr.status_melhor_envio == 'canceled')" @click="removeCarrinho(tr, indextr)">
+                                <vs-dropdown-item  @click="removeCarrinho(tr, indextr)">
                                     <vs-icon icon-pack="material-icons" icon="remove_shopping_cart"></vs-icon>
                                     Remover do Carrinho
                                 </vs-dropdown-item>
@@ -144,6 +143,7 @@
                                      class="icon-grande" v-bind:class="`text-${tr.status.color}`"></vs-icon>
                         </vx-tooltip>
                     </vs-td>
+                    <vs-td :id="'custo-row-' + tr.id" class="vs-con-loading__container">{{ showAutoCusto(tr) }}</vs-td>
                 </vs-tr>
             </template>
         </vs-table>
@@ -247,7 +247,7 @@ export default {
                 shipments_available: 0
             },
             saldo: 0,
-            custo: 0,
+            custo: null,
             automacaosErros: [],
             city_id: '',
             counterDanger: false,
@@ -432,13 +432,6 @@ export default {
                 this.$vs.loading.close();
             });
         },
-        async getInfos() {
-            await this.$store.dispatch('automacao/saldo', {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}).then(response => {
-                this.saldo = parseFloat(response.balance);
-                if (this.saldo == 0) this.pagamentoData.tipos[2].disabled = true;
-            });
-            await this.calcularFrete();
-        },
         async getExtensao() {
             let subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
             await this.$store.dispatch('extensoes/get', subdomain).then(response => {
@@ -462,6 +455,47 @@ export default {
                 this.limites.errorMessage = 'Não foi possível realizar conexão com a melhor envio';
             });
             this.getInfos();
+        },
+        async getInfos() {
+            await this.$store.dispatch('automacao/saldo', {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}).then(response => {
+                this.saldo = parseFloat(response.balance);
+                if (this.saldo == 0) this.pagamentoData.tipos[2].disabled = true;
+            });
+            await this.calcularCusto();
+        },
+        async calcularCusto() {
+            this.$vs.loading({
+                container: "#custo",
+                scale: 0.45
+            });
+            this.$store.dispatch('expedicaos/itensCarrinho', {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}).then(response => {
+                this.custo = 0.0;
+                this.expedicao.automacaos.forEach(auto => {
+                    //this.$vs.loading({container: "#custo-row-" + auto.id, scale: 0.45});
+                    response.forEach(item => {
+                        if (auto.codigo_carrinho_melhor_envio === item.id) {
+                            if(auto.codigo_pagamento_melhor_envio){
+                                auto.custo = 'Já comprou';
+                            } else {
+                                auto.custo = item.price; // Atribuindo o custo de cada envio
+                                this.custo += parseFloat(item.price); //Somando o custo total que é exibido acima da tabela
+                            }
+                            console.log('auto', auto)
+                            //this.$vs.loading.close("#custo-row-" + auto.id + " > .con-vs-loading");
+                        }
+                    })
+                });
+            }).finally(() => this.$vs.loading.close("#custo > .con-vs-loading"));
+        },
+        showAutoCusto(tr){
+            console.log(tr)
+            if(tr.custo != null){
+                if(tr.custo === 'Já comprou')
+                    return tr.custo
+
+              return 'R$ ' + tr.custo.toFixed(2).replace('.', ',')
+            }
+            return '?'
         },
         atualiza() {
             this.modalGerarPlp = false;
@@ -632,6 +666,7 @@ export default {
                 });
                 console.log('automacoes', this.expedicao.automacaos);
                 this.$vs.loading.close("#table > .con-vs-loading");
+                this.$vs.loading.close();
             });
         },
         async gerarEtiqueta(id, index) {
@@ -732,7 +767,9 @@ export default {
         realizarPagamento() {
             this.modalPagamento = true;
             this.pagamentoData.soma = 0;
-            this.selecteds.forEach(item => this.pagamentoData.soma += parseFloat(item.custo));
+            this.selecteds.forEach(item => {
+                this.pagamentoData.soma += parseFloat(item.custo)
+            });
             this.pagamentoData.ids = this.selecteds.map(item => item.id);
         },
         realizarCancelamento() {
@@ -784,15 +821,12 @@ export default {
         comprar() {
             this.$vs.loading();
             this.$store.dispatch('automacao/comprar', {ids: this.pagamentoData.ids, tipo_pagamento: this.pagamentoData.tipo_pagamento.id}).then(response => {
-                this.$vs.notify({
-                    text: 'Forma de pagamento escolhida com sucesso.',
-                    color: 'success'
-                });
+                this.$vs.notify({text: 'Forma de pagamento escolhida com sucesso.', color: 'success'});
 
                 this.expedicao.automacaos.forEach(auto => {
-                    response.data.data.forEach(retorno => {
+                    response.data.forEach(retorno => {
                         if (auto.id == retorno.id)
-                            auto = retorno
+                            auto = {...auto, retorno}
                     });
                 });
             }).catch(error => {
@@ -818,72 +852,6 @@ export default {
             }).finally(() => this.$vs.loading.close());
         },
         handleSelected(tr) {
-        },
-        //Calculando o frete e o custo
-        async calcularFrete() {
-            let obj = {payload: {}};
-            for (const [idx, item] of this.expedicao.automacaos.entries()) {
-                obj = await this.buildObjPayloadCalculaFrete(item); //Monta o payload a ser enviado à api
-
-                await this.$store.dispatch('automacao/calcular', obj).then((response) => {
-                    if (response.data.error) item.error = response.data.error;
-                    else {
-                        item.error = null;
-                        item.custo = parseFloat(response.data.price);
-                    }
-                    item.servicoSelected = response.data.id;
-                    this.custo += item.custo;
-                });
-                //await this.tracking();
-            }
-        },
-        async buildObjPayloadCalculaFrete(item, recalculando = false) {
-            let service = '';
-            if (this.melhorenvio.configs.length > 0) {
-                let mudou = false;
-                await this.melhorenvio.configs.forEach(conf => {
-                    if (!mudou) {
-                        if (conf.variavel == item.endereco.estado) { //verificação tipo estado
-                            service = this.getService(conf.servico);
-                            mudou = true;
-                        } else if (conf.variavel == item.brinde_id) { //verificação tipo brinde
-                            service = this.getService(conf.servico);
-                            mudou = true;
-                        } else { //retorna valor da configuração padrão
-                            service = this.getService(this.melhorenvio.config_padrao.servico);
-                        }
-                    }
-                });
-            } else {
-                if (this.melhorenvio.config_padrao) {
-                    service = this.getService(this.melhorenvio.config_padrao.servico);
-                }
-            }
-            item.payload = {
-                "from": {
-                    "postal_code": this.melhorenvio.postal_code,
-                    "address": this.melhorenvio.address,
-                    "number": this.melhorenvio.number
-                },
-                "to": {
-                    "postal_code": item.endereco.cep,
-                    "address": item.endereco.endereco,
-                    "number": item.endereco.numero
-                },
-                "package": {
-                    "weight": item.brinde.peso,
-                    "width": item.brinde.largura,
-                    "height": item.brinde.altura,
-                    "length": item.brinde.comprimento
-                },
-                "services": recalculando ? item.servicoSelected : service
-            };
-            item.headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
-            return item
-        },
-        getService(val) {
-            const result = this.melhorenvio.servicos.filter(serv => serv.id == val);
-            return result[0].uuid.toString();
         },
     },
     computed: {

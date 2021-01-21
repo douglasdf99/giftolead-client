@@ -181,10 +181,23 @@ export default {
     tracking({commit}, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
-            defaultAxios.post(`${url_melhorenvio}/shipment/tracking`, {orders: [dados.token]})
+            defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/tracking`, {orders: [dados.token]})
                 .then((response) => {
                     console.log('arquivar 2', response)
                     resolve(response);
+                })
+                .catch((error) => {
+                    console.log('error', error)
+                    reject(error)
+                })
+        })
+    },
+    itensCarrinho({commit}, {headers}) {
+        return new Promise((resolve, reject) => {
+            defaultAxios.defaults.headers.common = headers;
+            defaultAxios.get(`${url_melhorenvio}/api/v2/me/cart`)
+                .then((response) => {
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
                     console.log('error', error)

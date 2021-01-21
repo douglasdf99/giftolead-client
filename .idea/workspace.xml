@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/views/expedicoes/AcoesIndividuais.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/components/navbar/components/Bookmarks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/navbar/components/Bookmarks.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/brindes/moduleBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/brindes/moduleBrindesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/state.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/state.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Automacao.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Automacao.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Endereco.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Endereco.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListagemAutomacoes.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +73,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images/util" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -274,6 +280,9 @@
       <workItem from="1610627814806" duration="21475000" />
       <workItem from="1610727953793" duration="19735000" />
       <workItem from="1611059909758" duration="38251000" />
+      <workItem from="1611233399735" duration="820000" />
+      <workItem from="1611234231979" duration="36000" />
+      <workItem from="1611240598301" duration="15586000" />
     </task>
     <task id="LOCAL-00074" summary="Sprint 22 - push do dia e alterações no dashboard para utilizar uma promisse">
       <created>1601416098865</created>
