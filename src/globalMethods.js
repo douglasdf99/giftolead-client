@@ -46,7 +46,6 @@ let methods = {
         let md5 = require('md5');
         email = email.trim();
         email = md5(email);
-        console.log('email aí', email)
         return `https://www.gravatar.com/avatar/${email}?d=` + encodeURIComponent('https://api.saveleads.com.br/images/avatar-padrao.png');
     },
     removeAccents(str) {
@@ -116,7 +115,7 @@ let methods = {
                     resolve(arr);
                 })
                 .catch((error) => {
-                    console.log('erro get extensoes', error)
+
                 })
         });
     }

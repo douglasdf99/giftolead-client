@@ -65,7 +65,6 @@
                 this.$store.registerModule('mensagens', moduleMensagem)
                 moduleMensagem.isRegistered = true
             }
-            console.log('aí', this.dados)
             this.getMensagens();
         },
         computed: {

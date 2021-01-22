@@ -20,7 +20,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/expedicaos`, {params: dados})
                 .then((response) => {
-                    console.log('regatadas', response);
                     resolve(response.data)
                 })
                 .catch((error) => {
@@ -43,7 +42,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/expedicaos/${dados.rota}`, {expedicaos: dados.arr})
                 .then((response) => {
-                    console.log('aprovadas', response);
                     resolve(response.data)
                 })
                 .catch((error) => {
@@ -69,11 +67,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post("https://api.saveleads.com.br/weentrega/rastreio", dados)
                 .then((response) => {
-                    console.log('rastreio', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -82,7 +78,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
                 .then((response) => {
-                    console.log('deu certo', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -94,7 +89,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/fechar/" + id)
                 .then((response) => {
-                    console.log('plp gerada', response);
                     resolve();
                 })
                 .catch((error) => {
@@ -106,7 +100,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/enviaremailrastreio", {params: dados})
                 .then((response) => {
-                    console.log('enviado com sucesso', response);
                     resolve();
                 })
                 .catch((error) => {
@@ -118,11 +111,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.put("/automacao_enderecos/" + dados.id, dados)
                 .then((response) => {
-                    console.log('automacao_enderecos 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -131,11 +122,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post("/automacao_enderecos/", dados)
                 .then((response) => {
-                    console.log('automacao_enderecos 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -144,11 +133,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get("/automacao_enderecos/" + id)
                 .then((response) => {
-                    console.log('automacao_enderecos 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -157,11 +144,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get("/automacaos/arquivar/" + id)
                 .then((response) => {
-                    console.log('arquivar 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -173,7 +158,6 @@ export default {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error);
                     reject(error)
                 })
         })
@@ -183,11 +167,9 @@ export default {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/tracking`, {orders: [dados.token]})
                 .then((response) => {
-                    console.log('arquivar 2', response)
                     resolve(response);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -200,7 +182,6 @@ export default {
                     resolve(response.data.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })

@@ -133,7 +133,6 @@ export default {
                 this.campanha.brinde_id = this.brindeSelected.id;
             }
             this.$store.dispatch('brindes/storeCampanha', this.campanha).then(response => {
-                console.log('response', response);
                 this.$vs.notify({
                     title: 'Sucesso',
                     text: "A Campanha foi salva com sucesso.",

@@ -74,7 +74,7 @@
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
-                        <listagem :items="items" @editarEnd="editarEndereco" tipo="comerro"></listagem>
+                        <listagem :items="items" @reenviarWhats="reenviarWhats" @editarEnd="editarEndereco" tipo="comerro"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab color="primary" value="10" :label="'preenchida'" @click="getItems('preenchida')">

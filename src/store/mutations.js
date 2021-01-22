@@ -67,11 +67,9 @@ const mutations = {
                 item.is_bookmarked = payload.val;
         })
         axios.post(`/users/${user.uid}`, {menu_rapido: JSON.stringify(payload.pages), _method: 'PUT'}).then((response) => {
-            console.log('menu_rapido alterado com sucesso', response);
             user.menu_rapido = response.data.data.menu_rapido;
             localStorage.setItem('userInfo', JSON.stringify(user));
         }).catch(erro => {
-            console.log('erro ao atualizar menu rápido', erro);
         });
     },
 
@@ -126,7 +124,6 @@ const mutations = {
 
     // Updates user info in state and localstorage
     UPDATE_USER_INFO(state, payload) {
-        console.log('payload', payload)
         // Get Data localStorage
         let userInfo = JSON.parse(localStorage.getItem("userInfo")) || state.AppActiveUser
 
@@ -157,12 +154,10 @@ const mutations = {
     },
 
     SET_OBJ_SUBMENU(state, obj) {
-        console.log('mutation', obj)
         state.menuSelecionado = obj;
         state.submenu = obj;
     },
     SET_VARIOS(state, obj) {
-        console.log('obj', obj)
         state.items = obj.data;
         state.pagination = obj;
     },

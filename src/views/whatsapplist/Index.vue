@@ -332,7 +332,7 @@
                 }
                 this.campanhas = [];
                 this.$store.dispatch('whatsapplist/getCampanhas', rota).then(response => {
-                    console.log(response)
+
                     let arr = [...response];
                     arr.forEach(item => {
                         this.campanhas.push({id: item.id, label: item.nome});

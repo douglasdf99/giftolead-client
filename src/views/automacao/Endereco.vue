@@ -51,32 +51,32 @@
                         Buscar
                     </vs-button>
 
-            <div class="" v-if="valido">
-              <div class="vx-row mt-2">
-                <div class="vx-col w-6/12">
-                  <p class="gray-wdc mb-2 font-bold">Estado</p>
-                  <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.estado"
-                            :disabled="true"/>
-                </div>
-                <div class="vx-col w-6/12">
-                  <p class="gray-wdc mb-2 font-bold">Cidade</p>
-                  <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.cidade"
-                            :disabled="true"/>
-                </div>
-                <div class="vx-col w-6/12">
-                  <p class="gray-wdc mb-2 font-bold">Bairro</p>
-                  <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.bairro"
-                            :disabled="habBairro"/>
-                </div>
-                <div class="vx-col w-6/12">
-                  <p class="gray-wdc mb-2 font-bold">Endereco</p>
-                  <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.endereco"
-                            :disabled="habEndereco"/>
-                </div>
-                <div class="vx-col w-6/12">
-                  <p class="gray-wdc mb-2 font-bold">Complemento</p>
-                  <vs-input class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg mb-3" type="text" required v-model="endereco.complemento" name="complemento" v-validate="'required|max:30'"/>
-                  <span class="text-danger text-sm" v-show="errors.has('complemento')">{{ errors.first('complemento') }}</span>
+                    <div class="" v-if="valido">
+                        <div class="vx-row mt-2">
+                            <div class="vx-col w-6/12">
+                                <p class="gray-wdc mb-2 font-bold">Estado</p>
+                                <vs-input class="w-full mb-3" type="text" required v-model="endereco.estado"
+                                          :disabled="true"/>
+                            </div>
+                            <div class="vx-col w-6/12">
+                                <p class="gray-wdc mb-2 font-bold">Cidade</p>
+                                <vs-input class="w-full mb-3" type="text" required v-model="endereco.cidade"
+                                          :disabled="true"/>
+                            </div>
+                            <div class="vx-col w-6/12">
+                                <p class="gray-wdc mb-2 font-bold">Bairro</p>
+                                <vs-input class="w-full mb-3" type="text" required v-model="endereco.bairro"
+                                          :disabled="habBairro"/>
+                            </div>
+                            <div class="vx-col w-6/12">
+                                <p class="gray-wdc mb-2 font-bold">Endereco</p>
+                                <vs-input class="w-full mb-3" type="text" required v-model="endereco.endereco"
+                                          :disabled="habEndereco"/>
+                            </div>
+                            <div class="vx-col w-6/12">
+                                <p class="gray-wdc mb-2 font-bold">Complemento</p>
+                                <vs-input class="w-full mb-3" type="text" required v-model="endereco.complemento" name="complemento" v-validate="'required|max:30'"/>
+                                <span class="text-danger text-sm" v-show="errors.has('complemento')">{{ errors.first('complemento') }}</span>
 
                             </div>
                             <div class="vx-col w-6/12">
@@ -154,24 +154,23 @@ export default {
         }
     },
     watch: {
-      endereco: {
-        handler: function (e) {
-          console.log('rodou',e.cep, this.antigoCep);
-          if (e.cep != this.antigoCep) {
-            this.valido = false;
-          }
+        endereco: {
+            handler: function (e) {
+                if (e.cep != this.antigoCep) {
+                    this.valido = false;
+                }
+            },
+            deep: true
         },
-        deep: true
-      },
-      isSidebarActive(val) {
-        if (!val) return
-        if (Object.entries(this.data).length === 0) {
-          this.initValues()
-          this.$validator.reset()
-        } else {
-          this.brinde = JSON.parse(JSON.stringify(this.data));
-        }
-      },
+        isSidebarActive(val) {
+            if (!val) return
+            if (Object.entries(this.data).length === 0) {
+                this.initValues()
+                this.$validator.reset()
+            } else {
+                this.brinde = JSON.parse(JSON.stringify(this.data));
+            }
+        },
     },
     created() {
         if (!moduleExpedicoesBrindes.isRegistered) {
@@ -215,7 +214,6 @@ export default {
                                     color: 'success',
                                     text: 'Salvo com sucesso'
                                 });
-                                console.log('teste opendente');
                                 this.$emit('getItems', 'arquivadas');
                             })
                             .catch(erro => {
@@ -294,12 +292,12 @@ export default {
                     this.endereco.endereco = this.removeAccents(response.logradouro);
                     this.endereco.estado = this.removeAccents(response.uf);
 
-            if (response.bairro == null || response.bairro == '') {
-              this.habBairro = false
-            }
-            if (response.logradouro == null || response.logradouro == '') {
-              this.habEndereco = false
-            }
+                    if (response.bairro == null || response.bairro == '') {
+                        this.habBairro = false
+                    }
+                    if (response.logradouro == null || response.logradouro == '') {
+                        this.habEndereco = false
+                    }
 
                 }).catch(erro => {
                     this.$vs.notify({

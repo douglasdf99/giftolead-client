@@ -64,7 +64,7 @@
                 this.$vs.loading()
                 axios.post('/api/remember', {email: this.email}).then(response => {
                     this.$vs.loading.close();
-                    console.log(response)
+
                     this.$vs.notify({
                         title: 'Sucesso',
                         text: "Encaminhamos o e-mail",

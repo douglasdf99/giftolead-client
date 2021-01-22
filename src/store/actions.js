@@ -73,7 +73,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       axios.get(`/selects/responsaveis`)
         .then((response) => {
-          console.log('retorno selects', response)
           resolve(response.data)
         })
         .catch((error) => {
@@ -86,7 +85,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/${dados.rota}`, {params: dados.params})
                 .then((response) => {
-                    console.log('retorno', response)
                     commit('SET_VARIOS', response.data.data);
                     resolve(response.data.data)
                 })
@@ -131,7 +129,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/links`, {params: {produto: id}})
                 .then((response) => {
-                    console.log('links resgatados', response);
                     resolve(response.data.data)
                 })
                 .catch(erro => {
@@ -144,7 +141,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/links`, {params: params})
                 .then((response) => {
-                    console.log('links resgatados', response);
                     resolve(response.data.data)
                 })
                 .catch(erro => {

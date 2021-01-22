@@ -12,11 +12,9 @@ import axios from "@/axios.js"
 
 export default {
     update({commit}, dados) {
-        console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_whatsapps/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('campanha alterada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -25,11 +23,9 @@ export default {
         })
     },
     updateEmail({commit}, dados) {
-        console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('email alterado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -41,7 +37,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_whatsapps`, dados)
                 .then((response) => {
-                    console.log('campanha criada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -53,7 +48,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails`, dados)
                 .then((response) => {
-                    console.log('email criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -65,7 +59,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_whatsapps/${id}`)
                 .then((response) => {
-                    console.log('campanha resgatada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -77,7 +70,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_whatsapps`, {params: {}})
                 .then((response) => {
-                    console.log('campanhas', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -89,7 +81,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_whatsapps_contatos`, {params: dados.params})
                 .then((response) => {
-                    console.log('contatos resgatado', response);
                     resolve(response.data.data)
                 })
         });

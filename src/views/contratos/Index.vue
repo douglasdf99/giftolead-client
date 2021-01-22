@@ -245,7 +245,7 @@
                     });
                     let rota = e.status ? 'desativar' : 'ativar';
                     this.$store.dispatch('contratos/ativar', {id: e.id, rota: rota}).then(response => {
-                        console.log(response)
+
                         if(response.data.data.ativo){
                             this.$vs.notify({
                                 title: '',

@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/pre_comissaos/setAnexo/`, obj)
                 .then((response) => {
-                    console.log('lead resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -30,7 +29,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/anexos/${id}`, formData)
                 .then((response) => {
-                    console.log('imagem deletada', response);
                     resolve()
                 })
                 .catch((error) => {

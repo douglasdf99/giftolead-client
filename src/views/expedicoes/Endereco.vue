@@ -211,7 +211,7 @@
         this.endereco.nome = this.removeAccents(this.endereco.nome);
         this.$vs.loading();
         this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(response => {
-          console.log(response);
+
           this.$vs.loading.close();
           this.isSidebarActiveLocal = false;
           this.$vs.notify({
@@ -237,7 +237,7 @@
         console.log(this.endereco);
         this.$vs.loading();
         this.$store.dispatch('expedicaos/getEndereco', id).then(response => {
-          console.log(response);
+
           this.endereco = response.data;
           this.endereco.ddd = this.endereco.telefone.substring(0, 2);
           this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');

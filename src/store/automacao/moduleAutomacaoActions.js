@@ -20,7 +20,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/automacaos`, {params: dados})
                 .then((response) => {
-                    console.log('lista atomacao', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -37,7 +36,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(rota, dados)
                 .then((response) => {
-                    console.log('email criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -49,7 +47,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/automacao_emails`, {params: {brinde_id: id}})
                 .then((response) => {
-                    console.log('emails resgatados', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -72,7 +69,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos`, dados)
                 .then((response) => {
-                    console.log('Automacao inserida', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -126,11 +122,9 @@ export default {
     },
     login({commit}, dados) {
         return new Promise((resolve, reject) => {
-            console.log('dados enviados', dados)
             defaultAxios.defaults.headers.common = dados.config.headers
             defaultAxios.get(`${url_melhorenvio}`, dados.params)
                 .then((response) => {
-                    console.log('resposta melhorenvio', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -140,11 +134,9 @@ export default {
     },
     verificaLimite({commit}, dados) {
         return new Promise((resolve, reject) => {
-            console.log('dados enviados', dados);
             defaultAxios.defaults.headers.common = dados.config.headers;
             defaultAxios.get(`${url_melhorenvio}/api/v2/me/limits`, dados.params)
                 .then((response) => {
-                    console.log('resposta melhorenvio', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -166,7 +158,6 @@ export default {
     },
     saldo({commit}, dados) {
         return new Promise((resolve, reject) => {
-            console.log('buscando saldo')
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.get(`${url_melhorenvio}/api/v2/me/balance?pretty`)
                 .then((response) => {
@@ -239,11 +230,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post("/automacaos/comprarEtiquetas/", dados)
                 .then((response) => {
-                    console.log('arquivar 2', response)
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })
@@ -252,11 +241,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post("/automacaos/cancelarCompra/", dados)
                 .then((response) => {
-                    console.log('cancelarCompra 2', response);
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    console.log('error', error)
                     reject(error)
                 })
         })

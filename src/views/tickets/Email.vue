@@ -110,7 +110,6 @@
                 this.$store.registerModule('mensagens', moduleMensagem)
                 moduleMensagem.isRegistered = true
             }
-            console.log('data', this.data)
 
             this.getMensagens();
         },

@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/mensagem_padraos/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('usuário alterado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -27,7 +26,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/mensagem_padraos/`, dados)
                 .then((response) => {
-                    console.log('produto criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -39,7 +37,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/mensagem_padraos/${id}`)
                 .then((response) => {
-                    console.log('produto resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -51,7 +48,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/mensagem_padraos`, {params: {}})
                 .then((response) => {
-                    console.log('mensagens', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

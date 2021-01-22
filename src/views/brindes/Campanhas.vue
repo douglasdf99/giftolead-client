@@ -97,7 +97,6 @@
             getCampanhas() {
                 this.$vs.loading();
                 this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
-                    console.log('ué', response)
                     this.items = [...response];
                     this.$vs.loading.close();
                 });
@@ -128,8 +127,6 @@
                 }
             },
             ativaCamp(obj) {
-                console.log('status', obj)
-                console.log('status2', obj.status)
                 let obj2 = {...obj}
                 obj2.status = obj.status === true ? 1 : 0;
                 let text = obj2.status ? 'Ativada' : 'Desativada';
@@ -184,7 +181,6 @@
                                 title: 'Erro',
                                 text: 'Erro ao deletar. Contate o suporte.'
                             });
-                            console.log('erro', erro)
                         }).finally(()=>{
                           this.$vs.loading.close();
                         })

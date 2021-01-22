@@ -38,7 +38,6 @@
                     <vs-th>E-mail</vs-th>
                     <vs-th>Token</vs-th>
                     <vs-th>Ordem de envio</vs-th>
-                    <vs-th>Status</vs-th>
                 </template>
                 <template slot-scope="{data}">
                     <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
@@ -94,12 +93,6 @@
                                 {{ getOrdemEnvio(tr) }}
                                 <i class="material-icons ml-3" v-bind:class="getOrdemColor(tr)">fiber_manual_record</i>
                             </p>
-                        </vs-td>
-                        <vs-td class="flex">
-                            <vx-tooltip position="top" :text="tr.rastreio">
-                                <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2 cursor-pointer" @click="copyText(tr.rastreio)" v-if="tr.rastreio != null">
-                            </vx-tooltip>
-                            <img src="@/assets/images/util/expedicao-icon.svg" width="25px" v-if="tr.expedicao && tr.expedicao != null">
                         </vs-td>
                     </vs-tr>
                 </template>

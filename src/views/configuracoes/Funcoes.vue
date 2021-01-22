@@ -98,7 +98,6 @@ export default {
                         });
                         this.getItems();
                     }).catch(erro => {
-                        console.log(erro)
                         this.$vs.notify({
                             color: 'danger',
                             text: 'Algo deu errado ao deletar o motivo de perda. Contate o suporte.'

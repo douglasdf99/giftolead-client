@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/roles`, {params: {}})
                 .then((response) => {
-                    console.log('funções', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

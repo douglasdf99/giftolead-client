@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/leads/${id}`)
                 .then((response) => {
-                    console.log('lead resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -27,7 +26,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/produtos`, {params: {}})
                 .then((response) => {
-                    console.log('produtos resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -39,7 +37,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/leads/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('lead alterado', response);
                     resolve(response)
                 })
                 .catch((error) => {

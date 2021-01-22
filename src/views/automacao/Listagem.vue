@@ -168,7 +168,6 @@
                                 text: 'Arquivado realizado com sucesso'
                             });
                         }).catch(erro => {
-                            console.log('erro', erro);
                             this.$vs.notify({
                                 color: 'danger',
                                 text: 'Algo deu errado ao arquivar a automação. Contate o suporte'
