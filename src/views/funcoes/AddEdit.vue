@@ -14,7 +14,6 @@
                 <v-select multiple :closeOnSelect="false" v-model="produtos_permitidos" :options="all_produtos" class="bg-white"/>
             </div>
         </div>
-        <vs-divider></vs-divider>
         <div class="vx-row mt-10">
             <div class="vx-col w-full mb-5">
                 <p class="font-bold text-2xl text-dark">Permissões</p>

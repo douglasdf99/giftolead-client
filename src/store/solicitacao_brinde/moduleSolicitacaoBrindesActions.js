@@ -16,7 +16,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/solicitacao_brindes`, {params: {}})
                 .then((response) => {
-                    console.log('regatadas', response);
                     resolve(response.data)
                 })
                 .catch((error) => {
@@ -28,7 +27,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/solicitacao_brindes/${dados.rota}`, {solicitacoes: dados.arr})
                 .then((response) => {
-                    console.log('aprovadas', response);
                     resolve(response.data)
                 })
                 .catch((error) => {

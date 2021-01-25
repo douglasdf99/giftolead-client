@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/whatsapplists/${id}`)
                 .then((response) => {
-                    console.log('lista resgatada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -27,7 +26,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/whatsapplists`, {params: {status: 1}})
                 .then((response) => {
-                    console.log('lista resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

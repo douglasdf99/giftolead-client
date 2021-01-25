@@ -26,7 +26,7 @@
                                 <vs-dropdown-menu class="dropdown-menu-list">
                                     <vs-dropdown-item @click="editarEndereco(tr)" v-if="$acl.check('brinde_automacao_editar') && !tr.expedicao">
                                         <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
-                                        Editar Endereço
+                                        Editar endereço
                                     </vs-dropdown-item>
                                     <vs-dropdown-item @click="arquivar(tr)" v-if="$acl.check('brinde_automacao_deletar')">
                                         <vs-icon icon-pack="material-icons" icon="work"></vs-icon>
@@ -145,7 +145,7 @@
                         icon: 'icon-check-circle',
                         color: 'success'
                     })
-                    this.$emit('getItems')
+                    this.$emit('getItems', this.dados.tipo)
 
                 }).catch(error => {
 
@@ -168,7 +168,6 @@
                                 text: 'Arquivado realizado com sucesso'
                             });
                         }).catch(erro => {
-                            console.log('erro', erro);
                             this.$vs.notify({
                                 color: 'danger',
                                 text: 'Algo deu errado ao arquivar a automação. Contate o suporte'
@@ -298,7 +297,6 @@
             },
             //Editar endereço da automação
             editarEndereco(obj) {
-                console.log('editar', obj)
                 this.$emit('editarEnd', obj);
             },
         },
@@ -307,7 +305,6 @@
                 this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
                 moduleExpedicoesBrindes.isRegistered = true;
             }
-
         }
 
     }

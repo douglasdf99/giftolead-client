@@ -175,7 +175,6 @@
             },
             getProdutos() {
                 this.$store.dispatch('getVarios', {rota: 'produtos', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
@@ -198,7 +197,6 @@
                             });
                             this.getProdutos();
                         }).catch(erro => {
-                            console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
@@ -221,7 +219,6 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getProdutos();
             },

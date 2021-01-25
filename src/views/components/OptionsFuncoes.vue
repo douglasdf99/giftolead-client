@@ -36,7 +36,6 @@ export default {
     },
     watch: {
         retorno(val) {
-            console.log('mudou', val)
             this.$emit('update:option', val)
         }
     }

@@ -84,9 +84,7 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
                     return
                 } else {
                     this.origem.id = null
@@ -155,7 +153,6 @@
                 //this.initValues()
                 this.$validator.reset()
             } else {
-                console.log('entrou aqui', this.data);
                 this.origem = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.origem.integracao_id;
                 this.selected = {id: this.origem.integracao_id, label: this.origem.integracao.descricao};

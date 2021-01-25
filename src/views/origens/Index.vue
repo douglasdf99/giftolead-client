@@ -168,7 +168,6 @@
                             });
                             this.getItems();
                         }).catch(erro => {
-                            console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
@@ -188,7 +187,6 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },

@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`dashboard/${dados.rota}`, {params: dados.params})
                 .then((response) => {
-                    console.log(dados.rota, response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

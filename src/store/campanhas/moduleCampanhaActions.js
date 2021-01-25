@@ -12,11 +12,9 @@ import axios from "@/axios.js"
 
 export default {
     update({commit}, dados) {
-        console.log('atualizando', dados)
         return new Promise((resolve, reject) => {
             axios.post(`/${dados.rota}/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('campanha alterada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -47,7 +45,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/${rota}`, dados)
                 .then((response) => {
-                    console.log('campanha criada', response);
                     if(response != undefined)
                         resolve(response)
                     else
@@ -62,7 +59,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/campanhas/${id}`)
                 .then((response) => {
-                    console.log('campanha resgatada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -74,7 +70,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/campanhas`, {params: {}})
                 .then((response) => {
-                    console.log('campanhas', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -86,7 +81,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/${dados.rota}/`, dados)
                 .then((response) => {
-                    console.log('campanha alterada', response);
                     resolve(response)
                 })
                 .catch((error) => {

@@ -353,7 +353,7 @@ export default {
         getItem(id) {
             this.$vs.loading();
             this.$store.dispatch('expedicaos/getId', id).then(response => {
-                console.log(response);
+
                 this.expedicao = {...response};
                 this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato.nome};
             }).catch(() => {
@@ -419,7 +419,7 @@ export default {
             })
             axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.$route.params.id, 'tipo': 'single', 'automacao_id': id}, responseType: 'arraybuffer'})
                 .then((response) => {
-                    console.log(response);
+
                     var blob = new Blob([response.data], {
                         type: 'application/pdf'
                     });
@@ -446,7 +446,7 @@ export default {
             });
             axios.get("expedicaos/imprimiretiqueta", {params: {'expedicao_id': this.expedicao.id, 'tipo': tipo}, responseType: 'arraybuffer'})
                 .then((response) => {
-                    console.log(response);
+
                     var blob = new Blob([response.data], {
                         type: 'application/pdf'
                     });
@@ -477,7 +477,7 @@ export default {
             };
             axios.get("expedicaos/declaracaodeconteudo", {params: params, responseType: 'arraybuffer'})
                 .then((response) => {
-                    console.log(response);
+
                     var blob = new Blob([response.data], {
                         type: 'application/pdf'
                     });
@@ -549,7 +549,7 @@ export default {
             })
             axios.get("expedicaos/imprimirplp", {params: {'expedicao_id': this.expedicao.id}, responseType: 'arraybuffer'})
                 .then((response) => {
-                    console.log(response);
+
                     var blob = new Blob([response.data], {
                         type: 'application/pdf'
                     });

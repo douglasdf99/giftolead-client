@@ -6,6 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/components/navbar/components/Bookmarks.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/navbar/components/Bookmarks.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/brindes/moduleBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/brindes/moduleBrindesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/state.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/state.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Automacao.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Automacao.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Endereco.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Endereco.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetalMelhorEnvio.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +73,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets/images/util" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -270,35 +279,10 @@
       <workItem from="1610541414446" duration="21828000" />
       <workItem from="1610627814806" duration="21475000" />
       <workItem from="1610727953793" duration="19735000" />
-      <workItem from="1611059909758" duration="15129000" />
-    </task>
-    <task id="LOCAL-00070" summary="Sprint 22 - andamento Dashboard">
-      <created>1601068617759</created>
-      <option name="number" value="00070" />
-      <option name="presentableId" value="LOCAL-00070" />
-      <option name="project" value="LOCAL" />
-      <updated>1601068617761</updated>
-    </task>
-    <task id="LOCAL-00071" summary="Sprint 22 - finalizada primeira versão do Dashboard.vue">
-      <created>1601388631625</created>
-      <option name="number" value="00071" />
-      <option name="presentableId" value="LOCAL-00071" />
-      <option name="project" value="LOCAL" />
-      <updated>1601388631625</updated>
-    </task>
-    <task id="LOCAL-00072" summary="Sprint 22 - hotfix Dashboard">
-      <created>1601391921655</created>
-      <option name="number" value="00072" />
-      <option name="presentableId" value="LOCAL-00072" />
-      <option name="project" value="LOCAL" />
-      <updated>1601391921655</updated>
-    </task>
-    <task id="LOCAL-00073" summary="Sprint 22 - Hotfix chamadas do módulo de usuários">
-      <created>1601398117441</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1601398117441</updated>
+      <workItem from="1611059909758" duration="38251000" />
+      <workItem from="1611233399735" duration="820000" />
+      <workItem from="1611234231979" duration="36000" />
+      <workItem from="1611240598301" duration="15586000" />
     </task>
     <task id="LOCAL-00074" summary="Sprint 22 - push do dia e alterações no dashboard para utilizar uma promisse">
       <created>1601416098865</created>
@@ -615,7 +599,35 @@
       <option name="project" value="LOCAL" />
       <updated>1611081653544</updated>
     </task>
-    <option name="localTasksCounter" value="119" />
+    <task id="LOCAL-00119" summary="Bugfixes e ajustes visuais, tais como: &#10;Detalhes no Meistertask">
+      <created>1611082186836</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1611082186837</updated>
+    </task>
+    <task id="LOCAL-00120" summary="removendo comentário do formulário">
+      <created>1611086301178</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1611086301178</updated>
+    </task>
+    <task id="LOCAL-00121" summary="bugfix">
+      <created>1611090946786</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1611090946786</updated>
+    </task>
+    <task id="LOCAL-00122" summary="variavel fixa melhor envio">
+      <created>1611094361727</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1611094361727</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="TodoView">
@@ -658,9 +670,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Sprint 24 - finalizada primeira versão do menu rápido" />
-    <MESSAGE value="Sprint 24 - permissões do submenu e implementação da atualização do menu em tempo real" />
-    <MESSAGE value="fix campanhas e acl de admin to Administrador" />
     <MESSAGE value="fix campanhas trazendo valores e acl de admin to Adiministrador" />
     <MESSAGE value="footer fix" />
     <MESSAGE value="Finalização de ajustes apontados em ultima reunião de acordo com o doc google" />
@@ -683,7 +692,10 @@
     <MESSAGE value="Hotfix no crud de  produto, imagem certa no histórico da conversa via whatsapp do ticket e hotifx na tela de automação ao autalizar confg de email" />
     <MESSAGE value="Correções de responsividade" />
     <MESSAGE value="Bugfixes e ajustes visuais, tais como: &#10;Detalhes no Meistertask" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bugfixes e ajustes visuais, tais como: &#10;Detalhes no Meistertask" />
+    <MESSAGE value="removendo comentário do formulário" />
+    <MESSAGE value="bugfix" />
+    <MESSAGE value="variavel fixa melhor envio" />
+    <option name="LAST_COMMIT_MESSAGE" value="variavel fixa melhor envio" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

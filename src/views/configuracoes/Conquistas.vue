@@ -124,7 +124,6 @@
                 this.getItems();
             },
             ativaConquista(e) {
-                console.log(this.countSwitch)
                 if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.ativo = !e.ativo;
                     this.$vs.notify({

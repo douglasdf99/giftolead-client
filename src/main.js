@@ -13,7 +13,6 @@ import * as io from 'socket.io-client'
 window.io = io
 
 
-
 import Vue from 'vue'
 import App from './App.vue'
 
@@ -92,13 +91,13 @@ import router from './router'
 import store from './store/store'
 
 Vue.use(VueEcho, {
-  broadcaster: 'socket.io',
-  host: 'https://api.saveleads.com.br:2083',
-  auth: {
-    headers: {
-      Authorization: `Bearer ${store.getters.getToken}`
+    broadcaster: 'socket.io',
+    host: 'https://api.saveleads.com.br:2083',
+    auth: {
+        headers: {
+            Authorization: `Bearer ${store.getters.getToken}`
+        }
     }
-  }
 });
 
 // i18n
@@ -202,77 +201,74 @@ import methods from "@/globalMethods";
 Vue.use(VueSweetalert2);
 let self = this;
 axios.interceptors.response.use((response) => { // intercept the global error
-  return response
+    return response
 }, function (error) {
-  let originalRequest = error.config
-  if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
-    console.log(error);
-    originalRequest._retry = true // now it can be retried
-    Vue.swal({
-      title: "Sessão expirada",
-      text: "Sua sessão foi expirada, para continuar será nescessário realizar login novamente",
-      type: "warning",
-      showCancelButton: false,
-      confirmButtonColor: "#8d83f3",
-      confirmButtonText: "OK",
-      closeOnConfirm: false
-    }).then((result) => {
-      localStorage.removeItem('userInfo');
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('permissoes');
-      window.location = '/login';
-    });
-    return
-  }
-  if (error.response.status === 429 && !originalRequest._retry) {
-    originalRequest._retry = true
-    Vue.swal({
-      title: "Muitas requisições em um curto periodo",
-      text: "Identificamos uma grande quantidade de requisições em um curto periodo, por isso sua últioma requisição foi interrompida por questões de segurança, para continuar a utilizar o sistema, basta atualizar a sua página.",
-      type: "warning",
-      showCancelButton: false,
-      confirmButtonColor: "#8d83f3",
-      confirmButtonText: "OK",
-      closeOnConfirm: false
-    }).then((result) => {
-      document.location.reload(true);
-    });
-    return
-  }
-  if (error.response.status === 403 && !originalRequest._retry) {
-    originalRequest._retry = true
-    Vue.swal({
-      title: "Sem Permissão",
-      text: "Parece que você não tem permissão para realizar a ação atual. Contate um administrador do sistema.",
-      type: "warning",
-      showCancelButton: false,
-      confirmButtonColor: "#8d83f3",
-      confirmButtonText: "OK",
-      closeOnConfirm: false
-    }).then((result) => {
-      window.history.back();
-    });
-    return
-  }
-  else if(error.response.status === 405 && !originalRequest._retry){
-      originalRequest._retry = true
-      console.log('response cota', error.response.data)
-      //self.$vs.loading.close();
-      Vue.swal({
-          title: "Upgrade necessário",
-          text: error.response.data.message,
-          type: "warning",
-          showCancelButton: false,
-          confirmButtonColor: "#8d83f3",
-          confirmButtonText: "OK",
-          closeOnConfirm: false
-      }).then((result) => {
-          document.location.reload(true);
-      });
-      return
-  }
-  // Do something with response error
-  return Promise.reject(error)
+    let originalRequest = error.config
+    if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
+        originalRequest._retry = true // now it can be retried
+        Vue.swal({
+            title: "Sessão expirada",
+            text: "Sua sessão foi expirada, para continuar será nescessário realizar login novamente",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('permissoes');
+            window.location = '/login';
+        });
+        return
+    }
+    if (error.response.status === 429 && !originalRequest._retry) {
+        originalRequest._retry = true
+        Vue.swal({
+            title: "Muitas requisições em um curto periodo",
+            text: "Identificamos uma grande quantidade de requisições em um curto periodo, por isso sua últioma requisição foi interrompida por questões de segurança, para continuar a utilizar o sistema, basta atualizar a sua página.",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            document.location.reload(true);
+        });
+        return
+    }
+    if (error.response.status === 403 && !originalRequest._retry) {
+        originalRequest._retry = true
+        Vue.swal({
+            title: "Sem Permissão",
+            text: "Parece que você não tem permissão para realizar a ação atual. Contate um administrador do sistema.",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            window.history.back();
+        });
+        return
+    } else if (error.response.status === 405 && !originalRequest._retry) {
+        originalRequest._retry = true
+        //self.$vs.loading.close();
+        Vue.swal({
+            title: "Upgrade necessário",
+            text: error.response.data.message,
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            document.location.reload(true);
+        });
+        return
+    }
+    // Do something with response error
+    return Promise.reject(error)
 })
 new Vue({
     router,

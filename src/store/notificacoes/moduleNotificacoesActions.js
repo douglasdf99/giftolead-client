@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.put(`/confignotifications/1`, dados)
                 .then((response) => {
-                    console.log('usuário alterado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -27,7 +26,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/1`)
                 .then((response) => {
-                    console.log('produto resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -39,7 +37,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/nlidas`)
                 .then((response) => {
-                    console.log('notificações', response);
                     resolve(response.data);
                 })
                 .catch((error) => {
@@ -51,7 +48,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/todas`, {params: dados})
                 .then((response) => {
-                    console.log('notificações', response);
                     resolve(response.data);
                 })
                 .catch((error) => {
@@ -63,11 +59,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/setlidas`)
                 .then((response) => {
-                    console.log('notificações', response);
                     resolve();
                 })
                 .catch((error) => {
-                    console.log('erro', error);
                     reject()
                 })
         });

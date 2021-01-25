@@ -16,7 +16,6 @@ export default {
             dados._method = 'PUT';
             axios.post(`/links/${dados.id}`, dados)
                 .then((response) => {
-                    console.log('empresa alterada', response);
                     commit('UPDATE_EMPRESA', response.data.data);
                     resolve(response)
                 })
@@ -29,7 +28,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/links/`, dados)
                 .then((response) => {
-                    console.log('produto criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -41,7 +39,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/links/${id}`)
                 .then((response) => {
-                    console.log('link resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -53,7 +50,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/links`, {params: {}})
                 .then((response) => {
-                    console.log('produtos resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -65,7 +61,6 @@ export default {
         return new Promise((resolve, reject) => {
           axios.post(`/link-store/`, dados)
             .then((response) => {
-              console.log('link externo gerado', response);
               resolve(response)
             })
             .catch((error) => {

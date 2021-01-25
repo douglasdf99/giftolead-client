@@ -11,31 +11,29 @@
 import axios from "@/axios.js"
 
 export default {
-  getEmpresa({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      axios.get("/empresas", {params: dados})
-        .then((response) => {
-          console.log('empresa', response);
-          commit('SET_EMPRESA', response.data.data);
-          resolve(response.data.data)
+    getEmpresa({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get("/empresas", {params: dados})
+                .then((response) => {
+                    commit('SET_EMPRESA', response.data.data);
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-        .catch((error) => {
-          reject(error)
+    },
+    updateEmpresa({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/empresas/${dados.id}`, dados.dados)
+                .then((response) => {
+                    commit('UPDATE_EMPRESA', response.data.data);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
         })
-    })
-  },
-  updateEmpresa({commit}, dados) {
-    return new Promise((resolve, reject) => {
-      axios.post(`/empresas/${dados.id}`, dados.dados)
-        .then((response) => {
-          console.log('empresa alterada', response);
-          commit('UPDATE_EMPRESA', response.data.data);
-          resolve(response)
-        })
-        .catch((error) => {
-          reject(error)
-        })
-    })
-  },
+    },
 
 }

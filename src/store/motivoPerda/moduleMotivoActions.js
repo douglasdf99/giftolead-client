@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/tipo_de_perdas/${id}`)
                 .then((response) => {
-                    console.log('motivo resgatada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -27,7 +26,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/tipo_de_perdas`, {params: {status: 1}})
                 .then((response) => {
-                    console.log('motivos resgatados', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
