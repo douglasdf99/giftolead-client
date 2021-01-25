@@ -145,7 +145,10 @@ export default {
             endereco: {
                 telefone: '',
                 complemento: '',
-                numero: ''
+                numero: '',
+                estado: '',
+                bairro: '',
+                endereco: ''
             },
             habBairro: true,
             habEndereco: true,
@@ -214,7 +217,7 @@ export default {
                                     color: 'success',
                                     text: 'Salvo com sucesso'
                                 });
-                                this.$emit('getItems', 'arquivadas');
+                                this.$emit('getItems', '');
                             })
                             .catch(erro => {
                                 this.$vs.notify({
