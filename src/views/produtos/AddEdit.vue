@@ -16,10 +16,9 @@
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Conta atribuída no Hotmart</span>
-                <v-select v-model="contaSelected" :class="'select-large-base'" :clearable="false"
-                          style="background-color: white"
-                          :options="opcoesContas" v-validate="'required'" name="conta"/>
-                <span class="text-danger text-sm" v-show="errors.has('conta')">{{ errors.first('conta') }}</span>
+                <v-select v-model="contaSelected" :class="'select-large-base'" :clearable="false" style="background-color: white"
+                          :options="opcoesContas" v-validate="'required'" name="contaHotmart"/>
+                <span class="text-danger text-sm" v-show="errors.has('contaHotmart') || !contaSelected.id">{{ errors.first('contaHotmart') }}</span>
             </div>
         </div>
         <div class="vx-row mb-6">
@@ -28,21 +27,19 @@
                 <vs-input class="w-full" v-model="produto.preco" v-validate="'required'" size="large" v-money="money"
                           name="preco"/>
                 <span class="text-danger text-sm" v-show="errors.has('preco')">{{ errors.first('preco') }}</span>
-                <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">Código ID do produto no Hotmart</span>
                 <vs-input class="w-full" type="text" @keypress="isNumber($event)" v-validate="'required'" v-model="produto.cod_produto"
                           size="large" name="codigo"/>
                 <span class="text-danger text-sm" v-show="errors.has('codigo')">{{ errors.first('codigo') }}</span>
-
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">REF produto no checkout</span>
                 <vs-input class="w-full" v-model="produto.checkout" size="large"/>
             </div>
         </div>
-        <vx class="vx-row mb-20">
+        <div class="vx-row mb-10">
             <div class="vx-col w-full mb-4">
                 <span>Escolha uma cor para mostrar o produto nas telas</span>
             </div>
@@ -50,8 +47,7 @@
                 <ul class="clearfix">
                     <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" v-for="cor in cores"
                         :style="{backgroundColor: cor}" @click="selecionaCor(cor)">
-                        <vs-icon icon="done" icon-pack="material-icons" style="color: white;font-size: 2.5rem;"
-                                 v-if="produto.cor === cor"></vs-icon>
+                        <vs-icon icon="done" icon-pack="material-icons" style="color: white;font-size: 2.5rem;" v-if="produto.cor === cor"></vs-icon>
                     </li>
                     <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" :style="{backgroundColor: customcor}"
                         @click="selecionaCor(customcor)">
@@ -67,9 +63,9 @@
                 <span class="text-danger text-sm" v-show="errors.has('cor')">{{ errors.first('cor') }}</span>
 
             </div>
-        </vx>
-        <vs-divider class="mb-20"/>
-        <div class="vx-row mb-20">
+        </div>
+        <vs-divider class="mb-10"/>
+        <div class="vx-row mb-10">
             <div class="vx-col w-full lg:w-1/2">
                 <h2 class="subtitulo">Configurar comissão de venda para este produto</h2>
             </div>
@@ -141,8 +137,8 @@
                 </div>
             </transition>
         </div>
-        <vs-divider class="mb-20"/>
-        <div class="vx-row flex items-center mb-20">
+        <vs-divider class="mb-10"/>
+        <div class="vx-row flex items-center mb-10">
             <div class="vx-col w-full mb-4">
                 <h2 class="subtitulo">Produtos como possam ser vendidos como Upsell</h2>
             </div>
@@ -150,7 +146,7 @@
                 <v-select multiple :closeOnSelect="false" v-model="upsellers" :options="upsellersOption" dir="ltr" class="bg-white"/>
             </div>
         </div>
-        <vs-divider class="mb-20"/>
+        <vs-divider class="mb-10"/>
         <div class="vx-row flex items-center" style="margin-bottom: 10rem">
             <div class="vx-col w-full mb-4">
                 <h2 class="subtitulo">Url de integração com o Hotmart</h2>
@@ -279,7 +275,7 @@ export default {
             upsellers: [],
             produtos: [],
             url: saveleadsConfig.url_api + '/hotmart',
-            contaSelected: {id: null, label: ''},
+            contaSelected: {id: null, label: 'Selecione a conta'},
             cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',
                 '#3D556E', '#222F3D', '#F2C512', '#F39C1A', '#E84B3C', '#C0382B', '#DDE6E8', '#BDC3C8'],
             configComissao: false,
@@ -327,7 +323,6 @@ export default {
                             this.$router.push({name: 'produtos'});
                         }).catch(erro => {
                             this.$vs.notify({
-                                title: 'Error',
                                 text: erro.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
@@ -347,7 +342,6 @@ export default {
                             this.$router.push({name: 'produtos'});
                         }).catch(erro => {
                             this.$vs.notify({
-                                title: 'Error',
                                 text: erro.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
@@ -357,8 +351,7 @@ export default {
                     }
                 } else {
                     this.$vs.notify({
-                        title: 'Error',
-                        text: 'verifique os erros específicos',
+                        text: 'Verifique os erros específicos.',
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
@@ -393,9 +386,6 @@ export default {
                 this.produtos = response;
             })
         },
-        getUpsellers() {
-
-        },
         getProduto(id) {
             this.$vs.loading()
             this.$store.dispatch('produtos/getId', id).then(data => {
@@ -419,7 +409,6 @@ export default {
                 this.contaSelected.label = nome;
                 this.customcor = this.produto.cor;
                 this.$vs.loading.close();
-                this.getUpsellers();
             })
         },
         setUpsellers() {
@@ -455,13 +444,12 @@ export default {
     },
     computed: {
         isValid() {
-            return this.errors.any() && this.produto.cor !== '';
+            return this.errors.any() && this.produto.cor !== '' && this.contaSelected.id != null;
         },
         upsellersOption() {
             let arr = []
             this.produtos.forEach(item => {
-                console.log('itemn', item)
-                if ((item.conta_id == this.contaSelected.id) && (item.nome != this.contaSelected.nome))
+                if ((item.conta_id && this.contaSelected.id) && (item.conta_id == this.contaSelected.id) && (item.nome != this.contaSelected.nome))
                     arr.push({id: item.id, label: item.nome});
             });
             return arr;
