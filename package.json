@@ -61,6 +61,7 @@
     "vue-moment": "^4.1.0",
     "vue-multiselect": "^2.1.6",
     "vue-perfect-scrollbar": "^0.1.0",
+    "vue-phone-number-input": "^1.1.10",
     "vue-prism-component": "^1.1.1",
     "vue-property-decorator": "^8.1.1",
     "vue-quill-editor": "^3.0.6",
