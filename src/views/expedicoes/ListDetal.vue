@@ -5,7 +5,7 @@
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
                   :data="endereco"/>
         <div class="vx-row mb-5">
-            <div class="vx-col w-full lg:w-3/4">
+            <div class="vx-col w-full">
                 <div class="flex items-center justify-around" v-if="expedicao">
                     <p class="flex items-center">
                         {{ expedicao.fechado ? 'Fechada' : 'Pendente' }}
@@ -356,11 +356,14 @@ export default {
 
                 this.expedicao = {...response};
                 this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato.nome};
-            }).catch(() => {
+            }).catch(erro => {
+                console.log('front erro', erro.response);
                 this.$vs.notify({
                     color: 'danger',
-                    text: 'Algo deu errado ao carregar a exepdição'
+                    text: 'Algo deu errado ao carregar a exepdição.'
                 });
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'brindes-expedicoes', text: 'Retornar à listagem de Expedições'}});
             }).finally(() => {
                 this.$vs.loading.close();
             });

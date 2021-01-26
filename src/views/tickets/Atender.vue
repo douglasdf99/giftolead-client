@@ -396,6 +396,10 @@ export default {
                 } else {
                     this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
                 }
+            }).catch(erro => {
+                console.log('front erro', erro.response);
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'tickets-list', text: 'Retornar à listagem de Tickets'}});
             });
         },
         openAlert(title, text, color, id = null) {

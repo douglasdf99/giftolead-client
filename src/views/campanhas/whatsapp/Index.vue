@@ -327,7 +327,11 @@ export default {
                     console.log(tag.outerHTML);
                     this.scripts.push(tag.outerHTML)
                 });
-            });
+            }).catch(erro => {
+                console.log('front erro', erro.response);
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
+            });;
         },
         formatPrice(value) {
             let val = (value / 1).toFixed(2).replace('.', ',')

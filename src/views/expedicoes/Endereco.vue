@@ -162,7 +162,6 @@ export default {
     watch: {
         endereco: {
             handler: function (e) {
-                console.log('rodou', e.cep, this.antigoCep);
                 if (e.cep != this.antigoCep) {
                     this.valido = false;
                 }
@@ -180,7 +179,6 @@ export default {
         },
     },
     created() {
-        console.log(this.data)
         this.getEndereco(this.data.id);
 
         if (!moduleExpedicoesBrindes.isRegistered) {
@@ -201,9 +199,7 @@ export default {
                 return this.isSidebarActive
             },
             set(val) {
-                console.log('valor side', val);
                 if (!val) {
-                    console.log('entou no emit ', val);
                     this.$emit('closeSidebar');
                 }
             }
@@ -214,7 +210,6 @@ export default {
             this.$validator.validateAll().then(result => {
                 if (result) {
                     this.endereco.telefone = this.endereco.ddd + this.endereco.telefone.replace('-', '');
-                    console.log(this.endereco);
                     this.endereco.nome = this.removeAccents(this.endereco.nome);
                     this.$vs.loading();
                     this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(response => {
@@ -225,7 +220,6 @@ export default {
                             text: 'Salvo com sucesso'
                         });
                     }).catch(erro => {
-                        console.log(erro);
                         this.$vs.notify({
                             color: 'danger',
                             text: erro.message
@@ -238,7 +232,6 @@ export default {
         }
         ,
         getEndereco(id) {
-            console.log(this.endereco);
             this.$vs.loading();
             this.$store.dispatch('expedicaos/getEndereco', id).then(response => {
 
@@ -253,7 +246,6 @@ export default {
                 this.$vs.loading.close();
 
             }).catch(erro => {
-                console.log(erro);
                 this.$vs.notify({
                     title: '',
                     color: 'danger',
@@ -263,14 +255,10 @@ export default {
         },
         buscaCep() {
             if (this.valido) {
-                console.log('teste')
             } else {
-                console.log('teste2')
-                console.log(this.endereco.cep);
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
                 consultarCep(this.endereco.cep).then(response => {
-                    console.log('resposta', response);
 
                     this.antigoCep = this.endereco.cep;
                     this.valido = true;
@@ -279,7 +267,6 @@ export default {
                     this.endereco.endereco = this.removeAccents(response.logradouro);
                     this.endereco.estado = this.removeAccents(response.uf);
                 }).catch(erro => {
-                    console.log(erro);
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
