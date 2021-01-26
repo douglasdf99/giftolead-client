@@ -66,7 +66,6 @@
                                     <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_slack_detal')"
                                                @click="$router.push({name: 'extensoes-slack-config'})">{{extensoes.slack != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
-                                <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
                             </div>
                         </div>
                         <div class="vx-col col-conquista mb-10">

@@ -12,6 +12,7 @@
                 <span class="font-regular mb-2">Nome da campanha</span>
                 <vs-input class="w-full" v-model="campanha.nome" size="large" name="nome"/>
             </div>
+<!--          {{campanha}}-->
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Produto da campanha</span>
                 <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
@@ -107,7 +108,7 @@
                     <div class="vx-col w-full mb-4">
                         <vx-card class="shadow-none">
                             <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">{{ campanha.transacaos_count }}</p>
+                            <p class="font-bold text-3xl my-5">{{ campanha.total_recuperado }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
@@ -125,7 +126,7 @@
                         <div class="vx-col w-full mb-4" v-if="verMaisCards">
                             <vx-card class="shadow-none">
                                 <span class="destaque">Valor recuperado</span>
-                                <p class="font-bold text-3xl my-5">R$ {{ formatPrice(valortotal) }}</p>
+                                <p class="font-bold text-3xl my-5">R$ {{ formatPrice(campanha.totalValorRecuperado) }}</p>
                             </vx-card>
                         </div>
                     </transition>
@@ -386,9 +387,10 @@ export default {
         },
         valortotal: function () {
             let sum = 0;
-            return this.campanha.transacaos.reduce(function (prev, item) {
-                return sum + item.full_price;
-            }, 0);
+            return sum;
+            // return this.campanha.transacaos.reduce(function (prev, item) {
+            //     return sum + item.full_price;
+            // }, 0);
         }
     },
     watch: {

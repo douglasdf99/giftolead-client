@@ -46,6 +46,7 @@
                                     <vs-td>
                                         <div class="font-bold" v-if="tr.responsavel.lead_produto">
                                             {{ tr.responsavel.lead_produto.lead.nome }}
+
                                         </div>
                                         Motivo: {{ tr.natureza }}<br/>
                                         Produto: {{ tr.produto.nome }}
