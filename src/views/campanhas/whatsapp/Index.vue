@@ -341,7 +341,9 @@ export default {
     <label for="email">E-mail</label>
     <input type="email" required name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
-    <input type="text" required name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <input type="text" name="ddi" id="ddi" value="+55">
+    <input type="text" name="ddd" id="ddd">
+    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <button type="submit">Enviar</button>
 </form>
                 `;

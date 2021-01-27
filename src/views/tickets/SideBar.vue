@@ -72,7 +72,7 @@
               <span class="text-danger text-sm"
                     v-show="errors.has('lead_email')">{{ errors.first('lead_email') }}</span>
               <span class="text-danger text-sm"
-                    v-show="verificaLeadEmail">Já existe um ticket para este Lead vinculado a este Produto.</span>
+                    v-show="verificaLeadEmail">{{ verificaLeadResponse }}</span>
             </div>
           </div>
           <div class="vx-row mt-5">
@@ -211,6 +211,7 @@ export default {
       },
       validado: false,
       verificaLeadEmail: false,
+      verificaLeadResponse: false,
       translations: {
         countrySelectorLabel: 'Codigo do Pais',
         countrySelectorError: 'Selecione um Pais',
@@ -269,9 +270,12 @@ export default {
             email: this.ticket.lead.email,
             produto_id: this.selectedProduto.id
           }).then(response => {
+            console.log(response,'verificado');
             this.verificaLeadEmail = response.verificacao;
+            this.verificaLeadResponse = response.erro;
           });
         } else {
+
           this.verificaLeadEmail = false;
         }
       } else {
@@ -279,7 +283,9 @@ export default {
           email: this.ticket.lead.email,
           produto_id: this.selectedProduto.id
         }).then(response => {
+          console.log(response,'verficado');
           this.verificaLeadEmail = response.verificacao;
+          this.verificaLeadResponse = response.erro;
         });
       }
     },
