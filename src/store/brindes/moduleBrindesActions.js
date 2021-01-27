@@ -23,6 +23,17 @@ export default {
                 })
         })
     },
+    getArraySelect({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/selects/brindes`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     getEmbalagems() {
         return new Promise((resolve, reject) => {
             axios.get(`/embalagems`)

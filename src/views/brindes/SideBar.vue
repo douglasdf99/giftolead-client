@@ -408,7 +408,7 @@ export default {
                 console.log('correios', response)
                 let arr = [...response];
                 arr.forEach(item => {
-                    this.opcoesContrato.push({id: item.id, label: item.nome})
+                    this.opcoesContrato.push({id: item.id, label: item.nome});
                 });
             })
         },

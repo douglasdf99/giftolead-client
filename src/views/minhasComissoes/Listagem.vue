@@ -15,7 +15,7 @@
                 <p class="mt-2">{{ item.ticket.lead.email }} <span v-if="item.email_secundario"> ou {{ item.email_secundario }} </span></p>
                 <p class="font-bold">{{ item.ticket.lead.ddd + item.ticket.lead.telefone | VMask('(##) ####-####') }}</p>
             </div>
-            <div class="vx-col w-1/12 flex items-center justify-center">
+            <div class="vx-col w-2/12 flex items-center justify-center" v-if="tipo == 'pendentes'">
                 <vx-tooltip position="top" text="Comprovar venda">
                     <vs-button color="danger" type="gradient" icon-pack="material-icons" :icon="item.anexos.length > 0 ? 'attach_file' : 'publish'" @click="item.action = 1;$emit('updateData', item);"
                                icon-after>Comprovar
@@ -24,7 +24,7 @@
             </div>
             <div class="vx-col w-1/12 flex items-center justify-center">
                 <vx-tooltip position="top" text="Visualizar">
-                    <vs-icon icon-pack="material-icons" icon="visibility" @click="item.action = 2;$emit('updateData', item)" />
+                    <vs-icon icon-pack="material-icons" class="text-2xl cursor-pointer" icon="visibility" @click="item.action = 2;$emit('updateData', item)" />
                 </vx-tooltip>
             </div>
 

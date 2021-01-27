@@ -56,4 +56,16 @@ export default {
                 })
         })
     },
+    getArraySelect({commit}) {
+        console.log('ebtriy aqyu')
+        return new Promise((resolve, reject) => {
+            axios.get(`/selects/produtos`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

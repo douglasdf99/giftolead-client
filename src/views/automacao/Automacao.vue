@@ -1,11 +1,8 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData" @getItems="getItems('pendente')"/>
-        <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
-                  :data="endereco"/>
-        <reenviar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
-                  :data="aresponder"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" @getItems="getItems('pendente')"/>
+        <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd" :data="endereco"/>
+        <reenviar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems" :data="aresponder"/>
         <div class="vx-row flex items-end mb-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
                 <div class="flex items-center">
@@ -176,10 +173,10 @@ export default {
         toggleDataSidebarEnd(val = false) {
             this.modalEndereco = val
         },
-        getLength(status){
+        getLength(status) {
             return (this.dados.tipo === status ? ` (${this.items.length})` : '')
         },
-        reenviarWhats(dados){
+        reenviarWhats(dados) {
             this.aresponder = dados;
             this.toggleRespostaSidebar(true);
         },
@@ -188,13 +185,13 @@ export default {
         },
         //Editar endereço da automação
         editarEndereco(obj) {
-          this.automacaoSelected = {...obj};
+            this.automacaoSelected = {...obj};
             if (obj.endereco) {
                 this.endereco = {...obj.endereco};
                 this.endereco.ddd = this.endereco.telefone.substring(0, 2);
                 this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
-            }else{
-              this.endereco = {id: null};
+            } else {
+                this.endereco = {id: null};
             }
 
             this.modalEndereco = true;
@@ -213,13 +210,13 @@ export default {
             this.$store.dispatch('automacao/get', this.dados).then(response => {
                 this.items = response.data;
                 this.pagination = response
-            }).finally(()=>{
-              this.$vs.loading.close();
+            }).finally(() => {
+                this.$vs.loading.close();
             });
         },
-        pesquisar(){
-          this.dados.page = 1;
-          this.getItems();
+        pesquisar() {
+            this.dados.page = 1;
+            this.getItems();
         },
         addNewData() {
             this.sidebarData = {'brindes': this.brindes}
@@ -229,8 +226,8 @@ export default {
             this.addNewDataSidebar = val
         },
         getBrindes() {
-            this.$store.dispatch('brindes/get').then(response => {
-                this.brindes = [...this.arraySelect(response)];
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
+                this.brindes = [...response];
             });
         }
     },

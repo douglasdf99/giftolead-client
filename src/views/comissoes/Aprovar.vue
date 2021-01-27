@@ -196,8 +196,8 @@
             },
             getOpcoes(){
                 this.selectedAten.label = 'Carregando...';
-                this.$store.dispatch('users/get').then(response => {
-                    this.usuarios = [...this.arraySelect(response)];
+                this.$store.dispatch('users/getArraySelect').then(response => {
+                    this.usuarios = [...response];
                     this.selectedAten.label = 'Selecione o atendente';
                 });
             },

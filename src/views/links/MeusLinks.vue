@@ -102,14 +102,9 @@ export default {
     methods: {
         getOpcoes() {
             //Produtos
-            this.$store.dispatch('produtos/get').then(response => {
-                let arr = [...response];
-                arr.forEach(item => {
-                    this.produtos.push({id: item.id, label: item.nome})
-                    if (item.id == this.$route.params.id) {
-                        this.selectedProduto = {id: item.id, label: item.nome}
-                    }
-                });
+            this.$store.dispatch('produtos/getArraySelect').then(response => {
+                console.log('response dos produtos')
+                this.produtos = [...response]
             });
         },
         getProduto(id) {

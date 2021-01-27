@@ -4,9 +4,9 @@
                   :data="aresponder"/>
         <transformar v-if="transformarTicket" :isSidebarActive="transformarTicket" @closeSidebar="toggleTicketSidebar" @getItems="getItems"
                      :data="atransformar"/>
-        <div class="vx-row flex items-end" v-if="dados.situacao !== 'pendentes'">
+        <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
+                <p>Resultado da busca considerando o período: <span class="destaque">{{ (dateRange.startDate != null && dateRange.endDate != null) ? (dateRange.startDate | formatDate) + 'a' + (dateRange.endDate | formatDate) : 'Total'}}</span>
                 </p>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full relative lg:w-6/12 flex justify-end" v-if="dados.situacao !== 'pendentes'">
+            <div class="vx-col w-full relative lg:w-6/12 flex justify-end">
                 <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
                 <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
                 <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
@@ -163,8 +163,8 @@ export default {
                 page: 1,
                 current_page: 1
             },
-            dt_inicio: '',
-            dt_fim: '',
+            dt_inicio: null,
+            dt_fim: null,
             languages: lang,
             dateRange: {},
             localeData: {
@@ -178,8 +178,8 @@ export default {
                 daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
                 monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
                 firstDay: 0,
-                startDate: '05/26/2020',
-                endDate: '05/26/2020',
+                startDate: null,
+                endDate: null,
             },
             ranges: {
                 //Definindo ranges padronizados
@@ -207,10 +207,8 @@ export default {
     },
     created() {
         this.$vs.loading();
-        this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
-        this.dt_fim = moment().format('YYYY-MM-DD');
-        this.dateRange.startDate = moment().subtract(30, 'days')
-        this.dateRange.endDate = moment()
+        //this.dateRange.startDate = moment().subtract(30, 'days')
+        //this.dateRange.endDate = moment()
 
         if (!moduleWhatsList.isRegistered) {
             this.$store.registerModule('whatsapplist', moduleWhatsList)
@@ -222,17 +220,14 @@ export default {
             moduleProdutos.isRegistered = true
         }
 
-        this.$store.dispatch('produtos/get').then(response => {
-            let arr = [...response];
-            arr.forEach(item => {
-                this.produtos.push({id: item.id, label: item.nome});
-            });
+        this.$store.dispatch('produtos/getArraySelect').then(response => {
+            console.log('console.logoasdhasdh', response)
+            this.produtos = [...response];
         });
 
         this.$store.dispatch('whatsapplist/setFilter', false);
     },
     methods: {
-
         chooseResp(obj) {
             this.selectedResp = obj;
         },
@@ -284,6 +279,7 @@ export default {
                 container: "#listagem-whatsapplist",
                 scale: 0.45
             });
+
             this.dados.situacao = tipo;
             if (this.selectedResp) {
                 //this.dados.responsavel_type = this.selectedResp.id;
@@ -297,15 +293,10 @@ export default {
                 this.dados.produto_id = this.selectedProduto.id;
             else this.dados.produto_id = '';
 
-            if(this.dados.situacao != 'pendentes'){
-                if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
-                if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-            } else {
-                this.dados.dt_inicio = null;
-                this.dados.dt_fim = null;
-            }
+            if (this.dateRange.startDate)
+                this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+            if (this.dateRange.endDate)
+                this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
             if (tipo != null)
                 this.dados.situacao = tipo;
@@ -359,7 +350,7 @@ export default {
                             title: '',
                             text: 'Deletado com sucesso'
                         });
-                        this.getItems();
+                        this.getItems(this.dados.situacao);
                     }).catch(erro => {
                         console.log(erro)
                         this.$vs.notify({
@@ -374,7 +365,7 @@ export default {
         pesquisar(e) {
             this.dados.page = 1;
             e.preventDefault();
-            this.getItems();
+            this.getItems(this.dados.situacao);
         },
     },
     watch: {
@@ -382,7 +373,7 @@ export default {
             this.$vs.loading();
             console.log('val', val);
             this.dados.page = this.currentx;
-            this.getItems();
+            this.getItems(this.dados.situacao);
         },
         "$route"() {
             this.routeTitle = this.$route.meta.pageTitle
@@ -390,29 +381,29 @@ export default {
         dateRange() {
             this.$vs.loading();
             this.dados.page = 1;
-            this.getItems();
+            this.getItems(this.dados.situacao);
         },
         selectedProduto() {
             this.$vs.loading();
             this.dados.page = 1;
-            this.getItems();
+            this.getItems(this.dados.situacao);
         },
         selectedResp() {
             this.$vs.loading();
             this.dados.page = 1;
-            this.getItems();
+            this.getItems(this.dados.situacao);
         },
         selectedCampanha() {
             this.$vs.loading();
             this.dados.page = 1;
-            this.getItems();
+            this.getItems(this.dados.situacao);
         },
         dados: {
             handler(val) {
                 if (val.length != this.pagination.per_page) {
                     this.dados.page = 1;
                     this.$vs.loading();
-                    this.getItems();
+                    this.getItems(this.dados.situacao);
                 }
             },
             deep: true
