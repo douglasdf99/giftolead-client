@@ -266,7 +266,6 @@ export default {
                     this.habEndereco = false
                 }
 
-
                 this.antigoCep = this.endereco.cep;
                 if (this.endereco.cep) {
                     this.valido = true;
@@ -287,7 +286,6 @@ export default {
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
                 consultarCep(this.endereco.cep).then(response => {
-
                     this.antigoCep = this.endereco.cep;
                     this.valido = true;
                     this.endereco.cidade = this.removeAccents(response.localidade);

@@ -1,8 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate"
-                  @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_brinde_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -16,17 +14,14 @@
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @input="pesquisar">
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"
-                                      placeholder="Pesquisar por nome do brinde, nome do produto ou medidas"/>
+                            <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" v-model="dados.search" id="search_input" size="large"
+                                      placeholder="Nome do brinde, nome do produto ou medidas"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
                                 <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
                             </div>
                         </form>
                     </div>
