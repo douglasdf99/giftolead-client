@@ -265,13 +265,17 @@ export default {
         },
         getUsuario() {
             let user = JSON.parse(localStorage.getItem('userInfo'));
-            this.$vs.loading()
+            this.$vs.loading();
             this.$store.dispatch('users/getId', user.uid).then(data => {
                 this.usuario = data;
-                this.usuario.password = ''
-                this.usuario.password_confirmed = ''
+                this.usuario.password = '';
+                this.usuario.password_confirmed = '';
                 this.$vs.loading.close();
-            })
+            }).catch(erro => {
+                console.log('front erro', erro.response);
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404'});
+            });
         },
         //drag
         OnDragEnter(e) {

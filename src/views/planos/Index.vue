@@ -13,10 +13,8 @@
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @submit="pesquisar">
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"
-                                      placeholder="Pesquisar por nome"/>
+                            <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                                      v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
@@ -42,7 +40,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-                  <nenhum-registro/>
+                    <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items"
@@ -51,7 +49,7 @@
                         <template slot="thead">
                             <vs-th class="lg:w-1/12"></vs-th>
                             <vs-th class="lg:w-6/12">Nome</vs-th>
-                            <vs-th class="lg:w-4/12">N de Campanhas</vs-th>
+                            <vs-th class="lg:w-4/12"></vs-th>
                             <vs-th></vs-th>
                         </template>
                         <template slot-scope="{data}">
@@ -81,14 +79,16 @@
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].nome" class="relative">
-                                    <span class="destaque">{{ data[indextr].campanhas.length }}</span>
+                                    <vs-chip color="primary">{{ data[indextr].campanhas.length }} campanhas</vs-chip>
                                 </vs-td>
                                 <vs-td :data="data[indextr].status">
-                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
-                                             class="icon-grande text-success"
-                                             v-if="data[indextr].status"></vs-icon>
-                                    <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
-                                             v-else></vs-icon>
+                                    <vx-tooltip position="top" :text="tr.status ? 'Ativo' : 'Inativo'" class="flex items-center justify-center">
+                                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
+                                                 class="icon-grande text-success"
+                                                 v-if="data[indextr].status"></vs-icon>
+                                        <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
+                                                 v-else></vs-icon>
+                                    </vx-tooltip>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -101,110 +101,110 @@
 </template>
 
 <script>
-import modulePlanos from '@/store/planos/modulePlanos.js'
+    import modulePlanos from '@/store/planos/modulePlanos.js'
 
-export default {
-    name: "Index",
-    data() {
-        return {
-            routeTitle: 'Planos',
-            dados: {
-                search: '',
-                page: 1
-            },
-            pagination: {
-                last_page: 1,
-                page: 1,
-                current_page: 1
-            },
-            currentx: 1
-            //items: {}
-        }
-    },
-    created() {
-        this.$vs.loading()
-        if (!modulePlanos.isRegistered) {
-            this.$store.registerModule('planos', modulePlanos)
-            modulePlanos.isRegistered = true
-        }
+    export default {
+        name: "Index",
+        data() {
+            return {
+                routeTitle: 'Planos',
+                dados: {
+                    search: '',
+                    page: 1
+                },
+                pagination: {
+                    last_page: 1,
+                    page: 1,
+                    current_page: 1
+                },
+                currentx: 1
+                //items: {}
+            }
+        },
+        created() {
+            this.$vs.loading()
+            if (!modulePlanos.isRegistered) {
+                this.$store.registerModule('planos', modulePlanos)
+                modulePlanos.isRegistered = true
+            }
 
-        this.getItems();
-    },
-    methods: {
-        addNewData() {
-            this.$router.push({name: 'planos-criar'});
+            this.getItems();
         },
-        updateData(obj) {
-            this.$router.push({path: '/planos/gerenciar/' + obj.id});
-        },
-        toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
-        },
-        getItems() {
-            this.$store.dispatch('getVarios', {rota: 'planos', params: this.dados}).then(response => {
-                this.pagination = response;
-                //this.items = response.data
-                //this.dados.page = this.pagination.current_page
-                this.$vs.loading.close()
-            });
-        },
-        deletar(id) {
-            this.$vs.dialog({
-                color: 'danger',
-                title: `Deletar registro`,
-                text: 'Deseja deletar este registro? Procedimento irreversível',
-                acceptText: 'Sim, deletar!',
-                accept: () => {
-                    this.$vs.loading();
-                    this.$store.dispatch('deleteItem', {id: id, rota: 'planos'}).then(() => {
-                        this.$vs.notify({
-                            color: 'success',
-                            title: '',
-                            text: 'O registro foi deletada com sucesso'
-                        });
-                        this.getItems();
-                    }).catch(erro => {
-                        console.log(erro)
-                        this.$vs.notify({
-                            color: 'danger',
-                            title: 'Erro',
-                            text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+        methods: {
+            addNewData() {
+                this.$router.push({name: 'planos-criar'});
+            },
+            updateData(obj) {
+                this.$router.push({path: '/planos/gerenciar/' + obj.id});
+            },
+            toggleDataSidebar(val = false) {
+                this.addNewDataSidebar = val
+            },
+            getItems() {
+                this.$store.dispatch('getVarios', {rota: 'planos', params: this.dados}).then(response => {
+                    this.pagination = response;
+                    //this.items = response.data
+                    //this.dados.page = this.pagination.current_page
+                    this.$vs.loading.close()
+                });
+            },
+            deletar(id) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Deletar registro`,
+                    text: 'Deseja deletar este registro? Procedimento irreversível',
+                    acceptText: 'Sim, deletar!',
+                    accept: () => {
+                        this.$vs.loading();
+                        this.$store.dispatch('deleteItem', {id: id, rota: 'planos'}).then(() => {
+                            this.$vs.notify({
+                                color: 'success',
+                                title: '',
+                                text: 'O registro foi deletada com sucesso'
+                            });
+                            this.getItems();
+                        }).catch(erro => {
+                            console.log(erro)
+                            this.$vs.notify({
+                                color: 'danger',
+                                title: 'Erro',
+                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                            })
+                        }).finally(() => {
+                            this.$vs.loading.close();
                         })
-                    }).finally(()=>{
-                      this.$vs.loading.close();
-                    })
-                }
-            })
+                    }
+                })
+            },
+            pesquisar(e) {
+                this.dados.page = 1;
+                e.preventDefault();
+                this.$vs.loading();
+                this.getItems();
+            }
         },
-        pesquisar(e) {
-          this.dados.page =1;
-            e.preventDefault();
-            this.$vs.loading();
-            this.getItems();
-        }
-    },
-    watch: {
-        currentx(val) {
-            this.$vs.loading();
-            console.log('val', val);
-            this.dados.page = this.currentx;
-            this.getItems();
-        },
-        "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+        watch: {
+            currentx(val) {
+                this.$vs.loading();
+                console.log('val', val);
+                this.dados.page = this.currentx;
+                this.getItems();
+            },
+            "$route"() {
+                this.routeTitle = this.$route.meta.pageTitle
+            },
+
         },
 
-    },
+        computed: {
 
-    computed: {
-
-        items() {
-            return this.$store.state.items;
+            items() {
+                return this.$store.state.items;
+            },
+            /*pagination() {
+                return this.$store.state.pagination;
+            },*/
         },
-        /*pagination() {
-            return this.$store.state.pagination;
-        },*/
-    },
 
-}
+    }
 </script>
