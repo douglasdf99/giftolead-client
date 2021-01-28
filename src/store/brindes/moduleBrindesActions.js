@@ -58,9 +58,9 @@ export default {
     },
     getContratos() {
         return new Promise((resolve, reject) => {
-            axios.get(`/correios`)
+            axios.get(`/selects/correios`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data)
                 })
                 .catch((error) => {
                     reject(error)
