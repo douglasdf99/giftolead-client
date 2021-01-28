@@ -51,7 +51,11 @@
                     </div>
                 </div>
                 <div class="vx-row mb-4">
-                    <div class="vx-col w-4/12">
+
+                    <div class="vx-col w-2/12">
+                        <vs-input class="w-full" id="input-ddi" v-mask="'+####'" v-model="campanha.ddi" placeholder="DDI" size="large" name="nome" v-validate="'required'"/>
+                    </div>
+                  <div class="vx-col w-2/12">
                         <vs-input class="w-full" id="input-ddd" v-mask="'(##)'" v-model="campanha.ddd" placeholder="DDD" size="large" name="nome" v-validate="'required'"/>
                     </div>
                     <div class="vx-col w-8/12">
@@ -345,7 +349,9 @@ export default {
     <label for="email">E-mail</label>
     <input type="email" required name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
-    <input type="text" required name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <input type="text" name="ddi" id="ddi" value="+55">
+    <input type="text" name="ddd" id="ddd">
+    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <button type="submit">Enviar</button>
 </form>
                 `;
