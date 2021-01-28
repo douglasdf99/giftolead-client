@@ -188,7 +188,7 @@ export default {
     },
     sendMsg({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/ticket-enviar-whatsapp/`, {id: dados.id, mensagem: dados.mensagem})
+            axios.post(`/ticket-enviar-whatsapp`, {id: dados.id, mensagem: dados.mensagem})
                 .then((response) => {
                     commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
                     resolve(response.data.data.url);

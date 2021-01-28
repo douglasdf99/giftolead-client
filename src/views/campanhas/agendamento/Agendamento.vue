@@ -349,6 +349,8 @@ export default {
     <label for="email">E-mail</label>
     <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
     <label for="email">Whatsapp</label>
+    <input type="text" name="ddi" id="ddi" value="+55">
+    <input type="text" name="ddd" id="ddd">
     <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
     <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
     <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">

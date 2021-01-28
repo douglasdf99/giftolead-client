@@ -886,6 +886,9 @@ export default {
           icon: 'icon-check-circle',
           color: 'success'
         });
+        this.ticket.lead.ddi = response.data.data.ddi;
+        this.ticket.lead.ddd = response.data.data.ddd;
+        this.ticket.lead.telefone = response.data.data.telefone;
         this.findddi();
       }).catch(erro => {
         this.$vs.loading.close();

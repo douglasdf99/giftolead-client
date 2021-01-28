@@ -51,7 +51,11 @@
                     </div>
                 </div>
                 <div class="vx-row mb-4">
-                    <div class="vx-col w-4/12">
+
+                    <div class="vx-col w-2/12">
+                        <vs-input class="w-full" id="input-ddi" v-mask="'+####'" v-model="campanha.ddi" placeholder="DDI" size="large" name="nome" v-validate="'required'"/>
+                    </div>
+                  <div class="vx-col w-2/12">
                         <vs-input class="w-full" id="input-ddd" v-mask="'(##)'" v-model="campanha.ddd" placeholder="DDD" size="large" name="nome" v-validate="'required'"/>
                     </div>
                     <div class="vx-col w-8/12">
