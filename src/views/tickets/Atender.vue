@@ -101,7 +101,7 @@
                   <span v-if="ticket.lead.telefone">{{ ticket.lead.telefone }} </span>
 
                   <span class="mt-5">
-                    <vs-icon icon="create" icon-pack="material-icons" style="color: #9344C4;font-size: 1.2rem;cursor: pointer;margin-top: 5px" @click="editable=true"></vs-icon>
+                    <vs-icon icon="create" icon-pack="material-icons" style="color: #9344C4;font-size: 1.2rem;cursor: pointer;margin-top: 5px" @click="editable=true;ticket.lead.telefone=ticket.lead.ddd+ticket.lead.telefone "></vs-icon>
                   </span>
 
                 </p>
@@ -861,6 +861,13 @@ export default {
     },
     clickOut(){
       this.editable = false;
+      if (this.ticket.lead.ddi == '55'){
+        let sepadados = this.ticket.lead.telefone.split(' ');
+        this.ticket.lead.ddd = sepadados[0];
+        this.ticket.lead.telefone = sepadados[1];
+      }
+
+
     },
     updateLead(){
       this.$vs.loading();
