@@ -209,6 +209,7 @@ export default {
     },
     methods: {
         openAlert(title, text, color, id = null) {
+            console.log('id ticket', id)
             this.$vs.dialog({
                 color: color,
                 title: title,

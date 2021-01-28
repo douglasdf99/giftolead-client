@@ -208,7 +208,11 @@
                 this.$store.dispatch('tickets/getId', id).then(response => {
                     this.ticket = response;
                     this.$vs.loading.close();
-                });
+                }).catch(erro => {
+                    console.log('front erro', erro.response);
+                    //Redirecionando caso 404
+                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'tickets-list', text: 'Retornar à listagem de Tickets'}});
+                }).finally(() => this.$vs.loading.close());
             },
             toggleRespostaSidebar(val = false) {
                 this.responderTicket = val;
