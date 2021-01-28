@@ -23,8 +23,7 @@
                          v-if="!(!hasSentPreviousMsg(chatData.msg[index-1].isSent, msg.isSent) || !isSameDay(msg.time, chatData.msg[index-1].time))"></div>
                 </template>
 
-                <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-4 rounded-lg max-w-sm"
-                     :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
+                <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-4 rounded-lg max-w-sm" :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
                     <span>{{ msg.textContent }}</span>
                 </div>
             </div>

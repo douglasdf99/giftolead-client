@@ -260,4 +260,15 @@ export default {
                 })
         })
     },
+    validarAutomacao({commit}, id) {
+        return new Promise((resolve, reject) => {
+            axios.post(`automacaos/validaInfor/${id}`)
+                .then((response) => {
+                    resolve(response.data);
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
 }

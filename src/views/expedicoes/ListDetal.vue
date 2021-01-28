@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="vx-row flex items-center">
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+            <div class="vx-col w-10/12 sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
@@ -47,6 +47,11 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
+            <div class="vx-col w-1/12 lg:1/12 xlg:1/12 float-right flex items-center col justify-center">
+                <vx-tooltip text="Validar informações das automações" position="top">
+                    <vs-button color="primary" class="p-2 ml-3" @click="validarAutomacoes" icon-pack="material-icons" icon="youtube_searched_for"></vs-button>
+                </vx-tooltip>
+            </div>
         </div>
         <vs-table :data="list" class="table-items">
             <template slot="thead">
@@ -58,7 +63,7 @@
                 <vs-th></vs-th>
             </template>
             <template slot-scope="{data}">
-                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
+                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" class="relative vs-con-loading__container" :id="'automacao-' + indextr">
                     <vs-td class="flex justify-center items-center">
                         <vs-dropdown vs-trigger-click>
                             <vs-button radius color="#EDEDED" type="filled"
@@ -102,10 +107,12 @@
                     </vs-td>
                     <vs-td>{{ tr.endereco.cep | VMask('##.###-###') }}</vs-td>
                     <vs-td class="td-icons flex flex-col items-center justify-center">
-                        <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-if="tr.erro == null"
+                        <vx-tooltip v-if="tr.erro" :text="showErro(tr.erro)" position="top" class="flex items-center justify-center">
+                            <vs-icon icon-pack="material-icons" icon="highlight_off"
+                                     class="icon-grande font-bold text-danger"></vs-icon>
+                        </vx-tooltip>
+                        <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-else
                                  class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
-                        <vs-icon icon-pack="material-icons" icon="highlight_off" v-else
-                                 class="icon-grande font-bold text-danger"></vs-icon>
 
                     </vs-td>
                 </vs-tr>
@@ -244,6 +251,7 @@ import saveleadsConfig from "../../../saveleadsConfig";
 import vSelect from 'vue-select'
 import moduleContrato from "../../store/contratos/moduleContrato";
 import axios from "@/axios.js"
+import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 
 const {consultarCep} = require("correios-brasil");
 
@@ -269,6 +277,8 @@ export default {
             dados: {
                 pesquisa: '',
             },
+            validados: [],
+
             //Iframe de impressões
             modalIframe: false,
             urlIframe: '',
@@ -343,6 +353,11 @@ export default {
         if (!moduleContrato.isRegistered) {
             this.$store.registerModule('contratos', moduleContrato);
             moduleContrato.isRegistered = true;
+        }
+
+        if (!moduleAutomacao.isRegistered) {
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
         if (moduleExpedicoesBrindes.isRegistered)
             this.getItem(this.$route.params.id);
@@ -641,7 +656,6 @@ export default {
                 this.val = {};
                 this.$vs.notify({
                     color: 'success',
-                    title: '',
                     text: 'Salvo com sucesso'
                 });
                 this.getItem(this.$route.params.id);
@@ -649,10 +663,34 @@ export default {
                 console.log(erro)
                 this.$vs.notify({
                     color: 'danger',
-                    title: 'Erro',
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
                 })
             });
+        },
+        async validarAutomacoes() {
+            for (let [index, item] of this.expedicao.automacaos.entries()) {
+                this.$vs.loading({container: "#automacao-" + index, scale: .5});
+
+                await this.$store.dispatch('automacao/validarAutomacao', item.id).then(response => {
+                    console.log('voltou pra view', response);
+                    if(!response.success)
+                        item.erro = response.erro;
+                }).catch(erro => {
+                    console.log('deu ruim', erro);
+                }).finally(() => this.$vs.loading.close("#automacao-" + index + " > .con-vs-loading"));
+            }
+        },
+        showErro(arr){
+            let message = 'Erros - ';
+            arr = Object.entries(arr);
+            console.log('arr', arr);
+            arr.forEach(area => {
+                area.forEach(text => {
+                    message += text + '\r\n';
+                })
+            });
+
+            return message
         }
     },
     computed: {

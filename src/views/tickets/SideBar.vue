@@ -95,9 +95,9 @@
                                 v-model="ticket.lead.telefone"
                                 :translations="translations"
                                 no-flags
-                                required="true"
-                                no-use-browser-locale
-                                default-country-code="BR"
+                                :required="true"
+                                use-browser-locale
+
                                 class="mb-2"
                                 clearable
                                 :border-radius="8"
@@ -112,10 +112,7 @@
                     <vs-input class="w-full" hidden v-model="ticket.lead.telefone" size="large"
                               name="lead_telefone"
                               v-validate="'required'" @keypress="isNumber"/>
-                    <span class="text-danger text-sm"
-                          v-show="errors.has('telefone')  ">{{ errors.first('lead_telefone') }}</span>
-                    <span class="text-danger text-sm"
-                          v-show="!payload.isValid">Verifique se o telefone e valido</span>
+                    <p class="text-danger text-sm" v-show="errors.has('telefone')  ">{{ errors.first('lead_telefone') }}</p>
                     <div class="vx-row mt-5">
                         <div class="vx-col w-full">
                             <span class="font-regular mb-2">Detalhamento da solicitação</span>
@@ -168,7 +165,7 @@ const dict = {
             required: 'Insira o DDD',
         },
         lead_telefone: {
-            required: 'Por favor, insira o Telefone',
+            required: 'Por favor, insira o telefone.',
         },
         detalhamento: {
             required: 'Por favor, insira detalhamento do ticket',
@@ -215,7 +212,7 @@ export default {
             translations: {
                 countrySelectorLabel: 'Codigo do Pais',
                 countrySelectorError: 'Selecione um Pais',
-                phoneNumberLabel: 'Numero do telefone',
+                phoneNumberLabel: 'Número do telefone',
                 example: 'Exemplo :'
             },
             payload: {

@@ -418,13 +418,13 @@ export default {
         this.channel.listen('ListaTicket', (payload) => {
             this.tickets = this.tickets.filter(function (item) {
                 console.log('Playload', payload);
-                if (payload.array.tipo == "excluir") {
+                if (payload.array && payload.array.tipo == "excluir") {
                     if (item.id !== payload.array.ticket.id) {
                         return item;
                     }
                 } else return item
             });
-            if(payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') this.newTickets = true;
+            if(payload.array && payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') this.newTickets = true;
         });
     },
 }

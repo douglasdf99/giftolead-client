@@ -93,53 +93,24 @@
                             <p class="text-black text-xl font-bold">
                                 {{ ticket.lead.nome }}
                             </p>
-
                             <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone && !editable">
-
                                 <span v-if="ticket.lead.ddi">{{ '+' + ticket.lead.ddi }} </span>
                                 <span v-if="ticket.lead.ddd">{{ ' (' + ticket.lead.ddd + ') ' }} </span>
                                 <span v-if="ticket.lead.telefone">{{ ticket.lead.telefone }} </span>
-
                                 <span class="mt-5">
-                    <vs-icon icon="create" icon-pack="material-icons" style="color: #9344C4;font-size: 1.2rem;cursor: pointer;margin-top: 5px"
-                             @click="editable=true;ticket.lead.telefone=ticket.lead.ddd+ticket.lead.telefone "></vs-icon>
-                  </span>
-
+                                <vs-icon icon="create" icon-pack="material-icons" style="color: #9344C4;font-size: 1.2rem;cursor: pointer;margin-top: 5px"
+                                         @click="editable=true;ticket.lead.telefone=ticket.lead.ddd+ticket.lead.telefone "></vs-icon>
+                                </span>
                             </p>
-
-
-                            <div class="vx-row">
-                                <div class="vx-col w-8/12" v-if="editable">
-                                    <span class="font-regular mb-2">Telefone</span>
-
-                                    <VuePhoneNumberInput
-                                        name="telefone"
-                                        id="phoneNumber2"
-                                        v-model="ticket.lead.telefone"
-                                        :translations="translations"
-                                        no-flags
-                                        required
-                                        no-use-browser-locale
-                                        class="mb-5"
-                                        clearable
-                                        :border-radius="8"
-                                        show-code-on-list
-                                        @update="onUpdate"
-                                        :error="!payload.isValid"
-                                        v-validate="'required'"
-                                        :default-country-code="countryAbbr"
-                                        v-click-outside="clickOut"
-                                    />
-                                    <!--                {{payload}}-->
-
+                            <div class="vx-row my-2">
+                                <div class="vx-col w-9/12" v-if="editable">
+                                    <VuePhoneNumberInput name="telefone" id="phoneNumber2" v-model="ticket.lead.telefone" :translations="translations" no-flags required no-use-browser-locale
+                                                         clearable :border-radius="8" show-code-on-list @update="onUpdate" :error="!payload.isValid" v-validate="'required'" :default-country-code="countryAbbr"
+                                                         v-click-outside="clickOut"/>
                                 </div>
-                                <div class="vx-col w-4/12" v-if="editable">
+                                <div class="vx-col w-3/12" v-if="editable">
                                     <span class="font-regular "></span>
-                                    <vs-button class="font-bold  mx-2 mt-6" color="#8ED839" type="filled" icon-pack="material-icons"
-                                               @click="updatePhone">
-                                        Atualizar
-
-                                    </vs-button>
+                                    <vs-button class="font-bold text-white" color="#8ED839" type="filled" icon-pack="material-icons" icon="check" @click="updatePhone"></vs-button>
                                 </div>
                             </div>
 
@@ -917,10 +888,12 @@ export default {
         },
         findddi() {
             this.countries.map(country => {
-                let ddi = country.dial_code.replace(/[{+}]/g, '');
-                if (ddi == this.ticket.lead.ddi) {
-                    this.countryAbbr = country.code;
-                    return country.code;
+                if (country.dial_code) {
+                    let ddi = country.dial_code.replace(/[{+}]/g, '');
+                    if (ddi == this.ticket.lead.ddi) {
+                        this.countryAbbr = country.code;
+                        return country.code;
+                    }
                 }
             })
         },
