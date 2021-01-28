@@ -23,6 +23,17 @@ export default {
                 })
         })
     },
+    getArraySelect({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/selects/brindes`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     getEmbalagems() {
         return new Promise((resolve, reject) => {
             axios.get(`/embalagems`)
@@ -47,9 +58,9 @@ export default {
     },
     getContratos() {
         return new Promise((resolve, reject) => {
-            axios.get(`/correios`)
+            axios.get(`/selects/correios`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data)
                 })
                 .catch((error) => {
                     reject(error)

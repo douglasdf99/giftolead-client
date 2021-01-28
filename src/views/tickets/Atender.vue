@@ -1005,6 +1005,23 @@ export default {
               color: 'success',
               title: '',
               text: 'Atendimento finalizado com sucesso'
+        },
+        verificacao() {
+            this.$store.dispatch('tickets/verificaDisponibilidade', this.$route.params.id).then(response => {
+                if (response.status == 'ok') {
+                    localStorage.removeItem("atendimento");
+                    this.getId(this.$route.params.id);
+                } else if (response.status == 'atendendo') {
+                    this.openAlert('Ticket em atendimento', response.msg, 'danger');
+                } else if (response.status == 'jaatendendo') {
+                    this.openAlert('Atendimento em andamento, Ticket #' + response.id, response.msg, 'primary', response.id);
+                } else {
+                    this.openAlert('Este Ticket já encontra-se fechado', response.msg, 'danger');
+                }
+            }).catch(erro => {
+                console.log('front erro', erro.response);
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'tickets-list', text: 'Retornar à listagem de Tickets'}});
             });
             localStorage.removeItem('atendimento');
             this.$vs.loading.close();

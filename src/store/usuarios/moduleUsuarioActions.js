@@ -60,6 +60,18 @@ export default {
                 })
         })
     },
+    getArraySelect({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/selects/usuarios`)
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject()
+                })
+        })
+    },
     getUserAuth({commit}) {
         return new Promise((resolve, reject) => {
             axios.get(`/user`)

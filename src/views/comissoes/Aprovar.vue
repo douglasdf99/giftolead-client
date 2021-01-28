@@ -2,23 +2,6 @@
     <div>
         <side-bar v-show="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData" @action="action"/>
-        <div class="vx-row flex items-end">
-            <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
-                </p>
-            </div>
-            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
-                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
-                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
-                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
-                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
-                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
-                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
-                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
-                                   :append-to-body="true" :ranges="ranges">
-                </date-range-picker>
-            </div>
-        </div>
         <div class="vx-row flex items-end lg:mt-5 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -28,7 +11,7 @@
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="search" id="search_input_trans" size="large"
-                                      placeholder="Pesquisar por n de ticket ou e-mail do lead"/>
+                                      placeholder="Nº do de ticket ou e-mail do lead"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
@@ -92,8 +75,6 @@
     import SelectResponsaveis from "../components/SelectResponsaveis";
     import SideBar from './SideBar'
     import listagem from './Listagem'
-    import DateRangePicker from 'vue2-daterange-picker'
-    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
@@ -104,7 +85,7 @@
 
     export default {
         name: "Index",
-        components: {SideBar, listagem, 'v-select': vSelect, SelectResponsaveis, DateRangePicker},
+        components: {SideBar, listagem, 'v-select': vSelect, SelectResponsaveis},
         data() {
             return {
                 colorx: 'rgb(16, 233, 179)',
@@ -121,29 +102,6 @@
                     last_page: 1,
                     page: 1,
                     current_page: 1
-                },
-                dateRange: {},
-                localeData: {
-                    direction: 'ltr',
-                    format: 'dd/mm/yyyy',
-                    separator: ' - ',
-                    applyLabel: 'Aplicar',
-                    cancelLabel: 'Cancelar',
-                    weekLabel: 'M',
-                    customRangeLabel: 'Período',
-                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                    firstDay: 0,
-                    startDate: '',
-                    endDate: '',
-                },
-                ranges: {
-                    //Definindo ranges padronizados
-                    'Hoje': [this.getDay(true), this.getDay(true)],
-                    'Ontem': [this.getDay(false), this.getDay(false)],
-                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
-                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
-                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 },
                 lengths: saveleadsConfig.lengths,
                 currentx: 1,
@@ -164,8 +122,6 @@
         },
         created() {
             this.$vs.loading();
-            this.dateRange.startDate = moment().subtract(30, 'days');
-            this.dateRange.endDate = moment();
             if (!moduleComissoes.isRegistered) {
                 this.$store.registerModule('comissoes', moduleComissoes)
                 moduleComissoes.isRegistered = true
@@ -179,36 +135,7 @@
             this.getItems();
         },
         methods: {
-            getDay(dia) {
-                //Definindo datas usadas nos ranges padronizados
-                let today = new Date()
-                today.setHours(0, 0, 0, 0)
 
-                let yesterday = new Date()
-                yesterday.setDate(today.getDate() - 1)
-                yesterday.setHours(0, 0, 0, 0);
-                return (dia ? today : yesterday)
-            },
-            setDate(val) {
-                this.$vs.loading();
-                switch (val) {
-                    case 'hoje':
-                        this.dateRange.startDate = moment();
-                        break;
-                    case '7':
-                        this.dateRange.startDate = moment().subtract(7, 'days');
-                        break;
-                    case '15':
-                        this.dateRange.startDate = moment().subtract(15, 'days');
-                        break;
-                    case '30':
-                        this.dateRange.startDate = moment().subtract(30, 'days');
-                        break;
-                }
-                this.dateRange.endDate = moment();
-                this.dados.page = 1
-                this.getItems();
-            },
             openAlert(title, text, color, id = null) {
                 this.$vs.dialog({
                     color: color,
@@ -253,11 +180,6 @@
                     this.dados.atendente_id = this.selectedAten.id
                 }
 
-                if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
-                if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-
                 this.dados.pesquisa = this.search;
 
                 this.$store.dispatch('comissoes/getPreCom', {params: this.dados}).then(response => {
@@ -274,8 +196,8 @@
             },
             getOpcoes(){
                 this.selectedAten.label = 'Carregando...';
-                this.$store.dispatch('users/get').then(response => {
-                    this.usuarios = [...this.arraySelect(response)];
+                this.$store.dispatch('users/getArraySelect').then(response => {
+                    this.usuarios = [...response];
                     this.selectedAten.label = 'Selecione o atendente';
                 });
             },
@@ -381,10 +303,6 @@
                     }
                 },
                 deep: true
-            },
-            dateRange() {
-                this.$vs.loading();
-                this.getItems();
             },
         },
         mounted() {

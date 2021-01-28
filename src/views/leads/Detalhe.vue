@@ -279,16 +279,19 @@
             }
         },
         methods: {
-
             IsUser(type) {
                 return (type == `App\\Models\\User`) ? true : false;
             },
             getId(id) {
-                this.$vs.loading()
+                this.$vs.loading();
                 this.$store.dispatch('leads/getId', id).then(data => {
-                    console.log(data)
+                    console.log(data);
                     this.lead = data;
                     this.$vs.loading.close();
+                }).catch(erro => {
+                    console.log('front erro', erro.response);
+                    //Redirecionando caso 404
+                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'leads-list', text: 'Retornar à listagem de Leads'}});
                 });
             },
             getResponsavel(obj) {

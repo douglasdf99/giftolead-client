@@ -241,15 +241,17 @@
                         this.empresaOld = JSON.parse(JSON.stringify(response));
                     })
                     .catch(error => {
+                        console.log('front erro', erro.response);
                         this.$vs.loading.close();
                         this.$vs.notify({
                             title: 'Error',
-                            text: error.message,
+                            text: error.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         });
-                    })
+                        if (erro.response.status == 404) this.$router.push({name: 'page-error-404'});
+                    });
             },
 
             updateEmpresa() {

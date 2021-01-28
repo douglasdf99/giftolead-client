@@ -177,7 +177,7 @@ export default {
                     commit('SET_TICKET_VERIFICADO', response.data.id)
 
                 resolve(response.data)
-            });
+            }).catch(erro => reject(erro));
         });
     },
     pushMsg({commit}, dados) {

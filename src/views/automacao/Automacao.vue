@@ -1,11 +1,8 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData" @getItems="getItems('pendente')"/>
-        <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
-                  :data="endereco"/>
-        <reenviar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems"
-                  :data="aresponder"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData" @getItems="getItems('pendente')"/>
+        <endereco v-if="modalEndereco" :automacao="automacaoSelected" @getItems="getItems" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd" :data="endereco"/>
+        <reenviar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="getItems" :data="aresponder"/>
         <div class="vx-row flex items-end mb-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-6/12">
                 <div class="flex items-center">
@@ -15,7 +12,7 @@
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.pesquisa" id="search_input_trans" size="large"
-                                      placeholder="Pesquise por nome do Lead ou Token"/>
+                                      placeholder="Nome do Lead ou Token"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
@@ -65,27 +62,27 @@
         <div class="vx-row">
             <div class="vx-col w-full">
                 <vs-tabs color="primary" id="div-with-loading" class="vs-con-loading__container">
-                    <vs-tab color="primary" value="10" :label="'todos'" @click="getItems('')">
+                    <vs-tab color="primary" value="10" :label="'todos' + getLength('')" @click="getItems('')">
                         <listagem @reenviarWhats="reenviarWhats" :items="items" @editarEnd="editarEndereco" tipo="todos" @getItems="getItems"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'pendentes'" @click="getItems('pendente')">
+                    <vs-tab color="primary" value="10" :label="'pendentes' + getLength('pendente')" @click="getItems('pendente')">
                         <listagem @reenviarWhats="reenviarWhats" :items="items" tipo="pendente" @editarEnd="editarEndereco" @getItems="getItems"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'com erro'" @click="getItems('comerro')">
+                    <vs-tab color="primary" value="10" :label="'com erro' + getLength('comerro')" @click="getItems('comerro')">
                         <listagem :items="items" @reenviarWhats="reenviarWhats" @editarEnd="editarEndereco" tipo="comerro" @getItems="getItems"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'preenchida'" @click="getItems('preenchida')">
+                    <vs-tab color="primary" value="10" :label="'preenchida' + getLength('preenchida')" @click="getItems('preenchida')">
                         <listagem :items="items" @editarEnd="editarEndereco" tipo="preenchida" @getItems="getItems"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'com expedição'" @click="getItems('comexpedicao')">
+                    <vs-tab color="primary" value="10" :label="'com expedição' + getLength('comexpedicao')" @click="getItems('comexpedicao')">
                         <listagem :items="items " @editarEnd="editarEndereco" tipo="comexpedicao" @getItems="getItems"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab color="primary" value="10" :label="'arquivadas'" @click="getItems('arquivadas')">
+                    <vs-tab color="primary" value="10" :label="'arquivadas' + getLength('arquivadas')" @click="getItems('arquivadas')">
                         <listagem :items="items" @editarEnd="editarEndereco" tipo="arquivadas" @getItems="getItems"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -176,7 +173,10 @@ export default {
         toggleDataSidebarEnd(val = false) {
             this.modalEndereco = val
         },
-        reenviarWhats(dados){
+        getLength(status) {
+            return (this.dados.tipo === status ? ` (${this.items.length})` : '')
+        },
+        reenviarWhats(dados) {
             this.aresponder = dados;
             this.toggleRespostaSidebar(true);
         },
@@ -185,13 +185,13 @@ export default {
         },
         //Editar endereço da automação
         editarEndereco(obj) {
-          this.automacaoSelected = {...obj};
+            this.automacaoSelected = {...obj};
             if (obj.endereco) {
                 this.endereco = {...obj.endereco};
                 this.endereco.ddd = this.endereco.telefone.substring(0, 2);
                 this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
-            }else{
-              this.endereco = {id: null};
+            } else {
+                this.endereco = {id: null};
             }
 
             this.modalEndereco = true;
@@ -210,13 +210,13 @@ export default {
             this.$store.dispatch('automacao/get', this.dados).then(response => {
                 this.items = response.data;
                 this.pagination = response
-            }).finally(()=>{
-              this.$vs.loading.close();
+            }).finally(() => {
+                this.$vs.loading.close();
             });
         },
-        pesquisar(){
-          this.dados.page = 1;
-          this.getItems();
+        pesquisar() {
+            this.dados.page = 1;
+            this.getItems();
         },
         addNewData() {
             this.sidebarData = {'brindes': this.brindes}
@@ -226,8 +226,8 @@ export default {
             this.addNewDataSidebar = val
         },
         getBrindes() {
-            this.$store.dispatch('brindes/get').then(response => {
-                this.brindes = [...this.arraySelect(response)];
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
+                this.brindes = [...response];
             });
         }
     },

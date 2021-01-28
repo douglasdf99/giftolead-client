@@ -12,7 +12,7 @@
     <vs-sidebar click-not-close position-right parent="body" default-index="1" color="primary"
                 class="add-new-data-sidebar items-no-padding" spacer v-model="isSidebarActiveLocal">
         <div class="mt-6 flex items-center justify-between px-6">
-            <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar nova" : "Atualizar" }} Brinde </h4>
+            <h4>{{ Object.entries(this.data).length === 0 ? "Adicionar novo" : "Atualizar" }} Brinde </h4>
             <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
         <vs-divider class="mb-0"></vs-divider>
@@ -45,75 +45,44 @@
                     <div class="vx-col w-full">
                         <h6 class="font-bold text-2xl mb-4">Tipo de Logística</h6>
                     </div>
-                    <div class="vx-col w-full mb-base">
-                        <vx-card class="items-center cursor-pointer card-option" :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Correio'}" @click="brinde.contrato_type = 'App\\Models\\Correio'">
-                            <div slot="no-body">
-                                <div class="p-4">
-                                    <img src="@/assets/images/util/correios.png" class="mx-auto rounded-full lg:w-1/3 mx-auto">
+                    <div class="vx-col w-full lg:w-1/2 mb-base">
+                        <vx-tooltip position="top" :text="opcoesContrato.length > 0 ? 'Contrato dos Correios' : 'Nenhum Contrato de Correios cadastrado'">
+                            <vx-card class="items-center cursor-pointer card-option" :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Correio', 'disabled': opcoesContrato.length === 0}"
+                                     @click="brinde.contrato_type = 'App\\Models\\Correio'">
+                                <div slot="no-body">
+                                    <div class="p-4">
+                                        <img src="@/assets/images/util/correios.png" class="mx-auto rounded-full lg:w-1/3 mx-auto">
+                                    </div>
+                                    <div class="mx-auto flex">
+                                        <p class="mb-1 font-bold mx-auto">Correios</p>
+                                    </div>
                                 </div>
-                                <div class="mx-auto flex">
-                                    <p class="mb-1 font-bold mx-auto">Correios</p>
-                                </div>
-                            </div>
-                        </vx-card>
+                            </vx-card>
+                        </vx-tooltip>
                     </div>
-                    <div class="vx-col w-full mb-base">
-                        <vx-card class="items-center card-option cursor-pointer" @click="brinde.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio'"
-                                 :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio', 'disabled': !$store.state.extensoesState.melhorEnvio.installed}" >
-                            <div slot="no-body">
-                                <div class="p-4">
-                                    <img src="@/assets/images/util/melhor-envio.png" class="mx-auto rounded-full w-full lg:w-1/3 mx-auto">
+                    <div class="vx-col w-full lg:w-1/2 mb-base">
+                        <vx-tooltip position="top" :text="$store.state.extensoesState.melhorEnvio.installed ? 'Extensão Melhor Envio' : 'Extensão não instalada'">
+                            <vx-card class="items-center card-option cursor-pointer" @click="brinde.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio'"
+                                     :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio', 'disabled': !$store.state.extensoesState.melhorEnvio.installed}">
+                                <div slot="no-body">
+                                    <div class="p-4">
+                                        <img src="@/assets/images/util/melhor-envio.png" class="mx-auto rounded-full w-full lg:w-1/3 mx-auto">
+                                    </div>
+                                    <div class="mx-auto flex">
+                                        <p class="mb-1 font-bold mx-auto">Melhor Envio</p>
+                                    </div>
                                 </div>
-                                <div class="mx-auto flex">
-                                    <p class="mb-1 font-bold mx-auto">Melhor Envio</p>
-                                </div>
-                            </div>
-                        </vx-card>
+                            </vx-card>
+                        </vx-tooltip>
+                    </div>
+                    <div class="vx-col w-full" v-if="brinde.contrato_type == 'App\\Models\\Correio'">
+                        <label class="vs-input label font-bold">Selecione o contrato de entrega deste brinde</label>
+                        <v-select v-model="selected" :class="'select-large-base'" :clearable="false" :options="opcoesContrato" v-validate="'required'" name="contrato"
+                                  v-bind:style="{border: (!brinde.contrato.status && this.data.length > 0 ? '2px solid #ff000066' : '')}" :disabled="opcoesContrato.length === 0"/>
+                        <span class="text-danger text-sm" v-show="errors.has('contrato')">{{ errors.first('contrato') }}</span>
+                        <span class="text-danger text-sm" v-if="opcoesContrato.length === 0">Você não possui nenhum contrato com os correios</span>
                     </div>
                 </div>
-<!--                <div class="p-4 pt-0 card-contexto">
-                    <div class="p-4 mt-4 border-rounded bg-card-gray">
-                        <h6 class="font-bold  text-center ">Tipo de Logística</h6>
-                    </div>
-                    <div class="mt-4">
-                        <div class="flex mb-4 items-center justify-center">
-                            <div class="w-1/2 p-10 ">
-                                <vx-card class="items-center cursor-pointer card-option" :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Correio'}"
-                                         @click="brinde.contrato_type = 'App\\Models\\Correio'">
-                                    <div slot="no-body">
-                                        <div class="p-4">
-                                            <img src="@/assets/images/util/correios.png" class="mx-auto rounded-full w-full" alt="">
-                                        </div>
-                                        <div class="mx-auto flex">
-                                            <p class="mb-1 font-bold mx-auto">Correios</p>
-                                        </div>
-                                    </div>
-                                </vx-card>
-                            </div>
-                            <div class="w-1/2 p-10">
-                                <vx-card class="items-center card-option" :class="{'border-primary' : brinde.contrato_type == 'App\\Models\\Extensoes\\MelhorEnvio'}"
-                                         @click="brinde.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio'">
-                                    <div slot="no-body">
-                                        <div class="p-4">
-                                            <img src="@/assets/images/util/melhor-envio.png" class="mx-auto rounded-full w-full" alt="100%">
-                                        </div>
-                                        <div class="mx-auto flex">
-                                            <p class="mb-1 font-bold mx-auto">Melhor Envio</p>
-                                        </div>
-                                    </div>
-                                </vx-card>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4" v-if="brinde.contrato_type == 'App\\Models\\Correio'">
-                        <label class="vs-input&#45;&#45;label font-bold">Selecione o contrato de entrega deste brinde</label>
-                        <v-select v-model="selected" :class="'select-large-base'" :clearable="false"
-                                  :options="opcoesContrato"
-                                  v-validate="'required'" name="contrato" v-bind:style="{border: (!brinde.contrato.status && this.data.length > 0 ? '2px solid #ff000066' : '')}"/>
-                        <span class="text-danger text-sm"
-                              v-show="errors.has('contrato')">{{ errors.first('contrato') }}</span>
-                    </div>
-                </div>-->
                 <vs-divider></vs-divider>
                 <div class="p-4 pt-0 card-contexto">
                     <div class="p-4 mt-4 border-rounded bg-card-gray">
@@ -437,10 +406,7 @@ export default {
         getContratos() {
             this.$store.dispatch('brindes/getContratos').then(response => {
                 console.log('correios', response)
-                let arr = [...response];
-                arr.forEach(item => {
-                    this.opcoesContrato.push({id: item.id, label: item.nome})
-                });
+                this.opcoesContrato = [...response];
             })
         },
         getProdutos() {

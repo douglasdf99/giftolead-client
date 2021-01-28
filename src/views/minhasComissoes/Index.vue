@@ -9,7 +9,7 @@
                         <form @submit="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input_trans" size="large"
+                                      v-model="dados.search" id="search_input" size="large"
                                       placeholder="Pesquisar por usuário"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
@@ -67,9 +67,8 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = '#F03165'; getItems('reprovadas'); dados.aba = 'reprovadas'" color="danger" label="reprovadas">
-                        <listagem :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
-                        <vs-pagination class="mt-2" :total="pagination.last_page"
-                                       v-model="currentx"></vs-pagination>
+                        <listagem @updateData="updateData" :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
+                        <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
             </vs-col>
