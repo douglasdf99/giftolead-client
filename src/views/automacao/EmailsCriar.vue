@@ -181,7 +181,7 @@ export default {
             }).catch(erro => {
                 this.$vs.notify({
                     title: 'Error',
-                    text: erro.message,
+                    text: erro.response.data.message,
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
@@ -209,8 +209,7 @@ export default {
             });
             this.$store.dispatch('automacao/getEmailId', id).then(response => {
                 this.email = {...response};
-                this.$vs.loading.close();
-            });
+            }).catch(erro => console.log(erro.response)).finally(() => this.$vs.loading.close());
         },
         formatPrice(value) {
             let val = (value / 1).toFixed(2).replace('.', ',')

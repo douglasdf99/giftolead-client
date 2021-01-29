@@ -158,7 +158,7 @@ export default {
                     }).catch(erro => {
                         this.$vs.notify({
                             title: '',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
@@ -187,8 +187,15 @@ export default {
                 this.funcao = {...data};
                 this.setProdutosPermitidos();
                 this.tratarPermissions(data.permission_roles);
-                this.$vs.loading.close();
-            })
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
         getAllPermissoes() {
             axios.get('/permissions').then(response => {

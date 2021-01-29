@@ -281,11 +281,11 @@
                                 this.$vs.loading.close();
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: error.message,
+                                    text: error.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
+                                });
                             })
                     } else {
                         this.$vs.notify({

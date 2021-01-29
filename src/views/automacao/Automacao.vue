@@ -210,9 +210,7 @@ export default {
             this.$store.dispatch('automacao/get', this.dados).then(response => {
                 this.items = response.data;
                 this.pagination = response
-            }).finally(() => {
-                this.$vs.loading.close();
-            });
+            }).catch(erro => {console.log('erro', erro.response)}).finally(() => this.$vs.loading.close());
         },
         pesquisar() {
             this.dados.page = 1;

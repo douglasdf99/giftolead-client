@@ -114,15 +114,14 @@ export default {
                     });
                 })
                 .catch(error => {
-                    this.$vs.loading.close();
                     this.$vs.notify({
                         title: 'Error',
-                        text: error.response.data,
+                        text: error.response.data.message,
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
                     })
-                })
+                }).finally(() => this.$vs.loading.close());
         },
         registerUser() {
             if (!this.checkLogin()) return

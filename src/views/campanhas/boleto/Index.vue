@@ -164,7 +164,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -184,7 +184,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -264,7 +264,7 @@
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
@@ -293,7 +293,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -322,12 +322,11 @@
                 this.$vs.loading();
                 this.$store.dispatch('boleto/getId', id).then(response => {
                     this.campanha = {...response};
-                    this.$vs.loading.close();
                 }).catch(erro => {
                     console.log('front erro', erro.response);
                     //Redirecionando caso 404
                     if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
-                });
+                }).finally(() => this.$vs.loading.close());
             },
             formatPrice(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')

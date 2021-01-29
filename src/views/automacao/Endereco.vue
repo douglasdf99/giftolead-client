@@ -207,7 +207,6 @@ export default {
                     if (this.endereco.id) {
                         this.$store.dispatch('expedicaos/storeEndereco', this.endereco)
                             .then(response => {
-                                this.$vs.loading.close();
                                 this.isSidebarActiveLocal = false;
                                 this.$vs.notify({
                                     color: 'success',
@@ -218,14 +217,13 @@ export default {
                             .catch(erro => {
                                 this.$vs.notify({
                                     color: 'danger',
-                                    text: erro.message
+                                    text: erro.response.data.message
                                 })
-                            });
+                            }).finally(() => this.$vs.loading.close());
                     } else {
                         this.endereco.automacao_id = this.automacao.id
                         this.$store.dispatch('expedicaos/storeEnderecoNovo', this.endereco)
                             .then(response => {
-                                this.$vs.loading.close();
                                 this.isSidebarActiveLocal = false;
                                 this.$vs.notify({
                                     color: 'success',
@@ -235,13 +233,13 @@ export default {
                                 this.$emit('getItems', '');
                             })
                             .catch(erro => {
+                                console.log('erro', erro.response);
                                 this.$vs.notify({
                                     title: '',
                                     color: 'danger',
-                                    text: erro.message
+                                    text: erro.response.data.message
                                 })
-
-                            });
+                            }).finally(() => this.$vs.loading.close());
                     }
                 } else {
                     alert('Verifique os erros');
@@ -254,20 +252,18 @@ export default {
                 this.endereco = response.data;
                 this.endereco.ddd = this.endereco.telefone.substring(0, 2);
                 this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
-
                 this.antigoCep = this.endereco.cep;
                 if (this.endereco.cep) {
                     this.valido = true;
                 }
-                this.$vs.loading.close();
-
             }).catch(erro => {
+                console.log('erro', erro.response);
                 this.$vs.notify({
                     title: '',
                     color: 'danger',
-                    text: erro.message
+                    text: erro.response.data.message
                 })
-            });
+            }).finally(() => this.$vs.loading.close());
         },
         buscaCep() {
             if (this.valido) {
@@ -286,7 +282,7 @@ export default {
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
-                        text: erro.message
+                        text: erro.response.data.message
                     })
                 });
             }

@@ -74,10 +74,10 @@
                                             <span class="destaque">{{ lead.nome }}</span>
                                         </vs-td>
                                         <vs-td :data="tr.confirmation_purchase_date">
-                                            <span class="destaque">{{ tr.confirmation_purchase_date | formatDate}}</span>
+                                            <span class="destaque">{{ tr.confirmation_purchase_date | formatDate }}</span>
                                         </vs-td>
                                         <vs-td>
-                                            <span class="preco">R$ {{formatPrice(tr.full_price)}}</span>
+                                            <span class="preco">R$ {{ formatPrice(tr.full_price) }}</span>
                                         </vs-td>
                                         <vs-td>
                                             <vs-chip :color="tr.produto.cor" class="product-order-status">
@@ -140,10 +140,10 @@
                                 <template slot-scope="{data}">
                                     <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
                                         <vs-td>
-                                            <p class="font-bold">{{getResponsavel(tr)}}</p>
+                                            <p class="font-bold">{{ getResponsavel(tr) }}</p>
                                         </vs-td>
                                         <vs-td>
-                                            <p class="font-bold">{{tr.brinde.nome}}</p>
+                                            <p class="font-bold">{{ tr.brinde.nome }}</p>
                                         </vs-td>
                                         <vs-td>
                                             <vs-icon icon-pack="material-icons" icon="watch_later" color="gray" v-if="tr.eventos.length == 0" class="text-2xl"/>
@@ -151,21 +151,21 @@
                                             <vs-icon icon-pack="material-icons" icon="check" color="success" v-if="getEventoGreen(tr)" class="text-2xl"/>
                                         </vs-td>
                                         <vs-td>
-                                            {{tr.uuid}}
+                                            {{ tr.uuid }}
                                         </vs-td>
                                         <vs-td>
                                             <p class="font-bold flex items-center" v-bind:class="getOrdemColor(tr)">
-                                                {{getOrdemEnvio(tr)}}
+                                                {{ getOrdemEnvio(tr) }}
                                                 <i class="material-icons ml-3" v-bind:class="getOrdemColor(tr)">fiber_manual_record</i>
                                             </p>
                                         </vs-td>
                                         <vs-td class="flex">
-                                          <vx-tooltip :text="tr.rastreio" v-if="tr.rastreio != null">
-                                            <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2" >
-                                          </vx-tooltip>
-                                          <vx-tooltip :text="'Expedição Nº '+tr.expedicao.id" v-if="tr.expedicao && tr.expedicao != null">
-                                            <img src="@/assets/images/util/expedicao-icon.svg" width="25px" >
-                                          </vx-tooltip>
+                                            <vx-tooltip :text="tr.rastreio" v-if="tr.rastreio != null">
+                                                <img src="@/assets/images/util/delivery-icon.svg" width="40px" class="mr-2">
+                                            </vx-tooltip>
+                                            <vx-tooltip :text="'Expedição Nº '+tr.expedicao.id" v-if="tr.expedicao && tr.expedicao != null">
+                                                <img src="@/assets/images/util/expedicao-icon.svg" width="25px">
+                                            </vx-tooltip>
                                         </vs-td>
                                     </vs-tr>
                                 </template>
@@ -190,10 +190,10 @@
                                     </div>
                                     <div class="timeline-info">
                                         <div class="" v-if="historico.causer">
-                                            <p class="font-semibold" v-if="IsUser(historico.causer_type)">{{historico.causer.name}}</p>
-                                            <p class="font-semibold" v-else>{{historico.causer.nome}}</p>
+                                            <p class="font-semibold" v-if="IsUser(historico.causer_type)">{{ historico.causer.name }}</p>
+                                            <p class="font-semibold" v-else>{{ historico.causer.nome }}</p>
                                         </div>
-                                        <span class="activity-desc">{{historico.description}}</span>
+                                        <span class="activity-desc">{{ historico.description }}</span>
                                         <div class="vx-row my-3">
                                             <div class="vx-col w-full">
                                                 <vs-button class="rounded-full mx-3 px-3 py-2" v-if="historico.properties && historico.properties.tipo == 'whatsapp'" color="#8ED839" type="filled"
@@ -220,7 +220,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <small class="text-grey activity-e-time">{{historico.created_at | formatDateHumanize}}</small>
+                                    <small class="text-grey activity-e-time">{{ historico.created_at | formatDateHumanize }}</small>
                                 </li>
                             </ul>
                         </div>
@@ -232,193 +232,190 @@
 </template>
 
 <script>
-    import moduleLeads from '@/store/leads/moduleLeads.js'
-    import moduleTickets from "../../store/tickets/moduleTickets";
-    import Tooltip from "../components/vuesax/tooltip/Tooltip";
+import moduleLeads from '@/store/leads/moduleLeads.js'
+import moduleTickets from "../../store/tickets/moduleTickets";
+import Tooltip from "../components/vuesax/tooltip/Tooltip";
 
-    export default {
-        name: "Detalhe",
-      components: {Tooltip},
-      data() {
-            return {
-                lead: {
-                    transacaos: [],
-                    solicitacaos: [],
-                    automacaos: [],
-                    acoesrecebidas: [],
-                },
-                hotmartStatus: {
-                    started: ['Iniciado', '#3498db'],
-                    billet_printed: ['Boleto Impresso', '#848a91'],
-                    expired: ['Expirado', '#848a91'],
-                    pending_analysis: ['Pendente', '#848a91'],
-                    delayed: ['Atrasado', '#e74c3c'],
-                    canceled: ['Cancelado', '#e74c3c'],
-                    approved: ['Aprovado', '#2ecc71'],
-                    completed: ['Concluído', '#2ecc71'],
-                    chargeback: ['Chargeback', '#e74c3c'],
-                    blocked: ['Bloqueado', '#848a91'],
-                    refunded: ['Devolvido', '#e74c3c'],
-                    admin_free: ['Cadastrado', '#848a91'],
-                    dispute: ['Disputa', '#e74c3c']
-                },
+export default {
+    name: "Detalhe",
+    components: {Tooltip},
+    data() {
+        return {
+            lead: {
+                transacaos: [],
+                solicitacaos: [],
+                automacaos: [],
+                acoesrecebidas: [],
+            },
+            hotmartStatus: {
+                started: ['Iniciado', '#3498db'],
+                billet_printed: ['Boleto Impresso', '#848a91'],
+                expired: ['Expirado', '#848a91'],
+                pending_analysis: ['Pendente', '#848a91'],
+                delayed: ['Atrasado', '#e74c3c'],
+                canceled: ['Cancelado', '#e74c3c'],
+                approved: ['Aprovado', '#2ecc71'],
+                completed: ['Concluído', '#2ecc71'],
+                chargeback: ['Chargeback', '#e74c3c'],
+                blocked: ['Bloqueado', '#848a91'],
+                refunded: ['Devolvido', '#e74c3c'],
+                admin_free: ['Cadastrado', '#848a91'],
+                dispute: ['Disputa', '#e74c3c']
+            },
+        }
+    },
+    created() {
+        if (!moduleLeads.isRegistered) {
+            this.$store.registerModule('leads', moduleLeads)
+            moduleLeads.isRegistered = true
+        }
+        if (!moduleTickets.isRegistered) {
+            this.$store.registerModule('tickets', moduleTickets)
+            moduleTickets.isRegistered = true
+        }
+
+        if (this.$route.name === 'leads-detalhe') {
+            this.getId(this.$route.params.id);
+        }
+    },
+    methods: {
+        IsUser(type) {
+            return (type == `App\\Models\\User`) ? true : false;
+        },
+        getId(id) {
+            this.$vs.loading();
+            this.$store.dispatch('leads/getId', id).then(data => {
+                console.log(data);
+                this.lead = data;
+            }).catch(erro => {
+                console.log('front erro', erro.response);
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'leads-list', text: 'Retornar à listagem de Leads'}});
+            }).finally(() => this.$vs.loading.close());
+        },
+        getResponsavel(obj) {
+            switch (obj.responsavel_type) {
+                case 'App\\Models\\User':
+                    return obj.responsavel.name;
+                default:
+                    return obj.responsavel.nome;
             }
         },
-        created() {
-            if (!moduleLeads.isRegistered) {
-                this.$store.registerModule('leads', moduleLeads)
-                moduleLeads.isRegistered = true
-            }
-            if (!moduleTickets.isRegistered) {
-                this.$store.registerModule('tickets', moduleTickets)
-                moduleTickets.isRegistered = true
-            }
-
-            if (this.$route.name === 'leads-detalhe') {
-                this.getId(this.$route.params.id);
-            }
+        getOrdemEnvio(obj) {
+            if (obj.endereco == null)
+                return 'Pendente'
+            else
+                return 'Preenchida'
         },
-        methods: {
-            IsUser(type) {
-                return (type == `App\\Models\\User`) ? true : false;
-            },
-            getId(id) {
-                this.$vs.loading();
-                this.$store.dispatch('leads/getId', id).then(data => {
-                    console.log(data);
-                    this.lead = data;
-                    this.$vs.loading.close();
-                }).catch(erro => {
-                    console.log('front erro', erro.response);
-                    //Redirecionando caso 404
-                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'leads-list', text: 'Retornar à listagem de Leads'}});
-                });
-            },
-            getResponsavel(obj) {
-                switch (obj.responsavel_type) {
-                    case 'App\\Models\\User':
-                        return obj.responsavel.name;
-                    default:
-                        return obj.responsavel.nome;
-                }
-            },
-            getOrdemEnvio(obj) {
-                if (obj.endereco == null)
-                    return 'Pendente'
-                else
-                    return 'Preenchida'
-            },
-            getOrdemColor(obj) {
-                if (obj.endereco == null)
-                    return 'text-warning'
-                else
-                    return 'text-primary'
-            },
-            getEventoRed(obj) {
-                console.log('obj', obj)
-                console.log(obj.eventos[obj.eventos.length - 1])
-                if (obj.eventos.length > 0)
-                    return obj.eventos[obj.eventos.length - 1].resposta == 'error';
-                else
-                    return false;
-            },
-            getEventoGreen(obj) {
-                if (obj.eventos.length > 0)
-                    return obj.eventos[obj.eventos.length - 1].resposta == 'success';
-                else
-                    return false;
-            },
-            formatPrice(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            },
-            salvar() {
-                this.$validator.validateAll().then(result => {
-                    if (result) {
-                        this.$vs.loading();
-                        //this.usuario.role_id = this.funcaoSelected.id;
-                        const formData = new FormData();
-                        formData.append('nome', this.lead.nome);
-                        formData.append('email', this.lead.email);
-                        formData.append('cpf', this.lead.cpf);
-                        formData.append('telefone', this.lead.telefone);
-                        formData.append('ddd', this.lead.ddd);
-                        formData.append('empresa_id', this.lead.empresa_id);
-                        formData.append('_method', 'PUT');
-                        this.$store.dispatch('leads/update', {dados: formData, id: this.lead.id}).then(response => {
-                            console.log('response', response);
-                            this.$vs.loading.close();
-                            this.$vs.notify({
-                                title: '',
-                                text: "Atualizado com sucesso.",
-                                iconPack: 'feather',
-                                icon: 'icon-check-circle',
-                                color: 'success'
-                            });
-                            //this.$router.push({name: 'leads'});
-                        }).catch(erro => {
-                            this.$vs.loading.close();
-                            this.$vs.notify({
-                                title: '',
-                                text: erro.message,
-                                iconPack: 'feather',
-                                icon: 'icon-alert-circle',
-                                color: 'danger'
-                            })
-                        })
-                    } else {
+        getOrdemColor(obj) {
+            if (obj.endereco == null)
+                return 'text-warning'
+            else
+                return 'text-primary'
+        },
+        getEventoRed(obj) {
+            console.log('obj', obj)
+            console.log(obj.eventos[obj.eventos.length - 1])
+            if (obj.eventos.length > 0)
+                return obj.eventos[obj.eventos.length - 1].resposta == 'error';
+            else
+                return false;
+        },
+        getEventoGreen(obj) {
+            if (obj.eventos.length > 0)
+                return obj.eventos[obj.eventos.length - 1].resposta == 'success';
+            else
+                return false;
+        },
+        formatPrice(value) {
+            let val = (value / 1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        salvar() {
+            this.$validator.validateAll().then(result => {
+                if (result) {
+                    this.$vs.loading();
+                    //this.usuario.role_id = this.funcaoSelected.id;
+                    const formData = new FormData();
+                    formData.append('nome', this.lead.nome);
+                    formData.append('email', this.lead.email);
+                    formData.append('cpf', this.lead.cpf);
+                    formData.append('telefone', this.lead.telefone);
+                    formData.append('ddd', this.lead.ddd);
+                    formData.append('empresa_id', this.lead.empresa_id);
+                    formData.append('_method', 'PUT');
+                    this.$store.dispatch('leads/update', {dados: formData, id: this.lead.id}).then(response => {
+                        console.log('response', response);
                         this.$vs.notify({
-                            title: 'Error',
-                            text: 'verifique os erros específicos',
+                            title: '',
+                            text: "Atualizado com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                        //this.$router.push({name: 'leads'});
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: '',
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         })
-                    }
-                })
-            },
-            consultaChamada(id) {
-                this.$vs.loading({
-                    container: `#loading-chamada`,
-                    type: 'default',
-                });
-                this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
-                    console.log('response consultaChamada', response);
-
-                    this.detalheChamada = response
-                });
-            },
-            tipoChamada(val) {
-                switch (val) {
-                    case 'movel':
-                        return 'Celular';
-                    case 'ramal':
-                        return 'Interno';
-                    default:
-                        return val;
+                    }).finally(() => this.$vs.loading.close());
+                } else {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'verifique os erros específicos',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
                 }
-            }
+            })
         },
-        computed: {
-            isSmallerScreen() {
-                return this.$store.state.windowWidth < 768
-            },
-            isValid() {
-                return this.errors.any();
-            },
+        consultaChamada(id) {
+            this.$vs.loading({
+                container: `#loading-chamada`,
+                type: 'default',
+            });
+            this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
+                console.log('response consultaChamada', response);
+
+                this.detalheChamada = response
+            });
+        },
+        tipoChamada(val) {
+            switch (val) {
+                case 'movel':
+                    return 'Celular';
+                case 'ramal':
+                    return 'Interno';
+                default:
+                    return val;
+            }
         }
+    },
+    computed: {
+        isSmallerScreen() {
+            return this.$store.state.windowWidth < 768
+        },
+        isValid() {
+            return this.errors.any();
+        },
     }
+}
 </script>
 
 <style scoped>
-    .main-info-lead {
-        font-size: 1.5rem;
-        font-weight: 700;
-    }
+.main-info-lead {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
 
-    .secundary-info-lead {
-        color: #9B9B9B;
-        font-size: 1.2rem;
-        font-weight: 600;
-    }
+.secundary-info-lead {
+    color: #9B9B9B;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
 </style>

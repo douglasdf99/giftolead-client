@@ -111,11 +111,10 @@
                         });
                         var url = window.URL.createObjectURL(blob);
                         window.open(url);
-                        this.$vs.loading.close();
                     })
                     .catch((error) => {
-                        console.log(error)
-                    })
+                        console.log(error.response)
+                    }).finally(() => this.$vs.loading.close())
             }
         },
         computed: {

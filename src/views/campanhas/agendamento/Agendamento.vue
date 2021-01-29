@@ -302,7 +302,7 @@ export default {
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
@@ -322,7 +322,7 @@ export default {
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
@@ -395,13 +395,11 @@ export default {
                     this.campanha.infusion = false;
 
                 this.montaScriptsWidget();
-
-                this.$vs.loading.close();
             }).catch(erro => {
                 console.log('front erro', erro.response);
                 //Redirecionando caso 404
                 if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
-            });
+            }).finally(() => this.$vs.loading.close());
         },
         formatPrice(value) {
             let val = (value / 1).toFixed(2).replace('.', ',')

@@ -533,7 +533,7 @@
                             });
                         }).catch(erro => {
                             this.$vs.notify({
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 color: 'danger',
                                 title: 'Ops! Algo deu errado. Contate o suporte.',
                                 time: 10000,

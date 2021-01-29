@@ -858,7 +858,6 @@ export default {
             console.log(formData, 'formdata');
             this.$store.dispatch('leads/update', {dados: formData, id: this.ticket.lead.id}).then(response => {
                 console.log(response)
-                this.$vs.loading.close();
                 this.$vs.notify({
                     title: '',
                     text: "Atualizado com sucesso.",
@@ -871,15 +870,14 @@ export default {
                 this.ticket.lead.telefone = response.data.data.telefone;
                 this.findddi();
             }).catch(erro => {
-                this.$vs.loading.close();
                 this.$vs.notify({
                     title: '',
-                    text: erro.message,
+                    text: erro.response.data.message,
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
                 })
-            }).finally();
+            }).finally(() => this.$vs.loading.close());
 
         },
         onUpdate(payload) {
@@ -900,9 +898,8 @@ export default {
         getId(id) {
             this.$vs.loading();
             this.$store.dispatch('tickets/getId', id).then(response => {
-                this.$vs.loading.close();
                 this.findddi();
-            });
+            }).catch((erro => console.log('erro'. erro.response))).finally(() => this.$vs.loading.close());
         },
         toggleRespostaSidebar(val = false) {
             this.responderTicket = val;
@@ -1011,9 +1008,8 @@ export default {
                 console.log('front erro', erro.response);
                 //Redirecionando caso 404
                 if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'tickets-list', text: 'Retornar à listagem de Tickets'}});
-            });
+            }).finally(() => this.$vs.loading.close());
             localStorage.removeItem('atendimento');
-            this.$vs.loading.close();
         },
         openAlert(title, text, color, id = null) {
             this.$vs.dialog({

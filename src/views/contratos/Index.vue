@@ -268,13 +268,12 @@
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         })
-                    });
-                    this.$vs.loading.close();
+                    }).finally(() => this.$vs.loading.close());
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },

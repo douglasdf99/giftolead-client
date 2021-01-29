@@ -373,20 +373,27 @@ export default {
                                 color: 'success'
                             });
                             this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
-                                this.$vs.loading.close()
-                            });
+                            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
 
                         }).catch(error => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: error.message,
+                                text: error.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
                             })
                         }).finally(() => {
                             this.$vs.loading.close();
-                        })
+                        });
                     }
                     console.log('chegou no emit')
                     this.$emit('paginate');

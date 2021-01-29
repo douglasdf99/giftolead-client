@@ -108,8 +108,15 @@ export default {
             this.$vs.loading();
             this.$store.dispatch('brindes/get').then(response => {
                 this.brindes = [...this.arraySelect(response)];
-                this.$vs.loading.close();
-            });
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: erro.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
         organizar() {
             this.listaEmails = [...this.emails];
@@ -129,10 +136,17 @@ export default {
             this.$store.dispatch('automacao/getEmails', id).then(response => {
                 this.emails = response;
                 console.log('emails aí', this.emails)
-                this.$vs.loading.close();
                 if(this.selectedBrinde.id == null) this.selectedBrinde.id = this.$route.params.brinde;
                 this.selectedBrinde.label = this.emails[0].brinde.nome;
-            });
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
         ativaEmail(e) {
             console.log(this.countSwitch)
@@ -166,7 +180,7 @@ export default {
                 }).catch(erro => {
                     this.$vs.notify({
                         title: '',
-                        text: erro.message,
+                        text: erro.response.data.message,
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'

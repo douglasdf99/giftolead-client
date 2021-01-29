@@ -77,8 +77,15 @@ export default {
         getItems() {
             this.$store.dispatch('funcoes/get').then(response => {
                 this.items = response;
-                this.$vs.loading.close();
-            });
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
         calcelar() {
             this.$router.push({name: 'configuracoes-geral'})

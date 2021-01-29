@@ -247,7 +247,7 @@
               }).catch(erro => {
                 this.$vs.notify({
                   title: 'Error',
-                  text: erro.message,
+                  text: erro.response.data.message,
                   iconPack: 'feather',
                   icon: 'icon-alert-circle',
                   color: 'danger'
@@ -267,7 +267,7 @@
               }).catch(erro => {
                 this.$vs.notify({
                   title: 'Error',
-                  text: erro.message,
+                  text: erro.response.data.message,
                   iconPack: 'feather',
                   icon: 'icon-alert-circle',
                   color: 'danger'
@@ -295,8 +295,15 @@
         this.$store.dispatch('whatsapp/getId', id).then(response => {
           this.campanha = JSON.parse(JSON.stringify(response));
           this.campanhaOld = JSON.parse(JSON.stringify(response));
-          this.$vs.loading.close();
-        });
+        }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
       },
       formatPrice(value) {
         let val = (value / 1).toFixed(2).replace('.', ',')

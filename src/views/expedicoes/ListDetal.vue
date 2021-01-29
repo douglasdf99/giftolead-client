@@ -374,7 +374,6 @@ export default {
         atualiza() {
             this.modalGerarPlp = false;
             this.getItem(this.expedicao.id);
-            this.$vs.loading.close();
         },
         pesquisar(e) {
             e.preventDefault();
@@ -533,7 +532,7 @@ export default {
                         this.$vs.dialog({
                             color: 'danger',
                             title: `Algo deu errado ao gerar a PLP`,
-                            text: erro.response.data.message + '. Contate o suporte'
+                            text: erro.response.data.message
                         });
                     });
                 }
@@ -612,7 +611,7 @@ export default {
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
-                        text: erro.message
+                        text: erro.response.data.message
                     })
                 });
             }

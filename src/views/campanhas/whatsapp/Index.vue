@@ -268,7 +268,7 @@ export default {
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
@@ -288,7 +288,7 @@ export default {
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
@@ -316,7 +316,6 @@ export default {
             this.$store.dispatch('whatsapp/getId', id).then(response => {
                 this.campanha = JSON.parse(JSON.stringify(response));
                 this.campanhaOld = JSON.parse(JSON.stringify(response));
-                this.$vs.loading.close();
                 var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
                 var scripts = [
@@ -335,7 +334,7 @@ export default {
                 console.log('front erro', erro.response);
                 //Redirecionando caso 404
                 if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
-            });;
+            }).finally(() => this.$vs.loading.close());
         },
         formatPrice(value) {
             let val = (value / 1).toFixed(2).replace('.', ',')

@@ -98,8 +98,15 @@
                 this.$vs.loading();
                 this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
                     this.items = [...response];
-                    this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             ativaModal(obj){
                 if(obj.brinde.ativo){
@@ -151,7 +158,7 @@
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'

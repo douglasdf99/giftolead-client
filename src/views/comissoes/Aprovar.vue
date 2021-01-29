@@ -187,12 +187,15 @@
                     this.pagination = response;
                     this.comissoes = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close();
-                }).catch(()=>{
-
-                }).finally(()=>{
-                  this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             getOpcoes(){
                 this.selectedAten.label = 'Carregando...';

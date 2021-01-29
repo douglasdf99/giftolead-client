@@ -220,7 +220,7 @@ export default {
                     }).catch(erro => {
                         this.$vs.notify({
                             color: 'danger',
-                            text: erro.message
+                            text: erro.response.data.message
                         })
                     }).finally(() => this.$vs.loading.close());
                 } else {
@@ -247,7 +247,7 @@ export default {
                 this.$vs.notify({
                     title: '',
                     color: 'danger',
-                    text: erro.message
+                    text: erro.response.data.message
                 })
             });
         },
@@ -267,7 +267,7 @@ export default {
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
-                        text: erro.message
+                        text: erro.response.data.message
                     })
                 });
             }

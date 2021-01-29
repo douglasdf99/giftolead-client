@@ -181,12 +181,9 @@ export default {
                             icon: 'icon-check-circle',
                             color: 'success'
                         })
-                        this.$vs.loading.close();
                         this.$emit('getItems')
                         this.$emit('closeSidebar')
-
                     }).catch(error => {
-                        this.$vs.loading.close();
                         console.log(error.response)
                         if (error.response.status == 412) {
                             this.$vs.dialog({
@@ -197,7 +194,6 @@ export default {
                                 accept: this.acceptAlert,
                                 acceptText: "Confirmar",
                                 cancelText: "Cancelar"
-
                             })
                         } else {
                             this.$vs.notify({
@@ -208,13 +204,9 @@ export default {
                                 color: 'danger'
                             })
                         }
-
-
                     }).finally(() => {
                         this.$vs.loading.close();
                     })
-
-
                 } else {
                     this.$vs.notify({
                         title: '',
@@ -224,11 +216,7 @@ export default {
                         color: 'danger'
                     })
                 }
-
-
             });
-
-
         },
         acceptAlert() {
             this.confimado = true;
@@ -244,8 +232,15 @@ export default {
             this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
                 console.log('ué', response)
                 this.campanhas = [...response];
-                this.$vs.loading.close();
-            });
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
     },
     components: {

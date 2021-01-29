@@ -166,7 +166,7 @@
                                         }).catch(erro => {
                                             this.$vs.notify({
                                                 title: 'Error',
-                                                text: erro.message,
+                                                text: erro.response.data.message,
                                                 iconPack: 'feather',
                                                 icon: 'icon-alert-circle',
                                                 color: 'danger'
@@ -191,7 +191,7 @@
                                 }).catch(erro => {
                                     this.$vs.notify({
                                         title: 'Error',
-                                        text: erro.message,
+                                        text: erro.response.data.message,
                                         iconPack: 'feather',
                                         icon: 'icon-alert-circle',
                                         color: 'danger'
@@ -214,7 +214,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -314,7 +314,7 @@
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
@@ -351,7 +351,7 @@
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'

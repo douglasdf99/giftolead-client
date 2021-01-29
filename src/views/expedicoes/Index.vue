@@ -268,8 +268,15 @@ export default {
             this.$store.dispatch('getVarios', {rota: 'expedicaos', params: this.dados}).then(response => {
                 console.log('retornado com sucesso', response);
                 this.pagination = response;
-                this.$vs.loading.close();
-            });
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
         getOpcoes() {
             this.$store.dispatch('brindes/get').then(response => {

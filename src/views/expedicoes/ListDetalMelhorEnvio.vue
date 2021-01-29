@@ -500,7 +500,6 @@ export default {
         atualiza() {
             this.modalGerarPlp = false;
             this.getItem(this.expedicao.id);
-            this.$vs.loading.close();
         },
         pesquisar(e) {
             e.preventDefault();
@@ -733,7 +732,7 @@ export default {
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
-                        text: erro.message
+                        text: erro.response.data.message
                     })
                 });
             }
