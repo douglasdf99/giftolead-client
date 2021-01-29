@@ -1,4 +1,4 @@
-<template>
+[<template>
     <div>
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
