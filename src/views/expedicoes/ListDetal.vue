@@ -48,7 +48,7 @@
             </div>
             <div class="vx-col w-1/12 lg:1/12 xlg:1/12 float-right flex items-center col justify-center">
                 <vx-tooltip text="Validar informações das automações" position="top">
-                    <vs-button color="primary" class="p-2 ml-3" @click="validarAutomacoes" icon-pack="material-icons" icon="youtube_searched_for"></vs-button>
+                    <vs-button color="primary" class="p-2 ml-3" @click="validarAutomacoes" :disabled="validando" icon-pack="material-icons" icon="youtube_searched_for"></vs-button>
                 </vx-tooltip>
             </div>
         </div>
@@ -271,7 +271,7 @@ export default {
             dados: {
                 pesquisa: '',
             },
-            validados: [],
+            validando: false,
 
             //Iframe de impressões
             modalIframe: false,
@@ -645,6 +645,7 @@ export default {
             });
         },
         async validarAutomacoes() {
+            this.validando = true;
             for (let [index, item] of this.expedicao.automacaos.entries()) {
                 this.$vs.loading({
                     container: '#td-loading-' + item.id,
@@ -652,6 +653,7 @@ export default {
                 });
                 await this.requestValidar(item);
             }
+            this.validando = false;
         },
         requestValidar(item){
             return new Promise((resolve, reject) => {
@@ -668,12 +670,12 @@ export default {
             });
         },
         showErro(arr){
-            let message = 'Erros - ';
+            let message = 'Erro - ';
             arr = Object.entries(arr);
             arr.forEach(area => {
                 area.forEach(text => {
                     message += text + '\r\n';
-                })
+                });
             });
 
             return message
