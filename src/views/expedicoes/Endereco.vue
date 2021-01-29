@@ -66,13 +66,11 @@
                                 </div>
                                 <div class="vx-col w-6/12">
                                     <p class="gray-wdc mb-2 font-bold">Bairro</p>
-                                    <vs-input class="w-full mb-3" type="text" required v-model="endereco.bairro"
-                                              :disabled="habBairro"/>
+                                    <vs-input class="w-full mb-3" type="text" required v-model="endereco.bairro"/>
                                 </div>
                                 <div class="vx-col w-6/12">
                                     <p class="gray-wdc mb-2 font-bold">Endereço</p>
-                                    <vs-input class="w-full mb-3" type="text" required v-model="endereco.endereco"
-                                              :disabled="habEndereco"/>
+                                    <vs-input class="w-full mb-3" type="text" required v-model="endereco.endereco"/>
                                 </div>
                                 <div class="vx-col w-6/12">
                                     <p class="gray-wdc mb-2 font-bold">Complemento</p>
@@ -89,12 +87,11 @@
 
                                 </div>
                             </div>
-                            <vs-button class="border-none bg-primary hover:bg-black text-white cursor-pointer font-bold py-2 px-4 rounded-lg w-full h-16 text-2xl my-4" type="submit" @click="storeEndereco"
-                                       :disabled="invalidoEntrega">
+                            <vs-button class="border-none bg-primary hover:bg-black text-white cursor-pointer font-bold py-2 px-4 rounded-lg w-full h-16 text-2xl my-4"
+                                       type="submit" @click="storeEndereco" :disabled="invalidoEntrega">
                                 Confirmar dados
                             </vs-button>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -155,8 +152,6 @@ export default {
                 complemento: '',
                 numero: '',
             },
-            habBairro: true,
-            habEndereco: true,
             valido: false,
             antigoCep: '',
         }
@@ -194,7 +189,8 @@ export default {
     },
     computed: {
         invalidoEntrega() {
-            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length < 8)
+            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length < 8
+                || !this.endereco.endereco || !this.endereco.bairro);
         },
         isSidebarActiveLocal: {
             get() {
@@ -215,18 +211,18 @@ export default {
                     this.endereco.nome = this.removeAccents(this.endereco.nome);
                     this.$vs.loading();
                     this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(response => {
-                        this.$vs.loading.close();
                         this.isSidebarActiveLocal = false;
                         this.$vs.notify({
                             color: 'success',
-                            text: 'Salvo com sucesso'
+                            text: 'Salvo com sucesso.'
                         });
+                        this.$emit('validar', this.endereco);
                     }).catch(erro => {
                         this.$vs.notify({
                             color: 'danger',
                             text: erro.message
                         })
-                    });
+                    }).finally(() => this.$vs.loading.close());
                 } else {
                     alert('Verifique os erros');
                 }
@@ -240,13 +236,6 @@ export default {
                 this.endereco = response.data;
                 this.endereco.ddd = this.endereco.telefone.substring(0, 2);
                 this.endereco.telefone = this.endereco.telefone.replace(this.endereco.ddd, '');
-
-                if (this.endereco.bairro !== null && this.endereco.bairro !== '') {
-                    this.habBairro = false
-                }
-                if (this.endereco.logradouro !== null && this.endereco.logradouro !== '') {
-                    this.habEndereco = false
-                }
 
                 this.antigoCep = this.endereco.cep;
                 if (this.endereco.cep) {
@@ -268,20 +257,12 @@ export default {
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
                 consultarCep(this.endereco.cep).then(response => {
-
                     this.antigoCep = this.endereco.cep;
                     this.valido = true;
                     this.endereco.cidade = this.removeAccents(response.localidade);
                     this.endereco.bairro = this.removeAccents(response.bairro);
                     this.endereco.endereco = this.removeAccents(response.logradouro);
                     this.endereco.estado = this.removeAccents(response.uf);
-
-                    if (response.bairro == null || response.bairro == '') {
-                        this.habBairro = false
-                    }
-                    if (response.logradouro == null || response.logradouro == '') {
-                        this.habEndereco = false
-                    }
                 }).catch(erro => {
                     this.$vs.notify({
                         title: '',

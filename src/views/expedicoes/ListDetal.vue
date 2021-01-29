@@ -2,8 +2,7 @@
     <div>
         <detalhe v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                  :data="sidebarData"/>
-        <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd"
-                  :data="endereco"/>
+        <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd" :data="endereco" @validar="requestValidar"/>
         <div class="vx-row mb-5">
             <div class="vx-col w-full">
                 <div class="flex items-center justify-around" v-if="expedicao">
@@ -63,7 +62,7 @@
                 <vs-th></vs-th>
             </template>
             <template slot-scope="{data}">
-                <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr" class="relative vs-con-loading__container" :id="'automacao-' + indextr">
+                <vs-tr :key="'row-with-loading-' + indextr" v-for="(tr, indextr) in data" :data="tr">
                     <vs-td class="flex justify-center items-center">
                         <vs-dropdown vs-trigger-click>
                             <vs-button radius color="#EDEDED" type="filled"
@@ -87,7 +86,7 @@
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Declaração de Conteúdo
                                 </vs-dropdown-item>
-                                <vs-dropdown-item @click="editarEndereco(tr)" v-if="!expedicao.fechado">
+                                <vs-dropdown-item @click="tr.index = indextr; editarEndereco(tr)" v-if="!expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
                                 </vs-dropdown-item>
@@ -106,13 +105,13 @@
                         </vx-tooltip>
                     </vs-td>
                     <vs-td>{{ tr.endereco.cep | VMask('##.###-###') }}</vs-td>
-                    <vs-td class="td-icons flex flex-col items-center justify-center">
+                    <vs-td class="td-icons flex flex-col items-center justify-center vs-con-loading__container" :id="'td-loading-' + tr.id">
                         <vx-tooltip v-if="tr.erro" :text="showErro(tr.erro)" position="top" class="flex items-center justify-center">
                             <vs-icon icon-pack="material-icons" icon="highlight_off"
-                                     class="icon-grande font-bold text-danger"></vs-icon>
+                                     class="icon-grande mx-auto font-bold text-danger"></vs-icon>
                         </vx-tooltip>
                         <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-else
-                                 class="icon-grande font-bold" style="color: #00ACC1"></vs-icon>
+                                 class="icon-grande mx-auto font-bold" style="color: #00ACC1"></vs-icon>
 
                     </vs-td>
                 </vs-tr>
@@ -142,16 +141,11 @@
                         </vs-dropdown-menu>
                     </vs-dropdown>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" @click="imprimirDeclaracao(null)">Imprimir Declaração de conteúdo</vs-button>
-
-
                 </div>
             </footer-doug>
         </transition>
         <vs-popup id="pdf-with-loading" class="popup-iframe vs-con-loading__container" style="overflow: hidden" title="Imprimindo etiquetas" :active.sync="modalIframe">
-
-
             <iframe v-if="urlIframe" :src="urlIframe" width="100%" height="100%" title="Imprimindo Etiqueta"></iframe>
-
         </vs-popup>
         <vs-prompt
             @cancel="modalContrato = false"
@@ -311,18 +305,14 @@ export default {
         var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
         this.$echo.channel(`${subdomain}_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
-            console.log('teste');
-            console.log(e);
             if (this.step < 1) {
                 if (e.automacao.status == 'fechado') {
                     this.count++
                     this.percent = (this.count / this.expedicao.automacaos.length) * 100;
-                    console.log(this.count, this.percent);
                 }
                 if (e.automacao.status == 'error') {
                     this.count++
                     this.percent = (this.count / this.expedicao.automacaos.length) * 100;
-                    console.log(this.count, this.percent);
                     this.automacaosErros.push(e.automacao);
                 }
             }
@@ -362,7 +352,6 @@ export default {
         if (moduleExpedicoesBrindes.isRegistered)
             this.getItem(this.$route.params.id);
         this.getContratos();
-        console.log('valido', this.valido)
     },
     methods: {
         getItem(id) {
@@ -372,7 +361,6 @@ export default {
                 this.expedicao = {...response};
                 this.selectedContrato = {id: this.expedicao.contrato.id, label: this.expedicao.contrato.nome};
             }).catch(erro => {
-                console.log('front erro', erro.response);
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado ao carregar a exepdição.'
@@ -419,7 +407,6 @@ export default {
                             text: 'Arquivado realizado com sucesso'
                         });
                     }).catch(erro => {
-                        console.log('erro', erro);
                         this.modalGerarPlp = false;
                         this.$vs.notify({
                             color: 'danger',
@@ -442,7 +429,6 @@ export default {
                         type: 'application/pdf'
                     });
                     var url = window.URL.createObjectURL(blob);
-                    console.log(url);
                     this.urlIframe = url;
                     //window.open(url);
                     this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
@@ -469,7 +455,6 @@ export default {
                         type: 'application/pdf'
                     });
                     var url = window.URL.createObjectURL(blob);
-                    console.log(url);
                     this.urlIframe = url;
                     //window.open(url);
                     this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
@@ -500,7 +485,6 @@ export default {
                         type: 'application/pdf'
                     });
                     var url = window.URL.createObjectURL(blob);
-                    console.log(url);
                     this.urlIframe = url;
                     //window.open(url);
                     this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
@@ -523,7 +507,6 @@ export default {
                 });
                 this.getItem(this.expedicao.id);
             }).catch(erro => {
-                console.log('erro', erro);
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado. Contate o suporte'
@@ -542,7 +525,6 @@ export default {
                     this.modalGerarPlp = true;
                     this.$store.dispatch('expedicaos/gerarPlp', this.expedicao.id).then(() => {
                     }).catch(erro => {
-                        console.log('erro', erro);
                         this.modalGerarPlp = false;
                         // this.$vs.notify({
                         //   color: 'danger',
@@ -572,7 +554,6 @@ export default {
                         type: 'application/pdf'
                     });
                     var url = window.URL.createObjectURL(blob);
-                    console.log(url);
                     this.urlIframe = url;
                     //window.open(url);
                     this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
@@ -617,12 +598,10 @@ export default {
         buscaCep(e) {
             e.preventDefault();
             if (this.valido) {
-                console.log('teste')
             } else {
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
                 consultarCep(this.endereco.cep).then(response => {
-                    console.log('resposta', response);
                     this.valido = true;
                     this.antigoCep = this.endereco.cep;
                     this.endereco.cidade = this.removeAccents(response.localidade);
@@ -630,7 +609,6 @@ export default {
                     this.endereco.endereco = this.removeAccents(response.logradouro);
                     this.endereco.estado = this.removeAccents(response.uf);
                 }).catch(erro => {
-                    console.log(erro);
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
@@ -660,7 +638,6 @@ export default {
                 });
                 this.getItem(this.$route.params.id);
             }).catch(erro => {
-                console.log(erro)
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
@@ -669,21 +646,30 @@ export default {
         },
         async validarAutomacoes() {
             for (let [index, item] of this.expedicao.automacaos.entries()) {
-                this.$vs.loading({container: "#automacao-" + index, scale: .5});
-
-                await this.$store.dispatch('automacao/validarAutomacao', item.id).then(response => {
-                    console.log('voltou pra view', response);
+                this.$vs.loading({
+                    container: '#td-loading-' + item.id,
+                    scale: 0.6
+                });
+                await this.requestValidar(item);
+            }
+        },
+        requestValidar(item){
+            return new Promise((resolve, reject) => {
+                this.$store.dispatch('automacao/validarAutomacao', item.id).then(response => {
                     if(!response.success)
                         item.erro = response.erro;
+                    else item.erro = null
+
+                    resolve()
                 }).catch(erro => {
-                    console.log('deu ruim', erro);
-                }).finally(() => this.$vs.loading.close("#automacao-" + index + " > .con-vs-loading"));
-            }
+                    console.log(erro.response);
+                    reject()
+                }).finally(() => this.$vs.loading.close("#td-loading-" + item.id + " > .con-vs-loading"));
+            });
         },
         showErro(arr){
             let message = 'Erros - ';
             arr = Object.entries(arr);
-            console.log('arr', arr);
             arr.forEach(area => {
                 area.forEach(text => {
                     message += text + '\r\n';
@@ -699,7 +685,6 @@ export default {
         },
         list() {
             return this.expedicao.automacaos.filter(automacao => {
-                console.log('auto', automacao);
                 let email = automacao.email_destinatario ? automacao.email_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                 let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                 let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;

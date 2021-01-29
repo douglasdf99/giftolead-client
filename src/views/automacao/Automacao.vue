@@ -199,7 +199,7 @@ export default {
         getItems(tipo = this.dados.tipo) {
             console.log('tipo', tipo)
             this.$vs.loading();
-            if (tipo != 'arquivadas') {
+            if (tipo != 'arquivadas' && tipo != null) {
                 this.dados.tipo = tipo;
                 this.dados.arquivadas = 0;
             } else {
@@ -216,6 +216,7 @@ export default {
         },
         pesquisar() {
             this.dados.page = 1;
+            console.log('pesquisando', this.dados)
             this.getItems();
         },
         addNewData() {
