@@ -52,7 +52,7 @@
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
                     <vs-tab @click="colorx = '#E7BE00'; getItems('pendentes'); dados.aba = 'pendentes'" color="warning" label="pendentes">
-                        <listagem @updateData="updateData" :items="comissoes" :colorx="colorx" :tipo="dados.aba"></listagem>
+                        <listagem @updateData="updateData" :items="comissoes" :colorx="colorx" tipo="pendentes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
