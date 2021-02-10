@@ -132,6 +132,7 @@
             @cancel="clearValMultiple"
             @accept="addVarText('[LINK_ACAO_WHATSAPPLIST]')"
             @close="close"
+            :is-valid="isValidWhats"
             :acceptText="'Salvar'"
             :cancelText="'Cancelar'"
             title="Digite a mensagem"
@@ -446,6 +447,14 @@ export default {
 
     },
     computed: {
+        isValidWhats() {
+          if (this.email.telefone == null || this.email.telefone == '')
+            return false
+          if (this.email.whatsapp == null || this.email.whatsapp == '')
+            return false
+
+          return true
+        },
         isValid() {
             return this.errors.any();
         },

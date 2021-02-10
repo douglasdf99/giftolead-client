@@ -130,7 +130,7 @@ export default {
                     if (this.metodo) obj.data = moment().format('YYYY-MM-DD hh:mm');
                     else obj.data = this.datetime;
 
-                    this.$store.dispatch('whatsapplist/transformar', obj).then(() => {
+                  this.$store.dispatch('whatsapplist/transformar', obj).then((response) => {
                         console.log('eita')
                         this.$vs.notify({
                             title: '',
@@ -142,38 +142,21 @@ export default {
 
                         if (this.metodo) {
                             this.$emit('closeSidebar')
-                            this.$router.push({name: 'tickets-list'});
+                            this.$router.push({name: 'tickets-atender' , params: { id: response.data.data.ticket_id }});
                         }
-                        this.$store.dispatch('whatsapplist/transformar', obj).then(response => {
-                            console.log('eita')
-                            this.$vs.notify({
-                                title: '',
-                                text: "Ticket criado com sucesso.",
-                                iconPack: 'feather',
-                                icon: 'icon-check-circle',
-                                color: 'success'
-                            });
-
-                            if (this.metodo) {
-                                this.$emit('closeSidebar')
-                                this.$router.push({name: 'tickets-list'});
-                            }
-
-
-                        }).catch(erro => {
-                            console.log(erro);
-                            let self = this;
-                            this.$vs.dialog({
-                                color: 'danger',
-                                title: `Ops`,
-                                text: 'Algo de errado ocorreu na criação do ticket',
-                                accept: this.fechar(),
-                                acceptText: 'Ok'
-                            })
-                        });
-                        this.$vs.loading.close();
-                        this.fechar();
+                    }).catch(erro => {
+                      console.log(erro);
+                      let self = this;
+                      this.$vs.dialog({
+                        color: 'danger',
+                        title: `Ops`,
+                        text: 'Algo de errado ocorreu na criação do ticket',
+                        accept: this.fechar(),
+                        acceptText: 'Ok'
+                      })
                     });
+                  this.$vs.loading.close();
+                  this.fechar();;
                 }
             });
         },

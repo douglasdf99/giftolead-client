@@ -371,6 +371,10 @@ export default {
           };
           break;
         default:
+          return {
+            nome: 'Saldo Hotmart',
+            icon: 'fas fa-hotjar fa-2x'
+          };
         // code block
       }
     },

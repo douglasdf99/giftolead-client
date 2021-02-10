@@ -11,15 +11,15 @@
 var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
 var domain = '';
 if(subdomain)
-    domain = "https://apidev.saveleads.com.br/" + subdomain;
+    domain = "https://api.saveleads.com.br/" + subdomain;
 else
-    domain = "https://apidev.saveleads.com.br/app";
+    domain = "https://api.saveleads.com.br/app";
 
 const saveleadsConfig = {
     token : localStorage.getItem("accessToken")|| null,
     url_api: domain,
-    url_normal: 'https://apidev.saveleads.com.br/',
-    url_melhorenvio: 'https://sandbox.melhorenvio.com.br',
+    url_normal: 'https://api.saveleads.com.br/',
+    url_melhorenvio: 'https://www.melhorenvio.com.br',
     variaveis: [
         {nome: 'Nome do Lead', value: '[NOME_LEAD]'},
         {nome: 'E-mails do Lead', value: '[EMAIL_LEAD]'},

@@ -206,7 +206,7 @@ export default {
         }
     },
     created() {
-        this.$vs.loading();
+
         //this.dateRange.startDate = moment().subtract(30, 'days')
         //this.dateRange.endDate = moment()
 
@@ -242,7 +242,6 @@ export default {
             return (dia ? today : yesterday)
         },
         setDate(val) {
-            this.$vs.loading();
             switch (val) {
                 case 'hoje':
                     this.dateRange.startDate = moment();
@@ -343,7 +342,6 @@ export default {
                 text: 'Deseja deletar este registro? Procedimento irreversível',
                 acceptText: 'Sim, deletar!',
                 accept: () => {
-                    this.$vs.loading();
                     this.$store.dispatch('deleteItem', {id: id, rota: ''}).then(() => {
                         this.$vs.notify({
                             color: 'success',
@@ -370,7 +368,6 @@ export default {
     },
     watch: {
         currentx(val) {
-            this.$vs.loading();
             console.log('val', val);
             this.dados.page = this.currentx;
             this.getItems(this.dados.situacao);
@@ -379,22 +376,18 @@ export default {
             this.routeTitle = this.$route.meta.pageTitle
         },
         dateRange() {
-            this.$vs.loading();
             this.dados.page = 1;
             this.getItems(this.dados.situacao);
         },
         selectedProduto() {
-            this.$vs.loading();
             this.dados.page = 1;
             this.getItems(this.dados.situacao);
         },
         selectedResp() {
-            this.$vs.loading();
             this.dados.page = 1;
             this.getItems(this.dados.situacao);
         },
         selectedCampanha() {
-            this.$vs.loading();
             this.dados.page = 1;
             this.getItems(this.dados.situacao);
         },
@@ -402,7 +395,6 @@ export default {
             handler(val) {
                 if (val.length != this.pagination.per_page) {
                     this.dados.page = 1;
-                    this.$vs.loading();
                     this.getItems(this.dados.situacao);
                 }
             },

@@ -20,8 +20,8 @@
                     <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
                     <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                         <span class="span-identifica-item-dropdown mb-0">Mensagem Padrão</span>
-                        <vs-dropdown-item v-for="msg in mensagens" @click="$emit('setMensagem', msg.mensagem)">
-                            <span v-if="msg.tipo === 'email'">{{msg.titulo}}</span>
+                        <vs-dropdown-item v-for="msg in filtro" @click="$emit('setMensagem', msg.mensagem)">
+                            <span>{{msg.titulo}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
                 </vs-dropdown>
@@ -53,6 +53,9 @@
             },
             enviado: {
                 type: Boolean
+            },
+            tipo: {
+                type: String
             }
         },
         data() {
@@ -72,6 +75,13 @@
                 get() {
                     return this.isPinnedProp
                 },
+            },
+            filtro(){
+              return this.mensagens.filter((msg)=>{
+                  if (msg.tipo == 'whatsapp'){
+                    return msg
+                  }
+              });
             },
             userDetails() {
                 return this.$store.state.AppActiveUser;

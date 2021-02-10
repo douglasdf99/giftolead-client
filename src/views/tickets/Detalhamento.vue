@@ -29,10 +29,11 @@
                             <p class="text-black text-xl font-bold">
                                 {{ticket.lead.nome}}
                             </p>
-                          {{ticket.lead}}
-                            <p class="text-black text-xl font-bold mb-2" v-if="ticket.lead.telefone">
-                                {{ticket.lead.ddi+'(' + ticket.lead.ddd + ') ' + ticket.lead.telefone}}
-                            </p>
+                          <h6 class="mb-2"><b>Numero de telefone:</b>
+                            <span v-if="ticket.lead.ddi">{{ '+' + ticket.lead.ddi }} </span>
+                            <span v-if="ticket.lead.ddd">{{ ' (' + ticket.lead.ddd + ') ' }} </span>
+                            <span v-if="ticket.lead.telefone">{{ ticket.lead.telefone }} </span></h6>
+
                             <p class="font-semibold text-md" style="color: #9B9B9B">{{ticket.lead.email}}</p>
                             <p class="font-semibold text-md mb-4" style="color: #9B9B9B" v-if="ticket.lead.cpf">CPF: {{ticket.lead.cpf}}</p>
                         </div>

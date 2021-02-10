@@ -23,7 +23,7 @@
                          :class="{'sidebar-spacer--wide': clickNotClose, 'flex items-center justify-center': activeChatUser === null}">
                         <template v-if="activeChatUser">
                             <div class="chat__navbar">
-                                <chat-navbar :dados="data" :enviado="enviado" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
+                                <chat-navbar :tipo="'whatsapp'" :dados="data" :enviado="enviado" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
                                 <vs-progress indeterminate color="primary" v-if="enviando"></vs-progress>
                             </div>
                             <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
