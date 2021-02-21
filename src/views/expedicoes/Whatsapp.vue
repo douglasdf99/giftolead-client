@@ -27,8 +27,7 @@
                                              :isPinnedProp="isChatPinned"></chat-navbar>
                                 <vs-progress indeterminate color="primary" v-if="enviando"></vs-progress>
                             </div>
-                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" style="border-color: transparent" :settings="settings" ref="chatLogPS"
-                                                 :key="$vs.rtl">
+                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
                                 <div class="chat__log" ref="chatLog">
                                     <chat-log :userId="activeChatUser" :dados="data" v-if="activeChatUser"></chat-log>
                                 </div>
@@ -122,6 +121,7 @@ export default {
             isLoggedInUserProfileView: false,
             enviando: false,
             enviado: false,
+            user: JSON.parse(localStorage.getItem('userInfo')),
 
             //Modal
             modal: false,
@@ -154,7 +154,7 @@ export default {
             })
         },
         fechar() {
-            //this.$emit('getItems')
+            this.$emit('getItems')
             this.isSidebarActiveLocal = false
         },
         setSidebarWidth() {
@@ -169,12 +169,10 @@ export default {
             this.isChatSidebarActive = value
         },
         sendMsg() {
+            console.log('caishdasd', this.user)
             if (!this.typedMessage) return
             this.enviando = true;
-            let rota = 'whatsapplists_resposta';
-            if (this.$route.name == 'brindes-automacao')
-                rota = 'automacaos/link-whatsapp'
-            this.$store.dispatch('whatsapplist/sendMsg', {id: this.data.id, mensagem: this.typedMessage, rota: rota}).then(response => {
+            this.$store.dispatch('whatsapplist/sendMsg', {id: this.data.id, mensagem: this.typedMessage, rota: 'automacaos/whatsapp', avatar: this.user.photoURL}).then(response => {
                 this.enviado = true;
                 this.typedMessage = '';
                 setTimeout(() => this.redirectWhats(response), 2000);
@@ -224,21 +222,11 @@ export default {
         ChatLog, 'chat-navbar': ChatNavBar
     },
     created() {
-        this.$store.dispatch('getLinks', this.data.campanhable.produto_id).then(response => {
-            let arr = [...response];
-            arr.forEach(item => {
-                this.links.push({id: item.identidade, label: item.descricao});
-            });
-        });
-
-        if (this.data.resposta) {
-            this.enviado = true;
-        }
+        this.typedMessage = 'Olá, [NOME_LEAD]! Tudo bem?\n \n' +
+            ` Passando para avisar que o seu brinde - ${this.data.brinde.nome} - já consta na nossa base.\n` +
+            ' Clique no link abaixo para preencher seu endereço: \n' +
+            `https://weentrega.saveleads.com.br/preencher/${this.data.uuid}/${this.data.lead.email}`;
     },
-    updated() {
-        if (this.data.resposta)
-            this.$store.dispatch('whatsapplist/pushMsg', {isSent: true, textContent: this.data.resposta.mensagem});
-    }
 }
 </script>
 

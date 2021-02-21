@@ -3,7 +3,9 @@
         <detalhe v-if="addNewDataSidebar" :expedicao="expedicao" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                  :data="sidebarData"/>
         <endereco v-if="modalEndereco" :expedicao="expedicao" :isSidebarActive="modalEndereco" @closeSidebar="toggleDataSidebarEnd" :data="endereco" @validar="requestValidar"/>
-        <div class="vx-row mb-5">
+        <reenviar v-if="responderTicket" :isSidebarActive="responderTicket" @closeSidebar="toggleRespostaSidebar" @getItems="" :data="aresponder"/>
+
+      <div class="vx-row mb-5">
             <div class="vx-col w-full">
                 <div class="flex items-center justify-around" v-if="expedicao">
                     <p class="flex items-center">
@@ -86,6 +88,18 @@
                                     <vs-icon icon-pack="material-icons" icon="print"></vs-icon>
                                     Declaração de Conteúdo
                                 </vs-dropdown-item>
+                                <vs-dropdown-item v-if="tr.erro" @click="reenviarWhats(tr)">
+                                  <vs-icon icon-pack="material-icons" icon="forward"></vs-icon>
+                                  Enviar por whatsapp
+                                </vs-dropdown-item>
+                                <vs-dropdown-item v-if="tr.erro" @click="reenviarWhats(tr)">
+                                  <vs-icon icon-pack="material-icons" icon="forward"></vs-icon>
+                                  Enviar por whatsapp
+                                </vs-dropdown-item>
+                                <vs-dropdown-item @click="automacaoSelected = tr.id ;modaltransferencia = true">
+                                  <i class="material-icons hover:text-primary cursor-pointer">forward</i>
+                                  Transferir Automação
+                                </vs-dropdown-item>
                                 <vs-dropdown-item @click="tr.index = indextr; editarEndereco(tr)" v-if="!expedicao.fechado">
                                     <vs-icon icon-pack="material-icons" icon="home"></vs-icon>
                                     Editar Endereço
@@ -112,7 +126,6 @@
                         </vx-tooltip>
                         <vs-icon icon-pack="material-icons" icon="check_circle_outline" v-else
                                  class="icon-grande mx-auto font-bold" style="color: #00ACC1"></vs-icon>
-
                     </vs-td>
                 </vs-tr>
             </template>
@@ -159,6 +172,20 @@
                 <span class="font-regular mb-2">Selecione</span>
                 <v-select v-model="selectedContrato" :class="'select-large-base'" :clearable="false"
                           style="background-color: white" :options="contratos" v-validate="'required'" name="produtoUpsell"/>
+            </div>
+        </vs-prompt>
+        <vs-prompt
+            @cancel="modaltransferencia = false"
+            @accept="transferir"
+            acceptText="Salvar"
+            cancelText="Cancelar"
+            :title="'Transferencia de Expedição'"
+            :max-width="'600px'"
+            :active.sync="modaltransferencia">
+            <div class="con-exemple-prompt">
+                <span class="font-regular mb-2">Selecione a expedição a ser transferida</span>
+                <v-select v-model="selectedExpedicao" :class="'select-large-base'" :clearable="false"
+                          style="background-color: white" :options="expedicaos" v-validate="'required'" name="produtoUpsell"/>
             </div>
         </vs-prompt>
         <!-- inicio popup-->
@@ -246,6 +273,8 @@ import vSelect from 'vue-select'
 import moduleContrato from "../../store/contratos/moduleContrato";
 import axios from "@/axios.js"
 import moduleAutomacao from "../../store/automacao/moduleAutomacao";
+import reenviar from './Whatsapp'
+import moduleWhatsList from "@/store/whatsapplist/moduleWhatsList";
 
 const {consultarCep} = require("correios-brasil");
 
@@ -253,7 +282,7 @@ export default {
     name: "ListDetal",
     //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
     components: {
-        endereco, detalhe, 'v-select': vSelect
+        endereco, detalhe, 'v-select': vSelect,reenviar
     },
     data() {
         return {
@@ -266,13 +295,15 @@ export default {
                 ],
                 contrato: {}
             },
+          modaltransferencia: false,
+          aresponder: {},
             automacaosErros: [],
             city_id: '',
             dados: {
                 pesquisa: '',
             },
             validando: false,
-
+            responderTicket: false,
             //Iframe de impressões
             modalIframe: false,
             urlIframe: '',
@@ -298,7 +329,10 @@ export default {
             //Modal Contratos
             modalContrato: false,
             contratos: [],
+            expedicaos: [],
             selectedContrato: {},
+            selectedExpedicao: {},
+          automacaoSelected: null
         }
     },
     mounted() {
@@ -349,11 +383,21 @@ export default {
             this.$store.registerModule('automacao', moduleAutomacao);
             moduleAutomacao.isRegistered = true;
         }
+      if (!moduleWhatsList.isRegistered) {
+        this.$store.registerModule('whatsapplist', moduleWhatsList)
+        moduleWhatsList.isRegistered = true
+      }
         if (moduleExpedicoesBrindes.isRegistered)
             this.getItem(this.$route.params.id);
+
         this.getContratos();
+
+        this.getExpedicaos();
     },
     methods: {
+        toggleRespostaSidebar(val = false) {
+          this.responderTicket = val;
+        },
         getItem(id) {
             this.$vs.loading();
             this.$store.dispatch('expedicaos/getId', id).then(response => {
@@ -466,6 +510,10 @@ export default {
                     this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
 
                 });
+        },
+        reenviarWhats(dados) {
+          this.aresponder = dados;
+          this.toggleRespostaSidebar(true);
         },
         imprimirDeclaracao(automacao) {
             this.urlIframe = false;
@@ -626,10 +674,42 @@ export default {
                 this.contratos = [...this.arraySelect(response)];
             })
         },
+        //Trocando contrato
+        getExpedicaos() {
+            this.$store.dispatch('expedicaos/get').then(response => {
+                let arraysend = response.data.data.filter((item)=>{
+                  if (item.brinde && item.contrato_type == "App\\Models\\Correio" && item.fechado == 0){
+                    return item;
+                  }
+                })
+                this.expedicaos = [...this.arraySelectExpedicao(arraysend)] ;
+                console.log('expedicaos', this.expedicaos)
+            })
+        },
         update() {
             this.$vs.loading();
             this.expedicao.contrato_id = this.selectedContrato.id;
             this.$store.dispatch('expedicaos/store', this.expedicao).then(() => {
+                this.val = {};
+                this.$vs.notify({
+                    color: 'success',
+                    text: 'Salvo com sucesso'
+                });
+                this.getItem(this.$route.params.id);
+            }).catch(erro => {
+                this.$vs.notify({
+                    color: 'danger',
+                    text: 'Algo deu errado ao finalizar. Reinicie a página.'
+                })
+            });
+        },
+        transferir() {
+            this.$vs.loading();
+            let payload = {
+              id : this.automacaoSelected,
+              expedicao_id :  this.selectedExpedicao.id,
+            }
+            this.$store.dispatch('expedicaos/tranferir', payload).then(() => {
                 this.val = {};
                 this.$vs.notify({
                     color: 'success',

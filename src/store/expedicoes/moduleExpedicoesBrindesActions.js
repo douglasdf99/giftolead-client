@@ -49,6 +49,17 @@ export default {
                 })
         })
     },
+    tranferir({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.post(`/automacaos/transferir/${dados.id}`, {expedicao : dados.expedicao_id})
+                .then((response) => {
+                    resolve(response.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     store({commit}, dados) {
         let rota = '/expedicaos';
         if (dados.id != null) {

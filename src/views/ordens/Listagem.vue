@@ -5,10 +5,11 @@
         </div>
         <vs-table v-model="selecteds" @selected="handleSelected" v-else :data="items" class="table-items" multiple>
             <template slot="thead">
-                <vs-th></vs-th>
-                <vs-th></vs-th>
-                <vs-th></vs-th>
-                <vs-th></vs-th>
+                <vs-th>Número</vs-th>
+                <vs-th>Usuário</vs-th>
+                <vs-th>Valor</vs-th>
+                <vs-th>Data de criação</vs-th>
+                <vs-th v-if="tipo == 'pago'">Data de pagamento</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
@@ -23,6 +24,12 @@
                     </vs-td>
                     <vs-td class="w-2/12">
                         <p class="preco">R$ {{getValComissao(tr.comissaos)}}</p>
+                    </vs-td>
+                    <vs-td class="w-2/12">
+                        <p>{{tr.created_at | formatDateTime}}</p>
+                    </vs-td>
+                    <vs-td class="w-2/12" v-if="tipo == 'pago'">
+                        <p >{{tr.updated_at | formatDateTime}}</p>
                     </vs-td>
                     <vs-td class="td-icons w-2/12">
                         <div class="flex items-center">

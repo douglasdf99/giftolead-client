@@ -14,8 +14,8 @@
           <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
             <vs-td class="flex items-center">
               <div class="flex items-center">
-                <img :src="null" width="40px" class="rounded-full mx-5"
-                     :style="{ backgroundImage: 'url('+get_img_api(tr.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
+                <div :src="null" width="40px" class="rounded-full mx-5"
+                     :style="{ backgroundImage: 'url('+get_img_api(tr.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
                 <p class="font-bold text-dark text-xl">{{tr.name}}</p>
               </div>
             </vs-td>
@@ -65,8 +65,9 @@
                 <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaAgendamento'">
                 <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
                 <img src="@/assets/images/util/link.svg" width="40" class="ml-2 rounded-full" v-else-if="tr.origem_type == 'App\\Models\\Link'">
-                <img :src="null" width="40px" class="ml-2 rounded-full agente" v-else-if="tr.origem"
-                     :style="{ backgroundImage: 'url('+get_img_api(tr.origem.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }">
+
+                <div :src="null" width="40px" class="ml-2 rounded-full agente" v-else-if="tr.origem"
+                     :style="{ backgroundImage: 'url('+get_img_api(tr.origem.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
 
                 <!--                  <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
                 <p class="font-bold text-dark text-xl ml-3">{{nameCriador(tr)}}</p>
@@ -150,7 +151,7 @@
         else return (obj.origem) ? obj.origem.nome : 'Sem origem';
       },
       nameResponsavel(obj) {
-        if (obj.responsavel_type == 'App\\Models\\PreComissao') return 'Precomissao Aprovada';
+        if (obj.responsavel_type == 'App\\Models\\PreComissao') return 'Pré-comissão Aprovada';
         else if (obj.responsavel_type == 'App\\Models\\Transacao') return 'Transação Aprovada';
         else if (obj.responsavel_type == 'App\\Models\\Upsell') return 'Upsell Aprovado';
         else if (obj.responsavel_type == 'App\\Models\\WhatsappList') return 'Whatsapplist Aprovado';

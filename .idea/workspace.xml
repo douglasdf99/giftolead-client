@@ -4,11 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Remo">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/views/expedicoes/Whatsapp.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saveleadsConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/saveleadsConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/extensoes/instalacoes/MelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/extensoes/instalacoes/MelhorEnvio.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/produtos/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/produtos/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/globalMethods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/globalMethods.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/brindes/AddConfig.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/brindes/AddConfig.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/Comissionar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Comissionar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/DetalheComissao.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/DetalheComissao.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetal.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ordens/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ordens/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ordens/Ordens.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ordens/Ordens.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/transacoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/transacoes/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Responder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Responder.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +58,7 @@
   </component>
   <component name="ProjectId" id="1gvDq2OboOmeOjmsl3CYM9p7bOZ" />
   <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -67,7 +79,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../weentrega" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views/expedicoes" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -81,16 +93,16 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Vue" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projects\saveleadsVuexy\src\views\expedicoes" />
       <recent name="C:\Projetos\saveleads3_vue\src\assets\images\util" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components\whatsapp" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
       <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
-      <recent name="C:\projects\saveleadsVuexy\src\views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\pages" />
@@ -280,13 +292,23 @@
       <workItem from="1611318823040" duration="8762000" />
       <workItem from="1611577904329" duration="5849000" />
       <workItem from="1611605623678" duration="2936000" />
-    </task>
-    <task id="LOCAL-00076" summary="Sprint 23 - Ajuste no funcionamento da tela de Meus Links">
-      <created>1601556191138</created>
-      <option name="number" value="00076" />
-      <option name="presentableId" value="LOCAL-00076" />
-      <option name="project" value="LOCAL" />
-      <updated>1601556191138</updated>
+      <workItem from="1611839927988" duration="4915000" />
+      <workItem from="1611922287402" duration="8573000" />
+      <workItem from="1612051108485" duration="596000" />
+      <workItem from="1612307677188" duration="980000" />
+      <workItem from="1612355386709" duration="602000" />
+      <workItem from="1612371852445" duration="3128000" />
+      <workItem from="1612440626694" duration="1888000" />
+      <workItem from="1612486284280" duration="658000" />
+      <workItem from="1612528278454" duration="1635000" />
+      <workItem from="1612880090756" duration="7264000" />
+      <workItem from="1612968549881" duration="677000" />
+      <workItem from="1613009976208" duration="1222000" />
+      <workItem from="1613044615958" duration="958000" />
+      <workItem from="1613052553819" duration="2688000" />
+      <workItem from="1613499873972" duration="5881000" />
+      <workItem from="1613656342810" duration="11295000" />
+      <workItem from="1613739432495" duration="9919000" />
     </task>
     <task id="LOCAL-00077" summary="inicio feature ACL">
       <created>1601597900025</created>
@@ -624,7 +646,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611582134757</updated>
     </task>
-    <option name="localTasksCounter" value="125" />
+    <task id="LOCAL-00125" summary="fix many things">
+      <created>1612917074216</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1612917074217</updated>
+    </task>
+    <option name="localTasksCounter" value="126" />
     <servers />
   </component>
   <component name="TodoView">
@@ -667,7 +696,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Finalização de ajustes apontados em ultima reunião de acordo com o doc google" />
     <MESSAGE value="set z-index in select responsaveis" />
     <MESSAGE value="remove submenu relatorios de extensoes" />
     <MESSAGE value="realtime profile info" />
@@ -692,7 +720,8 @@
     <MESSAGE value="variavel fixa melhor envio" />
     <MESSAGE value="Correções anotadas no meistertask" />
     <MESSAGE value="Hotfix - edição de endereço em expedição e automação" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hotfix - edição de endereço em expedição e automação" />
+    <MESSAGE value="fix many things" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix many things" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -709,18 +738,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
-          <line>651</line>
+          <line>465</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
-          <line>613</line>
+          <line>458</line>
           <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
-          <line>621</line>
-          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -80,7 +80,6 @@ export default {
             tipos: [
                 {id: 'approved', label: 'Compra aprovada'},
                 {id: 'completed', label: 'Completa'},
-                {id: 'billet_printed', label: 'Boleto Gerado'}
             ],
         }
     },
@@ -105,14 +104,14 @@ export default {
                 this.campanha = {...response};
                 this.produtoSelected = {id: this.campanha.produto.id, label: this.campanha.produto.nome};
                 switch (this.campanha.tipos) {
-                    case 'aprovada':
-                        this.tiposSelected = {id: 'aprovada', label: 'Compra aprovada'};
+                    case 'approved':
+                        this.tiposSelected = {id: 'approved', label: 'Compra aprovada'};
                         break;
-                    case 'completa':
-                        this.tiposSelected = {id: 'completa', label: 'Completa'};
+                    case 'completed':
+                        this.tiposSelected = {id: 'completed', label: 'Completa'};
                         break;
                     default:
-                        this.tiposSelected = {id: 'boletogerado', label: 'Boleto Gerado'};
+                        this.tiposSelected = {id: 'billet_printed', label: 'Boleto Gerado'};
                 }
                 this.brindeSelected = {id: this.campanha.brinde.id, label: this.campanha.brinde.nome};
             });

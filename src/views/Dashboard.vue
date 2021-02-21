@@ -53,9 +53,13 @@
                         <vx-card v-else>
                             <div class="vx-row">
                                 <div class="vx-col w-full">
-                                    <p>Comissões a receber</p>
+                                    <p>Comissões pendentes de aprovação</p>
                                     <p class="font-bold text-3xl text-warning">R$ {{ formatPrice(parseFloat(comissoes.soma_pendente)) }}</p>
                                     <p>{{ comissoes.quantidade_pendente }} vendas</p>
+
+                                    <p class="mt-5">Comissões a receber</p>
+                                    <p class="font-bold text-3xl text-warning">R$ {{ formatPrice(parseFloat(comissoes.soma_receber)) }}</p>
+                                    <p>{{ comissoes.quantidade_receber }} vendas</p>
 
                                     <p class="mt-5">Comissões pagas</p>
                                     <p class="font-bold text-3xl text-success">R$ {{ formatPrice(parseFloat(comissoes.soma_paga)) }}</p>

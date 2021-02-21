@@ -37,7 +37,8 @@
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
-                    <span class="destaque">Ordens a gerar</span>
+                    <span class="destaque" v-if="dados.aba === 'comissao'">Comissões sem ordens </span>
+                    <span class="destaque" v-else>Ordens a gerar </span>
                     <p class="font-bold text-3xl my-5 text-warning">R$ {{formatPrice(soma)}}</p>
                 </vx-card>
             </div>
@@ -46,13 +47,13 @@
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx" style="z-index: 5">
                     <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
-                            :label="'gerar ordens' + ( dados.aba === 'usuario' ? ` (${comissoes.length})` : '')">
+                            :label="'gerar ordens'">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="usuario"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'; getOpcoes();" color="success"
-                            :label="'comissões' + ( dados.aba === 'comissao' ? ` (${comissoes.length})` : '')">
+                            :label="'comissões sem ordem'">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="comissao"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>

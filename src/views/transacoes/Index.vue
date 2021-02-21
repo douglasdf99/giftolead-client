@@ -185,18 +185,18 @@ export default {
                 length: 25
             },
             lengths: saveleadsConfig.lengths,
-            dt_inicio: '',
-            dt_fim: '',
             languages: lang,
-            selectedProduto: null,
-            selectedStatus: null,
-            search: '',
-            pagination: {
+          selectedProduto: null,
+          selectedStatus: null,
+          search: '',
+          pagination: {
                 last_page: 1,
                 page: 1,
                 current_page: 1
             },
-            dateRange: {},
+          dt_inicio: '',
+          dt_fim: '',
+          dateRange: {},
             produtos: [],
             status: [],
             currentx: 1,

@@ -4,8 +4,7 @@
                   :data="sidebarData"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
-                </p>
+                <p>Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span></p>
             </div>
             <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
                 <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>

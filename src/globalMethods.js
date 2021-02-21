@@ -42,6 +42,15 @@ let methods = {
         });
         return obj;
     },
+    arraySelectExpedicao(response) {
+        let arr = [...response];
+        let obj = [];
+      obj.push({id: 'novo', label: '--- Nova Expedição --- ' })
+        arr.forEach(item => {
+          obj.push({id: item.id, label: 'N: '+ item.id + ' - '+ item.brinde.nome })
+        });
+        return obj;
+    },
     getAvatar(email) {
         let md5 = require('md5');
         email = email.trim();

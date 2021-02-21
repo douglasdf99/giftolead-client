@@ -20,7 +20,7 @@
                 <div class="vx-row mb-5">
                     <div class="vx-col w-1/2">
                         <div class="flex items-center">
-                            <img :src="get_img_api(data.avatar)" width="50px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                          <div class="ml-2 rounded-full agente" :style="{ backgroundImage: 'url('+get_img_api(data.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '50px', height:'50px',backgroundPositionX: 'center' }"></div>
                             <p class="font-bold text-dark text-xl">{{ data.name }}</p>
                         </div>
                     </div>
@@ -68,8 +68,11 @@
                                             <vx-tooltip delay=".5s" :text="tr.origem.nome">
                                                 <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-4 rounded-full" v-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
                                             </vx-tooltip>
+                                            <vx-tooltip delay=".5s" :text="tr.origem.descricao">
+                                              <img src="@/assets/images/util/link.svg" width="40" class="ml-2 rounded-full" v-if="tr.origem_type == 'App\\Models\\Link'">
+                                            </vx-tooltip>
                                             <vx-tooltip delay=".5s" :text="tr.origem.name">
-                                                <img :src="get_img_api(tr.origem.avatar)" width="40" class="ml-4 rounded-full" v-if="tr.origem.avatar">
+                                              <div class="ml-2 rounded-full agente" v-if="tr.origem.avatar" :style="{ backgroundImage: 'url('+get_img_api(tr.origem.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '50px', height:'50px',backgroundPositionX: 'center' }"></div>
                                             </vx-tooltip>
                                         </div>
                                     </vs-td>
