@@ -169,6 +169,11 @@ Vue.filter('formatDateTime', function (value) {
         return moment(String(value)).format('DD/MM/YYYY H:mm')
     }
 });
+Vue.filter('formatDateTimeMili', function (value) {
+    if (value) {
+        return moment(value).format('DD/MM/YYYY H:mm')
+    }
+});
 
 Vue.filter('formatDateHumanize', function (value) {
     if (value) {

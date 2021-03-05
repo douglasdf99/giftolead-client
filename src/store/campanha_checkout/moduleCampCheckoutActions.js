@@ -154,6 +154,17 @@ export default {
                 })
         })
     },
+    getAgendados({commit}, dados) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/campanha_carrinho_rastreio/${dados.id}`, {params: {campanha_id: dados.id, ...dados.params}})
+                .then((response) => {
+                    resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
     reorganizarEmails({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails_posicao`, {posicoes: dados})

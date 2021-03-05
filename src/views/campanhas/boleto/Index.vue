@@ -41,6 +41,12 @@
         </div>
         <div class="vx-row">
             <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4">
+                <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="agendados">
+                    <span class="destaque">Envios Agendados</span>
+                    <p class="font-bold text-3xl my-5">{{ campanha.totalAgendados }}</p>
+                </vx-card>
+            </div>
+            <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4">
                 <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
                     <span class="destaque">Histórico de envios</span>
                     <p class="font-bold text-3xl my-5">{{ campanha.historico_count }}</p>
@@ -332,6 +338,10 @@
                 let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             },
+
+          agendados() {
+            this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/agendados`});
+          },
             historico() {
                 this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/historico-envios`})
             },

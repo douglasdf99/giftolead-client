@@ -40,6 +40,25 @@ const rotasCampCheckout = [
         },
     },
     {
+        path: '/campanha/configurar-checkout/:id/agendados',
+        name: 'campanha-config-checkout-agendados',
+        component: () => import('@/views/campanhas/checkout/Agendado.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Histórico de Envios', active: true}
+            ],
+            pageTitle: 'Lista de agendamentos de envios',
+            rule: 'planos_campanhas',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
         path: '/campanha/configurar-checkout/:id/contatos-ativos',
         name: 'campanha-config-checkout-contatos-ativos',
         component: () => import('@/views/campanhas/checkout/Contatos.vue'),

@@ -142,9 +142,9 @@
                 </div>
             </div>
             <div class="vx-col w-full md:w-1/3 mb-base">
-                <VuePerfectScrollbar class="scroll-area--data-list-add-new" v-if="false">
-                    <place-holder-loading-dashboard tipo="ultimos_tickets" v-if="!ultimos_tickets_pesquisados"/>
-                    <vx-card v-for="item in ultimos_tickets" class="mb-base" v-else style="width: 96%">
+
+                <VuePerfectScrollbar class="scroll-area--data-list-add-new">
+                  <vx-card v-for="item in ultimos_tickets" class="mb-base"  v-if="ultimos_tickets_pesquisados" style="width: 96%">
                         <div class="vx-row mb-4">
                             <div class="vx-col w-3/12">
                                 <p class="text-lg mb-3">#{{ item.id }}</p>
@@ -197,7 +197,9 @@
                             </div>
                         </div>
                     </vx-card>
-                    <div class="text-center" v-if="this.paginationUltimos && this.paginationUltimos.current_page < this.paginationUltimos.last_page">
+                  <place-holder-loading-dashboard tipo="ultimos_tickets " v-else />
+
+                  <div class="text-center" v-if="this.paginationUltimos && this.paginationUltimos.current_page < this.paginationUltimos.last_page">
                         <p class="font-bold text-primary text-lg cursor-pointer" @click="loadMoreTicket">Carregar mais...</p>
                     </div>
                 </VuePerfectScrollbar>
@@ -660,6 +662,8 @@ export default {
                         this.ultimos_tickets.push(item);
                     })
                     this.paginationUltimos = response;
+                  this.ultimos_tickets_pesquisados = true;
+
                 })
             }
         }

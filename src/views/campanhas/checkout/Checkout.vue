@@ -88,6 +88,12 @@
             <div class="vx-col w-full lg:w-4/12">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
+                        <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="agendados">
+                            <span class="destaque">Envios Agendados</span>
+                            <p class="font-bold text-3xl my-5">{{ campanha.totalAgendados }}</p>
+                        </vx-card>
+                    </div>
+                    <div class="vx-col w-full mb-4">
                         <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
                             <span class="destaque">Histórico de envios</span>
                             <p class="font-bold text-3xl my-5">{{ campanha.historico_count }}</p>
@@ -384,6 +390,9 @@ export default {
                     icon: 'icon-alert-circle'
                 })
             })
+        },
+        agendados() {
+            this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/agendados`});
         },
         historico() {
             this.$router.push({path: `/campanha/configurar-checkout/${this.$route.params.id}/historico-envios`});

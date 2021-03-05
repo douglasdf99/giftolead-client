@@ -39,6 +39,25 @@ const rotasCampBoleto = [
         },
     },
     {
+        path: '/campanha/configurar-boleto/:id/agendados',
+        name: 'campanha-config-boleto-agendados',
+        component: () => import('@/views/campanhas/boleto/Agendado.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Planos', url: '/planos/meus-planos'},
+                {title: 'Gerenciar'},
+                {title: 'Histórico de Envios', active: true}
+            ],
+            pageTitle: 'Agendamentos de envios',
+            rule: 'planos_campanhas',
+            pai: 'planos',
+            subTitle: 'Planos',
+            //subIcon: 'settings',
+            submenu: subRotaPlanos
+        },
+    },
+    {
         path: '/campanha/configurar-boleto/:id/contatos-ativos',
         name: 'campanha-config-boleto-contatos-ativos',
         component: () => import('@/views/campanhas/boleto/Contatos.vue'),
