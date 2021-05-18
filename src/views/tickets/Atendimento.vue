@@ -140,11 +140,9 @@
                                 <span class="text-danger text-sm w-full block" v-if="selectedBrinde == null || selectedBrinde == {}">Preenchimento obrigatório</span>
                             </div>
                             <div class="vx-col w-full lg:w-1/3">
-
                                 <span class="font-regular mb-2">Nome do destinatário</span>
                                 <vs-input class="w-full" v-model="atendimento.nome_destinatario" v-validate="'required'" :name="'nome_destinatario'" size="large"/>
                                 <span class="text-danger text-sm" v-show="errors.has('nome_destinatario')">Preenchimento obrigatório</span>
-
                             </div>
                             <div class="vx-col w-full lg:w-1/3">
                                 <span class="font-regular mb-2">E-mail para solicitação de endereço</span>
@@ -467,7 +465,7 @@ export default {
             let arr = [];
             this.brindes.forEach(item => {
                 if (this.ticket.produto_id == item.produto_id)
-                    arr.push({id: item.id, label: item.nome});
+                    arr.push({id: item.id, label: item.label});
             });
             return arr;
         },

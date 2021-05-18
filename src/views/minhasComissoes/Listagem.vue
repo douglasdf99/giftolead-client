@@ -13,7 +13,7 @@
             </div>
             <div class="vx-col w-3/12">
                 <p class="mt-2">{{ item.ticket.lead.email }} <span v-if="item.email_secundario"> ou {{ item.email_secundario }} </span></p>
-                <p class="font-bold">{{ item.ticket.lead.ddd + item.ticket.lead.telefone | VMask('(##) ####-####') }}</p>
+                <p class="font-bold" v-if="item.ticket.lead.telefone">{{ item.ticket.lead.ddd + item.ticket.lead.telefone | VMask('(##) ####-####') }}</p>
             </div>
 
             <div class="vx-col w-2/12 flex items-center justify-center" v-if="tipo == 'pendentes'">

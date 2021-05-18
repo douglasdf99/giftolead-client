@@ -10,6 +10,9 @@
                 </p>
             </div>
         </div>
+      <vs-button @click="$echo.disconnect()">desconectar</vs-button>
+      <vs-button @click="conectar">connect</vs-button>
+      <vs-button @click="idsocket()">id</vs-button>
         <div class="vx-row flex items-end lg:mt-3 sm:mt-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -228,6 +231,28 @@ export default {
         this.$store.dispatch('whatsapplist/setFilter', false);
     },
     methods: {
+        idsocket(){
+          console.log(this.$echo.socketId());
+        },
+        conectar(){
+          this.$echo.connect();
+          this.$echo.channel(subdomain + '_whatsapp-list').listen('WhatsapplistEvent', (payload) => {
+            console.log('escutou')
+            this.items = this.items.filter(function (item) {
+              console.log('Playload', payload);
+              console.log('ITEM DO PAYLOAD', item);
+              if (payload.array.tipo == "excluir") {
+                if (item.id !== payload.array.whatsapp.id) {
+                  return item;
+                }
+              } else return item
+            });
+            if (payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') {
+              this.newTickets = true;
+
+            }
+          });
+        },
         chooseResp(obj) {
             this.selectedResp = obj;
         },
@@ -375,6 +400,9 @@ export default {
         "$route"() {
             this.routeTitle = this.$route.meta.pageTitle
         },
+        $echo() {
+            console.log('echo mudou');
+        },
         dateRange() {
             this.dados.page = 1;
             this.getItems(this.dados.situacao);
@@ -403,6 +431,7 @@ export default {
     },
     computed: {},
     mounted() {
+        //this.$echo.socketId()
         if (this.$store.state.globalSearch != '') {
             this.dados.search = this.$store.state.globalSearch;
             this.dados.situacao = 'todos';
@@ -412,11 +441,9 @@ export default {
         } else {
             this.getItems('pendentes');
         }
-        this.channel.listen('WhatsapplistEvent', (payload) => {
-        });
-        this.channel.listen('WhatsapplistEvent', (payload) => {
+        this.$echo.channel(subdomain + '_whatsapp-list').listen('WhatsapplistEvent', (payload) => {
             console.log('escutou')
-            this.tickets = this.items.filter(function (item) {
+            this.items = this.items.filter(function (item) {
                 console.log('Playload', payload);
                 console.log('ITEM DO PAYLOAD', item);
                 if (payload.array.tipo == "excluir") {

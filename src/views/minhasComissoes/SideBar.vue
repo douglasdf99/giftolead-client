@@ -65,9 +65,9 @@
           <div class="vx-row flex items-center">
             <div class="vx-col w-full lg:w-1/2" v-if="data.ticket.lead.nome">
               <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
-              <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
+              <p class="font-bold text-primary text-xl" v-if="data.ticket.lead.telefone">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
               <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
-              <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
+              <p class="font-bold text-gray text-md" v-if="data.ticket.lead.cpf">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
             </div>
             <div class="vx-col w-full lg:w-1/2 text-right">
               <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>

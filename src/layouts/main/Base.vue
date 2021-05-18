@@ -77,6 +77,8 @@
                             <div v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
                                  class="items-center mb-5">
                                 <!-- BREADCRUMB -->
+                              <span v-if="realtime">conectado</span>
+                              <span v-else>desconectado</span>
                                 <vx-breadcrumb class="md:block hidden mb-12" v-if="$route.meta.breadcrumb"
                                                :route="$route" :isRTL="$vs.rtl"/>
 
@@ -175,6 +177,7 @@ export default {
     },
     data() {
         return {
+            realtimeConnect:false,
             disableCustomizer: themeConfig.disableCustomizer,
             //disableThemeTour: themeConfig.disableThemeTour,
             disableThemeTour: true,
@@ -229,12 +232,21 @@ export default {
             const color = this.navbarColor == "#fff" && val ? "#10163a" : "#fff"
             this.updateNavbarColor(color)
         },
+        realtime(val) {
+          console.log('val real',val)
+            if (!val){
+              //this.$echo.connect();
+            }
+        },
         "$store.state.mainLayoutType"(val) {
             this.setNavMenuVisibility(val)
             this.disableThemeTour = true
         }
     },
     computed: {
+        realtime() {
+            return this.realtimeConnect
+        },
         titulo() {
             return this.$route.meta.pageTitle
         },
@@ -377,7 +389,26 @@ export default {
             delete this.dynamicWatchers[i]
         })
     },
-    mounted() {
+  updated() {
+    if(!this.$echo.socketId()){
+      //this.$echo.connect();
+    }else{
+      this.realtimeConnect = true;
+    }
+    let self = this;
+    this.$echo.connector.socket.on('connect', function(){
+      self.realtimeConnect = true;
+      console.log('connect of socket');
+    });
+
+    this.$echo.connector.socket.on('disconnect', function(){
+      self.realtimeConnect= false;
+      console.log('disconnect of socket');
+      console.log('disconnect of socket',self.realtimeConnect);
+    });
+  },
+  mounted() {
+      console.log('socket',this.$echo.socketId());
         var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
         this.$echo.channel(`${subdomain}_permissions`).listen('PermissionEvent', (e) => {

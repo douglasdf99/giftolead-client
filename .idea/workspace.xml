@@ -4,22 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/views/expedicoes/Whatsapp.vue" afterDir="false" />
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="fix many things">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/globalMethods.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/globalMethods.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/expedicoes/moduleExpedicoesBrindesActions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/brindes/AddConfig.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/brindes/AddConfig.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/comissoes/Comissionar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/Comissionar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/comissoes/DetalheComissao.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/DetalheComissao.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/ListDetal.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/ListDetal.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/ordens/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ordens/Listagem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/ordens/Ordens.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ordens/Ordens.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/transacoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/transacoes/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Responder.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Responder.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/minhasComissoes/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/minhasComissoes/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/minhasComissoes/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/minhasComissoes/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +70,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views/expedicoes" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../saveleads3" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -98,11 +89,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\boleto" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\checkout" />
       <recent name="C:\projects\saveleadsVuexy\src\views\expedicoes" />
       <recent name="C:\Projetos\saveleads3_vue\src\assets\images\util" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components\whatsapp" />
-      <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\pages" />
@@ -309,20 +300,34 @@
       <workItem from="1613499873972" duration="5881000" />
       <workItem from="1613656342810" duration="11295000" />
       <workItem from="1613739432495" duration="9919000" />
-    </task>
-    <task id="LOCAL-00077" summary="inicio feature ACL">
-      <created>1601597900025</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1601597900026</updated>
-    </task>
-    <task id="LOCAL-00078" summary="inicio feature ACL">
-      <created>1601597940866</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1601597940866</updated>
+      <workItem from="1613926661684" duration="2337000" />
+      <workItem from="1614000376738" duration="4643000" />
+      <workItem from="1614080260751" duration="1397000" />
+      <workItem from="1614106043222" duration="619000" />
+      <workItem from="1614172207539" duration="2398000" />
+      <workItem from="1614200731746" duration="3759000" />
+      <workItem from="1614294857501" duration="1281000" />
+      <workItem from="1614348781779" duration="2468000" />
+      <workItem from="1614376161413" duration="19799000" />
+      <workItem from="1614604282707" duration="8319000" />
+      <workItem from="1614646884967" duration="2472000" />
+      <workItem from="1614705687310" duration="1616000" />
+      <workItem from="1614728878768" duration="1423000" />
+      <workItem from="1614776748269" duration="2881000" />
+      <workItem from="1614860220956" duration="4367000" />
+      <workItem from="1615423547823" duration="756000" />
+      <workItem from="1615488754527" duration="730000" />
+      <workItem from="1615575635596" duration="1916000" />
+      <workItem from="1615765518959" duration="593000" />
+      <workItem from="1615809939269" duration="971000" />
+      <workItem from="1615924242696" duration="12585000" />
+      <workItem from="1620849231118" duration="1347000" />
+      <workItem from="1620907368330" duration="1765000" />
+      <workItem from="1620994903505" duration="2434000" />
+      <workItem from="1621096997364" duration="587000" />
+      <workItem from="1621100126915" duration="587000" />
+      <workItem from="1621252936846" duration="2429000" />
+      <workItem from="1621345822303" duration="1544000" />
     </task>
     <task id="LOCAL-00079" summary="Sprint 23 - progredindo tela de permissões e edição de função">
       <created>1601672657749</created>
@@ -653,7 +658,21 @@
       <option name="project" value="LOCAL" />
       <updated>1612917074217</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="fix many things">
+      <created>1613926779520</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1613926779520</updated>
+    </task>
+    <task id="LOCAL-00127" summary="fix many things">
+      <created>1614950768018</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1614950768019</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="TodoView">
@@ -745,6 +764,11 @@
           <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
           <line>458</line>
           <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/views/components/NenhumRegistro.vue</url>
+          <line>3</line>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
