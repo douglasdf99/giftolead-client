@@ -10,9 +10,9 @@
                 </p>
             </div>
         </div>
-      <vs-button @click="$echo.disconnect()">desconectar</vs-button>
-      <vs-button @click="conectar">connect</vs-button>
-      <vs-button @click="idsocket()">id</vs-button>
+<!--      <vs-button @click="$echo.disconnect()">desconectar</vs-button>-->
+<!--      <vs-button @click="conectar">connect</vs-button>-->
+<!--      <vs-button @click="idsocket()">id</vs-button>-->
         <div class="vx-row flex items-end lg:mt-3 sm:mt-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">

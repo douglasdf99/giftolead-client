@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="fix many things">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="fix bug in minha comissoes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/minhasComissoes/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/minhasComissoes/Listagem.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/minhasComissoes/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/minhasComissoes/SideBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tickets/Calendario.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Calendario.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +68,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../saveleads3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../liveclass_client" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -327,14 +325,34 @@
       <workItem from="1621096997364" duration="587000" />
       <workItem from="1621100126915" duration="587000" />
       <workItem from="1621252936846" duration="2429000" />
-      <workItem from="1621345822303" duration="1544000" />
-    </task>
-    <task id="LOCAL-00079" summary="Sprint 23 - progredindo tela de permissões e edição de função">
-      <created>1601672657749</created>
-      <option name="number" value="00079" />
-      <option name="presentableId" value="LOCAL-00079" />
-      <option name="project" value="LOCAL" />
-      <updated>1601672657750</updated>
+      <workItem from="1621345822303" duration="2692000" />
+      <workItem from="1621424275554" duration="1183000" />
+      <workItem from="1621508701080" duration="1179000" />
+      <workItem from="1621595718425" duration="589000" />
+      <workItem from="1621683629985" duration="1795000" />
+      <workItem from="1621857341868" duration="590000" />
+      <workItem from="1622033267205" duration="1180000" />
+      <workItem from="1622048917892" duration="589000" />
+      <workItem from="1622118221074" duration="702000" />
+      <workItem from="1622286503303" duration="586000" />
+      <workItem from="1622463779770" duration="584000" />
+      <workItem from="1622546040029" duration="581000" />
+      <workItem from="1622554466684" duration="586000" />
+      <workItem from="1622637428586" duration="585000" />
+      <workItem from="1622724729797" duration="591000" />
+      <workItem from="1622741221608" duration="1175000" />
+      <workItem from="1622811348187" duration="588000" />
+      <workItem from="1622901139096" duration="595000" />
+      <workItem from="1622978296765" duration="593000" />
+      <workItem from="1623066043987" duration="2147000" />
+      <workItem from="1623157305662" duration="1167000" />
+      <workItem from="1623233072257" duration="1180000" />
+      <workItem from="1623413353747" duration="2712000" />
+      <workItem from="1623497804367" duration="585000" />
+      <workItem from="1623584760414" duration="1806000" />
+      <workItem from="1623674761105" duration="1827000" />
+      <workItem from="1623762699124" duration="589000" />
+      <workItem from="1623849167542" duration="3347000" />
     </task>
     <task id="LOCAL-00080" summary="Sprint 23 - tela de permissões da função em andamento">
       <created>1601919083532</created>
@@ -672,7 +690,14 @@
       <option name="project" value="LOCAL" />
       <updated>1614950768019</updated>
     </task>
-    <option name="localTasksCounter" value="128" />
+    <task id="LOCAL-00128" summary="fix bug in minha comissoes">
+      <created>1621348137163</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1621348137164</updated>
+    </task>
+    <option name="localTasksCounter" value="129" />
     <servers />
   </component>
   <component name="TodoView">
@@ -715,7 +740,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="set z-index in select responsaveis" />
     <MESSAGE value="remove submenu relatorios de extensoes" />
     <MESSAGE value="realtime profile info" />
     <MESSAGE value="init fix cath to finnaly" />
@@ -740,7 +764,8 @@
     <MESSAGE value="Correções anotadas no meistertask" />
     <MESSAGE value="Hotfix - edição de endereço em expedição e automação" />
     <MESSAGE value="fix many things" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix many things" />
+    <MESSAGE value="fix bug in minha comissoes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug in minha comissoes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

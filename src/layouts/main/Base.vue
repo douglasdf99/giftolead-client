@@ -77,8 +77,8 @@
                             <div v-if="$route.meta.breadcrumb || $route.meta.pageTitle"
                                  class="items-center mb-5">
                                 <!-- BREADCRUMB -->
-                              <span v-if="realtime">conectado</span>
-                              <span v-else>desconectado</span>
+<!--                              <span v-if="realtime">conectado</span>-->
+<!--                              <span v-else>desconectado</span>-->
                                 <vx-breadcrumb class="md:block hidden mb-12" v-if="$route.meta.breadcrumb"
                                                :route="$route" :isRTL="$vs.rtl"/>
 

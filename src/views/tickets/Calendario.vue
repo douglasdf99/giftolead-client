@@ -410,4 +410,7 @@
         align-items: center;
         justify-content: space-between;
     }
+    .cv-day{
+      display: block !important;
+    }
 </style>
