@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes campanha carrinho">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atendimento.vue" afterDir="false" />
-    </list>
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes campanha carrinho" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,6 +52,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="1gvDq2OboOmeOjmsl3CYM9p7bOZ" />
   <component name="ProjectViewState">
@@ -597,24 +602,6 @@
     <MESSAGE value="processo integracao totalvoice encaminhado" />
     <MESSAGE value="inicio de configuracao do email de automacao" />
     <option name="LAST_COMMIT_MESSAGE" value="inicio de configuracao do email de automacao" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="828" y="412" key="#ESLint" timestamp="1599158692324">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="828" y="412" key="#ESLint/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599158692324" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1599220822369">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599220822369" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1599161636152">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="461" y="165" key="SettingsEditor/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599161636152" />
-    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599050689284">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="777" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1920.0.1536.832/0.0.1920.1040@0.0.1920.1040" timestamp="1599050689284" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
