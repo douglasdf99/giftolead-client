@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes visuais Calendario.vue e whatsapplist">
+      <change afterPath="$PROJECT_DIR$/src/views/components/IdentifyResponsible.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saveleadsConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/saveleadsConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Atender.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Atender.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +19,9 @@
   </component>
   <component name="ComposerSettings">
     <execution />
+  </component>
+  <component name="EditorConfigPreviewManager">
+    <editorConfig file="$PROJECT_DIR$/.editorconfig" previewFile="$PROJECT_DIR$/src/views/leads/Detalhe.vue" />
   </component>
   <component name="ExportToHTMLSettings">
     <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../saveleads3_vue\exportToHTML" />
@@ -67,7 +73,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../saveleads3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../xampp/htdocs/xlstopdf" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -80,7 +86,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Vue" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -353,6 +359,7 @@
       <workItem from="1623762699124" duration="589000" />
       <workItem from="1623849167542" duration="9095000" />
       <workItem from="1623884862973" duration="592000" />
+      <workItem from="1623975320933" duration="135000" />
     </task>
     <task id="LOCAL-00081" summary="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário">
       <created>1601932525418</created>
@@ -723,6 +730,15 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
