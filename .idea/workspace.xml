@@ -352,6 +352,7 @@
       <workItem from="1623584760414" duration="1806000" />
       <workItem from="1623674761105" duration="1827000" />
       <workItem from="1623762699124" duration="589000" />
+
       <workItem from="1623849167542" duration="3347000" />
     </task>
     <task id="LOCAL-00080" summary="Sprint 23 - tela de permissões da função em andamento">
@@ -360,6 +361,7 @@
       <option name="presentableId" value="LOCAL-00080" />
       <option name="project" value="LOCAL" />
       <updated>1601919083533</updated>
+
     </task>
     <task id="LOCAL-00081" summary="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário">
       <created>1601932525418</created>

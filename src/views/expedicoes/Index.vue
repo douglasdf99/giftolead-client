@@ -4,7 +4,8 @@
                   :data="sidebarData"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span></p>
+                <p v-if="dateRange.startDate || dateRange.endDate">Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span></p>
+                <p v-else>Resultado da busca considerando todos as datas</p>
             </div>
             <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
                 <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
@@ -226,8 +227,11 @@ export default {
             moduleExpedicoesBrindes.isRegistered = true;
         }
 
-        this.dateRange.startDate = moment().subtract(30, 'days');
-        this.dateRange.endDate = moment();
+        /*this.dateRange.startDate = moment().subtract(30, 'days');
+        this.dateRange.endDate = moment();*/
+
+        this.dateRange.startDate = null;
+        this.dateRange.endDate = null;
 
         this.$vs.loading.close();
         this.getOpcoes();
