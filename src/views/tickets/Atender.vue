@@ -283,7 +283,8 @@ export default {
                 phoneNumberLabel: 'Numero do telefone',
                 example: 'Exemplo :'
             },
-            countries: [{"name": "Israel", "dial_code": "+972", "code": "IL"}, {
+            countries: [{"name": "Israel", "dial_code": "+972", "code": "IL"},
+              {
                 "name": "Afghanistan",
                 "dial_code": "+93",
                 "code": "AF"
@@ -839,8 +840,6 @@ export default {
                 this.ticket.lead.ddd = sepadados[0];
                 this.ticket.lead.telefone = sepadados[1];
             }
-
-
         },
         updateLead() {
             this.$vs.loading();
