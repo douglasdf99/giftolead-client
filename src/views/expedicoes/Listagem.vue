@@ -39,8 +39,12 @@
                         <vs-chip color="primary" class="text-md py-2 font-bold">
                             {{ tr.brinde ? tr.brinde.nome : '' }}
                         </vs-chip>
+                        <vs-chip class="rounded-full font-bold text-black pl-1" v-if="tr.brinde.deleted_at">
+                            <vs-avatar text="!" class="bg-danger"/>
+                            Brinde Excluído
+                        </vs-chip>
                     </vs-td>
-                    <vs-td>{{ (tr.brinde.peso * tr.automacaos.length).toFixed(2) }}</vs-td>
+                    <vs-td>{{ tr.brinde ? (tr.brinde.peso * tr.automacaos.length).toFixed(2) : '' }}</vs-td>
                     <vs-td class="td-icons flex flex-col items-center justify-center">
                         <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
                                  class="icon-grande text-warning" v-if="!tr.fechado"></vs-icon>

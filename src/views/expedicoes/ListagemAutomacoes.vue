@@ -72,7 +72,13 @@
                             <p class="font-bold">{{ getResponsavel(tr) }}</p>
                         </vs-td>
                         <vs-td>
-                            <p class="font-bold">{{ tr.brinde.nome }}</p>
+                            <vs-chip color="primary" class="text-md py-2 font-bold">
+                                {{ tr.brinde ? tr.brinde.nome : '' }}
+                            </vs-chip>
+                            <vs-chip class="rounded-full font-bold text-black pl-1" v-if="tr.brinde.deleted_at">
+                                <vs-avatar text="!" class="bg-danger"/>
+                                Brinde Excluído
+                            </vs-chip>
                         </vs-td>
                         <vs-td class="flex justify-center">
                             <vx-tooltip text="Enviando" position="top">

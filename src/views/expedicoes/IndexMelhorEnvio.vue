@@ -239,16 +239,6 @@
             getItems(status = this.dados.status) {
                 this.$vs.loading();
                 this.dados.status = status;
-                switch (status) {
-                    case "pendente":
-                        this.dados.fechado = 0;
-                        break;
-                    case "fechada":
-                        this.dados.fechado = 1;
-                        break;
-                    default:
-                        this.dados.fechado = null;
-                }
 
                 if (this.dateRange.startDate)
                     this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
