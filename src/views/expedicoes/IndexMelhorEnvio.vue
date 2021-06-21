@@ -4,8 +4,10 @@
                   :data="sidebarData"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                <p v-if="dateRange.startDate || dateRange.endDate">Resultado da busca considerando o período: <span
+                    class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
                 </p>
+                <p v-else>Resultado da busca considerando todos as datas</p>
             </div>
         </div>
         <div class="vx-row flex items-end">
@@ -14,7 +16,8 @@
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
                         <form @submit.prevent="pesquisar">
-                            <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                            <vs-input autocomplete
+                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.pesquisa" id="search_input" size="large"
                                       placeholder="Pesquisar por nome ou email do destinatário"/>
                             <!-- SEARCH LOADING -->
@@ -39,34 +42,45 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getAutomacoes('pendente'); activeTab = 1" color="warning" value="10" v-if="pagination" :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
-                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="automacoes" tipo="pendente"></listagemAutomacoes>
+                    <vs-tab @click="colorx = 'warning'; getAutomacoes('pendente'); activeTab = 1" color="warning"
+                            value="10" v-if="pagination"
+                            :label="'Automações pendentes' + (dados.status == 'pendente' ? ' (' + automacoes.length + ')' : '')">
+                        <listagemAutomacoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar"
+                                            :items="automacoes" tipo="pendente"></listagemAutomacoes>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente'); activeTab = 2" color="warning" value="10" v-if="pagination" :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
-                        <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
+                    <vs-tab @click="colorx = 'warning'; getExpedicoesME('pendente'); activeTab = 2" color="warning"
+                            value="10" v-if="pagination"
+                            :label="'Expedições pendentes' + (dados.status == 'pendente' ? ' (' + expedicoes.length + ')' : '')">
+                        <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar"
+                                             :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getExpedicoesME('fechado'); activeTab = 3" color="success" value="10" v-if="pagination" :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
-                        <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="expedicoes"></listagem-expedicoes>
+                    <vs-tab @click="colorx = 'success'; getExpedicoesME('fechado'); activeTab = 3" color="success"
+                            value="10" v-if="pagination"
+                            :label="'Expedições fechadas' + (dados.status == 'fechado' ? ' (' + expedicoes.length + ')' : '')">
+                        <listagem-expedicoes @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar"
+                                             :items="expedicoes"></listagem-expedicoes>
                     </vs-tab>
                 </vs-tabs>
             </vs-col>
         </vs-row>
         <vs-prompt
-                @cancel="modaleditar = false"
-                @accept="update"
-                acceptText="Salvar"
-                cancelText="Cancelar"
-                :title="'Editar informações'"
-                :max-width="'600px'"
-                :active.sync="modaleditar">
+            @cancel="modaleditar = false"
+            @accept="update"
+            acceptText="Salvar"
+            cancelText="Cancelar"
+            :title="'Editar informações'"
+            :max-width="'600px'"
+            :active.sync="modaleditar">
             <div class="con-exemple-prompt">
                 <div class="mb-3">
                     <span class="font-regular mb-2">Nome do destinatário</span>
-                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="val.nome_destinatario" size="large"/>
+                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado"
+                              v-model="val.nome_destinatario" size="large"/>
                 </div>
                 <div class="mb-3">
                     <span class="font-regular mb-2">E-mail do destinatário</span>
-                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="val.email_destinatario" size="large"/>
+                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado"
+                              v-model="val.email_destinatario" size="large"/>
                 </div>
                 <div class="mb-3">
                     <span class="font-regular mb-2">Brinde</span>
@@ -96,8 +110,9 @@
                             <div class="flex items-center">
                                 <div class="fill-row-loading w-full">
                                     <h6 class="mb-6"><b>Status atual:</b> <span> Fechando Expedições </span></h6>
-                                    <h6 class="text-center mb-2"> {{atual}}/{{total}} </h6>
-                                    <vs-progress :height="12" :percent="(atual / total)* 100" color="success"></vs-progress>
+                                    <h6 class="text-center mb-2"> {{ atual }}/{{ total }} </h6>
+                                    <vs-progress :height="12" :percent="(atual / total)* 100"
+                                                 color="success"></vs-progress>
                                 </div>
                             </div>
                         </vx-card>
@@ -110,372 +125,372 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import listagem from './Listagem'
-    import listagemAutomacoes from './ListagemAutomacoes'
-    import listagemExpedicoes from './ListagemExpedicoes'
-    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
-    import vSelect from 'vue-select'
-    import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
-    import Datepicker from 'vuejs-datepicker';
-    import DateRangePicker from 'vue2-daterange-picker'
-    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
-    import saveleadsConfig from "../../../saveleadsConfig";
-    import VueMoment from 'vue-moment'
-    import moduleAutomacao from "@/store/automacao/moduleAutomacao";
+import SideBar from './SideBar'
+import listagem from './Listagem'
+import listagemAutomacoes from './ListagemAutomacoes'
+import listagemExpedicoes from './ListagemExpedicoes'
+import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+import vSelect from 'vue-select'
+import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
+import Datepicker from 'vuejs-datepicker';
+import DateRangePicker from 'vue2-daterange-picker'
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import saveleadsConfig from "../../../saveleadsConfig";
+import VueMoment from 'vue-moment'
+import moduleAutomacao from "@/store/automacao/moduleAutomacao";
 
-    const moment = require('moment/moment');
-    require('moment/locale/pt-br');
+const moment = require('moment/moment');
+require('moment/locale/pt-br');
 
-    export default {
-        name: "Index",
-        components: {
-            listagem,
-            listagemAutomacoes,
-            listagemExpedicoes,
-            'v-select': vSelect,
-            SideBar, Datepicker,
-            VueMoment,
-            moment,
-            DateRangePicker
-        },
-        data() {
-            return {
-                automacoes: [],
-                expedicoes: [],
-                modalGerarPlp: false,
-                atual: 0,
-                total: 1,
-                expedicao: {
-                    brinde: {
-                        nome: '',
-                        produto: {
-                            nome: ''
-                        }
+export default {
+    name: "Index",
+    components: {
+        listagem,
+        listagemAutomacoes,
+        listagemExpedicoes,
+        'v-select': vSelect,
+        SideBar, Datepicker,
+        VueMoment,
+        moment,
+        DateRangePicker
+    },
+    data() {
+        return {
+            automacoes: [],
+            expedicoes: [],
+            modalGerarPlp: false,
+            atual: 0,
+            total: 1,
+            expedicao: {
+                brinde: {
+                    nome: '',
+                    produto: {
+                        nome: ''
                     }
-                },
-                activeTab: 1,
-                // Data Sidebar
-                addNewDataSidebar: false,
-                sidebarData: {},
-
-                dados: {
-                    pesquisa: null,
-                    page: 1,
-                    length: 30,
-                    status: 'pendente',
-                    brinde_id: null,
-                    fechado: 0
-                },
-                pagination: {
-                    last_page: 1,
-                    page: 1,
-                    current_page: 1
-                },
-                currentx: 1,
-                colorx: 'warning',
-                selectedBrinde: {id: null, label: 'Selecione um brinde a ser filtrado'},
-                brindes: [],
-                brindesCru: [],
-                dateRange: {},
-                localeData: saveleadsConfig.localeData,
-                ranges: {
-                    //Definindo ranges padronizados
-                    'Hoje': [this.getDay(true), this.getDay(true)],
-                    'Ontem': [this.getDay(false), this.getDay(false)],
-                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
-                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
-                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
-                },
-                //items: {}
-
-                //Prompt Editar
-                modaleditar: false,
-                val: {
-                    nome_destinatario: '',
-                    email_destinatario: '',
-                    brinde_id: null
-                },
-                selectedEditBrinde: {},
-                brindesEdit: [],
-            }
-        },
-        created() {
-            this.$vs.loading();
-            if (!moduleBrindes.isRegistered) {
-                this.$store.registerModule('brindes', moduleBrindes);
-                moduleBrindes.isRegistered = true;
-            }
-            if (!moduleAutomacao.isRegistered) {
-                this.$store.registerModule('automacao', moduleAutomacao)
-                moduleAutomacao.isRegistered = true
-            }
-
-            if (!moduleExpedicoesBrindes.isRegistered) {
-                this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
-                moduleExpedicoesBrindes.isRegistered = true;
-            }
-
-            this.dateRange.startDate = moment().subtract(30, 'days');
-            this.dateRange.endDate = moment();
-
-            this.$vs.loading.close();
-            this.getOpcoes();
-            //this.getItems();
-            this.getAutomacoes();
-        },
-        methods: {
-            paginate() {
-                console.log('resetou');
-                this.currentx = 1;
-            },
-            visualizar(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
-            },
-            toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
-            },
-            getItems(status = this.dados.status) {
-                this.$vs.loading();
-                this.dados.status = status;
-
-                if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
-                if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-
-                this.$store.dispatch('getVarios', {rota: 'expedicaos', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response);
-                    this.pagination = response;
-                    this.$vs.loading.close();
-                });
-            },
-            getAutomacoes(status = 'pendente') {
-                this.$vs.loading();
-                this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
-                this.dados.tipo = null;
-                this.dados.status = status;
-                this.$store.dispatch('automacao/get', this.dados).then(response => {
-                    console.log('respostas com todas as automacoes', response);
-                    this.automacoes = response.data;
-                    this.pagination = response
-                }).finally(() => {
-                    this.$vs.loading.close();
-                });
-            },
-            getExpedicoesME(status = 'pendente') {
-                this.$vs.loading();
-                this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
-                this.dados.tipo = null;
-                this.dados.status = status;
-                this.$store.dispatch('expedicaos/get', this.dados).then(response => {
-                    console.log('respostas com todas as expedicoes', response);
-                    this.expedicoes = response.data.data;
-                    this.pagination = response
-                }).finally(() => {
-                    this.$vs.loading.close();
-                });
-            },
-            getOpcoes() {
-                this.$store.dispatch('brindes/get').then(response => {
-                    this.brindes = [...this.arraySelect(response)];
-                    this.brindesCru = [...response];
-                });
-            },
-            setDate(val) {
-                this.$vs.loading();
-                switch (val) {
-                    case 'hoje':
-                        this.dateRange.startDate = moment();
-                        break;
-                    case '7':
-                        this.dateRange.startDate = moment().subtract(7, 'days');
-                        break;
-                    case '15':
-                        this.dateRange.startDate = moment().subtract(15, 'days');
-                        break;
-                    case '30':
-                        this.dateRange.startDate = moment().subtract(30, 'days');
-                        break;
                 }
-                this.getItems();
             },
-            enviarRastreio(id) {
-                this.$vs.loading();
-                this.$store.dispatch('expedicaos/enviarRastreio', {expedicao_id: id}).then(() => {
-                    this.$vs.notify({
-                        color: 'success',
-                        text: 'Rastreios enviados com sucesso.'
-                    });
-                    this.getAutomacoes()
-                }).catch(erro => {
-                    console.log('erro', erro);
-                    this.$vs.notify({
-                        color: 'danger',
-                        text: 'Algo deu errado. Contate o suporte'
-                    });
-                    this.$vs.loading.close();
-                });
-            },
-            getDay(dia) {
-                //Definindo datas usadas nos ranges padronizados
-                let today = new Date()
-                today.setHours(0, 0, 0, 0)
+            activeTab: 1,
+            // Data Sidebar
+            addNewDataSidebar: false,
+            sidebarData: {},
 
-                let yesterday = new Date()
-                yesterday.setDate(today.getDate() - 1)
-                yesterday.setHours(0, 0, 0, 0);
-                return (dia ? today : yesterday)
+            dados: {
+                pesquisa: null,
+                page: 1,
+                length: 30,
+                status: 'pendente',
+                brinde_id: null,
+                fechado: 0
             },
-            deletar(id) {
-                this.$vs.dialog({
-                    color: 'danger',
-                    title: `Deletar registro?`,
-                    text: 'Deseja deletar este registro? Procedimento irreversível',
-                    acceptText: 'Sim, deletar!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'brindes'}).then(() => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: '',
-                                text: 'Deletado com sucesso'
-                            });
-                            this.getAutomacoes();
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: '',
-                                text: 'Algo deu errado ao deletar. Contate o suporte.'
-                            })
-                        })
-                    }
-                })
+            pagination: {
+                last_page: 1,
+                page: 1,
+                current_page: 1
             },
-            pesquisar(e) {
-                this.dados.page = 1;
-                e.preventDefault();
-                this.$vs.loading();
-                this.tabCondition();
+            currentx: 1,
+            colorx: 'warning',
+            selectedBrinde: {id: null, label: 'Selecione um brinde a ser filtrado'},
+            brindes: [],
+            brindesCru: [],
+            dateRange: {},
+            localeData: saveleadsConfig.localeData,
+            ranges: {
+                //Definindo ranges padronizados
+                'Hoje': [this.getDay(true), this.getDay(true)],
+                'Ontem': [this.getDay(false), this.getDay(false)],
+                'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
             },
-
-            //Procedimentos
-            fecharVarias(arr, rota, tipo) {
-                console.log('fechando várias', arr)
-                var self = this;
-                this.$vs.dialog({
-                    color: 'primary',
-                    title: (rota == 'fechar' ? 'Fechar' : 'Restaurar') + ` expedições?`,
-                    text: 'Deseja mesmo ' + rota + ' as expedições selecionadas?',
-                    acceptText: 'Sim!',
-                    accept: () => {
-                        self.$vs.loading({
-                            color: self.colorLoading,
-                            container: "#button-with-loading-fecharPlp",
-                            scale: 0.45
-                        });
-                        self.total = arr.length;
-                        self.modalGerarPlp = true;
-
-                        async function diags() {
-                            for (const [idx, item] of arr.entries()) {
-                                self.atual = idx;
-                                self.expedicao = item;
-                                const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
-                                    self.items.splice(idx, 1);
-                                }).catch(erro => {
-                                    console.log('erro', erro);
-                                    self.$vs.notify({
-                                        color: 'danger',
-                                        text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
-                                    });
-                                }).finally(() => {
-                                });
-                            }
-                            self.modalGerarPlp = false;
-                            self.getItems(tipo);
-                            self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
-                        }
-
-                        diags();
-                    }
-                })
-            },
+            //items: {}
 
             //Prompt Editar
-            editar(obj) {
-                this.modaleditar = true;
-                this.brindesEdit = [];
-                this.brindesCru.forEach(item => {
-                    if (obj.produto_id == item.produto_id) {
-                        this.brindesEdit.push({id: item.id, label: item.nome});
-                    }
-                });
-                this.val = {...obj};
-                this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
+            modaleditar: false,
+            val: {
+                nome_destinatario: '',
+                email_destinatario: '',
+                brinde_id: null
             },
-            update() {
-                console.log(this.selectedEditBrinde);
-                this.val.brinde_id = this.selectedEditBrinde.id;
-                this.$vs.loading();
-                this.$store.dispatch('expedicaos/store', this.val).then(() => {
-                    this.val = {};
-                    this.$vs.notify({
-                        color: 'success',
-                        title: '',
-                        text: 'Salvo com sucesso'
-                    });
-                    this.getItems();
-                }).catch(erro => {
-                    console.log(erro)
-                    this.$vs.notify({
-                        color: 'danger',
-                        title: 'Erro',
-                        text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                    })
-                });
+            selectedEditBrinde: {},
+            brindesEdit: [],
+        }
+    },
+    created() {
+        this.$vs.loading();
+        if (!moduleBrindes.isRegistered) {
+            this.$store.registerModule('brindes', moduleBrindes);
+            moduleBrindes.isRegistered = true;
+        }
+        if (!moduleAutomacao.isRegistered) {
+            this.$store.registerModule('automacao', moduleAutomacao)
+            moduleAutomacao.isRegistered = true
+        }
 
-            },
-            tabCondition(){
-                if(this.activeTab == 1) this.getAutomacoes();
-                else this.getExpedicoesME(this.dados.status)
+        if (!moduleExpedicoesBrindes.isRegistered) {
+            this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
+            moduleExpedicoesBrindes.isRegistered = true;
+        }
+
+        this.dateRange.startDate = moment().subtract(30, 'days');
+        this.dateRange.endDate = moment();
+
+        this.$vs.loading.close();
+        this.getOpcoes();
+        //this.getItems();
+        this.getAutomacoes();
+    },
+    methods: {
+        paginate() {
+            console.log('resetou');
+            this.currentx = 1;
+        },
+        visualizar(obj) {
+            this.sidebarData = obj
+            this.toggleDataSidebar(true)
+        },
+        toggleDataSidebar(val = false) {
+            this.addNewDataSidebar = val
+        },
+        getItems(status = this.dados.status) {
+            this.$vs.loading();
+            this.dados.status = status;
+
+            if (this.dateRange.startDate)
+                this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+            if (this.dateRange.endDate)
+                this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
+
+            this.$store.dispatch('getVarios', {rota: 'expedicaos', params: this.dados}).then(response => {
+                console.log('retornado com sucesso', response);
+                this.pagination = response;
+                this.$vs.loading.close();
+            });
+        },
+        getAutomacoes(status = 'pendente') {
+            this.$vs.loading();
+            this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
+            this.dados.tipo = null;
+            this.dados.status = status;
+            this.$store.dispatch('automacao/get', this.dados).then(response => {
+                console.log('respostas com todas as automacoes', response);
+                this.automacoes = response.data;
+                this.pagination = response
+            }).finally(() => {
+                this.$vs.loading.close();
+            });
+        },
+        getExpedicoesME(status = 'pendente') {
+            this.$vs.loading();
+            this.dados.contrato_type = 'App\\Models\\Extensoes\\MelhorEnvio';
+            this.dados.tipo = null;
+            this.dados.status = status;
+            this.$store.dispatch('expedicaos/get', this.dados).then(response => {
+                console.log('respostas com todas as expedicoes', response);
+                this.expedicoes = response.data.data;
+                this.pagination = response
+            }).finally(() => {
+                this.$vs.loading.close();
+            });
+        },
+        getOpcoes() {
+            this.$store.dispatch('brindes/get').then(response => {
+                this.brindes = [...this.arraySelect(response)];
+                this.brindesCru = [...response];
+            });
+        },
+        setDate(val) {
+            this.$vs.loading();
+            switch (val) {
+                case 'hoje':
+                    this.dateRange.startDate = moment();
+                    break;
+                case '7':
+                    this.dateRange.startDate = moment().subtract(7, 'days');
+                    break;
+                case '15':
+                    this.dateRange.startDate = moment().subtract(15, 'days');
+                    break;
+                case '30':
+                    this.dateRange.startDate = moment().subtract(30, 'days');
+                    break;
             }
+            this.getItems();
         },
-        watch: {
-            currentx(val) {
-                this.$vs.loading();
-                console.log('val', val);
-                this.dados.page = this.currentx;
-                this.getItems();
-            },
-            "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            selectedBrinde(val) {
-                this.$vs.loading();
-                this.dados.brinde_id = this.selectedBrinde != null ? (this.selectedBrinde.id != null ? val.id : null) : null;
-                this.tabCondition();
-            },
-            selectedEditBrinde(val) {
-                console.log(val)
-            },
-            dateRange(val) {
-                this.$vs.loading();
-                this.getItems();
-            },
+        enviarRastreio(id) {
+            this.$vs.loading();
+            this.$store.dispatch('expedicaos/enviarRastreio', {expedicao_id: id}).then(() => {
+                this.$vs.notify({
+                    color: 'success',
+                    text: 'Rastreios enviados com sucesso.'
+                });
+                this.getAutomacoes()
+            }).catch(erro => {
+                console.log('erro', erro);
+                this.$vs.notify({
+                    color: 'danger',
+                    text: 'Algo deu errado. Contate o suporte'
+                });
+                this.$vs.loading.close();
+            });
         },
-        computed: {
-            items() {
-                return this.$store.state.items;
-            },
+        getDay(dia) {
+            //Definindo datas usadas nos ranges padronizados
+            let today = new Date()
+            today.setHours(0, 0, 0, 0)
+
+            let yesterday = new Date()
+            yesterday.setDate(today.getDate() - 1)
+            yesterday.setHours(0, 0, 0, 0);
+            return (dia ? today : yesterday)
+        },
+        deletar(id) {
+            this.$vs.dialog({
+                color: 'danger',
+                title: `Deletar registro?`,
+                text: 'Deseja deletar este registro? Procedimento irreversível',
+                acceptText: 'Sim, deletar!',
+                accept: () => {
+                    this.$vs.loading();
+                    this.$store.dispatch('deleteItem', {id: id, rota: 'brindes'}).then(() => {
+                        this.$vs.notify({
+                            color: 'success',
+                            title: '',
+                            text: 'Deletado com sucesso'
+                        });
+                        this.getAutomacoes();
+                    }).catch(erro => {
+                        console.log(erro)
+                        this.$vs.notify({
+                            color: 'danger',
+                            title: '',
+                            text: 'Algo deu errado ao deletar. Contate o suporte.'
+                        })
+                    })
+                }
+            })
+        },
+        pesquisar(e) {
+            this.dados.page = 1;
+            e.preventDefault();
+            this.$vs.loading();
+            this.tabCondition();
         },
 
-    }
+        //Procedimentos
+        fecharVarias(arr, rota, tipo) {
+            console.log('fechando várias', arr)
+            var self = this;
+            this.$vs.dialog({
+                color: 'primary',
+                title: (rota == 'fechar' ? 'Fechar' : 'Restaurar') + ` expedições?`,
+                text: 'Deseja mesmo ' + rota + ' as expedições selecionadas?',
+                acceptText: 'Sim!',
+                accept: () => {
+                    self.$vs.loading({
+                        color: self.colorLoading,
+                        container: "#button-with-loading-fecharPlp",
+                        scale: 0.45
+                    });
+                    self.total = arr.length;
+                    self.modalGerarPlp = true;
+
+                    async function diags() {
+                        for (const [idx, item] of arr.entries()) {
+                            self.atual = idx;
+                            self.expedicao = item;
+                            const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
+                                self.items.splice(idx, 1);
+                            }).catch(erro => {
+                                console.log('erro', erro);
+                                self.$vs.notify({
+                                    color: 'danger',
+                                    text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
+                                });
+                            }).finally(() => {
+                            });
+                        }
+                        self.modalGerarPlp = false;
+                        self.getItems(tipo);
+                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
+                    }
+
+                    diags();
+                }
+            })
+        },
+
+        //Prompt Editar
+        editar(obj) {
+            this.modaleditar = true;
+            this.brindesEdit = [];
+            this.brindesCru.forEach(item => {
+                if (obj.produto_id == item.produto_id) {
+                    this.brindesEdit.push({id: item.id, label: item.nome});
+                }
+            });
+            this.val = {...obj};
+            this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
+        },
+        update() {
+            console.log(this.selectedEditBrinde);
+            this.val.brinde_id = this.selectedEditBrinde.id;
+            this.$vs.loading();
+            this.$store.dispatch('expedicaos/store', this.val).then(() => {
+                this.val = {};
+                this.$vs.notify({
+                    color: 'success',
+                    title: '',
+                    text: 'Salvo com sucesso'
+                });
+                this.getItems();
+            }).catch(erro => {
+                console.log(erro)
+                this.$vs.notify({
+                    color: 'danger',
+                    title: 'Erro',
+                    text: 'Algo deu errado ao finalizar. Reinicie a página.'
+                })
+            });
+
+        },
+        tabCondition() {
+            if (this.activeTab == 1) this.getAutomacoes();
+            else this.getExpedicoesME(this.dados.status)
+        }
+    },
+    watch: {
+        currentx(val) {
+            this.$vs.loading();
+            console.log('val', val);
+            this.dados.page = this.currentx;
+            this.getItems();
+        },
+        "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
+        },
+        selectedBrinde(val) {
+            this.$vs.loading();
+            this.dados.brinde_id = this.selectedBrinde != null ? (this.selectedBrinde.id != null ? val.id : null) : null;
+            this.tabCondition();
+        },
+        selectedEditBrinde(val) {
+            console.log(val)
+        },
+        dateRange(val) {
+            this.$vs.loading();
+            this.getItems();
+        },
+    },
+    computed: {
+        items() {
+            return this.$store.state.items;
+        },
+    },
+
+}
 </script>
 <style>
-    .td-icons > span {
-        display: flex;
-    }
+.td-icons > span {
+    display: flex;
+}
 </style>
