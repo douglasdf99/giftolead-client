@@ -4,7 +4,9 @@
                   :data="sidebarData"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p v-if="dateRange.startDate || dateRange.endDate">Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span></p>
+                <p v-if="dateRange.startDate || dateRange.endDate">Resultado da busca considerando o período: <span
+                    class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate
+                    }}</span></p>
                 <p v-else>Resultado da busca considerando todos as datas</p>
             </div>
             <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
@@ -51,20 +53,25 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente')" color="warning" value="10" v-if="pagination" :label="'pendentes' + (dados.status == 'pendente' ? ' (' + items.length + ')' : '')">
-                        <listagem @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="items" tipo="pendente" v-if="items.length > 0"></listagem>
+                    <vs-tab @click="colorx = 'warning'; getItems('pendente')" color="warning" value="10"
+                            v-if="pagination"
+                            :label="'pendentes' + (dados.status == 'pendente' ? ' (' + items.length + ')' : '')">
+                        <listagem @fecharVarias="fecharVarias" @visualizar="visualizar" @editar="editar" :items="items"
+                                  tipo="pendente" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'success'; getItems('fechada')" color="success" value="10"
                             :label="'fechadas' + (dados.status == 'fechada' ? ' (' + items.length + ')' : '')">
-                        <listagem @enviarRastreio="enviarRastreio" @visualizar="visualizar" :items="items" tipo="fechada" v-if="items.length > 0"></listagem>
+                        <listagem @enviarRastreio="enviarRastreio" @visualizar="visualizar" :items="items"
+                                  tipo="fechada" v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                     <vs-tab @click="colorx = 'primary'; getItems('todos')" color="primary" value="10"
                             :label="'todos' + (dados.status == 'todos' ? ' (' + items.length + ')' : '')">
-                        <listagem @enviarRastreio="enviarRastreio" @visualizar="visualizar" :items="items" tipo="todos" v-if="items.length > 0"></listagem>
+                        <listagem @enviarRastreio="enviarRastreio" @visualizar="visualizar" :items="items" tipo="todos"
+                                  v-if="items.length > 0"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -85,11 +92,13 @@
             <div class="con-exemple-prompt">
                 <div class="mb-3">
                     <span class="font-regular mb-2">Nome do destinatário</span>
-                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="val.nome_destinatario" size="large"/>
+                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado"
+                              v-model="val.nome_destinatario" size="large"/>
                 </div>
                 <div class="mb-3">
                     <span class="font-regular mb-2">E-mail do destinatário</span>
-                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado" v-model="val.email_destinatario" size="large"/>
+                    <vs-input class="w-full" v-validate="'required'" name="remetenteEstado"
+                              v-model="val.email_destinatario" size="large"/>
                 </div>
                 <div class="mb-3">
                     <span class="font-regular mb-2">Brinde</span>
@@ -120,7 +129,8 @@
                                 <div class="fill-row-loading w-full">
                                     <h6 class="mb-6"><b>Status atual:</b> <span> Fechando Expedições </span></h6>
                                     <h6 class="text-center mb-2"> {{ atual }}/{{ total }} </h6>
-                                    <vs-progress :height="12" :percent="(atual / total)* 100" color="success"></vs-progress>
+                                    <vs-progress :height="12" :percent="(atual / total)* 100"
+                                                 color="success"></vs-progress>
                                 </div>
                             </div>
                         </vx-card>

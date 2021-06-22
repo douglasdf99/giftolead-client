@@ -44,7 +44,7 @@ export default [
         icon: "all_inbox",
     },
     {
-        url: '/comissoes/aprovar',
+        url: '/comissoes/todas',
         name: "Comissões",
         slug: 'comissoes',
         icon: "monetization_on",

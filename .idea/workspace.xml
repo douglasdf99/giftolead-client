@@ -4,11 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="fix bug in minha comissoes">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes visuais Calendario.vue e whatsapplist">
+      <change afterPath="$PROJECT_DIR$/src/views/comissoes/Todas.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Calendario.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Calendario.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/rotasComissoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasComissoes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaComissoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaComissoes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +73,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../liveclass_client" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../liveclassAdmin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -352,8 +357,9 @@
       <workItem from="1623584760414" duration="1806000" />
       <workItem from="1623674761105" duration="1827000" />
       <workItem from="1623762699124" duration="589000" />
-
       <workItem from="1623849167542" duration="3347000" />
+      <workItem from="1624306105429" duration="1088000" />
+      <workItem from="1624364290491" duration="7780000" />
     </task>
     <task id="LOCAL-00080" summary="Sprint 23 - tela de permissões da função em andamento">
       <created>1601919083532</created>
@@ -361,7 +367,6 @@
       <option name="presentableId" value="LOCAL-00080" />
       <option name="project" value="LOCAL" />
       <updated>1601919083533</updated>
-
     </task>
     <task id="LOCAL-00081" summary="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário">
       <created>1601932525418</created>
@@ -725,6 +730,15 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">

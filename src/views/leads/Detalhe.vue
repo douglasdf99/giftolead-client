@@ -17,7 +17,7 @@
                             </div>
                             <div class="vx-col w-1/2">
                                 <p class="font-regular mb-2">CPF</p>
-                                <vs-input class="w-full" v-model="lead.cpf" size="large" v-mask="'###.###.###-##'"/>
+                                <vs-input class="w-full" disabled v-model="lead.cpf" size="large" v-mask="'###.###.###-##'"/>
                             </div>
                         </div>
                         <div class="vx-row mb-4">
