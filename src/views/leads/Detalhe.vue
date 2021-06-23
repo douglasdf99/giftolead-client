@@ -222,13 +222,13 @@
                                             </p>
                                         </vs-td>
                                         <vs-td class="flex">
-                                            <vx-tooltip :text="tr.rastreio" v-if="tr.rastreio != null">
+                                            <vx-tooltip :text="tr.rastreio" v-if="tr.rastreio != null" class="mb-1">
                                                 <img src="@/assets/images/util/delivery-icon.svg" width="40px"
-                                                     class="mr-2">
+                                                     class="cursor-pointer" @click="copyText(tr.rastreio)">
                                             </vx-tooltip>
-                                            <vx-tooltip :text="'Expedição Nº '+tr.expedicao.id"
+                                            <vx-tooltip :text="'Expedição Nº '+tr.expedicao.id" class="flex"
                                                         v-if="tr.expedicao && tr.expedicao != null">
-                                                <img src="@/assets/images/util/expedicao-icon.svg" width="25px">
+                                                <img src="@/assets/images/util/expedicao-icon.svg" width="25px" class="ml-2">
                                             </vx-tooltip>
                                         </vs-td>
                                     </vs-tr>
@@ -947,6 +947,27 @@ export default {
         formatPrice(value) {
             let val = (value / 1).toFixed(2).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        copyText(val) {
+            const thisIns = this;
+            this.$copyText(val).then(function () {
+                thisIns.$vs.notify({
+                    title: 'Success',
+                    text: 'Código de rastreio copiado para sua área de transferência',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle'
+                })
+            }, function () {
+                thisIns.$vs.notify({
+                    title: 'Failed',
+                    text: 'Erro ao copiar código',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    position: 'top-center',
+                    icon: 'icon-alert-circle'
+                })
+            })
         },
         salvar() {
             this.clickOut();

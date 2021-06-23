@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="fix bug in minha comissoes">
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes visuais Calendario.vue e whatsapplist">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/main/Base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/main/Base.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/tickets/Calendario.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/tickets/Calendario.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/whatsapplist/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +31,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/update_automacao_brinde_emails" />
+        <entry key="$PROJECT_DIR$" value="feature-hotfix/ferias-do-douglinhas" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -352,7 +351,6 @@
       <workItem from="1623584760414" duration="1806000" />
       <workItem from="1623674761105" duration="1827000" />
       <workItem from="1623762699124" duration="589000" />
-
       <workItem from="1623849167542" duration="3347000" />
     </task>
     <task id="LOCAL-00080" summary="Sprint 23 - tela de permissões da função em andamento">
@@ -361,7 +359,6 @@
       <option name="presentableId" value="LOCAL-00080" />
       <option name="project" value="LOCAL" />
       <updated>1601919083533</updated>
-
     </task>
     <task id="LOCAL-00081" summary="Sprint 23 - Finalizada primeira versão da tela de editar e configurar Função de usuário">
       <created>1601932525418</created>
