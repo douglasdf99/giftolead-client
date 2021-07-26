@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes visuais Calendario.vue e whatsapplist">
-      <change afterPath="$PROJECT_DIR$/src/views/comissoes/Todas.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Remo">
+      <change afterPath="$PROJECT_DIR$/src/rotas/rotasRelatorios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/rotas/subRotaRelatorios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/relatorios/vendas/Index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saveleadsConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/saveleadsConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/rotasComissoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasComissoes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaComissoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaComissoes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature-hotfix/ferias-do-douglinhas" />
+        <entry key="$PROJECT_DIR$" value="Hotfix/NumerosInternacionais" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,7 +51,6 @@
   </component>
   <component name="ProjectId" id="1gvDq2OboOmeOjmsl3CYM9p7bOZ" />
   <component name="ProjectLevelVcsManager">
-    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -75,7 +71,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../liveclassAdmin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -89,16 +85,16 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Vue" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2020.1.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\boleto" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\campanhas\checkout" />
-      <recent name="C:\projects\saveleadsVuexy\src\views\expedicoes" />
       <recent name="C:\Projetos\saveleads3_vue\src\assets\images\util" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components\whatsapp" />
+      <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
+      <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
+      <recent name="C:\projects\saveleadsVuexy\src\views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\pages" />
@@ -288,80 +284,37 @@
       <workItem from="1611318823040" duration="8762000" />
       <workItem from="1611577904329" duration="5849000" />
       <workItem from="1611605623678" duration="2936000" />
-      <workItem from="1611839927988" duration="4915000" />
-      <workItem from="1611922287402" duration="8573000" />
-      <workItem from="1612051108485" duration="596000" />
-      <workItem from="1612307677188" duration="980000" />
-      <workItem from="1612355386709" duration="602000" />
-      <workItem from="1612371852445" duration="3128000" />
-      <workItem from="1612440626694" duration="1888000" />
-      <workItem from="1612486284280" duration="658000" />
-      <workItem from="1612528278454" duration="1635000" />
-      <workItem from="1612880090756" duration="7264000" />
-      <workItem from="1612968549881" duration="677000" />
-      <workItem from="1613009976208" duration="1222000" />
-      <workItem from="1613044615958" duration="958000" />
-      <workItem from="1613052553819" duration="2688000" />
-      <workItem from="1613499873972" duration="5881000" />
-      <workItem from="1613656342810" duration="11295000" />
-      <workItem from="1613739432495" duration="9919000" />
-      <workItem from="1613926661684" duration="2337000" />
-      <workItem from="1614000376738" duration="4643000" />
-      <workItem from="1614080260751" duration="1397000" />
-      <workItem from="1614106043222" duration="619000" />
-      <workItem from="1614172207539" duration="2398000" />
-      <workItem from="1614200731746" duration="3759000" />
-      <workItem from="1614294857501" duration="1281000" />
-      <workItem from="1614348781779" duration="2468000" />
-      <workItem from="1614376161413" duration="19799000" />
-      <workItem from="1614604282707" duration="8319000" />
-      <workItem from="1614646884967" duration="2472000" />
-      <workItem from="1614705687310" duration="1616000" />
-      <workItem from="1614728878768" duration="1423000" />
-      <workItem from="1614776748269" duration="2881000" />
-      <workItem from="1614860220956" duration="4367000" />
-      <workItem from="1615423547823" duration="756000" />
-      <workItem from="1615488754527" duration="730000" />
-      <workItem from="1615575635596" duration="1916000" />
-      <workItem from="1615765518959" duration="593000" />
-      <workItem from="1615809939269" duration="971000" />
-      <workItem from="1615924242696" duration="12585000" />
-      <workItem from="1620849231118" duration="1347000" />
-      <workItem from="1620907368330" duration="1765000" />
-      <workItem from="1620994903505" duration="2434000" />
-      <workItem from="1621096997364" duration="587000" />
-      <workItem from="1621100126915" duration="587000" />
-      <workItem from="1621252936846" duration="2429000" />
-      <workItem from="1621345822303" duration="2692000" />
-      <workItem from="1621424275554" duration="1183000" />
-      <workItem from="1621508701080" duration="1179000" />
-      <workItem from="1621595718425" duration="589000" />
-      <workItem from="1621683629985" duration="1795000" />
-      <workItem from="1621857341868" duration="590000" />
-      <workItem from="1622033267205" duration="1180000" />
-      <workItem from="1622048917892" duration="589000" />
-      <workItem from="1622118221074" duration="702000" />
-      <workItem from="1622286503303" duration="586000" />
-      <workItem from="1622463779770" duration="584000" />
-      <workItem from="1622546040029" duration="581000" />
-      <workItem from="1622554466684" duration="586000" />
-      <workItem from="1622637428586" duration="585000" />
-      <workItem from="1622724729797" duration="591000" />
-      <workItem from="1622741221608" duration="1175000" />
-      <workItem from="1622811348187" duration="588000" />
-      <workItem from="1622901139096" duration="595000" />
-      <workItem from="1622978296765" duration="593000" />
-      <workItem from="1623066043987" duration="2147000" />
-      <workItem from="1623157305662" duration="1167000" />
-      <workItem from="1623233072257" duration="1180000" />
-      <workItem from="1623413353747" duration="2712000" />
-      <workItem from="1623497804367" duration="585000" />
-      <workItem from="1623584760414" duration="1806000" />
-      <workItem from="1623674761105" duration="1827000" />
-      <workItem from="1623762699124" duration="589000" />
-      <workItem from="1623849167542" duration="3347000" />
-      <workItem from="1624306105429" duration="1088000" />
-      <workItem from="1624364290491" duration="7780000" />
+      <workItem from="1626958317605" duration="576000" />
+      <workItem from="1627050932499" duration="5548000" />
+      <workItem from="1627303576399" duration="6535000" />
+    </task>
+    <task id="LOCAL-00076" summary="Sprint 23 - Ajuste no funcionamento da tela de Meus Links">
+      <created>1601556191138</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1601556191138</updated>
+    </task>
+    <task id="LOCAL-00077" summary="inicio feature ACL">
+      <created>1601597900025</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1601597900026</updated>
+    </task>
+    <task id="LOCAL-00078" summary="inicio feature ACL">
+      <created>1601597940866</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1601597940866</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Sprint 23 - progredindo tela de permissões e edição de função">
+      <created>1601672657749</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1601672657750</updated>
     </task>
     <task id="LOCAL-00080" summary="Sprint 23 - tela de permissões da função em andamento">
       <created>1601919083532</created>
@@ -678,35 +631,7 @@
       <option name="project" value="LOCAL" />
       <updated>1611582134757</updated>
     </task>
-    <task id="LOCAL-00125" summary="fix many things">
-      <created>1612917074216</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1612917074217</updated>
-    </task>
-    <task id="LOCAL-00126" summary="fix many things">
-      <created>1613926779520</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1613926779520</updated>
-    </task>
-    <task id="LOCAL-00127" summary="fix many things">
-      <created>1614950768018</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1614950768019</updated>
-    </task>
-    <task id="LOCAL-00128" summary="fix bug in minha comissoes">
-      <created>1621348137163</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1621348137164</updated>
-    </task>
-    <option name="localTasksCounter" value="129" />
+    <option name="localTasksCounter" value="125" />
     <servers />
   </component>
   <component name="TodoView">
@@ -758,6 +683,8 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="Finalização de ajustes apontados em ultima reunião de acordo com o doc google" />
+    <MESSAGE value="set z-index in select responsaveis" />
     <MESSAGE value="remove submenu relatorios de extensoes" />
     <MESSAGE value="realtime profile info" />
     <MESSAGE value="init fix cath to finnaly" />
@@ -781,9 +708,7 @@
     <MESSAGE value="variavel fixa melhor envio" />
     <MESSAGE value="Correções anotadas no meistertask" />
     <MESSAGE value="Hotfix - edição de endereço em expedição e automação" />
-    <MESSAGE value="fix many things" />
-    <MESSAGE value="fix bug in minha comissoes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug in minha comissoes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hotfix - edição de endereço em expedição e automação" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -800,18 +725,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
-          <line>465</line>
+          <line>841</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/views/contratos/AddEdit.vue</url>
-          <line>458</line>
+          <line>812</line>
           <option name="timeStamp" value="27" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/views/components/NenhumRegistro.vue</url>
-          <line>3</line>
-          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
