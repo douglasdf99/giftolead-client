@@ -380,7 +380,7 @@ const rotasConfigGerais = [
                 {title: 'Mensagem Padrão', url: '/configuracoes/mensagem-padrao'},
                 {title: 'Criar', active: true},
             ],
-            pageTitle: 'Editar usuário',
+            pageTitle: 'Editar Mensagem Padrão',
             rule: 'configuracao_mensagem_editar',
             pai: 'configuracoes',
             subTitle: 'Configurações',

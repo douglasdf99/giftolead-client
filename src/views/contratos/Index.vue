@@ -39,7 +39,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20" v-show="items.length === 0">
+                <div class="mt-20" v-show="items.length === 0">
                   <nenhum-registro/>
                 </div>
                 <div class="com-item" v-show="items.length > 0">
@@ -217,7 +217,7 @@
               this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
-                this.getProdutos();
+                this.getItems();
             },
             ativaContrato(e) {
                 console.log(this.countSwitch)
@@ -286,7 +286,7 @@
                 this.$vs.loading();
                 console.log('val', val);
                 this.dados.page = this.currentx;
-                this.getProdutos();
+                this.getItems();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
