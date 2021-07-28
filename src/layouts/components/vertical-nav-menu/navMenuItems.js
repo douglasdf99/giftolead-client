@@ -85,5 +85,10 @@ export default [
         icon: "settings",
         slug: 'configuracoes',
     },
+    {
+        url: '/relatorios/geral',
+        name: "Relatórios",
+        icon: "settings",
+        slug: 'relatorios',
+    },
 ]
-

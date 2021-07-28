@@ -7,12 +7,17 @@
     <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Remo">
       <change afterPath="$PROJECT_DIR$/src/rotas/rotasRelatorios.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/rotas/subRotaRelatorios.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/relatorios/moduleRelatorioActions.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/relatorios/moduleRelatorioGetters.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/relatorios/moduleRelatorioMutations.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/relatorios/moduleRelatorioState.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/store/relatorios/moduleRelatorios.js" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/views/relatorios/vendas/Index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/relatorios/vendas/LineChart.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saveleadsConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/saveleadsConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +65,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
@@ -71,7 +77,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="editorconfig.notification" value="null" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/store/relatorios" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -90,11 +96,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Projetos\saveleadsVuexy\src\store\relatorios" />
       <recent name="C:\Projetos\saveleads3_vue\src\assets\images\util" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components\whatsapp" />
       <recent name="C:\Projetos\saveleads3_vue\src\views\components" />
       <recent name="C:\projects\saveleadsVuexy\src\views\automacao" />
-      <recent name="C:\projects\saveleadsVuexy\src\views" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\saveleadsVuexy\src\assets\images\pages" />
@@ -287,6 +293,10 @@
       <workItem from="1626958317605" duration="576000" />
       <workItem from="1627050932499" duration="5548000" />
       <workItem from="1627303576399" duration="6535000" />
+      <workItem from="1627317051976" duration="1233000" />
+      <workItem from="1627321903992" duration="4723000" />
+      <workItem from="1627396688153" duration="11463000" />
+      <workItem from="1627476359202" duration="17276000" />
     </task>
     <task id="LOCAL-00076" summary="Sprint 23 - Ajuste no funcionamento da tela de Meus Links">
       <created>1601556191138</created>
