@@ -73,8 +73,8 @@
                                 {{ link.descricao }}
                             </div>
                             <div class="vx-col sm:w-3/12 w-full mb-2">
-                                <p class="mb-0 text-base font-bold">SCR</p>
-                                {{ link.scr }}
+                                <p class="mb-0 text-base font-bold">SRC</p>
+                                {{ link.src }}
                             </div>
                             <div class="vx-col sm:w-3/12 w-full mb-2">
                                 <p class="mb-0 text-base font-bold">Oferta</p>

@@ -4,18 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="ajustes visuais Calendario.vue e whatsapplist">
-      <change afterPath="$PROJECT_DIR$/src/views/comissoes/Todas.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Remo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layouts/components/vertical-nav-menu/navMenuItems.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/rotasComissoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/rotasComissoes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rotas/subRotaComissoes.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/rotas/subRotaComissoes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/comissoes/ListComissoes.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/Index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/leads/Detalhe.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saveleadsConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/saveleadsConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/scss/vuexy/_customClasses.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/scss/vuexy/_customClasses.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/automacao/Listagem.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/campanhas/agendamento/Agendamento.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/agendamento/Agendamento.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/campanhas/boleto/Emails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/boleto/Emails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/campanhas/whatsapp/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/campanhas/whatsapp/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/expedicoes/IndexMelhorEnvio.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/links/AddEdit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/links/AddEdit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/links/Lista.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/links/Lista.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/motivoPerda/SideBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/motivoPerda/SideBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/pages/AgendamentoLinkNovo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/pages/AgendamentoLinkNovo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/planos/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/planos/Index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +41,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature-hotfix/ferias-do-douglinhas" />
+        <entry key="$PROJECT_DIR$" value="develop" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
