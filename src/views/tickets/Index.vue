@@ -50,7 +50,8 @@
         <div class="vx-row mt-10 -mb-4">
             <div class="vx-col w-full">
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
-                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                    <div
+                        class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
                         <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{
                                 pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total
                             }} de {{ pagination.total }}</span>
@@ -67,28 +68,41 @@
         <vs-row>
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getTickets('abertos')" color="success" value="10"
+                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; switchTab('abertos')" color="success" value="10"
                             :label="'abertos ( ' + nums.abertos + ' )'">
-                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
+                        <vs-alert :active="newTickets"
+                                  class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark"
+                                  style="background-color: #90cdf4" @click="getTickets" icon-pack="feather"
+                                  icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @transfer="popupTransferir($event)" @atender="atender" @detalhar="detalhar" @delete="deletar"  @open="open" :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir($event)" @atender="atender"
+                                  @detalhar="detalhar" @delete="deletar" @open="open" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getTickets('fechados')" color="black" :label="'fechados ( ' + nums.fechados + ' )'">
-                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
+                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; switchTab('fechados');" color="black"
+                            :label="'fechados ( ' + nums.fechados + ' )'">
+                        <vs-alert :active="newTickets"
+                                  class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark"
+                                  style="background-color: #90cdf4" @click="getTickets" icon-pack="feather"
+                                  icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar" :items="tickets"   @open="open" ></listagem>
+                        <listagem @update="updateData" @atender="atender" @detalhar="detalhar" @delete="deletar"
+                                  :items="tickets" @open="open"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'warning'; getTickets('todos')" label="todos">
-                        <vs-alert :active="newTickets" class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark" style="background-color: #90cdf4" @click="getTickets" icon-pack="feather" icon="icon-loader">
+                    <vs-tab @click="colorx = 'warning'; switchTab('todos');" label="todos">
+                        <vs-alert :active="newTickets"
+                                  class="mt-2 cursor-pointer hover:bg-white shadow text-white hover:text-dark"
+                                  style="background-color: #90cdf4" @click="getTickets" icon-pack="feather"
+                                  icon="icon-loader">
                             Clique aqui e atualize a listagem para visualizar os novos Tickets.
                         </vs-alert>
-                        <listagem @update="updateData" @transfer="popupTransferir($event)" @atender="atender" @detalhar="detalhar" @delete="deletar"   @open="open"  :items="tickets"></listagem>
+                        <listagem @update="updateData" @transfer="popupTransferir($event)" @atender="atender"
+                                  @detalhar="detalhar" @delete="deletar" @open="open" :items="tickets"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
@@ -109,7 +123,8 @@
             <div class="p-5 flex justify-center w-full">
                 <div class="vx-col w-full">
                     <label class="vs-input--label">Usuário</label>
-                    <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="false" class="bg-white w-full"
+                    <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="false"
+                              class="bg-white w-full"
                               :options="users"/>
                 </div>
             </div>
@@ -141,7 +156,7 @@ export default {
     },
     data() {
         return {
-           ticketIdTrasnfer:'',
+            ticketIdTrasnfer: '',
             colorx: 'rgb(16, 233, 179)',
             iconsucess: '<vs-icon icon-pack="material-icons" icon="fiber_manual_record"\n' +
                 '                                           class="icon-grande text-success"\n' +
@@ -223,6 +238,10 @@ export default {
                 acceptText: color == 'danger' ? 'Ok' : 'Ir até ele'
             })
         },
+        switchTab(tab) {
+            this.tipoTicket = tab
+            this.currentx = 1
+        },
         addNewData() {
             this.sidebarData = {}
             this.toggleDataSidebar(true)
@@ -238,7 +257,7 @@ export default {
             this.toggleDataSidebar(true)
         },
         popupTransferir(ticket_id) {
-          this.ticketIdTrasnfer = ticket_id;
+            this.ticketIdTrasnfer = ticket_id;
             console.log('transferindo', ticket_id);
             this.modalTransfer = true;
         },
@@ -381,8 +400,8 @@ export default {
             this.$router.push({path: '/tickets/detalhar/' + id})
         },
         pesquisar(e) {
-          this.dados.page = 1;
-          e.preventDefault();
+            this.dados.page = 1;
+            e.preventDefault();
             this.$vs.loading();
             this.getTickets();
         }
@@ -424,7 +443,7 @@ export default {
                     }
                 } else return item
             });
-            if(payload.array && payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') this.newTickets = true;
+            if (payload.array && payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') this.newTickets = true;
         });
     },
 }

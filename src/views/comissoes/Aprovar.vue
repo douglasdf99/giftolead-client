@@ -53,13 +53,13 @@
         <vs-row>
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
-                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; getItems('pendente');" color="success" value="10"
+                    <vs-tab @click="colorx = 'rgb(16, 233, 179)'; switchTab('pendente');" color="success" value="10"
                             :label="'pendentes' + (tipoCom == 'pendente' ? ` (${comissoes.length})` : '')">
                         <listagem @action="action" @visualizar="visualizar" @update="updateData" @delete="deletar" :items="comissoes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; getItems('reprovado')" color="danger"
+                    <vs-tab @click="colorx = 'rgb(51, 51, 51)'; switchTab('reprovado')" color="danger"
                             :label="'reprovados' + (tipoCom == 'reprovado' ? ` (${comissoes.length})` : '')">
                         <listagem @action="action" @visualizar="visualizar" @update="updateData" @delete="deletar" :items="comissoes"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
@@ -135,7 +135,10 @@
             this.getItems();
         },
         methods: {
-
+            switchTab(tab) {
+                this.tipoCom = tab
+                this.currentx = 1
+            },
             openAlert(title, text, color, id = null) {
                 this.$vs.dialog({
                     color: color,
