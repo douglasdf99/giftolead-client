@@ -261,6 +261,9 @@ export default {
         },
         getItems(status = this.dados.status) {
             this.$vs.loading();
+            if(status !== this.dados.status)
+                this.currentx = 1
+
             this.dados.status = status
             switch (status) {
                 case "pendente":
