@@ -408,6 +408,8 @@ h4 {
 
 .destaque {
     font-weight: 600 !important;
+    display: flex;
+    align-items: center;
 }
 
 [dir] .vs-input--input.large {

@@ -123,9 +123,9 @@ export default {
                 })
         })
     },
-    get({commit}) {
+    get({commit}, params) {
         return new Promise((resolve, reject) => {
-            axios.get(`/correios`, {params: {}})
+            axios.get(`/correios`, params)
                 .then((response) => {
                     resolve(response.data.data)
                 })
