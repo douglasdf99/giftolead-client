@@ -44,11 +44,11 @@
                 </p>
             </div>
         </div>
-        <div class="vx-row mb-1">
+        <div class="vx-row mb-base">
             <div class="vx-col w-full">
                 <v-select multiple :closeOnSelect="false" v-model="tipoSelected"
-                          class="select-large-base" :options="opcoesHotmart" style="background-color: white"/>
-                <br>
+                          class="select-large-bas" v-validate="'required'" :options="opcoesHotmart" style="background-color: white"/>
+                <small class="text-danger font-bold" v-if="tipoSelected.length === 0">Campo obrigatório</small>
             </div>
         </div>
         <div class="vx-row mt-1 mb-2">
