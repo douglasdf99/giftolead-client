@@ -8,12 +8,14 @@
 // MAIN COLORS - VUESAX THEME COLORS
 
 // CONFIGS
-var subdomain =  window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+let baseUrl = 'https://api.saveleads.com.br/'
+//let baseUrl = 'http://sevaleads3.0.test/'
 var domain = '';
 if(subdomain)
-    domain = "https://api.saveleads.com.br/" + subdomain;
+    domain = baseUrl + subdomain;
 else
-    domain = "https://api.saveleads.com.br/app";
+    domain = baseUrl + "app";
 
 const saveleadsConfig = {
     token : localStorage.getItem("accessToken")|| null,

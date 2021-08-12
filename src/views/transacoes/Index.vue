@@ -5,7 +5,8 @@
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span
-                    class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
+                    class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate
+                    }}</span>
                 </p>
             </div>
             <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
@@ -186,17 +187,15 @@ export default {
             },
             lengths: saveleadsConfig.lengths,
             languages: lang,
-          selectedProduto: null,
-          selectedStatus: null,
-          search: '',
-          pagination: {
+            selectedProduto: null,
+            selectedStatus: null,
+            search: '',
+            pagination: {
                 last_page: 1,
                 page: 1,
                 current_page: 1
             },
-          dt_inicio: '',
-          dt_fim: '',
-          dateRange: {},
+            dateRange: {},
             produtos: [],
             status: [],
             currentx: 1,
@@ -247,8 +246,6 @@ export default {
             moduleProdutos.isRegistered = true
         }
 
-        this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
-        this.dt_fim = moment().format('YYYY-MM-DD');
         this.dateRange.startDate = moment().subtract(30, 'days')
         this.dateRange.endDate = moment()
         this.getOpcoes();
@@ -399,16 +396,6 @@ export default {
             this.getTransacoes();
         },
         selectedStatus(val) {
-            this.$vs.loading();
-            this.dados.page = 1;
-            this.getTransacoes();
-        },
-        dt_inicio(val) {
-            this.$vs.loading();
-            this.dados.page = 1;
-            this.getTransacoes();
-        },
-        dt_fim(val) {
             this.$vs.loading();
             this.dados.page = 1;
             this.getTransacoes();

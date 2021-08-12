@@ -11,12 +11,13 @@
 import axios from "@/axios.js"
 
 export default {
-    get({commit}, {route}) {
+    get({commit}, payload) {
         commit('SET_LOADING', {vendas: true})
         return new Promise((resolve, reject) => {
-            axios.get(`/${route}`)
+            axios.get(`/${payload.route}`, {params: payload})
                 .then((response) => {
-                    resolve(response.data.data)
+                    commit('SET_REL_VENDAS', response.data)
+                    resolve()
                 })
                 .catch((error) => {
                     reject(error)

@@ -10,5 +10,8 @@
 export default {
     SET_LOADING(state, payload){
         state.loading = {...payload}
+    },
+    SET_REL_VENDAS(state, payload){
+        state.vendas = {...payload}
     }
 }

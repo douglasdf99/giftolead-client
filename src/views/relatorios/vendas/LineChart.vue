@@ -1,5 +1,5 @@
 <template>
-    <vx-card title="Comparação mensal" class="card-overlay">
+    <vx-card title="Overview comparativo entre produtos" class="card-overlay">
         <template slot="actions">
             <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
         </template>
@@ -7,15 +7,14 @@
 
             <div class="flex">
                 <div class="mr-6">
-                    <p class="mb-1 font-semibold">Este mês</p>
+                    <p class="mb-1 font-semibold">Valor total recuperado neste período</p>
                     <p class="text-3xl text-success">
-                        <sup class="text-base mr-1">$</sup>
-                        {{ series[0].data.reduce((total, next) => (total + next)) }}
+                        <sup class="text-base mr-1 font-bold">$ {{vendas.valor_recuperado > 999 ? (vendas.valor_recuperado / 1000).toFixed(2) + 'k' : vendas.valor_recuperado}}</sup>
                     </p>
                 </div>
             </div>
 
-            <vue-apex-charts type=line height=266 :options="chartOptions" :series="series"/>
+            <vue-apex-charts type=line height=350 :options="chartOptions" :series="vendas.grafico.series"/>
         </div>
     </vx-card>
 </template>
@@ -26,12 +25,11 @@ export default {
     name: "LineChart",
     //extends: Line,
     components: {VueApexCharts},
-    props: ['series', 'labels'],
     data() {
         return {
             chartOptions: {
                 chart: {
-                    toolbar: {show: false},
+                    toolbar: {show: true},
                     dropShadow: {
                         enabled: true,
                         top: 5,
@@ -49,7 +47,7 @@ export default {
                     borderColor: '#e7e7e7',
                 },
                 legend: {
-                    show: false,
+                    show: true,
                 },
                 colors: ['#F97794', '#b8c2cc', '#e57b7b'],
                 markers: {
@@ -64,13 +62,7 @@ export default {
                             cssClass: 'text-grey fill-current',
                         }
                     },
-                    axisTicks: {
-                        show: false,
-                    },
                     categories: [],
-                    axisBorder: {
-                        show: false,
-                    },
                 },
                 yaxis: {
                     tickAmount: 5,
@@ -79,12 +71,12 @@ export default {
                             cssClass: 'text-grey fill-current',
                         },
                         formatter: function (val) {
-                            return val > 999 ? (val / 1000).toFixed(1) + 'k' : val;
+                            return val > 999 ? (val / 1000).toFixed(2) + 'k' : val;
                         }
                     }
                 },
                 tooltip: {
-                    x: {show: false}
+                    x: {show: true}
                 }
             },
             loadings: {
@@ -92,9 +84,16 @@ export default {
             }
         }
     },
-    created() {
-        this.chartOptions.xaxis.categories = [...this.labels]
-    }
-
+    created(){
+        this.chartOptions.xaxis.categories = this.vendas.grafico.categories
+    },
+    computed: {
+        vendas() {
+            return this.$store.state.relatorios.vendas
+        },
+    },
+    // updated() {
+    //     this.chartOptions.xaxis.categories = this.categories
+    // },
 }
 </script>
