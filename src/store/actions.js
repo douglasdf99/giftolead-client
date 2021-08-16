@@ -85,6 +85,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/${dados.rota}`, {params: dados.params})
                 .then((response) => {
+                    console.log('olha esse response', response)
                     commit('SET_VARIOS', response.data.data);
                     resolve(response.data.data)
                 })

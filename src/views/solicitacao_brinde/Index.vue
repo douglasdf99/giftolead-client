@@ -190,6 +190,10 @@ export default {
         },
         getItems(status = this.dados.status) {
             this.$vs.loading();
+
+            if(status !== this.dados.status)
+                this.currentx = 1
+
             this.dados.status = status;
             this.$store.dispatch('getVarios', {rota: 'solicitacao_brindes', params: this.dados}).then(response => {
                 console.log('retornado com sucesso', response);

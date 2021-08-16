@@ -197,7 +197,9 @@ export default {
             this.modalEndereco = true;
         },
         getItems(tipo = this.dados.tipo) {
-            console.log('tipo', tipo)
+            if(tipo !== this.dados.tipo)
+                this.currentx =1
+
             this.$vs.loading();
             if (tipo != 'arquivadas' && tipo != null) {
                 this.dados.tipo = tipo;

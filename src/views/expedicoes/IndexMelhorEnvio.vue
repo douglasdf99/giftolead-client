@@ -5,7 +5,8 @@
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p v-if="dateRange.startDate || dateRange.endDate">Resultado da busca considerando o período: <span
-                    class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
+                    class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate
+                    }}</span>
                 </p>
                 <p v-else>Resultado da busca considerando todos as datas</p>
             </div>
@@ -253,6 +254,9 @@ export default {
         },
         getItems(status = this.dados.status) {
             this.$vs.loading();
+            if (status !== this.dados.status)
+                this.currentx = 1
+
             this.dados.status = status;
 
             if (this.dateRange.startDate)

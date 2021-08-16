@@ -10,15 +10,12 @@
 // CONFIGS
 var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
 let baseUrl = 'https://api.saveleads.com.br/'
-//let baseUrl = 'http://sevaleads3.0.test/'
 var domain = '';
-if(subdomain)
-    domain = baseUrl + subdomain;
-else
-    domain = baseUrl + "app";
+domain = baseUrl + (subdomain || 'app');
+
 
 const saveleadsConfig = {
-    token : localStorage.getItem("accessToken")|| null,
+    token: localStorage.getItem("accessToken") || null,
     url_api: domain,
     url_normal: 'https://api.saveleads.com.br/',
     url_melhorenvio: 'https://www.melhorenvio.com.br',

@@ -135,7 +135,6 @@
             this.getItems();
         },
         methods: {
-
             openAlert(title, text, color, id = null) {
                 this.$vs.dialog({
                     color: color,
@@ -162,6 +161,9 @@
             },
             getItems(tipo = this.tipoCom) {
                 this.$vs.loading();
+                if(tipo !== this.tipoCom)
+                    this.currentx = 1
+
                 this.dados.tipo = tipo;
                 this.tipoCom = tipo;
 

@@ -239,24 +239,33 @@ export default {
             this.ticket.lead.ddi = payload.countryCallingCode;
             this.payload = payload;
         },
-        getOpcoes() {
-            this.$store.dispatch('origens/get').then(response => {
+        async getOpcoes() {
+            await this.$store.dispatch('origens/get').then(response => {
                 let origens = [...response];
                 origens.forEach(item => {
                     this.origens.push({id: item.id, label: item.nome})
                 });
+            }).finally(() => {
+                if(!this.data.id)
+                    this.selectedOrigem = {id: null, label: 'Selecione'}
             });
-            this.$store.dispatch('produtos/get').then(response => {
-                let produtos = [...response];
-                produtos.forEach(item => {
-                    this.produtos.push({id: item.id, label: item.nome})
-                });
-            });
-            this.$store.dispatch('duvidas/get').then(response => {
+            await this.$store.dispatch('duvidas/get').then(response => {
                 let duvidas = [...response];
                 duvidas.forEach(item => {
                     this.duvidas.push({id: item.id, label: item.nome})
                 });
+            }).finally(() => {
+                if(!this.data.id)
+                    this.selectedDuvida = {id: null, label: 'Selecione'}
+            });
+            await this.$store.dispatch('produtos/get').then(response => {
+                let produtos = [...response];
+                produtos.forEach(item => {
+                    this.produtos.push({id: item.id, label: item.nome})
+                });
+            }).finally(() => {
+                if(!this.data.id)
+                    this.selectedProduto = {id: null, label: 'Selecione'}
             });
         },
         verificaLead() {
@@ -291,9 +300,9 @@ export default {
             } else {
                 this.ticket.id = null
                 this.ticket.lead.nome = ''
-                this.selectedDuvida = null
-                this.selectedProduto = null
-                this.selectedOrigem = null
+                this.selectedDuvida = {id: null, label: 'Carregando...'}
+                this.selectedProduto = {id: null, label: 'Carregando...'}
+                this.selectedOrigem = {id: null, label: 'Carregando...'}
             }
         },
         submitData() {
@@ -389,9 +398,9 @@ export default {
         'v-select': vSelect
     },
     created() {
-        this.initValues();
         if (Object.entries(this.data).length === 0) {
             //this.initValues()
+            this.initValues();
             this.$validator.reset()
         } else {
             console.log('entrou aqui', this.data);

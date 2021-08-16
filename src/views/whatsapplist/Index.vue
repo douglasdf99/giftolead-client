@@ -304,7 +304,12 @@ export default {
                 scale: 0.45
             });
 
+            if (tipo != this.dados.situacao)
+                this.currentx = 1
+
             this.dados.situacao = tipo;
+            console.log('alou', this.dados.situacao, this.currentx)
+
             if (this.selectedResp) {
                 //this.dados.responsavel_type = this.selectedResp.id;
                 this.dados.campanhable_type = this.selectedResp.criador_type;
@@ -321,11 +326,6 @@ export default {
                 this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
             if (this.dateRange.endDate)
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-
-            if (tipo != null)
-                this.dados.situacao = tipo;
-
-            this.dados.search = this.dados.search
 
             this.$store.dispatch('whatsapplist/getVarios', this.dados).then(response => {
                 console.log('getItems', response.data.data)

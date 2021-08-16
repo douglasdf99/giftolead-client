@@ -26,9 +26,9 @@
                       v-show="errors.has('codigo_oferta')">{{ errors.first('codigo_oferta') }}</span>
             </div>
             <div class="vx-col w-full xlg:w-6/12 lg:w-6/12">
-                <span class="font-regular mb-2">Código da origem (scr) </span>
-                <vs-input disabled class="w-full" v-model="link.scr" v-validate="'required'" size="large" name="scr"/>
-                <span class="text-danger text-sm" v-show="errors.has('scr')">{{ errors.first('scr') }}</span>
+                <span class="font-regular mb-2">Código da origem (src) </span>
+                <vs-input disabled class="w-full" v-model="link.src" v-validate="'required'" size="large" name="src"/>
+                <span class="text-danger text-sm" v-show="errors.has('src')">{{ errors.first('src') }}</span>
                 <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
             </div>
             <div class="vx-col w-full xlg:w-2/12 lg:w-2/12">
@@ -151,7 +151,7 @@ export default {
                 descricao: '',
                 codigo_oferta: '',
                 builder: '',
-                scr: 'saveleads-user',
+                src: 'saveleads-user',
                 split: '',
                 paypal: '',
                 debito: '',

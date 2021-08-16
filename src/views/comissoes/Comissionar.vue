@@ -46,13 +46,13 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx" style="z-index: 5">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
+                    <vs-tab @click="colorx = 'warning'; getItems('usuario')" color="warning" value="10"
                             :label="'gerar ordens'">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="usuario"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'; getOpcoes();" color="success"
+                    <vs-tab @click="colorx = 'success'; getOpcoes(); getItems('comissao');" color="success"
                             :label="'comissões sem ordem'">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="comissao"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
@@ -137,9 +137,13 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getItems() {
+            getItems(aba = this.dados.aba) {
                 this.$vs.loading();
 
+                if(aba !== this.dados.aba)
+                    this.currentx = 1
+
+                this.dados.aba = aba
                 let url = '';
                 let control = 0;//Controla entradas em cada condição
                 if (this.search !== '') {
@@ -147,7 +151,6 @@
                     url += 'email:' + this.search;
                     control++;
                 }
-
 
                 if(this.selectedAten.id != null){
                     this.dados.user_id = this.selectedAten.id;
@@ -217,7 +220,7 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                console.log('val', val);
+                console.log('valsssss', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
