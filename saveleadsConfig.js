@@ -13,6 +13,7 @@ let baseUrl = 'https://api.saveleads.com.br/'
 var domain = '';
 domain = baseUrl + (subdomain || 'app');
 
+
 const saveleadsConfig = {
     token: localStorage.getItem("accessToken") || null,
     url_api: domain,

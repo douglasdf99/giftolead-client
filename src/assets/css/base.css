@@ -650,8 +650,9 @@ th > .vs-table-text {
     margin: 0 1rem;
 }
 
-.btn-periodo:hover * {
+.btn-periodo:hover *, .btn-periodo .active {
     color: white !important;
+    background: black;
 }
 
 .vue-daterange-picker span {

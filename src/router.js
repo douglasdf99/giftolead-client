@@ -44,6 +44,7 @@ import rotasBrindes from "./rotas/rotasBrindes";
 import rotasAutomacao from "./rotas/rotasAutomacao";
 import rotasComissoes from "./rotas/rotasComissoes";
 import rotasDashboard from "@/rotas/rotasDashboard";
+import rotasRelatorios from "./rotas/rotasRelatorios";
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
@@ -336,7 +337,7 @@ const router = new Router({
                             {title: 'Statistics Cards', active: true},
                         ],
                         pageTitle: 'Statistics Card',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -350,7 +351,7 @@ const router = new Router({
                             {title: 'Analytics Card', active: true},
                         ],
                         pageTitle: 'Analytics Card',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1016,7 +1017,7 @@ const router = new Router({
                             {title: 'Apex Charts', active: true},
                         ],
                         pageTitle: 'Apex Charts',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1030,7 +1031,7 @@ const router = new Router({
                             {title: 'chartjs', active: true},
                         ],
                         pageTitle: 'chartjs',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1044,7 +1045,7 @@ const router = new Router({
                             {title: 'echarts', active: true},
                         ],
                         pageTitle: 'echarts',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1359,6 +1360,10 @@ const router = new Router({
                 // Automação de Brindes
                 // =============================================================================
                 ...rotasAutomacao,
+                // =============================================================================
+                // Relatórios
+                // =============================================================================
+                ...rotasRelatorios,
                 // =============================================================================
                 // Comissões
                 // =============================================================================
