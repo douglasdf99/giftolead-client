@@ -9,7 +9,9 @@
                 <div class="mr-6">
                     <p class="mb-1 font-semibold">Valor total recuperado neste período</p>
                     <p class="text-3xl text-success">
-                        <sup class="text-base mr-1 font-bold">$ {{vendas.valor_recuperado > 999 ? (vendas.valor_recuperado / 1000).toFixed(2) + 'k' : vendas.valor_recuperado}}</sup>
+                        <sup class="text-base mr-1 font-bold">$ {{vendas.statistics.valor_recuperado > 999 ?
+                            (vendas.statistics.valor_recuperado / 1000).toFixed(2) + 'k' :
+                            vendas.statistics.valor_recuperado}}</sup>
                     </p>
                 </div>
             </div>

@@ -20,7 +20,9 @@
                 <img src="@/assets/images/util/cancelado.svg" v-if="customIcon && customIcon === 'cancelado'"
                      class="img-conquista rounded-none mb-4 mx-auto" width="53">
                 <div class="truncate">
-                    <h2 class="mb-1 font-bold valor-card">{{ statistic }}</h2>
+                    <h2 class="mb-1 font-bold">
+                        <span class="text-base mr-1 font-bold text-xs">
+                            R$ </span>{{ statistic }}</h2>
                     <span>{{ statisticTitle }}</span>
                 </div>
             </div>

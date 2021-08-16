@@ -35,42 +35,42 @@
         </div>
         <div class="vx-row">
             <div class="vx-col w-full">
-                <h4 class="my-base">Valor Coorecuperado</h4>
+                <h4 class="my-base">Valor Coorecuperado - Origens</h4>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" custom-icon="agendamento"
                                         :statistic="statisticCardValue(statistics.coorecuperados.agendamento)"
-                                        statisticTitle="Agendamento" color="success"/>
+                                        statisticTitle="Camp. Agendamento" color="success"/>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" custom-icon="boleto"
                                         :statistic="statisticCardValue(statistics.coorecuperados.boleto)"
-                                        statisticTitle="Boleto" color="primary"/>
+                                        statisticTitle="Camp. Boleto" color="primary"/>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" custom-icon="cancelado"
                                         :statistic="statisticCardValue(statistics.coorecuperados.cancelado)"
-                                        statisticTitle="Cancelado" color="danger"/>
+                                        statisticTitle="Camp. Cancelado" color="danger"/>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" custom-icon="checkout"
                                         :statistic="statisticCardValue(statistics.coorecuperados.checkout)"
-                                        statisticTitle="Carrinho" color="danger"/>
+                                        statisticTitle="Camp. Carrinho" color="danger"/>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" custom-icon="whatsapp"
                                         :statistic="statisticCardValue(statistics.coorecuperados.whatsapp)"
-                                        statisticTitle="WhatsappList" color="danger"/>
+                                        statisticTitle="Camp. WhatsappList" color="danger"/>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" icon="LinkIcon"
                                         :statistic="statisticCardValue(statistics.coorecuperados.link)"
-                                        statisticTitle="Link" color="primary"/>
+                                        statisticTitle="Link direto" color="primary"/>
             </div>
             <div class="vx-col w-1/2 lg:w-1/5">
                 <custom-statistics-card hideChart class="mb-base" icon="UserIcon"
                                         :statistic="statisticCardValue(statistics.coorecuperados.user)"
-                                        statisticTitle="Usuário do Sistema" color="primary"/>
+                                        statisticTitle="Ticket manual" color="primary"/>
             </div>
         </div>
         <div class="vx-row">
@@ -233,12 +233,13 @@ export default {
             this.getProductSales();
         },
         statisticCardValue(val) {
+            //return val > 999 ? (val / 1000).toFixed(2) + 'k' : parseFloat(val).toFixed(2);
             if (val && val != undefined)
-                return val > 999 ? (val / 1000).toFixed(2) + 'k' : parseFloat(val).toFixed(2);
+                return parseFloat(val).toFixed(2).replace('.', ',')
             else return 0
         },
         animateStatisticNumbers() {
-            let duration = 4.5
+            let duration = 2
 
             gsap.to(this.statistics.automaticas, {
                 duration, carrinho: this.automaticas.carrinho,
@@ -286,6 +287,10 @@ export default {
             setTimeout(() => {
                 this.filtrar()
             }, 2000)
+        },
+        dateRange(){
+            this.$vs.loading()
+            this.getProductSales()
         }
     }
 }
