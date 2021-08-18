@@ -4,6 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
     <list default="true" id="b18f179d-050e-4cb6-9550-d4259666d1d9" name="Default Changelist" comment="Remo">
 
       <change afterPath="$PROJECT_DIR$/src/rotas/rotasRelatorios.js" afterDir="false" />
@@ -21,6 +22,7 @@
       <change beforePath="$PROJECT_DIR$/src/router.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router.js" afterDir="false" />
 
     </list>
+
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -695,6 +697,7 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Finalização de ajustes apontados em ultima reunião de acordo com o doc google" />
     <MESSAGE value="set z-index in select responsaveis" />
@@ -723,6 +726,7 @@
     <MESSAGE value="Hotfix - edição de endereço em expedição e automação" />
     <option name="LAST_COMMIT_MESSAGE" value="Hotfix - edição de endereço em expedição e automação" />
   </component>
+
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
