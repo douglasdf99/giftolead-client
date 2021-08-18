@@ -57,7 +57,7 @@
                         <vs-row>
                             <vs-col vs-w="12">
                                 <ul id="submenu">
-                                    <li v-for="item in menus" :key="item.name">
+                                    <li v-for="item in menus" :key="item.name" v-if="$acl.check(item.can)">
                                         <vs-icon icon-pack="material-icons" :icon="item.icon"/>
                                         <router-link :to="item.url"><span class="ml-3 menu-name"
                                                                           :class="{'menu-ativo' : activeLink(item.url)}">{{item.name}}</span>

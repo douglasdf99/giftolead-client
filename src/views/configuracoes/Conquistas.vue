@@ -32,7 +32,7 @@
             <vs-col vs-w="12">
                 <div class="mt-20">
                     <div class="vx-row">
-                        <div class="vx-col col-conquista mb-10">
+                        <div class="vx-col col-conquista mb-10" v-if="$acl.check('configuracao_conquista_incluir')">
                             <div class="conquista nova cursor-pointer"
                                  @click="$router.push({path: '/configuracoes/conquistas/nova'})">
                                 <div class="img-plus">
@@ -46,12 +46,12 @@
                         <div class="vx-col col-conquista mb-10" v-for="item in items">
                             <div class="conquista" v-bind:class="{'desativado': !item.ativo}">
                                 <div class="py-2 w-full">
-                                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo"
+                                    <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo" :disabled="!$acl.check('configuracao_conquista_editar')"
                                                class="float-right switch" @click="ativaConquista(item)"/>
                                     <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>-->
                                 </div>
-                                <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/configuracoes/conquistas/editar/' + item.id})">
-                                    <img :src="url_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
+                                <div class="conquista-clicavel w-full cursor-pointer" @click="editar(item.id)">
+                                    <img :src="get_img_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
                                     <p class="nome-conq">
                                         {{item.nome}}
                                     </p>
@@ -114,16 +114,23 @@
                     this.pagination = response;
                     //this.items = response.data
                     this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             pesquisar(e) {
+              this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
             },
             ativaConquista(e) {
-                console.log(this.countSwitch)
                 if(this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.ativo = !e.ativo;
                     this.$vs.notify({
@@ -159,13 +166,23 @@
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         })
                     })
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
+                }
+            },
+            editar(id){
+                if(this.$acl.check('configuracao_conquista_editar'))
+                    this.$router.push({path: '/configuracoes/conquistas/editar/' + id})
+                else {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Você não possui permissão para editar conquistas.'
+                    })
                 }
             }
         },

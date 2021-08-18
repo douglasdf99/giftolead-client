@@ -91,8 +91,10 @@ class AuthService extends EventEmitter {
         localStorage.removeItem(localStorageKey);
         localStorage.removeItem(tokenExpiryKey);
         localStorage.removeItem('userInfo');
+      localStorage.removeItem("permissoes");
 
-        this.idToken = null;
+
+      this.idToken = null;
         this.tokenExpiry = null;
         this.profile = null;
 

@@ -113,9 +113,7 @@
                     return this.isSidebarActive
                 },
                 set(val) {
-                    console.log('valor side', val);
                     if (!val) {
-                        console.log('entou no emit side', val);
 
                         this.$emit('closeSidebar')
                         // this.$validator.reset()
@@ -124,14 +122,10 @@
                 }
             },
         },
-        methods: {},
         components: {
             VuePerfectScrollbar,
             'v-select': vSelect
         },
-        created() {
-            console.log('obj', this.data);
-        }
     }
 </script>
 

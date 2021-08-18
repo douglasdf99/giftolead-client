@@ -1,21 +1,35 @@
-<svg id="box" xmlns="http://www.w3.org/2000/svg" width="651" height="614" viewBox="0 0 651 614">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="842" height="794" viewBox="0 0 842 794">
   <defs>
-    <style>
-
-      path{
-        fill: #858585;
-        fill-rule: evenodd;
-      }
-      .atv {
-        fill: #0050dc;
-      }
-    </style>
+    <clipPath id="clip-path">
+      <rect id="Retângulo_38" data-name="Retângulo 38" width="842" height="794" transform="translate(8044 4363)" fill="#fff"/>
+    </clipPath>
   </defs>
-  <path id="base" class="cls-1" d="M700,1095.81v-0.69l0.713-256.408-1.182-.68,1.186-.69v-1.37l1.182,0.68L1035.79,643l224.34,129.025,1.2-.7v1.389l1.19,0.68-1.19.69-0.71,257.086-0.59.35L926.485,1224.83v1.37l-1.182-.68-1.2.7v-1.39M1258.23,1029.8l0.71-254.336L1060.86,890.412,927.2,967.976l-0.493,177.154-0.214,76.95ZM924.106,1222.09l0.124-44.65,0.583-209.464L703.092,840.081l-0.705,254.359M1035.8,645.749L704.286,838.022,926.011,965.917,1257.77,773.4ZM698,1112.11l2.6,1.5" transform="translate(-624 -643)"/>
-
-  <path id="A" class="" d="M666.5,1090.58h10V846.63h-10v-3h22.99v3h-10v243.95h10v3H666.5v-3ZM649.88,980.614H634.605l-2.528,7.309H624l13.793-38.413h8.957l13.794,38.413H652.41Zm-7.638-22.206-5.549,16.047h11.1Z" transform="translate(-624 -643)"/>
-
-  <path id="L" class="" d="M694.853,1123.57l0.75-1.3,211.214,121.97,5-8.66,2.6,1.5L902.919,1257l-2.6-1.5,5-8.66L694.1,1124.87l-5,8.65-2.6-1.5,11.5-19.91,2.6,1.5Zm83.137,100.3h12.638v6.11H770.3V1191.6h7.7v32.27h0Z" transform="translate(-624 -643)"/>
-
-  <path id="C" class="" d="M1272.4,1068.82l-5-8.66L945.389,1246.12l-0.749-1.3,5.747,9.96-2.6,1.5-11.494-19.92,2.6-1.5,5,8.66,322.01-185.96-4.99-8.66,2.6-1.5,11.49,19.92Zm-140.67,86.3c8.52,0,15.44,4.56,18.02,12.42h-8.84a9.669,9.669,0,0,0-9.24-5.49c-6.7,0-11.48,4.89-11.48,12.7,0,7.74,4.78,12.68,11.48,12.68a9.635,9.635,0,0,0,9.24-5.55h8.84c-2.58,7.92-9.5,12.43-18.02,12.43-11.05,0-19.45-8.09-19.45-19.56s8.4-19.63,19.44-19.63h0.01Z" transform="translate(-624 -643)" fill="#8c8c8c" />
+  <g id="pacote_caixa.13d95c60" transform="translate(-7263 -4207)">
+    <g id="Grupo_64" data-name="Grupo 64">
+      <path id="Caminho_74" data-name="Caminho 74" d="M7413.227,4341.859v264.136l348.659,160.066,282.625-41.205V4443.287l-376.657-125.729Z" fill="#d39775"/>
+      <path id="Caminho_75" data-name="Caminho 75" d="M7760.561,4472.339l282.625-27.47-370.846-128.9-254.1,25.357Z" fill="#d7a485"/>
+      <path id="Caminho_76" data-name="Caminho 76" d="M7760.764,4766.061V4472.008l-345.72-130.257v264.106Z" fill="#a4775a"/>
+      <g id="Grupo_de_máscara_5" data-name="Grupo de máscara 5" transform="translate(-781 -156)" clip-path="url(#clip-path)">
+        <g id="Grupo_55" data-name="Grupo 55" transform="translate(1479.334 1161.772)">
+          <path id="Caminho_69" data-name="Caminho 69" d="M24.15-13.755H48.09V0H6.2V-74.235H24.15Z" transform="translate(7239.826 3886)" fill="#707070"/>
+          <path id="Caminho_71" data-name="Caminho 71" d="M52.185-13.545H24.36L19.74,0H.84l27.2-73.71H48.72L75.915,0H56.805Zm-4.62-13.65-9.24-27.3-9.345,27.3Z" transform="translate(6563.826 3496)" fill="#707070"/>
+          <path id="Caminho_70" data-name="Caminho 70" d="M40.11-74.97q14.175,0,23.467,7.455T75.6-47.355H56.6a17.437,17.437,0,0,0-6.458-8.085A18.049,18.049,0,0,0,39.8-58.38a15.754,15.754,0,0,0-12.7,5.775Q22.26-46.83,22.26-37.17t4.83,15.383a15.815,15.815,0,0,0,12.7,5.722,18.049,18.049,0,0,0,10.342-2.94,17.513,17.513,0,0,0,6.458-7.98H75.6A34.3,34.3,0,0,1,63.578-6.878Q54.285.63,40.11.63A37.027,37.027,0,0,1,21.105-4.148,32.428,32.428,0,0,1,8.453-17.535,42.049,42.049,0,0,1,3.99-37.17,42.049,42.049,0,0,1,8.453-56.805,32.428,32.428,0,0,1,21.105-70.192,37.027,37.027,0,0,1,40.11-74.97Z" transform="translate(6763.826 3825)" fill="#707070"/>
+          <path id="Caminho_41" data-name="Caminho 41" d="M6900.971,3449.792v280.083l-283.6,40.739V3478.649Z" transform="translate(446.48 -11.254)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+          <path id="Caminho_42" data-name="Caminho 42" d="M7247.843,3761.611,6900.97,3603.746V3338.941L7247.843,3468.8" transform="translate(-183.987 -2.251)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+          <path id="Caminho_43" data-name="Caminho 43" d="M6618.761,3336.516l254.839-25.288,374.124,127.31" transform="translate(98.342)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
+          <g id="Grupo_56" data-name="Grupo 56">
+            <path id="Caminho_46" data-name="Caminho 46" d="M5590.327,3569.43l-48.378-21.148" transform="translate(1547.673 226.585)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_45" data-name="Caminho 45" d="M5580.982,3601.49l275.023-41.8" transform="translate(1531.69 181.952)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_47" data-name="Caminho 47" d="M6159.714,3297.119v259.475" transform="translate(513.612 23.663)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_49" data-name="Caminho 49" d="M6136.265,3276.483l39.174,18.959" transform="translate(518.887 295.213)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_51" data-name="Caminho 51" d="M6136.265,3276.483l39.174,18.959" transform="translate(518.887 34.745)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_52" data-name="Caminho 52" d="M390.27,135.227,65.046-22.323" transform="translate(6609.01 3633.945)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_53" data-name="Caminho 53" d="M6975.79,3806.223l-44.018,7.3" transform="translate(45.249 -40.203)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_54" data-name="Caminho 54" d="M6975.79,3806.223l-44.018,7.3" transform="translate(-276.751 -199.153)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+            <path id="Caminho_65" data-name="Caminho 65" d="M5590.327,3569.43l-48.378-21.148" transform="translate(1816.673 179.585)" fill="none" stroke="#8d0dc2" stroke-linecap="round" stroke-width="4"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
 </svg>

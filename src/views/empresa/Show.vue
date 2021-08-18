@@ -85,7 +85,7 @@
                             <div v-show="!images.length">
                                 <label for="file">
                                     <i class="fa fa-cloud-upload"></i>
-                                    <img :src="url_api('images/upload.png')">
+                                    <img :src="get_img_api('images/upload.png')">
                                     <p class="text-lg">Arraste e solte ou clique aqui</p>
                                     <div class="file-input">
                                         <input type="file" id="file" @change="onInputChange">
@@ -93,8 +93,6 @@
                                 </label>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -128,7 +126,7 @@
                 <div class="vx-col sm:w-11/12 mb-2">
                     <div class="container">
                         <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa">Salvar</vs-button>
+                            <vs-button class="mr-3" color="primary" type="filled" @click="updateEmpresa" v-if="$acl.check('configuracao_empresa_editar')">Salvar</vs-button>
                             <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle" @click="$router.push({name: 'configuracoes-geral'})">Cancelar</vs-button>
                         </div>
                     </div>
@@ -243,15 +241,17 @@
                         this.empresaOld = JSON.parse(JSON.stringify(response));
                     })
                     .catch(error => {
+                        console.log('front erro', erro.response);
                         this.$vs.loading.close();
                         this.$vs.notify({
                             title: 'Error',
-                            text: error.message,
+                            text: error.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
                         });
-                    })
+                        if (erro.response.status == 404) this.$router.push({name: 'page-error-404'});
+                    });
             },
 
             updateEmpresa() {
@@ -281,11 +281,11 @@
                                 this.$vs.loading.close();
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: error.message,
+                                    text: error.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
+                                });
                             })
                     } else {
                         this.$vs.notify({

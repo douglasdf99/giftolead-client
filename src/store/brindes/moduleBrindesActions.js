@@ -16,8 +16,18 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/brindes`, {params: {}})
                 .then((response) => {
-                    console.log('brindes resgatado', response);
                     resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    getArraySelect({commit}) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/selects/brindes`)
+                .then((response) => {
+                    resolve(response.data)
                 })
                 .catch((error) => {
                     reject(error)
@@ -48,9 +58,9 @@ export default {
     },
     getContratos() {
         return new Promise((resolve, reject) => {
-            axios.get(`/correios`)
+            axios.get(`/selects/correios`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data)
                 })
                 .catch((error) => {
                     reject(error)

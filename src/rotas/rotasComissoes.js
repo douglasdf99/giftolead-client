@@ -2,6 +2,23 @@ import subcomissoes from "./subRotaComissoes";
 
 const rotasComissoes = [
     {
+        path: '/comissoes/todas',
+        name: 'comissoes-todas',
+        component: () => import('@/views/comissoes/Todas.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Comissões'},
+                {title: 'Todas as comissões', active: true},
+            ],
+            pageTitle: 'Todas as Comissões',
+            rule: 'comissao_pendente',
+            pai: 'comissoes',
+            subTitle: 'Comissões',
+            submenu: subcomissoes
+        },
+    },
+    {
         path: '/comissoes/aprovar',
         name: 'comissoes-aprovar',
         component: () => import('@/views/comissoes/Aprovar.vue'),
@@ -12,7 +29,7 @@ const rotasComissoes = [
                 {title: 'Aprovar', active: true},
             ],
             pageTitle: 'Comissões a aprovar',
-            rule: 'editor',
+            rule: 'comissao_pendente',
             pai: 'comissoes',
             subTitle: 'Comissões',
             submenu: subcomissoes
@@ -29,7 +46,7 @@ const rotasComissoes = [
                 {title: 'Comissionar', active: true},
             ],
             pageTitle: 'Comissionar Vendas',
-            rule: 'editor',
+            rule: 'comissao',
             pai: 'comissoes',
             subTitle: 'Comissões',
             submenu: subcomissoes
@@ -46,7 +63,7 @@ const rotasComissoes = [
                 {title: 'Pagamentos', active: true},
             ],
             pageTitle: 'Pagamentos',
-            rule: 'editor',
+            rule: 'comissao_pagamento',
             pai: 'comissoes',
             subTitle: 'Comissões',
             submenu: subcomissoes

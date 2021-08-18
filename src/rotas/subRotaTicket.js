@@ -2,14 +2,16 @@ const subtickets = [
     {
         url: '/tickets',
         name: "Listagem",
-        slug: "leads-list",
-        icon: 'people_outline'
+        slug: "tickets-list",
+        icon: 'people_outline',
+        can: 'ticket_listagem'
     },
     {
         url: '/agenda',
         name: "Agenda",
-        slug: "leads-list",
-        icon: 'today'
+        slug: "agenda",
+        icon: 'today',
+        can: 'ticket_agenda'
     },
 ];
 

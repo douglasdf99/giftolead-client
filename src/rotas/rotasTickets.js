@@ -12,7 +12,7 @@ const rotasTickets = [
                 {title: 'Listagem', active: true},
             ],
             pageTitle: 'Tickets de Recuperação',
-            rule: 'editor',
+            rule: 'ticket',
             pai: 'tickets',
             subTitle: 'Tickets',
             //subIcon: 'settings',
@@ -31,7 +31,26 @@ const rotasTickets = [
                 {title: 'Atender', active: true},
             ],
             pageTitle: 'Atendendo Ticket',
-            rule: 'editor',
+            rule: 'ticket_atender',
+            pai: 'tickets',
+            subTitle: 'Tickets',
+            //subIcon: 'settings',
+            submenu: subtickets
+        },
+    },
+    {
+        path: '/tickets/detalhar/:id',
+        name: 'tickets-detalhar',
+        component: () => import('@/views/tickets/Detalhamento.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Tickets'},
+                {title: 'Listagem', url: '/tickets'},
+                {title: 'Atender', active: true},
+            ],
+            pageTitle: 'Atendendo Ticket',
+            rule: 'ticket_detalhar',
             pai: 'tickets',
             subTitle: 'Tickets',
             //subIcon: 'settings',
@@ -49,31 +68,13 @@ const rotasTickets = [
                 {title: 'Agenda', active: true},
             ],
             pageTitle: 'Agenda',
-            rule: 'editor',
+            rule: 'ticket_agenda',
             pai: 'tickets',
             subTitle: 'Tickets',
             //subIcon: 'settings',
             submenu: subtickets
         },
-    },
-    {
-        path: '/minhas-comissoes',
-        name: 'minhas-comissoes',
-        component: () => import('@/views/minhasComissoes/Index.vue'),
-        meta: {
-            breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Tickets'},
-                {title: 'Meus atendimentos comissionados', active: true},
-            ],
-            pageTitle: 'Meus atendimentos comissionados',
-            rule: 'editor',
-            pai: 'tickets',
-            subTitle: 'Tickets',
-            //subIcon: 'settings',
-            submenu: subtickets
-        },
-    },
+    }
 ]
 
 export default rotasTickets

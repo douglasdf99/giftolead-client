@@ -45,7 +45,7 @@
         </VuePerfectScrollbar>
 
         <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6" @click="submitData">Salvar</vs-button>
+            <vs-button class="mr-6" @click="submitData" v-if="$acl.check('configuracao_conta_editar')">Salvar</vs-button>
             <vs-button type="border" color="danger" @click="isSidebarActiveLocal = false">Cancelar</vs-button>
         </div>
     </vs-sidebar>
@@ -93,7 +93,6 @@
                     }
                 }
             },
-
         },
         methods: {
             getOpcoes() {
@@ -133,11 +132,12 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', {rota: 'contas', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close();
-                                });
                             }).catch(err => {
                                 console.error(err)
+                            }).finally(()=>{
+                              this.$emit('closeSidebar')
+                              this.$emit('finish')
+                              this.initValues()
                             })
                         } else {
                             delete obj.id
@@ -150,23 +150,20 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 })
-                                this.$store.dispatch('getVarios', {rota: 'brindes', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close()
-                                });
-
                             }).catch(error => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: error.message,
+                                    text: error.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
                                 })
+                            }).finally(()=>{
+                              this.$emit('closeSidebar')
+                              this.$emit('finish')
+                              this.initValues()
                             })
                         }
-
-                        this.$emit('closeSidebar')
-                        this.initValues()
                     }
                 })
             },

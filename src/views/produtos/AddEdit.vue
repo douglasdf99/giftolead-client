@@ -1,9 +1,9 @@
-<template>
+[<template>
     <div>
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{produto.status ? 'Ativado' : 'Desativado'}}</span>
+                  style="font-weight: bold">{{ produto.status ? 'Ativado' : 'Desativado' }}</span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="produto.status" class="float-right switch"/>
                 <span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>
             </div>
@@ -16,10 +16,9 @@
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Conta atribuída no Hotmart</span>
-                <v-select v-model="contaSelected" :class="'select-large-base'" :clearable="false"
-                          style="background-color: white"
-                          :options="opcoesContas" v-validate="'required'" name="conta"/>
-                <span class="text-danger text-sm" v-show="errors.has('conta')">{{ errors.first('conta') }}</span>
+                <v-select v-model="contaSelected" :class="'select-large-base'" :clearable="false" style="background-color: white"
+                          :options="opcoesContas" v-validate="'required'" name="contaHotmart"/>
+                <span class="text-danger text-sm" v-show="errors.has('contaHotmart') || !contaSelected.id">{{ errors.first('contaHotmart') }}</span>
             </div>
         </div>
         <div class="vx-row mb-6">
@@ -28,21 +27,19 @@
                 <vs-input class="w-full" v-model="produto.preco" v-validate="'required'" size="large" v-money="money"
                           name="preco"/>
                 <span class="text-danger text-sm" v-show="errors.has('preco')">{{ errors.first('preco') }}</span>
-                <!--<vs-input class="w-full" v-model="produto.comi_valor" size="large" v-money="money"/>-->
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">Código ID do produto no Hotmart</span>
                 <vs-input class="w-full" type="text" @keypress="isNumber($event)" v-validate="'required'" v-model="produto.cod_produto"
                           size="large" name="codigo"/>
                 <span class="text-danger text-sm" v-show="errors.has('codigo')">{{ errors.first('codigo') }}</span>
-
             </div>
             <div class="vx-col w-full xlg:w-3/12 lg:w-3/12">
                 <span class="font-regular mb-2">REF produto no checkout</span>
                 <vs-input class="w-full" v-model="produto.checkout" size="large"/>
             </div>
         </div>
-        <vx class="vx-row mb-20">
+        <div class="vx-row mb-10">
             <div class="vx-col w-full mb-4">
                 <span>Escolha uma cor para mostrar o produto nas telas</span>
             </div>
@@ -50,8 +47,7 @@
                 <ul class="clearfix">
                     <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" v-for="cor in cores"
                         :style="{backgroundColor: cor}" @click="selecionaCor(cor)">
-                        <vs-icon icon="done" icon-pack="material-icons" style="color: white;font-size: 2.5rem;"
-                                 v-if="produto.cor === cor"></vs-icon>
+                        <vs-icon icon="done" icon-pack="material-icons" style="color: white;font-size: 2.5rem;" v-if="produto.cor === cor"></vs-icon>
                     </li>
                     <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" :style="{backgroundColor: customcor}"
                         @click="selecionaCor(customcor)">
@@ -67,17 +63,17 @@
                 <span class="text-danger text-sm" v-show="errors.has('cor')">{{ errors.first('cor') }}</span>
 
             </div>
-        </vx>
-        <vs-divider class="mb-20"/>
-        <div class="vx-row mb-20">
+        </div>
+        <vs-divider class="mb-10"/>
+        <div class="vx-row mb-10">
             <div class="vx-col w-full lg:w-1/2">
                 <h2 class="subtitulo">Configurar comissão de venda para este produto</h2>
             </div>
             <div class="vx-col w-full lg:w-1/2 mb-6">
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="configComissao" class="float-right switch"/>
+                <vs-switch vs-icon-on="check" color="#0FB599" v-model="produto.hab_comissao" class="float-right switch"/>
             </div>
             <transition name="fade">
-                <div class="vx-col w-full lg:w-full" v-if="configComissao">
+                <div class="vx-col w-full lg:w-full" v-if="produto.hab_comissao">
                     <div class="vx-row">
                         <div class="vx-col w-full lg:w-1/2">
                             <span class="span-destaque">Tipo de Comissão</span>
@@ -97,13 +93,9 @@
                         <div class="vx-col w-full lg:w-1/2">
                             <span class="span-destaque">Tipo de Comissão</span>
                             <div class="flex items-center mt-10">
-                                <vs-button color="primary" type="border" class="mr-6"
-                                           v-bind:class="{'btn-selecionado' : (produto.comissao_tipo === 'valor')}"
-                                           @click="selecionaTipoComissao('valor')">Valor (R$)
+                                <vs-button color="primary" type="border" class="mr-6" v-bind:class="{'btn-selecionado' : (produto.comissao_tipo === 'valor')}" @click="selecionaTipoComissao('valor')">Valor (R$)
                                 </vs-button>
-                                <vs-button color="primary" type="border"
-                                           v-bind:class="{'btn-selecionado' : (produto.comissao_tipo === 'percentual')}"
-                                           @click="selecionaTipoComissao('percentual')">Percentual (%)
+                                <vs-button color="primary" type="border" v-bind:class="{'btn-selecionado' : (produto.comissao_tipo === 'percentual')}" @click="selecionaTipoComissao('percentual')">Percentual (%)
                                 </vs-button>
                             </div>
                         </div>
@@ -141,16 +133,16 @@
                 </div>
             </transition>
         </div>
-        <vs-divider class="mb-20"/>
-        <div class="vx-row flex items-center mb-20">
+        <vs-divider class="mb-10"/>
+        <div class="vx-row flex items-center mb-10" :class="{'opacity-50': upsellersOption.length === 0}">
             <div class="vx-col w-full mb-4">
-                <h2 class="subtitulo">Produtos como possam ser vendidos como Upsell</h2>
+                <h2 class="subtitulo">Produtos que podem ser vendidos como Upsell</h2>
             </div>
             <div class="vx-col w-full relative">
-                <v-select multiple :closeOnSelect="false" v-model="upsellers" :options="produtos" dir="ltr" class="bg-white"/>
+                <v-select multiple :closeOnSelect="false" v-model="upsellers" :options="upsellersOption" dir="ltr" class="bg-white" :disabled="upsellersOption.length === 0"/>
             </div>
         </div>
-        <vs-divider class="mb-20"/>
+        <vs-divider class="mb-10"/>
         <div class="vx-row flex items-center" style="margin-bottom: 10rem">
             <div class="vx-col w-full mb-4">
                 <h2 class="subtitulo">Url de integração com o Hotmart</h2>
@@ -167,17 +159,13 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'produtos'})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({name: 'produtos'})">
+                        Cancelar
+                    </vs-button>
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                        Salvar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -246,7 +234,8 @@
                 this.$store.registerModule('produtos', moduleProdutos)
                 moduleProdutos.isRegistered = true
             }
-            this.getOpcoes();
+
+            this.getContas();
 
             if (this.$route.name === 'produto-editar') {
                 this.contaSelected = {id: null, label: ''};
@@ -282,7 +271,7 @@
                 upsellers: [],
                 produtos: [],
                 url: saveleadsConfig.url_api + '/hotmart',
-                contaSelected: null,
+                contaSelected: {id: null, label: 'Selecione a conta'},
                 cores: ['#21BC9C', '#1EA085', '#2FCC70', '#28AF60', '#3598DB', '#2B80B9', '#A463BF', '#8E43AD',
                     '#3D556E', '#222F3D', '#F2C512', '#F39C1A', '#E84B3C', '#C0382B', '#DDE6E8', '#BDC3C8'],
                 configComissao: false,
@@ -330,8 +319,7 @@
                                 this.$router.push({name: 'produtos'});
                             }).catch(erro => {
                                 this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -350,8 +338,7 @@
                                 this.$router.push({name: 'produtos'});
                             }).catch(erro => {
                                 this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -360,8 +347,7 @@
                         }
                     } else {
                         this.$vs.notify({
-                            title: 'Error',
-                            text: 'verifique os erros específicos',
+                            text: 'Verifique os erros específicos.',
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
@@ -382,7 +368,7 @@
                 this.produto.comissao_tipo = val;
                 console.log(this.produto.comissao_tipo)
             },
-            getOpcoes() {
+            getContas() {
                 this.opcoesContas = [];
                 this.$store.dispatch('contas/get').then(response => {
                     let arr = [...response];
@@ -390,24 +376,20 @@
                         this.opcoesContas.push({id: item.id, label: item.nome})
                     });
                 });
-                //
                 this.$store.dispatch('produtos/get').then(response => {
                     let arr = [...response];
-                    arr.forEach(item => {
-                        console.log('itemn', item)
-                        if ((item.conta_id == this.produto.conta_id) && (item.nome != this.produto.nome))
-                            this.produtos.push({id: item.id, label: item.nome});
-                    });
+
+                    this.produtos = response;
                 })
             },
             getProduto(id) {
-                this.$vs.loading()
+                this.$vs.loading();
                 this.$store.dispatch('produtos/getId', id).then(data => {
                     this.produto = {...data};
-                    if (this.produto.comi_valor !== 0 || this.produto.comi_percent !== 0 ||
+                    /*if (this.produto.comi_valor !== 0 || this.produto.comi_percent !== 0 ||
                         this.produto.comi_percent !== 0 || this.produto.comi_per_valor !== 0) {
                         this.configComissao = true;
-                    }
+                    }*/
                     if (!this.produto.preco) {
                         this.produto.preco = true;
                     }
@@ -423,7 +405,11 @@
                     this.contaSelected.label = nome;
                     this.customcor = this.produto.cor;
                     this.$vs.loading.close();
-                })
+                }).catch(erro => {
+                    console.log('front erro', erro.response);
+                    //Redirecionando caso 404
+                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'produtos', text: 'Retornar à listagem de Produtos'}});
+                });
             },
             setUpsellers() {
                 if (this.produto.upsellers.length > 0) {
@@ -436,29 +422,38 @@
             copyText() {
                 const thisIns = this;
                 this.$copyText(this.url).then(function () {
-                    thisIns.$vs.notify({
-                        title: 'Success',
-                        text: 'URL copiada para sua área de transferência',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle'
+                        thisIns.$vs.notify({
+                            title: 'Success',
+                            text: 'URL copiada para sua área de transferência',
+                            color: 'success',
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle'
+                        })
+                    },
+                    function () {
+                        thisIns.$vs.notify({
+                            title: 'Failed',
+                            text: 'Erro ao copiar link',
+                            color: 'danger',
+                            iconPack: 'feather',
+                            position: 'top-center',
+                            icon: 'icon-alert-circle'
+                        })
                     })
-                }, function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar link',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
             }
         },
         computed: {
             isValid() {
-                return this.errors.any() && this.produto.cor !== '';
+                return this.errors.any() && this.produto.cor !== '' && this.contaSelected.id != null;
             },
+            upsellersOption() {
+                let arr = []
+                this.produtos.forEach(item => {
+                    if ((item.conta_id && this.contaSelected.id) && (item.conta_id == this.contaSelected.id) && (item.nome != this.contaSelected.nome))
+                        arr.push({id: item.id, label: item.nome});
+                });
+                return arr;
+            }
         },
         watch: {
             currentx(val) {

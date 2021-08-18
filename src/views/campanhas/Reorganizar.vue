@@ -124,12 +124,17 @@
                                 icon: 'icon-check-circle',
                                 color: 'success'
                             });
-                            this.$vs.loading.close();
                             this.$emit('closeSidebar')
                             this.initValues()
-                        }).catch(err => {
-                            console.error(err)
-                        })
+                        }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
                     }
                 })
             },

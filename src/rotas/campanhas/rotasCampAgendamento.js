@@ -13,7 +13,7 @@ const rotasCampAgendamento = [
                 {title: 'Configurar Campanha', active: true},
             ],
             pageTitle: 'Configuração da Campanha de agendamento',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -32,7 +32,7 @@ const rotasCampAgendamento = [
                 {title: 'Contatos Ativos', active: true}
             ],
             pageTitle: 'Contatos pendentes da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -51,7 +51,7 @@ const rotasCampAgendamento = [
                 {title: 'Contatos Ativos', active: true}
             ],
             pageTitle: 'Contatos fechados da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -70,7 +70,7 @@ const rotasCampAgendamento = [
                 {title: 'Contatos Ativos', active: true}
             ],
             pageTitle: 'Contatos todos da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',

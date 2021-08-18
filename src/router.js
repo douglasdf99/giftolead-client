@@ -44,6 +44,7 @@ import rotasBrindes from "./rotas/rotasBrindes";
 import rotasAutomacao from "./rotas/rotasAutomacao";
 import rotasComissoes from "./rotas/rotasComissoes";
 import rotasDashboard from "@/rotas/rotasDashboard";
+import rotasRelatorios from "./rotas/rotasRelatorios";
 //import moduleAuth from './store/auth/moduleAuth'
 
 Vue.use(Router)
@@ -75,14 +76,6 @@ const router = new Router({
                     component: () => import('./views/DashboardAnalytics.vue'),
                     meta: {
                         rule: 'editor',
-                    }
-                },
-                {
-                    path: '/dashboard/ecommerce',
-                    name: 'dashboard-ecommerce',
-                    component: () => import('./views/DashboardECommerce.vue'),
-                    meta: {
-                        rule: 'admin'
                     }
                 },
                 // =============================================================================
@@ -344,7 +337,7 @@ const router = new Router({
                             {title: 'Statistics Cards', active: true},
                         ],
                         pageTitle: 'Statistics Card',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -358,7 +351,7 @@ const router = new Router({
                             {title: 'Analytics Card', active: true},
                         ],
                         pageTitle: 'Analytics Card',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -905,7 +898,7 @@ const router = new Router({
                             {title: 'Profile', active: true},
                         ],
                         pageTitle: 'Profile',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1024,7 +1017,7 @@ const router = new Router({
                             {title: 'Apex Charts', active: true},
                         ],
                         pageTitle: 'Apex Charts',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1038,7 +1031,7 @@ const router = new Router({
                             {title: 'chartjs', active: true},
                         ],
                         pageTitle: 'chartjs',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1052,7 +1045,7 @@ const router = new Router({
                             {title: 'echarts', active: true},
                         ],
                         pageTitle: 'echarts',
-                        rule: 'editor'
+                        rule: 'public'
                     },
                 },
                 {
@@ -1368,29 +1361,13 @@ const router = new Router({
                 // =============================================================================
                 ...rotasAutomacao,
                 // =============================================================================
+                // Relatórios
+                // =============================================================================
+                ...rotasRelatorios,
+                // =============================================================================
                 // Comissões
                 // =============================================================================
                 ...rotasComissoes,
-                {
-                  path: '/meuslinks/produto/:id',
-                  name: 'meuslinks-produto',
-                  component: () => import('@/views/links/MeusLinks.vue'),
-                  meta: {
-                    breadcrumb: [
-                      {title: 'Home', url: '/'},
-                      {title: 'Configurações'},
-                      {title: 'Geral', url: '/configuracoes/geral'},
-                      {title: 'Links', url: '/configuracoes/links'},
-                      {title: 'Editar', active: true},
-                    ],
-                    pageTitle: 'Savelinks',
-                    rule: 'editor',
-                    pai: 'configuracoes',
-                    subTitle: 'Savelinks',
-                    subIcon: 'settings',
-                    submenu: subRotaConfiguracoes
-                  },
-                },
                 {
                     path: '/planos/relatorios',
                     name: 'planos-relatorios',
@@ -1426,7 +1403,7 @@ const router = new Router({
                     name: 'auth-callback',
                     component: () => import('@/views/Callback.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: '*'
                     }
                 },
                 {
@@ -1434,7 +1411,7 @@ const router = new Router({
                     name: 'login',
                     component: () => import('@/views/pages/login/Login.vue'),
                     meta: {
-                        rule: 'editor'
+                      rule: 'public'
                     }
                 },
                 {
@@ -1442,7 +1419,7 @@ const router = new Router({
                     name: 'page-register',
                     component: () => import('@/views/pages/register/Register.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1450,7 +1427,7 @@ const router = new Router({
                     name: 'page-esqueceu-a-senha',
                     component: () => import('@/views/pages/ForgotPassword.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1458,7 +1435,7 @@ const router = new Router({
                     name: 'page-esqueceu-a-senha',
                     component: () => import('@/views/pages/RecuperarSenha.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1466,7 +1443,7 @@ const router = new Router({
                     name: 'page-reset-password',
                     component: () => import('@/views/pages/ResetPassword.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1474,7 +1451,7 @@ const router = new Router({
                     name: 'page-lock-screen',
                     component: () => import('@/views/pages/LockScreen.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1482,7 +1459,7 @@ const router = new Router({
                     name: 'page-coming-soon',
                     component: () => import('@/views/pages/ComingSoon.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1490,7 +1467,7 @@ const router = new Router({
                     name: 'page-error-404',
                     component: () => import('@/views/pages/Error404.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1498,15 +1475,15 @@ const router = new Router({
                     name: 'page-error-500',
                     component: () => import('@/views/pages/Error500.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
-                    path: '/pages/not-authorized',
-                    name: 'page-not-authorized',
+                    path: '/nao-autorizado',
+                    name: 'nao-autorizado',
                     component: () => import('@/views/pages/NotAuthorized.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1514,7 +1491,7 @@ const router = new Router({
                     name: 'page-maintenance',
                     component: () => import('@/views/pages/Maintenance.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
                 {
@@ -1522,15 +1499,23 @@ const router = new Router({
                     name: 'sidebar',
                     component: () => import('@/views/pages/sidebar/NovoSidebar.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
+                    }
+                },
+                {
+                    path: '/agendamentoAntigo',
+                    name: 'sidebar',
+                    component: () => import('@/views/pages/AgendamentoLink.vue'),
+                    meta: {
+                        rule: 'public'
                     }
                 },
                 {
                     path: '/agendamento',
                     name: 'sidebar',
-                    component: () => import('@/views/pages/AgendamentoLink.vue'),
+                    component: () => import('@/views/pages/AgendamentoLinkNovo.vue'),
                     meta: {
-                        rule: 'editor'
+                        rule: 'public'
                     }
                 },
             ]
@@ -1552,35 +1537,28 @@ router.afterEach(() => {
 })
 
 router.beforeEach((to, from, next) => {
-    firebase.auth().onAuthStateChanged(() => {
+
 
         // get firebase current user
         const firebaseCurrentUser = firebase.auth().currentUser
         if (to.matched.some(record => record.meta.authRequired)) {
-            console.log('auth', auth.isAuthenticated());
-            console.log('firebase', firebaseCurrentUser);
-            console.log('userinbfo', localStorage.getItem('userInfo'));
-            console.log('token', store.state.token);
-            store.dispatch('auth/getUser')
+            if (!store.state.token){
+              store.dispatch('auth/getUser')
                 .then(() => {
-                    console.log('logado')
-
+                  console.log('logado')
                 }).catch(() => {
-                    console.log('deu erro')
-                    router.push({path: '/login', query: {to: to.path}})
+                  console.log('deu erro')
+                  router.push({path: '/login', query: {to: to.path}})
                 }
-            );
+              );
+            }
         }
-        // If auth required, check login. If login fails redirect to login page
 
         return next()
-        // Specify the current path as the customState parameter, meaning it
-        // will be returned to the application after auth
-        // auth.login({ target: to.path });
 
     });
 
 
-});
+
 
 export default router

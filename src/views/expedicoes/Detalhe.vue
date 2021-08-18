@@ -120,8 +120,15 @@
                     console.log('ae', response)
                     this.historicoRastreio = response;
                 }
-                //this.$vs.loading.close();
-            });
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
         computed: {
             isSidebarActiveLocal: {

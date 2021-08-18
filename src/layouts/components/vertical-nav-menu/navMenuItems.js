@@ -19,6 +19,8 @@
 ==========================================================================================*/
 
 
+import subdashboard from "@/rotas/subRotaDashboard";
+
 export default [
     // {
     //   url: "/apps/email",
@@ -33,7 +35,7 @@ export default [
         tag: "2",
         tagColor: "warning",
         icon: "dashboard",
-        slug: 'dashboard'
+        slug: 'dashboard',
     },
     {
         url: '/tickets',
@@ -42,7 +44,7 @@ export default [
         icon: "all_inbox",
     },
     {
-        url: '/comissoes/aprovar',
+        url: '/comissoes/todas',
         name: "Comissões",
         slug: 'comissoes',
         icon: "monetization_on",
@@ -83,5 +85,10 @@ export default [
         icon: "settings",
         slug: 'configuracoes',
     },
+    {
+        url: '/relatorios/geral',
+        name: "Relatórios",
+        icon: "settings",
+        slug: 'relatorios',
+    },
 ]
-

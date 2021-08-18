@@ -1,21 +1,15 @@
 <template>
     <div>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                <div class="w-8/12">
-                    <div>
-                        <p class="span-sem-item">Nenhuma registro encontrado</p>
-                    </div>
-                    <br>
-                </div>
-            </div>
+            <nenhum-registro/>
         </div>
         <vs-table v-model="selecteds" @selected="handleSelected" v-else :data="items" class="table-items" multiple>
             <template slot="thead">
-                <vs-th></vs-th>
-                <vs-th></vs-th>
-                <vs-th></vs-th>
-                <vs-th></vs-th>
+                <vs-th>Número</vs-th>
+                <vs-th>Usuário</vs-th>
+                <vs-th>Valor</vs-th>
+                <vs-th>Data de criação</vs-th>
+                <vs-th v-if="tipo == 'pago'">Data de pagamento</vs-th>
             </template>
             <template slot-scope="{data}">
                 <vs-tr :key="indextr" v-for="(tr, indextr) in data" :data="tr">
@@ -31,6 +25,12 @@
                     <vs-td class="w-2/12">
                         <p class="preco">R$ {{getValComissao(tr.comissaos)}}</p>
                     </vs-td>
+                    <vs-td class="w-2/12">
+                        <p>{{tr.created_at | formatDateTime}}</p>
+                    </vs-td>
+                    <vs-td class="w-2/12" v-if="tipo == 'pago'">
+                        <p >{{tr.updated_at | formatDateTime}}</p>
+                    </vs-td>
                     <vs-td class="td-icons w-2/12">
                         <div class="flex items-center">
                             <vx-tooltip position="top" text="Detalhar">
@@ -45,16 +45,16 @@
         <transition name="fade" v-if="selecteds.length > 0">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('payOrdens')" v-if="tipo == 'pagar'">
+                    <vs-button class="mr-3 float-right" color="primary" type="filled" @click="action('payOrdens')" v-if="tipo == 'pagar'">
                         Pagar ordens
                     </vs-button>
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="action('unpayOrdens')" v-if="tipo == 'pago'">
-                        Reverter ordens
+                    <vs-button class="mr-3 float-right" color="primary" type="filled" @click="action('unpayOrdens')" v-if="tipo == 'pago'">
+                        Reverter pagamentos
                     </vs-button>
-                    <vs-button class="mr-3 float-left" color="primary" type="filled" @click="imprimirPDF()">
+                    <vs-button class="mr-3 float-right" color="primary" type="filled" @click="imprimirPDF()">
                         Imprimir Ordens
                     </vs-button>
-                    <div class="float-right">
+                    <div class="float-left">
                         <span class="font-bold text-2xl">R$ {{formatPrice(somaSelecionados)}}</span>
                         <p>valor total selecionado</p>
                     </div>
@@ -118,11 +118,10 @@
                         });
                         var url = window.URL.createObjectURL(blob);
                         window.open(url);
-                        this.$vs.loading.close();
                     })
                     .catch((error) => {
-                        console.log(error)
-                    })
+                        console.log(error.response)
+                    }).finally(() => this.$vs.loading.close())
             }
         },
         computed: {

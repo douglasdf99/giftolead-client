@@ -3,12 +3,12 @@
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row mb-3">
             <div class="vx-col w-full" v-if="historico.length > 0">
-                <p class="destaque text-2xl">{{historico[0].campanha.nome}}</p>
+                <p class="destaque text-2xl">{{ historico[0].campanha.nome }}</p>
             </div>
         </div>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
+                <p>Resultado da busca considerando o período: <span class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate }}</span>
                 </p>
             </div>
             <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
@@ -65,14 +65,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="historico.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div>
-                                <p class="span-sem-item">Nenhum dado encontrado</p>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
+                    <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
                     <vs-table v-model="selected" :data="historico" @selected="handleSelected" class="table-items">
@@ -87,9 +80,9 @@
 
                         <template slot-scope="{data}">
                             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
-                                <vs-td>{{tr.contato ? tr.contato.email : ''}}</vs-td>
-                                <vs-td>{{tr.email ? tr.email.assunto : tr.sms.corpo.substr(0, 30)}}</vs-td>
-                                <vs-td><span class="destaque">{{ tr.created_at | formatDateTime}}</span></vs-td>
+                                <vs-td>{{ tr.contato ? tr.contato.email : '' }}</vs-td>
+                                <vs-td>{{ tr.email ? tr.email.assunto : tr.sms.corpo.substr(0, 30) }}</vs-td>
+                                <vs-td><span class="destaque">{{ tr.created_at | formatDateTime }}</span></vs-td>
                                 <vs-td v-if="tr.email">
                                     <vs-chip v-if="tr.eventos_entrega.length > 0"
                                              :color="tr.eventos_entrega[0].resposta === 'success' ? '#2ecc71' : '#e74c3c'"
@@ -99,9 +92,9 @@
                                 </vs-td>
                                 <vs-td v-else>
                                     <vs-chip
-                                            :color="tr.sms.responder != null ? '#2ecc71' : '#e74c3c'"
-                                            class="product-order-status">
-                                        {{ tr.sms.responder != null ?'Respondido' : 'Não respondido' }}
+                                        :color="tr.sms.responder != null ? '#2ecc71' : '#e74c3c'"
+                                        class="product-order-status">
+                                        {{ tr.sms.responder != null ? 'Respondido' : 'Não respondido' }}
                                     </vs-chip>
                                 </vs-td>
                             </vs-tr>
@@ -114,14 +107,10 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-boleto/' + historico[0].campanha_id})">
-                                Voltar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/campanha/configurar-boleto/' + historico[0].campanha_id})">
+                        Voltar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -129,228 +118,235 @@
 </template>
 
 <script>
-    import SideBar from './DetalheHistorico'
-    import Datepicker from 'vuejs-datepicker';
-    import * as lang from 'vuejs-datepicker/src/locale';
-    import VueMoment from 'vue-moment'
-    import DateRangePicker from 'vue2-daterange-picker'
-    import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
-    import vSelect from "vue-select";
-    import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
+import SideBar from './DetalheHistorico'
+import Datepicker from 'vuejs-datepicker';
+import * as lang from 'vuejs-datepicker/src/locale';
+import VueMoment from 'vue-moment'
+import DateRangePicker from 'vue2-daterange-picker'
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import vSelect from "vue-select";
+import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
-    const moment = require('moment/moment');
-    require('moment/locale/pt-br');
+const moment = require('moment/moment');
+require('moment/locale/pt-br');
 
-    export default {
-        name: "Historico",
-        components: {
-            SideBar,
-            Datepicker,
-            VueMoment,
-            moment,
-            DateRangePicker,
-            'v-select': vSelect
+export default {
+    name: "Historico",
+    components: {
+        SideBar,
+        Datepicker,
+        VueMoment,
+        moment,
+        DateRangePicker,
+        'v-select': vSelect
+    },
+    computed: {
+        items() {
+            return this.$store.state.items;
         },
-        computed: {
-            items() {
-                return this.$store.state.items;
+    },
+    created() {
+        if (!moduleCampBoletos.isRegistered) {
+            this.$store.registerModule('boleto', moduleCampBoletos)
+            moduleCampBoletos.isRegistered = true
+        }
+        this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
+        this.dt_fim = moment().format('YYYY-MM-DD');
+        this.dateRange.startDate = moment().subtract(30, 'days')
+        this.dateRange.endDate = moment()
+
+        this.getId(this.$route.params.id);
+    },
+    data() {
+        return {
+            statusList: [
+                {id: 'Processado', label: 'Processado'},
+                {id: 'Entregue', label: 'Entregue'},
+                {id: 'Desistiu', label: 'Desistiu'},
+                {id: 'Diferido', label: 'Diferido'},
+                {id: 'Bloqueado', label: 'Bloqueado'},
+                {id: 'Bounce', label: 'Bounce'},
+                {id: 'Aberto', label: 'Aberto'},
+                {id: 'Clicou', label: 'Clicou'},
+                {id: 'Reportado', label: 'Reportado'},
+                {id: 'Cancelou subscrição', label: 'Cancelou subs...'},
+                {id: 'Spam Reportado', label: 'Spam Reportado'},
+                {id: 'Cancelou inscrição do grupo', label: 'Cancelou insc... do grupo'},
+                {id: 'Se Reinscreveu no grupo', label: 'Se reins... no grupo'},
+            ],
+            emails: [],
+            assuntos: [],
+            selectedStatus: {},
+            selectedTipo: {id: 'email', label: 'E-mail'},
+            selectedAssunto: {},
+            currentx: 1,
+            search: '',
+            pagination: {
+                last_page: 1,
+                page: 1,
+                current_page: 1
             },
-        },
-        created() {
-            if (!moduleCampBoletos.isRegistered) {
-                this.$store.registerModule('boleto', moduleCampBoletos)
-                moduleCampBoletos.isRegistered = true
-            }
-            this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
-            this.dt_fim = moment().format('YYYY-MM-DD');
-            this.dateRange.startDate = moment().subtract(30, 'days')
-            this.dateRange.endDate = moment()
-
-            this.getId(this.$route.params.id);
-        },
-        data() {
-            return {
-                statusList: [
-                    {id: 'Processado', label: 'Processado'},
-                    {id: 'Entregue', label: 'Entregue'},
-                    {id: 'Desistiu', label: 'Desistiu'},
-                    {id: 'Diferido', label: 'Diferido'},
-                    {id: 'Bloqueado', label: 'Bloqueado'},
-                    {id: 'Bounce', label: 'Bounce'},
-                    {id: 'Aberto', label: 'Aberto'},
-                    {id: 'Clicou', label: 'Clicou'},
-                    {id: 'Reportado', label: 'Reportado'},
-                    {id: 'Cancelou subscrição', label: 'Cancelou subs...'},
-                    {id: 'Spam Reportado', label: 'Spam Reportado'},
-                    {id: 'Cancelou inscrição do grupo', label: 'Cancelou insc... do grupo'},
-                    {id: 'Se Reinscreveu no grupo', label: 'Se reins... no grupo'},
-                ],
-                emails: [],
-                assuntos: [],
-                selectedStatus: {},
-                selectedTipo: {id: 'email', label: 'E-mail'},
-                selectedAssunto: {},
-                currentx: 1,
+            dados: {
                 search: '',
-                pagination: {
-                    last_page: 1,
-                    page: 1,
-                    current_page: 1
-                },
-                dados: {
-                    search: '',
-                    page: 1,
-                    dt_inicio: '',
-                    dt_fim: '',
-                    email_id: '',
-                    type: 'email'
-                },
+                page: 1,
                 dt_inicio: '',
                 dt_fim: '',
-                languages: lang,
-                dateRange: {},
-                localeData: {
-                    direction: 'ltr',
-                    format: 'dd/mm/yyyy',
-                    separator: ' - ',
-                    applyLabel: 'Aplicar',
-                    cancelLabel: 'Cancelar',
-                    weekLabel: 'M',
-                    customRangeLabel: 'Período',
-                    daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                    monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                    firstDay: 0,
-                    startDate: '05/26/2020',
-                    endDate: '05/26/2020',
-                },
-                ranges: {
-                    //Definindo ranges padronizados
-                    'Hoje': [this.getDay(true), this.getDay(true)],
-                    'Ontem': [this.getDay(false), this.getDay(false)],
-                    'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
-                    'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
-                    'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
-                },
-                historico: [],
-                addNewDataSidebar: false,
-                sidebarData: {},
-                selected: []
+                email_id: '',
+                type: 'email'
+            },
+            dt_inicio: '',
+            dt_fim: '',
+            languages: lang,
+            dateRange: {},
+            localeData: {
+                direction: 'ltr',
+                format: 'dd/mm/yyyy',
+                separator: ' - ',
+                applyLabel: 'Aplicar',
+                cancelLabel: 'Cancelar',
+                weekLabel: 'M',
+                customRangeLabel: 'Período',
+                daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                monthNames: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                firstDay: 0,
+                startDate: '05/26/2020',
+                endDate: '05/26/2020',
+            },
+            ranges: {
+                //Definindo ranges padronizados
+                'Hoje': [this.getDay(true), this.getDay(true)],
+                'Ontem': [this.getDay(false), this.getDay(false)],
+                'Este mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 1), new Date(this.getDay(true))],
+                'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
+                'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
+            },
+            historico: [],
+            addNewDataSidebar: false,
+            sidebarData: {},
+            selected: []
+        }
+    },
+    methods: {
+        pesquisar(e) {
+            e.preventDefault();
+            this.$vs.loading();
+            this.dados.page = 1;
+            this.pagination.current_page = 1;
+            this.currentx = 1;
+            this.getId(this.$route.params.id);
+        },
+        getDay(dia) {
+            //Definindo datas usadas nos ranges padronizados
+            let today = new Date()
+            today.setHours(0, 0, 0, 0)
+
+            let yesterday = new Date()
+            yesterday.setDate(today.getDate() - 1)
+            yesterday.setHours(0, 0, 0, 0);
+            return (dia ? today : yesterday)
+        },
+        setDate(val) {
+            this.$vs.loading();
+            switch (val) {
+                case 'hoje':
+                    this.dateRange.startDate = moment();
+                    break;
+                case '7':
+                    this.dateRange.startDate = moment().subtract(7, 'days');
+                    break;
+                case '15':
+                    this.dateRange.startDate = moment().subtract(15, 'days');
+                    break;
+                case '30':
+                    this.dateRange.startDate = moment().subtract(30, 'days');
+                    break;
             }
+            this.dados.page = 1
+            this.getId(this.$route.params.id);
         },
-        methods: {
-            pesquisar(e) {
-                e.preventDefault();
-                this.$vs.loading();
-                this.dados.page = 1;
-                this.pagination.current_page = 1;
-                this.currentx = 1;
-                this.getId(this.$route.params.id);
-            },
-            getDay(dia) {
-                //Definindo datas usadas nos ranges padronizados
-                let today = new Date()
-                today.setHours(0, 0, 0, 0)
-
-                let yesterday = new Date()
-                yesterday.setDate(today.getDate() - 1)
-                yesterday.setHours(0, 0, 0, 0);
-                return (dia ? today : yesterday)
-            },
-            setDate(val) {
-                this.$vs.loading();
-                switch (val) {
-                    case 'hoje':
-                        this.dateRange.startDate = moment();
-                        break;
-                    case '7':
-                        this.dateRange.startDate = moment().subtract(7, 'days');
-                        break;
-                    case '15':
-                        this.dateRange.startDate = moment().subtract(15, 'days');
-                        break;
-                    case '30':
-                        this.dateRange.startDate = moment().subtract(30, 'days');
-                        break;
-                }
-                this.dados.page = 1
-                this.getId(this.$route.params.id);
-            },
-            handleSelected(tr) {
-                this.sidebarData = tr;
-                this.toggleDataSidebar(true);
-            },
-            toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
-            },
-            getId(id) {
-                this.$vs.loading();
-                let url = '';
-                if (this.search !== '') {
-                    url += 'contato.nome:' + this.search + ';';
-                    url += 'contato.email:' + this.search + ';';
-                    url += 'campanha.nome:' + this.search;
-                }
-                this.dados.search = url;
-
-                if (this.selectedStatus !== null)
-                    this.dados.status = this.selectedStatus.id;
-                else this.dados.status = '';
-
-                if (this.selectedAssunto !== null)
-                    this.dados.email_id = this.selectedAssunto.id;
-                else this.dados.email_id = '';
-
-                if (this.selectedTipo !== null)
-                    this.dados.type = this.selectedTipo.id;
-                else this.dados.type = '';
-
-                if (this.dateRange.startDate)
-                    this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
-                if (this.dateRange.endDate)
-                    this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
-
-                this.$store.dispatch('boleto/getEmails', this.$route.params.id).then(response => {
-                    this.emails = response;
-                    this.assuntos = [];
-                    this.emails.forEach((item, index) => {
-                        this.assuntos.push({id: item.id, label: item.assunto});
-                    });
-                });
-
-                this.$store.dispatch('boleto/getHistorico', {id: id, params: this.dados}).then(response => {
-                    this.historico = response.data;
-                    this.pagination = response;
-                    this.$vs.loading.close();
-                });
-            },
+        handleSelected(tr) {
+            this.sidebarData = tr;
+            this.toggleDataSidebar(true);
         },
-        watch: {
-            currentx(val) {
-                this.$vs.loading();
-                this.dados.page = val;
-                this.getId(this.$route.params.id);
-            },
-            selectedStatus(val) {
-                this.$vs.loading();
-                this.dados.page = 1;
-                this.getId(this.$route.params.id);
-            },
-            selectedAssunto(val) {
-                this.$vs.loading();
-                this.dados.page = 1;
-                this.getId(this.$route.params.id);
-            },
-            selectedTipo(val) {
-                this.$vs.loading();
-                this.dados.page = 1;
-                this.getId(this.$route.params.id);
-            },
-            dateRange() {
-                this.$vs.loading();
-                this.getId(this.$route.params.id);
+        toggleDataSidebar(val = false) {
+            this.addNewDataSidebar = val
+        },
+        getId(id) {
+            this.$vs.loading();
+            let url = '';
+            if (this.search !== '') {
+                url += 'contato.nome:' + this.search + ';';
+                url += 'contato.email:' + this.search + ';';
+                url += 'campanha.nome:' + this.search;
             }
+            this.dados.search = url;
+
+            if (this.selectedStatus !== null)
+                this.dados.status = this.selectedStatus.id;
+            else this.dados.status = '';
+
+            if (this.selectedAssunto !== null)
+                this.dados.email_id = this.selectedAssunto.id;
+            else this.dados.email_id = '';
+
+            if (this.selectedTipo !== null)
+                this.dados.type = this.selectedTipo.id;
+            else this.dados.type = '';
+
+            if (this.dateRange.startDate)
+                this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
+            if (this.dateRange.endDate)
+                this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
+
+            this.$store.dispatch('boleto/getEmails', this.$route.params.id).then(response => {
+                this.emails = response;
+                this.assuntos = [];
+                this.emails.forEach((item, index) => {
+                    this.assuntos.push({id: item.id, label: item.assunto});
+                });
+            });
+
+            this.$store.dispatch('boleto/getHistorico', {id: id, params: this.dados}).then(response => {
+                this.historico = response.data;
+                this.pagination = response;
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
         },
-    }
+    },
+    watch: {
+        currentx(val) {
+            this.$vs.loading();
+            this.dados.page = val;
+            this.getId(this.$route.params.id);
+        },
+        selectedStatus(val) {
+            this.$vs.loading();
+            this.dados.page = 1;
+            this.getId(this.$route.params.id);
+        },
+        selectedAssunto(val) {
+            this.$vs.loading();
+            this.dados.page = 1;
+            this.getId(this.$route.params.id);
+        },
+        selectedTipo(val) {
+            this.$vs.loading();
+            this.dados.page = 1;
+            this.getId(this.$route.params.id);
+        },
+        dateRange() {
+            this.$vs.loading();
+            this.getId(this.$route.params.id);
+        }
+    },
+}
 </script>
 
 <style scoped>

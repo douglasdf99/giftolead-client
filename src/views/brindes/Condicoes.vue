@@ -149,8 +149,15 @@
                         this.items = this.campanha.excecoes;
                     else
                         this.items = this.campanha.condicoes;
-                    this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             getTipo(val) {
                 switch (val) {
@@ -199,7 +206,9 @@
                         text: 'Erro ao salvar. Contate o suporte.'
                     });
                     console.log('erro', erro)
-                });
+                }).finally(()=>{
+
+              });
             },
             deleteCondicao(id) {
                 this.$vs.dialog({
@@ -232,13 +241,20 @@
                 obj.oferta_all = !this.campanha.oferta_all;
                 this.$vs.loading();
                 this.$store.dispatch('brindes/storeCampanha', obj).then(() => {
-                    this.$vs.loading.close();
                     this.$vs.notify({
                         color: 'success',
                         title: '',
                         text: 'Configuração da Campanha de Brinde alterada.'
                     })
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             }
         },
         computed: {

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
+            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_usuario_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Usuário
@@ -12,7 +12,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
+                        <form @submit.prevent="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome, e-mail ou função"/>
@@ -26,11 +26,10 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop" v-if="$acl.check('configuracao_usuario_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Usuário
@@ -41,37 +40,11 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <br>
-
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Origem
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items"
                               style="border-spacing: 0 8px;border-collapse: separate;">
-
                         <template slot="thead">
                             <vs-th></vs-th>
                             <vs-th>Nome</vs-th>
@@ -85,7 +58,7 @@
                                     <!--<img key="onlineImg" :src="url_api(tr.avatar)"
                                          alt="user-img" width="50" height="50"
                                          class="rounded-full shadow-md cursor-pointer block" style="margin: 0 auto"/>-->
-                                    <div class="avatar-list" v-bind:style="{backgroundImage: 'url(' + url_api(tr.avatar) + ')'}"></div>
+                                    <div class="avatar-list" v-bind:style="{backgroundImage: 'url(' + get_img_api(tr.avatar) + ')'}"></div>
                                 </vs-td>
                                 <vs-td :data="tr.name">
                                     <span class="destaque">{{ tr.name }}</span>
@@ -94,26 +67,25 @@
                                     {{tr.email}}
                                 </vs-td>
                                 <vs-td :data="tr.role_name">
-                                    {{tr.role_name}}
+                                    {{tr.roles.nome}}
                                 </vs-td>
                                 <vs-td class="relative">
-                                    <vs-dropdown vs-trigger-click>
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_usuario_editar') || $acl.check('configuracao_usuario_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="updateData(tr.id)">
+                                            <vs-dropdown-item @click="updateData(tr.id)" v-if="$acl.check('configuracao_usuario_editar')">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
 
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_usuario_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
-
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
@@ -205,6 +177,7 @@
                 })
             },
             pesquisar(e) {
+                this.data.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

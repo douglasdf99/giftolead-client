@@ -19,22 +19,14 @@
                 <feather-icon class="sm:inline-flex xl:hidden cursor-pointer p-2" icon="MenuIcon"
                               @click.stop="showSidebar"/>
                <!-- <feather-icon class="sm:inline-flex xl:hidden cursor-pointer p-2" icon="MenuIcon"
-                              @click.stop="showSidebar2"/>
--->
+                              @click.stop="showSidebar2"/>-->
                 <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992"/>
-
                 <vs-spacer/>
-
                 <!--<i18n/>
-
                 <search-bar/>
-
-                <cart-drop-down/>
-
-                <notification-drop-down/>-->
-
+                <cart-drop-down/>-->
+                <notification-drop-down/>
                 <profile-drop-down/>
-
             </vs-navbar>
         </div>
     </div>

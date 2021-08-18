@@ -28,15 +28,15 @@
                 <!-- AQUI EMBAIXO É DOIDERA -->
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_envelope">
-                    <img src="@/assets/images/util/envelope.svg" height="200">
+                    <img src="@/assets/images/util/envelope.png" height="200">
                 </div>
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_caixa">
-                    <img src="@/assets/images/util/pacote_caixa.svg" height="200">
+                    <img src="@/assets/images/util/pacote_caixa.png" height="200">
                 </div>
                 <div class="p-10" style="display: flex; justify-content: center; align-content: center"
                      v-if="tipo_cilindro">
-                    <img src="@/assets/images/util/rolo_cilindro.svg" height="200">
+                    <img src="@/assets/images/util/rolo_cilindro.png" height="200">
                 </div>
                 <!-- FIM DA DOIDERA -->
 
@@ -278,7 +278,7 @@
                                 console.error(error)
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: error.message,
+                                    text: error.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'

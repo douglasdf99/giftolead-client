@@ -8,7 +8,7 @@
                     <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
                     <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                         <span class="span-identifica-item-dropdown mb-0">Mensagem Padrão</span>
-                        <vs-dropdown-item v-for="msg in mensagens" @click="addVarText(msg.mensagem)">
+                        <vs-dropdown-item v-for="msg in mensagemsFiltro" @click="addVarText(msg.mensagem)">
                             <span v-if="msg.tipo === 'email'">{{msg.assunto}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -109,7 +109,6 @@
                 this.$store.registerModule('mensagens', moduleMensagem)
                 moduleMensagem.isRegistered = true
             }
-            console.log('data', this.data)
 
             this.getMensagens();
         },
@@ -125,6 +124,13 @@
                         // this.initValues()
                     }
                 }
+            },
+            mensagemsFiltro (){
+              return this.mensagens.filter((msg)=>{
+                if (msg.tipo == 'email'){
+                  return msg;
+                }
+              });
             },
             isValid() {
                 return this.errors.any();

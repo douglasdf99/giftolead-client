@@ -1,11 +1,8 @@
 <template>
     <div>
         <ul>
-
-            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome">
-
+            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-if="$acl.check(line.can)">
                 {{line.nome}}
-
             </router-link>
         </ul>
     </div>
@@ -19,11 +16,18 @@
                 lista: [
                     {
                         nome: 'Cadastrar ou alterar usuários',
-                        routername: 'usuarios'
+                        routername: 'usuarios',
+                        can: 'configuracao_usuario'
                     },
                     {
                         nome: 'Cadastrar ou alterar conquistas',
-                        routername: 'conquistas'
+                        routername: 'conquistas',
+                        can: 'configuracao_conquista'
+                    },
+                    {
+                        nome: 'Cadastrar ou alterar funções',
+                        routername: 'funcoes',
+                        can: 'configuracao_funcao'
                     },
                 ]
             }

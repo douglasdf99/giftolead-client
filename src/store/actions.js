@@ -69,12 +69,23 @@ const actions = {
         localStorage.setItem('submenu', JSON.stringify(obj))
     },
 
+  selectResponsaveis({commit},) {
+    return new Promise((resolve, reject) => {
+      axios.get(`/selects/responsaveis`)
+        .then((response) => {
+          resolve(response.data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
     /* CRUD básico */
     getVarios({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/${dados.rota}`, {params: dados.params})
                 .then((response) => {
-                    console.log('retorno', response)
+                    console.log('olha esse response', response)
                     commit('SET_VARIOS', response.data.data);
                     resolve(response.data.data)
                 })
@@ -119,7 +130,18 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get(`/links`, {params: {produto: id}})
                 .then((response) => {
-                    console.log('links resgatados', response);
+                    resolve(response.data.data)
+                })
+                .catch(erro => {
+                    reject(erro)
+                });
+        });
+    },
+    /* Fim*/
+    getLinksCamp({commit}, params) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/links`, {params: params})
+                .then((response) => {
                     resolve(response.data.data)
                 })
                 .catch(erro => {
@@ -132,7 +154,17 @@ const actions = {
             commit('SET_GLOBAL_SEARCH', val)
             resolve();
         });
-    }
+    },
+    getMainMenu({commit}){
+        return new Promise((resolve, reject) => {
+            axios.get('/menus').then(response => {
+                resolve(response.data.data)
+            }).catch(erro => {reject(erro)});
+        })
+    },
+    setExtensao({commit}, extensao) {
+        commit('SET_EXTENSAO', extensao)
+    },
 };
 
 export default actions

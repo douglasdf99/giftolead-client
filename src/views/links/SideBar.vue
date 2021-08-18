@@ -84,9 +84,7 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
                     return
                 } else {
                     this.origem.id = null
@@ -109,8 +107,15 @@
                                     color: 'success'
                                 });
                                 this.$store.dispatch('getVarios', {rota: 'origems', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close();
-                                });
+                                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
                             }).catch(err => {
                                 console.error(err)
                             })
@@ -131,7 +136,7 @@
                             }).catch(error => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: error.message,
+                                    text: error.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -155,7 +160,6 @@
                 //this.initValues()
                 this.$validator.reset()
             } else {
-                console.log('entrou aqui', this.data);
                 this.origem = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.origem.integracao_id;
                 this.selected = {id: this.origem.integracao_id, label: this.origem.integracao.descricao};

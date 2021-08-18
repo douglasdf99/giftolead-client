@@ -3,31 +3,38 @@
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
+                  style="font-weight: bold">{{ campanha.status ? 'Ativado' : 'Desativado' }}</span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
             </div>
         </div>
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Nome da campanha</span>
-                <vs-input class="w-full" v-model="campanha.nome" size="large" name="nome"/>
+                <vs-input class="w-full" v-validate="'required'" v-model="campanha.nome" size="large" name="nome"/>
+                <span class="text-danger text-sm" v-show="errors.has('nome')">Obrigatório selecionar uma origem</span>
+
             </div>
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Produto da campanha</span>
                 <vs-input class="w-full" v-model="campanha.produto.nome" size="large" name="produto" disabled/>
+                <span class="text-danger text-sm" v-show="errors.has('produto')">Obrigatório selecionar uma origem</span>
             </div>
         </div>
         <div class="vx-row my-10">
-            <div class="vx-col w-full lg:w-7/12">
+            <div class="vx-col w-full lg:w-8/12">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Descrição</span>
-                        <vs-textarea v-model="campanha.descricao" id="text-area" class="w-full bg-white" rows="6"/>
+                        <vs-textarea v-model="campanha.descricao" v-validate="'required'" id="text-area" class="w-full bg-white" name="descricao" rows="6"/>
+                        <span class="text-danger text-sm" v-show="errors.has('descricao')">Obrigatório selecionar uma origem</span>
+
                     </div>
                     <div class="vx-col w-full mb-4">
                         <span class="font-regular mb-2">Página de Obrigado</span>
                         <vs-input class="w-full" id="search_input_trans" v-model="campanha.obrigado"
-                                  placeholder="https://" size="large" name="nome" v-validate="'required'"/>
+                                  placeholder="https://" size="large" name="obrigado" v-validate="'required'"/>
+                        <span class="text-danger text-sm" v-show="errors.has('obrigado')">Obrigatório selecionar uma origem</span>
+
                     </div>
                     <div class="vx-col w-full lg:w-1/2 mb-3">
                         <span class="font-regular mb-2">Origem</span>
@@ -43,24 +50,47 @@
                                   :options="duvidas" v-validate="'required'" name="duvida"/>
                         <span class="text-danger text-sm" v-show="errors.has('duvida')">Obrigatório selecionar uma dúvida</span>
                     </div>
-                    <div class="vx-col w-full relative mb-3" v-if="!campanha.infusion">
-                        <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
-                        <prism language="html" class="rounded-lg">
-                            {{codigohtml()}}
-                        </prism>
-                    </div>
-                    <div class="vx-col w-full mb-2" v-if="!campanha.infusion">
-                        <p class="destaque">
-                            Insira o código abaixo em seu projeto
-                        </p>
-                    </div>
+                </div>
+                <div class="vx-row">
                     <div class="vx-col w-full relative" v-if="!campanha.infusion">
-                        <i class="material-icons text-black mt-5" id="copy-icon" @click="copyScripts">file_copy</i>
-                        <div class="w-full bg-white rounded-lg p-5">
-                            <p class="font-regular text-lg" v-for="val in scripts">
-                                {{val}}
-                            </p>
-                        </div>
+                        <vs-tabs>
+                            <vs-tab label="Sem estilo">
+                                <div class="vx-row">
+                                    <div class="vx-col w-full relative mb-3">
+                                        <i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
+                                        <prism language="html" class="rounded-lg">
+                                            {{ codigohtml() }}
+                                        </prism>
+                                    </div>
+                                    <div class="vx-col w-full mb-2">
+                                        <p class="destaque">
+                                            Insira o código abaixo em seu projeto
+                                        </p>
+                                    </div>
+                                    <div class="vx-col w-full relative">
+                                        <i class="material-icons text-black mt-5" id="copy-icon" @click="copyScripts(scripts)">file_copy</i>
+                                        <div class="w-full bg-white rounded-lg p-5">
+                                            <p class="font-regular text-lg" v-for="val in scripts">
+                                                {{ val }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<i class="material-icons text-white mt-5" id="copy-icon" @click="copyText">file_copy</i>
+                                <prism language="markup" class="rounded-lg">
+                                    {{ codigohtml() }}
+                                </prism>-->
+                            </vs-tab>
+                            <vs-tab label="Widget">
+                                <i class="material-icons text-black mt-5" id="copy-icon" @click="copyScripts(scriptsWidget)">file_copy</i>
+                                <div class="w-full bg-white rounded-lg p-5">
+                                    <p class="font-regular text-lg" v-for="val in scriptsWidget">
+                                        {{ val }}
+                                    </p>
+                                </div>
+                            </vs-tab>
+                        </vs-tabs>
+
                     </div>
                 </div>
                 <div class="vx-row">
@@ -68,8 +98,8 @@
                         <div class="my-8">
                             <vs-checkbox color="dark" v-model="campanha.infusion"><span class="label-bold-underline">Utilizar minha ferramenta de e-mail</span>
                             </vs-checkbox>
-                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>Esta
-                                opção habilita a a associação com sua ferramenta de e-mail
+                            <small class="flex mt-2 ml-3"><i class="material-icons text-base mr-2">info_outline</i>
+                                Esta opção habilita a a associação com sua ferramenta de e-mail
                             </small>
                         </div>
                     </div>
@@ -140,36 +170,36 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-5/12">
+            <div class="vx-col w-full lg:w-4/12">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('pendentes')">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Nº de contatos pendentes</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count}}</p>
+                            <p class="font-bold text-3xl my-5">{{ campanha.contatos_pendentes_count }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('fechados')">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Nº de contatos fechados</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_fechados_count}}</p>
+                            <p class="font-bold text-3xl my-5">{{ campanha.contatos_fechados_count }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('todos')">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Nº de contatos todos</span>
-                            <p class="font-bold text-3xl my-5">{{campanha.contatos_pendentes_count + campanha.contatos_fechados_count}}</p>
+                            <p class="font-bold text-3xl my-5">{{ campanha.contatos_pendentes_count + campanha.contatos_fechados_count }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">23</p>
+                            <p class="font-bold text-3xl my-5">{{ campanha.tickets_vendidos.length }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
                         <vx-card style="box-shadow: none">
                             <span class="destaque">Valor recuperado</span>
-                            <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
+                            <p class="font-bold text-3xl my-5">R$ {{ formatPrice(campanha.valor_recuperado) }}</p>
                         </vx-card>
                     </div>
                 </div>
@@ -178,21 +208,13 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid">
-                                Salvar
-                            </vs-button>
-                            <!--<vs-button icon-pack="material-icons" icon="email" class="mr-3" color="dark" type="flat"
-                                       @click="$router.push({path: '/campanha/configurar_checkout/' + campanha.id + '/emails'})" v-if="campanha.id">
-                                Configurar e-mails da campanha
-                            </vs-button>-->
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                        Cancelar
+                    </vs-button>
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid">
+                        Salvar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -200,35 +222,279 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import moduleCampAgendamentos from "@/store/campanha_agendamento/moduleCampAgendamentos";
-    import Prism from 'vue-prism-component'
-    import moduleOrigens from "../../../store/origens/moduleOrigens";
-    import moduleDuvidas from "../../../store/tipoDuvida/moduleDuvidas";
+import vSelect from 'vue-select'
+import moduleCampAgendamentos from "@/store/campanha_agendamento/moduleCampAgendamentos";
+import Prism from 'vue-prism-component'
+import moduleOrigens from "../../../store/origens/moduleOrigens";
+import moduleDuvidas from "../../../store/tipoDuvida/moduleDuvidas";
 
-    export default {
-        name: "Agendamento",
-        components: {
-            'v-select': vSelect,
-            Prism
+export default {
+    name: "Agendamento",
+    components: {
+        'v-select': vSelect,
+        Prism
+    },
+    created() {
+        if (!moduleCampAgendamentos.isRegistered) {
+            this.$store.registerModule('agendamento', moduleCampAgendamentos)
+            moduleCampAgendamentos.isRegistered = true
+        }
+
+        if (!moduleOrigens.isRegistered) {
+            this.$store.registerModule('origens', moduleOrigens)
+            moduleOrigens.isRegistered = true
+        }
+
+        if (!moduleDuvidas.isRegistered) {
+            this.$store.registerModule('duvidas', moduleDuvidas)
+            moduleDuvidas.isRegistered = true
+        }
+        this.getOpcoes().then(() => this.getId(this.$route.params.id));
+
+        this.montaScripts();
+    },
+    data() {
+        return {
+            campanha: {
+                nome: '',
+                produto: {},
+                status: null,
+                checkout: '',
+                infusion: false,
+                tickets_vendidos: [],
+                tipo_duvida: {}
+            },
+            customcor: '',
+            html: '',
+            origens: [],
+            selectedOrigem: {id: '', text: ''},
+            duvidas: [],
+            selectedDuvida: {id: '', text: ''},
+            scripts: [],
+            scriptsWidget: []
+        }
+    },
+    methods: {
+        salvar() {
+            this.$validator.validateAll().then(result => {
+                if (result) {
+                    this.$vs.loading();
+
+                    this.campanha.origem_id = this.selectedOrigem.id;
+                    this.campanha.tipo_duvida_id = this.selectedDuvida.id;
+
+                    this.campanha.plano_id = this.$route.params.id;
+                    this.campanha._method = 'PUT';
+                    if (this.campanha.id !== undefined) {
+                        this.$store.dispatch('agendamento/update', {
+                            id: this.campanha.id,
+                            dados: this.campanha
+                        }).then(response => {
+                            console.log('response', response);
+                            this.$vs.notify({
+                                title: '',
+                                text: "Atualizado com sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+                            this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: erro.response.data.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            })
+                        })
+                    } else {
+                        this.$store.dispatch('agendamento/store', this.campanha).then(response => {
+                            console.log('response', response);
+                            this.$vs.notify({
+                                title: '',
+                                text: "Criado com sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+                            this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: erro.response.data.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            })
+                        })
+                    }
+                } else {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'verifique os erros específicos',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                }
+            })
+
         },
-        created() {
-            if (!moduleCampAgendamentos.isRegistered) {
-                this.$store.registerModule('agendamento', moduleCampAgendamentos)
-                moduleCampAgendamentos.isRegistered = true
-            }
+        codigohtml() {
+            this.html = `
+<form accept-charset="UTF - 8" action="${this.url_api('campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+    <label for="nome">Nome</label>
+    <input type="text" name="nome" id="nome" placeholder="Nome completo">
+    <label for="email">E-mail</label>
+    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
+    <label for="email">Whatsapp</label>
+    <input type="text" name="ddi" id="ddi" value="+55">
+    <input type="text" name="ddd" id="ddd">
+    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+    <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
+    <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">
+    <input type="text" id="data_agendamento" name="data_agendamento"/>
+    <button type="submit">Enviar</button>
 
-            if (!moduleOrigens.isRegistered) {
-                this.$store.registerModule('origens', moduleOrigens)
-                moduleOrigens.isRegistered = true
+    <!-- Biblioteca do Datepicker https://www.daterangepicker.com/ -->
+</form>`;
+            return this.html;
+        },
+        selecionaCor(cor) {
+            if (cor) {
+                this.campanha.cor = cor
+            } else {
+                this.campanha.cor = this.customcor;
             }
+            this.errors.remove('cor');
+        },
+        selecionaTipoComissao(val) {
+            this.campanha.comissao_tipo = val;
+            console.log(this.campanha.comissao_tipo)
+        },
+        contatos(val) {
+            this.$router.push({path: `/campanha/configurar-agendamento/${this.$route.params.id}/contatos-${val}`});
+        },
+        getId(id) {
+            this.$vs.loading();
+            this.$store.dispatch('agendamento/getId', id).then(response => {
+                this.campanha = {...response};
 
-            if (!moduleDuvidas.isRegistered) {
-                this.$store.registerModule('duvidas', moduleDuvidas)
-                moduleDuvidas.isRegistered = true
-            }
-            this.getOpcoes().then(() => this.getId(this.$route.params.id));
+                if (this.campanha.origem_id != null) {
+                    this.selectedOrigem.id = this.campanha.origem_id;
+                    this.selectedOrigem.label = this.campanha.origem.nome;
+                }
 
+                if (this.campanha.tipo_duvida_id != null) {
+                    this.selectedDuvida.id = this.campanha.tipo_duvida_id;
+                    this.selectedDuvida.label = this.campanha.tipo_duvida.nome;
+                }
+
+                if (this.campanha.infusion == "0")
+                    this.campanha.infusion = false;
+
+                this.montaScriptsWidget();
+            }).catch(erro => {
+                console.log('front erro', erro.response);
+                //Redirecionando caso 404
+                if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
+            }).finally(() => this.$vs.loading.close());
+        },
+        formatPrice(value) {
+            let val = (value / 1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        copyText() {
+            const thisIns = this;
+            this.$copyText(this.html).then(function () {
+                thisIns.$vs.notify({
+                    title: '',
+                    text: 'Copiado para sua área de transferência',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle'
+                })
+            }, function () {
+                thisIns.$vs.notify({
+                    title: 'Failed',
+                    text: 'Erro ao copiar',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    position: 'top-center',
+                    icon: 'icon-alert-circle'
+                })
+            })
+        },
+        copyScripts(scripts) {
+            const thisIns = this;
+            let str = ''
+            scripts.forEach(val => {
+                str += val + '\n';
+            });
+            this.$copyText(str).then(function () {
+                thisIns.$vs.notify({
+                    title: '',
+                    text: 'Copiado para sua área de transferência',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle'
+                })
+            }, function () {
+                thisIns.$vs.notify({
+                    title: 'Failed',
+                    text: 'Erro ao copiar',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    position: 'top-center',
+                    icon: 'icon-alert-circle'
+                })
+            })
+        },
+        copyUrl() {
+            const thisIns = this;
+            let value = this.url_api('campanhaagendamento/' + this.campanha.token);
+            this.$copyText(value).then(function () {
+                thisIns.$vs.notify({
+                    title: '',
+                    text: 'Copiado para sua área de transferência',
+                    color: 'success',
+                    iconPack: 'feather',
+                    icon: 'icon-check-circle'
+                })
+            }, function () {
+                thisIns.$vs.notify({
+                    title: 'Failed',
+                    text: 'Erro ao copiar',
+                    color: 'danger',
+                    iconPack: 'feather',
+                    position: 'top-center',
+                    icon: 'icon-alert-circle'
+                })
+            })
+        },
+        getOpcoes() {
+            return new Promise((resolve, reject) => {
+                this.origens = [];
+                this.$store.dispatch('origens/get').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.origens.push({id: item.id, label: item.nome})
+                    });
+                });
+
+                this.duvidas = [];
+                this.$store.dispatch('duvidas/get').then(response => {
+                    let arr = [...response];
+                    arr.forEach(item => {
+                        this.duvidas.push({id: item.id, label: item.nome})
+                    });
+                });
+
+                resolve()
+            });
+        },
+        montaScripts(){
             var scripts = [
                 "https://cdn.jsdelivr.net/jquery/latest/jquery.min.js",
                 "https://cdn.jsdelivr.net/momentjs/latest/moment.min.js",
@@ -236,7 +502,7 @@
                 'https://npmcdn.com/flatpickr/dist/l10n/pt.js',
                 'https://api.saveleads.com.br/js/formularioAgendamento.js'
             ];
-            scripts.forEach((script, index)=> {
+            scripts.forEach((script, index) => {
                 let tag = document.createElement("script");
                 tag.setAttribute("type", 'text/javascript');
                 tag.setAttribute("src", script);
@@ -251,278 +517,62 @@
 
             this.scripts.push(link.outerHTML);
         },
-        data() {
-            return {
-                campanha: {
-                    nome: '',
-                    produto: '',
-                    status: null,
-                    checkout: '',
-                    infusion: false
-                },
-                customcor: '',
-                html: '',
-                origens: [],
-                selectedOrigem: {id: '', text: ''},
-                duvidas: [],
-                selectedDuvida: {id: '', text: ''},
-                scripts: []
-            }
+        montaScriptsWidget(){
+            var scripts = [
+                "https://d1nc450dx9gaoz.cloudfront.net/widgets/Agendamento/agendamento.js",
+            ];
+
+            scripts.forEach((script, index) => {
+                let tag = document.createElement("script");
+                tag.setAttribute("type", 'text/javascript');
+                tag.setAttribute("src", script);
+                tag.setAttribute("token", this.campanha.token);
+                tag.setAttribute("horaInicio", '08');
+                tag.setAttribute("horaFim", '17');
+                tag.setAttribute("slug", (window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app'));
+                console.log(tag.outerHTML);
+                this.scriptsWidget.push(tag.outerHTML)
+            });
+        }
+    },
+    computed: {
+        isInvalid() {
+            return this.errors.any() || (this.selectedOrigem.id == '' && this.selectedDuvida.id == '');
         },
-        methods: {
-            salvar() {
-                this.$validator.validateAll().then(result => {
-                    if (result) {
-                        this.$vs.loading();
-
-                        this.campanha.origem_id = this.selectedOrigem.id;
-                        this.campanha.tipo_duvida_id = this.selectedDuvida.id;
-
-                        this.campanha.plano_id = this.$route.params.id;
-                        this.campanha._method = 'PUT';
-                        this.campanha.infusion = this.campanha.infusion == "" ? false : true;
-                        if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('agendamento/update', {
-                                id: this.campanha.id,
-                                dados: this.campanha
-                            }).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Atualizado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        } else {
-                            this.$store.dispatch('agendamento/store', this.campanha).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: '',
-                                    text: "Criado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        }
-                    } else {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: 'verifique os erros específicos',
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    }
-                })
-
-            },
-            codigohtml() {
-                this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
-    <label for="nome">Nome</label>
-    <input type="text" name="nome" id="nome" placeholder="Nome completo">
-    <label for="email">E-mail</label>
-    <input type="email" name="email" id="email" placeholder="Insira seu melhor e-mail">
-    <label for="email">Whatsapp</label>
-    <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
-    <input type="hidden" name="origem" id="origem" value="${this.selectedOrigem.id}">
-    <input type="hidden" name="duvida" id="duvida" value="${this.selectedDuvida.id}">
-    <input type="text" id="data_agendamento" name="data_agendamento"/>
-    <button type="submit">Enviar</button>
-
-    <!-- Biblioteca do Datepicker https://www.daterangepicker.com/ -->
-</form>`;
-                return this.html;
-            },
-            selecionaCor(cor) {
-                if (cor) {
-                    this.campanha.cor = cor
-                } else {
-                    this.campanha.cor = this.customcor;
+    },
+    watch: {
+        "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
+        },
+        produto: {
+            handler(val) {
+                console.log('mudou');
+                if (val) {
+                    console.log('watch', val);
                 }
-                this.errors.remove('cor');
             },
-            selecionaTipoComissao(val) {
-                this.campanha.comissao_tipo = val;
-                console.log(this.campanha.comissao_tipo)
-            },
-            contatos(val) {
-                this.$router.push({path: `/campanha/configurar-agendamento/${this.$route.params.id}/contatos-${val}`});
-            },
-            getId(id) {
-                this.$vs.loading();
-                this.$store.dispatch('agendamento/getId', id).then(response => {
-                    this.campanha = {...response};
-
-                    if (this.campanha.origem_id != null) {
-                        this.selectedOrigem.id = this.campanha.origem_id;
-                        this.selectedOrigem.label = this.campanha.origem.nome;
-                    }
-
-                    if (this.campanha.tipo_duvida_id != null) {
-                        this.selectedDuvida.id = this.campanha.tipo_duvida_id;
-                        this.selectedDuvida.label = this.campanha.tipo_duvida.nome;
-                    }
-
-                    if (this.campanha.infusion == "0")
-                        this.campanha.infusion = false;
-
-                    this.$vs.loading.close();
-                });
-            },
-            formatPrice(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            },
-            copyText() {
-                const thisIns = this;
-                this.$copyText(this.html).then(function () {
-                    thisIns.$vs.notify({
-                        title: '',
-                        text: 'Copiado para sua área de transferência',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle'
-                    })
-                }, function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
-            },
-            copyScripts() {
-                const thisIns = this;
-                let str = ''
-                this.scripts.forEach(val => {
-                    str += val + '\n';
-                });
-                this.$copyText(str).then(function () {
-                    thisIns.$vs.notify({
-                        title: '',
-                        text: 'Copiado para sua área de transferência',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle'
-                    })
-                }, function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
-            },
-            copyUrl() {
-                const thisIns = this;
-                let value = this.url_api('campanhaagendamento/' + this.campanha.token);
-                this.$copyText(value).then(function () {
-                    thisIns.$vs.notify({
-                        title: '',
-                        text: 'Copiado para sua área de transferência',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle'
-                    })
-                }, function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
-            },
-            getOpcoes() {
-                return new Promise((resolve, reject) => {
-                    this.origens = [];
-                    this.$store.dispatch('origens/get').then(response => {
-                        let arr = [...response];
-                        arr.forEach(item => {
-                            this.origens.push({id: item.id, label: item.nome})
-                        });
-                    });
-
-                    this.duvidas = [];
-                    this.$store.dispatch('duvidas/get').then(response => {
-                        let arr = [...response];
-                        arr.forEach(item => {
-                            this.duvidas.push({id: item.id, label: item.nome})
-                        });
-                    });
-
-                    resolve()
-                });
-            },
+            deep: true
         },
-        computed: {
-            isInvalid() {
-                return this.errors.any() || (this.selectedOrigem.id == '' && this.selectedDuvida.id == '');
-            },
-        },
-        watch: {
-            "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            produto: {
-                handler(val) {
-                    console.log('mudou');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
-            },
-        },
-    }
+    },
+}
 </script>
 
 <style>
-    [dir] .con-select .vs-select--input {
-        padding: 1.4rem 2rem !important;
-    }
+[dir] .con-select .vs-select--input {
+    padding: 1.4rem 2rem !important;
+}
 
-    #copy-icon {
-        position: absolute;
-        top: 0.7rem;
-        right: 30px;
-        cursor: pointer;
-    }
+#copy-icon {
+    position: absolute;
+    top: 0.7rem;
+    right: 30px;
+    cursor: pointer;
+}
 
-    #copy-icon-input {
-        position: absolute;
-        top: 2.2rem;
-        right: 30px;
-        cursor: pointer;
-    }
+#copy-icon-input {
+    position: absolute;
+    top: 2.2rem;
+    right: 30px;
+    cursor: pointer;
+}
 </style>

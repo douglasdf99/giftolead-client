@@ -1,13 +1,6 @@
 <template>
     <div>
         <div class="vx-row flex items-center lg:mt-10 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Lead
-                </vs-button>
-                <!-- SEARCH INPUT -->
-            </div>
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -30,24 +23,19 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
-                <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
-                    <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
-                    Incluir Lead
-                </vs-button>
-                <!-- SEARCH INPUT -->
-            </div>
         </div>
-        <div class="vx-row mt-10 -mb-4">
+        <div class="vx-row mt-5 -mb-4">
             <div class="vx-col w-full">
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
                     <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
-                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
+                        <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{
+                                pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total
+                            }} de {{ pagination.total }}</span>
                         <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
                     </div>
                     <vs-dropdown-menu>
                         <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
-                            <span>{{item}}</span>
+                            <span>{{ item }}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
                 </vs-dropdown>
@@ -56,31 +44,7 @@
         <vs-row>
             <vs-col vs-w="12">
                 <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <br>
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Lead
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
                     <vs-table :data="items" class="table-items">
@@ -101,8 +65,8 @@
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
-                                            <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="show(data[indextr].id)">
+                                            <span class="span-identifica-item-dropdown">Nº {{ tr.id }}</span>
+                                            <vs-dropdown-item @click="show(data[indextr].id)" v-if="$acl.check('leads_detalhamento')">
                                                 <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                                 Visualizar
                                             </vs-dropdown-item>
@@ -119,13 +83,13 @@
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                 </vs-td>
                                 <vs-td>
-                                    <span class="destaque">{{data[indextr].email}}</span>
+                                    <span class="destaque">{{ data[indextr].email }}</span>
                                 </vs-td>
                                 <vs-td :data="data[indextr].telefone">
-                                    {{ (tr.ddd+tr.telefone || '') | VMask('(##) #####-####')}}
+                                    {{ (tr.ddd + tr.telefone || '') | VMask('(##) #####-####') }}
                                 </vs-td>
                                 <vs-td :data="data[indextr].cpf">
-                                    <span>{{(tr.cpf || '') | VMask('###.###.###-##')}}</span>
+                                    <span>{{ (tr.cpf || '') | VMask('###.###.###-##') }}</span>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -139,128 +103,117 @@
 </template>
 
 <script>
-    import moduleContas from '@/store/contas/moduleContas.js'
-    import saveleadsConfig from "../../../saveleadsConfig";
+import moduleContas from '@/store/contas/moduleContas.js'
+import saveleadsConfig from "../../../saveleadsConfig";
 
-    export default {
-        name: "Index",
-        data() {
-            return {
-                // Data Sidebar
-                addNewDataSidebar: false,
-                sidebarData: {},
-                routeTitle: 'Leads',
-                dados: {
-                    search: '',
-                    page: 1,
-                    length: 25
-                },
-                pagination: {
-                    last_page: 1,
-                    page: 1,
-                    current_page: 1
-                },
-                currentx: 1,
-                lengths: saveleadsConfig.lengths
-                //items: {}
-            }
-        },
-        created() {
-            this.$vs.loading()
-            if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contas', moduleContas)
-                moduleContas.isRegistered = true
-            }
+export default {
+    name: "Index",
+    data() {
+        return {
+            // Data Sidebar
+            addNewDataSidebar: false,
+            sidebarData: {},
+            routeTitle: 'Leads',
+            dados: {
+                search: '',
+                page: 1,
+                length: 25
+            },
+            pagination: {
+                last_page: 1,
+                page: 1,
+                current_page: 1
+            },
+            currentx: 1,
+            lengths: saveleadsConfig.lengths
+            //items: {}
+        }
+    },
+    created() {
+        this.$vs.loading()
+        if (!moduleContas.isRegistered) {
+            this.$store.registerModule('contas', moduleContas)
+            moduleContas.isRegistered = true
+        }
 
-            this.getLeads();
+        this.getLeads();
+    },
+    methods: {
+        show(id) {
+            this.$router.push({path: '/leads/detalhe/' + id});
         },
-        methods: {
-            addNewData() {
-                this.$router.push({name: 'produto-criar'});
-            },
-            updateData(id) {
-                this.$router.push({path: '/configuracoes/produtos/editar/' + id});
-            },
-            show(id){
-                this.$router.push({path: '/leads/detalhe/' + id});
-            },
-            toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
-            },
-            getLeads() {
-                this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
-                    this.pagination = response;
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
-                });
-            },
-            deletar(id) {
-                this.$vs.dialog({
-                    color: 'danger',
-                    title: `Deletar conta id: ${id}`,
-                    text: 'Deseja deletar este Lead? Procedimento irreversível',
-                    acceptText: 'Sim, deletar!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: 'Sucesso',
-                                text: 'A URL foi deletada com sucesso'
-                            });
-                            this.getLeads();
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: 'Erro',
-                                text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
-                            })
+        getLeads() {
+            this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
+                console.log('retornado com sucesso', response)
+                this.pagination = response;
+                //this.items = response.data
+                //this.dados.page = this.pagination.current_page
+                this.$vs.loading.close()
+            });
+        },
+        deletar(id) {
+            this.$vs.dialog({
+                color: 'danger',
+                title: `Deletar Lead?`,
+                text: 'Deseja deletar este Lead? Procedimento irreversível',
+                acceptText: 'Sim, deletar!',
+                accept: () => {
+                    this.$vs.loading();
+                    this.$store.dispatch('deleteItem', {id: id, rota: 'produtos'}).then(() => {
+                        this.$vs.notify({
+                            color: 'success',
+                            text: 'A URL foi deletada com sucesso'
+                        });
+                        this.getLeads();
+                    }).catch(erro => {
+                        console.log(erro)
+                        this.$vs.notify({
+                            color: 'danger',
+                            text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
                         })
-                    }
-                })
-            },
-            pesquisar(e) {
-                e.preventDefault();
-                this.$vs.loading();
-                this.dados.page = 1;
+                    })
+                }
+            })
+        },
+        pesquisar(e) {
+            e.preventDefault();
+            this.$vs.loading();
+            this.dados.page = 1;
+            this.getLeads();
+        }
+    },
+    watch: {
+        currentx(val) {
+            this.$vs.loading();
+            if (this.dados.page != val) {
+                this.dados.page = val;
                 this.getLeads();
             }
         },
-        watch: {
-            currentx(val) {
-                this.$vs.loading();
-                if(this.dados.page != val){
-                    this.dados.page = val;
+        "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
+        },
+        dados: {
+            handler(val) {
+                if (val.length != this.pagination.per_page) {
+                    this.dados.page = 1;
+                    this.$vs.loading();
                     this.getLeads();
                 }
             },
-            "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            dados: {
-                handler(val) {
-                    if (val.length != this.pagination.per_page) {
-                        this.dados.page = 1;
-                        this.$vs.loading();
-                        this.getLeads();
-                    }
-                },
-                deep: true
-            },
+            deep: true
         },
+    },
 
-        computed: {
+    computed: {
 
-            items() {
-                return this.$store.state.items;
-            },
-            /*pagination() {
-                return this.$store.state.pagination;
-            },*/
+        items() {
+            return this.$store.state.items;
         },
+        /*pagination() {
+            return this.$store.state.pagination;
+        },*/
+    },
 
-    }
+}
 </script>

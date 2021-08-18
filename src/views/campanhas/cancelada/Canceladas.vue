@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div class="vx-row mb-4">
-            <div class="vx-col lg:w-full w-full">
-            <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
-            </div>
-        </div>
+        <!-- <div class="vx-row mb-4">
+           <div class="vx-col lg:w-full w-full">
+                 <span class="float-right mt-1 mx-4"
+                       style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
+             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.status" class="float-right switch" :disabled="!$acl.check('planos_campanhas_editar')"/>
+           </div>
+         </div>-->
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
                 <span class="font-regular mb-2">Nome da campanha</span>
@@ -44,11 +44,11 @@
                 </p>
             </div>
         </div>
-        <div class="vx-row mb-1">
+        <div class="vx-row mb-base">
             <div class="vx-col w-full">
                 <v-select multiple :closeOnSelect="false" v-model="tipoSelected"
-                          class="select-large-base" :options="opcoesHotmart" style="background-color: white"/>
-                <br>
+                          class="select-large-bas" v-validate="'required'" :options="opcoesHotmart" style="background-color: white"/>
+                <small class="text-danger font-bold" v-if="tipoSelected.length === 0">Campo obrigatório</small>
             </div>
         </div>
         <div class="vx-row mt-1 mb-2">
@@ -76,14 +76,14 @@
             </div>
             <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                 <vx-card class="shadow-none">
-                    <span class="destaque">Valor recuperado</span>
-                    <p class="font-bold text-3xl my-5">R$ {{formatPrice(35424.43)}}</p>
+                    <span class="destaque">Valor co-recuperado</span>
+                    <p class="font-bold text-3xl my-5">R$ {{formatPrice(campanha.valor_recuperado)}}</p>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-1/3 md:w-1/3 sm:w-full">
                 <vx-card class="shadow-none">
                     <span class="destaque">Vendas co-recuperadas</span>
-                    <p class="font-bold text-3xl my-5">23</p>
+                    <p class="font-bold text-3xl my-5">{{campanha.tickets_vendidos.length}} </p>
                 </vx-card>
             </div>
             <div class="vx-col mt-5 w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
@@ -109,17 +109,13 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                        Cancelar
+                    </vs-button>
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid && !$acl.check('planos_campanhas_editar')">
+                        Salvar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -154,7 +150,7 @@
                 moduleDuvidas.isRegistered = true
             }
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuarios', moduleUsuario)
+                this.$store.registerModule('users', moduleUsuario)
                 moduleUsuario.isRegistered = true
             }
             this.getId(this.$route.params.id);
@@ -169,7 +165,8 @@
                     checkout: '',
                     tipos: [],
                     origem_id: 1,
-                    responsavel_id: 1
+                    responsavel_id: 1,
+                    tickets_vendidos: []
                 },
                 verMaisCards: false,
                 tipoSelected: [],
@@ -219,7 +216,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -238,7 +235,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -273,8 +270,11 @@
                         })
                     }
 
-                    this.$vs.loading.close();
-                });
+                }).catch(erro => {
+                    console.log('front erro', erro.response);
+                    //Redirecionando caso 404
+                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
+                }).finally(() => this.$vs.loading.close());
             },
             getOpcoes() {
                 this.$vs.loading();
@@ -291,7 +291,7 @@
                         this.opcoesOrigens.push({id: item.id, label: item.nome});
                     });
                 });
-                this.$store.dispatch('usuarios/get').then(response => {
+                this.$store.dispatch('users/get').then(response => {
                     let arr = response;
                     this.responsavelSelected = {id: 0, label: 'Responsável'};
                     arr.forEach(item => {

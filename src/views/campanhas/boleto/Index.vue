@@ -4,8 +4,9 @@
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{campanha.status ? 'Ativado' : 'Desativado'}}</span>
-                <vs-switch vs-icon-on="check" @click="ativaBoleto" color="#0FB599" v-model="campanha.status" class="float-right switch"/>
+                  style="font-weight: bold">{{ campanha.status ? 'Ativado' : 'Desativado' }}</span>
+                <vs-switch vs-icon-on="check" @click="ativaBoleto" color="#0FB599" v-model="campanha.status"
+                           class="float-right switch" :disabled="!$acl.check('planos_campanhas_editar')"/>
             </div>
         </div>
         <div class="vx-row mb-3">
@@ -40,21 +41,27 @@
         </div>
         <div class="vx-row">
             <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4">
+                <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="agendados">
+                    <span class="destaque">Envios Agendados</span>
+                    <p class="font-bold text-3xl my-5">{{ campanha.totalAgendados }}</p>
+                </vx-card>
+            </div>
+            <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4">
                 <vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
                     <span class="destaque">Histórico de envios</span>
-                    <p class="font-bold text-3xl my-5">{{campanha.historico_count}}</p>
+                    <p class="font-bold text-3xl my-5">{{ campanha.historico_count }}</p>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4" @click="contatos('ativos')">
                 <vx-card class="shadow-none hover-opacidade cursor-pointer">
                     <span class="destaque">Nº de contatos ativos</span>
-                    <p class="font-bold text-3xl my-5">{{campanha.contatos_count}}</p>
+                    <p class="font-bold text-3xl my-5">{{ campanha.contatos_count }}</p>
                 </vx-card>
             </div>
             <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4" @click="contatos('inativos')">
                 <vx-card class="shadow-none hover-opacidade cursor-pointer">
                     <span class="destaque">Nº de contatos inativos</span>
-                    <p class="font-bold text-3xl my-5">{{campanha.contatos_inativos_count}}</p>
+                    <p class="font-bold text-3xl my-5">{{ campanha.contatos_inativos_count }}</p>
                 </vx-card>
             </div>
             <div class="vx-col w-full mb-4 text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
@@ -64,7 +71,7 @@
                 <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4 hover-opacidade cursor-pointer" @click="contatos('todos')" v-if="verMaisCards">
                     <vx-card class="shadow-none">
                         <span class="destaque">Nº total de contatos</span>
-                        <p class="font-bold text-3xl my-5">{{campanha.contatos_todos_count}}</p>
+                        <p class="font-bold text-3xl my-5">{{ campanha.contatos_todos_count }}</p>
                     </vx-card>
                 </div>
             </transition>
@@ -72,7 +79,7 @@
                 <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4" v-if="verMaisCards">
                     <vx-card class="shadow-none">
                         <span class="destaque">Vendas recuperadas</span>
-                        <p class="font-bold text-3xl my-5">{{campanha.transacaos_count}}</p>
+                        <p class="font-bold text-3xl my-5">{{ campanha.transacaos_count }} </p>
                     </vx-card>
                 </div>
             </transition>
@@ -80,7 +87,7 @@
                 <div class="vx-col w-full lg:w-4/12 md:w-6/12 mb-4" v-if="verMaisCards">
                     <vx-card class="shadow-none">
                         <span class="destaque">Valor recuperado</span>
-                        <p class="font-bold text-3xl my-5">R$ {{formatPrice(valortotal)}}</p>
+                        <p class="font-bold text-3xl my-5">R$ {{ formatPrice(valortotal) }}</p>
                     </vx-card>
                 </div>
             </transition>
@@ -88,17 +95,13 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                        Cancelar
+                    </vs-button>
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && !$acl.check('planos_campanhas_editar')">
+                        Salvar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -167,7 +170,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -187,7 +190,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -267,7 +270,7 @@
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
@@ -296,7 +299,7 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
@@ -325,13 +328,20 @@
                 this.$vs.loading();
                 this.$store.dispatch('boleto/getId', id).then(response => {
                     this.campanha = {...response};
-                    this.$vs.loading.close();
-                });
+                }).catch(erro => {
+                    console.log('front erro', erro.response);
+                    //Redirecionando caso 404
+                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
+                }).finally(() => this.$vs.loading.close());
             },
             formatPrice(value) {
                 let val = (value / 1).toFixed(2).replace('.', ',')
                 return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             },
+
+          agendados() {
+            this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/agendados`});
+          },
             historico() {
                 this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/historico-envios`})
             },
@@ -343,11 +353,11 @@
             isValid() {
                 return this.errors.any();
             },
-            valortotal: function(){
-              let sum = 0;
-              return this.campanha.transacaos.reduce(function(prev, item){
-                return sum + item.full_price;
-              },0);
+            valortotal: function () {
+                let sum = 0;
+                return this.campanha.transacaos.reduce(function (prev, item) {
+                    return sum + item.full_price;
+                }, 0);
             }
         },
         watch: {

@@ -15,10 +15,10 @@
 </template>
 
 <script>
-    import Calendario from "./Calendario";
-    import moduleTickets from "../../store/tickets/moduleTickets";
+  import Calendario from "./Calendario";
+  import moduleTickets from "../../store/tickets/moduleTickets";
 
-    const moment = require('moment/moment');
+  const moment = require('moment/moment');
     require('moment/locale/pt-br');
 
     export default {
@@ -50,9 +50,10 @@
                     let nome = item.lead.nome.split(' ');
 
                     if(item.responsavel)
-                        item.title = `<img class='rounded-full' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
+                        item.title = `<img class='rounded-full responsavel-img' src='${this.get_img_api(item.responsavel.avatar)}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
                     else
-                        item.title = `<img class='rounded-full' src='${this.get_img_api('images/icon-padrao.jpg')}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
+                        item.title = `<img class='rounded-full responsavel-img' src='${this.get_img_api('images/icon-padrao.jpg')}' width='30px'>` + nome[0] + (nome[1] ? ' ' + nome[1].charAt(0) : '');
+
                     item.startDate = data_agendamento;
                     item.endDate = data_agendamento;
                     item.label = this.getSituacao(data_agendamento);
@@ -68,12 +69,23 @@
                 this.$vs.loading.close();
             },
             getSituacao(data){
-                data = moment(data).format('Y-MM-D H:mm');
-                let hoje = moment().format('Y-MM-D H:mm');
-                var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
-                if((data > hoje) && (data < amanha)) return 'dentrodoprazo';
-                if(data < hoje) return 'atrasado';
-                if(data >= amanha) return 'futuro';
+              var hoje = new Date();
+              var data2 = new Date(data);
+              var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
+              amanha = new Date(amanha);
+
+              if((data2.getTime() > hoje.getTime()) && (data2.getTime() < amanha.getTime())) return 'dentrodoprazo';
+              if(data2.getTime() < hoje.getTime()) return 'atrasado';
+              if(data2.getTime() >= amanha.getTime()) return 'futuro';
+
+                // data = moment(data).format('Y-MM-D H:mm');
+                // let hoje = moment().format('Y-MM-D H:mm');
+                // console.log('data comparando', data, hoje)
+                //
+                // var amanha = moment().add(1,'days').set({hour:0,minute:0,second:0,millisecond:0}).format('Y-MM-D H:mm');
+                // if((data > hoje) && (data < amanha)) return 'dentrodoprazo';
+                // if(data < hoje) return 'atrasado';
+                // if(data >= amanha) return 'futuro';
             },
             getColorLabel(val){
                 if(val == 'futuro') return 'success'
@@ -83,12 +95,18 @@
         },
         created() {
             if (!moduleTickets.isRegistered) {
-                this.$store.registerModule('tickets', moduleTickets)
+                this.$store.registerModule('tickets', moduleTickets);
                 moduleTickets.isRegistered = true
             }
-
             this.getAtendimentos();
         },
+        updated() {
+            let imgs = document.getElementsByClassName('cv-event');
+            console.log('imgs', imgs.length)
+            for(let i = 0; i < imgs.length; i++){
+                imgs[i].removeAttribute('title')
+            }
+        }
     }
 </script>
 

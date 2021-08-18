@@ -11,7 +11,7 @@
 import axios from "@/axios.js"
 
 export default {
-    store({commit}, dados){
+    store({commit}, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/planos`, dados)
                 .then((response) => {

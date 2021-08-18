@@ -9,9 +9,14 @@ temp/
 versions/
 *.zip
 /bin
-.idea
+.idea/
 package-lock.json
 docs/.vuepress/dist/
 yarn.lock
 yarn-error.log
 vuexy-shell-scripts
+src/axios.js
+.editorconfig
+.idea/workspace.xml
+.idea/workspace.xml
+*.xml

@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/pre_comissaos/setAnexo/`, obj)
                 .then((response) => {
-                    console.log('lead resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -23,4 +22,18 @@ export default {
                 })
         })
     },
+    removeImagem({commit}, id) {
+        const formData = new FormData();
+        formData.append('_method', 'DELETE');
+        formData.append('id', id);
+        return new Promise((resolve, reject) => {
+            axios.post(`/anexos/${id}`, formData)
+                .then((response) => {
+                    resolve()
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    }
 }

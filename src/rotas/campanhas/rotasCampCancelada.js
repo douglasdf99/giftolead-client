@@ -13,7 +13,7 @@ const rotasCampCancelada = [
                 {title: 'Configurar Campanha', active: true},
             ],
             pageTitle: 'Configuração da campanha de recuperação de canceladas',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -32,7 +32,7 @@ const rotasCampCancelada = [
                 {title: 'Contatos Ativos', active: true}
             ],
             pageTitle: 'Contatos ativos da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -51,7 +51,7 @@ const rotasCampCancelada = [
                 {title: 'Contatos Inativos', active: true}
             ],
             pageTitle: 'Contatos inativos da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',
@@ -70,7 +70,7 @@ const rotasCampCancelada = [
                 {title: 'Todos os contatos', active: true}
             ],
             pageTitle: 'Todos os contatos da campanha',
-            rule: 'editor',
+            rule: 'planos_campanhas',
             pai: 'planos',
             subTitle: 'Planos',
             //subIcon: 'settings',

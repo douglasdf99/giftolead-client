@@ -31,31 +31,10 @@
                             <div class="conquista">
                                 <div class="flex items-center text-left">
                                     <div class="py-2 w-1/2">
-                                        <p class="font-bold text-black text-md mb-0">Contrato com os correios</p>
-                                    </div>
-                                    <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.correios.ativo" class="float-right switch" v-if="extensoes.correios != null"/>
-                                    </div>
-                                </div>
-                                <div class="w-full my-3">
-                                    <img src="@/assets/images/util/correios.svg" class="img-conquista my-4" alt="" width="150">
-                                    <p class="mb-4">Integre o seu contrato com os correios para enviar brindes físicos à seus clientes</p>
-                                </div>
-                                <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4">
-                                        {{extensoes.correios != null ? 'Detalhar' : 'Instalar'}}</vs-button>
-                                </div>
-                                <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês</p>
-                            </div>
-                        </div>
-                        <div class="vx-col col-conquista mb-10">
-                            <div class="conquista">
-                                <div class="flex items-center text-left">
-                                    <div class="py-2 w-1/2">
                                         <p class="font-bold text-black text-md mb-0">Ligações internas com a Zenvia</p>
                                     </div>
                                     <div class="py-2 w-1/2">
-                                        <vs-switch vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
+                                        <vs-switch @click="ativaExt(extensoes.totalvoice)" :disabled="!$acl.check('extensao_zenvia_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.totalvoice.ativo" class="float-right switch" v-if="extensoes.totalvoice != null"/>
                                     </div>
                                 </div>
                                 <div class="w-full my-3">
@@ -63,10 +42,51 @@
                                     <p class="mb-4">Faça ligações e as mantenha registradas na linha do tempo de seus contatos!</p>
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer my-3">
-                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4"
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_zenvia_detal')"
                                                @click="$router.push({name: 'extensoes-zenvia-config'})">{{extensoes.totalvoice != null ? 'Detalhar' : 'Instalar'}}</vs-button>
                                 </div>
                                 <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">R$ 20,00 / mês + créditos</p>
+                            </div>
+                        </div>
+                        <div class="vx-col col-conquista mb-10">
+                            <div class="conquista">
+                                <div class="flex items-center text-left">
+                                    <div class="py-2 w-1/2">
+                                        <p class="font-bold text-black text-md mb-0">Notificações via Slack</p>
+                                    </div>
+                                    <div class="py-2 w-1/2">
+                                        <vs-switch @click="ativaExt(extensoes.slack)" :disabled="!$acl.check('extensao_slack_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.slack.ativo" class="float-right switch" v-if="extensoes.slack != null"/>
+                                    </div>
+                                </div>
+                                <div class="w-full my-3">
+                                    <img src="@/assets/images/util/slack.png" class="img-conquista my-4" alt="" width="150">
+                                  <p class="mb-4">Integre o <strong>Slack</strong> da sua empresa ao sistema, possibilitando envio automático de notificações.</p>
+                                </div>
+                                <div class="conquista-clicavel w-full cursor-pointer my-3">
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_slack_detal')"
+                                               @click="$router.push({name: 'extensoes-slack-config'})">{{extensoes.slack != null ? 'Detalhar' : 'Instalar'}}</vs-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vx-col col-conquista mb-10">
+                            <div class="conquista">
+                                <div class="flex items-center text-left">
+                                    <div class="py-2 w-1/2">
+                                        <p class="font-bold text-black text-md mb-0">Logística com Melhor envio</p>
+                                    </div>
+                                    <div class="py-2 w-1/2">
+                                        <vs-switch @click="ativaExt(extensoes.melhor_envio)" :disabled="!$acl.check('extensao_slack_ativar')" vs-icon-on="check" color="#0FB599" v-model="extensoes.melhor_envio.ativo" class="float-right switch" v-if="extensoes.melhor_envio != null"/>
+                                    </div>
+                                </div>
+                                <div class="w-full my-3">
+                                    <img src="@/assets/images/util/melhorenvio2.png" class="img-conquista my-4" alt="" width="150">
+                                  <p class="mb-4">Entregue brindes utilizzando a logistica do <strong>Melhor Envio</strong>, possibilitando várias opções de transporte.</p>
+                                </div>
+                                <div class="conquista-clicavel w-full cursor-pointer my-3">
+                                    <vs-button class="text-black rounded-full w-full border-solid font-bold" style="border-color: #9AAABE; border-width: 1px" color="#F4F4F4" v-if="$acl.check('extensao_slack_detal')"
+                                               @click="$router.push({name: 'extensoes-melhor-envio-config'})">{{extensoes.melhor_envio != null ? 'Detalhar' : 'Instalar'}}</vs-button>
+                                </div>
+                                <p class="w-full font-bold text-lg text-left" style="color: #9AAABE">Instalação gratuíta  </p>
                             </div>
                         </div>
                     </div>
@@ -108,6 +128,8 @@
                 extensoes: {
                     correios: null,
                     totalvoice: null,
+                    slack: null,
+                    melhor_envio: null
                 }
                 //items: {}
             }
@@ -122,12 +144,14 @@
         },
         methods: {
             pesquisar(e) {
+              this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
             },
-            ativaConquista(e) {
+            ativaExt(e) {
                 console.log(this.countSwitch)
+                e._method = 'PUT';
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.ativo = !e.ativo;
                     this.$vs.notify({
@@ -140,9 +164,27 @@
                 } else {
                     console.log(e)
                     const formData = new FormData();
-                    /*let ativo = e.ativo ? 0 : 1;
+                    let ativo = e.ativo ? 0 : 1;
                     let text = e.ativo ? 'Desativada' : 'Ativada';
-                    formData.append('_method', 'PUT');*/
+                    let obj = {...e}
+                    obj.ativo = ativo;
+                    this.$store.dispatch('extensoes/switchExt', {id: e.id, dados: obj}).then(() => {
+                        this.$vs.notify({
+                            title: '',
+                            text: text + " com sucesso.",
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle',
+                            color: 'success'
+                        });
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            title: 'Error',
+                            text: erro.response.data.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        })
+                    })
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },
@@ -154,6 +196,12 @@
                         arr.forEach(item => {
                             if(item.extensao_type === "App\\Models\\Extensoes\\Totalvoice"){
                                 this.extensoes.totalvoice = item;
+                            }
+                            if(item.extensao_type === "App\\Models\\Extensoes\\Slack"){
+                                this.extensoes.slack = item;
+                            }
+                            if(item.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio"){
+                                this.extensoes.melhor_envio = item;
                             }
                         });
                     }

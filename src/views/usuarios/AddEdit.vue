@@ -3,7 +3,7 @@
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{usuario.status ? 'Ativado' : 'Desativado'}}</span>
+                  style="font-weight: bold">{{ usuario.status ? 'Ativado' : 'Desativado' }}</span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="usuario.status" class="float-right switch"/>
                 <span class="float-right mt-1 mx-4" style="font-weight: bold">Status</span>
             </div>
@@ -37,18 +37,32 @@
                     </div>
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <span class="font-regular mb-2">Origem (sck) do usuário</span>
-                        <vs-input class="w-full" v-model="usuario.sck" size="large" type="text" v-validate="'required'"/>
+                        <vs-input class="w-full" @blur="sugereSck" v-model="usuario.sck" size="large" type="text" v-validate="'required|alpha_num'"/>
                         <span class="text-danger text-sm" v-show="errors.has('sck')">{{ errors.first('sck') }}</span>
+                        <!--<span class="text-danger text-sm" v-show="sckRepetido">{{ sugestoes }}</span>-->
                     </div>
                 </div>
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
                         <span class="font-regular mb-2">Permissões do usuário</span>
-                        <v-select v-model="funcaoSelected" :class="'select-large-base'" :clearable="false"
+                        <v-select v-model="funcaoSelected" v-validate="'required'" :class="'select-large-base'" :clearable="false"
                                   style="background-color: white"
                                   :options="opcoesFuncoes"/>
                         <span class="text-danger text-sm"
                               v-show="errors.has('funcao')">{{ errors.first('funcao') }}</span>
+                    </div>
+                    <div class="vx-col w-full mt-4" v-if="slack">
+                        <span class="font-regular mb-2">WebHook Slack</span>
+                        <vs-input class="w-full" v-model="usuario.wehookslack" size="large" type="text" v-validate="'url:require_protocol'"/>
+                    </div>
+                    <div class="vx-col w-full my-4" v-if="slack">
+                        <div class="p-5 rounded-lg bg-white">
+                            <p class="flex items-center">
+                                <img src="@/assets/images/util/slack.png" class="img-conquista mr-4" alt="" width="100">
+                                Importante: a URL do Webhook individual pode ser encontrada
+                                <a target="_blank" href="https://slack.com/services/new/incoming-webhook" style="text-decoration: none" class="ml-1">aqui</a>.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,15 +78,15 @@
                             <template slot="no-body">
                                 <!-- ITEM IMAGE -->
                                 <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                    <img :src="url_api(usuario.avatar)" style="width: 200px" alt="avatar"
+                                    <img :src="get_img_api(usuario.avatar)" style="width: 200px" alt="avatar"
                                          class="grid-view-img px-4">
                                 </div>
                                 <div class="item-details px-4">
                                 </div>
                                 <div class="flex flex-wrap">
                                     <label
-                                            class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
-                                            for="file">
+                                        class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                                        for="file">
                                         <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
                                         <label class="text-sm font-semibold ml-2" for="file">Alterar avatar</label>
                                     </label>
@@ -91,7 +105,7 @@
                                 </div>
                                 <div class="flex flex-wrap">
                                     <label class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
-                                            for="file">
+                                           for="file">
                                         <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4"/>
                                         <label class="text-sm font-semibold ml-2" for="file">Alterar avatar</label>
                                     </label>
@@ -102,7 +116,7 @@
                             <div v-show="!images.length">
                                 <label for="file">
                                     <i class="fa fa-cloud-upload"></i>
-                                    <img :src="url_api('images/upload.png')">
+                                    <img :src="get_img_api('images/upload.png')">
                                     <p class="text-lg">Arraste e solte ou clique aqui</p>
                                     <div class="file-input" style="display: none">
                                         <input type="file" id="file" @change="onInputChange">
@@ -117,17 +131,13 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'usuarios'})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                  <vs-button class="float-right mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
+                             @click="$router.push({name: 'usuarios'})">
+                    Cancelar
+                  </vs-button>
+                  <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && this.sckRepetido">
+                    Salvar
+                  </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -135,364 +145,407 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import moduleUsuario from '@/store/usuarios/moduleUsuario.js'
-    import {Validator} from 'vee-validate';
+import vSelect from 'vue-select'
+import moduleUsuario from '@/store/usuarios/moduleUsuario.js'
+import moduleFuncao from '@/store/funcoes/moduleFuncoes.js'
+import {Validator} from 'vee-validate';
 
-    const dict = {
-        custom: {
-            name: {
-                required: 'Por favor, insira o nome',
-            },
-            email: {
-                required: 'Por favor, insira o e-mail',
-            },
-            password: {
-                required: 'Por favor, insira o senha',
-            },
-            password_confirmed: {
-                required: 'Por favor, confirme a senha',
-            },
-            sck: {
-                required: 'Por favor, insira a origem do usuário',
-            },
-        }
-    };
-    Validator.localize('pt-br', dict);
-    export default {
-        name: "Edit",
-        components: {
-            'v-select': vSelect
+const dict = {
+    custom: {
+        name: {
+            required: 'Por favor, insira o nome',
         },
-        created() {
-            if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('usuarios', moduleUsuario)
-                moduleUsuario.isRegistered = true
-            }
-            this.getOpcoes();
-
-            if (this.$route.name === 'usuario-editar') {
-                this.funcaoSelected = {id: null, label: ''};
-                this.getUsuario(this.$route.params.id);
-            }
+        email: {
+            required: 'Por favor, insira o e-mail',
         },
-        data() {
-            return {
-                customcor: '',
-                usuario: {
-                    name: '',
-                    email: '',
-                    status: true,
-                    password: '',
-                    password_confirmed: '',
-                    avatar: '',
-                    sck: ''
-                },
-                opcoesFuncoes: [],
-                funcaoSelected: null,
-                files: [],
-                images: [],
-                isDragging: false,
-            }
+        password: {
+            required: 'Por favor, insira o senha',
         },
-        methods: {
-            salvar() {
-                this.$validator.validateAll().then(result => {
-                    if (result) {
-                        this.$vs.loading();
-                        //this.usuario.role_id = this.funcaoSelected.id;
-                        const formData = new FormData();
-                        this.files.forEach(file => {
-                            formData.append('avatar', file, file.name);
-                        });
-                        formData.append('name', this.usuario.name);
-                        formData.append('email', this.usuario.email);
-                        formData.append('sck', this.usuario.sck);
-                        formData.append('role_id', 1);
-                        formData.append('status', (this.usuario.status ? 1 : 0));
-
-                        if(this.usuario.password)
-                            formData.append('password', this.usuario.password);
-
-                        if (this.usuario.id !== undefined) {
-                            formData.append('_method', 'PUT');
-                            this.$store.dispatch('usuarios/update', {dados: formData, id: this.usuario.id}).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: 'Sucesso',
-                                    text: "O usuario foi atualizado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({name: 'usuarios'});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        } else {
-                            this.$store.dispatch('addItem', {item: formData, rota: 'users'}).then(response => {
-                                console.log('response', response);
-                                this.$vs.notify({
-                                    title: 'Sucesso',
-                                    text: "O usuario foi criado com sucesso.",
-                                    iconPack: 'feather',
-                                    icon: 'icon-check-circle',
-                                    color: 'success'
-                                });
-                                this.$router.push({name: 'usuarios'});
-                            }).catch(erro => {
-                                this.$vs.notify({
-                                    title: 'Error',
-                                    text: erro.message,
-                                    iconPack: 'feather',
-                                    icon: 'icon-alert-circle',
-                                    color: 'danger'
-                                })
-                            })
-                        }
-                    } else {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: 'verifique os erros específicos',
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    }
-                })
-
-            },
-            enableValidate(){
-                if (this.$route.name === 'usuario-editar')
-                    return ''
-                else
-                    return 'required'
-            },
-            getOpcoes() {
-                this.opcoesFuncoes = [];
-                /*this.$store.dispatch('contas/get').then(response => {
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        this.opcoesFuncoes.push({id: item.id, label: item.nome})
-                    });
-                })*/
-            },
-            getUsuario(id) {
-                this.$vs.loading()
-                this.$store.dispatch('usuarios/getId', id).then(data => {
-                    this.usuario = {...data};
-                    this.usuario.password = ''
-                    this.usuario.password_confirmed = ''
-                    this.$vs.loading.close();
-
-                })
-            },
-            //drag
-            OnDragEnter(e) {
-                e.preventDefault();
-                this.dragCount++;
-                this.isDragging = true;
-                return false;
-            },
-            OnDragLeave(e) {
-                e.preventDefault();
-                this.dragCount--;
-                if (this.dragCount <= 0)
-                    this.isDragging = false;
-            },
-            onInputChange(e) {
-                const files = e.target.files;
-                Array.from(files).forEach(file => this.addImage(file));
-            },
-            onDrop(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.isDragging = false;
-                const files = e.dataTransfer.files;
-                Array.from(files).forEach(file => this.addImage(file));
-            },
-            addImage(file) {
-                this.files.pop();
-                if (!file.type.match('image.*')) {
-                    this.$toastr.e(`${file.name} is not an image`);
-                    return;
-                }
-                this.files.push(file);
-                this.usuario.avatar = file;
-                const img = new Image(),
-                    reader = new FileReader();
-                this.images.pop();
-                reader.onload = (e) => this.images.push(e.target.result);
-                reader.readAsDataURL(file);
-            },
-            getFileSize(size) {
-                const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
-                let i = 0;
-
-                while (size > 900) {
-                    size /= 1024;
-                    i++;
-                }
-                return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
-            },
+        password_confirmed: {
+            required: 'Por favor, confirme a senha',
         },
-        computed: {
-            isValid() {
-                return this.errors.any();
-            },
-        },
-        watch: {
-            currentx(val) {
-                this.$vs.loading();
-                console.log('val', val);
-                this.dados.page = this.currentx;
-                this.getContas();
-            },
-            "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            usuario: {
-                handler(val) {
-                    console.log('mudou');
-                    console.log('mudou2');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
-            },
+        sck: {
+            required: 'Por favor, insira a origem do usuário',
+            alpha_num: 'O código SCK não pode conter espaços ou caracteres especiais.',
         },
     }
+};
+Validator.localize('pt-br', dict);
+export default {
+    name: "Edit",
+    components: {
+        'v-select': vSelect
+    },
+    created() {
+        if (!moduleUsuario.isRegistered) {
+            this.$store.registerModule('users', moduleUsuario);
+            moduleUsuario.isRegistered = true
+        }
+        if (!moduleFuncao.isRegistered) {
+            this.$store.registerModule('funcoes', moduleFuncao);
+            moduleFuncao.isRegistered = true
+        }
+        this.getUsers();
+        this.verificaExt();
+        this.getOpcoes();
+
+        if (this.$route.name === 'usuario-editar') {
+            this.funcaoSelected = {id: null, label: ''};
+            this.getUsuario(this.$route.params.id);
+        }
+    },
+    data() {
+        return {
+            customcor: '',
+            usuario: {
+                name: '',
+                email: '',
+                status: true,
+                password: '',
+                password_confirmed: '',
+                avatar: '',
+                sck: ''
+            },
+            opcoesFuncoes: [],
+            funcaoSelected: null,
+            files: [],
+            images: [],
+            scks: [],
+            isDragging: false,
+            slack: false,
+            sckRepetido: false,
+            sugestoes: [],
+        }
+    },
+    methods: {
+        salvar() {
+            this.$validator.validateAll().then(result => {
+                if (result) {
+                    this.$vs.loading();
+                    //this.usuario.role_id = this.funcaoSelected.id;
+                    const formData = new FormData();
+                    this.files.forEach(file => {
+                        formData.append('avatar', file, file.name);
+                    });
+                    formData.append('name', this.usuario.name);
+                    formData.append('email', this.usuario.email);
+                    formData.append('sck', this.usuario.sck);
+                    formData.append('role_id', this.funcaoSelected.id);
+                    formData.append('status', (this.usuario.status ? 1 : 0));
+
+                    if (this.usuario.password)
+                        formData.append('password', this.usuario.password);
+
+                    if (this.usuario.id !== undefined) {
+                        formData.append('_method', 'PUT');
+                        this.$store.dispatch('users/update', {dados: formData, id: this.usuario.id}).then(response => {
+                            console.log('response', response);
+                            this.$vs.notify({
+                                title: 'Sucesso',
+                                text: "O usuario foi atualizado com sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+                            this.$router.push({name: 'usuarios'});
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: erro.response.data.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            })
+                        }).finally(()=>{
+                          this.$vs.loading.close();
+                        })
+                    } else {
+                        this.$store.dispatch('addItem', {item: formData, rota: 'users'}).then(response => {
+                            console.log('response', response);
+                            this.$vs.notify({
+                                title: 'Sucesso',
+                                text: "O usuario foi criado com sucesso.",
+                                iconPack: 'feather',
+                                icon: 'icon-check-circle',
+                                color: 'success'
+                            });
+                            this.$router.push({name: 'usuarios'});
+                        }).catch(erro => {
+                            this.$vs.notify({
+                                title: 'Error',
+                                text: erro.response.data.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            })
+                        }).finally(()=>{
+                          this.$vs.loading.close();
+                        })
+                    }
+                } else {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'verifique os erros específicos',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                }
+            });
+        },
+        enableValidate() {
+            if (this.$route.name === 'usuario-editar')
+                return ''
+            else
+                return 'required'
+        },
+        getOpcoes() {
+            this.opcoesFuncoes = [];
+            this.$store.dispatch('funcoes/get').then(response => {
+                let arr = [...response];
+                arr.forEach(item => {
+                    this.opcoesFuncoes.push({id: item.id, label: item.nome})
+                });
+            })
+        },
+        getUsuario(id) {
+            this.$vs.loading()
+            this.$store.dispatch('users/getId', id).then(data => {
+                this.usuario = {...data};
+                this.usuario.password = ''
+                this.usuario.password_confirmed = ''
+                this.funcaoSelected = {id: this.usuario.roles.id, label: this.usuario.roles.nome};
+
+                this.$vs.loading.close();
+            })
+        },
+        sugereSck() {
+            if (this.usuario.sck == '') {
+                let part = this.usuario.email.split('@');
+                if (this.scks.indexOf(part[0]) == -1) {
+                    this.usuario.sck = part[0];
+                    this.sckRepetido = false;
+                } else {
+                    this.montaSugestoes();
+                }
+            } else {
+                if (this.scks.indexOf(this.usuario.sck) != -1) {
+                    this.$vs.notify({
+                        color: 'warning',
+                        text: 'O SCK escolhido já se encontrada vinculado a outro usuário.'
+                    });
+                    this.usuario.sck = '';
+                    this.sckRepetido = true;
+                }
+            }
+        },
+        montaSugestoes() {
+
+        },
+        getUsers() {
+            this.$store.dispatch('users/get', {}).then(response => {
+                this.scks = response.map(item => {
+                    if (item.id != this.$route.params.id && item.sck !== null)
+                        return item.sck
+                });
+            })
+        },
+
+        //drag
+        OnDragEnter(e) {
+            e.preventDefault();
+            this.dragCount++;
+            this.isDragging = true;
+            return false;
+        },
+        OnDragLeave(e) {
+            e.preventDefault();
+            this.dragCount--;
+            if (this.dragCount <= 0)
+                this.isDragging = false;
+        },
+        onInputChange(e) {
+            const files = e.target.files;
+            Array.from(files).forEach(file => this.addImage(file));
+        },
+        onDrop(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            this.isDragging = false;
+            const files = e.dataTransfer.files;
+            Array.from(files).forEach(file => this.addImage(file));
+        },
+        addImage(file) {
+            this.files.pop();
+            if (!file.type.match('image.*')) {
+                this.$toastr.e(`${file.name} is not an image`);
+                return;
+            }
+            this.files.push(file);
+            this.usuario.avatar = file;
+            const img = new Image(),
+                reader = new FileReader();
+            this.images.pop();
+            reader.onload = (e) => this.images.push(e.target.result);
+            reader.readAsDataURL(file);
+        },
+        getFileSize(size) {
+            const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
+            let i = 0;
+
+            while (size > 900) {
+                size /= 1024;
+                i++;
+            }
+            return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
+        },
+        verificaExt() {
+            this.verficaExtesoes().then(response => {
+                this.slack = response.includes('slack');
+            });
+        }
+    },
+    computed: {
+        isValid() {
+            return this.errors.any();
+        },
+    },
+    watch: {
+        currentx(val) {
+            this.$vs.loading();
+            console.log('val', val);
+            this.dados.page = this.currentx;
+            this.getContas();
+        },
+        "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
+        },
+    },
+}
 </script>
 
 <style scoped lang="scss">
-    .uploader {
-        width: 100%;
+.uploader {
+    width: 100%;
+    background: #fff;
+    color: #0c0808;
+    padding: 40px 15px;
+    text-align: center;
+    border-radius: 10px;
+    border: 3px dashed #fff;
+    font-size: 20px;
+    position: relative;
+
+    &.dragging {
         background: #fff;
-        color: #0c0808;
-        padding: 40px 15px;
-        text-align: center;
-        border-radius: 10px;
-        border: 3px dashed #fff;
-        font-size: 20px;
+        color: #2196F3;
+        border: 3px dashed #e7e7e7;
+
+        .file-input label {
+            background: #f0f2f4;
+            color: #fff;
+        }
+    }
+
+    i {
+        font-size: 85px;
+    }
+
+    .file-input {
+        width: 200px;
+        margin: auto;
+        height: 68px;
         position: relative;
 
-        &.dragging {
-            background: #fff;
-            color: #2196F3;
-            border: 3px dashed #e7e7e7;
-
-            .file-input label {
-                background: #f0f2f4;
-                color: #fff;
-            }
+        label,
+        input {
+            background: #f1f5f7;
+            color: #0c0808;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 7px;
+            cursor: pointer;
         }
 
-        i {
-            font-size: 85px;
+        input {
+            opacity: 0;
+            z-index: -2;
         }
-
-        .file-input {
-            width: 200px;
-            margin: auto;
-            height: 68px;
-            position: relative;
-
-            label,
-            input {
-                background: #f1f5f7;
-                color: #0c0808;
-                width: 100%;
-                position: absolute;
-                left: 0;
-                top: 0;
-                font-size: 18px;
-                padding: 10px;
-                border-radius: 4px;
-                margin-top: 7px;
-                cursor: pointer;
-            }
-
-            input {
-                opacity: 0;
-                z-index: -2;
-            }
-        }
-
-        .images-preview {
-            display: flex;
-            flex-wrap: wrap;
-
-            .img-wrapper {
-                width: auto;
-                display: flex;
-                /*/flex-direction: column;*/
-                margin: 10px;
-
-                justify-content: space-between;
-                background: #fff0;
-                //box-shadow: 5px 5px 20px #3e3737;
-                img {
-                    max-height: 200px;
-                    max-width: 200px;
-                    width: 100%;
-                }
-            }
-
-            .details {
-                font-size: 12px;
-                background: #fff;
-                color: #000;
-                display: flex;
-                flex-direction: column;
-                padding: 3px 6px;
-
-                .name {
-                    overflow: hidden;
-                    height: 18px;
-                }
-            }
-        }
-
-        .upload-control {
-            button, label {
-                background: #7e57c2;
-                border: 2px solid #7e57c2;
-                border-radius: 3px;
-                color: #fff;
-                font-size: 15px;
-                cursor: pointer !important;
-            }
-
-            label {
-                padding: 2px 5px;
-            }
-        }
-
     }
+
+    .images-preview {
+        display: flex;
+        flex-wrap: wrap;
+
+        .img-wrapper {
+            width: auto;
+            display: flex;
+            /*/flex-direction: column;*/
+            margin: 10px;
+
+            justify-content: space-between;
+            background: #fff0;
+            //box-shadow: 5px 5px 20px #3e3737;
+            img {
+                max-height: 200px;
+                max-width: 200px;
+                width: 100%;
+            }
+        }
+
+        .details {
+            font-size: 12px;
+            background: #fff;
+            color: #000;
+            display: flex;
+            flex-direction: column;
+            padding: 3px 6px;
+
+            .name {
+                overflow: hidden;
+                height: 18px;
+            }
+        }
+    }
+
+    .upload-control {
+        button, label {
+            background: #7e57c2;
+            border: 2px solid #7e57c2;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer !important;
+        }
+
+        label {
+            padding: 2px 5px;
+        }
+    }
+
+}
 </style>
 
 <style>
-    [dir] .con-select .vs-select--input {
-        padding: 1.4rem 2rem !important;
-    }
+[dir] .con-select .vs-select--input {
+    padding: 1.4rem 2rem !important;
+}
 
-    .list-tipo-comissao .vs-radio--label {
-        font-weight: 600;
-        margin-left: 2rem;
-    }
+.list-tipo-comissao .vs-radio--label {
+    font-weight: 600;
+    margin-left: 2rem;
+}
 
-    #copy-icon {
-        position: absolute;
-        top: 0.7rem;
-        position: absolute;
-        right: 30px;
-        cursor: pointer;
-    }
+#copy-icon {
+    position: absolute;
+    top: 0.7rem;
+    position: absolute;
+    right: 30px;
+    cursor: pointer;
+}
 </style>

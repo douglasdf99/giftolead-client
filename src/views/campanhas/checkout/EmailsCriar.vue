@@ -8,7 +8,7 @@
         <div class="vx-row mb-4">
             <div class="vx-col lg:w-full w-full">
             <span class="float-right mt-1 mx-4"
-                  style="font-weight: bold">{{email.status ? 'Ativado' : 'Desativado'}}</span>
+                  style="font-weight: bold">{{ email.status ? 'Ativado' : 'Desativado' }}</span>
                 <vs-switch vs-icon-on="check" color="#0FB599" v-model="email.status" class="float-right switch"/>
             </div>
         </div>
@@ -24,7 +24,7 @@
                                 <span class="font-regular mb-2">Unidade de Tempo</span>
                                 <vs-input type="text" @keypress="isNumber" name="periodo" class="w-full"
                                           v-model="email.unidade_tempo" v-validate="'required|min_value:1'" size="large"/>
-                                <span class="text-primary text-xs">{{periodoDisponivel}}</span><br>
+                                <span class="text-primary text-xs">{{ periodoDisponivel }}</span><br>
                                 <span class="text-danger text-sm" v-show="errors.has('periodo')">{{ errors.first('periodo') }}</span>
                             </div>
                             <div class="vx-col w-1/2">
@@ -99,30 +99,27 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails'})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+
+                    <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/campanha/configurar-checkout/' + $route.params.id + '/emails'})">
+                        Cancelar
+                    </vs-button>
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
+                        Salvar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
         <vs-prompt
-                @cancel="clearValMultiple"
-                @accept="selectLink"
-                @close="close"
-                :is-valid="selectedLink.id != null"
-                :acceptText="'Salvar'"
-                :cancelText="'Cancelar'"
-                title="Selecionar link"
-                :max-width="'600px'"
-                :active.sync="modal">
+            @cancel="clearValMultiple"
+            @accept="selectLink"
+            @close="close"
+            :is-valid="selectedLink.id != null"
+            :acceptText="'Salvar'"
+            :cancelText="'Cancelar'"
+            title="Selecionar link"
+            :max-width="'600px'"
+            :active.sync="modal">
             <div class="con-exemple-prompt">
                 <div class="mt-3">
                     <span class="font-regular mb-2">Link</span>
@@ -132,14 +129,15 @@
             </div>
         </vs-prompt>
         <vs-prompt
-                @cancel="clearValMultiple"
-                @accept="addVarText('[LINK_ACAO_WHATSAPPLIST]')"
-                @close="close"
-                :acceptText="'Salvar'"
-                :cancelText="'Cancelar'"
-                title="Digite a mensagem"
-                :max-width="'600px'"
-                :active.sync="modalWhats">
+            @cancel="clearValMultiple"
+            @accept="addVarText('[LINK_ACAO_WHATSAPPLIST]')"
+            @close="close"
+            :is-valid="isValidWhats"
+            :acceptText="'Salvar'"
+            :cancelText="'Cancelar'"
+            title="Digite a mensagem"
+            :max-width="'600px'"
+            :active.sync="modalWhats">
             <div class="con-exemple-prompt">
                 <div class="my-3">
                     <span class="font-regular mb-2">Telefone que recebe a mensagem</span>
@@ -156,312 +154,365 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
-    import {Validator} from "vee-validate";
-    import 'quill/dist/quill.core.css'
-    import 'quill/dist/quill.snow.css'
-    import 'quill/dist/quill.bubble.css'
-    import {quillEditor} from 'vue-quill-editor'
+import vSelect from 'vue-select'
+import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
+import {Validator} from "vee-validate";
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import {quillEditor} from 'vue-quill-editor'
 
-    const dict = {
-        custom: {
-            periodo: {
-                required: 'Por favor, insira o período que deseja enviar a mensagem',
-                min_value: 'O valor minimo é de 1',
-            },
-            assunto: {
-                required: 'Por favor, insira o assunto do e-mail',
-            },
-            responder: {
-                required: 'Por favor, insira o email que irá receber a resposta',
-                email: 'Por favor, insira um email válido'
-            },
-            titulo: {
-                required: 'Por favor, insira o título do e-mail',
-            },
-        }
-    };
-    Validator.localize('pt-br', dict);
-
-    export default {
-        name: "EmailsCriar",
-        components: {
-            'v-select': vSelect,
-            quillEditor
+const dict = {
+    custom: {
+        periodo: {
+            required: 'Por favor, insira o período que deseja enviar a mensagem',
+            min_value: 'O valor minimo é de 1',
         },
-        created() {
-            if (!moduleCampCheckouts.isRegistered) {
-                this.$store.registerModule('checkout', moduleCampCheckouts)
-                moduleCampCheckouts.isRegistered = true
-            }
-            if (this.$route.name === 'campanha-config-checkout-emails-editar')
-                this.getId(this.$route.params.idEmail);
-
-            this.getCampanha();
+        assunto: {
+            required: 'Por favor, insira o assunto do e-mail',
         },
-        data() {
-            return {
-                email: {
-                    periodo: 0,
-                    titulo: '',
-                    responder: '',
-                    assunto: '',
-                    corpo: '',
-                    status: true,
-                    unidade_tempo: 0,
-                    unidade_medida: ''
-                },
-                campanha: {
-                    produto: {}
-                },
-                periodoNum: '',
-                periodoSelected: {id: 1, label: 'minutos'},
-                periodosTipo: [
-                    {id: 1, label: 'minutos'},
-                    {id: 60, label: 'horas'},
-                    {id: 1440, label: 'dias'},
-                ],
-                somaPeriodo: 0,
-                modal: false,
-                links: [],
-                selectedLink: null,
-                modalWhats: false,
-                mensagemWhats: '',
-            }
+        responder: {
+            required: 'Por favor, insira o email que irá receber a resposta',
+            email: 'Por favor, insira um email válido'
         },
-        methods: {
-            addLinkCheckoutVarText(){
-                this.modal = true;
-            },
-            clearValMultiple() {
-                this.selectedLink = {id: null, label: 'Selecione o link'};
-            },
-            selectLink() {
-                this.addVarText('[LINK_' + this.selectedLink.id + ']');
-                this.selectedLink = {id: null, label: 'Selecione o link'};
-            },
-            close() {
-                this.modal = false;
-            },
-            validar() {
-                this.$validator.validateAll().then(result => {
-                    if (result) {
-                        if (this.$route.name === 'campanha-config-checkout-emails-editar' && this.email.campanha.contatos.length > 0) {
-                            this.$vs.dialog({
-                                color: 'primary',
-                                title: `Atenção`,
-                                type: 'alert',
-                                text: ' Este e-mail só será enviado ao contato caso o período selecionado seja maior do que o último e-mail que ele recebeu.',
-                                acceptText: 'Ok',
-                                buttonCancel: false,
-                                accept: () => {
-                                    this.validarPeriodo();
-                                },
-                            })
-                        } else {
-                            this.validarPeriodo();
-                        }
-                    } else {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: 'verifique os erros específicos',
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    }
-                })
-
-            },
-            validarPeriodo() {
-                //Validando o período deste e-mail em relação aos já cadastrados, afim de barrar na excedência de 31 dias
-                let somaTotal = this.somaPeriodo + (this.email.unidade_tempo * this.periodoSelected.id)
-                if (somaTotal > 44640) {
-                    this.$vs.dialog({
-                        color: 'danger',
-                        title: `Salvamento interrompido`,
-                        type: 'alert',
-                        text: ' A somatória de todos os períodos cadastrados nos e-mails desta campanha não podem ultrapassar 31 dias (44.640 minutos). Reajuste o período desta configuração e tente novamente.',
-                        acceptText: 'Ok',
-                        buttonCancel: false,
-                    });
-                } else {
-                    this.salvar()
-                }
-            },
-            salvar() {
-                this.$vs.loading();
-                this.email.campanha_id = this.$route.params.id;
-                this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
-                this.email.unidade_medida = this.periodoSelected.label;
-                console.log('email aí', this.email)
-                if (this.email.id !== undefined) {
-                    this.email._method = 'PUT';
-                    this.$store.dispatch('checkout/updateEmail', {
-                        id: this.email.id,
-                        dados: this.email
-                    }).then(response => {
-                        console.log('response', response);
-                        this.$vs.notify({
-                            title: '',
-                            text: "Atualizado com sucesso.",
-                            iconPack: 'feather',
-                            icon: 'icon-check-circle',
-                            color: 'success'
-                        });
-                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
-                    }).catch(erro => {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: erro.message,
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    })
-                } else {
-                    this.$store.dispatch('checkout/storeEmail', this.email).then(response => {
-                        console.log('response', response);
-                        this.$vs.notify({
-                            title: '',
-                            text: "Criado com sucesso.",
-                            iconPack: 'feather',
-                            icon: 'icon-check-circle',
-                            color: 'success'
-                        });
-                        this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
-                    }).catch(erro => {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: erro.message,
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
-                    })
-                }
-            },
-            onEditorReady(editor) {
-                this.editor = editor;
-            },
-            getId(id) {
-                this.$vs.loading();
-                this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
-                    let arr = response;
-                    arr.forEach(item => {
-                        //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
-                        if (this.$route.name === 'campanha-config-checkout-emails-editar') {
-                            if (item.id != this.$route.params.idEmail && item.status)
-                                this.somaPeriodo += item.periodo;
-                        } else {
-                            //Somando os períodos cadastrados nos outros e-mails
-                            this.somaPeriodo += item.periodo;
-                        }
-                    });
-                    console.log('somaperiodo', this.somaPeriodo)
-                });
-                this.$store.dispatch('checkout/getEmailId', id).then(response => {
-                    this.email = {...response};
-                    switch (this.email.unidade_medida) {
-                        case 'dias':
-                            this.periodoSelected = {id: 1440, label: 'dias'}
-                            break;
-                        case 'horas':
-                            this.periodoSelected = {id: 60, label: 'horas'}
-                            break;
-                        default:
-                            this.periodoSelected = {id: 1, label: 'minutos'}
-                    }
-                    console.log('chou aqui')
-                    this.$vs.loading.close();
-                });
-            },
-            formatPrice(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-            },
-            addVarText(value) {
-                //Quill Editor
-                var $txt2 = this.editor.getSelection(true);
-                this.editor.insertText($txt2.index, value, '', true);
-            },
-            getCampanha(){
-                this.$store.dispatch('checkout/getId', this.$route.params.id).then(response => {
-                    this.campanha = {...response};
-                    this.getLinks();
-                });
-            },
-            getLinks(){
-                this.$store.dispatch('getLinks', this.campanha.produto_id).then(response => {
-                    console.log('chou aqui 2', response)
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        this.links.push({id: item.identidade, label: item.descricao});
-                    });
-                    this.selectedLink = {id: null, label: 'Selecione o link'}
-                });
-            }
-        },
-        computed: {
-            isValid() {
-                return this.errors.any();
-            },
-            periodoDisponivel() {
-                let dias = 0;
-                let horas = 0;
-                let mins = 0;
-                let periodoDisponivel = 44640 - this.somaPeriodo;
-
-                dias = (periodoDisponivel / 1440);//Descobrindo quantidade de dias
-                //Se existem minutos para serem calculados, considerando o período de minutos que está disponível
-                if ((periodoDisponivel - (parseInt(dias) * 1440)) > 0) {
-                    let restoDias = periodoDisponivel - (parseInt(dias) * 1440);
-                    horas = restoDias / 60;
-                    let restoHoras = horas - parseInt(horas);
-                    mins = restoHoras * 60;
-                }
-
-                //return parseInt(sobra / 1440);
-                return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`
-            }
-        },
-        watch: {
-            "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            produto: {
-                handler(val) {
-                    console.log('mudou');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
-            },
+        titulo: {
+            required: 'Por favor, insira o título do e-mail',
         },
     }
+};
+Validator.localize('pt-br', dict);
+
+export default {
+    name: "EmailsCriar",
+    components: {
+        'v-select': vSelect,
+        quillEditor
+    },
+    created() {
+        if (!moduleCampCheckouts.isRegistered) {
+            this.$store.registerModule('checkout', moduleCampCheckouts)
+            moduleCampCheckouts.isRegistered = true
+        }
+        if (this.$route.name === 'campanha-config-checkout-emails-editar') {
+            this.getId(this.$route.params.idEmail);
+        } else {
+            this.confereCampanha();
+        }
+        this.getCampanha();
+        this.getLinksCamp();
+
+    },
+    data() {
+        return {
+            email: {
+                periodo: 0,
+                titulo: '',
+                responder: '',
+                assunto: '',
+                corpo: '',
+                status: true,
+                unidade_tempo: 0,
+                unidade_medida: ''
+            },
+            campanha: {
+                produto: {}
+            },
+            periodoNum: '',
+            periodoSelected: {id: 1, label: 'minutos'},
+            periodosTipo: [
+                {id: 1, label: 'minutos'},
+                {id: 60, label: 'horas'},
+                {id: 1440, label: 'dias'},
+            ],
+            somaPeriodo: 0,
+            modal: false,
+            links: [],
+            selectedLink: {
+                id: null
+            },
+            modalWhats: false,
+            mensagemWhats: '',
+        }
+    },
+    methods: {
+        addLinkCheckoutVarText() {
+            this.modal = true;
+        },
+        clearValMultiple() {
+            this.selectedLink = {id: null, label: 'Selecione o link'};
+        },
+        selectLink() {
+            this.addVarText('[LINK_' + this.selectedLink.id + ']');
+            this.selectedLink = {id: null, label: 'Selecione o link'};
+        },
+        close() {
+            this.modal = false;
+        },
+        validar() {
+            this.$validator.validateAll().then(result => {
+                if (result) {
+                    if (this.$route.name === 'campanha-config-checkout-emails-editar' && this.email.campanha.contatos.length > 0) {
+                        this.$vs.dialog({
+                            color: 'primary',
+                            title: `Atenção`,
+                            type: 'alert',
+                            text: ' Este e-mail só será enviado ao contato caso o período selecionado seja maior do que o último e-mail que ele recebeu.',
+                            acceptText: 'Ok',
+                            buttonCancel: false,
+                            accept: () => {
+                                this.validarPeriodo();
+                            },
+                        })
+                    } else {
+                        this.validarPeriodo();
+                    }
+                } else {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: 'verifique os erros específicos',
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                }
+            })
+
+        },
+        validarPeriodo() {
+            //Validando o período deste e-mail em relação aos já cadastrados, afim de barrar na excedência de 31 dias
+            let somaTotal = this.somaPeriodo + (this.email.unidade_tempo * this.periodoSelected.id)
+            if (somaTotal > 44640) {
+                this.$vs.dialog({
+                    color: 'danger',
+                    title: `Salvamento interrompido`,
+                    type: 'alert',
+                    text: ' A somatória de todos os períodos cadastrados nos e-mails desta campanha não podem ultrapassar 31 dias (44.640 minutos). Reajuste o período desta configuração e tente novamente.',
+                    acceptText: 'Ok',
+                    buttonCancel: false,
+                });
+            } else {
+                this.salvar()
+            }
+        },
+        salvar() {
+            this.$vs.loading();
+            this.email.campanha_id = this.$route.params.id;
+            this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
+            this.email.unidade_medida = this.periodoSelected.label;
+            console.log('email aí', this.email)
+            if (this.email.id !== undefined) {
+                this.email._method = 'PUT';
+                this.$store.dispatch('checkout/updateEmail', {
+                    id: this.email.id,
+                    dados: this.email
+                }).then(response => {
+                    console.log('response', response);
+                    this.$vs.notify({
+                        title: '',
+                        text: "Atualizado com sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+                    this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                })
+            } else {
+                this.$store.dispatch('checkout/storeEmail', this.email).then(response => {
+                    console.log('response', response);
+                    this.$vs.notify({
+                        title: '',
+                        text: "Criado com sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+                    this.$router.push({path: '/campanha/configurar-checkout/' + this.$route.params.id + '/emails'})
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    })
+                })
+            }
+        },
+        onEditorReady(editor) {
+            this.editor = editor;
+        },
+        getId(id) {
+            this.$vs.loading();
+            this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
+                let arr = response;
+                arr.forEach(item => {
+                    //Somando os períodos cadastrados nos outros e-mails, desconsiderando o que está sendo editado
+                    if (this.$route.name === 'campanha-config-checkout-emails-editar') {
+                        if (item.id != this.$route.params.idEmail && item.status)
+                            this.somaPeriodo += item.periodo;
+                    } else {
+                        //Somando os períodos cadastrados nos outros e-mails
+                        this.somaPeriodo += item.periodo;
+                    }
+                });
+                console.log('somaperiodo', this.somaPeriodo)
+            });
+            this.$store.dispatch('checkout/getEmailId', id).then(response => {
+                this.email = {...response};
+                switch (this.email.unidade_medida) {
+                    case 'dias':
+                        this.periodoSelected = {id: 1440, label: 'dias'}
+                        break;
+                    case 'horas':
+                        this.periodoSelected = {id: 60, label: 'horas'}
+                        break;
+                    default:
+                        this.periodoSelected = {id: 1, label: 'minutos'}
+                }
+                console.log('chou aqui')
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
+        },
+        confereCampanha() {
+            this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
+                let arr = response;
+                arr.forEach(item => {
+                    if (this.$route.name === 'campanha-config-checkout-emails-editar') {
+                        if (item.id != this.$route.params.idEmail && item.status)
+                            this.somaPeriodo += item.periodo;
+                    } else {
+                        this.somaPeriodo += item.periodo;
+                    }
+                });
+                console.log('somaperiodo', this.somaPeriodo)
+            });
+            this.getLinksCamp(this.$route.params.id);
+        },
+        formatPrice(value) {
+            let val = (value / 1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        },
+        addVarText(value) {
+            //Quill Editor
+            var $txt2 = this.editor.getSelection(true);
+            this.editor.insertText($txt2.index, value, '', true);
+        },
+        getCampanha() {
+            this.$store.dispatch('checkout/getId', this.$route.params.id).then(response => {
+                this.campanha = {...response};
+                console.log(this.campanha, 'campanha');
+                this.getLinks();
+            });
+        },
+        getLinks() {
+            this.$store.dispatch('getLinks', this.campanha.produto_id).then(response => {
+                console.log('chou aqui 2', response)
+                let arr = [...response];
+                arr.forEach(item => {
+                    this.links.push({id: item.identidade, label: item.descricao});
+                });
+                this.selectedLink = {id: null, label: 'Selecione o link'}
+            });
+        },
+        getLinksCamp() {
+            let params = {
+                campanha: this.$route.params.id,
+                campanha_tipo: 'boleto',
+                produto_id: this.campanha.produto_id
+            };
+            console.log(params, 'parametros');
+            this.$store.dispatch('getLinksCamp', params).then(response => {
+                let arr = [...response];
+                arr.forEach(item => {
+                    this.links.push({id: item.identidade, label: item.descricao});
+                });
+                this.linkSelected = {id: null, label: 'Selecione o link'}
+            });
+        },
+
+    },
+    computed: {
+        isValidWhats() {
+          if (this.email.telefone == null || this.email.telefone == '')
+            return false
+          if (this.email.whatsapp == null || this.email.whatsapp == '')
+            return false
+
+          return true
+        },
+        isValid() {
+            return this.errors.any();
+        },
+        periodoDisponivel() {
+            let dias = 0;
+            let horas = 0;
+            let mins = 0;
+            let periodoDisponivel = 44640 - this.somaPeriodo;
+
+            dias = (periodoDisponivel / 1440);//Descobrindo quantidade de dias
+            //Se existem minutos para serem calculados, considerando o período de minutos que está disponível
+            if ((periodoDisponivel - (parseInt(dias) * 1440)) > 0) {
+                let restoDias = periodoDisponivel - (parseInt(dias) * 1440);
+                horas = restoDias / 60;
+                let restoHoras = horas - parseInt(horas);
+                mins = restoHoras * 60;
+            }
+
+            //return parseInt(sobra / 1440);
+            return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`
+        }
+    },
+    watch: {
+        "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
+        },
+        produto: {
+            handler(val) {
+                console.log('mudou');
+                if (val) {
+                    console.log('watch', val);
+                }
+            },
+            deep: true
+        },
+    },
+}
 </script>
 
 <style>
-    [dir] .con-select .vs-select--input {
-        padding: 1.4rem 2rem !important;
-    }
+[dir] .con-select .vs-select--input {
+    padding: 1.4rem 2rem !important;
+}
 
-    #copy-icon {
-        position: absolute;
-        top: 0.7rem;
-        right: 30px;
-        cursor: pointer;
-    }
+#copy-icon {
+    position: absolute;
+    top: 0.7rem;
+    right: 30px;
+    cursor: pointer;
+}
 
-    @media (max-width: 768px) {
-        .calendar-col-email {
-            display: none;
-        }
+@media (max-width: 768px) {
+    .calendar-col-email {
+        display: none;
     }
+}
 
-    .ql-image {
-        display: none !important;
-    }
+.ql-image {
+    display: none !important;
+}
 </style>

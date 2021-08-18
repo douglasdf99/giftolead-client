@@ -34,33 +34,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20" v-show="items.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <br>
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Produto
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <nenhum-registro class="mt-20" :add="true" module="Link" @addEvent="addNewData" v-show="items.length === 0"/>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" v-model="selected" @selected="handleSelected" class="table-items">
 
@@ -93,9 +67,11 @@
 
 <script>
     import moduleContas from '@/store/contas/moduleContas.js'
+    import NenhumRegistro from "@/views/components/NenhumRegistro";
 
     export default {
         name: "Index",
+        components: {NenhumRegistro},
         data() {
             return {
                 // Data Sidebar
@@ -134,7 +110,6 @@
         },
         methods: {
             handleSelected(tr) {
-              console.log('clicou',tr);
               this.$router.push({path: '/configuracoes/links/produto/' + tr.id});
             },
             addNewData() {
@@ -150,7 +125,6 @@
             getProdutos() {
 
                 this.$store.dispatch('getVarios', {rota: 'produtos', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
@@ -173,7 +147,6 @@
                             });
                             this.getProdutos();
                         }).catch(erro => {
-                            console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
@@ -184,6 +157,7 @@
                 })
             },
             pesquisar(e) {
+              this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getProdutos();
@@ -192,7 +166,6 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getProdutos();
             },

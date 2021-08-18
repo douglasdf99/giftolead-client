@@ -1,10 +1,8 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate"
-                  @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @paginate="paginate" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
-            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3">
+            <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_brinde_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Brinde
@@ -15,18 +13,15 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
-                            <vs-input autocomplete
-                                      class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
-                                      v-model="dados.search" id="search_input" size="large"
-                                      placeholder="Pesquisar por nome do brinde, nome do produto ou medidas"/>
+                        <form @input="pesquisar">
+                            <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" v-model="dados.search" id="search_input" size="large"
+                                      placeholder="Nome do brinde, nome do produto ou medidas"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
                                 <button type="submit" class="btn-search-bar">
                                     <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
                                 </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
                             </div>
                         </form>
                     </div>
@@ -34,7 +29,7 @@
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
-            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop">
+            <div class="vx-col w-full lg:w-6/12 xlg:w-5/12 col-btn-incluir-desktop" v-if="$acl.check('configuracao_brinde_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Incluir Brinde
@@ -61,26 +56,25 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data">
                                 <vs-td class="flex justify-center items-center">
-                                    <vs-dropdown vs-trigger-click>
+                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_brinde_editar') || $acl.check('configuracao_brinde_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="$router.push({path: '/configuracoes/contratos/editar/' + tr.contrato.id})">
+                                            <vs-dropdown-item @click="$router.push({path: '/configuracoes/contratos/editar/' + tr.contrato.id})" v-if="$acl.check('configuracao_contrato_editar') && !tr.contrato.deleted_at">
                                                 <vs-icon icon-pack="feather" icon="icon-file-text"></vs-icon>
                                                 Editar Contrato
                                             </vs-dropdown-item>
-                                            <vs-dropdown-item @click="updateData(data[indextr])">
+                                            <vs-dropdown-item @click="updateData(data[indextr])" v-if="$acl.check('configuracao_brinde_editar')">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
                                             </vs-dropdown-item>
-                                            <vs-dropdown-item @click="deletar(data[indextr].id)">
+                                            <vs-dropdown-item @click="deletar(data[indextr].id)" v-if="$acl.check('configuracao_brinde_deletar')">
                                                 <vs-icon icon-pack="material-icons" icon="delete"></vs-icon>
                                                 Deletar
                                             </vs-dropdown-item>
-
                                         </vs-dropdown-menu>
                                     </vs-dropdown>
                                 </vs-td>
@@ -113,10 +107,12 @@
                                              v-if="data[indextr].ativo"></vs-icon>
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record" class="icon-grande"
                                              v-else></vs-icon>
-                                    <vx-tooltip text="Contrato desativado" position="top">
-                                        <vs-icon icon-pack="material-icons" icon="cancel"
-                                                 class="icon-grande text-danger"
-                                                 v-if="!tr.contrato.status"></vs-icon>
+                                    <vx-tooltip text="Contrato desativado ou deletado" position="top">
+                                        <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger" v-if="!tr.contrato.status && tr.contrato_type == 'App\\Models\\Correio'"></vs-icon>
+                                    </vx-tooltip>
+                                    <vx-tooltip text="Contrato desativado ou deletado" position="top">
+                                        <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger"
+                                                 v-if="tr.contrato.extensao && !tr.contrato.extensao.ativo"></vs-icon>
                                     </vx-tooltip>
                                 </vs-td>
                             </vs-tr>
@@ -126,32 +122,7 @@
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
                 <div class="vx-row mt-20 flex justify-center" v-else>
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search === null">
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-
-                            </div>
-                            <br>
-                            <p>
-                                <vs-button color="primary" class="float-left botao-incluir mt-6" type="filled"
-                                           @click="addNewData">
-                                    <vs-icon icon-pack="material-icons" icon="check_circle"
-                                             class="icon-grande"></vs-icon>
-                                    Incluir Brinde
-                                </vs-button>
-                            </p>
-                        </div>
-                    </div>
+                  <nenhum-registro></nenhum-registro>
                 </div>
             </vs-col>
         </vs-row>
@@ -161,10 +132,11 @@
 <script>
     import SideBar from './SideBar'
     import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import NenhumRegistro from "../components/NenhumRegistro";
 
     export default {
         name: "Index",
-        components: {SideBar},
+        components: {NenhumRegistro, SideBar},
         data() {
             return {
                 // Data Sidebar
@@ -212,9 +184,8 @@
                 this.$store.dispatch('getVarios', {rota: 'brindes', params: this.dados}).then(response => {
                     console.log('retornado com sucesso', response)
                     this.pagination = response;
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                }).finally(()=>{
+                  this.$vs.loading.close()
                 });
             },
             deletar(id) {
@@ -233,17 +204,19 @@
                             });
                             this.getBrindes();
                         }).catch(erro => {
-                            console.log(erro)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
+                        }).finally(()=>{
+                          this.$vs.loading.close()
                         })
                     }
                 })
             },
             pesquisar(e) {
+                this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getBrindes();

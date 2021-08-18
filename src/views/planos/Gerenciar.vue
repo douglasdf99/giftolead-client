@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="vx-row">
-                <div class="vx-col col-conquista mb-10">
+                <div class="vx-col col-conquista mb-10" v-if="$acl.check('planos_campanhas_incluir')">
                     <div class="conquista nova cursor-pointer"
                          @click="$router.push({path: '/planos/gerenciar/' + plano.id + '/campanha/criar'})">
                         <div class="img-plus cursor-pointer">
@@ -36,10 +36,10 @@
                 <div class="vx-col col-conquista mb-10" v-for="campanha in plano.campanhas">
                     <div class="conquista" v-bind:class="{'desativado': !campanha.campanhable.status}">
                         <div class="py-2 w-full flex justify-between">
-                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash"
-                                       @click="deletar(campanha.id)"></vs-button>
+                            <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" :disabled="!$acl.check('planos_campanhas_deletar')"
+                                       @click="deletar(campanha)"></vs-button>
                             <vs-switch vs-icon-on="check" color="#0FB599" v-model="campanha.campanhable.status"
-                                       class="float-right switch"
+                                       class="float-right switch" :disabled="!$acl.check('planos_campanhas_editar')"
                                        @click="ativaCampanha(campanha.campanhable, campanha.campanhable_type)"/>
                         </div>
                         <div class="conquista-clicavel w-full cursor-pointer" @click="configurarCampanha(campanha)">
@@ -65,17 +65,13 @@
         <transition name="fade" v-if="(nomeAntigo != plano.nome) || (statusAntigo != plano.status)">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
-                                Salvar
-                            </vs-button>
-                            <vs-button class="mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({name: 'meus-planos'})">
-                                Cancelar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                        Salvar
+                    </vs-button>
+                    <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({name: 'meus-planos'})">
+                        Cancelar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -170,11 +166,13 @@
                                         }).catch(erro => {
                                             this.$vs.notify({
                                                 title: 'Error',
-                                                text: erro.message,
+                                                text: erro.response.data.message,
                                                 iconPack: 'feather',
                                                 icon: 'icon-alert-circle',
                                                 color: 'danger'
                                             })
+                                        }).finally(() => {
+                                            this.$vs.loading.close();
                                         })
                                     },
                                     cancel: () => {
@@ -189,16 +187,17 @@
                                         icon: 'icon-check-circle',
                                         color: 'success'
                                     });
-                                    this.$vs.loading.close();
                                     this.getPlano(this.$route.params.id);
                                 }).catch(erro => {
                                     this.$vs.notify({
                                         title: 'Error',
-                                        text: erro.message,
+                                        text: erro.response.data.message,
                                         iconPack: 'feather',
                                         icon: 'icon-alert-circle',
                                         color: 'danger'
                                     })
+                                }).finally(() => {
+                                    this.$vs.loading.close();
                                 })
                             }
                         } else {//Criando um novo
@@ -215,11 +214,13 @@
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
-                                    text: erro.message,
+                                    text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
                                 })
+                            }).finally(() => {
+                                this.$vs.loading.close();
                             })
                         }
                         this.$vs.loading.close();
@@ -235,7 +236,10 @@
                 })
 
             },
-            deletar(id) {
+            deletar(campanha) {
+                let rota = '';
+
+                campanha.campanhable_type == `App\\Models\\CampanhaCarrinho`
                 this.$vs.dialog({
                     color: 'danger',
                     title: `Deletar registro?`,
@@ -243,13 +247,13 @@
                     acceptText: 'Sim, deletar!',
                     accept: () => {
                         this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: ''}).then(() => {
+                        this.$store.dispatch('deleteItem', {id: campanha.id, rota: 'plano_campanhas'}).then(() => {
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso',
                                 text: 'Deletado com sucesso'
                             });
-                            this.getItems();
+                            this.getPlano(this.$route.params.id);
                         }).catch(erro => {
                             console.log(erro)
                             this.$vs.notify({
@@ -257,6 +261,8 @@
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
                             })
+                        }).finally(() => {
+                            this.$vs.loading.close();
                         })
                     }
                 })
@@ -308,13 +314,14 @@
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
                             })
-                        });
-                        this.$vs.loading.close();
+                        }).finally(() => {
+                            this.$vs.loading.close();
+                        })
                         this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                     } else {
                         e.status = !e.status;
@@ -326,7 +333,7 @@
                     color: 'primary',
                     type: 'confirm',
                     title: `Deseja ativar essa campanha?`,
-                    text: 'Ao ativar essa campanha, outra campnha desse mesmo tipo e de mesmo produto será desativada.',
+                    text: 'Ao ativar essa campanha, outra campanha desse mesmo tipo e de mesmo produto será desativada.',
                     acceptText: 'Sim, ativar!',
                     accept: () => {
                         this.$store.dispatch('campanhas/ativaEspecifica', {
@@ -344,7 +351,7 @@
                         }).catch(erro => {
                             this.$vs.notify({
                                 title: 'Error',
-                                text: erro.message,
+                                text: erro.response.data.message,
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
@@ -359,25 +366,32 @@
                 })
             },
             configurarCampanha(item) {
-                let rota = '';
-                switch (item.campanhable_type) {
-                    case 'App\\Models\\CampanhaCarrinho':
-                        rota = 'configurar-checkout';
-                        break;
-                    case 'App\\Models\\CampanhaAgendamento':
-                        rota = 'configurar-agendamento';
-                        break;
-                    case 'App\\Models\\CampanhaCancelado':
-                        rota = 'configurar-canceladas';
-                        break;
-                    case 'App\\Models\\CampanhaBoleto':
-                        rota = 'configurar-boleto';
-                        break;
-                    case 'App\\Models\\CampanhaWhatsapp':
-                        rota = 'configurar-whatsapp';
-                        break;
+                if (this.$acl.check('planos_campanhas_detalhar')) {
+                    let rota = '';
+                    switch (item.campanhable_type) {
+                        case 'App\\Models\\CampanhaCarrinho':
+                            rota = 'configurar-checkout';
+                            break;
+                        case 'App\\Models\\CampanhaAgendamento':
+                            rota = 'configurar-agendamento';
+                            break;
+                        case 'App\\Models\\CampanhaCancelado':
+                            rota = 'configurar-canceladas';
+                            break;
+                        case 'App\\Models\\CampanhaBoleto':
+                            rota = 'configurar-boleto';
+                            break;
+                        case 'App\\Models\\CampanhaWhatsapp':
+                            rota = 'configurar-whatsapp';
+                            break;
+                    }
+                    this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
+                } else {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Você não possui acesso ao painel de configuração desta campanha.'
+                    });
                 }
-                this.$router.push({path: `/campanha/${rota}/${item.campanhable.id}`});
             },
             selecionaTipoComissao(val) {
                 this.plano.comissao_tipo = val;
@@ -390,7 +404,10 @@
                     this.nomeAntigo = data.nome;
                     this.statusAntigo = data.status;
                     this.$vs.loading.close();
-                })
+                }).catch(erro => {
+                    console.log('front erro', erro.response);
+                    if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos cadastrados'}});
+                });
             },
             copyText() {
                 const thisIns = this;

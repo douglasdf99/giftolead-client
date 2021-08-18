@@ -191,15 +191,15 @@ export default {
         }
     },
     revenueComparisonLine: {
-        // series: [{
-        //         name: "This Month",
-        //         data: [45000, 47000, 44800, 47500, 45500, 48000, 46500, 48600]
-        //     },
-        //     {
-        //         name: "Last Month",
-        //         data: [46000, 48000, 45500, 46600, 44500, 46500, 45000, 47000]
-        //     }
-        // ],
+        series: [{
+                name: "This Month",
+                data: [45000, 47000, 44800, 10500, 45500, 48000, 46500, 48600,100]
+            },
+            {
+                name: "Last Month",
+                data: [46000, 48000, 45500, 10600, 44500, 46500, 45000, 47000,1000]
+            }
+        ],
         chartOptions: {
             chart: {
                 toolbar: { show: false },
@@ -251,7 +251,7 @@ export default {
                 axisTicks: {
                     show: false,
                 },
-                categories: ['01', '05', '09', '13', '17', '21', '26', '31'],
+                categories: ['01/10', '05/11', '09/12', '13/13', '17/46', '21/9', '26/2020', '31/30','13','68','78'],
                 axisBorder: {
                     show: false,
                 },
@@ -764,7 +764,7 @@ export default {
         // ],
         // series: [70, 52, 26],
         chartOptions: {
-            labels: ['Finished', 'Pending', 'Rejected'],
+            labels: ['Ganhou', 'Aguardando', 'Perdeu'],
             plotOptions: {
                 radialBar: {
                     size: 165,
@@ -790,8 +790,8 @@ export default {
                         total: {
                             show: true,
                             label: 'Total',
-                            formatter: function() {
-                                return 42459
+                            formatter: function(val) {
+                                    return 42459
                             }
                         }
                     }
@@ -815,7 +815,7 @@ export default {
                     }
                 }
             }],
-            colors: ['#7961F9', '#FF9F43', '#EA5455'],
+            colors: ['#4DE98A', '#FF9F43', '#EA5455'],
             fill: {
                 type: 'gradient',
                 gradient: {
@@ -823,7 +823,7 @@ export default {
                     shade: 'dark',
                     type: 'vertical',
                     shadeIntensity: 0.5,
-                    gradientToColors: ['#9c8cfc', '#FFC085', '#f29292'],
+                    gradientToColors: ['#65dd91', '#FFC085', '#f29292'],
                     inverseColors: false,
                     opacityFrom: 1,
                     opacityTo: 1,

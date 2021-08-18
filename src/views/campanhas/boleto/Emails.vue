@@ -31,7 +31,7 @@
                     <div class="w-full">
                         <img src="@/assets/images/util/e-mail.svg" class="img-conquista my-3" width="120">
                         <p class="nome-conq mb-4 text-base">
-                            {{email.unidade_tempo}} {{email.unidade_medida}} depois {{index === 0 ? 'da entrada' : 'do último envio'}}
+                            {{ email.unidade_tempo }} {{ email.unidade_medida }} depois {{ index === 0 ? 'da entrada' : 'do último envio' }}
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
@@ -44,14 +44,10 @@
         <transition name="fade">
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
-                    <div class="container">
-                        <div class="vx-row mb-2 relative">
-                            <vs-button class="mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
-                                       @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id})">
-                                Voltar
-                            </vs-button>
-                        </div>
-                    </div>
+                    <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
+                               @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id})">
+                        Voltar
+                    </vs-button>
                 </div>
             </footer-doug>
         </transition>
@@ -59,155 +55,150 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import SideBar from '../Reorganizar'
-    import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
+import vSelect from 'vue-select'
+import SideBar from '../Reorganizar'
+import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
-    export default {
-        name: "Emails",
-        components: {
-            'v-select': vSelect,
-            SideBar
-        },
-        created() {
-            if (!moduleCampBoletos.isRegistered) {
-                this.$store.registerModule('boleto', moduleCampBoletos)
-                moduleCampBoletos.isRegistered = true
-            }
-            this.getId(this.$route.params.id);
-        },
-        data() {
-            return {
-                campanha: {
-                    nome: '',
-                    produto: '',
-                    status: null,
-                    boleto: ''
-                },
-                emails: [],
-                listaEmails: [],
-                countSwitch: [],
-                addNewDataSidebar: false
-            }
-        },
-        methods: {
-            organizar() {
-                this.listaEmails = [...this.emails];
-                this.toggleDataSidebar(true)
+export default {
+    name: "Emails",
+    components: {
+        'v-select': vSelect,
+        SideBar
+    },
+    created() {
+        if (!moduleCampBoletos.isRegistered) {
+            this.$store.registerModule('boleto', moduleCampBoletos)
+            moduleCampBoletos.isRegistered = true
+        }
+        this.getId(this.$route.params.id);
+    },
+    data() {
+        return {
+            campanha: {
+                nome: '',
+                produto: '',
+                status: null,
+                boleto: ''
             },
-            closeSidebar() {
-                this.toggleDataSidebar();
-                this.getId(this.$route.params.id)
-            },
-            toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
-            },
-            getId(id) {
-                this.$vs.loading();
-                this.$store.dispatch('boleto/getEmails', id).then(response => {
-                    this.emails = response;
-                    this.$vs.loading.close();
+            emails: [],
+            listaEmails: [],
+            countSwitch: [],
+            addNewDataSidebar: false
+        }
+    },
+    methods: {
+        organizar() {
+            this.listaEmails = [...this.emails];
+            this.toggleDataSidebar(true)
+        },
+        closeSidebar() {
+            this.toggleDataSidebar();
+            this.getId(this.$route.params.id)
+        },
+        toggleDataSidebar(val = false) {
+            this.addNewDataSidebar = val
+        },
+        getId(id) {
+            this.$vs.loading();
+            this.$store.dispatch('boleto/getEmails', id).then(response => {
+                this.emails = response;
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
-            },
-            deletar(id) {
-                this.$vs.dialog({
-                    color: 'danger',
-                    title: `Deletar registro?`,
-                    text: 'Deseja deletar este registro? Procedimento irreversível',
-                    acceptText: 'Sim, deletar!',
-                    accept: () => {
-                        this.$vs.loading();
-                        this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_carrinho_emails'}).then(() => {
-                            this.$vs.notify({
-                                color: 'success',
-                                title: '',
-                                text: 'Deletado com sucesso'
-                            });
-                            this.getId(this.$route.params.id);
-                        }).catch(erro => {
-                            console.log(erro)
-                            this.$vs.notify({
-                                color: 'danger',
-                                title: '',
-                                text: 'Algo deu errado ao deletar. Contate o suporte.'
-                            })
-                        }).finally(()=>{
-                          this.$vs.loading.close();
+            }).finally(() => this.$vs.loading.close());
+        },
+        deletar(id) {
+            this.$vs.dialog({
+                color: 'danger',
+                title: `Deletar registro?`,
+                text: 'Deseja deletar este registro? Procedimento irreversível',
+                acceptText: 'Sim, deletar!',
+                accept: () => {
+                    this.$vs.loading();
+                    this.$store.dispatch('deleteItem', {id: id, rota: 'campanha_carrinho_emails'}).then(() => {
+                        this.$vs.notify({
+                            color: 'success',
+                            title: '',
+                            text: 'Deletado com sucesso'
+                        });
+                        this.getId(this.$route.params.id);
+                    }).catch(erro => {
+                        this.$vs.notify({
+                            color: 'danger',
+                            title: '',
+                            text: 'Algo deu errado ao deletar. Contate o suporte.'
                         })
-                    }
-                })
-            },
-            ativaEmail(e) {
-                console.log(this.countSwitch)
-                if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
-                    e.status = !e.status;
+                    }).finally(() => {
+                        this.$vs.loading.close();
+                    })
+                }
+            })
+        },
+        ativaEmail(e) {
+            if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
+                e.status = !e.status;
+                this.$vs.notify({
+                    title: '',
+                    text: 'Muitas tentativas de ativação',
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            } else {
+                const formData = new FormData();
+                let ativo = e.status ? 0 : 1;
+                let text = e.status ? 'Desativada' : 'Ativada';
+                formData.append('status', ativo);
+                formData.append('_method', 'PUT');
+                formData.append('assunto', e.assunto);
+                this.$store.dispatch('boleto/updateEmail', {id: e.id, dados: formData}).then(() => {
                     this.$vs.notify({
                         title: '',
-                        text: 'Muitas tentativas de ativação',
+                        text: text + " com sucesso.",
+                        iconPack: 'feather',
+                        icon: 'icon-check-circle',
+                        color: 'success'
+                    });
+                }).catch(erro => {
+                    this.$vs.notify({
+                        title: 'Error',
+                        text: erro.response.data.message,
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    });
-                } else {
-                    console.log(e)
-                    const formData = new FormData();
-                    let ativo = e.status ? 0 : 1;
-                    let text = e.status ? 'Desativada' : 'Ativada';
-                    formData.append('status', ativo);
-                    formData.append('_method', 'PUT');
-                    formData.append('assunto', e.assunto);
-                    this.$store.dispatch('boleto/updateEmail', {id: e.id, dados: formData}).then(() => {
-                        this.$vs.notify({
-                            title: '',
-                            text: text + " com sucesso.",
-                            iconPack: 'feather',
-                            icon: 'icon-check-circle',
-                            color: 'success'
-                        });
-                    }).catch(erro => {
-                        this.$vs.notify({
-                            title: 'Error',
-                            text: erro.message,
-                            iconPack: 'feather',
-                            icon: 'icon-alert-circle',
-                            color: 'danger'
-                        })
                     })
-                    this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
-                }
+                })
+                this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
             }
+        }
+    },
+    computed: {
+        isValid() {
+            return this.errors.any();
         },
-        computed: {
-            isValid() {
-                return this.errors.any();
-            },
+    },
+    watch: {
+        "$route"() {
+            this.routeTitle = this.$route.meta.pageTitle
         },
-        watch: {
-            "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            produto: {
-                handler(val) {
-                    console.log('mudou');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
-            },
-        },
-    }
+    },
+}
 </script>
 
 <style>
-    [dir] .con-select .vs-select--input {
-        padding: 1.4rem 2rem !important;
-    }
+[dir] .con-select .vs-select--input {
+    padding: 1.4rem 2rem !important;
+}
 
-    #copy-icon {
-        position: absolute;
-        top: 0.7rem;
-        right: 30px;
-        cursor: pointer;
-    }
+#copy-icon {
+    position: absolute;
+    top: 0.7rem;
+    right: 30px;
+    cursor: pointer;
+}
 </style>

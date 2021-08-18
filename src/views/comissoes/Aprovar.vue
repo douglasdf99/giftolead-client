@@ -1,6 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
+        <side-bar v-show="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
                   :data="sidebarData" @action="action"/>
         <div class="vx-row flex items-end lg:mt-5 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-4/12 xlg:w-5/12">
@@ -11,7 +11,7 @@
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="search" id="search_input_trans" size="large"
-                                      placeholder="Pesquisar por n de ticket ou e-mail do lead"/>
+                                      placeholder="Nº do de ticket ou e-mail do lead"/>
                             <!-- SEARCH LOADING -->
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
@@ -31,7 +31,7 @@
             </div>
             <div class="vx-col w-full lg:w-4/12 sm:w-full">
                 <label class="vs-input--label">Atendente</label>
-                <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
+                <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="false" class="bg-white"
                           :options="usuarios"/>
             </div>
         </div>
@@ -66,25 +66,6 @@
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
-                <div class="vx-row mt-20" v-show="comissoes.length === 0">
-                    <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                        <div class="w-8/12">
-                            <div v-if="dados.search">
-                                <p class="span-sem-item">Nenhum item foi encontrado</p>
-                                <p class="text-sem-item mt-6">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <div v-else>
-                                <p class="span-sem-item">Você não possui nenhum item cadastrado</p>
-                                <p class="text-sem-item">
-                                    Para inserir novos registros você <br> pode clicar em incluir conta.
-                                </p>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                </div>
             </vs-col>
         </vs-row>
     </div>
@@ -97,11 +78,10 @@
     import vSelect from 'vue-select'
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
-    import moduleCampAgendamentos from "../../store/campanha_agendamento/moduleCampAgendamentos";
-    import moduleCampBoletos from "../../store/campanha_boleto/moduleCampBoletos";
-    import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
-    import moduleCampWhatsapp from "../../store/campanha_whatsapp/moduleCampWhatsapp";
+
+    const moment = require('moment/moment');
+    require('moment/locale/pt-br');
 
     export default {
         name: "Index",
@@ -114,7 +94,7 @@
                 sidebarData: {},
                 search: '',
                 dados: {
-                    search: '',
+                    pesquisa: '',
                     page: 1,
                     length: 25
                 },
@@ -141,30 +121,10 @@
             }
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             if (!moduleComissoes.isRegistered) {
                 this.$store.registerModule('comissoes', moduleComissoes)
                 moduleComissoes.isRegistered = true
-            }
-
-            if (!moduleCampAgendamentos.isRegistered) {
-                this.$store.registerModule('agendadas', moduleCampAgendamentos)
-                moduleCampAgendamentos.isRegistered = true
-            }
-
-            if (!moduleCampBoletos.isRegistered) {
-                this.$store.registerModule('boletos', moduleCampBoletos)
-                moduleCampBoletos.isRegistered = true
-            }
-
-            if (!moduleCampCanceladas.isRegistered) {
-                this.$store.registerModule('canceladas', moduleCampCanceladas)
-                moduleCampCanceladas.isRegistered = true
-            }
-
-            if (!moduleCampWhatsapp.isRegistered) {
-                this.$store.registerModule('whats', moduleCampWhatsapp)
-                moduleCampWhatsapp.isRegistered = true
             }
 
             if (!moduleUsuario.isRegistered) {
@@ -201,16 +161,14 @@
             },
             getItems(tipo = this.tipoCom) {
                 this.$vs.loading();
+                if(tipo !== this.tipoCom)
+                    this.currentx = 1
+
                 this.dados.tipo = tipo;
                 this.tipoCom = tipo;
 
                 let url = '';
                 let control = 0;//Controla entradas em cada condição
-                if (this.search !== '') {
-                    url += 'lead.email:' + this.search + ';';
-                    url += 'ticket.id:' + this.search;
-                    control++;
-                }
 
                 if (this.selectedResp != null) {
                     this.dados.criador_type = this.selectedResp.criador_type;
@@ -224,23 +182,27 @@
                     this.dados.atendente_id = this.selectedAten.id
                 }
 
-                if (control >= 2)
-                    url += '&searchJoin=and';
-
-                this.dados.search = url;
+                this.dados.pesquisa = this.search;
 
                 this.$store.dispatch('comissoes/getPreCom', {params: this.dados}).then(response => {
                     console.log('retornado com sucessso', response)
                     this.pagination = response;
                     this.comissoes = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             getOpcoes(){
                 this.selectedAten.label = 'Carregando...';
-                this.$store.dispatch('users/get').then(response => {
-                    this.usuarios = [...this.arraySelect(response)];
+                this.$store.dispatch('users/getArraySelect').then(response => {
+                    this.usuarios = [...response];
                     this.selectedAten.label = 'Selecione o atendente';
                 });
             },
@@ -288,18 +250,18 @@
                             this.toggleDataSidebar(false);
                             this.getItems();
                         }).catch(erro => {
-                            console.log(erro)
+                            console.log(erro.response.data.message)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
-                                text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
+                                text: erro.response.data.message
                             })
-                            this.$vs.loading.close();
-                        })
+                        }).finally(() => this.$vs.loading.close())
                     }
                 })
             },
             pesquisar(e) {
+              this.dados.page =1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();

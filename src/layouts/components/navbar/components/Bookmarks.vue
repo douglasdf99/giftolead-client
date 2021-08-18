@@ -5,8 +5,10 @@
             <draggable v-model="starredPagesLimited" :group="{name: 'pinList'}" class="flex cursor-move">
                 <li class="starred-page" v-for="page in starredPagesLimited" :key="page.url">
                     <vx-tooltip :text="page.title" position="bottom" delay=".3s">
-                        <feather-icon :svgClasses="['h-6 w-6 stroke-current', textColor]" class="p-2 cursor-pointer"
-                                      :icon="page.icon" @click="$router.push(page.url).catch(() => {})"/>
+                        <i class="material-icons p-2 cursor-pointer" @click="$router.push(page.url).catch(() => {})"
+                           :svgClasses="['h-6 w-6 stroke-current', textColor]">{{page.icon}}</i>
+                        <!--<feather-icon :svgClasses="['h-6 w-6 stroke-current', textColor]" class="p-2 cursor-pointer"
+                                      :icon="page.icon" @click="$router.push(page.url).catch(() => {})"/>-->
                     </vx-tooltip>
                 </li>
             </draggable>
@@ -44,7 +46,7 @@
                         :data="navbarSearchAndPinList"
                         :initalData="{pages: starredPagesLimited.concat(starredPagesMore)}"
                         :searchLimit="5"
-                        placeholder="Explore Vuexy..."
+                        placeholder="Pesquise pelo nome do módulo"
                         inputClassses="w-full"
                         show-action
                         show-pinned
@@ -76,6 +78,7 @@
 <script>
     import draggable from 'vuedraggable'
     import VxAutoSuggest from '@/components/vx-auto-suggest/VxAutoSuggest.vue'
+    import paginas from "@/paginas";
 
     export default {
         props: {
@@ -91,6 +94,7 @@
         data() {
             return {
                 showBookmarkPagesDropdown: false,
+                paginasFavoritadas: []
             }
         },
         watch: {
@@ -115,7 +119,7 @@
             },
             starredPagesMore: {
                 get() {
-                    return this.starredPages.slice(10)
+                    return this.starredPages.slice(10);
                 },
                 set(list) {
                     this.$store.dispatch('arrangeStarredPagesMore', list)
@@ -133,7 +137,7 @@
                 })
             },
             actionClicked(item) {
-                this.$store.dispatch('updateStarredPage', {url: item.url, val: !item.is_bookmarked})
+                this.$store.dispatch('updateStarredPage', {url: item.url, val: !item.is_bookmarked, pages: this.$store.state.pages})
                 // this.$refs.bookmarkAutoSuggest.filterData()
             },
             outside: function () {
@@ -163,6 +167,9 @@
 
                 }
             }
+        },
+        created() {
+            this.paginasFavoritadas = [...paginas.pages];
         }
     }
 

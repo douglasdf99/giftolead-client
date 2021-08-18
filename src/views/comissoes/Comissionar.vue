@@ -3,7 +3,7 @@
         <detalhe-comissao v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar"  @closeSidebar="toggleDataSidebar"
                   :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
-            <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
+            <div class="vx-col w-full sm:w-full md:w-full lg:w-8/12 xlg:w-5/12">
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
@@ -25,19 +25,20 @@
                 </div>
                 <div class="vx-row my-3" v-show="dados.aba == 'comissao'">
                     <div class="vx-col w-full lg:w-1/2 sm:w-full">
-                        <select-responsaveis @chooseResp="chooseResp" />
-                    </div>
-                    <div class="vx-col w-full lg:w-1/2 sm:w-full">
                         <label class="vs-input--label">Usuário</label>
-                        <v-select v-model="selectedUser" :class="'select-large-base'" :clearable="true" class="bg-white"
+                        <v-select v-model="selectedAten" :class="'select-large-base'" :clearable="true" class="bg-white"
                                   :options="usuarios"/>
                     </div>
+                  <div class="vx-col w-full lg:w-1/2 sm:w-full">
+                    <select-responsaveis @chooseResp="chooseResp" />
+                  </div>
                 </div>
                 <!-- SEARCH INPUT -->
             </div>
             <div class="vx-col w-full lg:w-3/12 sm:w-full">
                 <vx-card class="shadow-none">
-                    <span class="destaque">Ordens a gerar</span>
+                    <span class="destaque" v-if="dados.aba === 'comissao'">Comissões sem ordens </span>
+                    <span class="destaque" v-else>Ordens a gerar </span>
                     <p class="font-bold text-3xl my-5 text-warning">R$ {{formatPrice(soma)}}</p>
                 </vx-card>
             </div>
@@ -45,20 +46,19 @@
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx" style="z-index: 5">
-                    <vs-tab @click="colorx = 'warning'; getItems('pendente'); dados.aba = 'usuario'" color="warning" value="10"
-                            :label="'gerar ordens' + ( dados.aba === 'usuario' ? ` (${comissoes.length})` : '')">
+                    <vs-tab @click="colorx = 'warning'; getItems('usuario')" color="warning" value="10"
+                            :label="'gerar ordens'">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="usuario"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
-                    <vs-tab @click="colorx = 'success'; getItems('reprovado'); dados.aba = 'comissao'; getOpcoes();" color="success"
-                            :label="'comissões' + ( dados.aba === 'comissao' ? ` (${comissoes.length})` : '')">
+                    <vs-tab @click="colorx = 'success'; getOpcoes(); getItems('comissao');" color="success"
+                            :label="'comissões sem ordem'">
                         <listagem @gerarOrdens="gerandoOrdem" @visualizar="visualizar" :items="comissoes" tipo="comissao"></listagem>
                         <vs-pagination class="mt-2" :total="pagination.last_page"
                                        v-model="currentx"></vs-pagination>
                     </vs-tab>
                 </vs-tabs>
-
             </vs-col>
         </vs-row>
     </div>
@@ -98,7 +98,7 @@
                 currentx: 1,
                 comissoes: [],
                 tipoCom: 'pendente',
-                selectedUser: {id: null, label: 'Selecione o atendente'},
+                selectedAten: {id: null, label: 'Selecione o atendente'},
                 selectedResp: null,
                 responsaveis: [
                     {id: 'whatsapplist', label: 'WhatsappList'},
@@ -137,9 +137,13 @@
             toggleDataSidebar(val = false) {
                 this.addNewDataSidebar = val
             },
-            getItems() {
+            getItems(aba = this.dados.aba) {
                 this.$vs.loading();
 
+                if(aba !== this.dados.aba)
+                    this.currentx = 1
+
+                this.dados.aba = aba
                 let url = '';
                 let control = 0;//Controla entradas em cada condição
                 if (this.search !== '') {
@@ -148,8 +152,8 @@
                     control++;
                 }
 
-                if(this.selectedUser.id != null){
-                    this.dados.user_id = this.selectedUser.id;
+                if(this.selectedAten.id != null){
+                    this.dados.user_id = this.selectedAten.id;
                 }
 
                 if(this.selectedResp){
@@ -161,7 +165,7 @@
                 if (control >= 2)
                     url += '&searchJoin=and';
 
-                this.dados.search = url;
+                this.dados.search = this.search;
 
                 this.$store.dispatch('comissoes/getCom', {params: this.dados}).then(response => {
                     console.log('retornado com sucessso', response)
@@ -169,17 +173,26 @@
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             getOpcoes(){
                 this.selectedAten.label = 'Carregando...';
                 this.$store.dispatch('users/get').then(response => {
+                    console.log('ae, doido', response)
                     this.usuarios = [...this.arraySelect(response)];
                     this.selectedAten.label = 'Selecione o atendente';
                 });
             },
             pesquisar(e) {
+              this.dados.page = 1;
                 e.preventDefault();
                 this.$vs.loading();
                 this.getItems();
@@ -207,14 +220,14 @@
         watch: {
             currentx(val) {
                 this.$vs.loading();
-                console.log('val', val);
+                console.log('valsssss', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
                 this.routeTitle = this.$route.meta.pageTitle
             },
-            selectedUser() {
+            selectedAten() {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getItems();

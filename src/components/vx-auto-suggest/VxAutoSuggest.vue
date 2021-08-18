@@ -11,6 +11,7 @@
         icon-pack='feather'
         icon='icon-search'
         icon-no-border
+        id="search_input_trans"
         v-model="searchQuery"
         @keyup.esc="escPressed"
         @keyup.up="increaseIndex(false)"

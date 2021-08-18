@@ -10,35 +10,37 @@
 <template>
     <div id="dashboard-analytics">
         <div class="vx-row">
-
-            <!-- CARD 1: CONGRATS -->
-            <div class="vx-col w-full lg:w-1/2 mb-base">
-                <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
-                    <img src="@/assets/images/elements/decore-left.png" class="decore-left" alt="Decore Left"
-                         width="200">
-                    <img src="@/assets/images/elements/decore-right.png" class="decore-right" alt="Decore Right"
-                         width="175">
-                    <feather-icon icon="AwardIcon"
-                                  class="p-6 mb-8 bg-primary inline-flex rounded-full text-white shadow"
-                                  svgClasses="h-8 w-8"></feather-icon>
-                    <h1 class="mb-6 text-white">Congratulations {{ checkpointReward.userName }},</h1>
-                    <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white">You have done <strong>{{
-                        checkpointReward.progress }}</strong> more sales today. Check your new badge in your profile.
-                    </p>
+            <!-- Topo -->
+            <div class="vx-col w-full mb-base">
+                <vx-card slot="no-body" class="bg-primary-gradient greet-user">
+                    <div class="vx-row">
+                        <div class="vx-col w-full mb-3">
+                            <p class="mb-6 text-2xl font-bold text-white">Meu painel</p>
+                        </div>
+                    </div>
+                    <div class="vx-row mt-3">
+                        <div class="vx-col w-5/12">
+                            <div class="vx-row items-center">
+                                <div class="vx-col w-1/4 text-center">
+                                    <img :src="get_img_api(user.avatar)" class="rounded-full mx-auto" width="80" alt="" style="border: 2px solid white;">
+                                </div>
+                                <div class="vx-col w-3/2">
+                                    <p class="text-white leading-3">{{ user.email }}</p>
+                                    <p class="text-white leading-3 text-2xl font-bold">{{ user.name }}</p>
+                                    <p class="text-white leading-3 text-lg">Função</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vx-col w-7/12">
+                            <p class="text-white mb-3">Consquistas</p>
+                            <div class="flex">
+                                <vx-tooltip position="top" :text="'teste'">
+                                    <img :src="get_img_api(user.avatar)" class="rounded-full mx-3" width="50" alt="" style="border: 2px solid white;">
+                                </vx-tooltip>
+                            </div>
+                        </div>
+                    </div>
                 </vx-card>
-            </div>
-
-            <!-- CARD 2: SUBSCRIBERS GAINED -->
-            <div class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-base">
-                <statistics-card-line icon="UsersIcon" statistic="92.6k" statisticTitle="Subscribers Gained"
-                                      :chartData="subscribersGained.series" type='area'></statistics-card-line>
-            </div>
-
-            <!-- CARD 3: ORDER RECIEVED -->
-            <div class="vx-col w-full sm:w-1/2 md:w-1/2 lg:w-1/4 xl:w-1/4 mb-base">
-                <statistics-card-line icon="ShoppingBagIcon" statistic="97.5K" statisticTitle="Orders Received"
-                                      :chartData="ordersRecevied.series" color='warning'
-                                      type='area'></statistics-card-line>
             </div>
         </div>
 
@@ -53,7 +55,8 @@
                         <div class="vx-col w-full md:w-full sm:w-1/2 lg:w-1/2 xl:w-1/2 flex flex-col justify-between"
                              v-if="salesBarSession.analyticsData">
                             <div>
-                                <h2 class="mb-1 font-bold">{{ salesBarSession.analyticsData.session | k_formatter
+                                <h2 class="mb-1 font-bold">{{
+                                        salesBarSession.analyticsData.session | k_formatter
                                     }}</h2>
                                 <span class="font-medium">Avg Sessions</span>
 
@@ -180,7 +183,7 @@
                     <div class="flex">
                         <span class="flex items-center"><div class="h-3 w-3 rounded-full mr-1 bg-primary"></div><span>Sales</span></span>
                         <span class="flex items-center ml-4"><div
-                                class="h-3 w-3 rounded-full mr-1 bg-success"></div><span>Visits</span></span>
+                            class="h-3 w-3 rounded-full mr-1 bg-success"></div><span>Visits</span></span>
                     </div>
                     <div slot="no-body-bottom">
                         <vue-apex-charts type=radar height=385 :options="analyticsData.statisticsRadar.chartOptions"
@@ -216,12 +219,12 @@
                             <template slot-scope="{data}">
                                 <vs-tr :key="indextr" v-for="(tr, indextr) in data">
                                     <vs-td :data="data[indextr].orderNo">
-                                        <span>#{{data[indextr].orderNo}}</span>
+                                        <span>#{{ data[indextr].orderNo }}</span>
                                     </vs-td>
                                     <vs-td :data="data[indextr].status">
                                         <span class="flex items-center px-2 py-1 rounded"><div
-                                                class="h-3 w-3 rounded-full mr-2"
-                                                :class="'bg-' + data[indextr].statusColor"></div>{{data[indextr].status}}</span>
+                                            class="h-3 w-3 rounded-full mr-2"
+                                            :class="'bg-' + data[indextr].statusColor"></div>{{ data[indextr].status }}</span>
                                     </vs-td>
                                     <vs-td :data="data[indextr].orderNo">
                                         <ul class="users-liked user-list">
@@ -234,18 +237,18 @@
                                         </ul>
                                     </vs-td>
                                     <vs-td :data="data[indextr].orderNo">
-                                        <span>{{data[indextr].location}}</span>
+                                        <span>{{ data[indextr].location }}</span>
                                     </vs-td>
                                     <vs-td :data="data[indextr].orderNo">
-                                        <span>{{data[indextr].distance}}</span>
+                                        <span>{{ data[indextr].distance }}</span>
                                         <vs-progress :percent="data[indextr].distPercent"
                                                      :color="data[indextr].statusColor"></vs-progress>
                                     </vs-td>
                                     <vs-td :data="data[indextr].orderNo">
-                                        <span>{{data[indextr].startDate}}</span>
+                                        <span>{{ data[indextr].startDate }}</span>
                                     </vs-td>
                                     <vs-td :data="data[indextr].orderNo">
-                                        <span>{{data[indextr].estDelDate}}</span>
+                                        <span>{{ data[indextr].estDelDate }}</span>
                                     </vs-td>
                                 </vs-tr>
                             </template>
@@ -260,176 +263,195 @@
 </template>
 
 <script>
-    import VueApexCharts from 'vue-apexcharts'
-    import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
-    import analyticsData from './ui-elements/card/analyticsData.js'
-    import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
-    import VxTimeline from "@/components/timeline/VxTimeline"
+import VueApexCharts from 'vue-apexcharts'
+import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
+import analyticsData from './ui-elements/card/analyticsData.js'
+import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
+import VxTimeline from "@/components/timeline/VxTimeline"
+import moduleUsuario from "@/store/usuarios/moduleUsuario";
 
-    export default {
-        data() {
-            return {
-                checkpointReward: {},
-                subscribersGained: {},
-                ordersRecevied: {},
-                salesBarSession: {},
-                supportTracker: {},
-                productsOrder: {},
-                salesRadar: {},
+export default {
+    data() {
+        return {
+            checkpointReward: {},
+            subscribersGained: {},
+            ordersRecevied: {},
+            salesBarSession: {},
+            supportTracker: {},
+            productsOrder: {},
+            salesRadar: {},
 
-                timelineData: [
-                    {
-                        color: "primary",
-                        icon: "PlusIcon",
-                        title: "Client Meeting",
-                        desc: "Bonbon macaroon jelly beans gummi bears jelly lollipop apple",
-                        time: "25 mins Ago"
-                    },
-                    {
-                        color: "warning",
-                        icon: "MailIcon",
-                        title: "Email Newsletter",
-                        desc: "Cupcake gummi bears soufflé caramels candy",
-                        time: "15 Days Ago"
-                    },
-                    {
-                        color: "danger",
-                        icon: "UsersIcon",
-                        title: "Plan Webinar",
-                        desc: "Candy ice cream cake. Halvah gummi bears",
-                        time: "20 days ago"
-                    },
-                    {
-                        color: "success",
-                        icon: "LayoutIcon",
-                        title: "Launch Website",
-                        desc: "Candy ice cream cake. Halvah gummi bears Cupcake gummi bears soufflé caramels candy.",
-                        time: "25 days ago"
-                    },
-                    {
-                        color: "primary",
-                        icon: "TvIcon",
-                        title: "Marketing",
-                        desc: "Candy ice cream cake. Halvah gummi bears Cupcake gummi bears.",
-                        time: "28 days ago"
-                    }
-                ],
+            timelineData: [
+                {
+                    color: "primary",
+                    icon: "PlusIcon",
+                    title: "Client Meeting",
+                    desc: "Bonbon macaroon jelly beans gummi bears jelly lollipop apple",
+                    time: "25 mins Ago"
+                },
+                {
+                    color: "warning",
+                    icon: "MailIcon",
+                    title: "Email Newsletter",
+                    desc: "Cupcake gummi bears soufflé caramels candy",
+                    time: "15 Days Ago"
+                },
+                {
+                    color: "danger",
+                    icon: "UsersIcon",
+                    title: "Plan Webinar",
+                    desc: "Candy ice cream cake. Halvah gummi bears",
+                    time: "20 days ago"
+                },
+                {
+                    color: "success",
+                    icon: "LayoutIcon",
+                    title: "Launch Website",
+                    desc: "Candy ice cream cake. Halvah gummi bears Cupcake gummi bears soufflé caramels candy.",
+                    time: "25 days ago"
+                },
+                {
+                    color: "primary",
+                    icon: "TvIcon",
+                    title: "Marketing",
+                    desc: "Candy ice cream cake. Halvah gummi bears Cupcake gummi bears.",
+                    time: "28 days ago"
+                }
+            ],
 
 
-                analyticsData: analyticsData,
-                dispatchedOrders: [],
-            }
-        },
-        components: {
-            VueApexCharts,
-            StatisticsCardLine,
-            ChangeTimeDurationDropdown,
-            VxTimeline
-        },
-        created() {
-            //  User Reward Card
-            this.$http.get("/api/user/checkpoint-reward")
-                .then((response) => {
-                    this.checkpointReward = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+            analyticsData: analyticsData,
+            dispatchedOrders: [],
+            userInfo: JSON.parse(localStorage.getItem('userInfo')),
+            user: {}
+        }
+    },
+    components: {
+        VueApexCharts,
+        StatisticsCardLine,
+        ChangeTimeDurationDropdown,
+        VxTimeline
+    },
+    created() {
+        if (!moduleUsuario.isRegistered) {
+            this.$store.registerModule('users', moduleUsuario)
+            moduleUsuario.isRegistered = true
+        }
 
-            // Subscribers gained - Statistics
-            this.$http.get("/api/card/card-statistics/subscribers")
-                .then((response) => {
-                    this.subscribersGained = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        this.getUserInfo(this.userInfo.uid);
 
-            // Orders - Statistics
-            this.$http.get("/api/card/card-statistics/orders")
-                .then((response) => {
-                    this.ordersRecevied = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        //  User Reward Card
+        this.$http.get("/api/user/checkpoint-reward")
+            .then((response) => {
+                this.checkpointReward = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
-            // Sales bar - Analytics
-            this.$http.get("/api/card/card-analytics/sales/bar")
-                .then((response) => {
-                    this.salesBarSession = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        // Subscribers gained - Statistics
+        this.$http.get("/api/card/card-statistics/subscribers")
+            .then((response) => {
+                this.subscribersGained = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
-            // Support Tracker
-            this.$http.get("/api/card/card-analytics/support-tracker")
-                .then((response) => {
-                    this.supportTracker = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        // Orders - Statistics
+        this.$http.get("/api/card/card-statistics/orders")
+            .then((response) => {
+                this.ordersRecevied = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
-            // Products Order
-            this.$http.get("/api/card/card-analytics/products-orders")
-                .then((response) => {
-                    this.productsOrder = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        // Sales bar - Analytics
+        this.$http.get("/api/card/card-analytics/sales/bar")
+            .then((response) => {
+                this.salesBarSession = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
-            // Sales Radar
-            this.$http.get("/api/card/card-analytics/sales/radar")
-                .then((response) => {
-                    this.salesRadar = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        // Support Tracker
+        this.$http.get("/api/card/card-analytics/support-tracker")
+            .then((response) => {
+                this.supportTracker = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
-            // Dispatched Orders
-            this.$http.get("/api/table/dispatched-orders")
-                .then((response) => {
-                    this.dispatchedOrders = response.data
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
+        // Products Order
+        this.$http.get("/api/card/card-analytics/products-orders")
+            .then((response) => {
+                this.productsOrder = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
 
-            this.$store.dispatch('ativarMenu', true);
+        // Sales Radar
+        this.$http.get("/api/card/card-analytics/sales/radar")
+            .then((response) => {
+                this.salesRadar = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+        // Dispatched Orders
+        this.$http.get("/api/table/dispatched-orders")
+            .then((response) => {
+                this.dispatchedOrders = response.data
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+        this.$store.dispatch('ativarMenu', true);
+    },
+    methods: {
+        getUserInfo(id) {
+            this.$vs.loading();
+            this.$store.dispatch('users/getId', id).then(response => {
+                console.log('resposta', response)
+                this.user = response;
+            }).finally(() => this.$vs.loading.close());
         }
     }
+}
 </script>
 
 
 <style lang="scss">
-    /*! rtl:begin:ignore */
-    #dashboard-analytics {
-        .greet-user {
-            position: relative;
+/*! rtl:begin:ignore */
+#dashboard-analytics {
+    .greet-user {
+        position: relative;
 
-            .decore-left {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-
-            .decore-right {
-                position: absolute;
-                right: 0;
-                top: 0;
-            }
+        .decore-left {
+            position: absolute;
+            left: 0;
+            top: 0;
         }
 
-        @media(max-width: 576px) {
-            .decore-left, .decore-right {
-                width: 140px;
-            }
+        .decore-right {
+            position: absolute;
+            right: 0;
+            top: 0;
         }
     }
 
-    /*! rtl:end:ignore */
+    @media(max-width: 576px) {
+        .decore-left, .decore-right {
+            width: 140px;
+        }
+    }
+}
+
+/*! rtl:end:ignore */
 </style>

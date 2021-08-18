@@ -5,7 +5,7 @@
                 <div class="flex items-center">
                     <div class="relative w-full">
                         <!-- SEARCH INPUT -->
-                        <form @submit="pesquisar">
+                        <form @input="pesquisar">
                             <vs-input autocomplete
                                       class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
                                       v-model="dados.search" id="search_input" size="large" placeholder="Pesquisar por nome da campanha"/>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="vx-row">
-                <div class="vx-col col-conquista mb-10">
+                <div class="vx-col col-conquista mb-10" v-if="$acl.check('brinde_campanha_adicionar')">
                     <div class="conquista nova cursor-pointer"
                          @click="$router.push({path: '/brindes/campanhas/criar'})">
                         <div class="img-plus cursor-pointer">
@@ -43,16 +43,16 @@
                         </p>
                     </div>
                 </div>
-                <div class="vx-col col-conquista mb-10" v-for="item in items">
+                <div class="vx-col col-conquista mb-10" v-for="(item,index) in itemsR" :key="index">
                     <div class="conquista" v-bind:class="{'desativado': !item.status}">
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
-                                <vs-button @click="deletar(item.id)" type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
-                                <vs-button type="border" color="primary" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
+                                <vs-button @click="deletar(item.id)" :disabled="!$acl.check('brinde_campanha_deletar')" type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
+                                <vs-button type="border" color="primary" :disabled="!$acl.check('brinde_campanha_editar')" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
                             </div>
-                            <vs-switch vs-icon-on="check" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
+                            <vs-switch vs-icon-on="check" :disabled="!$acl.check('brinde_campanha_editar')" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
                         </div>
-                        <div class="conquista-clicavel w-full cursor-pointer" @click="$router.push({path: '/brindes/campanhas/editar/' + item.id})">
+                        <div class="conquista-clicavel w-full cursor-pointer" @click="editar(item.id)">
                             <img src="@/assets/images/util/brinde.svg" class="img-conquista rounded-none my-8" width="120">
                             <p class="nome-conq">
                                 {{item.nome}}
@@ -84,17 +84,29 @@
                 this.$store.registerModule('brindes', moduleBrindes)
                 moduleBrindes.isRegistered = true
             }
-
             this.getCampanhas();
         },
+      computed:{
+        itemsR(){
+          return this.items.filter((item)=>{
+            return item.nome.includes(this.dados.search) || item.nome.toLowerCase().includes(this.dados.search);
+          })
+        }
+      },
         methods: {
             getCampanhas() {
                 this.$vs.loading();
                 this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
-                    console.log('ué', response)
                     this.items = [...response];
-                    this.$vs.loading.close();
+                }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
                 });
+            }).finally(() => this.$vs.loading.close());
             },
             ativaModal(obj){
                 if(obj.brinde.ativo){
@@ -104,7 +116,7 @@
                             color: 'danger',
                             title: `Você realmente deseja ativar a campanha?`,
                             text: 'Mais de uma campanha ativa para o mesmo produto pode ocasionar duplicação de brinde.',
-                            acceptText: 'Alterar',
+                            acceptText: 'Ativar',
                             cancelText: 'Cancelar',
                             accept: () => {this.ativaCamp(obj);},
                             cancel: () => {obj.status = !obj.status}
@@ -122,8 +134,6 @@
                 }
             },
             ativaCamp(obj) {
-                console.log('status', obj)
-                console.log('status2', obj.status)
                 let obj2 = {...obj}
                 obj2.status = obj.status === true ? 1 : 0;
                 let text = obj2.status ? 'Ativada' : 'Desativada';
@@ -148,7 +158,7 @@
                     }).catch(erro => {
                         this.$vs.notify({
                             title: 'Error',
-                            text: erro.message,
+                            text: erro.response.data.message,
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
@@ -171,22 +181,37 @@
                                 title: '',
                                 text: 'Deletado com sucesso!'
                             });
-                            this.getConfig();
+                            this.getCampanhas();
                         }).catch(erro => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Erro ao deletar. Contate o suporte.'
                             });
-                            console.log('erro', erro)
-                        });
+                        }).finally(()=>{
+                          this.$vs.loading.close();
+                        })
                     }
                 });
             },
             pesquisar(e){
-                e.preventDefault();
-                this.$vs.loading();
-                this.getCampanhas();
+                // e.preventDefault();
+                // this.$vs.loading();
+                // this.getCampanhas();
+                return this.items.filter((item)=>{
+                  return item.nome == this.dados.search;
+                })
+            },
+
+            editar(id){
+                if(this.$acl.check('brinde_campanha_editar'))
+                    this.$router.push({path: '/brindes/campanhas/editar/' + id})
+                else {
+                    this.$vs.notify({
+                        color: 'danger',
+                        text: 'Você não possui permissão parar editar campanhas.'
+                    });
+                }
             }
         }
     }

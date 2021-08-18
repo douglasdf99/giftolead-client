@@ -39,7 +39,6 @@ export default {
                 })
             axios.get(`/tipo_de_duvidas`, {params: {all: true}})
                 .then((response) => {
-                    console.log('duvidas', response)
                     opcoes.duvidas = response.data.data;
                 })
                 .catch((error) => {
@@ -47,7 +46,6 @@ export default {
                 })
             axios.get(`/produtos`, {params: {all: true}})
                 .then((response) => {
-                    console.log('produtos', response)
                     opcoes.produtos = response.data.data;
                 })
                 .catch((error) => {
@@ -62,7 +60,6 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.get(`/tickets`, {params: dados.params})
                     .then((response) => {
-                        console.log('todos', response.data)
                         resolve(response.data.data)
                     })
                     .catch((error) => {
@@ -83,7 +80,6 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.get(`/${rota}`, {params: dados.params})
                     .then((response) => {
-                        console.log('abertos', response.data)
                         resolve(response.data.data)
                     })
                     .catch((error) => {
@@ -109,7 +105,6 @@ export default {
     getAgenda({commit}, rota) {
         return new Promise((resolve, reject) => {
             axios.get(`/${rota}`).then(response => {
-                console.log('agendados', response);
                 resolve(response.data.data);
             }).catch(erro => reject(erro));
         });
@@ -118,10 +113,8 @@ export default {
         return new Promise((resolve, reject) => {
             obj._method = 'PUT'
             axios.post(`/agendamentos/${obj.id}`, obj).then(response => {
-                console.log('reagendado', response);
                 resolve()
             }).catch(erro => {
-                console.log('erro', erro);
             });
         });
     },
@@ -132,7 +125,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/tickets/${id}`)
                 .then((response) => {
-                    console.log('ticket resgatado', response);
                     commit('SET_TICKET_ATENDIDO', response.data.data)
                     resolve(response.data.data)
                 })
@@ -145,11 +137,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/chamadas`, {ticket_id: dados.ticket.id, lead_id: dados.ticket.lead_id, chamada_id: dados.chamada_id})
                 .then((response) => {
-                    console.log('chamada realizada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
-                    console.log('chamada não realizada', error);
                     reject(error)
                 })
         })
@@ -158,11 +148,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/chamadas/${dados.identificacao}`)
                 .then((response) => {
-                    console.log('consultaChamada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
-                    console.log('consultaChamada não roloou', error);
                     reject(error)
                 })
         })
@@ -171,11 +159,9 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/desligarchamada/${chamada.id}`)
                 .then((response) => {
-                    console.log('chamada desligada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
-                    console.log('chamada não desligada', error);
                     reject(error)
                 })
         })
@@ -183,7 +169,6 @@ export default {
     verificaDisponibilidade({commit}, id) {
         return new Promise((resolve, reject) => {
             axios.post(`/atender-ticket`, {id: id}).then(response => {
-                console.log('resposta', response.data)
                 if (response.data.status == 'ok'){
                     commit('SET_TICKET_VERIFICADO', id);
                 }
@@ -192,7 +177,7 @@ export default {
                     commit('SET_TICKET_VERIFICADO', response.data.id)
 
                 resolve(response.data)
-            }).catch(erro => console.log(erro));
+            }).catch(erro => reject(erro));
         });
     },
     pushMsg({commit}, dados) {
@@ -203,7 +188,7 @@ export default {
     },
     sendMsg({commit}, dados) {
         return new Promise((resolve, reject) => {
-            axios.post(`/ticket-enviar-whatsapp/`, {id: dados.id, mensagem: dados.mensagem})
+            axios.post(`/ticket-enviar-whatsapp`, {id: dados.id, mensagem: dados.mensagem})
                 .then((response) => {
                     commit('PUSH_MSG', {isSent: true, textContent: response.data.data.mensagem});
                     resolve(response.data.data.url);
@@ -214,7 +199,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/ticket-enviar-email`, dados)
                 .then((response) => {
-                    console.log(response.data)
                     resolve(response.data.data);
                 })
         });
@@ -223,7 +207,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/cancelar-atendimento-ticket`, {id: id})
                 .then((response) => {
-                    console.log(response.data)
                     resolve(response.data);
                 })
         });
@@ -232,10 +215,31 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/atendimentos`, obj)
                 .then((response) => {
-                    console.log(response.data)
                     commit('SET_TICKET_ATENDIDO', {})
                     commit('SET_TICKET_VERIFICADO', '')
                     resolve(response.data);
+                })
+        });
+    },
+    transferir({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.post(`/ticketsTransferir`, obj)
+                .then((response) => {
+                    commit('SET_TICKET_ATENDIDO', {})
+                    commit('SET_TICKET_VERIFICADO', '')
+                    resolve(response.data);
+                })
+        });
+    },
+    reabrir({commit}, obj){
+        return new Promise((resolve, reject) => {
+            axios.post(`/ticketsReabrir`, obj)
+                .then((response) => {
+                    commit('SET_TICKET_ATENDIDO', {})
+                    commit('SET_TICKET_VERIFICADO', '')
+                    resolve(response.data);
+                }).catch((error)=>{
+                    reject(error);
                 })
         });
     }

@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/tipo_de_duvidas/${id}`)
                 .then((response) => {
-                    console.log('origem resgatada', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -27,7 +26,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/tipo_de_duvidas`, {params: {status: 1}})
                 .then((response) => {
-                    console.log('origens resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

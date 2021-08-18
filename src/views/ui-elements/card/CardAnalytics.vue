@@ -470,7 +470,11 @@ export default {
 
       // Revenue Comparison
       this.$http.get("/api/card/card-analytics/revenue-comparison")
-        .then((response) => { this.revenueComparisonLine = response.data })
+        .then((response) => {
+            console.log('dados revenue', response.data)
+            this.revenueComparisonLine = response.data ;
+
+        })
         .catch((error) => { console.log(error) })
 
       // Goal Overview

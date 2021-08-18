@@ -8,6 +8,8 @@
 ==========================================================================================*/
 
 
+import axios from "@/axios";
+
 const mutations = {
 
 
@@ -58,6 +60,17 @@ const mutations = {
             // remove item using index
             state.starredPages.splice(index, 1)
         }
+
+        let user = JSON.parse(localStorage.getItem('userInfo'));
+        payload.pages.forEach(item => {
+            if (item.url == payload.url)
+                item.is_bookmarked = payload.val;
+        })
+        axios.post(`/users/${user.uid}`, {menu_rapido: JSON.stringify(payload.pages), _method: 'PUT'}).then((response) => {
+            user.menu_rapido = response.data.data.menu_rapido;
+            localStorage.setItem('userInfo', JSON.stringify(user));
+        }).catch(erro => {
+        });
     },
 
     // Navbar-Vertical
@@ -85,9 +98,9 @@ const mutations = {
     // ////////////////////////////////////////////
     // UI
     // ////////////////////////////////////////////
-  CHANGE_URL_BACK (state, url) {
-    state.urlBack = url
-  },
+    CHANGE_URL_BACK(state, url) {
+        state.urlBack = url
+    },
     TOGGLE_CONTENT_OVERLAY(state, val) {
         state.bodyOverlay = val
     },
@@ -111,7 +124,6 @@ const mutations = {
 
     // Updates user info in state and localstorage
     UPDATE_USER_INFO(state, payload) {
-        console.log('payload', payload)
         // Get Data localStorage
         let userInfo = JSON.parse(localStorage.getItem("userInfo")) || state.AppActiveUser
 
@@ -142,17 +154,26 @@ const mutations = {
     },
 
     SET_OBJ_SUBMENU(state, obj) {
-        console.log('mutation', obj)
         state.menuSelecionado = obj;
         state.submenu = obj;
     },
     SET_VARIOS(state, obj) {
-        console.log('obj', obj)
         state.items = obj.data;
         state.pagination = obj;
     },
     SET_GLOBAL_SEARCH(state, val) {
         state.globalSearch = val;
+    },
+    SET_EXTENSAO(state, val) {
+        if (val.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio") {
+            state.extensoesState.melhorEnvio = {...val, installed: true};
+        }
+        if (val.extensao_type === "App\\Models\\Extensoes\\Slack") {
+            state.extensoesState.slack = {...val, installed: true};
+        }
+        if (val.extensao_type === "App\\Models\\Extensoes\\TotalVoice") {
+            state.extensoesState.zenvia = {...val, installed: true};
+        }
     }
 }
 

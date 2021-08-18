@@ -10,7 +10,7 @@ const rotasWhatsapplist = [
                 {title: 'Listagem', active: true},
             ],
             pageTitle: 'Contatos da Whatsapplist',
-            rule: 'editor',
+            rule: 'whatsapplist',
             pai: 'whatsapplist',
             subTitle: 'WhatsappList',
             submenu: [{

@@ -16,7 +16,6 @@ export default {
             dados._method = 'PUT';
             axios.post(`/produtos/${dados.id}`, dados)
                 .then((response) => {
-                    console.log('empresa alterada', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -28,7 +27,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(`/produtos/`, dados)
                 .then((response) => {
-                    console.log('produto criado', response);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -40,7 +38,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/produtos/${id}`)
                 .then((response) => {
-                    console.log('produto resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {
@@ -52,8 +49,19 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/produtos`, {params: {}})
                 .then((response) => {
-                    console.log('produtos resgatado', response);
                     resolve(response.data.data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
+    },
+    getArraySelect({commit}) {
+        console.log('ebtriy aqyu')
+        return new Promise((resolve, reject) => {
+            axios.get(`/selects/produtos`)
+                .then((response) => {
+                    resolve(response.data)
                 })
                 .catch((error) => {
                     reject(error)

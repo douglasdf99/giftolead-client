@@ -15,7 +15,6 @@ export default {
         return new Promise((resolve, reject) => {
             axios.get(`/status_de_finalizacaos`, {params: {status: 1}})
                 .then((response) => {
-                    console.log('status resgatado', response);
                     resolve(response.data.data)
                 })
                 .catch((error) => {

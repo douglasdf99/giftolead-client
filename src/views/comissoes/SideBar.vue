@@ -19,18 +19,41 @@
             <div class="p-10">
                 <div class="vx-row flex items-center">
                     <div class="vx-col w-full lg:w-1/2">
-                        <p class="font-bold text-dark text-xl">{{data.ticket.lead.nome}}</p>
-                        <p class="font-bold text-primary text-xl">{{data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####')}}</p>
-                        <p class="font-bold text-gray text-md">{{data.ticket.lead.email}}</p>
-                        <p class="font-bold text-gray text-md">CPF: {{data.ticket.lead.cpf || '' | VMask('###.###.###-##')}}</p>
+                        <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
+                        <p class="font-bold text-primary text-xl">{{ data.ticket.lead.ddd + data.ticket.lead.telefone | VMask('(##) #####-####') }}</p>
+                        <p class="font-bold text-gray text-md">{{ data.ticket.lead.email }}</p>
+                        <p class="font-bold text-gray text-md">CPF: {{ data.ticket.lead.cpf || '' | VMask('###.###.###-##') }}</p>
                     </div>
                     <div class="vx-col w-full lg:w-1/2 text-right">
-                        <p class="font-bold text-2xl text-dark">Ticket: {{data.ticket.id}}</p>
-                        <p>Data: <b>{{data.created_at | formatDateTime}}</b></p>
-                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{data.tipo}}</vs-chip>
+                        <p class="font-bold text-2xl text-dark">Ticket: {{ data.ticket.id }}</p>
+                        <p>Data: <b>{{ data.created_at | formatDateTime }}</b></p>
+                        <vs-chip class="float-right" :color="data.tipo === 'pendente' ? 'warning' : 'danger'">Status: {{ data.tipo }}</vs-chip>
                     </div>
                 </div>
+                <div class="p-2 mt-4" v-if="data.email_secundario">
+                    <label class="font-bold">Email secundário:</label>
+                    <p class="p-2 ">{{ data.email_secundario }}</p>
+                </div>
                 <vs-divider></vs-divider>
+
+                <div class="vx-col w-full  mb-base" v-if="data.disgnostico">
+                    <vx-card title="Diagnóstico" refresh-content-action @refresh="closeCardAnimationDemo">
+                        <vs-list>
+                            <vs-list-header title="Motivos para aprovar" color="success" v-if="diagnosticoBom.length > 0"></vs-list-header>
+                            <vs-list-item icon-pack="feather" icon="icon-check" v-for=" (item, index) in diagnosticoBom" :subtitle="item"></vs-list-item>
+
+                            <vs-list-header title="Motivos para aguardar" color="warning" v-if="diagnosticoAguardar.length > 0"></vs-list-header>
+                            <vs-list-item icon-pack="feather" icon="icon-clock" v-for=" (item, index) in diagnosticoAguardar" :subtitle="item"></vs-list-item>
+
+                            <vs-list-header title="Motivos para reprovar" color="danger" v-if="diagnosticoRuim.length > 0"></vs-list-header>
+                            <vs-list-item icon-pack="feather" icon="icon-x" v-for=" (item, index) in diagnosticoRuim" :subtitle="item"></vs-list-item>
+                        </vs-list>
+                    </vx-card>
+                </div>
+                <div class="" v-else>
+                    <vs-progress indeterminate color="primary" v-if="diagnosticando"></vs-progress>
+                    <vs-button type="gradient" @click="realizarDiagnostico" id="button-with-loading-diagnostico" class="vs-con-loading__container w-full">Realizar Diagnóstico</vs-button>
+                </div>
                 <div class="vx-row my-5">
                     <div class="vx-col w-full relative">
                         <form @submit="pesquisarTrans">
@@ -49,19 +72,23 @@
                     <div v-if="resultado.length === 0">
                         <div class="vx-row">
                             <div class="vx-col w-full text-center">
-                                <p class="font-bold">Nenhum resultado encontrado</p>
+                                <p class="font-bold">Não foi encontrado nenhuma transação que se encaixe nas consições de aprovação</p>
                                 <p class="mt-5">Caso deseje criar uma transação manual preencha os dados abaixo</p>
                             </div>
                         </div>
                         <div class="vx-row mt-5 flex items-end">
                             <div class="vx-col w-full lg:w-1/2">
-                                <vs-input autocomplete class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg" v-model="transacao.email" id="search_input_trans" size="large"
-                                          placeholder="E-mail"/>
+                                <vs-input autocomplete v-validate="'required|email'" class="w-full vs-input-shadow-drop vs-input-no-border d-theme-input-dark-bg"
+                                          v-model="transacao.email" id="search_input_trans" size="large"
+                                          placeholder="E-mail" name="email"/>
+                                <span class="text-danger text-sm" v-show="errors.has('email')">{{ errors.first('email') }}</span>
                             </div>
                             <div class="vx-col w-full lg:w-1/2">
                                 <label class="vs-input--label">Tipo de Transação</label>
-                                <v-select v-model="transacao.payment_type" :class="'select-large-base'" :clearable="true" class="bg-white"
-                                          :options="opcoes"/>
+                                <v-select v-model="transacao.payment_type" v-validate="'required'" :class="'select-large-base'" :clearable="true" class="bg-white"
+                                          :options="opcoes" name="tipo"/>
+                                <span class="text-danger text-sm" v-show="errors.has('tipo')">{{ errors.first('tipo') }}</span>
+
                             </div>
                             <div class="vx-col w-full mt-5 text-center">
                                 <vs-button class="font-bold text-white" color="primary" type="filled" @click="storeTransacao">Criar transação</vs-button>
@@ -89,11 +116,11 @@
                                         </vs-td>
                                         <vs-td v-if="tr.produto">
                                             <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
-                                                {{ tr.produto.nome}}
+                                                {{ tr.produto.nome }}
                                             </vs-chip>
                                         </vs-td>
                                         <vs-td :data="tr.updated_at">
-                                            <span class="destaque">{{ tr.updated_at | formatDateTime}}</span>
+                                            <span class="destaque">{{ tr.updated_at | formatDateTime }}</span>
                                         </vs-td>
                                     </vs-tr>
                                 </template>
@@ -101,150 +128,259 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="p-2 bg-card-gray mt-4" v-if="data.descricao">
+                    <label class="font-bold">Descrição:</label>
+                    <p class="p-2 ">{{ data.descricao }}</p>
+                </div>
+
+                <div class="vx-row my-5 px-3" v-if="data.anexos.length > 0">
+                    <p class="font-bold">Imagens anexadas</p>
+                    <galeria :imagens="data.anexos" :remove="false"></galeria>
+                </div>
             </div>
         </VuePerfectScrollbar>
-        <div class="flex flex-wrap items-center p-6" slot="footer">
-            <vs-button class="mr-6 font-bold text-white" color="danger" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar</vs-button>
-            <vs-button class="mr-6 font-bold text-white" color="primary"
+        <div class="flex flex-wrap items-center p-6" slot="footer" v-if="$acl.check('comissao_pendente_aprovar')">
+            <vs-button class="mr-6 font-bold text-white" color="danger" v-if="$acl.check('comissao_pendente_aprovar')" @click="$emit('action', {method: 'reprovar', ids: idsTransacoes, id: data.id})">Reprovar
+            </vs-button>
+            <vs-button class="mr-6 font-bold text-white" color="primary" v-if="$acl.check('comissao_pendente_aprovar')"
                        @click="$emit('action', {method: 'aprovar', ids: idsTransacoes, id: data.id, nome: data.ticket.lead.nome})" :disabled="selecteds.length == 0">
-                Aprovar</vs-button>
+                Aprovar
+            </vs-button>
         </div>
     </vs-sidebar>
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import vSelect from 'vue-select'
+import galeria from '../components/Galeria';
 
-    export default {
-        props: {
-            isSidebarActive: {
-                type: Boolean,
-                required: true
+export default {
+    props: {
+        isSidebarActive: {
+            type: Boolean,
+            required: true
+        },
+        data: {
+            type: Object,
+            default: () => {
             },
-            data: {
-                type: Object,
-                default: () => {
-                },
+        },
+    },
+    components: {
+        'v-select': vSelect,
+        VuePerfectScrollbar, galeria
+    },
+    data() {
+        return {
+            buscaTransacao: '',
+            transacao: {
+                email: '',
+                tipo: ''
             },
-        },
-        components: {
-            'v-select': vSelect,
-            VuePerfectScrollbar,
-        },
-        data() {
-            return {
-                buscaTransacao: '',
-                transacao: {
-                    email: '',
-                    tipo: ''
-                },
-                dados: {
-                    search: '',
-                },
-                opcoes: [
-                    {id: 'transferencia', label: 'Transferência'},
-                    {id: 'deposito', label: 'Depósito'},
-                    {id: 'outros', label: 'Outros'},
-                ],
-                resultado: [],
-                pesquisado: false,
-                selecteds: [],
-            }
-        },
-        created() {
-        },
-        computed: {
-            isSidebarActiveLocal: {
-                get() {
-                    return this.isSidebarActive
-                },
-                set(val) {
-                    if (!val) {
-                        this.$emit('closeSidebar')
-                        // this.$validator.reset()
-                        // this.initValues()
-                    }
-                }
+            dados: {
+                search: '',
             },
-            idsTransacoes() {
-                let ids = this.selecteds.map(obj => {
-                    return obj.lead_produto_id;
-                });
-
-                return ids;
-            }
-        },
-        methods: {
-            pesquisarTrans(e) {
-                this.pesquisado = true;
-                if(e)
-                    e.preventDefault();
-                console.log('pesquiisa');
-                this.$vs.loading();
-                this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
-                    console.log('response', response);
-                    this.resultado = [...response];
-                    console.log('result', this.resultado);
-                    this.$vs.loading.close();
-                });
-            },
-            handleSelected(e){
-                console.log(e)
-            },
-            storeTransacao(){
-                this.$vs.loading();
-                this.$store.dispatch('comissoes/storeTrans', {produto_id: this.data.lead_produto.produto_id, email: this.transacao.email, payment_type: this.transacao.payment_type.id}).then(() => {
-                    this.$vs.notify({
-                        color: 'success',
-                        title: '',
-                        text: 'Transação salva com sucesso.'
-                    });
-                    this.dados.search = this.transacao.email;
-                    this.pesquisarTrans();
-                    this.$vs.loading.close();
-                }).catch(erro => {console.log(erro)});
-            }
-        },
-        watch: {
+            opcoes: [
+                {id: 'transferencia', label: 'Transferência'},
+                {id: 'deposito', label: 'Depósito'},
+                {id: 'outros', label: 'Outros'},
+            ],
+            resultado: [],
+            pesquisado: false,
+            diagnosticando: false,
+            selecteds: [],
         }
-    }
+    },
+    created() {
+    },
+    computed: {
+        diagnosticoBom() {
+            if (this.data.disgnostico) {
+                let bons = this.data.disgnostico.descricao.filter(($bons) => {
+                    return $bons.bom
+                }).map(($bons) => {
+                    return $bons.bom
+                });
+                return bons
+            } else {
+                return [];
+            }
+        },
+        diagnosticoAguardar() {
+            if (this.data.disgnostico) {
+                let aguardar = this.data.disgnostico.descricao.filter(($bons) => {
+                    return $bons.aguardar
+                }).map(($bons) => {
+                    return $bons.aguardar
+                });
+                return aguardar
+            } else {
+                return [];
+            }
+
+        },
+        diagnosticoRuim() {
+            if (this.data.disgnostico) {
+                let ruim = this.data.disgnostico.descricao.filter(($bons) => {
+                    return $bons.ruim
+                }).map(($bons) => {
+                    return $bons.ruim
+                });
+                return ruim
+            } else {
+                return [];
+            }
+        },
+        isSidebarActiveLocal: {
+            get() {
+                return this.isSidebarActive
+            },
+            set(val) {
+                if (!val) {
+                    this.transacao.email = '';
+                    this.transacao.tipo = '';
+                    this.resultado = [],
+                        this.dados.search = '';
+                    this.pesquisado = false;
+                    this.$emit('closeSidebar')
+                    // this.$validator.reset()
+                    // this.initValues()
+                }
+            }
+        },
+        idsTransacoes() {
+            let ids = this.selecteds.map(obj => {
+                return obj.lead_produto_id;
+            });
+
+            return ids;
+        }
+    },
+    methods: {
+        realizarDiagnostico() {
+            this.$vs.loading({
+                background: this.backgroundLoading,
+                color: this.colorLoading,
+                container: "#button-with-loading-diagnostico",
+                scale: 0.45
+            })
+            this.diagnosticando = true;
+            this.$store.dispatch('comissoes/diagnosticar', {pre_comissao_id: this.data.id}).then(response => {
+                console.log('response', response.data);
+                this.data.disgnostico = response.data;
+            }).finally(() => {
+                this.diagnosticando = false;
+                this.$vs.loading.close("#button-with-loading-diagnostico > .con-vs-loading")
+            });
+        },
+        closeCardAnimationDemo(card) {
+
+            this.$store.dispatch('comissoes/diagnosticar', {pre_comissao_id: this.data.id}).then(response => {
+                console.log('response', response.data);
+                this.data.disgnostico = response.data;
+                this.$vs.notify({
+                    color: 'success',
+                    title: '',
+                    text: 'Diagnóstico realizado com sucesso.'
+                });
+            }).catch(() => {
+                this.$vs.notify({
+                    color: 'danger',
+                    title: '',
+                    text: 'Houve um problema ou realizar o diagnóstigo.'
+                });
+            }).finally(() => {
+                card.removeRefreshAnimation(1000)
+            });
+        },
+        pesquisarTrans(e) {
+            this.pesquisado = true;
+            if (e)
+                e.preventDefault();
+            console.log('pesquiisa');
+            this.$vs.loading();
+            this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
+                console.log('response', response);
+                this.resultado = response;
+                console.log('result', this.resultado);
+            }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
+        },
+        handleSelected(e) {
+            console.log(e)
+        },
+        storeTransacao() {
+            this.$validator.validateAll().then(result => {
+                if (result) {
+                    this.$vs.loading();
+                    this.$store.dispatch('comissoes/storeTrans', {produto_id: this.data.lead_produto.produto_id, email: this.transacao.email, payment_type: this.transacao.payment_type.id}).then(() => {
+                        this.$vs.notify({
+                            color: 'success',
+                            title: '',
+                            text: 'Transação salva com sucesso.'
+                        });
+                        this.dados.search = this.transacao.email;
+                        this.pesquisarTrans();
+                    }).catch(erro => {
+                console.log('erro', erro.response);
+                this.$vs.notify({
+                    text: error.response.data.message,
+                    iconPack: 'feather',
+                    icon: 'icon-alert-circle',
+                    color: 'danger'
+                });
+            }).finally(() => this.$vs.loading.close());
+                }
+            });
+        }
+    },
+    watch: {}
+}
 </script>
 
 <style lang="scss" scoped>
-    .add-new-data-sidebar {
-        ::v-deep .vs-sidebar--background {
-          z-index: 52010;
-        }
+.add-new-data-sidebar {
+    ::v-deep .vs-sidebar--background {
+        z-index: 52000;
+    }
 
-        ::v-deep .vs-sidebar {
-          z-index: 52010;
-            width: 750px;
-            max-width: 90vw;
+    ::v-deep .vs-sidebar {
+        z-index: 52000;
+        width: 750px;
+        max-width: 90vw;
 
-            .img-upload {
-                margin-top: 2rem;
+        .img-upload {
+            margin-top: 2rem;
 
-                .con-img-upload {
-                    padding: 0;
-                }
+            .con-img-upload {
+                padding: 0;
+            }
 
-                .con-input-upload {
-                    width: 100%;
-                    margin: 0;
-                }
+            .con-input-upload {
+                width: 100%;
+                margin: 0;
             }
         }
     }
+}
 
-    .scroll-area--data-list-add-new {
-        // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
-        height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
-    }
+.scroll-area--data-list-add-new {
+    // height: calc(var(--vh, 1vh) * 100 - 4.3rem);
+    height: calc(var(--vh, 1vh) * 100 - 16px - 45px - 82px);
+}
 </style>
 
 <style>
-    .vs-sidebar--background {
-        background: rgba(0, 0, 0, .2) !important;
-    }
+.vs-sidebar--background {
+    background: rgba(0, 0, 0, .2) !important;
+}
 </style>

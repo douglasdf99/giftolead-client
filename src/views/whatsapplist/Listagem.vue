@@ -1,18 +1,9 @@
 <template>
     <div>
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
-            <div class="w-full lg:w-6/12 xlg:w-6/12 s:w-full sem-item">
-                <div class="w-8/12">
-                    <div>
-                        <p class="span-sem-item">Nenhum item foi encontrado</p>
-                        <p class="text-sem-item mt-6">
-                            Para inserir novos registros você <br> pode clicar em incluir conta.
-                        </p>
-                    </div>
-                </div>
-            </div>
+          <nenhum-registro/>
         </div>
-        <vs-table :data="items" class="table-items" v-else
+        <vs-table :data="items" class="vtable-items" v-else
                   style="border-spacing: 0 8px;border-collapse: separate;">
 
             <template slot="thead">
@@ -93,6 +84,9 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+  .vs-table--tbody {
+    z-index: 10 !important;
+    position: relative;
+  }
 </style>

@@ -13,11 +13,6 @@ import * as io from 'socket.io-client'
 window.io = io
 
 
-Vue.use(VueEcho, {
-    broadcaster: 'socket.io',
-    host: 'https://api.saveleads.com.br:2083',
-});
-
 import Vue from 'vue'
 import App from './App.vue'
 
@@ -95,6 +90,15 @@ import router from './router'
 // Vuex Store
 import store from './store/store'
 
+Vue.use(VueEcho, {
+    broadcaster: 'socket.io',
+    host: 'https://api.saveleads.com.br:2083',
+    auth: {
+        headers: {
+            Authorization: `Bearer ${store.getters.getToken}`
+        }
+    }
+});
 
 // i18n
 import i18n from './i18n/i18n'
@@ -133,67 +137,7 @@ Vue.use(VueGoogleMaps, {
     },
 })
 Vue.mixin({
-    methods: {
-        url_redirect: function (local) {
-            return window.location.protocol + '//' + window.location.host + '/' + local;
-        },
-        url_api: function (local) {
-            return saveleadsConfig.url_api + '/' + local;
-            //return 'http://127.0.0.1:8000/' + local;
-        },
-        get_img_api: function (local) {
-            return saveleadsConfig.url_normal + local;
-            //return 'http://127.0.0.1:8000/' + local;
-        },
-        isNumber: function (evt) {//Obriga o input aceitar apenas números
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-                evt.preventDefault();
-            } else {
-                return true;
-            }
-        },
-        formatDateBanco: function (value) {
-            if (value) {
-                return moment(String(value)).format('DD-MM-YYYY')
-            }
-        },
-        formatPrice(value) {
-            let val = (value / 1).toFixed(2).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        },
-        arraySelect(response){
-            let arr = [...response];
-            let obj = [];
-            arr.forEach(item => {
-                if(item.name)
-                    obj.push({id: item.id, label: item.name});
-                else
-                    obj.push({id: item.id, label: item.nome});
-            });
-            return obj;
-        },
-        getAvatar(email){
-            let md5 = require('md5');
-            email = email.trim();
-            email = md5(email);
-            console.log('email aí', email)
-            return `https://www.gravatar.com/avatar/${email}?d=` + encodeURIComponent('https://api.saveleads.com.br/images/avatar-padrao.png');
-        },
-        removeAccents(str) {
-            let accents = 'ÀÁÂÃÄÅàáâãäåßÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
-            let accentsOut = "AAAAAAaaaaaaBOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz";
-            str = str.split('');
-            str.forEach((letter, index) => {
-                let i = accents.indexOf(letter);
-                if (i != -1) {
-                    str[index] = accentsOut[i];
-                }
-            })
-            return str.join('').toUpperCase();
-        },
-    }
+    methods: {...methods}
 });
 
 // Vuejs - Vue wrapper for hammerjs
@@ -201,13 +145,12 @@ import {VueHammer} from 'vue2-hammer'
 
 Vue.use(VueHammer)
 
-
 // PrismJS
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
 import VueMoment from 'vue-moment'
-import saveleadsConfig from "../saveleadsConfig";''
+import saveleadsConfig from "../saveleadsConfig";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -224,6 +167,11 @@ Vue.filter('formatDate', function (value) {
 Vue.filter('formatDateTime', function (value) {
     if (value) {
         return moment(String(value)).format('DD/MM/YYYY H:mm')
+    }
+});
+Vue.filter('formatDateTimeMili', function (value) {
+    if (value) {
+        return moment(value).format('DD/MM/YYYY H:mm')
     }
 });
 
@@ -251,20 +199,79 @@ require('./assets/css/iconfont.css')
 
 
 Vue.config.productionTip = false
+import VueSweetalert2 from 'vue-sweetalert2';
+import methods from "@/globalMethods";
+
+
+Vue.use(VueSweetalert2);
+let self = this;
 axios.interceptors.response.use((response) => { // intercept the global error
     return response
 }, function (error) {
     let originalRequest = error.config
     if (error.response.status === 401 && !originalRequest._retry) { // if the error is 401 and hasent already been retried
-        console.log(error);
         originalRequest._retry = true // now it can be retried
+        Vue.swal({
+            title: "Sessão expirada",
+            text: "Sua sessão foi expirada, para continuar será nescessário realizar login novamente",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('permissoes');
+            window.location = '/login';
+        });
         return
-    }/*
-  if (error.response.status === 404 && !originalRequest._retry) {
-    originalRequest._retry = true
-    window.location.href = '/'
-    return
-  }*/
+    }
+    if (error.response.status === 429 && !originalRequest._retry) {
+        originalRequest._retry = true
+        Vue.swal({
+            title: "Muitas requisições em um curto periodo",
+            text: "Identificamos uma grande quantidade de requisições em um curto periodo, por isso sua últioma requisição foi interrompida por questões de segurança, para continuar a utilizar o sistema, basta atualizar a sua página.",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            document.location.reload(true);
+        });
+        return
+    }
+    if (error.response.status === 403 && !originalRequest._retry) {
+        originalRequest._retry = true
+        Vue.swal({
+            title: "Sem Permissão",
+            text: "Parece que você não tem permissão para realizar a ação atual. Contate um administrador do sistema.",
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            window.history.back();
+        });
+        return
+    } else if (error.response.status === 405 && !originalRequest._retry) {
+        originalRequest._retry = true
+        //self.$vs.loading.close();
+        Vue.swal({
+            title: "Upgrade necessário",
+            text: error.response.data.message,
+            type: "warning",
+            showCancelButton: false,
+            confirmButtonColor: "#8d83f3",
+            confirmButtonText: "OK",
+            closeOnConfirm: false
+        }).then((result) => {
+            document.location.reload(true);
+        });
+        return
+    }
     // Do something with response error
     return Promise.reject(error)
 })

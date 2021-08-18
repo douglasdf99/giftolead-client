@@ -156,7 +156,7 @@
             findToken() {
                 return new Promise((resolve, reject) => {
                     axios.get(`/api/find/${this.token}`).then(response => {
-                        console.log(response)
+
                         this.email = response.data.email;
                         resolve(response)
                     }).catch(erro => reject(erro));
