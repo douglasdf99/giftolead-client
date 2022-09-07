@@ -146,7 +146,7 @@ export default {
     data: () => ({
         active: false,
     })
-}
+};
 </script>
 
 <style lang="scss">

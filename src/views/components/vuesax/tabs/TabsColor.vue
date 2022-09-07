@@ -103,5 +103,5 @@ export default {
     data: () => ({
         colorx: 'success'
     }),
-}
+};
 </script>

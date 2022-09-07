@@ -3,7 +3,7 @@
         <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
             <nenhum-registro/>
         </div>
-        <vs-table v-model="selecteds" @selected="handleSelected" v-else :data="items" class="table-items" multiple>
+        <vs-table v-model="selecteds" v-else :data="items" class="table-items" multiple>
             <template slot="thead">
                 <vs-th>Número</vs-th>
                 <vs-th>Usuário</vs-th>
@@ -18,7 +18,7 @@
                     </vs-td>
                     <vs-td class="flex items-center">
                         <div class="flex items-center">
-                            <img :src="get_img_api(tr.user.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                            <img :src="get_img_cdn(tr.user.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
                             <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
                         </div>
                     </vs-td>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-    import axios from "@/axios.js"
+    import axios from "@/axios.js";
 
     export default {
         name: "Listagem",
@@ -74,14 +74,9 @@
             return {
                 selecteds: [],
                 ids: [],
-            }
-        },
-        created() {
-            console.log('items', this.items);
+            };
         },
         methods: {
-            handleSelected(tr) {
-            },
             getValComissao(arr) {
                 let soma = 0;
                 arr.forEach(item => {
@@ -96,11 +91,10 @@
                     text: `Deseja ${method == 'payOrdens' ? 'pagar' : 'reverter'} estas ordens selecionadas?`,
                     acceptText: 'Sim',
                     accept: () => {
-                        console.log('selecionados', this.selecteds, 'método', method);
                         this.$emit('action', {ids: this.selecteds, method: method});
                         this.selecteds = [];
                     }
-                })
+                });
             },
             nameCriador(obj) {
                 if (obj.origem_type == 'App\\Models\\User') return obj.origem.name; else return (obj.origem) ? obj.origem.nome : 'Sem origem';
@@ -108,7 +102,7 @@
             imprimirPDF() {
                 this.$vs.loading();
                 let ids = this.selecteds.map(item => {
-                    return item.id
+                    return item.id;
                 });
 
                 axios.get(`/ordems/imprimir`, {params: {ids: ids}, responseType: 'arraybuffer'})
@@ -118,10 +112,7 @@
                         });
                         var url = window.URL.createObjectURL(blob);
                         window.open(url);
-                    })
-                    .catch((error) => {
-                        console.log(error.response)
-                    }).finally(() => this.$vs.loading.close())
+                    }).finally(() => this.$vs.loading.close());
             }
         },
         computed: {
@@ -136,7 +127,7 @@
                 return soma;
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

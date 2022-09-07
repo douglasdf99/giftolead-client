@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleOrdensState.js'
-import mutations from './moduleOrdensMutations.js'
-import actions from './moduleOrdensActions.js'
-import getters from './moduleOrdensGetters.js'
+import state from './moduleOrdensState.js';
+import mutations from './moduleOrdensMutations.js';
+import actions from './moduleOrdensActions.js';
+import getters from './moduleOrdensGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

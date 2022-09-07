@@ -110,7 +110,7 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                               @click="$router.push({name: 'planos-gerenciar' , params:{plan_id: campanha.campanhas[0].plano_id}})">
                         Cancelar
                     </vs-button>
                     <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid && !$acl.check('planos_campanhas_editar')">
@@ -123,8 +123,8 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import Prism from 'vue-prism-component'
+    import vSelect from 'vue-select';
+    import Prism from 'vue-prism-component';
     import moduleCampCanceladas from "../../../store/campanha_canceladas/moduleCampCanceladas";
     import moduleOrigens from "../../../store/origens/moduleOrigens";
     import moduleDuvidas from "../../../store/tipoDuvida/moduleDuvidas";
@@ -138,23 +138,23 @@
         },
         created() {
             if (!moduleCampCanceladas.isRegistered) {
-                this.$store.registerModule('canceladas', moduleCampCanceladas)
-                moduleCampCanceladas.isRegistered = true
+                this.$store.registerModule('canceladas', moduleCampCanceladas);
+                moduleCampCanceladas.isRegistered = true;
             }
             if (!moduleOrigens.isRegistered) {
-                this.$store.registerModule('origens', moduleOrigens)
-                moduleOrigens.isRegistered = true
+                this.$store.registerModule('origens', moduleOrigens);
+                moduleOrigens.isRegistered = true;
             }
             if (!moduleDuvidas.isRegistered) {
-                this.$store.registerModule('duvidas', moduleDuvidas)
-                moduleDuvidas.isRegistered = true
+                this.$store.registerModule('duvidas', moduleDuvidas);
+                moduleDuvidas.isRegistered = true;
             }
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('users', moduleUsuario)
-                moduleUsuario.isRegistered = true
+                this.$store.registerModule('users', moduleUsuario);
+                moduleUsuario.isRegistered = true;
             }
             this.getId(this.$route.params.id);
-            this.getOpcoes()
+            this.getOpcoes();
         },
         data() {
             return {
@@ -184,11 +184,13 @@
                 duvidaSelected: {id: null, text: 'Duvida'},
                 opcoesResponsaveis: [],
                 responsavelSelected: {id: null, text: 'Responsável'},
-            }
+            };
         },
         methods: {
             contatos(val) {
-                this.$router.push({path: `/campanha/configurar-canceladas/${this.$route.params.id}/contatos-${val}`});
+                this.$router.push({
+                    name: `campanha-config-canceladas-contatos-${val}`, params:{id: this.$route.params.id}
+                    });
             },
             salvar() {
                 this.$validator.validateAll().then(result => {
@@ -199,12 +201,12 @@
                         this.campanha.responsavel_id = 1;
                         this.campanha._method = 'PUT';
                         this.campanha.tipos = [];
-                        this.campanha.tipo_duvida_id = this.duvidaSelected.id
+                        this.campanha.tipo_duvida_id = this.duvidaSelected.id;
                         this.tipoSelected.forEach(item => {
-                            this.campanha.tipos.push(item.id)
+                            this.campanha.tipos.push(item.id);
                         });
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('canceladas/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
+                            this.$store.dispatch('canceladas/update', {id: this.campanha.id, dados: this.campanha}).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Atualizado com sucesso.",
@@ -212,7 +214,8 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                                this.$router.push({
+                                    name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -220,10 +223,10 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         } else {
-                            this.$store.dispatch('canceladas/store', this.campanha).then(response => {
+                            this.$store.dispatch('canceladas/store', this.campanha).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Criado com sucesso.",
@@ -231,7 +234,9 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                                this.$router.push({
+                                    name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}
+                                    });
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -239,8 +244,8 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
                     } else {
                         this.$vs.notify({
@@ -249,9 +254,9 @@
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     }
-                })
+                });
 
             },
             getId(id) {
@@ -260,18 +265,17 @@
                     this.campanha = {...response};
                     if (this.campanha.tipo_duvida_id) {
                         this.duvidaSelected.id = this.campanha.tipo_duvida.id;
-                        this.duvidaSelected.label = this.campanha.tipo_duvida.nome
+                        this.duvidaSelected.label = this.campanha.tipo_duvida.nome;
                     } else {
                         this.duvidaSelected = {id: null, label: 'Dúvida'};
                     }
                     if (this.campanha.tipos) {
                         this.campanha.tipos.forEach(item => {
                             this.tipoSelected.push({id: item, label: this.hotmartStatus[item]});
-                        })
+                        });
                     }
 
                 }).catch(erro => {
-                    console.log('front erro', erro.response);
                     //Redirecionando caso 404
                     if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
                 }).finally(() => this.$vs.loading.close());
@@ -300,8 +304,8 @@
                 })*/
             },
             formatPrice(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                let val = (value / 1).toFixed(2).replace('.', ',');
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             },
         },
         computed: {
@@ -311,19 +315,10 @@
         },
         watch: {
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            produto: {
-                handler(val) {
-                    console.log('mudou');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
+                this.routeTitle = this.$route.meta.pageTitle;
             },
         },
-    }
+    };
 </script>
 
 <style>

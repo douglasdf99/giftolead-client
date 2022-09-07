@@ -69,10 +69,10 @@
           background: $content-dark-bg;
 
           .vs__clear svg{
-              stroke: $grey;
+              stroke: $gray;
           }
           .vs__deselect svg{
-              stroke: $grey;
+              stroke: $gray;
               opacity: 0.7;
           }
       }
@@ -87,7 +87,7 @@
         color: $white;
       }
       .vs__open-indicator{
-          fill: $grey;
+          fill: $gray;
       }
       .vs__dropdown-menu{
           background: $content-dark-bg;

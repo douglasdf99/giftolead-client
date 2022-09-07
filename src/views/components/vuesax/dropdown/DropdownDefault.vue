@@ -133,11 +133,11 @@
 </template>
 
 <script>
-import Prism from 'vue-prism-component'
+import Prism from 'vue-prism-component';
 
     export default{
         components: {
             Prism
         }
-    }
+    };
 </script>

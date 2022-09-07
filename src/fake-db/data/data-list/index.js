@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 const data = {
   products: [
@@ -903,7 +903,7 @@ const data = {
       "price": 99.99
     }
   ]
-}
+};
 
 
 mock.onGet("/api/data-list/products").reply(() => {
@@ -914,37 +914,37 @@ mock.onGet("/api/data-list/products").reply(() => {
 mock.onPost("/api/data-list/products/").reply((request) => {
 
   // Get event from post data
-  let item = JSON.parse(request.data).item
+  let item = JSON.parse(request.data).item;
 
-  const length = data.products.length
-  let lastIndex = 0
-  if(length){
-    lastIndex = data.products[length - 1].id
+  const length = data.products.length;
+  let lastIndex = 0;
+  if(length) {
+    lastIndex = data.products[length - 1].id;
   }
-  item.id = lastIndex + 1
+  item.id = lastIndex + 1;
 
-  data.products.push(item)
+  data.products.push(item);
 
-  return [201, {id: item.id}]
-})
+  return [201, {id: item.id}];
+});
 
 // Update Product
 mock.onPost(/\/api\/data-list\/products\/\d+/).reply((request) => {
 
-  const itemId = request.url.substring(request.url.lastIndexOf("/")+1)
+  const itemId = request.url.substring(request.url.lastIndexOf("/")+1);
 
-  let item = data.products.find((item) => item.id == itemId)
-  Object.assign(item, JSON.parse(request.data).item)
+  let item = data.products.find((item) => item.id == itemId);
+  Object.assign(item, JSON.parse(request.data).item);
 
-  return [200, item]
-})
+  return [200, item];
+});
 
 // DELETE: Remove Item
 mock.onDelete(/\/api\/data-list\/products\/\d+/).reply((request) => {
 
-  const itemId = request.url.substring(request.url.lastIndexOf("/")+1)
+  const itemId = request.url.substring(request.url.lastIndexOf("/")+1);
 
-  const itemIndex = data.products.findIndex((p) => p.id == itemId)
-  data.products.splice(itemIndex, 1)
-  return [200]
-})
+  const itemIndex = data.products.findIndex((p) => p.id == itemId);
+  data.products.splice(itemIndex, 1);
+  return [200];
+});

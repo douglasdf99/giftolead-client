@@ -17,9 +17,9 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-0">
-                <div id="chat-app" class="d-theme-border-grey-light rounded relative overflow-hidden chat-whats-bg">
+                <div id="chat-app" class="d-theme-border-gray-light rounded relative overflow-hidden chat-whats-bg">
                     <!-- RIGHT COLUMN -->
-                    <div class="chat-whats chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-grey-light border-t-0 border-r-0 border-b-0"
+                    <div class="chat-whats chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-gray-light border-t-0 border-r-0 border-b-0"
                          :class="{'sidebar-spacer--wide': clickNotClose, 'flex items-center justify-center': activeChatUser === null}">
                         <template v-if="activeChatUser">
                             <div class="chat__navbar">
@@ -27,7 +27,7 @@
                                              :isPinnedProp="isChatPinned"></chat-navbar>
                                 <vs-progress indeterminate color="primary" v-if="enviando"></vs-progress>
                             </div>
-                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
+                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-gray-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
                                 <div class="chat__log" ref="chatLog">
                                     <chat-log :userId="activeChatUser" :dados="data" v-if="activeChatUser"></chat-log>
                                 </div>
@@ -45,7 +45,7 @@
                                 <i class="material-icons text-4xl text-gray p-4 cursor-pointer">sms</i>
                                 <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                                     <span class="span-identifica-item-dropdown mb-0">Variáveis</span>
-                                    <vs-dropdown-item v-for="i in variaveis">
+                                    <vs-dropdown-item v-for="(i, index) in variaveis" :key="index">
                                         <span @click="addVarText(i.value)">{{ i.nome }}</span>
                                     </vs-dropdown-item>
                                     <vs-dropdown-item @click="addLinkCheckoutVarText" v-if="this.$route.name != 'brindes-automacao'">
@@ -127,16 +127,16 @@ export default {
             modal: false,
             selectedLink: {id: null, label: 'Selecione o link'},
             links: []
-        }
+        };
     },
     computed: {
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
                     // this.$validator.reset()
                     // this.initValues()
                 }
@@ -151,26 +151,25 @@ export default {
                     this.$emit('closeSidebar');
                     this.initValues();
                 }
-            })
+            });
         },
         fechar() {
-            this.$emit('getItems')
-            this.isSidebarActiveLocal = false
+            this.$emit('getItems');
+            this.isSidebarActiveLocal = false;
         },
         setSidebarWidth() {
             if (this.windowWidth < 1200) {
-                this.isChatSidebarActive = this.clickNotClose = false
+                this.isChatSidebarActive = this.clickNotClose = false;
             } else {
-                this.isChatSidebarActive = this.clickNotClose = true
+                this.isChatSidebarActive = this.clickNotClose = true;
             }
         },
         toggleChatSidebar(value = false) {
-            if (!value && this.clickNotClose) return
-            this.isChatSidebarActive = value
+            if (!value && this.clickNotClose) return;
+            this.isChatSidebarActive = value;
         },
         sendMsg() {
-            console.log('caishdasd', this.user)
-            if (!this.typedMessage) return
+            if (!this.typedMessage) return;
             this.enviando = true;
             this.$store.dispatch('whatsapplist/sendMsg', {id: this.data.id, mensagem: this.typedMessage, rota: 'automacaos/whatsapp', avatar: this.user.photoURL}).then(response => {
                 this.enviado = true;
@@ -184,12 +183,12 @@ export default {
             window.open(url);
         },
         showProfileSidebar(userId, openOnLeft = false) {
-            this.userProfileId = userId
-            this.isLoggedInUserProfileView = openOnLeft
-            this.activeProfileSidebar = !this.activeProfileSidebar
+            this.userProfileId = userId;
+            this.isLoggedInUserProfileView = openOnLeft;
+            this.activeProfileSidebar = !this.activeProfileSidebar;
         },
         toggleIsChatPinned(value) {
-            this.isChatPinned = value
+            this.isChatPinned = value;
         },
         setMensagem(text) {
             this.typedMessage = text;
@@ -227,7 +226,7 @@ export default {
             ' Clique no link abaixo para preencher seu endereço: \n' +
             `https://weentrega.saveleads.com.br/preencher/${this.data.uuid}/${this.data.lead.email}`;
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

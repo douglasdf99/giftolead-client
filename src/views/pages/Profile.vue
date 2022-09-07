@@ -293,8 +293,8 @@
 </template>
 
 <script>
-import { videoPlayer } from 'vue-video-player'
-import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player';
+import 'video.js/dist/video-js.css';
 
 export default {
   data() {
@@ -513,19 +513,19 @@ export default {
         },
       ],
       wasSidebarOpen: null,
-    }
+    };
   },
   computed: {
     mediaType() {
       return (media) => {
         if (media.img) {
           const ext = media.img.split('.').pop();
-          if (this.mediaExtensions.img.includes(ext)) return 'image'
+          if (this.mediaExtensions.img.includes(ext)) return 'image';
         } else if (media.sources && media.poster) {
           // other validations
-          return 'video'
+          return 'video';
         }
-      }
+      };
     },
     playerOptions() {
       return (media) => {
@@ -538,8 +538,8 @@ export default {
           playbackRates: [0.7, 1.0, 1.5, 2.0],
           sources: media.sources,
           poster: media.poster,
-        }
-      }
+        };
+      };
     }
   },
   methods: {
@@ -549,9 +549,9 @@ export default {
         color: this.colorLoading,
         container: "#button-load-more-posts",
         scale: 0.45
-      })
+      });
       setTimeout(() => {
-        this.$vs.loading.close("#button-load-more-posts > .con-vs-loading")
+        this.$vs.loading.close("#button-load-more-posts > .con-vs-loading");
       }, 3000);
     },
   },
@@ -560,12 +560,12 @@ export default {
   },
   mounted() {
     this.wasSidebarOpen = this.$store.state.reduceButton;
-    this.$store.commit('TOGGLE_REDUCE_BUTTON', true)
+    this.$store.commit('TOGGLE_REDUCE_BUTTON', true);
   },
   beforeDestroy() {
-    if (!this.wasSidebarOpen) this.$store.commit('TOGGLE_REDUCE_BUTTON', false)
+    if (!this.wasSidebarOpen) this.$store.commit('TOGGLE_REDUCE_BUTTON', false);
   }
-}
+};
 
 </script>
 

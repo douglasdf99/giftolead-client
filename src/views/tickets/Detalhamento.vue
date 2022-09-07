@@ -65,7 +65,7 @@
                             <img src="@/assets/images/util/whatsapp.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaWhatsapp'">
                             <img src="@/assets/images/util/agendamento.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
                             <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-                            <img :src="null" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel.avatar" :style="{ backgroundImage: 'url('+get_img_api(ticket.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '60px', height:'60px' }">
+                            <vs-avatar v-else color="primary" class="ml-2 rounded-full" size="40px" :text="ticket.responsavel.name" />
                           </p>
                         </div>
                     </div>
@@ -147,14 +147,13 @@
 
 <script>
   import moduleTickets from "../../store/tickets/moduleTickets";
-  import moduleUsuario from "../../store/usuarios/moduleUsuario";
   import atendimento from "./Atendimento";
   import SideBar from "./Responder";
-  import Email from "./Email"
-  import historico from './Historico'
-  import transacoes from "./Transacoes"
-  import automacaos from "../automacao/Listagem"
-  import solicitacoes from '../solicitacao_brinde/Listagem'
+  import Email from "./Email";
+  import historico from './Historico';
+  import transacoes from "../components/transacoes/TableTemplate";
+  import automacaos from "../automacao/Listagem";
+  import solicitacoes from '../solicitacao_brinde/Listagem';
 
   export default {
         name: "Atender",
@@ -190,27 +189,25 @@
                 cron: '',
                 time: '00:00:00',
                 ticket: {}
-            }
+            };
         },
         created() {
 
             if (!moduleTickets.isRegistered) {
-                this.$store.registerModule('tickets', moduleTickets)
-                moduleTickets.isRegistered = true
+                this.$store.registerModule('tickets', moduleTickets);
+                moduleTickets.isRegistered = true;
             }
 
-            this.getId(this.$route.params.id)
+            this.getId(this.$route.params.id);
 
         },
         methods: {
             getId(id) {
                 this.$vs.loading();
-                console.log('teste')
                 this.$store.dispatch('tickets/getId', id).then(response => {
                     this.ticket = response;
                     this.$vs.loading.close();
                 }).catch(erro => {
-                    console.log('front erro', erro.response);
                     //Redirecionando caso 404
                     if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'tickets-list', text: 'Retornar à listagem de Tickets'}});
                 }).finally(() => this.$vs.loading.close());
@@ -232,18 +229,18 @@
             getStatusSoli(status) {
                 switch (status) {
                     case 'pendente':
-                        return '#ff9f43'
+                        return '#ff9f43';
                     case 'aprovado':
-                        return '#28c76f'
+                        return '#28c76f';
                     case 'emexpedicao':
-                        return '#31aef0'
+                        return '#31aef0';
                     default:
-                        return ''
+                        return '';
                 }
             },
 
-           voltar(){
-             this.$router.push({name:'tickets-list'})
+           voltar() {
+             this.$router.push({name:'tickets-list'});
            },
 
             getStatus(val) {
@@ -265,8 +262,8 @@
                     ddd = '';
                 }
                 if (telefone) {
-                    telefone = telefone.replace(/-/g, '')
-                    telefone = telefone.replace(/[{()}]/g, '')
+                    telefone = telefone.replace(/-/g, '');
+                    telefone = telefone.replace(/[{()}]/g, '');
                 } else {
                     telefone = '';
                 }
@@ -277,24 +274,7 @@
         computed: {
 
         },
-        watch: {
-            '$refs': {
-                handler: function (e) {
-                    console.log("hit", e);
-                },
-                deep: true
-            },
-            phonevar: {
-                handler: function (e) {
-                    console.log("phonevar", e);
-                },
-                deep: true
-            },
-        },
-        mounted() {
-
-        }
-    }
+    };
 </script>
 
 <style lang="scss">

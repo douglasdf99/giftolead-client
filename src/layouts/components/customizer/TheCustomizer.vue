@@ -131,7 +131,7 @@
                                     <!-- WHITE COLOR -->
                                     <li
                                             :style="{background: navbarColorInitial}"
-                                            class="w-10 m-2 h-10 rounded-lg float-left cursor-pointer border border-solid d-theme-border-grey-light"
+                                            class="w-10 m-2 h-10 rounded-lg float-left cursor-pointer border border-solid d-theme-border-gray-light"
                                             :class="navbarColorOptionClasses(navbarColorInitial)"
                                             @click="navbarColorLocal = navbarColorInitial "/>
 
@@ -244,7 +244,7 @@
 
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
     export default {
         props: {
@@ -271,17 +271,17 @@
                     maxScrollbarLength: 60,
                     wheelSpeed: .60,
                 },
-                themeColors: ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#1E1E1E'],
-            }
+                themeColors: ['#7367F0', '#28C76F', '#EA5455', '#FF9F43', '#181830'],
+            };
         },
         watch: {
             layoutType(val) {
 
                 // Reset unsupported options
                 if (val === "horizontal") {
-                    this.themeMode === "semi-dark" ? this.themeMode = "light" : null
-                    this.navbarType === "hidden" ? this.navbarTypeLocal = "floating" : null
-                    this.$emit('updateNavbarColor', "#fff")
+                    this.themeMode === "semi-dark" ? this.themeMode = "light" : null;
+                    this.navbarType === "hidden" ? this.navbarTypeLocal = "floating" : null;
+                    this.$emit('updateNavbarColor', "#fff");
                 }
             }
         },
@@ -291,95 +291,95 @@
                     return this.footerType;
                 },
                 set(val) {
-                    this.$emit('updateFooter', val)
+                    this.$emit('updateFooter', val);
                 }
             },
             hideScrollToTopLocal: {
                 get() {
-                    return this.hideScrollToTop
+                    return this.hideScrollToTop;
                 },
                 set(val) {
-                    this.$emit('toggleHideScrollToTop', val)
+                    this.$emit('toggleHideScrollToTop', val);
                 }
             },
             navbarColorInitial() {
-                return this.$store.state.theme === 'dark' ? '#10163a' : '#fff'
+                return this.$store.state.theme === 'dark' ? '#10163a' : '#fff';
             },
             navbarColorOptionClasses() {
                 return (color) => {
-                    let classes = {}
-                    if (color == this.navbarColorLocal) classes['shadow-outline'] = true
-                    if (this.navbarTypeLocal == 'static') classes['cursor-not-allowed'] = true
-                    return classes
-                }
+                    let classes = {};
+                    if (color == this.navbarColorLocal) classes['shadow-outline'] = true;
+                    if (this.navbarTypeLocal == 'static') classes['cursor-not-allowed'] = true;
+                    return classes;
+                };
             },
             navbarColorLocal: {
                 get() {
-                    return this.navbarColor
+                    return this.navbarColor;
                 },
                 set(val) {
-                    if (this.navbarType == 'static') return
-                    this.$emit('updateNavbarColor', val)
+                    if (this.navbarType == 'static') return;
+                    this.$emit('updateNavbarColor', val);
                 }
             },
             navbarTypeLocal: {
                 get() {
-                    return this.navbarType
+                    return this.navbarType;
                 },
                 set(val) {
-                    this.$emit('updateNavbar', val)
+                    this.$emit('updateNavbar', val);
                 }
             },
             layoutType: {
                 get() {
-                    return this.$store.state.mainLayoutType
+                    return this.$store.state.mainLayoutType;
                 },
                 set(val) {
-                    this.$store.commit("UPDATE_MAIN_LAYOUT_TYPE", val)
+                    this.$store.commit("UPDATE_MAIN_LAYOUT_TYPE", val);
                 }
             },
             primaryColor: {
                 get() {
-                    return this.$store.state.themePrimaryColor
+                    return this.$store.state.themePrimaryColor;
                 },
                 set(val) {
-                    this.$store.commit('UPDATE_PRIMARY_COLOR', val)
+                    this.$store.commit('UPDATE_PRIMARY_COLOR', val);
                 }
             },
             reduced_sidebar: {
                 get() {
-                    return this.$store.state.reduceButton
+                    return this.$store.state.reduceButton;
                 },
                 set(val) {
-                    this.$store.commit('TOGGLE_REDUCE_BUTTON', val)
+                    this.$store.commit('TOGGLE_REDUCE_BUTTON', val);
                 }
             },
             routerTransitionLocal: {
                 get() {
-                    return this.routerTransition
+                    return this.routerTransition;
                 },
                 set(val) {
-                    this.$emit('updateRouterTransition', val)
+                    this.$emit('updateRouterTransition', val);
                 }
             },
             rtl: {
                 get() {
-                    return this.$vs.rtl
+                    return this.$vs.rtl;
                 },
                 set(val) {
-                    this.$vs.rtl = val
+                    this.$vs.rtl = val;
                 }
             },
             themeMode: {
                 get() {
-                    return this.$store.state.theme
+                    return this.$store.state.theme;
                 },
                 set(val) {
-                    this.$store.dispatch('updateTheme', val)
+                    this.$store.dispatch('updateTheme', val);
                 }
             },
             windowWidth() {
-                return this.$store.state.windowWidth
+                return this.$store.state.windowWidth;
             }
         },
         methods: {
@@ -391,7 +391,7 @@
         components: {
             VuePerfectScrollbar,
         }
-    }
+    };
 
 </script>
 

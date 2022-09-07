@@ -2,7 +2,7 @@ import subRotaLeads from "./subRotaLeads";
 
 const rotasLeads = [
     {
-        path: '/leads/listagem',
+        path: 'leads/listagem',
         name: 'leads-list',
         component: () => import('@/views/leads/Index.vue'),
         meta: {
@@ -20,7 +20,7 @@ const rotasLeads = [
         },
     },
     {
-        path: '/leads/detalhe/:id',
+        path: 'leads/detalhe/:id',
         name: 'leads-detalhe',
         component: () => import('@/views/leads/Detalhe.vue'),
         meta: {
@@ -39,7 +39,7 @@ const rotasLeads = [
         },
     },
     {
-        path: '/leads/transacoes',
+        path: 'leads/transacoes',
         name: 'transacoes',
         component: () => import('@/views/transacoes/Index.vue'),
         meta: {
@@ -58,4 +58,4 @@ const rotasLeads = [
     },
 ];
 
-export default rotasLeads
+export default rotasLeads;

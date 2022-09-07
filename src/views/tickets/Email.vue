@@ -8,7 +8,7 @@
                     <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
                     <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                         <span class="span-identifica-item-dropdown mb-0">Mensagem Padrão</span>
-                        <vs-dropdown-item v-for="msg in mensagemsFiltro" @click="addVarText(msg.mensagem)">
+                        <vs-dropdown-item v-for="msg in mensagemsFiltro" :key="msg.tipo" @click="addVarText(msg.mensagem)">
                             <span v-if="msg.tipo === 'email'">{{msg.assunto}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -46,7 +46,7 @@
                     <div class="vx-col w-full mb-2">
                         <span class="font-regular">Inserir no corpo da mensagem:</span>
                     </div>
-                    <div class="vx-col w-full lg:w-1/3 mb-4" v-for="val in variaveis">
+                    <div class="vx-col w-full lg:w-1/3 mb-4" v-for="val in variaveis" :key="val.value">
                         <div class="w-full px-4 py-2 text-center text-black rounded-lg cursor-pointer" style="background-color: #dddddd" @click="addVarText(val.value)">
                             <span>{{val.nome}}</span>
                         </div>
@@ -62,11 +62,11 @@
 </template>
 
 <script>
-    import 'quill/dist/quill.core.css'
-    import 'quill/dist/quill.snow.css'
-    import 'quill/dist/quill.bubble.css'
-    import {quillEditor} from 'vue-quill-editor'
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import 'quill/dist/quill.core.css';
+    import 'quill/dist/quill.snow.css';
+    import 'quill/dist/quill.bubble.css';
+    import {quillEditor} from 'vue-quill-editor';
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
     import {Validator} from 'vee-validate';
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleMensagem from "../../store/mensagemPadrao/moduleMensagem";
@@ -102,12 +102,12 @@
                 email: {},
                 variaveis: saveleadsConfig.variaveis,
                 mensagens: []
-            }
+            };
         },
         created() {
             if (!moduleMensagem.isRegistered) {
-                this.$store.registerModule('mensagens', moduleMensagem)
-                moduleMensagem.isRegistered = true
+                this.$store.registerModule('mensagens', moduleMensagem);
+                moduleMensagem.isRegistered = true;
             }
 
             this.getMensagens();
@@ -115,19 +115,19 @@
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
                 }
             },
-            mensagemsFiltro (){
+            mensagemsFiltro () {
               return this.mensagens.filter((msg)=>{
-                if (msg.tipo == 'email'){
+                if (msg.tipo == 'email') {
                   return msg;
                 }
               });
@@ -138,7 +138,6 @@
         },
         methods: {
             onEditorReady(editor) {
-                console.log('editor', editor.getSelection());
                 this.editor = editor;
             },
             addVarText(value) {
@@ -148,8 +147,7 @@
             },
             enviar() {
                 this.$store.dispatch('tickets/sendEmail', {id: this.data.id, assunto: this.email.assunto, mensagem: this.email.body}).then(response => {
-                    console.log('voltou pro front', response);
-                    if(response.return){
+                    if(response.return) {
                         this.$emit('closeSidebar');
                         this.$emit('getId');
                         this.$vs.notify({
@@ -164,9 +162,11 @@
                             text: 'Houve um erro ao enviar seu e-mail. Entre em contato com o suporte.'
                         });
                     }
-                }).catch(erro => {
-                    console.log('erro', erro)
-                });
+                }).catch(() => this.$vs.notify({
+                            color: 'danger',
+                            title: '',
+                            text: 'Houve um erro ao enviar seu e-mail. Entre em contato com o suporte.'
+                        }));
             },
             getMensagens() {
                 this.mensagens = [];
@@ -175,7 +175,7 @@
                 });
             },
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

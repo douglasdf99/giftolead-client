@@ -49,7 +49,7 @@ export default {
             value1:6,
             value2:25,
             value3:[2,4]
-        }
+        };
     }
-}
+};
 </script>

@@ -17,7 +17,7 @@
             <vs-navbar v-model="activeItem" class="p-2">
 
                 <div slot="title">
-                    <vs-navbar-title><span>Vuexy</span></vs-navbar-title>
+                    <vs-navbar-title></vs-navbar-title>
                 </div>
 
                 <vs-navbar-item index="0">
@@ -75,5 +75,5 @@ export default {
     data: () => ({
         activeItem: 0
     })
-}
+};
 </script>

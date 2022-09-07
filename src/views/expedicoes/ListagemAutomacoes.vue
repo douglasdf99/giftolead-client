@@ -29,7 +29,7 @@
             <nenhum-registro></nenhum-registro>
         </div>
         <div class="com-item" v-else>
-            <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items">
+            <vs-table multiple v-model="selecteds" :data="items" class="table-items">
                 <template slot="thead">
                     <vs-th></vs-th>
                     <vs-th>Cliente</vs-th>
@@ -148,7 +148,7 @@
                             <div class="table w-full p-5 rounded-lg vs-con-loading__container" id="table-modal" style="height: 200px;overflow-y: auto;">
                                 <div class="table-row-group">
                                     <div class="table-row rounded-lg vs-con-loading__container" v-bind:class="{'stripe': (index % 2 == 0)}" v-for="(auto, index) in modalData.automacoes"
-                                         :id="'table-row-' + auto.id">
+                                         :id="'table-row-' + auto.id" :key="index">
                                         <div class="table-cell px-3 py-3">
                                             <div class="flex items-center">
                                                 <div v-if="auto.error" class="table-cell mx-3">
@@ -165,7 +165,7 @@
                                         <div class="table-cell px-3 py-3" v-if="modalData.step == 1">{{ auto.lead.email }}</div>
                                         <div class="table-cell px-3 py-3" v-if="modalData.step == 1">
                                             <select v-model="auto.servicoSelected" @change="calculoIndividual(auto, index)" :class="'select-large-base'" :clearable="false" class="bg-white default">
-                                                <option v-for="serv in modalData.services" :value="serv.id" :selected="auto.servicoSelected === serv.id">{{ serv.label }}</option>
+                                                <option v-for="serv in modalData.services" :key="serv.id" :value="serv.id" :selected="auto.servicoSelected === serv.id">{{ serv.label }}</option>
                                             </select>
                                             <!--                                            <v-select v-model="auto.servicoSelected" :class="'select-large-base'" :clearable="false" class="bg-white"-->
                                             <!--                                                      :options="modalData.services"/>-->
@@ -214,7 +214,7 @@ import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 import NenhumRegistro from "../components/NenhumRegistro";
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
 import moduleExtensoes from "../../store/extensoes/moduleExtensoes";
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 
 export default {
     components: {NenhumRegistro, 'v-select': vSelect},
@@ -235,7 +235,7 @@ export default {
                 step: 1,
                 finalizado: false
             },
-        }
+        };
     },
     name: "Listagem",
     props: ['items', 'tipo'],
@@ -244,7 +244,7 @@ export default {
             this.modalcompra = true;
             this.modalData.step = 1;
             this.modalData.services = this.melhorenvio.servicos.map(item => {
-                return {id: item.uuid, label: item.servico}
+                return {id: item.uuid, label: item.servico};
             });
             if (!this.temConfigPadrao) this.modalData.services.push({id: '000', label: 'Selecione o serviço', disabled: true});
             await this.podeCarrinho();
@@ -276,7 +276,7 @@ export default {
         async getLimites() {
             this.$store.dispatch('automacao/verificaLimite', {params: this.dados, config: {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}}).then(response => {
                 this.limites = response.data;
-                this.limites.error = false
+                this.limites.error = false;
             }).catch(() => {
                 this.limites.error = true;
                 this.limites.errorMessage = 'Não foi possível realizar conexão com a melhor envio';
@@ -284,7 +284,7 @@ export default {
         },
         async comprarEtiquetas() {
             this.modalData.step = 2;
-            for (const [idx, item] of this.modalData.automacoes.entries()) {
+            for (const item of this.modalData.automacoes.entries()) {
                 this.$vs.loading({
                     container: "#table-row-" + item.id,
                     scale: 0.45
@@ -292,8 +292,7 @@ export default {
                 await this.$store.dispatch('automacao/adicionarCarrinho', item.id).then((response) => {
                     this.$vs.loading.close("#table-row-" + item.id + " > .con-vs-loading");
                     item.codigo_carrinho_melhor_envio = response.data.codigo_carrinho_melhor_envio;
-                }).catch(erro => {
-                    console.log('erro', erro);
+                }).catch(() => {
                     this.$vs.notify({
                         color: 'danger',
                         text: 'Algo deu errado ao adicionar ao carrinho'
@@ -304,11 +303,10 @@ export default {
         },
         async calcularFrete() {
             let obj = {payload: {}};
-            for (const [idx, item] of this.selecteds.entries()) {
+            for (const item of this.selecteds.entries()) {
                 obj = await this.buildObjPayloadCalculaFrete(item); //Monta o payload a ser enviado à api
 
                 await this.$store.dispatch('automacao/calcular', obj).then((response) => {
-                    console.log('calculando', response)
                     if (response.data.error) {
                         item.error = response.data.error;
                         this.custo = 0;
@@ -369,20 +367,18 @@ export default {
                 "services": recalculando ? item.servicoSelected : service
             };
             item.headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
-            return item
+            return item;
         },
         async calculoIndividual(item, index) {
             this.$vs.loading({
                 container: "#table-modal",
                 scale: 0.45
             });
-            console.log('serv', item);
             let obj = await this.buildObjPayloadCalculaFrete(item, true);
             await this.$store.dispatch('automacao/calcular', obj).then((response) => {
-                console.log('response recalculo', response);
                 if (response.data.error) {
                     item.error = response.data.error;
-                    item.custo = 0
+                    item.custo = 0;
                 } else {
                     item.error = null;
                     item.custo = parseFloat(response.data.price);
@@ -401,7 +397,6 @@ export default {
                 scale: 0.45
             });
             let ids = this.modalData.automacoes.map(item => item.id);
-            console.log('ids', ids);
             this.$store.dispatch('automacao/finalizar', {ids: ids}).then(response => {
                 this.$vs.loading.close("#table-modal > .con-vs-loading");
                 this.modalcompra = false;
@@ -409,7 +404,7 @@ export default {
                     text: 'Finalizado com sucesso.',
                     color: 'success'
                 });
-                this.$router.push({path: '/brindes/expedicoes-melhor-envio/' + response.data.id});
+                this.$router.push({name: 'brindes-expedicoes-melhorenvio-detalhe', params:{id: response.data.idEmail}});
             });
         },
         removeAutomacao(item, index) {
@@ -422,7 +417,7 @@ export default {
                 container: "#table-modal",
                 scale: 0.45
             });
-            this.$store.dispatch('automacao/removerCarrinho', {id: item.id}).then(response => {
+            this.$store.dispatch('automacao/removerCarrinho', {id: item.id}).then(() => {
                 this.modalData.automacoes.splice(index, 1);
                 this.modalData.custo -= parseFloat(item.custo);
                 this.$vs.loading.close("#table-modal > .con-vs-loading");
@@ -432,8 +427,6 @@ export default {
         getService(val) {
             const result = this.melhorenvio.servicos.filter(serv => serv.id == val);
             return result[0].uuid.toString();
-        },
-        handleSelected(tr) {
         },
         deleteAlert(id) {
             this.idSelected = id;
@@ -446,7 +439,7 @@ export default {
                 acceptText: "Deletar",
                 cancelText: "Cancelar"
 
-            })
+            });
         },
         restaurarAlert(id) {
             this.idSelected = id;
@@ -459,7 +452,7 @@ export default {
                 acceptText: "Restaurar",
                 cancelText: "Cancelar"
 
-            })
+            });
         },
         deleteItem() {
             this.$store.dispatch('automacao/deleteItem', this.idSelected).then(() => {
@@ -469,13 +462,10 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-check-circle',
                     color: 'success'
-                })
-                this.$emit('getItems')
+                });
+                this.$emit('getItems');
 
-            }).catch(error => {
-
-            })
-
+            });
         },
         arquivar(obj) {
             this.$vs.dialog({
@@ -487,20 +477,19 @@ export default {
                 cancelText: 'Cancelar',
                 accept: () => {
                     this.$store.dispatch('expedicaos/arquivar', obj.id).then(() => {
-                        this.$emit('getItems')
+                        this.$emit('getItems');
                         this.$vs.notify({
                             color: 'success',
                             text: 'Arquivado realizado com sucesso'
                         });
-                    }).catch(erro => {
-                        console.log('erro', erro);
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             text: 'Algo deu errado ao arquivar a automação. Contate o suporte'
                         });
                     });
                 }
-            })
+            });
         },
         restaurarItem() {
             this.$store.dispatch('automacao/restaurarItem', this.idSelected).then(() => {
@@ -510,13 +499,10 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-check-circle',
                     color: 'success'
-                })
-                this.$emit('getItems')
+                });
+                this.$emit('getItems');
 
-            }).catch(error => {
-
-            })
-
+            });
         },
         getResponsavel(obj) {
             switch (obj.responsavel_type) {
@@ -536,7 +522,7 @@ export default {
                         color: 'success',
                         iconPack: 'feather',
                         icon: 'icon-check-circle'
-                    })
+                    });
                 },
                 function () {
                     thisIns.$vs.notify({
@@ -546,8 +532,8 @@ export default {
                         iconPack: 'feather',
                         position: 'top-center',
                         icon: 'icon-alert-circle'
-                    })
-                })
+                    });
+                });
         },
         getOrdemEnvio(obj) {
             if (obj.endereco == null)
@@ -582,7 +568,7 @@ export default {
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
-                })
+                });
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
@@ -591,11 +577,11 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         },
         reenviar(token) {
-            let self = this
+            let self = this;
             this.$vs.dialog({
                 type: 'confirm',
                 color: 'primary',
@@ -613,17 +599,16 @@ export default {
                             color: 'danger',
                             title: 'Ops! Algo deu errado. Contate o suporte.',
                             time: 10000,
-                        })
-                    })
+                        });
+                    });
                 },
                 acceptText: "Enviar",
                 cancelText: "Cancelar"
 
-            })
+            });
         },
         //Editar endereço da automação
         editarEndereco(obj) {
-            console.log('editar', obj);
             this.$emit('editarEnd', obj);
         },
         podeCarrinho() {
@@ -639,12 +624,12 @@ export default {
             moduleExpedicoesBrindes.isRegistered = true;
         }
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
         if (!moduleExtensoes.isRegistered) {
-            this.$store.registerModule('extensoes', moduleExtensoes)
-            moduleExtensoes.isRegistered = true
+            this.$store.registerModule('extensoes', moduleExtensoes);
+            moduleExtensoes.isRegistered = true;
         }
     },
     mounted() {
@@ -663,13 +648,13 @@ export default {
         podeCalcular() {
             let semEndereco = this.selecteds.filter(item => !item.endereco);
             if (semEndereco.length > 0) return {success: false, message: 'Não é possível calcular frete de uma automação sem endereço.'};
-            return {success: true, message: 'Ápto a calcular.'}
+            return {success: true, message: 'Ápto a calcular.'};
         },
         temConfigPadrao() {
-            return (this.melhorenvio.config_padrao != null)
+            return (this.melhorenvio.config_padrao != null);
         }
     },
-}
+};
 </script>
 
 <style scoped>

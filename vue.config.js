@@ -1,15 +1,8 @@
-/*=========================================================================================
-  File Name: vue.config.js
-  Description: configuration file of vue
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-
 module.exports = {
   publicPath: '/',
+  devServer: {
+    disableHostCheck: true,
+  },
   transpileDependencies: [
     'vue-echarts',
     'resize-detector'
@@ -20,6 +13,18 @@ module.exports = {
         chunks: 'all'
       }
     }
+  },
+  chainWebpack: config => {
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .tap(options => ({
+        ...options,
+        compilerOptions: {
+          // treat any tag that starts with ion- as custom elements
+          isCustomElement: tag => tag.startsWith('ion-')
+        }
+      }));
   }
-}
+};
 

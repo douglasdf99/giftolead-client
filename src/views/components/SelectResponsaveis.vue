@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import Multiselect from 'vue-multiselect'
+  import Multiselect from 'vue-multiselect';
   import moduleCampAgendamentos from "../../store/campanha_agendamento/moduleCampAgendamentos";
   import moduleCampBoletos from "../../store/campanha_boleto/moduleCampBoletos";
   import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
@@ -29,28 +29,28 @@
 
         agentes: [],
         selectedResp: null
-      }
+      };
     },
     mounted() {
       if (!moduleUsuario.isRegistered) {
-        this.$store.registerModule('users', moduleUsuario)
-        moduleUsuario.isRegistered = true
+        this.$store.registerModule('users', moduleUsuario);
+        moduleUsuario.isRegistered = true;
       }
       if (!moduleCampAgendamentos.isRegistered) {
-        this.$store.registerModule('agendadas', moduleCampAgendamentos)
-        moduleCampAgendamentos.isRegistered = true
+        this.$store.registerModule('agendadas', moduleCampAgendamentos);
+        moduleCampAgendamentos.isRegistered = true;
       }
       if (!moduleCampBoletos.isRegistered) {
-        this.$store.registerModule('boletos', moduleCampBoletos)
-        moduleCampBoletos.isRegistered = true
+        this.$store.registerModule('boletos', moduleCampBoletos);
+        moduleCampBoletos.isRegistered = true;
       }
       if (!moduleCampCanceladas.isRegistered) {
-        this.$store.registerModule('canceladas', moduleCampCanceladas)
-        moduleCampCanceladas.isRegistered = true
+        this.$store.registerModule('canceladas', moduleCampCanceladas);
+        moduleCampCanceladas.isRegistered = true;
       }
       if (!moduleCampWhatsapp.isRegistered) {
-        this.$store.registerModule('whats', moduleCampWhatsapp)
-        moduleCampWhatsapp.isRegistered = true
+        this.$store.registerModule('whats', moduleCampWhatsapp);
+        moduleCampWhatsapp.isRegistered = true;
       }
       //this.getUsers();
       this.getResponsaveis();
@@ -101,7 +101,7 @@
             });
           });
           this.setResponsaveis();
-        })
+        });
       },
       getUsers() {
         this.$store.dispatch('users/get').then(response => {
@@ -113,7 +113,7 @@
             });
           });
           this.getBoletos();
-        })
+        });
       },
       getBoletos() {
         this.$store.dispatch('boletos/get').then(response => {
@@ -125,7 +125,7 @@
             });
           });
           this.getCanceladas();
-        })
+        });
       },
       getCanceladas() {
         this.$store.dispatch('canceladas/get').then(response => {
@@ -137,7 +137,7 @@
             });
           });
           this.getWhats();
-        })
+        });
       },
       getWhats() {
         this.$store.dispatch('whats/get').then(response => {
@@ -149,7 +149,7 @@
             });
           });
           this.getAgendadas();
-        })
+        });
       },
       getAgendadas() {
         this.$store.dispatch('agendadas/get').then(response => {
@@ -161,7 +161,7 @@
             });
           });
           this.setResponsaveis();
-        })
+        });
       },
       setResponsaveis() {
         this.agentes.push(
@@ -176,17 +176,11 @@
     },
     watch: {
       selectedResp(e) {
-        console.log('trocou', e);
         this.$emit('chooseResp', e);
       }
     }
-  }
+  };
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
-<style scoped>
-  .selected-resp * {
-    z-index: 200;
-  }
-</style>

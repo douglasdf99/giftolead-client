@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import DropdownOptionGroup from "./dropdownGroupOption/DropdownOptionGroup.vue"
-import DropdownGroupCollapse from "./dropdownGroupOption/DropdownGroupCollapse.vue"
+import DropdownOptionGroup from "./dropdownGroupOption/DropdownOptionGroup.vue";
+import DropdownGroupCollapse from "./dropdownGroupOption/DropdownGroupCollapse.vue";
 
 export default{
     components: {
         DropdownOptionGroup,
         DropdownGroupCollapse,
     }
-}
+};
 </script>

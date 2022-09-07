@@ -1,1 +1,1 @@
-import "./jwt/index.js"
+import "./jwt/index.js";

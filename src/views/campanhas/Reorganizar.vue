@@ -17,7 +17,7 @@
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-6 w-9/12 mx-auto" style="margin-top: 5rem">
                 <draggable :list="data" class="cursor-move">
-                    <div v-for="(item, index) in data">
+                    <div v-for="(item, index) in data" :key="index">
                         <p class="text-center text-xs mb-0">|</p>
                         <p class="text-xs text-center">
                             {{item.unidade_tempo}} {{item.unidade_medida}} depois {{index === 0 ? 'da entrada' : 'do último envio'}}
@@ -47,9 +47,9 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
-    import draggable from 'vuedraggable'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
+    import draggable from 'vuedraggable';
 
     export default {
         props: {
@@ -74,16 +74,16 @@
                     nome: '',
                 },
                 emails: []
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -92,31 +92,29 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
-                    return
+                    return;
                 } else {
-                    this.origem.id = null
-                    this.origem.nome = ''
+                    this.origem.id = null;
+                    this.origem.nome = '';
                 }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading()
-                        const obj = []
+                        this.$vs.loading();
+                        const obj = [];
 
                         //Ajustando posições
-                        this.data.forEach((item, index) => {
+                        this.data.forEach(item => {
                             obj.push(item.id);
-                        })
+                        });
                         let action = '';
                         if(this.$route.name == 'campanha-config-checkout-emails')
-                            action = 'reorganizarEmails'
+                            action = 'reorganizarEmails';
                         else
-                            action = 'reorganizarSms'
-                        this.$store.dispatch(this.rota + `/${action}`, obj).then(response => {
+                            action = 'reorganizarSms';
+                        this.$store.dispatch(this.rota + `/${action}`, obj).then(() => {
                             this.$vs.notify({
                                 title: 'Sucesso',
                                 text: "Atualizado com sucesso.",
@@ -124,19 +122,18 @@
                                 icon: 'icon-check-circle',
                                 color: 'success'
                             });
-                            this.$emit('closeSidebar')
-                            this.initValues()
-                        }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                            this.$emit('closeSidebar');
+                            this.initValues();
+                        }).catch(error => {
+                            this.$vs.notify({
+                                text: error.response.data.message,
+                                iconPack: 'feather',
+                                icon: 'icon-alert-circle',
+                                color: 'danger'
+                            });
+                        }).finally(() => this.$vs.loading.close());
                     }
-                })
+                });
             },
         },
         components: {
@@ -148,14 +145,13 @@
             this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 //this.origem = JSON.parse(JSON.stringify(this.data));
-                this.emails = JSON.parse(JSON.stringify(this.data))
+                this.emails = JSON.parse(JSON.stringify(this.data));
             }
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

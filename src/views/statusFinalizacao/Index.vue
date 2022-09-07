@@ -1,7 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-center lg:mt-20 sm:mt-6">
             <div class="vx-col w-full sm:w-0 md:w-0 lg:w-6/12 xlg:w-5/12 col-btn-incluir-mobile mb-3" v-if="$acl.check('configuracao_status_incluir')">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="addNewData">
@@ -57,7 +56,7 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative w-full">
-                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_status_editar') || $acl.check('configuracao_status_deletar')">
+                                    <vs-dropdown  v-show="tr.company_id" vs-trigger-click v-if="$acl.check('configuracao_status_editar') || $acl.check('configuracao_status_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
@@ -114,8 +113,7 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleContas from '@/store/contas/moduleContas.js'
+    import SideBar from './SideBar';
 
     export default {
         name: "Index",
@@ -136,23 +134,23 @@
                 },
                 currentx: 1
                 //items: {}
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             this.getItems();
         },
         methods: {
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getItems() {
                 this.$store.dispatch('getVarios', {
@@ -162,7 +160,7 @@
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {
@@ -180,16 +178,15 @@
                                 text: 'O status foi deletado com sucesso'
                             });
                             this.getItems();
-                        }).catch(erro => {
-                            console.log(erro)
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
               this.dados.page = 1;
@@ -199,14 +196,13 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
 
         },
@@ -221,7 +217,7 @@
             },*/
         },
 
-    }
+    };
 </script>
 <style>
     .emoticon * {

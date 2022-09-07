@@ -30,9 +30,9 @@
                         can: 'configuracao_funcao'
                     },
                 ]
-            }
+            };
         },
-    }
+    };
 </script>
 
 <style scoped>

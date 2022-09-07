@@ -28,7 +28,7 @@ export default {
                 dt_fim: moment().format('YYYY-MM-DD'),
             },
             label: 'Últimos 7 dias'
-        }
+        };
     },
     created() {
     },
@@ -36,17 +36,17 @@ export default {
         setDate(val) {
             switch (val) {
                 case '7':
-                    this.datas.dt_inicio = moment().subtract(7, 'days').format('YYYY-MM-DD')
+                    this.datas.dt_inicio = moment().subtract(7, 'days').format('YYYY-MM-DD');
                     break;
                 case '31':
-                    this.datas.dt_inicio = moment().subtract(31, 'days').format('YYYY-MM-DD')
+                    this.datas.dt_inicio = moment().subtract(31, 'days').format('YYYY-MM-DD');
                     break;
                 case '365':
-                    this.datas.dt_inicio = moment().subtract(365, 'days').format('YYYY-MM-DD')
+                    this.datas.dt_inicio = moment().subtract(365, 'days').format('YYYY-MM-DD');
                     break;
             }
             this.$emit('changeDate', this.datas);
         }
     }
-}
+};
 </script>

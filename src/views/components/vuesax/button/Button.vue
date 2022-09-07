@@ -27,19 +27,19 @@
 </template>
 
 <script>
-import ButtonFilled from './ButtonFilled.vue'
-import ButtonBorder from './ButtonBorder.vue'
-import ButtonFlat from './ButtonFlat.vue'
-import ButtonLineDown from './ButtonLineDown.vue'
-import ButtonGradient from './ButtonGradient.vue'
-import ButtonRelief from './ButtonRelief.vue'
-import ButtonColor from './ButtonColor.vue'
-import ButtonTextColor from './ButtonTextColor.vue'
-import ButtonIcon from './ButtonIcon.vue'
-import ButtonIconOnly from './ButtonIconOnly.vue'
-import ButtonSize from './ButtonSize.vue'
-import ButtonRouter from './ButtonRouter.vue'
-import ButtonLink from './ButtonLink.vue'
+import ButtonFilled from './ButtonFilled.vue';
+import ButtonBorder from './ButtonBorder.vue';
+import ButtonFlat from './ButtonFlat.vue';
+import ButtonLineDown from './ButtonLineDown.vue';
+import ButtonGradient from './ButtonGradient.vue';
+import ButtonRelief from './ButtonRelief.vue';
+import ButtonColor from './ButtonColor.vue';
+import ButtonTextColor from './ButtonTextColor.vue';
+import ButtonIcon from './ButtonIcon.vue';
+import ButtonIconOnly from './ButtonIconOnly.vue';
+import ButtonSize from './ButtonSize.vue';
+import ButtonRouter from './ButtonRouter.vue';
+import ButtonLink from './ButtonLink.vue';
 
 export default{
     components: {
@@ -57,5 +57,5 @@ export default{
         ButtonRouter,
         ButtonLink,
     }
-}
+};
 </script>

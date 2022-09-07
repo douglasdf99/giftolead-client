@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleWhatsListState.js'
-import mutations from './moduleWhatsListMutations.js'
-import actions from './moduleWhatsListActions.js'
-import getters from './moduleWhatsListGetters.js'
+import state from './moduleWhatsListState.js';
+import mutations from './moduleWhatsListMutations.js';
+import actions from './moduleWhatsListActions.js';
+import getters from './moduleWhatsListGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

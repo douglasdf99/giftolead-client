@@ -516,4 +516,4 @@ export default {
 		demoTitle: 'Título do cartão',
 		demoText: `O sésamo do bolo agarra dinamarquês do pão-de-espécie do queque eu amo o pão-de-espécie. Torta de torta de maçã jujuba chupa chups muffin halvah pirulito. Ameixa do açúcar do maçapão do tiramisu do bolo da aveia do bolo de chocolate. Bolo de aveia de torta doce rosquinha dragée fruitcake algodão doce gotas de limão.`,
 	}
-}
+};

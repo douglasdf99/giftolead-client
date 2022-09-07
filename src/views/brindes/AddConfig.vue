@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleBrindes from "../../store/brindes/moduleBrindes";
 import moduleProdutos from "../../store/produtos/moduleProdutos";
 import {Validator} from 'vee-validate';
@@ -81,7 +81,7 @@ export default {
                 {id: 'approved', label: 'Compra aprovada'},
                 {id: 'completed', label: 'Completa'},
             ],
-        }
+        };
     },
     created() {
         if (!moduleBrindes.isRegistered) {
@@ -131,7 +131,7 @@ export default {
             if (this.brindeSelected.id) {
                 this.campanha.brinde_id = this.brindeSelected.id;
             }
-            this.$store.dispatch('brindes/storeCampanha', this.campanha).then(response => {
+            this.$store.dispatch('brindes/storeCampanha', this.campanha).then(() => {
                 this.$vs.notify({
                     title: 'Sucesso',
                     text: "A Campanha foi salva com sucesso.",
@@ -147,8 +147,8 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
-                })
-            })
+                });
+            });
         }
     },
     watch: {
@@ -157,25 +157,20 @@ export default {
                 this.brindes = [];
                 if (this.$route.name == 'brindes-campanhas-criar')
                     this.brindeSelected = {};
-                this.$store.dispatch('brindes/get').then(response => {
+                this.$store.dispatch('brindes/getArraySelect').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
                         if (item.produto_id === this.produtoSelected.id)
                             this.brindes.push({id: item.id, label: item.nome});
-                    })
+                    });
                 });
             }
         },
-        tiposSelected: {
-            handler() {
-                console.log(this.tiposSelected)
-            }
-        }
     },
     computed: {
         invalid() {
             return this.errors.any() || (this.campanha.nome == "" || this.campanha.descricao == "" || !this.produtoSelected.id || !this.brindeSelected.id);
         }
     }
-}
+};
 </script>

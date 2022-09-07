@@ -8,20 +8,20 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
     get({commit}, payload) {
-        commit('SET_LOADING', {vendas: true})
+        commit('SET_LOADING', true);
         return new Promise((resolve, reject) => {
             axios.get(`/${payload.route}`, {params: payload})
                 .then((response) => {
-                    commit('SET_REL_VENDAS', response.data)
-                    resolve()
+                    commit(payload.mutation, response.data);
+                    resolve();
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

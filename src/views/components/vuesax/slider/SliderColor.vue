@@ -45,7 +45,7 @@ export default {
         return {
             colorx:'#db7d12',
             value1:24,
-        }
+        };
     }
-}
+};
 </script>

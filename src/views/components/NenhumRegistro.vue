@@ -14,7 +14,7 @@
 export default {
 name: "NenhumRegistro",
     props: ['add', 'module', 'imgWidth', 'imgHeight']
-}
+};
 </script>
 
 <style scoped>

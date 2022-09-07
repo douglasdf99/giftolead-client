@@ -38,12 +38,12 @@
         <div class="vx-row mt-10 -mb-4">
             <div class="vx-col w-full">
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
-                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                    <div class="p-4 border border-solid d-theme-border-gray-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
                         <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{ pagination.total }}</span>
                         <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
                     </div>
                     <vs-dropdown-menu>
-                        <vs-dropdown-item v-for="(item, index) in lengths" key="index" @click="dados.length = item">
+                        <vs-dropdown-item v-for="(item, index) in lengths" :key="index" @click="dados.length = item">
                             <span>{{item}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -73,15 +73,12 @@
 
 <script>
     import SelectResponsaveis from "../components/SelectResponsaveis";
-    import SideBar from './SideBar'
-    import listagem from './Listagem'
-    import vSelect from 'vue-select'
+    import SideBar from './SideBar';
+    import listagem from './Listagem';
+    import vSelect from 'vue-select';
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
-
-    const moment = require('moment/moment');
-    require('moment/locale/pt-br');
 
     export default {
         name: "Index",
@@ -118,57 +115,42 @@
                 boletos: [],
 
                 agentes: [],
-            }
+            };
         },
         created() {
             this.$vs.loading();
             if (!moduleComissoes.isRegistered) {
-                this.$store.registerModule('comissoes', moduleComissoes)
-                moduleComissoes.isRegistered = true
+                this.$store.registerModule('comissoes', moduleComissoes);
+                moduleComissoes.isRegistered = true;
             }
 
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('users', moduleUsuario)
-                moduleUsuario.isRegistered = true
+                this.$store.registerModule('users', moduleUsuario);
+                moduleUsuario.isRegistered = true;
             }
             this.getOpcoes();
             this.getItems();
         },
         methods: {
-            openAlert(title, text, color, id = null) {
-                this.$vs.dialog({
-                    color: color,
-                    title: title,
-                    text: text,
-                    accept: () => {
-                        if (id != null)
-                            this.$router.push({path: `/comissoes/atender/${id}`});
-                    },
-                    acceptText: 'Ir até ele'
-                })
-            },
+
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                console.log('editando', obj)
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getItems(tipo = this.tipoCom) {
                 this.$vs.loading();
                 if(tipo !== this.tipoCom)
-                    this.currentx = 1
+                    this.currentx = 1;
 
                 this.dados.tipo = tipo;
                 this.tipoCom = tipo;
-
-                let url = '';
-                let control = 0;//Controla entradas em cada condição
 
                 if (this.selectedResp != null) {
                     this.dados.criador_type = this.selectedResp.criador_type;
@@ -179,27 +161,25 @@
                 }
 
                 if (this.selectedAten.id != null) {
-                    this.dados.atendente_id = this.selectedAten.id
+                    this.dados.atendente_id = this.selectedAten.id;
                 }
 
                 this.dados.pesquisa = this.search;
 
                 this.$store.dispatch('comissoes/getPreCom', {params: this.dados}).then(response => {
-                    console.log('retornado com sucessso', response)
                     this.pagination = response;
-                    this.comissoes = response.data
+                    this.comissoes = response.data;
                     //this.dados.page = this.pagination.current_page
-                }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                }).catch(error => {
+                    this.$vs.notify({
+                        text: error.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                }).finally(() => this.$vs.loading.close());
             },
-            getOpcoes(){
+            getOpcoes() {
                 this.selectedAten.label = 'Carregando...';
                 this.$store.dispatch('users/getArraySelect').then(response => {
                     this.usuarios = [...response];
@@ -220,20 +200,18 @@
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                            this.$vs.loading.close()
-                        }).catch(erro => {
-                            console.log(erro)
+                            this.$vs.loading.close();
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
             },
             action(obj) {
-                console.log('array aí', obj);
                 this.$vs.dialog({
                     color: 'primary',
                     title: obj.method == 'aprovar' ? 'Aprovar' : obj.method == 'reprovar' ? 'Reprovar' : 'Restaurar' + ` pré comissão?`,
@@ -250,15 +228,14 @@
                             this.toggleDataSidebar(false);
                             this.getItems();
                         }).catch(erro => {
-                            console.log(erro.response.data.message)
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: erro.response.data.message
-                            })
-                        }).finally(() => this.$vs.loading.close())
+                            });
+                        }).finally(() => this.$vs.loading.close());
                     }
-                })
+                });
             },
             pesquisar(e) {
               this.dados.page =1;
@@ -267,26 +244,24 @@
                 this.getItems();
             },
             visualizar(obj) {
-                console.log('obj detalhe', obj);
                 if (obj.tipo != 'reprovado') {
                     this.sidebarData = obj;
                     this.toggleDataSidebar(true);
                 }
             },
 
-            chooseResp(obj){
+            chooseResp(obj) {
                 this.selectedResp = obj;
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
             selectedAten() {
                 this.$vs.loading();
@@ -300,7 +275,6 @@
             },
             dados: {
                 handler(val) {
-                    console.log(val.length)
                     if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
                         this.$vs.loading();
@@ -321,7 +295,7 @@
             },*/
         },
 
-    }
+    };
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

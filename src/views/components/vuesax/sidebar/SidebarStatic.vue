@@ -134,5 +134,5 @@ export default {
 	data: () => ({
 		active: false,
 	})
-}
+};
 </script>

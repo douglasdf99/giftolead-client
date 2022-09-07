@@ -14,4 +14,4 @@ export default {
 
   // Simple Calendar State
   events: []
-}
+};

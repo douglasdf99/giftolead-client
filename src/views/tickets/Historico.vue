@@ -1,10 +1,10 @@
 <template>
     <div>
         <ul class="vx-timeline ">
-            <li v-for="historico in data" class="mt-5 bg-white">
+            <li v-for="(historico, index) in data" class="mt-5 bg-white" :key="index">
                 <div class="timeline-icon p-0">
                 <span class="feather-icon select-none relative ">
-                  <img :src="get_img_api(historico.causer.avatar)" width="40" height="40" class="rounded-full bg-white" v-if="IsUser(historico.causer_type)">
+                  <vs-avatar color="primary"  size="40px" v-if="IsUser(historico.causer_type)" :text="historico.causer.name" />
                   <img src="@/assets/images/util/boleto.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaBoleto'">
                   <img src="@/assets/images/util/whatsapp.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaWhatsapp'">
                   <img src="@/assets/images/util/agendamento.svg" width="40" height="40" class="rounded-full bg-white" v-if="historico.causer_type == 'App\\Models\\CampanhaAgendamento'">
@@ -64,17 +64,17 @@
                         </div>
                     </div>
                 </div>
-                <small class="text-grey activity-e-time pl-4">{{ historico.created_at | formatDateHumanize }}</small>
+                <small class="text-gray activity-e-time pl-4">{{ historico.created_at | formatDateTime }}</small>
             </li>
         </ul>
-        <vs-popup class="holamundo" title="Mensagem enviada" :active.sync="exibirMensagem">
+        <custom-popup class="holamundo" title="Mensagem enviada" :active.sync="exibirMensagem">
             <div class="vx-row">
                 <div class="vx-col w-full mb-3">
                     <p class="text-black" v-html="mensagem"></p>
                 </div>
             </div>
-        </vs-popup>
-        <vs-popup class="holamundo2" title="Mensagem enviada" :active.sync="exibirLigacao">
+        </custom-popup>
+        <custom-popup class="holamundo2" title="Mensagem enviada" :active.sync="exibirLigacao">
             <div class="vx-row">
                 <div class="vx-col w-full mb-3">
                     <h5 class="text-black">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </div>
-        </vs-popup>
+        </custom-popup>
     </div>
 </template>
 
@@ -173,12 +173,12 @@ export default {
             detalheChamada: {
                 sucesso: false,
             }
-        }
+        };
     },
     created() {
         if (!moduleTickets.isRegistered) {
-            this.$store.registerModule('tickets', moduleTickets)
-            moduleTickets.isRegistered = true
+            this.$store.registerModule('tickets', moduleTickets);
+            moduleTickets.isRegistered = true;
         }
     },
 
@@ -189,8 +189,8 @@ export default {
                 if (item.id == id) {
                     atendimento = item;
                 }
-            })
-            return atendimento
+            });
+            return atendimento;
         },
         IsUser(type) {
             return (type == `App\\Models\\User`) ? true : false;
@@ -202,7 +202,7 @@ export default {
             });
             this.$store.dispatch('tickets/consultaChamada', {identificacao: id}).then(response => {
 
-                this.detalheChamada = response
+                this.detalheChamada = response;
             });
         },
         tipoChamada(val) {
@@ -216,7 +216,7 @@ export default {
             }
         }
     },
-}
+};
 </script>
 
 <style lang="scss">
@@ -224,12 +224,12 @@ export default {
 </style>
 
 <style>
-.holamundo2 .vs-popup {
+.holamundo2 .custom-popup {
     width: 900px;
 }
 
 @media (max-width: 670px) {
-    .holamundo2 .vs-popup {
+    .holamundo2 .custom-popup {
         width: 95%;
     }
 }

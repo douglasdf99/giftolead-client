@@ -8,32 +8,32 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    setAnexos({commit}, obj) {
+    setAnexos(_, obj) {
         return new Promise((resolve, reject) => {
             axios.post(`/pre_comissaos/setAnexo/`, obj)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    removeImagem({commit}, id) {
+    removeImagem(_, id) {
         const formData = new FormData();
         formData.append('_method', 'DELETE');
         formData.append('id', id);
         return new Promise((resolve, reject) => {
             axios.post(`/anexos/${id}`, formData)
-                .then((response) => {
-                    resolve()
+                .then(() => {
+                    resolve();
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     }
-}
+};

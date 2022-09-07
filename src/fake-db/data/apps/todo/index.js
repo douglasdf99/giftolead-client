@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 // Contact
 let data = {
@@ -110,69 +110,69 @@ let data = {
     { id: 8,text: 'Doc', value: 'doc', color: 'success'},
     { id: 11,text: 'Bug', value: 'bug', color: 'danger' },
   ]
-}
+};
 
 // POST : Add new Tasks
 mock.onPost("/api/apps/todo/tasks/").reply((request) => {
 
   // Get task from post data
-  let task = JSON.parse(request.data).task
+  let task = JSON.parse(request.data).task;
 
-  const length = data.tasks.length
-  let lastIndex = 0
-  if(length){
-    lastIndex = data.tasks[length - 1].id
+  const length = data.tasks.length;
+  let lastIndex = 0;
+  if(length) {
+    lastIndex = data.tasks[length - 1].id;
   }
-  task.id = lastIndex + 1
+  task.id = lastIndex + 1;
 
-  data.tasks.push(task)
+  data.tasks.push(task);
 
-  return [201, {id: task.id}]
-})
+  return [201, {id: task.id}];
+});
 
 // GET: Fetch Todos
 mock.onGet("api/apps/todo/tasks").reply((request) => {
 
-  const filter = request.params.filter
+  const filter = request.params.filter;
 
   const filteredTasks = data.tasks.filter((task)=> {
 
     // If filter == all
-    if(filter === "all") return !task.isTrashed
+    if(filter === "all") return !task.isTrashed;
 
       // If filter == starred
-    if(filter === "starred") return !task.isTrashed && task.isStarred
+    if(filter === "starred") return !task.isTrashed && task.isStarred;
 
     // If filter == important
-    if(filter === "important") return !task.isTrashed && task.isImportant
+    if(filter === "important") return !task.isTrashed && task.isImportant;
 
     // If filter == completed
-    if(filter === "completed") return !task.isTrashed && task.isCompleted
+    if(filter === "completed") return !task.isTrashed && task.isCompleted;
 
     // If filter == trashed
-    if(filter === "trashed") return task.isTrashed
+    if(filter === "trashed") return task.isTrashed;
 
-    else return task.tags.includes(filter)
+    else return task.tags.includes(filter);
 
-  })
+  });
 
 
-  return [200, JSON.parse(JSON.stringify(filteredTasks)).reverse()]
-})
+  return [200, JSON.parse(JSON.stringify(filteredTasks)).reverse()];
+});
 
 // GET: Fetch tags
 mock.onGet("api/apps/todo/tags").reply(() => {
-  return [200, JSON.parse(JSON.stringify(data.taskTags))]
-})
+  return [200, JSON.parse(JSON.stringify(data.taskTags))];
+});
 
 // POST: Update Task
 mock.onPost(/\/api\/apps\/todo\/task\/\d+/).reply((request) => {
 
-  const taskId = request.url.substring(request.url.lastIndexOf("/")+1)
+  const taskId = request.url.substring(request.url.lastIndexOf("/")+1);
 
-  let task = data.tasks.find((task) => task.id == taskId)
+  let task = data.tasks.find((task) => task.id == taskId);
   // task.title = JSON.parse(request.data).task.title
-  Object.assign(task, JSON.parse(request.data).task)
+  Object.assign(task, JSON.parse(request.data).task);
 
-  return [200, task]
-})
+  return [200, task];
+});

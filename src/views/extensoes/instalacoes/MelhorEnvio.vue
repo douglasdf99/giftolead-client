@@ -257,7 +257,7 @@
 
 <script>
 import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 import moduleBrindes from "@/store/brindes/moduleBrindes";
 
@@ -337,7 +337,7 @@ export default {
             currentx: 1,
             instalado: false,
             countSwitch: 0,
-        }
+        };
     },
     created() {
         if (!moduleBrindes.isRegistered) {
@@ -346,12 +346,12 @@ export default {
         }
         this.getBrindes();
         if (!moduleExtensoes.isRegistered) {
-            this.$store.registerModule('extensoes', moduleExtensoes)
-            moduleExtensoes.isRegistered = true
+            this.$store.registerModule('extensoes', moduleExtensoes);
+            moduleExtensoes.isRegistered = true;
         }
         if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('users', moduleUsuario)
-            moduleUsuario.isRegistered = true
+            this.$store.registerModule('users', moduleUsuario);
+            moduleUsuario.isRegistered = true;
         }
     },
     mounted() {
@@ -359,7 +359,7 @@ export default {
     },
     computed: {
         validExcecao() {
-            return (this.val.tipo !== "" && this.val.servico !== "" && this.val.variavel !== "")
+            return (this.val.tipo !== "" && this.val.servico !== "" && this.val.variavel !== "");
         },
         users() {
             let users = [];
@@ -375,19 +375,17 @@ export default {
         }
     },
     methods: {
-        translateStatus(val){
+        translateStatus(val) {
             switch (val) {
                 case 'Allowed':
-                    return 'Permitido'
+                    return 'Permitido';
                 default:
-                    return val
+                    return val;
             }
         },
         getBrindes() {
             this.$store.dispatch('getVarios', {rota: 'brindes'}).then(response => {
-                console.log('retornado com sucesso', response)
                 this.brindes = response;
-                console.log('brindes', this.brindes);
                 //this.dados.page = this.pagination.current_page
             });
         },
@@ -400,9 +398,9 @@ export default {
                 if (arr.length > 0) {
                     arr.forEach(item => {
                         if (item.extensao_type === "App\\Models\\Extensoes\\MelhorEnvio") {
-                            this.extensao = item
+                            this.extensao = item;
                             this.instalado = true;
-                            this.servicosMelhor = response.melhor_envio_serices
+                            this.servicosMelhor = response.melhor_envio_serices;
                             this.getInformation(item.extensao.token);
                         }
                     });
@@ -417,12 +415,11 @@ export default {
                 scale: 0.45
             });
             await this.$store.dispatch('extensoes/MelhorInfo', {params: this.dados, config: {headers: {Authorization: `Bearer ${token}`}}}).then(response => {
-                console.log('retorno  melhor envio', response)
-                this.melhorEnvio = response.data
+                this.melhorEnvio = response.data;
             }).catch(() => {
                 this.melhorEnvio.error = 'Não foi possível relizar conexão com a Melhor Envio';
             }).finally(() => {
-                this.$vs.loading.close("#cards-melhor-info > .con-vs-loading")
+                this.$vs.loading.close("#cards-melhor-info > .con-vs-loading");
             });
             //
             // this.$vs.loading({
@@ -461,10 +458,9 @@ export default {
                 scale: 0.45
             });
             await this.$store.dispatch('extensoes/MelhorServices', {params: this.dados, config: {headers: {Authorization: `Bearer ${token}`}}}).then(response => {
-                console.log('retorno  melhor envio', response)
-                this.extensao.extensao.servicos = response.data
+                this.extensao.extensao.servicos = response.data;
             }).finally(() => {
-                this.$vs.loading.close("#cards-melhor-servicos > .con-vs-loading")
+                this.$vs.loading.close("#cards-melhor-servicos > .con-vs-loading");
             });
 
         },
@@ -474,7 +470,6 @@ export default {
                 scale: 0.45
             });
             await this.$store.dispatch('extensoes/setPadrao', {id: item.id}).then(response => {
-                console.log('retorno padrao', response)
                 this.$vs.notify({
                     title: '',
                     text: "Itens atualizado com sucesso",
@@ -482,22 +477,19 @@ export default {
                     icon: 'icon-check-circle',
                     color: 'success'
                 });
-                this.extensao.extensao.config_padrao = response.data.data
+                this.extensao.extensao.config_padrao = response.data.data;
             }).catch((error) => {
-                console.log('console de errro', error)
-                console.error(error)
                 this.$vs.notify({
                     title: '',
                     text: error.response.data.message,
                     color: 'danger'
                 });
             }).finally(() => {
-                this.$vs.loading.close("#cards-melhor-servicos > .con-vs-loading")
+                this.$vs.loading.close("#cards-melhor-servicos > .con-vs-loading");
             });
 
         },
         ativaExtensao() {
-            console.log(this.countSwitch)
             if (this.countSwitch === 3) {
                 this.extensao.ativo = !this.extensao.ativo;
                 this.$vs.notify({
@@ -528,8 +520,8 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
-                })
+                    });
+                });
                 this.countSwitch += 1;
             }
         },
@@ -542,18 +534,17 @@ export default {
                 accept: () => {
                     this.$vs.loading();
                     this.$store.dispatch('extensoes/instalar', {subdomain: this.dados.subdomain, type: 'MelhorEnvio'}).then((response) => {
-                        window.location.href = response.data
+                        window.location.href = response.data;
                         this.verifica();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao instalar. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         desinstalar() {
             this.$vs.dialog({
@@ -563,25 +554,24 @@ export default {
                 acceptText: 'Sim, prosseguir!',
                 accept: () => {
                     this.$vs.loading();
-                    this.$store.dispatch('extensoes/desinstalar', {subdomain: this.dados.subdomain, type: 'MelhorEnvio', id: this.item2.id}).then((response) => {
+                    this.$store.dispatch('extensoes/desinstalar', {subdomain: this.dados.subdomain, type: 'MelhorEnvio', id: this.item2.id}).then(() => {
                         document.location.reload(true);
                         this.$vs.notify({
                             color: 'success',
                             title: '',
                             text: 'Desinstalado com sucesso com sucesso'
                         });
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao instalar. Contate o suporte.'
-                        })
+                        });
                     }).finally(() => {
                         this.$vs.loading.close();
-                    })
+                    });
                 }
-            })
+            });
         },
 
         //Modal
@@ -597,7 +587,6 @@ export default {
             let nome = this.selectedtipo(val.tipo);
             let estado = this.selectedEstado(val.variavel);
             let brinde = this.selectedBrinde(val.variavel);
-            console.log('capiturado', estado);
             this.val.tipo = {id: val.tipo, label: nome};
             if (val.tipo == 'estado') {
                 this.val.variavel = {value: val.variavel, text: estado};
@@ -609,7 +598,7 @@ export default {
         },
 
         showRemoverExcecao(item) {
-            this.configDelete = item
+            this.configDelete = item;
             this.$vs.dialog({
                 type: 'confirm',
                 color: 'danger',
@@ -618,7 +607,7 @@ export default {
                 acceptText: 'Deletar',
                 cancelText: 'Cancelar',
                 accept: this.deleteExcexao,
-            })
+            });
         },
         deleteExcexao() {
             this.$vs.loading({
@@ -627,15 +616,14 @@ export default {
             });
             this.$store.dispatch('extensoes/MelhorEnvioDeleteExcecao', {id: this.configDelete})
                 .then((response) => {
-                    console.log('remover excecao',);
-                    let arrayser = []
+                    let arrayser = [];
                     this.item2.configs.forEach((item) => {
                         if (item.id != response.data.data.id) {
-                            arrayser.push(item)
+                            arrayser.push(item);
                         }
-                    })
-                    this.item2.configs = arrayser
-                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção deleta com sucesso'})
+                    });
+                    this.item2.configs = arrayser;
+                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção deleta com sucesso'});
                 })
                 .catch(error => {
                     this.$vs.notify({
@@ -644,7 +632,7 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }).finally(() => {
                 this.salvando = false;
                 this.$vs.loading.close('#div-excecao > .con-vs-loading');
@@ -670,7 +658,6 @@ export default {
             let item2 = '';
             this.estados.forEach(item => {
                 if (item.value == estado) {
-                    console.log('retorno', item.text)
                     item2 = item.text;
                 }
             });
@@ -679,9 +666,7 @@ export default {
         selectedBrinde(brinde) {
             let item2 = '';
             this.brindes.forEach(item => {
-                console.log('retorno brinde', item)
                 if (item.id == brinde) {
-                    console.log('retorno', item.nome)
                     item2 = item.nome;
                 }
             });
@@ -697,23 +682,23 @@ export default {
             if (serv) {
                 return serv;
             } else {
-                return 'Serviço não encontrado'
+                return 'Serviço não encontrado';
             }
         },
         close() {
-            this.clearValMultiple()
+            this.clearValMultiple();
             this.$vs.notify({
                 color: 'danger',
                 title: 'Closed',
                 text: 'You close a dialog!'
-            })
+            });
         },
         optionBrindes() {
             let option = [];
             if (this.brindes && this.brindes.length > 0) {
                 this.brindes.forEach(item => {
                     option.push({id: item.id, label: item.nome});
-                })
+                });
             }
             return option;
         },
@@ -722,7 +707,7 @@ export default {
             if (this.item2 && this.item2.servicos.length > 0) {
                 this.item2.servicos.forEach(item => {
                     option.push({id: item.id, label: item.transportadora + ' - ' + item.servico});
-                })
+                });
             }
             return option;
         },
@@ -754,37 +739,34 @@ export default {
                     icon: 'icon-alert-circle',
                     color: 'danger',
                     time: 5000
-                })
+                });
             } else {
                 if (this.val.id > 0) {
                     obj.id = this.val.id;
                     this.$store.dispatch('extensoes/MelhorEnvioEditExcecao', obj)
                         .then((response) => {
-                            let arrayser = []
+                            let arrayser = [];
                             this.item2.configs.forEach((item) => {
                                 if (item.id == response.data.data.id) {
-                                    console.log('item', item.id);
-                                    console.log('data', response.data.data.id);
-                                    item = response.data.data
-                                    arrayser.push(response.data.data)
+                                    item = response.data.data;
+                                    arrayser.push(response.data.data);
                                 } else
-                                    arrayser.push(item)
+                                    arrayser.push(item);
 
-                            })
-                            this.item2.configs = arrayser
+                            });
+                            this.item2.configs = arrayser;
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso!',
                                 text: 'Exceção adicionada com sucesso'
-                            })
+                            });
                         })
                         .catch((error) => {
-                            console.log('erro', error.response)
                             this.$vs.notify({
                                 title: '',
                                 text: error.response.data.message,
                                 color: 'danger'
-                            })
+                            });
                         })
                         .finally(() => {
                             this.$vs.loading.close('#div-excecao > .con-vs-loading');
@@ -792,12 +774,12 @@ export default {
                 } else {
                     this.$store.dispatch('extensoes/MelhorEnvioAddExcecao', obj)
                         .then((response) => {
-                            this.item2.configs.push(response.data.data)
+                            this.item2.configs.push(response.data.data);
                             this.$vs.notify({
                                 color: 'success',
                                 title: 'Sucesso!',
                                 text: 'Exceção alterada com sucesso'
-                            })
+                            });
                         })
                         .catch(error => {
                             this.$vs.notify({
@@ -806,7 +788,7 @@ export default {
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
-                            })
+                            });
                         }).finally(() => {
                         this.$vs.loading.close('#div-excecao > .con-vs-loading');
                     });
@@ -816,7 +798,6 @@ export default {
         },
         getUsers() {
             this.$store.dispatch('users/get').then(response => {
-                console.log('usuarios', response);
                 this.usersall = response;
             });
         },
@@ -827,7 +808,7 @@ export default {
                     color: 'success',
                     text: 'URL salva com sucesso.'
                 });
-            }).catch(erro => {
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado ao salvar a configuração. Contate o suporte.'
@@ -835,7 +816,7 @@ export default {
             }).finally(() => this.$vs.loading.close());
         }
     },
-}
+};
 </script>
 
 <style scoped>

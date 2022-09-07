@@ -93,13 +93,13 @@ export default{
     },
     watch: {
       '$route.path'() {
-        this.$tours['vuexyTour'].stop()
+        this.$tours['vuexyTour'].stop();
       }
     },
     mounted() {
-        this.$tours['vuexyTour'].start()
+        this.$tours['vuexyTour'].start();
     }
-}
+};
 </script>
 
 <style lang="scss">

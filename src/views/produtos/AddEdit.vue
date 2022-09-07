@@ -45,7 +45,7 @@
             </div>
             <div class="vx-col w-full">
                 <ul class="clearfix">
-                    <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" v-for="cor in cores"
+                    <li class="w-10 cursor-pointer h-10 rounded-lg m-2 float-left" v-for="(cor, index) in cores" :key="index"
                         :style="{backgroundColor: cor}" @click="selecionaCor(cor)">
                         <vs-icon icon="done" icon-pack="material-icons" style="color: white;font-size: 2.5rem;" v-if="produto.cor === cor"></vs-icon>
                     </li>
@@ -173,9 +173,9 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import moduleContas from '@/store/contas/moduleContas.js'
-    import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+    import vSelect from 'vue-select';
+    import moduleContas from '@/store/contas/moduleContas.js';
+    import moduleProdutos from '@/store/produtos/moduleProdutos.js';
     import {Validator} from 'vee-validate';
     import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -227,12 +227,12 @@
         },
         created() {
             if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contas', moduleContas)
-                moduleContas.isRegistered = true
+                this.$store.registerModule('contas', moduleContas);
+                moduleContas.isRegistered = true;
             }
             if (!moduleProdutos.isRegistered) {
-                this.$store.registerModule('produtos', moduleProdutos)
-                moduleProdutos.isRegistered = true
+                this.$store.registerModule('produtos', moduleProdutos);
+                moduleProdutos.isRegistered = true;
             }
 
             this.getContas();
@@ -243,13 +243,6 @@
             } else {
                 this.produto.preco = true;
             }
-            console.log('criando', this.produto.preco);
-        },
-        mounted() {
-            console.log('montado', this.produto.preco);
-        },
-        updated() {
-            console.log('updated', this.produto.preco);
         },
         data() {
             return {
@@ -292,7 +285,7 @@
                     precision: 2,
                     masked: false /* doesn't work with directive */
                 },
-            }
+            };
         },
         methods: {
             salvar() {
@@ -305,10 +298,8 @@
                                 return item.id;
                             });
                         }
-                        console.log('olha aí', this.produto.upsellers)
                         if (this.produto.id !== undefined) {
-                            this.$store.dispatch('produtos/updateProduto', this.produto).then(response => {
-                                console.log('response', response);
+                            this.$store.dispatch('produtos/updateProduto', this.produto).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
                                     text: "O produto foi atualizado com sucesso.",
@@ -323,11 +314,10 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         } else {
-                            this.$store.dispatch('produtos/storeProduto', this.produto).then(response => {
-                                console.log('response', response);
+                            this.$store.dispatch('produtos/storeProduto', this.produto).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
                                     text: "O produto foi criado com sucesso.",
@@ -342,8 +332,8 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
                     } else {
                         this.$vs.notify({
@@ -351,14 +341,14 @@
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     }
-                })
+                });
 
             },
             selecionaCor(cor) {
                 if (cor) {
-                    this.produto.cor = cor
+                    this.produto.cor = cor;
                 } else {
                     this.produto.cor = this.customcor;
                 }
@@ -366,21 +356,18 @@
             },
             selecionaTipoComissao(val) {
                 this.produto.comissao_tipo = val;
-                console.log(this.produto.comissao_tipo)
             },
             getContas() {
                 this.opcoesContas = [];
                 this.$store.dispatch('contas/get').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
-                        this.opcoesContas.push({id: item.id, label: item.nome})
+                        this.opcoesContas.push({id: item.id, label: item.nome});
                     });
                 });
                 this.$store.dispatch('produtos/get').then(response => {
-                    let arr = [...response];
-
                     this.produtos = response;
-                })
+                });
             },
             getProduto(id) {
                 this.$vs.loading();
@@ -399,21 +386,18 @@
                     this.produto.comi_per_valor *= 100;
                     this.produto.comi_per_percent *= 100;
                     this.produto.preco *= 100;
-                    console.log('preco', this.produto.preco)
                     let {id, nome} = this.produto.conta;
                     this.contaSelected.id = id;
                     this.contaSelected.label = nome;
                     this.customcor = this.produto.cor;
                     this.$vs.loading.close();
                 }).catch(erro => {
-                    console.log('front erro', erro.response);
                     //Redirecionando caso 404
                     if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'produtos', text: 'Retornar à listagem de Produtos'}});
                 });
             },
             setUpsellers() {
                 if (this.produto.upsellers.length > 0) {
-                    console.log('entrou');
                     this.produto.upsellers.forEach(item => {
                         this.upsellers.push({id: item.produto.id, label: item.produto.nome});
                     });
@@ -428,7 +412,7 @@
                             color: 'success',
                             iconPack: 'feather',
                             icon: 'icon-check-circle'
-                        })
+                        });
                     },
                     function () {
                         thisIns.$vs.notify({
@@ -438,8 +422,8 @@
                             iconPack: 'feather',
                             position: 'top-center',
                             icon: 'icon-alert-circle'
-                        })
-                    })
+                        });
+                    });
             }
         },
         computed: {
@@ -447,7 +431,7 @@
                 return this.errors.any() && this.produto.cor !== '' && this.contaSelected.id != null;
             },
             upsellersOption() {
-                let arr = []
+                let arr = [];
                 this.produtos.forEach(item => {
                     if ((item.conta_id && this.contaSelected.id) && (item.conta_id == this.contaSelected.id) && (item.nome != this.contaSelected.nome))
                         arr.push({id: item.id, label: item.nome});
@@ -456,26 +440,16 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getContas();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
-            produto: {
-                handler(val) {
-                    console.log('mudou');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
-            }
         },
-    }
+    };
 </script>
 
 <style>

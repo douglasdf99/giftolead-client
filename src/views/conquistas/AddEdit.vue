@@ -9,7 +9,7 @@
         </div>
         <div class="vx-row mb-3">
             <div class="vx-col w-full xlg:w-1/2 lg:w-1/2">
-                <span class="font-regular mb-2">Nome do produto</span>
+                <span class="font-regular mb-2">Nome da Conquista</span>
                 <vs-input class="w-full" v-model="conquista.nome" size="large" v-validate="'required'" name="nome"/>
                 <span class="text-danger text-sm" v-show="errors.has('nome')">{{ errors.first('nome') }}</span>
             </div>
@@ -33,7 +33,7 @@
                             <img src="@/assets/images/util/conquista-prod.svg" alt="">
                         </div>
                         <div class="vx-col w-full text-center">
-                            <p class="destaque mb-3">Conquista Produto</p>
+                            <p class="destaque mb-3 justify-center">Conquista Produto</p>
                             <p>Gamefication e bonificações por <br> vendas vinculadas a um produto</p>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                             <img src="@/assets/images/util/conquista-global.svg" alt="">
                         </div>
                         <div class="vx-col w-full">
-                            <p class="destaque mb-3">Conquista Global</p>
+                            <p class="destaque mb-3 justify-center">Conquista Global</p>
                             <p>Gamefication e bonificações por <br> vendas de qualquer produto</p>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                                 <template slot="no-body">
                                     <!-- ITEM IMAGE -->
                                     <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                        <img :src="get_img_api(conquista.imagem)" style="width: 200px; border-radius: 50%"
+                                        <img :src="get_img_cdn(conquista.imagem)" style="width: 200px; border-radius: 50%"
                                              alt="avatar"
                                              class="grid-view-img px-4">
                                     </div>
@@ -161,7 +161,7 @@
                                 <div v-show="!images.length" class="flex items-center justify-center">
                                     <label for="file">
                                         <i class="fa fa-cloud-upload"></i>
-                                        <img :src="get_img_api('images/upload.png')">
+                                        <img :src="get_img_cdn('images/upload.png')">
                                         <p class="text-lg">Arraste e solte ou clique aqui</p>
                                         <div class="file-input" style="display: none">
                                             <input type="file" hidden id="file" @change="onInputChange">
@@ -185,7 +185,7 @@
                                @click="$router.push({name: 'conquistas'})">
                         Cancelar
                     </vs-button>
-                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid">
+                    <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isInvalid">
                         {{ !prosseguiu ? 'Prosseguir' : 'Salvar' }}
                     </vs-button>
                 </div>
@@ -195,9 +195,9 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
-import moduleConquistas from '@/store/conquistas/moduleConquistas.js'
-import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+import vSelect from 'vue-select';
+import moduleConquistas from '@/store/conquistas/moduleConquistas.js';
+import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -216,12 +216,12 @@ export default {
     },
     created() {
         if (!moduleConquistas.isRegistered) {
-            this.$store.registerModule('conquistas', moduleConquistas)
-            moduleConquistas.isRegistered = true
+            this.$store.registerModule('conquistas', moduleConquistas);
+            moduleConquistas.isRegistered = true;
         }
         if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos)
-            moduleProdutos.isRegistered = true
+            this.$store.registerModule('produtos', moduleProdutos);
+            moduleProdutos.isRegistered = true;
         }
 
         this.getOpcoes();
@@ -265,7 +265,7 @@ export default {
                 precision: 2,
                 masked: false /* doesn't work with directive */
             },
-        }
+        };
     },
     methods: {
         salvar() {
@@ -279,7 +279,7 @@ export default {
                         this.files.forEach(file => {
                             formData.append('imagem', file, file.name);
                         });
-                        if (this.produtoSelected != null)
+                        if (this.produtoSelected != null && this.conquista.global == 0)
                             formData.append('produto_id', this.produtoSelected.id);
 
                         formData.append('nome', this.conquista.nome);
@@ -297,8 +297,7 @@ export default {
                             this.$store.dispatch('conquistas/update', {
                                 id: this.conquista.id,
                                 dados: formData
-                            }).then(response => {
-                                console.log('response', response);
+                            }).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Atualizada com sucesso.",
@@ -308,20 +307,18 @@ export default {
                                 });
                                 this.$router.push({name: 'conquistas'});
                             }).catch(erro => {
-                                console.log('erro', erro.response)
                                 this.$vs.notify({
                                     title: '',
                                     text: erro.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
+                                });
                             }).finally(() => {
                                 this.$vs.loading.close();
-                            })
+                            });
                         } else {
-                            this.$store.dispatch('conquistas/store', formData).then(response => {
-                                console.log('response', response);
+                            this.$store.dispatch('conquistas/store', formData).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
                                     text: "Criada com sucesso.",
@@ -337,8 +334,8 @@ export default {
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
                     }
                 } else {
@@ -348,9 +345,9 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
         },
         selecionaTipoComissao(val) {
             this.conquista.tipo = val;
@@ -360,22 +357,20 @@ export default {
             this.$store.dispatch('produtos/get').then(response => {
                 let arr = [...response];
                 arr.forEach(item => {
-                    this.produtos.push({id: item.id, label: item.nome})
+                    this.produtos.push({id: item.id, label: item.nome});
                 });
             });
         },
         getId(id) {
-            this.$vs.loading()
+            this.$vs.loading();
             this.$store.dispatch('conquistas/getId', id).then(data => {
                 this.conquista = {...data};
                 this.conquista.valor *= 100;
                 this.conquista.porcentagem *= 100;
-                console.log('conquista', this.conquista)
                 if (this.conquista.produto)
                     this.produtoSelected = {id: data.produto.id, label: data.produto.nome};
                 this.prosseguiu = true;
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -399,17 +394,16 @@ export default {
                             title: '',
                             text: 'Deletado com sucesso'
                         });
-                        this.$router.push({name: 'conquistas'})
-                    }).catch(erro => {
-                        console.log(erro)
+                        this.$router.push({name: 'conquistas'});
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: 'Erro',
                             text: 'Algo deu errado ao deletar registro. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
 
         //drag
@@ -445,13 +439,12 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
-                })
+                });
                 return;
             }
             this.files.push(file);
             this.conquista.imagem = file;
-            const img = new Image(),
-                reader = new FileReader();
+            const reader = new FileReader();
             this.images.pop();
             reader.onload = (e) => this.images.push(e.target.result);
             reader.readAsDataURL(file);
@@ -468,31 +461,21 @@ export default {
         },
     },
     computed: {
-        isValid() {
-            return this.errors.any() && this.conquista.global != null;
+        isInvalid() {
+            return this.errors.any() || this.conquista.global === null;
         },
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getContas();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
+            this.routeTitle = this.$route.meta.pageTitle;
         },
     },
-}
+};
 </script>
 
 <style scoped lang="scss">

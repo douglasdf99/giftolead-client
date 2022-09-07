@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleDuvidaState.js'
-import mutations from './moduleDuvidaMutations.js'
-import actions from './moduleDuvidaActions.js'
-import getters from './moduleDuvidaGetters.js'
+import state from './moduleDuvidaState.js';
+import mutations from './moduleDuvidaMutations.js';
+import actions from './moduleDuvidaActions.js';
+import getters from './moduleDuvidaGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

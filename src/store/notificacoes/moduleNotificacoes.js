@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleNotificacoesState.js'
-import mutations from './moduleNotificacoesMutations.js'
-import actions from './moduleNotificacoesActions.js'
-import getters from './moduleNotificacoesGetters.js'
+import state from './moduleNotificacoesState.js';
+import mutations from './moduleNotificacoesMutations.js';
+import actions from './moduleNotificacoesActions.js';
+import getters from './moduleNotificacoesGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

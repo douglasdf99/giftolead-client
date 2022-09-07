@@ -50,11 +50,12 @@
 </template>
 
 <script>
-import SideBar from './SideBar'
-import moduleProdutos from '@/store/produtos/moduleProdutos.js'
-import moduleLinks from '@/store/links/moduleLinks.js'
-import vSelect from 'vue-select'
+import SideBar from './SideBar';
+import moduleProdutos from '@/store/produtos/moduleProdutos.js';
+import moduleLinks from '@/store/links/moduleLinks.js';
+import vSelect from 'vue-select';
 import NenhumRegistro from "../components/NenhumRegistro";
+import saveleadsConfig from "../../../saveleadsConfig";
 
 export default {
     name: "Index",
@@ -81,43 +82,42 @@ export default {
             },
             currentx: 1
             //items: {}
-        }
+        };
     },
-    created() {
-        this.$vs.loading()
+    async created() {
+        this.$vs.loading();
         if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos)
-            moduleProdutos.isRegistered = true
+            this.$store.registerModule('produtos', moduleProdutos);
+            moduleProdutos.isRegistered = true;
         }
         if (!moduleLinks.isRegistered) {
-            this.$store.registerModule('links', moduleLinks)
-            moduleLinks.isRegistered = true
+            this.$store.registerModule('links', moduleLinks);
+            moduleLinks.isRegistered = true;
         }
         this.dados.produto = this.$route.params.id;
         //this.getProduto(this.$route.params.id);
-        this.getOpcoes();
-        this.getItems();
+        await this.getOpcoes();
+        await this.getItems();
 
     },
     methods: {
         getOpcoes() {
             //Produtos
             this.$store.dispatch('produtos/getArraySelect').then(response => {
-                console.log('response dos produtos')
-                this.produtos = [...response]
+                this.produtos = [...response];
             });
         },
         getProduto(id) {
             this.$store.dispatch('produtos/getId', id).then(data => {
                 this.produto = {...data};
-            })
+            });
         },
         getlink(item) {
             let link = '';
             let user = JSON.parse(localStorage.getItem("userInfo"));
             item.linksexternos.forEach(ext => {
                 if (ext.user_id == user.uid) {
-                    link = 'https://svlds.me/' + ext.codigo;
+                    link = saveleadsConfig.url_shortened_link + ext.codigo;
                 }
             });
             return link;
@@ -134,7 +134,7 @@ export default {
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
-                })
+                });
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
@@ -143,8 +143,8 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         },
         goto(text) {
             window.open(text, '_blank');
@@ -159,17 +159,16 @@ export default {
                     text: 'O link foi gerado com sucesso'
                 });
                 this.getItems();
-            }).catch(erro => {
-                console.log(erro)
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     title: 'Erro',
                     text: 'Algo deu errado ao gerar o link. Contate o suporte.'
-                })
-            })
+                });
+            });
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getItems() {
             this.$vs.loading();
@@ -177,8 +176,8 @@ export default {
                 this.pagination = response;
 
             }).finally(()=>{
-              this.$vs.loading.close()
-            })
+              this.$vs.loading.close();
+            });
         },
         deletar(id) {
             this.$vs.dialog({
@@ -195,16 +194,15 @@ export default {
                             text: 'A Origem foi deletada com sucesso'
                         });
                         this.getItems();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: 'Erro',
                             text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
           this.dados.page = 1;
@@ -214,17 +212,15 @@ export default {
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getItems();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
         selectedProduto: function (val) {
-            console.log('val', val);
             this.dados.produto = val.id;
             this.getProduto(val.id);
             this.getItems();
@@ -237,7 +233,7 @@ export default {
         }
     },
 
-}
+};
 </script>
 <style scoped>
 [dir] .vx-card .vx-card__collapsible-content .vx-card__body {

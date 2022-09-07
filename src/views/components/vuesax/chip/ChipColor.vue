@@ -97,7 +97,7 @@ export default {
         return {
             isDeleted: false,
             isDeleted2: false,
-        }
+        };
     }
-}
+};
 </script>

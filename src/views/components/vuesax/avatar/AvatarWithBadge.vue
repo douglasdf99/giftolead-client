@@ -62,9 +62,9 @@ export default {
     }),
     methods: {
         increment() {
-            this.badge1++
-            this.badge2++
+            this.badge1++;
+            this.badge2++;
         }
     }
-}
+};
 </script>

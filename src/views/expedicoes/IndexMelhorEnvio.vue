@@ -126,18 +126,18 @@
 </template>
 
 <script>
-import SideBar from './SideBar'
-import listagem from './Listagem'
-import listagemAutomacoes from './ListagemAutomacoes'
-import listagemExpedicoes from './ListagemExpedicoes'
-import moduleBrindes from '@/store/brindes/moduleBrindes.js'
-import vSelect from 'vue-select'
+import SideBar from './SideBar';
+import listagem from './Listagem';
+import listagemAutomacoes from './ListagemAutomacoes';
+import listagemExpedicoes from './ListagemExpedicoes';
+import moduleBrindes from '@/store/brindes/moduleBrindes.js';
+import vSelect from 'vue-select';
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
 import Datepicker from 'vuejs-datepicker';
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import saveleadsConfig from "../../../saveleadsConfig";
-import VueMoment from 'vue-moment'
+import VueMoment from 'vue-moment';
 import moduleAutomacao from "@/store/automacao/moduleAutomacao";
 
 const moment = require('moment/moment');
@@ -214,7 +214,7 @@ export default {
             },
             selectedEditBrinde: {},
             brindesEdit: [],
-        }
+        };
     },
     created() {
         this.$vs.loading();
@@ -223,8 +223,8 @@ export default {
             moduleBrindes.isRegistered = true;
         }
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
 
         if (!moduleExpedicoesBrindes.isRegistered) {
@@ -242,20 +242,19 @@ export default {
     },
     methods: {
         paginate() {
-            console.log('resetou');
             this.currentx = 1;
         },
         visualizar(obj) {
-            this.sidebarData = obj
-            this.toggleDataSidebar(true)
+            this.sidebarData = obj;
+            this.toggleDataSidebar(true);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getItems(status = this.dados.status) {
             this.$vs.loading();
             if (status !== this.dados.status)
-                this.currentx = 1
+                this.currentx = 1;
 
             this.dados.status = status;
 
@@ -265,10 +264,8 @@ export default {
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
             this.$store.dispatch('getVarios', {rota: 'expedicaos', params: this.dados}).then(response => {
-                console.log('retornado com sucesso', response);
                 this.pagination = response;
-                this.$vs.loading.close();
-            });
+            }).finally(() => this.$vs.loading.close());
         },
         getAutomacoes(status = 'pendente') {
             this.$vs.loading();
@@ -276,9 +273,8 @@ export default {
             this.dados.tipo = null;
             this.dados.status = status;
             this.$store.dispatch('automacao/get', this.dados).then(response => {
-                console.log('respostas com todas as automacoes', response);
                 this.automacoes = response.data;
-                this.pagination = response
+                this.pagination = response;
             }).finally(() => {
                 this.$vs.loading.close();
             });
@@ -289,15 +285,14 @@ export default {
             this.dados.tipo = null;
             this.dados.status = status;
             this.$store.dispatch('expedicaos/get', this.dados).then(response => {
-                console.log('respostas com todas as expedicoes', response);
                 this.expedicoes = response.data.data;
-                this.pagination = response
+                this.pagination = response;
             }).finally(() => {
                 this.$vs.loading.close();
             });
         },
         getOpcoes() {
-            this.$store.dispatch('brindes/get').then(response => {
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
                 this.brindes = [...this.arraySelect(response)];
                 this.brindesCru = [...response];
             });
@@ -327,9 +322,8 @@ export default {
                     color: 'success',
                     text: 'Rastreios enviados com sucesso.'
                 });
-                this.getAutomacoes()
-            }).catch(erro => {
-                console.log('erro', erro);
+                this.getAutomacoes();
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado. Contate o suporte'
@@ -339,13 +333,13 @@ export default {
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         deletar(id) {
             this.$vs.dialog({
@@ -362,16 +356,15 @@ export default {
                             text: 'Deletado com sucesso'
                         });
                         this.getAutomacoes();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
             this.dados.page = 1;
@@ -382,7 +375,6 @@ export default {
 
         //Procedimentos
         fecharVarias(arr, rota, tipo) {
-            console.log('fechando várias', arr)
             var self = this;
             this.$vs.dialog({
                 color: 'primary',
@@ -402,10 +394,9 @@ export default {
                         for (const [idx, item] of arr.entries()) {
                             self.atual = idx;
                             self.expedicao = item;
-                            const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
+                            await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
                                 self.items.splice(idx, 1);
-                            }).catch(erro => {
-                                console.log('erro', erro);
+                            }).catch(() => {
                                 self.$vs.notify({
                                     color: 'danger',
                                     text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
@@ -415,12 +406,12 @@ export default {
                         }
                         self.modalGerarPlp = false;
                         self.getItems(tipo);
-                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
+                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading");
                     }
 
                     diags();
                 }
-            })
+            });
         },
 
         //Prompt Editar
@@ -436,7 +427,6 @@ export default {
             this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
         },
         update() {
-            console.log(this.selectedEditBrinde);
             this.val.brinde_id = this.selectedEditBrinde.id;
             this.$vs.loading();
             this.$store.dispatch('expedicaos/store', this.val).then(() => {
@@ -447,40 +437,36 @@ export default {
                     text: 'Salvo com sucesso'
                 });
                 this.getItems();
-            }).catch(erro => {
-                console.log(erro)
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     title: 'Erro',
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                })
+                });
             });
 
         },
         tabCondition() {
             if (this.activeTab == 1) this.getAutomacoes();
-            else this.getExpedicoesME(this.dados.status)
+            else this.getExpedicoesME(this.dados.status);
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getItems();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
         selectedBrinde(val) {
             this.$vs.loading();
             this.dados.brinde_id = this.selectedBrinde != null ? (this.selectedBrinde.id != null ? val.id : null) : null;
             this.tabCondition();
         },
-        selectedEditBrinde(val) {
-            console.log(val)
-        },
-        dateRange(val) {
+    
+        dateRange() {
             this.$vs.loading();
             this.getItems();
         },
@@ -491,7 +477,7 @@ export default {
         },
     },
 
-}
+};
 </script>
 <style>
 .td-icons > span {

@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import TooltipDefault from './TooltipDefault.vue'
-import TooltipPosition from './TooltipPosition.vue'
-import TooltipDelay from './TooltipDelay.vue'
-import TooltipColor from './TooltipColor.vue'
-import TooltipTitle from './TooltipTitle.vue'
+import TooltipDefault from './TooltipDefault.vue';
+import TooltipPosition from './TooltipPosition.vue';
+import TooltipDelay from './TooltipDelay.vue';
+import TooltipColor from './TooltipColor.vue';
+import TooltipTitle from './TooltipTitle.vue';
 
 export default{
     components: {
@@ -33,5 +33,5 @@ export default{
         TooltipTitle,
         TooltipColor,
     }
-}
+};
 </script>

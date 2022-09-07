@@ -8,81 +8,81 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    update({commit}, dados) {
+    update(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_whatsapps/${dados.id}`, dados.dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    updateEmail({commit}, dados) {
+    updateEmail(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails/${dados.id}`, dados.dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_whatsapps`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeEmail({commit}, dados) {
+    storeEmail(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_whatsapps/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_whatsapps`, {params: {}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getContatos({commit}, dados) {
-        return new Promise((resolve, reject) => {
+    getContatos(_, dados) {
+        return new Promise((resolve) => {
             axios.get(`/campanha_whatsapps_contatos`, {params: dados.params})
                 .then((response) => {
-                    resolve(response.data.data)
-                })
+                    resolve(response.data.data);
+                });
         });
     }
-}
+};

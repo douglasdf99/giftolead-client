@@ -71,7 +71,7 @@ export default {
             value2: '',
             popupActive2: false,
             popupActive3: false
-        }
+        };
     }
-}
+};
 </script>

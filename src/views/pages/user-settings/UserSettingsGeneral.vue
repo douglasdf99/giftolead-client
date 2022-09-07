@@ -38,12 +38,12 @@ export default {
       name: this.$store.state.AppActiveUser.displayName,
       email: "john@admin.com",
       company: "SnowMash Technologies Pvt Ltd",
-    }
+    };
   },
   computed: {
     activeUserInfo() {
-      return this.$store.state.AppActiveUser
+      return this.$store.state.AppActiveUser;
     },
   }
-}
+};
 </script>

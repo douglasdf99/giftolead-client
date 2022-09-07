@@ -40,7 +40,7 @@
 
 <script>
 import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
 const moment = require('moment/moment');
@@ -71,17 +71,17 @@ export default {
             currentx: 1,
             instalado: false,
             countSwitch: 0,
-        }
+        };
     },
     created() {
         if (!moduleExtensoes.isRegistered) {
-            this.$store.registerModule('extensoes', moduleExtensoes)
-            moduleExtensoes.isRegistered = true
+            this.$store.registerModule('extensoes', moduleExtensoes);
+            moduleExtensoes.isRegistered = true;
         }
 
         if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('users', moduleUsuario)
-            moduleUsuario.isRegistered = true
+            this.$store.registerModule('users', moduleUsuario);
+            moduleUsuario.isRegistered = true;
         }
 
         this.verifica();
@@ -106,7 +106,7 @@ export default {
                     arr.forEach(item => {
                         if (item.extensao_type === "App\\Models\\Extensoes\\Slack") {
                             this.extensao = item;
-                            this.extensao.extensao = item.extensao
+                            this.extensao.extensao = item.extensao;
                             this.instalado = true;
                         }
                     });
@@ -116,7 +116,6 @@ export default {
             }).finally(() => this.$vs.loading.close());
         },
         ativaExtensao() {
-            console.log(this.countSwitch)
             if (this.countSwitch === 3) {
                 this.extensao.ativo = !this.extensao.ativo;
                 this.$vs.notify({
@@ -147,8 +146,8 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
-                })
+                    });
+                });
                 this.countSwitch += 1;
             }
         },
@@ -167,31 +166,29 @@ export default {
                             text: 'Instalado com sucesso'
                         });
                         this.verifica();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao instalar. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         getUsers() {
             this.$store.dispatch('users/get').then(response => {
-                console.log('usuarios', response);
                 this.usersall = response;
             });
         },
-        salvar(){
+        salvar() {
             this.$vs.loading();
             this.$store.dispatch('extensoes/storeSlack', this.extensao.extensao).then(() => {
                 this.$vs.notify({
                     color: 'success',
                     text: 'URL salva com sucesso.'
                 });
-            }).catch(erro => {
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado ao salvar a configuração. Contate o suporte.'
@@ -199,7 +196,7 @@ export default {
             }).finally(() => this.$vs.loading.close());
         }
     },
-}
+};
 </script>
 
 <style scoped>

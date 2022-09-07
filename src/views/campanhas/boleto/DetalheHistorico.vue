@@ -58,7 +58,7 @@
                 <vx-card class="mb-4" v-if="data.eventos_entrega.length > 0">
                     <span>Eventos de entrega</span>
                     <vs-collapse>
-                        <vs-collapse-item v-for="item in data.eventos_entrega">
+                        <vs-collapse-item v-for="(item, index) in data.eventos_entrega" :key="index">
                             <div slot="header" class="flex items-center justify-between">
                                 <div class="flex">
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
@@ -76,7 +76,7 @@
                 <vx-card class="mb-4" v-if="data.eventos_acao.length > 0">
                     <span>Eventos de ação</span>
                     <vs-collapse>
-                        <vs-collapse-item v-for="item in data.eventos_acao">
+                        <vs-collapse-item v-for="(item, index) in data.eventos_acao" :key="index">
                             <div slot="header" class="flex items-center justify-between">
                                 <div class="flex">
                                     <vs-icon icon-pack="material-icons" icon="fiber_manual_record"
@@ -97,9 +97,9 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
-    import draggable from 'vuedraggable'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
+    import draggable from 'vuedraggable';
 
     export default {
         props: {
@@ -121,16 +121,16 @@
                 },
                 emails: [],
                 maisDetalhes: false
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -139,13 +139,11 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
-                    return
+                    return;
                 } else {
-                    this.origem.id = null
-                    this.origem.nome = ''
+                    this.origem.id = null;
+                    this.origem.nome = '';
                 }
             },
             descritivo(obj) {
@@ -155,30 +153,30 @@
                     case 'Entregue':
                         return 'E-mail entregue com sucesso ao destinatário.';
                     case 'Clicou':
-                        return 'O destinatário clicou em um link dentro da mensagem.'
+                        return 'O destinatário clicou em um link dentro da mensagem.';
                     case 'Desistiu':
                         return 'Você pode ver os seguintes motivos da queda: Cabeçalho SMTPAPI inválido, Conteúdo de spam (se o aplicativo Verificador de spam está ativado),' +
-                            ' Endereço não inscrito, Endereço devolvido, Endereço de relatório de spam, Inválido, Lista de destinatários sobre a cota do pacote'
+                            ' Endereço não inscrito, Endereço devolvido, Endereço de relatório de spam, Inválido, Lista de destinatários sobre a cota do pacote';
                     case 'Diferido':
-                        return 'O servidor de recebimento rejeitou temporariamente a mensagem.'
+                        return 'O servidor de recebimento rejeitou temporariamente a mensagem.';
                     case 'Bounce':
                         return 'O servidor de recebimento não pôde ou não aceitou mensagens para esse destinatário permanentemente.' +
                             ' Se um destinatário já cancelou sua inscrição em seus e-mails, a mensagem será descartada.' +
-                            'Motivo: ' + obj.reason
+                            'Motivo: ' + obj.reason;
                     case 'Bloqueado':
                         return 'O servidor de recebimento não pôde ou não aceitou a mensagem temporariamente. ' +
                             'Se o destinatário já cancelou sua inscrição em seus e-mails, a mensagem será descartada.' +
-                            'Motivo: ' + obj.reason
+                            'Motivo: ' + obj.reason;
                     case 'Aberto':
-                        return 'O destinatário abriu a mensagem HTML.'
+                        return 'O destinatário abriu a mensagem HTML.';
                     case 'Spam Reportado':
-                        return 'Mensagem marcada pelo destinatário como spam.'
+                        return 'Mensagem marcada pelo destinatário como spam.';
                     case 'Cancelou subscrição':
-                        return 'O destinatário clicou no link \'Optar por não receber todos os emails\' (disponível após clicar no link de gerenciamento de assinaturas da mensagem).'
+                        return 'O destinatário clicou no link \'Optar por não receber todos os emails\' (disponível após clicar no link de gerenciamento de assinaturas da mensagem).';
                     case 'Cancelou inscrição do grupo':
-                        return 'O destinatário cancelou a inscrição de um grupo específico clicando no link diretamente ou atualizando suas preferências.'
+                        return 'O destinatário cancelou a inscrição de um grupo específico clicando no link diretamente ou atualizando suas preferências.';
                     case 'Se Reinscreveu no grupo':
-                        return 'O destinatário se inscreveu novamente em um grupo específico, atualizando suas preferências.'
+                        return 'O destinatário se inscreveu novamente em um grupo específico, atualizando suas preferências.';
                     default:
                         return '' + obj.reason;
                 }
@@ -193,15 +191,14 @@
             this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 //this.origem = JSON.parse(JSON.stringify(this.data));
-                this.emails = JSON.parse(JSON.stringify(this.data))
+                this.emails = JSON.parse(JSON.stringify(this.data));
 
             }
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

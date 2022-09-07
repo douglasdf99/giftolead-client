@@ -21,7 +21,9 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: `/brindes/${selectedBrinde.id}/emails/editar/${emailCriar.id}`})">
+                               @click="$router.push({
+                                name: 'brindes-automacao-emails-editar', params:{brinde: selectedBrinde.id, id: emailCriar.id}
+                                })">
                         Editar e-mail
                     </vs-button>
                 </div>
@@ -40,7 +42,9 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: `/brindes/${selectedBrinde.id}/emails/editar/${emailRastreio.id}`})">
+                               @click="$router.push({
+                                name: 'brindes-automacao-emails-editar', 
+                                params:{brinde: selectedBrinde.id, id: emailRastreio.id}})">
                         Editar e-mail
                     </vs-button>
                 </div>
@@ -50,7 +54,7 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="filled" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/brindes/automacao'})">
+                               @click="$router.push({name: 'brindes-automacao'})">
                         Voltar
                     </vs-button>
                 </div>
@@ -60,7 +64,7 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 import moduleBrindes from "@/store/brindes/moduleBrindes";
 /*import SideBar from '../Reorganizar'*/
@@ -73,16 +77,16 @@ export default {
     },
     created() {
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
 
         if (!moduleBrindes.isRegistered) {
-            this.$store.registerModule('brindes', moduleBrindes)
-            moduleBrindes.isRegistered = true
+            this.$store.registerModule('brindes', moduleBrindes);
+            moduleBrindes.isRegistered = true;
         }
-        console.log('params', this.$route.params);
-        if(this.$route.params.brinde != null){
+
+        if(this.$route.params.brinde != null) {
             this.getId(this.$route.params.brinde);
         }
         this.getBrindes();
@@ -101,15 +105,15 @@ export default {
             addNewDataSidebar: false,
             brindes: [],
             selectedBrinde: {id: null, label: 'Selecione'}
-        }
+        };
     },
     methods: {
-        getBrindes(){
+        getBrindes() {
             this.$vs.loading();
-            this.$store.dispatch('brindes/get').then(response => {
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
                 this.brindes = [...this.arraySelect(response)];
             }).catch(erro => {
-                console.log('erro', erro.response);
+
                 this.$vs.notify({
                     text: erro.response.data.message,
                     iconPack: 'feather',
@@ -120,26 +124,25 @@ export default {
         },
         organizar() {
             this.listaEmails = [...this.emails];
-            this.toggleDataSidebar(true)
+            this.toggleDataSidebar(true);
         },
         closeSidebar() {
             this.toggleDataSidebar();
-            this.getId(this.$route.params.id)
+            this.getId(this.$route.params.id);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getId(id = null) {
             this.$vs.loading();
-            console.log('entrou', this.selectedBrinde)
+
             if(id == null) id = this.selectedBrinde.id;
             this.$store.dispatch('automacao/getEmails', id).then(response => {
                 this.emails = response;
-                console.log('emails aí', this.emails)
+
                 if(this.selectedBrinde.id == null) this.selectedBrinde.id = this.$route.params.brinde;
                 this.selectedBrinde.label = this.emails[0].brinde.nome;
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -149,7 +152,7 @@ export default {
             }).finally(() => this.$vs.loading.close());
         },
         ativaEmail(e) {
-            console.log(this.countSwitch)
+
             if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                 e.status = !e.status;
                 this.$vs.notify({
@@ -160,7 +163,7 @@ export default {
                     color: 'danger'
                 });
             } else {
-                console.log(e)
+
                 let ativo = e.status ? 0 : 1;
                 let text = e.status ? 'Desativada' : 'Ativada';
                 let obj = {
@@ -168,7 +171,7 @@ export default {
                     _method: 'put',
                     assunto: e.assunto,
                     id: e.id
-                }
+                };
                 this.$store.dispatch('updateItem', {rota: 'automacao_emails', item: obj}).then(() => {
                     this.$vs.notify({
                         title: '',
@@ -184,8 +187,8 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
-                })
+                    });
+                });
                 this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
             }
         }
@@ -195,14 +198,14 @@ export default {
             return this.errors.any();
         },
         emailCriar() {
-            let email = false
+            let email = false;
             this.emails.forEach((item) => {
                 if (item.evento == 1) email = item;
             });
             return email;
         },
         emailRastreio() {
-            let email = false
+            let email = false;
             this.emails.forEach((item) => {
                 if (item.evento == 3) email = item;
             });
@@ -211,7 +214,7 @@ export default {
     },
     watch: {
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
         selectedBrinde: {
             handler(val) {
@@ -221,7 +224,7 @@ export default {
             deep: true
         },
     },
-}
+};
 </script>
 
 <style>

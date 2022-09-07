@@ -3,14 +3,21 @@ export default {
         grafico: {
             seires: [],
             categories: [],
+            users: []
         },
         statistics: {
             valor_coorecuperado: [],
             valor_recuperado_direto_campanhas: [],
-            valor_recuperado: 0
+            valor_recuperado: 0,
+            payment_methods: []
         },
     },
-    loading: {
-        vendas: false
-    }
-}
+    tickets: {
+        grafico: {
+            seires: [],
+            categories: [],
+            users: []
+        },
+    },
+    loading: false
+};

@@ -165,7 +165,7 @@
       <footer-doug>
         <div class="vx-col sm:w-11/12 mb-2">
           <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                     @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                     @click="$router.push({name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}})">
             Cancelar
           </vs-button>
           <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid" v-if="edited">
@@ -178,8 +178,8 @@
 </template>
 
 <script>
-  import vSelect from 'vue-select'
-  import Prism from 'vue-prism-component'
+  import vSelect from 'vue-select';
+  import Prism from 'vue-prism-component';
   import moduleCampWhatsapp from "../../../store/campanha_whatsapp/moduleCampWhatsapp";
   import moduleWhatsList from "../../../store/whatsapplist/moduleWhatsList";
 
@@ -191,12 +191,12 @@
     },
     created() {
       if (!moduleCampWhatsapp.isRegistered) {
-        this.$store.registerModule('whatsapp', moduleCampWhatsapp)
-        moduleCampWhatsapp.isRegistered = true
+        this.$store.registerModule('whatsapp', moduleCampWhatsapp);
+        moduleCampWhatsapp.isRegistered = true;
       }
       if (!moduleWhatsList.isRegistered) {
-        this.$store.registerModule('whatsapplist', moduleWhatsList)
-        moduleWhatsList.isRegistered = true
+        this.$store.registerModule('whatsapplist', moduleWhatsList);
+        moduleWhatsList.isRegistered = true;
       }
 
       this.getId(this.$route.params.id);
@@ -215,10 +215,10 @@
         customcor: '',
         html: '',
         verMaisCards: false
-      }
+      };
     },
     mounted() {
-      this.verifica()
+      this.verifica();
     },
     methods: {
       verifica() {
@@ -234,8 +234,7 @@
             this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
             this.campanha._method = 'PUT';
             if (this.campanha.id !== undefined) {
-              this.$store.dispatch('whatsapp/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
-                console.log('response', response);
+              this.$store.dispatch('whatsapp/update', {id: this.campanha.id, dados: this.campanha}).then(() => {
                 this.$vs.notify({
                   title: '',
                   text: "Atualizado com sucesso.",
@@ -251,11 +250,10 @@
                   iconPack: 'feather',
                   icon: 'icon-alert-circle',
                   color: 'danger'
-                })
-              })
+                });
+              });
             } else {
-              this.$store.dispatch('whatsapp/store', this.campanha).then(response => {
-                console.log('response', response);
+              this.$store.dispatch('whatsapp/store', this.campanha).then(() => {
                 this.$vs.notify({
                   title: '',
                   text: "Criado com sucesso.",
@@ -263,7 +261,7 @@
                   icon: 'icon-check-circle',
                   color: 'success'
                 });
-                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                this.$router.push({name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}});
               }).catch(erro => {
                 this.$vs.notify({
                   title: 'Error',
@@ -271,8 +269,8 @@
                   iconPack: 'feather',
                   icon: 'icon-alert-circle',
                   color: 'danger'
-                })
-              })
+                });
+              });
             }
           } else {
             this.$vs.notify({
@@ -281,22 +279,20 @@
               iconPack: 'feather',
               icon: 'icon-alert-circle',
               color: 'danger'
-            })
+            });
           }
-        })
+        });
 
       },
       selecionaTipoComissao(val) {
         this.campanha.comissao_tipo = val;
-        console.log(this.campanha.comissao_tipo)
       },
       getId(id) {
         this.$vs.loading();
         this.$store.dispatch('whatsapp/getId', id).then(response => {
           this.campanha = JSON.parse(JSON.stringify(response));
           this.campanhaOld = JSON.parse(JSON.stringify(response));
-        }).catch(erro => {
-                console.log('erro', erro.response);
+        }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -306,10 +302,10 @@
             }).finally(() => this.$vs.loading.close());
       },
       formatPrice(value) {
-        let val = (value / 1).toFixed(2).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        let val = (value / 1).toFixed(2).replace('.', ',');
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
       },
-      codigohtml(value) {
+      codigohtml() {
         this.html = `
 <form accept-charset="UTF - 8" action="${this.url_api('api/campanhawhatsapp/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
@@ -332,7 +328,7 @@
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check-circle'
-          })
+          });
         }, function () {
           thisIns.$vs.notify({
             title: 'Failed',
@@ -341,8 +337,8 @@
             iconPack: 'feather',
             position: 'top-center',
             icon: 'icon-alert-circle'
-          })
-        })
+          });
+        });
       },
       copyUrl() {
         const thisIns = this;
@@ -354,7 +350,7 @@
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check-circle'
-          })
+          });
         }, function () {
           thisIns.$vs.notify({
             title: 'Failed',
@@ -363,11 +359,12 @@
             iconPack: 'feather',
             position: 'top-center',
             icon: 'icon-alert-circle'
-          })
-        })
+          });
+        });
       },
       contatos(val) {
-        this.$router.push({path: `/campanha/configurar-whatsapp/${this.$route.params.id}/contatos-${val}`});
+        this.$router.push({
+          name: `campanha-config-whatsapp-contatos-${val}`, params:{id: this.$route.params.id}});
       },
       addVarText(value) {
         //Text Area
@@ -385,16 +382,7 @@
     },
     watch: {
       "$route"() {
-        this.routeTitle = this.$route.meta.pageTitle
-      },
-      produto: {
-        handler(val) {
-          console.log('mudou');
-          if (val) {
-            console.log('watch', val);
-          }
-        },
-        deep: true
+        this.routeTitle = this.$route.meta.pageTitle;
       },
       empresa: {
         handler(val) {
@@ -405,7 +393,7 @@
         deep: true
       },
     },
-  }
+  };
 </script>
 
 <style>

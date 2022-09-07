@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 const data = {
   subscribers_gained: {
@@ -55,7 +55,7 @@ const data = {
         data: [365, 390, 365, 400, 375, 400]
     }]
   },
-}
+};
 
 
 mock.onGet("/api/card/card-statistics/subscribers").reply(() => {

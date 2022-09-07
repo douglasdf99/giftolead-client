@@ -26,12 +26,12 @@ export default {
       github: "https://github.com/madop818",
       linkedin: "https://codepen.io/adoptism243",
       slack: "@adoptionism744",
-    }
+    };
   },
   computed: {
     activeUserInfo() {
-      return this.$store.state.AppActiveUser
+      return this.$store.state.AppActiveUser;
     },
   }
-}
+};
 </script>

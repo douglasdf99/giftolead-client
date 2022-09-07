@@ -1,6 +1,7 @@
 /* Layout Base */
 body {
-    background-color: #f4f4f4;
+  font-family: 'Nunito';
+  background-color: #f4f4f4;
 }
 
 /*.navbar-floating .vx-navbar-wrapper {
@@ -42,7 +43,6 @@ h4 {
 .menu-statico-2 {
     position: relative;
     top: 60px;
-    z-index: 10000;
 }
 
 .menu-statico-2 a {
@@ -123,7 +123,7 @@ h4 {
 /* Inputs */
 .input-span-placeholder {
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1rem;
     color: #CECECE;
     margin-left: 1rem;
 }
@@ -198,7 +198,10 @@ h4 {
     font-family: "Poppins", sans-serif;
     font-size: 1rem;
 }
-
+.vs-table--tbody {
+  z-index: 0 !important;
+  position: relative;
+}
 [dir] .com-item .vs-con-table .vs-con-tbody .vs-table--tbody-table .tr-values .vs-table--td {
     padding: 1rem;
     background-color: white;
@@ -422,6 +425,10 @@ h4 {
     font-size: 1.5rem;
     font-weight: 900;
     color: black !important;
+}
+
+.con-vs-tabs .con-ul-tabs {
+  z-index: 0;
 }
 
 .icon-cancelar {

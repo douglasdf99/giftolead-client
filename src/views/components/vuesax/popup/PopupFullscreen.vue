@@ -49,7 +49,7 @@ export default {
     data() {
         return {
             popupActive: false,
-        }
+        };
     }
-}
+};
 </script>

@@ -9,9 +9,9 @@
 
 export default {
   SET_CAMPANHA(state, item) {
-    state.campanha = item
+    state.campanha = item;
   },
   UPDATE_EMPRESA(state, empresa) {
-    state.empresa = empresa
+    state.empresa = empresa;
   }
-}
+};

@@ -59,7 +59,7 @@
             <div class="vx-col w-full md:w-2/3 mb-base">
                 <vx-card title="Revenue">
                     <template slot="actions">
-                        <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
+                        <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-gray"></feather-icon>
                     </template>
                     <div slot="no-body" class="p-6 pb-0">
                         <div class="flex" v-if="revenueComparisonLine.analyticsData">
@@ -85,7 +85,7 @@
             <div class="vx-col w-full md:w-1/3 mb-base">
                 <vx-card title="Goal Overview">
                     <template slot="actions">
-                        <feather-icon icon="HelpCircleIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
+                        <feather-icon icon="HelpCircleIcon" svgClasses="w-6 h-6 text-gray"></feather-icon>
                     </template>
 
                     <!-- CHART -->
@@ -97,11 +97,11 @@
 
                     <!-- DATA -->
                     <div class="flex justify-between text-center mt-6" slot="no-body-bottom">
-                        <div class="w-1/2 border border-solid d-theme-border-grey-light border-r-0 border-b-0 border-l-0">
+                        <div class="w-1/2 border border-solid d-theme-border-gray-light border-r-0 border-b-0 border-l-0">
                             <p class="mt-4">Completed</p>
                             <p class="mb-4 text-3xl font-semibold">786,617</p>
                         </div>
-                        <div class="w-1/2 border border-solid d-theme-border-grey-light border-r-0 border-b-0">
+                        <div class="w-1/2 border border-solid d-theme-border-gray-light border-r-0 border-b-0">
                             <p class="mt-4">In Progress</p>
                             <p class="mb-4 text-3xl font-semibold">13,561</p>
                         </div>
@@ -125,7 +125,7 @@
                                     <span class="mr-1">{{ browser.comparedResult }}</span>
                                     <feather-icon :icon=" browser.comparedResult < 0 ? 'ArrowDownIcon' : 'ArrowUpIcon'" :svgClasses="[browser.comparedResult < 0 ? 'text-danger' : 'text-success'  ,'stroke-current h-4 w-4 mb-1 mr-1']"></feather-icon>
                                 </span>
-                                <span class="text-grey">{{ browser.time | time(true) }}</span>
+                                <span class="text-gray">{{ browser.time | time(true) }}</span>
                             </div>
                         </div>
                         <vs-progress :percent="browser.ratio"></vs-progress>
@@ -181,7 +181,7 @@
                                 <ul ref="chatLog">
                                         <li class="flex items-start" :class="{'flex-row-reverse': msg.isSent, 'mt-4': index}" v-for="(msg, index) in chatLog" :key="index">
                                             <vs-avatar size="40px" class="m-0 flex-shrink-0" :class="msg.isSent ? 'ml-5' : 'mr-5'" :src="msg.senderImg"></vs-avatar>
-                                            <div class="msg relative bg-white shadow-md py-3 px-4 mb-2 rounded-lg max-w-md" :class="{'chat-sent-msg bg-primary-gradient text-white': msg.isSent, 'border border-solid d-theme-border-grey-light': !msg.isSent}">
+                                            <div class="msg relative bg-white shadow-md py-3 px-4 mb-2 rounded-lg max-w-md" :class="{'chat-sent-msg bg-primary-gradient text-white': msg.isSent, 'border border-solid d-theme-border-gray-light': !msg.isSent}">
                                                 <span>{{ msg.msg }}</span>
                                             </div>
                                         </li>
@@ -212,7 +212,7 @@
 
                         <!-- CHART DATA -->
                         <ul class="mb-1">
-                            <li v-for="customerData in customersData.analyticsData" :key="customerData.customerType" class="flex justify-between py-3 px-6 border d-theme-border-grey-light border-solid border-r-0 border-l-0 border-b-0">
+                            <li v-for="customerData in customersData.analyticsData" :key="customerData.customerType" class="flex justify-between py-3 px-6 border d-theme-border-gray-light border-solid border-r-0 border-l-0 border-b-0">
                                 <span class="flex items-center">
                                     <span class="inline-block h-3 w-3 rounded-full mr-2" :class="`bg-${customerData.color}`"></span>
                                     <span class="font-semibold">{{ customerData.customerType }}</span>
@@ -229,11 +229,11 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import VueApexCharts from 'vue-apexcharts'
-import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue'
-import analyticsData from './ui-elements/card/analyticsData.js'
-import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import VueApexCharts from 'vue-apexcharts';
+import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
+import analyticsData from './ui-elements/card/analyticsData.js';
+import ChangeTimeDurationDropdown from '@/components/ChangeTimeDurationDropdown.vue';
 
 export default{
     data() {
@@ -259,7 +259,7 @@ export default{
                 maxScrollbarLength: 60,
                 wheelSpeed: .60,
             },
-        }
+        };
     },
     components: {
         VueApexCharts,
@@ -273,60 +273,49 @@ export default{
     created() {
       // Subscribers gained - Statistics
       this.$http.get("/api/card/card-statistics/subscribers")
-        .then((response) => { this.subscribersGained = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.subscribersGained = response.data; });
 
       // Revenue Generated
       this.$http.get("/api/card/card-statistics/revenue")
-        .then((response) => { this.revenueGenerated = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.revenueGenerated = response.data; });
 
       // Sales
       this.$http.get("/api/card/card-statistics/sales")
-        .then((response) => { this.quarterlySales = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.quarterlySales = response.data; });
 
       // Orders - Statistics
       this.$http.get("/api/card/card-statistics/orders")
-        .then((response) => { this.ordersRecevied = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.ordersRecevied = response.data; });
 
       // Revenue Comparison
       this.$http.get("/api/card/card-analytics/revenue-comparison")
-        .then((response) => { this.revenueComparisonLine = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.revenueComparisonLine = response.data; });
 
       // Goal Overview
       this.$http.get("/api/card/card-analytics/goal-overview")
-        .then((response) => { this.goalOverview = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.goalOverview = response.data; });
 
       // Browser Analytics
       this.$http.get("/api/card/card-analytics/browser-analytics")
-        .then((response) => { this.browserStatistics = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.browserStatistics = response.data; });
 
       // Client Retention
       this.$http.get("/api/card/card-analytics/client-retention")
-        .then((response) => { this.clientRetentionBar = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.clientRetentionBar = response.data; });
 
       // Sessions By Device
       this.$http.get("/api/card/card-analytics/session-by-device")
-        .then((response) => { this.sessionsData = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.sessionsData = response.data; });
 
       // Chat Log
       this.$http.get("/api/chat/demo-1/log")
-        .then((response) => { this.chatLog = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.chatLog = response.data; });
 
       // Customers
       this.$http.get("/api/card/card-analytics/customers")
-        .then((response) => { this.customersData = response.data })
-        .catch((error) => { console.log(error) })
+        .then((response) => { this.customersData = response.data; });
     }
-}
+};
 </script>
 
 <style lang="scss">

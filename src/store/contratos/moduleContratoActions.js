@@ -8,7 +8,7 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
     update({commit}, dados) {
@@ -17,121 +17,121 @@ export default {
             axios.post(`/correios/${dados.id}`, dados.dados)
                 .then((response) => {
                     commit('UPDATE_EMPRESA', response.data.data);
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/correios/`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    logar({commit}, dados) {
+    logar(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios-logar`, {params: dados})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    logarind({commit}, dados) {
+    logarind(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios-logarind`, {params: dados})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    servicos({commit}, dados) {
+    servicos(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios-servicos`, {params: dados})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    addexcecao({commit}, dados) {
+    addexcecao(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/config_correios`, dados)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    editexcecao({commit}, dados) {
+    editexcecao(_, dados) {
         return new Promise((resolve, reject) => {
             axios.put(`/config_correios/${dados.id}`, dados)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    removeexcecao({commit}, dados) {
+    removeexcecao(_, dados) {
         return new Promise((resolve, reject) => {
             axios.delete(`/config_correios/${dados}`, dados)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    ativar({commit}, dados){
+    ativar(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios-${dados.rota}/${dados.id}`)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}, params) {
+    get(_, params) {
         return new Promise((resolve, reject) => {
             axios.get(`/correios`, params)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

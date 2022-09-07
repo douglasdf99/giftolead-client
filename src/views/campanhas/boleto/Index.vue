@@ -96,7 +96,7 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/planos/gerenciar/' + campanha.campanhas[0].plano_id})">
+                               @click="$router.push({name: 'planos-gerenciar' , params:{plan_id: campanha.campanhas[0].plano_id}})">
                         Cancelar
                     </vs-button>
                     <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar" :disabled="isValid && !$acl.check('planos_campanhas_editar')">
@@ -109,10 +109,10 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
-    import Prism from 'vue-prism-component'
+    import vSelect from 'vue-select';
+    import Prism from 'vue-prism-component';
     import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
-    import SideBar from '../Reorganizar'
+    import SideBar from '../Reorganizar';
     import moduleCampanhas from "../../../store/campanhas/moduleCampanhas";
 
     export default {
@@ -124,12 +124,12 @@
         },
         created() {
             if (!moduleCampBoletos.isRegistered) {
-                this.$store.registerModule('boleto', moduleCampBoletos)
-                moduleCampBoletos.isRegistered = true
+                this.$store.registerModule('boleto', moduleCampBoletos);
+                moduleCampBoletos.isRegistered = true;
             }
             if (!moduleCampanhas.isRegistered) {
-                this.$store.registerModule('campanhas', moduleCampanhas)
-                moduleCampanhas.isRegistered = true
+                this.$store.registerModule('campanhas', moduleCampanhas);
+                moduleCampanhas.isRegistered = true;
             }
 
             this.getId(this.$route.params.id);
@@ -147,7 +147,7 @@
                 verMaisCards: false,
                 countSwitch: [],
                 addNewDataSidebar: false
-            }
+            };
         },
         methods: {
             salvar() {
@@ -157,8 +157,7 @@
                         this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
                         this.campanha._method = 'PUT';
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('boleto/update', {id: this.campanha.id, dados: this.campanha}).then(response => {
-                                console.log('response', response);
+                            this.$store.dispatch('boleto/update', {id: this.campanha.id, dados: this.campanha}).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Atualizado com sucesso.",
@@ -166,7 +165,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                                this.$router.push({name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -174,11 +173,10 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         } else {
-                            this.$store.dispatch('boleto/store', this.campanha).then(response => {
-                                console.log('response', response);
+                            this.$store.dispatch('boleto/store', this.campanha).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Criado com sucesso.",
@@ -186,7 +184,7 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.campanha.campanhas[0].plano_id});
+                                this.$router.push({name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -194,8 +192,8 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
                     } else {
                         this.$vs.notify({
@@ -204,13 +202,14 @@
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     }
-                })
+                });
 
             },
             configEnvio(val) {
-                this.$router.push({path: '/campanha/configurar-boleto/' + this.campanha.id + `/${val}`});
+                this.$router.push({
+                    name: `campanha-config-boleto-${val}`, params:{id: this.campanha.id}});
             },
             deletar(id) {
                 this.$vs.dialog({
@@ -227,21 +226,19 @@
                                 text: 'Deletado com sucesso'
                             });
                             this.getId(this.$route.params.id);
-                        }).catch(erro => {
-                            console.log(erro)
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
-                            })
+                            });
                         }).finally(() => {
                             this.$vs.loading.close();
-                        })
+                        });
                     }
-                })
+                });
             },
             ativaEmail(e) {
-                console.log(this.countSwitch)
                 if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                     e.status = !e.status;
                     this.$vs.notify({
@@ -252,7 +249,6 @@
                         color: 'danger'
                     });
                 } else {
-                    console.log(e)
                     const formData = new FormData();
                     let ativo = e.status ? 0 : 1;
                     let text = e.status ? 'Desativada' : 'Ativada';
@@ -274,8 +270,8 @@
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
-                    })
+                        });
+                    });
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },
@@ -303,7 +299,7 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
+                                });
                             }).finally(() => {
 
                             });
@@ -311,42 +307,43 @@
                         cancel: () => {
                             this.campanha.status = !this.campanha.status;
                         }
-                    })
+                    });
                 }
             },
             organizar() {
-                this.toggleDataSidebar(true)
+                this.toggleDataSidebar(true);
             },
             closeSidebar() {
                 this.toggleDataSidebar();
                 this.getId(this.$route.params.id);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getId(id) {
                 this.$vs.loading();
                 this.$store.dispatch('boleto/getId', id).then(response => {
                     this.campanha = {...response};
                 }).catch(erro => {
-                    console.log('front erro', erro.response);
                     //Redirecionando caso 404
                     if (erro.response.status == 404) this.$router.push({name: 'page-error-404', params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}});
                 }).finally(() => this.$vs.loading.close());
             },
             formatPrice(value) {
-                let val = (value / 1).toFixed(2).replace('.', ',')
-                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                let val = (value / 1).toFixed(2).replace('.', ',');
+                return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             },
 
           agendados() {
-            this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/agendados`});
+            this.$router.push({
+                name: 'campanha-config-boleto-agendados', params:{id:this.$route.params.id}});
           },
             historico() {
-                this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/historico-envios`})
+                this.$router.push({
+                    name: 'campanha-config-boleto-historico', params:{id:this.$route.params.id}});
             },
             contatos(val) {
-                this.$router.push({path: `/campanha/configurar-boleto/${this.$route.params.id}/contatos-${val}`});
+                this.$router.push({name: `campanha-config-boleto-contatos-${val}`, params:{id: this.$route.params.id}});
             },
         },
         computed: {
@@ -362,19 +359,10 @@
         },
         watch: {
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
-            },
-            produto: {
-                handler(val) {
-                    console.log('mudou');
-                    if (val) {
-                        console.log('watch', val);
-                    }
-                },
-                deep: true
+                this.routeTitle = this.$route.meta.pageTitle;
             },
         },
-    }
+    };
 </script>
 
 <style>

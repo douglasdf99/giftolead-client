@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import VueApexCharts from 'vue-apexcharts'
-import chartConfigs from "./chartConfigs.js"
-import _color from '@/assets/utils/color.js'
+import VueApexCharts from 'vue-apexcharts';
+import chartConfigs from "./chartConfigs.js";
+import _color from '@/assets/utils/color.js';
 
 export default{
     props: {
@@ -78,7 +78,7 @@ export default{
     data() {
       return {
         chartOptions: null
-      }
+      };
     },
     watch: {
         themePrimaryColor() {
@@ -97,7 +97,7 @@ export default{
               rgb = rgb.split(",");
               return "#" + ((1 << 24) + (Number(rgb[0]) << 16) + (Number(rgb[1]) << 8) + Number(rgb[2])).toString(16).slice(1);
             }
-            return color
+            return color;
         },
         gradientToColor(color) {
           let gradientToColors = {
@@ -105,9 +105,9 @@ export default{
             "success": "#55DD92",
             "warning": "#ffc085",
             "danger": "#F97794"
-          }
+          };
 
-          return gradientToColors[color] ? gradientToColors[color] : gradientToColors["primary"]
+          return gradientToColors[color] ? gradientToColors[color] : gradientToColors["primary"];
         }
     },
     components: {
@@ -116,7 +116,7 @@ export default{
     created() {
         if(this.type == 'area') {
             // assign chart options
-            this.chartOptions = Object.assign({}, chartConfigs.areaChartOptions)
+            this.chartOptions = Object.assign({}, chartConfigs.areaChartOptions);
 
             this.chartOptions['theme'] = {
                 monochrome: {
@@ -125,15 +125,15 @@ export default{
                     shadeTo: 'light',
                     shadeIntensity: 0.65
                 }
-            }
+            };
         }
         else if(this.type == "line") {
           // Assign chart options
-          this.chartOptions = JSON.parse(JSON.stringify(chartConfigs.lineChartOptions))
+          this.chartOptions = JSON.parse(JSON.stringify(chartConfigs.lineChartOptions));
 
-          this.chartOptions.fill.gradient.gradientToColors = [this.gradientToColor(this.colorTo || this.color)]
-          this.chartOptions.colors = [this.getHex(this.color)]
+          this.chartOptions.fill.gradient.gradientToColors = [this.gradientToColor(this.colorTo || this.color)];
+          this.chartOptions.colors = [this.getHex(this.color)];
         }
     }
-}
+};
 </script>

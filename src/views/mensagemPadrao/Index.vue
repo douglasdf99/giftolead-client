@@ -40,7 +40,7 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <div class="vx-row mt-20" v-if="items.length === 0">
+                <div class="vx-row mt-20 flex justify-center" v-if="items.length === 0">
                   <nenhum-registro/>
                 </div>
                 <div class="com-item" v-else>
@@ -57,7 +57,7 @@
                         <template slot-scope="{data}">
                             <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3 relative">
                                 <vs-td class="flex justify-center items-center relative w-full">
-                                    <vs-dropdown vs-trigger-click v-if="$acl.check('configuracao_mensagem_editar') || $acl.check('configuracao_mensagem_deletar')">
+                                    <vs-dropdown v-show="tr.company_id" vs-trigger-click v-if="$acl.check('configuracao_mensagem_editar') || $acl.check('configuracao_mensagem_deletar')">
                                         <vs-button radius color="#EDEDED" type="filled"
                                                    class="btn-more-icon relative botao-menu"
                                                    icon-pack="material-icons" icon="more_horiz"
@@ -122,10 +122,10 @@
                 },
                 currentx: 1
                 //items: {}
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
 
             this.getItems();
         },
@@ -134,17 +134,19 @@
                 this.$router.push({name: 'mensagem-padrao-criar'});
             },
             updateData(id) {
-                this.$router.push({path: '/configuracoes/mensagem-padrao/editar/' + id});
+                this.$router.push({
+                    name: 'mensagem-padrao-editar',params:{id}
+                });
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getItems() {
                 this.$store.dispatch('getVarios', {rota: 'mensagem_padraos', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {
@@ -162,16 +164,15 @@
                                 text: 'A Origem foi deletada com sucesso'
                             });
                             this.getItems();
-                        }).catch(erro => {
-                            console.log(erro)
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
               this.dados.page = 1;
@@ -181,14 +182,13 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
 
         },
@@ -203,5 +203,5 @@
             },*/
         },
 
-    }
+    };
 </script>

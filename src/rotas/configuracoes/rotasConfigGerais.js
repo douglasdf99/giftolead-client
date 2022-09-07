@@ -1,19 +1,18 @@
 import subRotaConfiguracoes from "../subRotaConfiguracoes";
 const rotasConfigGerais = [
     {
-        path: '/configuracoes/',
-        redirect: '/configuracoes/geral',
+        path: 'configuracoes/',
+        redirect: 'configuracoes/geral',
         rule: 'editor'
     },
     {
-        path: '/configuracoes/geral',
+        path: 'configuracoes/geral',
         name: 'configuracoes-geral',
         component: () => import('@/views/configuracoes/Geral.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', active: true},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', active: true},
             ],
             pageTitle: 'Configurações Gerais',
             rule: 'configuracao',
@@ -22,33 +21,15 @@ const rotasConfigGerais = [
             submenu: subRotaConfiguracoes
         },
     },
+    
     {
-        path: '/configuracoes/tickets',
-        name: 'configuracoes-tickets',
-        component: () => import('@/views/configuracoes/Tickets.vue'),
-        meta: {
-            breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Tickets', active: true},
-            ],
-            pageTitle: 'Configurações de Tickets',
-            rule: 'configuracao',
-            pai: 'configuracoes',
-            subTitle: 'Configurações',
-            subIcon: 'settings',
-            submenu: subRotaConfiguracoes
-        },
-    },
-    {
-        path: '/configuracoes/meu-plano',
+        path: 'configuracoes/meu-plano',
         name: 'meu-plano',
         component: () => import('@/views/meuPlano/Show.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Meus plano', active: true},
             ],
             pageTitle: 'Meu plano',
@@ -60,14 +41,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/empresa',
+        path: 'configuracoes/empresa',
         name: 'dados-empresa',
         component: () => import('@/views/empresa/Show.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Dados da Empresa', active: true},
             ],
             pageTitle: 'Dados da Empresa',
@@ -79,14 +59,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/contas',
+        path: 'configuracoes/contas',
         name: 'contas',
         component: () => import('@/views/contas/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Contas', active: true},
             ],
             pageTitle: 'Contas',
@@ -98,33 +77,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/brindes',
-        name: 'brindes',
-        component: () => import('@/views/brindes/Index.vue'),
-        meta: {
-            breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
-                {title: 'Brindes', active: true},
-            ],
-            pageTitle: 'Brindes',
-            rule: 'configuracao_brinde',
-            pai: 'configuracoes',
-            subTitle: 'Configurações',
-            subIcon: 'settings',
-            submenu: subRotaConfiguracoes
-        },
-    },
-    {
-        path: '/configuracoes/produtos',
+        path: 'configuracoes/produtos',
         name: 'produtos',
         component: () => import('@/views/produtos/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Produtos', active: true},
             ],
             pageTitle: 'Produtos',
@@ -136,14 +95,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/produtos/criar',
+        path: 'configuracoes/produtos/criar',
         name: 'produto-criar',
         component: () => import('@/views/produtos/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Produtos', url: '/configuracoes/produtos'},
                 {title: 'Criar', active: true},
             ],
@@ -156,14 +114,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/produtos/editar/:id',
+        path: 'configuracoes/produtos/editar/:id',
         name: 'produto-editar',
         component: () => import('@/views/produtos/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Produtos', url: '/configuracoes/produtos'},
                 {title: 'Criar', active: true},
             ],
@@ -176,14 +133,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/links',
+        path: 'configuracoes/links',
         name: 'links',
         component: () => import('@/views/links/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Links', active: true},
             ],
             pageTitle: 'Configurações de links e ofertas',
@@ -195,14 +151,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/links/produto/:id',
+        path: 'configuracoes/links/produto/:id',
         name: 'links-produto',
         component: () => import('@/views/links/Lista.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Links', active: true},
             ],
             pageTitle: 'Configurações de links e ofertas',
@@ -214,14 +169,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/links/produto/:id/editar/:link',
+        path: 'configuracoes/links/produto/:id/editar/:link',
         name: 'links-produto-editar',
         component: () => import('@/views/links/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Links', url: '/configuracoes/links'},
                 {title: 'Editar', active: true},
             ],
@@ -234,14 +188,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/links/produto/:id/criar',
+        path: 'configuracoes/links/produto/:id/criar',
         name: 'links-produto-criar',
         component: () => import('@/views/links/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Links', url: '/configuracoes/links'},
                 {title: 'Criar', active: true},
             ],
@@ -254,14 +207,30 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/origens',
+        path: 'configuracoes/tickets',
+        name: 'configuracoes-tickets',
+        component: () => import('@/views/configuracoes/Tickets.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Tickets', active: true},
+            ],
+            pageTitle: 'Configurações de Tickets',
+            rule: 'configuracao',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subRotaConfiguracoes
+        },
+    },
+    {
+        path: 'configuracoes/origens',
         name: 'origens',
         component: () => import('@/views/origens/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Tickets', url: '/configuracoes/tickets'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Tickets', url: 'configuracoes-tickets'},
                 {title: 'Origens', active: true},
             ],
             pageTitle: 'Origens',
@@ -273,14 +242,14 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/tipo-de-duvida',
+        path: 'configuracoes/tipo-de-duvida',
         name: 'TipoDeDuvida',
         component: () => import('@/views/tipoDuvida/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Tickets', url: '/configuracoes/tickets'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
+                {title: 'Configurações de Tickets', url: 'configuracoes-tickets'},
                 {title: 'Tipo de Dúvidas', active: true},
             ],
             pageTitle: 'Tipo de Dúvidas',
@@ -292,14 +261,14 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/motivo-de-perda',
+        path: 'configuracoes/motivo-de-perda',
         name: 'motivoDePerda',
         component: () => import('@/views/motivoPerda/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Tickets', url: '/configuracoes/tickets'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
+                {title: 'Configurações de Tickets', url: 'configuracoes-tickets'},
                 {title: 'Motivo de Perda', active: true},
             ],
             pageTitle: 'Motivo de Perda',
@@ -311,14 +280,14 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/status-de-finalizacao',
+        path: 'configuracoes/status-de-finalizacao',
         name: 'statusDeFinalizacao',
         component: () => import('@/views/statusFinalizacao/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Tickets', url: '/configuracoes/tickets'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
+                {title: 'Configurações de Tickets', url: 'configuracoes-tickets'},
                 {title: 'Status de Finalização', active: true},
             ],
             pageTitle: 'Status de Finalização',
@@ -330,14 +299,14 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/mensagem-padrao',
+        path: 'configuracoes/mensagem-padrao',
         name: 'mensagem-padrao',
         component: () => import('@/views/mensagemPadrao/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Tickets', url: '/configuracoes/tickets'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
+                {title: 'Configurações de Tickets', url: 'configuracoes-tickets'},
                 {title: 'Mensagem Padrão', active: true},
             ],
             pageTitle: 'Mensagem Padrão',
@@ -349,14 +318,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/mensagem-padrao/criar',
+        path: 'configuracoes/mensagem-padrao/criar',
         name: 'mensagem-padrao-criar',
         component: () => import('@/views/mensagemPadrao/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Mensagem Padrão', url: '/configuracoes/mensagem-padrao'},
                 {title: 'Criar', active: true},
             ],
@@ -369,14 +337,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/mensagem-padrao/editar/:id',
+        path: 'configuracoes/mensagem-padrao/editar/:id',
         name: 'mensagem-padrao-editar',
         component: () => import('@/views/mensagemPadrao/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Mensagem Padrão', url: '/configuracoes/mensagem-padrao'},
                 {title: 'Criar', active: true},
             ],
@@ -389,13 +356,13 @@ const rotasConfigGerais = [
         },
     },
     {
-        path: '/configuracoes/notificacoes',
+        path: 'configuracoes/notificacoes',
         name: 'notificacoes',
         component: () => import('@/views/configuracoes/Notificacoes.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações Gerais', url: 'configuracoes-geral'},
                 {title: 'Notificações', active: true},
             ],
             pageTitle: 'Notificações',
@@ -408,4 +375,4 @@ const rotasConfigGerais = [
     },
 ];
 
-export default rotasConfigGerais
+export default rotasConfigGerais;

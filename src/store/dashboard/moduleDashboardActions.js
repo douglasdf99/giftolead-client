@@ -8,18 +8,19 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios,  {changeBaseUrl}  from "@/axios.js";
 
 export default {
-    getData({commit}, dados){
+    getData(_, dados) {
         return new Promise((resolve, reject) => {
+            changeBaseUrl();
             axios.get(`dashboard/${dados.rota}`, {params: dados.params})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 const data = {
   users: [
@@ -648,7 +648,7 @@ const data = {
     },
 
   ]
-}
+};
 
 
 mock.onGet("/api/user-management/users").reply(() => {
@@ -658,12 +658,12 @@ mock.onGet("/api/user-management/users").reply(() => {
 // GET: Fetch Single User Details
 mock.onGet(/\/api\/user-management\/users\/\d+/).reply((request) => {
 
-  const userId = request.url.substring(request.url.lastIndexOf("/")+1)
+  const userId = request.url.substring(request.url.lastIndexOf("/")+1);
 
-  let user = data.users.find((user) => user.id == userId)
+  let user = data.users.find((user) => user.id == userId);
 
-  return user ? [200, JSON.parse(JSON.stringify(user))] : [404]
-})
+  return user ? [200, JSON.parse(JSON.stringify(user))] : [404];
+});
 
 // // POST : Add new Item
 // mock.onPost("/api/data-list/products/").reply((request) => {
@@ -697,9 +697,9 @@ mock.onGet(/\/api\/user-management\/users\/\d+/).reply((request) => {
 // // DELETE: Remove Item
 mock.onDelete(/\/api\/user-management\/users\/\d+/).reply((request) => {
 
-  const userId = request.url.substring(request.url.lastIndexOf("/")+1)
+  const userId = request.url.substring(request.url.lastIndexOf("/")+1);
 
-  const itemIndex = data.users.findIndex((p) => p.id == userId)
-  data.users.splice(itemIndex, 1)
-  return [200]
-})
+  const itemIndex = data.users.findIndex((p) => p.id == userId);
+  data.users.splice(itemIndex, 1);
+  return [200];
+});

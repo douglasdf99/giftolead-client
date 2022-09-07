@@ -1,7 +1,7 @@
 <template>
     <div>
         <nenhum-registro class="mt-20" :add="false" module="Link" v-if="items.length === 0"/>
-        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="item in items">
+        <div v-else class="vx-row bg-white p-4 my-5 rounded-lg" v-for="(item, index) in items" :key="index">
             <div class="vx-col w-3/12">
                 <p>{{ item.id }}</p>
                 <p class="destaque text-lg">{{ item.ticket.lead.nome }}</p>
@@ -44,7 +44,7 @@ export default {
     data() {
         return {
             currentx: 1,
-        }
+        };
     },
     methods: {
         nameCriador(obj) {
@@ -56,7 +56,7 @@ export default {
             }
         }
     }
-}
+};
 </script>
 
 <style scoped>

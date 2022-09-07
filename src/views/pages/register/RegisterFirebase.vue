@@ -60,7 +60,7 @@ export default {
             password: '',
             confirm_password: '',
             isTermsConditionAccepted: true
-        }
+        };
     },
     computed: {
         validateForm() {
@@ -81,15 +81,15 @@ export default {
               iconPack: 'feather',
               icon: 'icon-alert-circle',
               color: 'warning'
-            })
+            });
 
-            return false
+            return false;
           }
-          return true
+          return true;
         },
         registerUser() {
             // If form is not validated or user is already login return
-            if (!this.validateForm || !this.checkLogin()) return
+            if (!this.validateForm || !this.checkLogin()) return;
 
             const payload = {
               userDetails: {
@@ -99,9 +99,9 @@ export default {
                 confirmPassword: this.confirm_password
               },
               notify: this.$vs.notify
-            }
-            this.$store.dispatch('auth/registerUser', payload)
+            };
+            this.$store.dispatch('auth/registerUser', payload);
         }
     }
-}
+};
 </script>

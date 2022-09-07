@@ -50,6 +50,29 @@
   }
 }
 
+.not-finished-config {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 201;
+    inset: 1px;
+    opacity: 0.95;
+    backdrop-filter: blur(7px);
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+}
+
+.input-error {
+    border: 2px solid rgba(var(--vs-danger), 1);
+    border-radius: 7px;
+}
+
 
 // ======================================================================================
 // BLUR
@@ -424,8 +447,8 @@
   border-color: $white;
 }
 
-.d-theme-border-grey-light {
-  // @apply border-grey-light;
+.d-theme-border-gray-light {
+  // @apply border-gray-light;
   border-color: #dae1e7;
 }
 
@@ -456,7 +479,7 @@
     color: $content-color;
   }
 
-  .d-theme-border-grey-light,
+  .d-theme-border-gray-light,
   .d-theme-dark-border {
     border-color: $theme-dark-border-color;
   }
@@ -526,6 +549,6 @@
 
 ul.bordered-items {
   &>li:not(:last-of-type):not([class*='shadow']) {
-    border-bottom: 1px solid $grey-light;
+    border-bottom: 1px solid $gray-light;
   }
 }

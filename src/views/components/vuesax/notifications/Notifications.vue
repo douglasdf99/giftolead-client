@@ -22,11 +22,11 @@
 </template>
 
 <script>
-import NotificationsDefault from './NotificationsDefault.vue'
-import NotificationsPosition from './NotificationsPosition.vue'
-import NotificationsIcon from './NotificationsIcon.vue'
-import NotificationsFixedAndFunctionClick from './NotificationsFixedAndFunctionClick.vue'
-import NotificationsTime from './NotificationsTime.vue'
+import NotificationsDefault from './NotificationsDefault.vue';
+import NotificationsPosition from './NotificationsPosition.vue';
+import NotificationsIcon from './NotificationsIcon.vue';
+import NotificationsFixedAndFunctionClick from './NotificationsFixedAndFunctionClick.vue';
+import NotificationsTime from './NotificationsTime.vue';
 
 export default{
     components: {
@@ -36,5 +36,5 @@ export default{
         NotificationsFixedAndFunctionClick,
         NotificationsTime,
     }
-}
+};
 </script>

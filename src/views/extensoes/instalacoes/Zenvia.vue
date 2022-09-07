@@ -97,7 +97,7 @@
                         <template slot-scope="{data}">
                           <vs-tr :key="indextr" v-for="(tr, indextr) in data" class="mb-3">
                             <vs-td>
-                              <vs-chip v-for="(status, index) in zenviaStatus" v-if="index === tr.status_geral"
+                              <vs-chip v-for="(status, index) in zenviaStatus" :key="index" v-show="index === tr.status_geral"
                                        :color="status[1]" class="product-order-status">
                                 {{ status[0] }}
                               </vs-chip>
@@ -196,7 +196,7 @@
                             <vs-td>{{ tr.login }}</vs-td>
                             <vs-td v-if="showUser(tr.ramal)">
                               <div class="avatar-list"
-                                   v-bind:style="{backgroundImage: 'url(' + get_img_api(showUser(tr.ramal)) + ')'}"></div>
+                                   v-bind:style="{backgroundImage: 'url(' + get_img_cdn(showUser(tr.ramal)) + ')'}"></div>
                             </vs-td>
                             <vs-td v-else>
                               <vs-chip>Nenhum usuario vinculado</vs-chip>
@@ -374,7 +374,7 @@ import * as lang from 'vuejs-datepicker/src/locale';
 import DateRangePicker from 'vue2-daterange-picker';
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
 const moment = require('moment/moment');
@@ -456,25 +456,25 @@ export default {
       },
       selectedUser: {id: null, label: 'Selecione o responsável pelo ramal'},
       usersall: []
-    }
+    };
   },
   created() {
     if (!moduleExtensoes.isRegistered) {
-      this.$store.registerModule('extensoes', moduleExtensoes)
-      moduleExtensoes.isRegistered = true
+      this.$store.registerModule('extensoes', moduleExtensoes);
+      moduleExtensoes.isRegistered = true;
     }
 
     if (!moduleUsuario.isRegistered) {
-      this.$store.registerModule('users', moduleUsuario)
-      moduleUsuario.isRegistered = true
+      this.$store.registerModule('users', moduleUsuario);
+      moduleUsuario.isRegistered = true;
     }
 
     this.dados.dt_inicio = moment().subtract(1, 'days').format('YYYY-MM-DD');
     this.dados.dt_fim = moment().format('YYYY-MM-DD');
-    this.dateRange.startDate = moment().subtract(1, 'days')
+    this.dateRange.startDate = moment().subtract(1, 'days');
     this.dateRange.endDate = moment();
   },
-  mounted(){
+  mounted() {
     this.verifica();
   },
   computed: {
@@ -492,10 +492,9 @@ export default {
       let avatar = false;
       this.usersall.forEach(val => {
         if (val.ramal == ramal)
-          avatar = val.avatar
+          avatar = val.avatar;
       });
-      console.log('avatar', avatar);
-      return avatar
+      return avatar;
     },
     getUserId(ramal) {
       let id = '';
@@ -503,7 +502,7 @@ export default {
         if (val.ramal == ramal)
           id = val.id;
       });
-      return id
+      return id;
     },
     async verifica() {
       this.dados.subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'hotmart';
@@ -524,7 +523,7 @@ export default {
           this.$vs.loading.close();
         }
       }).finally(()=>{
-        this.$vs.loading.close("#cards-zenvia-instalar > .con-vs-loading")
+        this.$vs.loading.close("#cards-zenvia-instalar > .con-vs-loading");
       });
     },
     async getHistorico() {
@@ -557,8 +556,8 @@ export default {
         this.pagination.total = Math.round(response.chamadas.dados.total / response.chamadas.dados.limite);
         this.getUsers();
       }).finally(()=>{
-        this.$vs.loading.close("#cards-zenvia-conteudo-geral > .con-vs-loading")
-      })
+        this.$vs.loading.close("#cards-zenvia-conteudo-geral > .con-vs-loading");
+      });
 
     },
     setDate(val) {
@@ -580,16 +579,15 @@ export default {
     },
     getDay(dia) {
       //Definindo datas usadas nos ranges padronizados
-      let today = new Date()
-      today.setHours(0, 0, 0, 0)
+      let today = new Date();
+      today.setHours(0, 0, 0, 0);
 
-      let yesterday = new Date()
-      yesterday.setDate(today.getDate() - 1)
+      let yesterday = new Date();
+      yesterday.setDate(today.getDate() - 1);
       yesterday.setHours(0, 0, 0, 0);
-      return (dia ? today : yesterday)
+      return (dia ? today : yesterday);
     },
     ativaExtensao() {
-      console.log(this.countSwitch)
       if (this.countSwitch === 3) {
         this.extensao.ativo = !this.extensao.ativo;
         this.$vs.notify({
@@ -620,8 +618,8 @@ export default {
             iconPack: 'feather',
             icon: 'icon-alert-circle',
             color: 'danger'
-          })
-        })
+          });
+        });
         this.countSwitch += 1;
       }
     },
@@ -640,18 +638,17 @@ export default {
               text: 'Instalado com sucesso'
             });
             this.verifica();
-          }).catch(erro => {
-            console.log(erro)
+          }).catch(() => {
             this.$vs.notify({
               color: 'danger',
               title: '',
               text: 'Algo deu errado ao instalar. Contate o suporte.'
-            })
+            });
           }).finally(()=>{
             this.$vs.loading.close();
-          })
+          });
         }
-      })
+      });
     },
 
     //Modal
@@ -663,7 +660,7 @@ export default {
         gravar_audio: '',
         bina_inteligente: null,
         ligacao_externa: ''
-      }
+      };
       this.val = obj;
       this.selectedUser = {id: null, label: 'Selecione o responsável pelo ramal'};
 
@@ -674,7 +671,7 @@ export default {
 
       this.usersall.forEach(val => {
         if (val.email_fake == obj.login || val.email == obj.login) {
-          this.selectedUser = {id: val.id, label: val.name}
+          this.selectedUser = {id: val.id, label: val.name};
         }
       });
 
@@ -682,7 +679,6 @@ export default {
     },
     getUsers() {
       this.$store.dispatch('users/get').then(response => {
-        console.log('usuarios', response);
         this.usersall = response;
       });
     },
@@ -691,8 +687,7 @@ export default {
       this.val.user_id = this.selectedUser.id;
       this.val.type = 'totalvoiceRamal';
       this.val.subdomain = this.dados.subdomain;
-      this.$store.dispatch('extensoes/storeRamal', this.val).then(response => {
-        console.log('retornou', response);
+      this.$store.dispatch('extensoes/storeRamal', this.val).then(() => {
         this.getHistorico();
         this.$vs.notify({
           title: '',
@@ -711,7 +706,7 @@ export default {
           icon: 'icon-alert-circle',
           color: 'danger'
         });
-      })
+      });
       this.$vs.loading.close();
     },
     updateRamal() {
@@ -724,8 +719,7 @@ export default {
         this.val.bina = 0;
       }
       this.val.subdomain = this.dados.subdomain;
-      this.$store.dispatch('extensoes/updateRamal', this.val).then(response => {
-        console.log('retornou', response);
+      this.$store.dispatch('extensoes/updateRamal', this.val).then(() => {
         this.$vs.loading.close();
 
         this.getHistorico();
@@ -738,7 +732,6 @@ export default {
         });
 
       }).catch((erro) => {
-          console.log(erro.response,'erro')
           this.$vs.loading.close();
           this.$vs.notify({
             title: '',
@@ -747,7 +740,7 @@ export default {
             icon: 'icon-alert-circle',
             color: 'danger'
           });
-        })
+        });
       this.$vs.loading.close();
     },
     deletar(id, user_id) {
@@ -772,16 +765,15 @@ export default {
               text: 'Deletado com sucesso'
             });
             this.verifica();
-          }).catch(erro => {
-            console.log(erro)
+          }).catch(() => {
             this.$vs.notify({
               color: 'danger',
               title: '',
               text: 'Algo deu errado no procedimento. Contate o suporte.'
-            })
-          })
+            });
+          });
         }
-      })
+      });
     },
   },
   watch: {
@@ -793,7 +785,7 @@ export default {
       this.getHistorico();
     },
   },
-}
+};
 </script>
 
 <style scoped>

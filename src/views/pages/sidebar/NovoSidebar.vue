@@ -1,13 +1,3 @@
-<!-- =========================================================================================
-    File Name: Sidebar.vue
-    Description: Sidebar - Imports all page portions
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-      Author: Pixinvent
-    Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
     <div id="sidebar-demo">
         <!--<sidebar-parent></sidebar-parent>-->
@@ -22,7 +12,7 @@
 
             <!-- Menu Items -->
             <ul id="MainMenu" v-if="menuAtivo">
-                <li v-for="item in navMenuItems" @click="ativarMenu(false, item)">
+                <li v-for="(item, index) in navMenuItems" :key="index" @click="ativarMenu(false, item)">
                     <vs-icon icon-pack="material-icons" :icon="item.icon"/>
                     <span class="menu-name">{{item.name}}</span>
                 </li>
@@ -53,10 +43,7 @@
         data() {
             return {
                 navMenuItems: navMenuItems,
-            }
-        },
-        created() {
-            console.log('items', navMenuItems)
+            };
         },
         methods: {
             ativarMenu(e, obj = null) {
@@ -80,7 +67,7 @@
                 return this.$store.state.menuAtivo;
             }
         }
-    }
+    };
 
 </script>
 

@@ -38,8 +38,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
 
     export default {
         props: {
@@ -60,16 +60,16 @@
                     empresa_id: 1,
                     nome: '',
                 },
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -79,19 +79,17 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
-                    return
+                    return;
                 } else {
-                    this.motivo.id = null
-                    this.motivo.nome = ''
+                    this.motivo.id = null;
+                    this.motivo.nome = '';
                 }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading()
+                        this.$vs.loading();
                         const obj = {...this.motivo};
                         if (this.motivo.id !== null && this.motivo.id >= 0) {
                             obj._method = 'PUT';
@@ -103,14 +101,14 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$store.dispatch('getVarios', {rota: 'tipo_de_perdas', params: {page: 1}}).then(() => {
+                                this.$store.dispatch('getVarios', {rota: 'tipo_de_perdas', params: {page: 1}}).finally(() => {
                                     this.$vs.loading.close();
                                 });
-                            }).catch(err => {
-                                console.error(err)
-                            })
+                            }).finally(() => {
+                           this.$vs.loading.close();
+                            });
                         } else {
-                            delete obj.id
+                            delete obj.id;
                             this.$store.dispatch("addItem", {rota: 'tipo_de_perdas', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -118,9 +116,9 @@
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
-                                })
-                                this.$store.dispatch('getVarios', {rota: 'tipo_de_perdas', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close()
+                                });
+                                this.$store.dispatch('getVarios', {rota: 'tipo_de_perdas', params: {page: 1}}).finally(() => {
+                                    this.$vs.loading.close();
                                 });
 
                             }).catch(error => {
@@ -130,14 +128,14 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
 
-                        this.$emit('closeSidebar')
-                        this.initValues()
+                        this.$emit('closeSidebar');
+                        this.initValues();
                     }
-                })
+                });
             },
         },
         components: {
@@ -148,9 +146,8 @@
             this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 this.motivo = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.motivo.integracao_id;
                 //this.selected = {id: this.motivo.integracao_id, label: this.motivo.integracao.descricao};
@@ -160,7 +157,7 @@
             this.getOpcoes();
 
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

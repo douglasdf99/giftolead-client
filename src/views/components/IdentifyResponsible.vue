@@ -11,8 +11,8 @@
              v-if="ticket.responsavel_type == 'App\\Models\\CampanhaAgendamento'">
         <img src="@/assets/images/util/cancelado.svg" width="40" class="ml-2 rounded-full"
              v-if="ticket.responsavel_type == 'App\\Models\\CampanhaCancelado'">
-        <img :src="null" width="40" class="ml-2 rounded-full" v-if="ticket.responsavel.avatar"
-             :style="{ backgroundImage: 'url('+get_img_api(ticket.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '60px', height:'60px' }">
+        <img :src="null" width="40" class="ml-4 rounded-full" v-if="ticket.responsavel.avatar"
+             :style="{ backgroundImage: 'url('+get_img_cdn(ticket.responsavel.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '50px', height:'50px' }">
     </div>
 </template>
 
@@ -20,7 +20,7 @@
 export default {
     name: "IdentifyResponsible",
     props: ['ticket']
-}
+};
 </script>
 
 <style scoped>

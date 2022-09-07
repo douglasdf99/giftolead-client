@@ -147,5 +147,5 @@ export default {
 		notExpand: false,
 		reduce: true
 	})
-}
+};
 </script>

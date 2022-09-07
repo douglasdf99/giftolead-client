@@ -54,12 +54,12 @@ export default {
       news: false,
       product_update: false,
       blog: true,
-    }
+    };
   },
   computed: {
     activeUserInfo() {
-      return this.$store.state.AppActiveUser
+      return this.$store.state.AppActiveUser;
     },
   }
-}
+};
 </script>

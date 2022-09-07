@@ -81,12 +81,5 @@
     export default {
         name: "Listagem",
         props: ['items'],
-    }
+    };
 </script>
-
-<style>
-  .vs-table--tbody {
-    z-index: 10 !important;
-    position: relative;
-  }
-</style>

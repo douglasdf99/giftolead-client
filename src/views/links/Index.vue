@@ -34,10 +34,9 @@
         </div>
         <vs-row>
             <vs-col vs-w="12">
-                <nenhum-registro class="mt-20" :add="true" module="Link" @addEvent="addNewData" v-show="items.length === 0"/>
+                <nenhum-registro class="mt-20" module="Link"  v-show="items.length === 0"/>
                 <div class="com-item" v-show="items.length > 0">
                     <vs-table :data="items" v-model="selected" @selected="handleSelected" class="table-items">
-
                         <template slot="thead">
                             <vs-th>Produto</vs-th>
                             <vs-th>Savelinks</vs-th>
@@ -45,18 +44,17 @@
 
                         <template slot-scope="{data}">
                             <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data" class="mb-3 cursor-pointer">
-                                <vs-td :data="data[indextr].nome" >
+                                <vs-td :data="data[indextr].nome">
                                   <vs-chip :color="data[indextr].cor" class="product-order-status" >
                                     <span class="destaque">{{ data[indextr].nome }}</span>
                                   </vs-chip>
                                 </vs-td>
-                                <vs-td :data="data[indextr].status" >
+                                <vs-td :data="data[indextr].status">
                                   <span class="destaque" v-if="data[indextr].links.length == 1">{{data[indextr].links.length}} link</span>
                                   <span class="destaque" v-else>{{data[indextr].links.length}} links</span>
                                 </vs-td>
                             </vs-tr>
                         </template>
-
                     </vs-table>
                     <vs-pagination class="mt-2" :total="pagination.last_page" v-model="currentx"></vs-pagination>
                 </div>
@@ -66,7 +64,7 @@
 </template>
 
 <script>
-    import moduleContas from '@/store/contas/moduleContas.js'
+    import moduleContas from '@/store/contas/moduleContas.js';
     import NenhumRegistro from "@/views/components/NenhumRegistro";
 
     export default {
@@ -98,37 +96,28 @@
                     masked: false /* doesn't work with directive */
                 },
                 //items: {}
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contas', moduleContas)
-                moduleContas.isRegistered = true
+                this.$store.registerModule('contas', moduleContas);
+                moduleContas.isRegistered = true;
             }
             this.getProdutos(this.$route.params.id);
         },
         methods: {
             handleSelected(tr) {
-              this.$router.push({path: '/configuracoes/links/produto/' + tr.id});
-            },
-            addNewData() {
-                this.$router.push({name: 'produto-criar'});
-            },
-            updateData(id) {
-
-                this.$router.push({path: '/configuracoes/links/produto/' + id});
+              this.$router.push({name: 'links-produto', params:{id: tr.id}});
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getProdutos() {
 
                 this.$store.dispatch('getVarios', {rota: 'produtos', params: this.dados}).then(response => {
                     this.pagination = response;
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {
@@ -146,15 +135,15 @@
                                 text: 'A URL foi deletada com sucesso'
                             });
                             this.getProdutos();
-                        }).catch(erro => {
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
               this.dados.page = 1;
@@ -164,13 +153,13 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
                 this.dados.page = this.currentx;
                 this.getProdutos();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
         },
 
@@ -184,7 +173,7 @@
             },*/
         },
 
-    }
+    };
 </script>
 <style scoped>
   .con-vs-chip {

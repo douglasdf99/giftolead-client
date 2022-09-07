@@ -43,6 +43,8 @@ View the full documentation at https://tailwindcss.com.
 |
 */
 
+const colors = require('./src/util/colors');
+
 module.exports = {
 
   important: true,
@@ -66,10 +68,8 @@ module.exports = {
 
     colors: {
       'transparent': 'transparent',
-      'black': '#22292f',
-      'white': '#ffffff',
-      'grey': '#b8c2cc',
-      'grey-light': '#dae1e7',
+      ...colors,
+      'gray-light': '#dae1e7',
     },
 
     /*
@@ -371,7 +371,7 @@ module.exports = {
     */
 
     borderColor: theme => ({
-      default: theme('colors.grey-light'),
+      default: theme('colors.gray-light'),
       ...theme('colors'),
     }),
 
@@ -885,4 +885,4 @@ module.exports = {
     listStyleType: false,
   }
 
-}
+};

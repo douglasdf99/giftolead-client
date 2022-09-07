@@ -56,7 +56,7 @@ export default {
         return {
             colorx:"#def1d1",
             popupActive: false,
-        }
+        };
     }
-}
+};
 </script>

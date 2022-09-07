@@ -108,8 +108,7 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import SideBar from './SideBar';
 
     export default {
         name: "Index",
@@ -131,10 +130,10 @@
                 },
                 currentx: 1
                 //items: {}
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             // if (!moduleBrindes.isRegistered) {
             //     this.$store.registerModule('brindes', moduleBrindes)
             //   moduleBrindes.isRegistered = true
@@ -147,23 +146,20 @@
                 this.currentx = 1;
             },
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getBrindes() {
                 this.$store.dispatch('getVarios', {rota: 'embalagems', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
                     this.pagination = response;
-                    //this.items = response.data
-                    //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
+                    this.$vs.loading.close();
                 });
             },
             deletar(id) {
@@ -181,16 +177,15 @@
                                 text: 'Deletado com sucesso'
                             });
                             this.getBrindes();
-                        }).catch(erro => {
-                            console.log(erro)
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
                                 text: 'Algo deu errado ao deletar o registro. Contate o suporte.'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
               this.dados.page = 1;
@@ -200,26 +195,20 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getBrindes();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
         },
-
         computed: {
-
             items() {
                 return this.$store.state.items;
             },
-            /*pagination() {
-                return this.$store.state.pagination;
-            },*/
         },
 
-    }
+    };
 </script>

@@ -85,21 +85,21 @@ export default {
     }),
     methods: {
         openAlert(color) {
-            this.colorAlert = color
+            this.colorAlert = color;
             this.$vs.dialog({
                 color: this.colorAlert,
                 title: `Dialog - ${this.colorAlert}`,
                 text: 'I love soufflé lollipop liquorice wafer jelly-o halvah sesame snaps. Pastry chocolate cake jelly-o carrot cake jelly topping croissant ice cream.',
                 accept: this.acceptAlert
-            })
+            });
         },
         acceptAlert() {
             this.$vs.notify({
                 color: this.colorAlert,
                 title: 'Accept Selected',
                 text: 'Gingerbread soufflé biscuit oat cake.'
-            })
+            });
         }
     }
-}
+};
 </script>

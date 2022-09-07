@@ -1,18 +1,20 @@
 <template>
     <div>
         <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="closeSidebar" :data="listaSms" rota="boleto"/>
-        <div class="vx-row mt-10" v-if="sms.length > 0">
+        <!-- <div class="vx-row mt-10" v-if="sms.length > 0">
             <div class="vx-col w-full float-right">
                 <vs-button color="primary" class="float-right botao-incluir" type="filled" @click="organizar">
                     <vs-icon icon-pack="material-icons" icon="check_circle" class="icon-grande"></vs-icon>
                     Reorganizar SMS
                 </vs-button>
             </div>
-        </div>
+        </div> -->
         <div class="vx-row mt-10">
             <div class="vx-col col-conquista mb-10">
                 <div class="conquista nova cursor-pointer"
-                     @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id + '/sms/criar'})">
+                     @click="$router.push({
+                        name: 'campanha-config-boleto-sms-criar', params:{id:$route.params.id}
+                        })">
                     <div class="img-plus cursor-pointer">
                         <i class="material-icons">add</i>
                     </div>
@@ -21,7 +23,7 @@
                     </p>
                 </div>
             </div>
-            <div class="vx-col col-conquista mb-10" v-for="(msg, index) in sms">
+            <div class="vx-col col-conquista mb-10" v-for="(msg, index) in sms" :key="index">
                 <div class="conquista" style="cursor: default !important" v-bind:style="{opacity: (msg.status ? '' : '.5')}" v-bind:class="{'desativado': !msg.status}">
                     <div class="py-2 w-full flex justify-between">
                         <vs-button type="border" color="danger" icon-pack="feather" icon="icon-trash" @click="deletar(msg.id)"></vs-button>
@@ -35,7 +37,9 @@
                         </p>
                     </div>
                     <vs-button color="primary" type="border" class="font-bold"
-                               @click="$router.push({path: '/campanha/configurar-boleto/' + msg.campanha_id + '/sms/editar/' + msg.id})">
+                               @click="$router.push({name: 'campanha-config-boleto-sms-editar', params:{
+                                id: msg.campanha_id, idEmail: msg.id}
+                                })">
                         Editar tentativa
                     </vs-button>
                 </div>
@@ -45,7 +49,8 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id})">
+                               @click="$router.push({
+                                name: 'campanha-configurar-boleto', params:{id:$route.params.id }})">
                         Voltar
                     </vs-button>
                 </div>
@@ -55,8 +60,8 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
-import SideBar from '../Reorganizar'
+import vSelect from 'vue-select';
+import SideBar from '../Reorganizar';
 import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
 
 export default {
@@ -67,8 +72,8 @@ export default {
     },
     created() {
         if (!moduleCampBoletos.isRegistered) {
-            this.$store.registerModule('boleto', moduleCampBoletos)
-            moduleCampBoletos.isRegistered = true
+            this.$store.registerModule('boleto', moduleCampBoletos);
+            moduleCampBoletos.isRegistered = true;
         }
         this.getId(this.$route.params.id);
     },
@@ -84,20 +89,19 @@ export default {
             listaSms: [],
             countSwitch: [],
             addNewDataSidebar: false
-        }
+        };
     },
     methods: {
         organizar() {
             this.listaSms = [...this.sms];
-            this.toggleDataSidebar(true)
+            this.toggleDataSidebar(true);
         },
         closeSidebar() {
-            console.log('ah mano')
             this.toggleDataSidebar();
-            this.getId(this.$route.params.id)
+            this.getId(this.$route.params.id);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getId(id) {
             this.$vs.loading();
@@ -120,21 +124,19 @@ export default {
                             text: 'Deletado com sucesso'
                         });
                         this.getId(this.$route.params.id);
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
-                        })
+                        });
                     }).finally(() => {
                         this.$vs.loading.close();
-                    })
+                    });
                 }
-            })
+            });
         },
         ativaEmail(e) {
-            console.log(this.countSwitch)
             if (this.countSwitch[e.id] !== undefined && this.countSwitch[e.id] === 3) {
                 e.status = !e.status;
                 this.$vs.notify({
@@ -145,7 +147,6 @@ export default {
                     color: 'danger'
                 });
             } else {
-                console.log(e)
                 const formData = new FormData();
                 let ativo = e.status ? 0 : 1;
                 let text = e.status ? 'Desativada' : 'Ativada';
@@ -167,8 +168,8 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
-                })
+                    });
+                });
                 this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
             }
         }
@@ -180,19 +181,10 @@ export default {
     },
     watch: {
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
+            this.routeTitle = this.$route.meta.pageTitle;
         },
     },
-}
+};
 </script>
 
 <style>

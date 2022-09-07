@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 const data = {
   pixinvent_product_1: {
@@ -103,7 +103,7 @@ const data = {
       sources: [ { type: "video/mp4", src: "http://vjs.zencdn.net/v/oceans.mp4" } ],
       poster: 'https://goo.gl/xcCsDd',
   }
-}
+};
 
 mock.onGet("/api/users/pixinvent/product/1").reply(() => {
   return [200, data.pixinvent_product_1];

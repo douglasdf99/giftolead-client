@@ -75,7 +75,7 @@ export default {
                 'Vuejs',
                 'Vuexy',
             ],
-        }
+        };
     },
     methods: {
         reset() {
@@ -85,11 +85,11 @@ export default {
                 'Behance',
                 'Vuejs',
                 'Vuexy',
-            ]
+            ];
         },
         remove(item) {
-            this.chips.splice(this.chips.indexOf(item), 1)
+            this.chips.splice(this.chips.indexOf(item), 1);
         }
     }
-}
+};
 </script>

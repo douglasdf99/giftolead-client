@@ -9,10 +9,9 @@
 
 export default {
   SET_EMPRESA(state, empresa) {
-    console.log('colocando emrepsa no state');
-    state.empresa = empresa
+    state.empresa = empresa;
   },
   UPDATE_EMPRESA(state, empresa) {
-    state.empresa = empresa
+    state.empresa = empresa;
   }
-}
+};

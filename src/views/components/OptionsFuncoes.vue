@@ -29,18 +29,18 @@ export default {
     data() {
         return {
             retorno: null
-        }
+        };
     },
     created() {
         this.retorno = this.option;
     },
     watch: {
         retorno(val) {
-            this.$emit('update:option', val)
+            this.$emit('update:option', val);
         }
     }
 
-}
+};
 </script>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

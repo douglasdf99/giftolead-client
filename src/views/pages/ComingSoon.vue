@@ -64,18 +64,18 @@
 
 
 <script>
-import VueCountdown from '@chenfengyuan/vue-countdown'
+import VueCountdown from '@chenfengyuan/vue-countdown';
 
 export default {
   data() {
     return {
       value1: ''
-    }
+    };
   },
   components: {
     'countdown': VueCountdown
   }
-}
+};
 
 </script>
 

@@ -9,11 +9,11 @@
 
 <template>
     <div id="component-chat-log" class="m-8" v-if="chatData">
-        <div v-for="(msg, index) in chatData.msg" class="msg-grp-container">
+        <div v-for="(msg, index) in chatData.msg" class="msg-grp-container" :key="index">
             <div class="flex items-start" :class="[{'flex-row-reverse' : msg.isSent}]">
                 <template>
                     <vs-avatar size="40px" class="border-2 shadow border-solid border-white m-0 flex-shrink-0" :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
-                               :src="msg.isSent ? get_img_api(msg.avatar) : msg.photoURL"></vs-avatar>
+                               :src="msg.isSent ? get_img_cdn(msg.avatar) : msg.photoURL"></vs-avatar>
                 </template>
 
                 <template v-if="chatData.msg[index-1]">
@@ -22,7 +22,7 @@
                 </template>
 
                 <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-4 rounded-lg max-w-sm"
-                     :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
+                     :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-gray-light bg-white': !msg.isSent}">
                     <span>{{ msg.textContent }}</span>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 /*chatData: {
                     msg: []
                 }*/
-            }
+            };
         },
         created() {
             this.$store.dispatch('tickets/emptyChat');
@@ -60,20 +60,20 @@
             },
             senderImg() {
                 return (isSentByActiveUser) => {
-                    if (isSentByActiveUser) return this.$store.state.AppActiveUser.photoURL
-                    else return this.$store.getters['chat/contact'](this.userId).photoURL
-                }
+                    if (isSentByActiveUser) return this.$store.state.AppActiveUser.photoURL;
+                    else return this.$store.getters['chat/contact'](this.userId).photoURL;
+                };
             },
             hasSentPreviousMsg() {
-                return (last_sender, current_sender) => last_sender == current_sender
+                return (last_sender, current_sender) => last_sender == current_sender;
             },
-            chatData(){
+            chatData() {
                 return this.$store.state.tickets.chatData;
             }
         },
         methods: {
             isSameDay(time_to, time_from) {
-                const date_time_to = new Date(Date.parse(time_to))
+                const date_time_to = new Date(Date.parse(time_to));
                 const date_time_from = new Date(Date.parse(time_from));
                 return date_time_to.getFullYear() === date_time_from.getFullYear() &&
                     date_time_to.getMonth() === date_time_from.getMonth() &&
@@ -89,7 +89,7 @@
             },
             scrollToBottom() {
                 this.$nextTick(() => {
-                    this.$parent.$el.scrollTop = this.$parent.$el.scrollHeight
+                    this.$parent.$el.scrollTop = this.$parent.$el.scrollHeight;
                 });
             }
         },
@@ -99,5 +99,5 @@
         mounted() {
             this.scrollToBottom();
         }
-    }
+    };
 </script>

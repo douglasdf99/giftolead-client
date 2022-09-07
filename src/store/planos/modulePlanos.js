@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './modulePlanoState.js'
-import mutations from './modulePlanoMutations.js'
-import actions from './modulePlanoActions.js'
-import getters from './modulePlanoGetters.js'
+import state from './modulePlanoState.js';
+import mutations from './modulePlanoMutations.js';
+import actions from './modulePlanoActions.js';
+import getters from './modulePlanoGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

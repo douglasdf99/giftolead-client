@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleContasState.js'
-import mutations from './moduleContasMutations.js'
-import actions from './moduleContasActions.js'
-import getters from './moduleContasGetters.js'
+import state from './moduleContasState.js';
+import mutations from './moduleContasMutations.js';
+import actions from './moduleContasActions.js';
+import getters from './moduleContasGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

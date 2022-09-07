@@ -51,9 +51,9 @@
 </template>
 
 <script>
-  import vSelect from 'vue-select'
-  import moduleProdutos from '@/store/produtos/moduleProdutos.js'
-  import modulePlanos from '@/store/planos/modulePlanos.js'
+  import vSelect from 'vue-select';
+  import moduleProdutos from '@/store/produtos/moduleProdutos.js';
+  import modulePlanos from '@/store/planos/modulePlanos.js';
   import {Validator} from 'vee-validate';
   import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -72,12 +72,12 @@
     },
     created() {
       if (!moduleProdutos.isRegistered) {
-        this.$store.registerModule('produtos', moduleProdutos)
-        moduleProdutos.isRegistered = true
+        this.$store.registerModule('produtos', moduleProdutos);
+        moduleProdutos.isRegistered = true;
       }
       if (!modulePlanos.isRegistered) {
-        this.$store.registerModule('planos', modulePlanos)
-        modulePlanos.isRegistered = true
+        this.$store.registerModule('planos', modulePlanos);
+        modulePlanos.isRegistered = true;
       }
 
       if (this.$route.name === 'planos-editar') {
@@ -91,7 +91,7 @@
           status: true,
         },
         url: saveleadsConfig.url_api,
-      }
+      };
     },
     methods: {
       salvar() {
@@ -99,7 +99,6 @@
           if (result) {
             this.$vs.loading();
             this.$store.dispatch('planos/store', this.plano).then(response => {
-              console.log('response', response);
               this.$vs.notify({
                 title: 'Sucesso',
                 text: "O produto foi criado com sucesso.",
@@ -107,7 +106,8 @@
                 icon: 'icon-check-circle',
                 color: 'success'
               });
-              this.$router.push({path: '/planos/gerenciar/' + response.data.data.id});
+              this.$router.push({
+                name: 'planos-gerenciar' , params:{plan_id: response.data.data.id}});
             }).catch(erro => {
               this.$vs.notify({
                 title: 'Error',
@@ -115,10 +115,10 @@
                 iconPack: 'feather',
                 icon: 'icon-alert-circle',
                 color: 'danger'
-              })
+              });
             }).finally(()=>{
               this.$vs.loading.close();
-            })
+            });
           } else {
             this.$vs.notify({
               title: 'Error',
@@ -126,22 +126,21 @@
               iconPack: 'feather',
               icon: 'icon-alert-circle',
               color: 'danger'
-            })
+            });
           }
-        })
+        });
 
       },
       selecionaTipoComissao(val) {
         this.plano.comissao_tipo = val;
-        console.log(this.plano.comissao_tipo)
       },
       getPlano(id) {
-        this.$vs.loading()
+        this.$vs.loading();
         this.$store.dispatch('planos/getId', id).then(data => {
           this.plano = {...data};
           this.$vs.loading.close();
 
-        })
+        });
       },
       copyText() {
         const thisIns = this;
@@ -152,7 +151,7 @@
             color: 'success',
             iconPack: 'feather',
             icon: 'icon-check-circle'
-          })
+          });
         }, function () {
           thisIns.$vs.notify({
             title: 'Failed',
@@ -161,8 +160,8 @@
             iconPack: 'feather',
             position: 'top-center',
             icon: 'icon-alert-circle'
-          })
-        })
+          });
+        });
       }
     },
     computed: {
@@ -172,19 +171,10 @@
     },
     watch: {
       "$route"() {
-        this.routeTitle = this.$route.meta.pageTitle
-      },
-      plano: {
-        handler(val) {
-          console.log('mudou');
-          if (val) {
-            console.log('watch', val);
-          }
-        },
-        deep: true
+        this.routeTitle = this.$route.meta.pageTitle;
       },
     },
-  }
+  };
 </script>
 
 <style>

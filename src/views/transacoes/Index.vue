@@ -1,7 +1,6 @@
 <template>
     <div>
-        <side-bar v-show="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <side-bar v-show="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-end">
             <div class="vx-col w-full lg:w-6/12">
                 <p>Resultado da busca considerando o período: <span
@@ -62,7 +61,7 @@
                           :options="lengths"/>-->
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
                     <div
-                        class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                        class="p-4 border border-solid d-theme-border-gray-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
             <span class="mr-2">{{
                     currentx * dados.length - (dados.length - 1)
                 }} - {{ pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total }} de {{
@@ -72,7 +71,7 @@
                     </div>
                     <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
                     <vs-dropdown-menu>
-                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                        <vs-dropdown-item v-for="(item, index) in lengths" :key="index" @click="dados.length = item">
                             <span>{{ item }}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -92,7 +91,8 @@
                             <vs-th>Transação</vs-th>
                             <vs-th>Lead</vs-th>
                             <vs-th>Produto</vs-th>
-                            <vs-th>Data e Hora</vs-th>
+                            <vs-th>Criado em</vs-th>
+                            <vs-th>Modificado em</vs-th>
                             <vs-th>Comissão do Hotmart</vs-th>
                             <vs-th>Comissão Cadastrada</vs-th>
                             <vs-th>Status</vs-th>
@@ -106,7 +106,7 @@
 
                                 </vs-td>
                                 <vs-td :data="tr.lead.nome" class="cursor-pointer">
-                                    <router-link :to="{name: 'leads-detalhe', params: {id: tr.lead.id}}">{{
+                                    <router-link :to="{name: 'leads-detalhe', params: {id: tr.lead.id}}" target="_blank">{{
                                             tr.lead.nome
                                         }}
                                     </router-link>
@@ -115,6 +115,9 @@
                                     <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
                                         {{ tr.produto.nome }}
                                     </vs-chip>
+                                </vs-td>
+                                <vs-td :data="tr.created_at">
+                                    <span class="destaque">{{ tr.created_at | formatDateTime }}</span>
                                 </vs-td>
                                 <vs-td :data="tr.updated_at">
                                     <span class="destaque">{{ tr.updated_at | formatDateTime }}</span>
@@ -126,8 +129,7 @@
                                     <span class="preco">R$ {{ formatPrice(tr.produto.preco) }}</span>
                                 </vs-td>
                                 <vs-td>
-                                    <vs-chip v-for="(status, index) in hotmartStatus" v-if="index === tr.status"
-                                             :color="status[1]" class="product-order-status">
+                                    <vs-chip v-for="(status, index) in hotmartStatus" :key="index" v-show="index === tr.status" :color="status[1]" class="product-order-status">
                                         {{ status[0] }}
                                     </vs-chip>
                                 </vs-td>
@@ -146,15 +148,13 @@
 </template>
 
 <script>
-import SideBar from './SideBar'
-import vSelect from 'vue-select'
-import moduleProdutos from '@/store/produtos/moduleProdutos.js'
-import Datepicker from 'vuejs-datepicker';
+import SideBar from './SideBar';
+import vSelect from 'vue-select';
+import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import * as lang from 'vuejs-datepicker/src/locale';
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import saveleadsConfig from "../../../saveleadsConfig";
-import VueMoment from 'vue-moment'
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -163,9 +163,6 @@ export default {
     name: "Index",
     components: {
         'v-select': vSelect,
-        Datepicker,
-        VueMoment,
-        moment,
         DateRangePicker,
         SideBar
     },
@@ -237,36 +234,28 @@ export default {
                 'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
                 'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
             }
-        }
+        };
     },
     created() {
-        this.$vs.loading()
+        this.$vs.loading();
         if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos)
-            moduleProdutos.isRegistered = true
+            this.$store.registerModule('produtos', moduleProdutos);
+            moduleProdutos.isRegistered = true;
         }
 
-        this.dateRange.startDate = moment().subtract(30, 'days')
-        this.dateRange.endDate = moment()
+        this.dateRange.startDate = moment().subtract(30, 'days');
+        this.dateRange.endDate = moment();
         this.getOpcoes();
         this.getTransacoes();
 
     },
     methods: {
         visualizar(obj) {
-            console.log('obj detalhe', obj);
             this.sidebarData = obj;
             this.toggleDataSidebar(true);
         },
-
-        addNewData() {
-            //this.$router.push({name: 'produto-criar'});
-        },
-        updateData(id) {
-            //this.$router.push({path: '/configuracoes/produtos/editar/' + id});
-        },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getTransacoes() {
             this.dados.pesquisa = this.search;
@@ -285,26 +274,24 @@ export default {
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
             this.$store.dispatch('getVarios', {rota: 'transacaos', params: this.dados}).then(response => {
-                console.log('retornado com sucesso', response)
                 this.pagination = response;
                 //this.items = response.data
                 //this.dados.page = this.pagination.current_page
-                this.$vs.loading.close();
-            });
+            }).finally(() => this.$vs.loading.close());
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         formatPrice(value) {
-            let val = (value / 1).toFixed(2).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            let val = (value / 1).toFixed(2).replace('.', ',');
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
         deletar(id) {
             this.$vs.dialog({
@@ -321,16 +308,15 @@ export default {
                             text: 'A URL foi deletada com sucesso'
                         });
                         this.getTransacoes();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: 'Erro',
                             text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
             e.preventDefault();
@@ -348,10 +334,9 @@ export default {
 
             //Status
             for (let item in this.hotmartStatus) {
-                this.status.push({id: item, label: this.hotmartStatus[item][0]})
+                this.status.push({id: item, label: this.hotmartStatus[item][0]});
             }
 
-            console.log(this.status)
         },
         setDate(val) {
             this.$vs.loading();
@@ -373,34 +358,32 @@ export default {
         },
         currency(data) {
             if (data.currency != 'BRL') {
-                return '$'
+                return '$';
             } else {
-                return 'R$'
+                return 'R$';
             }
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getTransacoes();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
-        selectedProduto(val) {
-            console.log('teste', val)
+        selectedProduto() {
             this.$vs.loading();
             this.dados.page = 1;
             this.getTransacoes();
         },
-        selectedStatus(val) {
+        selectedStatus() {
             this.$vs.loading();
             this.dados.page = 1;
             this.getTransacoes();
         },
-        dateRange(val) {
+        dateRange() {
             this.$vs.loading();
             this.getTransacoes();
         },
@@ -425,7 +408,7 @@ export default {
     },
 
 
-}
+};
 </script>
 <style scoped>
 .input-span-placeholder {

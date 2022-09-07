@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import NavbarDefault from './NavbarDefault.vue'
-import NavbarInput from './NavbarInput.vue'
-import NavbarType from './NavbarType.vue'
-import NavbarColor from './NavbarColor.vue'
-import NavbarCollapse from './NavbarCollapse.vue'
+import NavbarDefault from './NavbarDefault.vue';
+import NavbarInput from './NavbarInput.vue';
+import NavbarType from './NavbarType.vue';
+import NavbarColor from './NavbarColor.vue';
+import NavbarCollapse from './NavbarCollapse.vue';
 
 export default{
     components: {
@@ -33,5 +33,5 @@ export default{
         NavbarCollapse,
         NavbarColor,
     }
-}
+};
 </script>

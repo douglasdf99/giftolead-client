@@ -49,9 +49,9 @@
 </template>
 
 <script>
-import HNavMenuGroup  from "./HorizontalNavMenuGroup.vue"
-import HNavMenuHeader from "./HorizontalNavMenuHeader.vue"
-import HNavMenuItem   from "./HorizontalNavMenuItem.vue"
+import HNavMenuGroup  from "./HorizontalNavMenuGroup.vue";
+import HNavMenuHeader from "./HorizontalNavMenuHeader.vue";
+import HNavMenuItem   from "./HorizontalNavMenuItem.vue";
 
 export default {
   props: {
@@ -65,27 +65,27 @@ export default {
   },
   computed: {
     navbarColor() {
-      return this.$store.state.theme === "dark" ? "#10163a" : "#fff"
+      return this.$store.state.theme === "dark" ? "#10163a" : "#fff";
     }
   },
   methods: {
     checkGrpChildrenActive(group) {
-      const path        = this.$route.fullPath
-      let active        = false
-      const routeParent = this.$route.meta ? this.$route.meta.parent : undefined
+      const path        = this.$route.fullPath;
+      let active        = false;
+      const routeParent = this.$route.meta ? this.$route.meta.parent : undefined;
 
       if (group.submenu) {
         group.submenu.forEach((item) => {
-          if (active) return true
-          if ((path == item.url || routeParent == item.slug) && item.url) { active = true }
-          else if (item.submenu) { this.checkGrpChildrenActive(item) }
-        })
+          if (active) return true;
+          if ((path == item.url || routeParent == item.slug) && item.url) { active = true; }
+          else if (item.submenu) { this.checkGrpChildrenActive(item); }
+        });
       }
 
-      return active
+      return active;
     },
   }
-}
+};
 </script>
 
 <style lang="scss">

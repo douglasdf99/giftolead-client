@@ -63,10 +63,6 @@
                                         ></vs-button>
                                         <vs-dropdown-menu class="dropdown-menu-list">
                                             <span class="span-identifica-item-dropdown">Nº {{tr.id}}</span>
-                                            <vs-dropdown-item @click="$router.push({path: '/configuracoes/contratos/editar/' + tr.contrato.id})" v-if="$acl.check('configuracao_contrato_editar') && !tr.contrato.deleted_at">
-                                                <vs-icon icon-pack="feather" icon="icon-file-text"></vs-icon>
-                                                Editar Contrato
-                                            </vs-dropdown-item>
                                             <vs-dropdown-item @click="updateData(data[indextr])" v-if="$acl.check('configuracao_brinde_editar')">
                                                 <vs-icon icon-pack="material-icons" icon="create"></vs-icon>
                                                 Editar
@@ -130,8 +126,8 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import SideBar from './SideBar';
+    import moduleBrindes from '@/store/brindes/moduleBrindes.js';
     import NenhumRegistro from "../components/NenhumRegistro";
 
     export default {
@@ -154,7 +150,7 @@
                 },
                 currentx: 1
                 //items: {}
-            }
+            };
         },
         created() {
             this.$vs.loading();
@@ -166,26 +162,24 @@
         },
         methods: {
             paginate() {
-                console.log('resetou');
                 this.currentx = 1;
             },
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getBrindes() {
                 this.$store.dispatch('getVarios', {rota: 'brindes', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
                     this.pagination = response;
                 }).finally(()=>{
-                  this.$vs.loading.close()
+                  this.$vs.loading.close();
                 });
             },
             deletar(id) {
@@ -203,17 +197,17 @@
                                 text: 'Deletado com sucesso'
                             });
                             this.getBrindes();
-                        }).catch(erro => {
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: '',
                                 text: 'Algo deu errado ao deletar. Contate o suporte.'
-                            })
+                            });
                         }).finally(()=>{
-                          this.$vs.loading.close()
-                        })
+                          this.$vs.loading.close();
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
                 this.dados.page = 1;
@@ -223,14 +217,13 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getBrindes();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
         },
         computed: {
@@ -242,7 +235,7 @@
             },*/
         },
 
-    }
+    };
 </script>
 <style>
     .td-icons > span {

@@ -49,5 +49,5 @@ export default {
         colorx: '#f91f43',
         currentx: 7,
     })
-}
+};
 </script>

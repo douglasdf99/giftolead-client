@@ -1,6 +1,6 @@
 const subRotaPlanos = [
     {
-        url: '/planos/meus-planos',
+        url: 'planos/meus-planos',
         name: "Listagem",
         slug: "meus-planos",
         icon: 'widgets',
@@ -8,4 +8,4 @@ const subRotaPlanos = [
     },
 ];
 
-export default subRotaPlanos
+export default subRotaPlanos;

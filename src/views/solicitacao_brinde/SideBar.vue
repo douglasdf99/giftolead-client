@@ -133,8 +133,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
 
     export default {
         props: {
@@ -150,10 +150,10 @@
         },
         watch: {
             isSidebarActive(val) {
-                if (!val) return
+                if (!val) return;
                 if (Object.entries(this.data).length === 0) {
-                    this.initValues()
-                    this.$validator.reset()
+                    this.initValues();
+                    this.$validator.reset();
                 } else {
                     this.brinde = JSON.parse(JSON.stringify(this.data));
                 }
@@ -164,19 +164,16 @@
               leadSidebar:'',
               brindeSidebar:'',
 
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
-                    console.log('valor side', val);
                     if (!val) {
-                        console.log('entou no emit side', val);
-
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -189,11 +186,10 @@
           },
           getLeads() {
             this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
-              console.log('retornado com sucesso', response)
               this.leadSidebar = response;
               //this.items = response.data
               //this.dados.page = this.pagination.current_page
-              this.$vs.loading.close()
+              this.$vs.loading.close();
             });
           },
         },
@@ -202,9 +198,8 @@
             'v-select': vSelect
         },
         created() {
-            console.log('obj', this.data);
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

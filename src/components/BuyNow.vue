@@ -26,5 +26,5 @@
 <script>
 export default {
     name: "buy-now",
-}
+};
 </script>

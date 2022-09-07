@@ -67,7 +67,7 @@
                 </div>
             </div>
         </div>
-        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="list" class="table-items vs-con-loading__container" id="table">
+        <vs-table multiple v-model="selecteds" :data="list" class="table-items vs-con-loading__container" id="table">
             <template slot="thead">
                 <vs-th></vs-th>
                 <vs-th>Destinatário</vs-th>
@@ -163,15 +163,15 @@
                     </vs-button>
                     <vs-button color="primary" class="float-right text-white px-6 py-4 mx-3" :disabled="!podeGerar.success" @click="gerarEtiquetas()">Gerar Etiquetas</vs-button>
                     <vs-button class="float-left ml-3  px-6 py-4 mx-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/brindes/expedicoes-melhor-envio'})">
+                               @click="$router.push({name: 'brindes-expedicoes-melhor-envio'})">
                         Voltar
                     </vs-button>
                 </div>
             </footer-doug>
         </transition>
-        <vs-popup id="pdf-with-loading" class="popup-iframe vs-con-loading__container" style="overflow: hidden" title="Imprimindo etiquetas" :active.sync="modalIframe">
+        <custom-popup id="pdf-with-loading" class="popup-iframe vs-con-loading__container" style="overflow: hidden" title="Imprimindo etiquetas" :active.sync="modalIframe">
             <iframe v-if="urlIframe" :src="urlIframe" width="100%" height="100%" title="Imprimindo Etiqueta"></iframe>
-        </vs-popup>
+        </custom-popup>
         <vs-prompt
             @cancel="modalPagamento = false"
             @accept="comprar"
@@ -212,16 +212,15 @@
 
 <script>
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
-import endereco from './Endereco'
+import endereco from './Endereco';
 import saveleadsConfig from "../../../saveleadsConfig";
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleContrato from "../../store/contratos/moduleContrato";
-import axios from "@/axios.js"
 import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
 import moduleAutomacao from "@/store/automacao/moduleAutomacao";
 import DetalheMelhorEnvio from "./DetalheMelhorEnvio";
 
-const {consultarCep} = require("correios-brasil");
+//const {consultarCep} = require("correios-brasil");
 
 export default {
     name: "ListDetalMelhorEnvio",
@@ -293,35 +292,32 @@ export default {
                 tipos: [{id: 2, label: 'Desistência'}, {id: 4, label: 'Informações incorretas'}, {id: 5, label: 'Rejeição da transportadora'}],
                 description: ""
             },
-        }
+        };
     },
     mounted() {
         var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
         this.$echo.channel(`${subdomain}_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
-            console.log(e);
             if (this.step < 1) {
                 if (e.automacao.status == 'fechado') {
-                    this.count++
+                    this.count++;
                     this.percent = (this.count / this.expedicao.automacaos.length) * 100;
-                    console.log(this.count, this.percent);
                 }
                 if (e.automacao.status == 'error') {
-                    this.count++
+                    this.count++;
                     this.percent = (this.count / this.expedicao.automacaos.length) * 100;
-                    console.log(this.count, this.percent);
                     this.automacaosErros.push(e.automacao);
                 }
             }
             if (e.automacao.status == 'sucesso') {
-                this.plpGerada = 10
+                this.plpGerada = 10;
             }
 
             if (e.automacao.status == 'ngerada') {
                 if (e.automacao.erroMensage) {
-                    this.erroMensage = e.automacao.erroMensage
+                    this.erroMensage = e.automacao.erroMensage;
                 }
-                this.plpGerada = 5
+                this.plpGerada = 5;
             }
 
             if (this.percent == 100) {
@@ -344,12 +340,12 @@ export default {
             moduleContrato.isRegistered = true;
         }
         if (!moduleExtensoes.isRegistered) {
-            this.$store.registerModule('extensoes', moduleExtensoes)
-            moduleExtensoes.isRegistered = true
+            this.$store.registerModule('extensoes', moduleExtensoes);
+            moduleExtensoes.isRegistered = true;
         }
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
 
         if (moduleExpedicoesBrindes.isRegistered)
@@ -365,8 +361,6 @@ export default {
                 }).then(response => {
                     item.status = this.translateStatus(response.data[item.codigo_carrinho_melhor_envio].status);
                     this.expedicao.automacaos = {...this.expedicao.automacaos};
-                }).catch(erro => {
-                    console.log("caiu no erro", erro)
                 });
             });
             await this.$vs.loading.close();
@@ -449,7 +443,7 @@ export default {
         async getLimites() {
             await this.$store.dispatch('automacao/verificaLimite', {params: this.dados, config: {headers: {Authorization: `Bearer ${this.melhorenvio.token}`}}}).then(response => {
                 this.limites = response.data;
-                this.limites.error = false
+                this.limites.error = false;
             }).catch(() => {
                 this.limites.error = true;
                 this.limites.errorMessage = 'Não foi possível realizar conexão com a melhor envio';
@@ -474,28 +468,26 @@ export default {
                     //this.$vs.loading({container: "#custo-row-" + auto.id, scale: 0.45});
                     response.forEach(item => {
                         if (auto.codigo_carrinho_melhor_envio === item.id) {
-                            if(auto.codigo_pagamento_melhor_envio){
+                            if(auto.codigo_pagamento_melhor_envio) {
                                 auto.custo = 'Já comprou';
                             } else {
                                 auto.custo = item.price; // Atribuindo o custo de cada envio
                                 this.custo += parseFloat(item.price); //Somando o custo total que é exibido acima da tabela
                             }
-                            console.log('auto', auto)
                             //this.$vs.loading.close("#custo-row-" + auto.id + " > .con-vs-loading");
                         }
-                    })
+                    });
                 });
             }).finally(() => this.$vs.loading.close("#custo > .con-vs-loading"));
         },
-        showAutoCusto(tr){
-            console.log(tr)
-            if(tr.custo != null){
+        showAutoCusto(tr) {
+            if(tr.custo != null) {
                 if(tr.custo === 'Já comprou')
-                    return tr.custo
+                    return tr.custo;
 
-              return 'R$ ' + tr.custo.toFixed(2).replace('.', ',')
+              return 'R$ ' + tr.custo.toFixed(2).replace('.', ',');
             }
-            return '?'
+            return '?';
         },
         atualiza() {
             this.modalGerarPlp = false;
@@ -507,10 +499,10 @@ export default {
             this.getItem(this.$route.params.id);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         toggleDataSidebarEnd(val = false) {
-            this.modalEndereco = val
+            this.modalEndereco = val;
         },
         visualizar(obj) {
             this.sidebarData = obj;
@@ -531,8 +523,7 @@ export default {
                             color: 'success',
                             text: 'Arquivado realizado com sucesso'
                         });
-                    }).catch(erro => {
-                        console.log('erro', erro);
+                    }).catch(() => {
                         this.modalGerarPlp = false;
                         this.$vs.notify({
                             color: 'danger',
@@ -540,7 +531,7 @@ export default {
                         });
                     });
                 }
-            })
+            });
         },
         async imprimir(id, index) {
             let gerada = await this.gerarEtiqueta(id, index);
@@ -555,7 +546,6 @@ export default {
                 let ids = [id];
                 let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
                 this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
-                    console.log('Voltou pro front', response);
                     this.urlIframe = response.url;
                 }).catch((error) => {
                     this.$vs.notify({
@@ -563,7 +553,7 @@ export default {
                         text: error.response.data.message
                     });
                 }).finally(() => {
-                    this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                    this.$vs.loading.close('#pdf-with-loading > .con-vs-loading');
                 });
             } else {
                 this.$vs.notify({color: 'warning', text: 'Aguarde a etiqueta ser gerada para que você possa imprimir', title: 'Aguarde', time: 10000});
@@ -579,7 +569,6 @@ export default {
             let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
             let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
             this.$store.dispatch('automacao/imprmirMelhorEnvio', {ids, headers}).then(response => {
-                console.log('Voltou pro front', response);
                 this.urlIframe = response.url;
             }).catch((error) => {
                 this.$vs.notify({
@@ -587,7 +576,7 @@ export default {
                     text: error.response.data.message
                 });
             }).finally(() => {
-                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading')
+                this.$vs.loading.close('#pdf-with-loading > .con-vs-loading');
             });
         },
         enviarRastreio(id) {
@@ -598,8 +587,7 @@ export default {
                     text: 'Rastreio enviado com sucesso.'
                 });
                 this.getItem(this.expedicao.id);
-            }).catch(erro => {
-                console.log('erro', erro);
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado. Contate o suporte'
@@ -626,15 +614,15 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         },
         addCarrinho(id, index) {
             this.$vs.loading({
                 container: "#table-row-" + index,
                 scale: 0.45
             });
-            this.$store.dispatch('automacao/adicionarCarrinho', id).then(response => {
+            this.$store.dispatch('automacao/adicionarCarrinho', id).then(() => {
                 this.$vs.notify({
                     text: 'Código do carrinho gerado com sucesso.',
                     color: 'success'
@@ -642,12 +630,11 @@ export default {
             }).finally(() => this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading"));
         },
         removeCarrinho(item, index) {
-            console.log('item, index', item, index)
             this.$vs.loading({
                 container: "#table-row-" + index,
                 scale: 0.45
             });
-            this.$store.dispatch('automacao/removerCarrinho', {id: item.id}).then(response => {
+            this.$store.dispatch('automacao/removerCarrinho', {id: item.id}).then(() => {
                 this.custo -= parseFloat(item.custo);
                 this.expedicao.automacaos.splice(index, 1);
                 this.$vs.loading.close("#table-row-" + index + " > .con-vs-loading");
@@ -663,7 +650,6 @@ export default {
                 this.expedicao.automacaos.forEach(item => {
                     item.status = this.translateStatus(item.status_melhor_envio);
                 });
-                console.log('automacoes', this.expedicao.automacaos);
                 this.$vs.loading.close("#table > .con-vs-loading");
                 this.$vs.loading.close();
             });
@@ -696,13 +682,13 @@ export default {
             });
             let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
             let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
-            this.$store.dispatch('automacao/geraEtiquetas', {ids, headers}).then(response => {
+            this.$store.dispatch('automacao/geraEtiquetas', {ids, headers}).then(() => {
                 this.refresh();
             }).finally(() => this.$vs.loading.close("#table > .con-vs-loading"));
         },
         abrirRastreio(hash) {
             let {url_melhorenvio} = saveleadsConfig;
-            window.open(url_melhorenvio + '/rastreio/' + hash, '_blank')
+            window.open(url_melhorenvio + '/rastreio/' + hash, '_blank');
         },
 
         //Editar endereço da automação
@@ -714,26 +700,22 @@ export default {
         },
         buscaCep(e) {
             e.preventDefault();
-            if (this.valido) {
-                console.log('teste')
-            } else {
+            if (!this.valido) {
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
-                consultarCep(this.endereco.cep).then(response => {
-                    console.log('resposta', response);
+                this.$store.dispatch('consultCep', this.endereco.cep).then(response => {
                     this.valido = true;
                     this.antigoCep = this.endereco.cep;
-                    this.endereco.cidade = this.removeAccents(response.localidade);
-                    this.endereco.bairro = this.removeAccents(response.bairro);
-                    this.endereco.endereco = this.removeAccents(response.logradouro);
-                    this.endereco.estado = this.removeAccents(response.uf);
+                    this.endereco.cidade = this.removeAccents(response.city);
+                    this.endereco.bairro = this.removeAccents(response.neighborhood);
+                    this.endereco.endereco = this.removeAccents(response.street);
+                    this.endereco.estado = this.removeAccents(response.state);
                 }).catch(erro => {
-                    console.log(erro);
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
                         text: erro.response.data.message
-                    })
+                    });
                 });
             }
         },
@@ -741,7 +723,7 @@ export default {
         getContratos() {
             this.$store.dispatch('contratos/get').then(response => {
                 this.contratos = [...this.arraySelect(response)];
-            })
+            });
         },
         update() {
             this.$vs.loading();
@@ -754,20 +736,19 @@ export default {
                     text: 'Salvo com sucesso'
                 });
                 this.getItem(this.$route.params.id);
-            }).catch(erro => {
-                console.log(erro)
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     title: 'Erro',
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                })
+                });
             });
         },
         realizarPagamento() {
             this.modalPagamento = true;
             this.pagamentoData.soma = 0;
             this.selecteds.forEach(item => {
-                this.pagamentoData.soma += parseFloat(item.custo)
+                this.pagamentoData.soma += parseFloat(item.custo);
             });
             this.pagamentoData.ids = this.selecteds.map(item => item.id);
         },
@@ -780,14 +761,12 @@ export default {
                 container: "#table",
                 scale: 0.45
             });
-            console.log('selecteds', this.selecteds)
             let ids = this.selecteds.map(item => item.codigo_carrinho_melhor_envio);
             let headers = {Authorization: `Bearer ${this.melhorenvio.token}`};
             this.$store.dispatch('automacao/checkCancel', {ids, headers}).then(response => {
-                //console.log(Object.entries(response));
                 let arr = Object.entries(response);
-                let incancellable = arr.filter((item, index) => {
-                    if (!item[1].cancellable) return item[0]
+                let incancellable = arr.filter(item => {
+                    if (!item[1].cancellable) return item[0];
                 });
                 if (incancellable.length == 0) this.realizarCancelamento();
                 else {
@@ -798,14 +777,13 @@ export default {
                         text: `${this.renderIncancellables(incancellable)}`,
                         acceptText: 'Ok, vou verificar!',
                         accept: () => {
-                            this.$store.dispatch('expedicaos/arquivar', obj.id).then(() => {
+                            this.$store.dispatch('expedicaos/arquivar').then(() => {
                                 this.atualiza();
                                 this.$vs.notify({
                                     color: 'success',
                                     text: 'Arquivado realizado com sucesso'
                                 });
-                            }).catch(erro => {
-                                console.log('erro', erro);
+                            }).catch(() => {
                                 this.modalGerarPlp = false;
                                 this.$vs.notify({
                                     color: 'danger',
@@ -813,7 +791,7 @@ export default {
                                 });
                             });
                         }
-                    })
+                    });
                 }
             }).finally(() => this.$vs.loading.close("#table > .con-vs-loading"));
         },
@@ -825,7 +803,7 @@ export default {
                 this.expedicao.automacaos.forEach(auto => {
                     response.data.forEach(retorno => {
                         if (auto.id == retorno.id)
-                            auto = {...auto, retorno}
+                            auto = {...auto, retorno};
                     });
                 });
             }).catch(error => {
@@ -837,7 +815,7 @@ export default {
         },
         cancelarCompra() {
             this.$vs.loading();
-            this.$store.dispatch('automacao/cancelar', {ids: this.cancelamentoData.ids, reason: this.cancelamentoData.reason.id, description: this.cancelamentoData.description}).then(response => {
+            this.$store.dispatch('automacao/cancelar', {ids: this.cancelamentoData.ids, reason: this.cancelamentoData.reason.id, description: this.cancelamentoData.description}).then(() => {
                 this.$vs.notify({
                     text: 'Solicitação de cancelamento enviada com sucesso.',
                     color: 'success'
@@ -850,12 +828,10 @@ export default {
                 });
             }).finally(() => this.$vs.loading.close());
         },
-        handleSelected(tr) {
-        },
     },
     computed: {
         invalidoEntrega() {
-            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length <= 8)
+            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length <= 8);
         },
         list() {
             if (this.expedicao.automacaos.length > 0) {
@@ -864,11 +840,11 @@ export default {
                     let rastreio = automacao.rastreio ? automacao.rastreio.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
                     let nome = automacao.nome_destinatario ? automacao.nome_destinatario.toLowerCase().includes(this.dados.pesquisa.toLowerCase()) : false;
 
-                    return email || rastreio || nome
-                })
+                    return email || rastreio || nome;
+                });
             }
 
-            return []
+            return [];
         },
         podePagar() {
             let v1 = this.selecteds.some(element => {
@@ -908,7 +884,7 @@ export default {
                     return true;
                 }
             });
-            return v1
+            return v1;
         },
     },
     watch: {
@@ -920,13 +896,8 @@ export default {
             },
             deep: true
         },
-        dados: {
-            handler: function (e) {
-                console.log(e.pesquisa)
-            }
-        }
     }
-}
+};
 </script>
 
 <style>

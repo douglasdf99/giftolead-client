@@ -52,8 +52,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
 
     export default {
         props: {
@@ -78,16 +78,16 @@
                 },
                 opcoesIntegracao: [],
                 selected: null
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -99,31 +99,28 @@
                 this.$store.dispatch('contas/getOpcoes').then(response => {
                     let arr = [...response];
                     arr.forEach(item => {
-                        this.opcoesIntegracao.push({id: item.id, label: item.descricao})
+                        this.opcoesIntegracao.push({id: item.id, label: item.descricao});
                     });
-                })
+                });
             },
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
-                    return
+                    return;
                 } else {
-                    this.conta.id = null
-                    this.conta.nome = ''
-                    this.conta.token = ''
-                    this.selected = null
+                    this.conta.id = null;
+                    this.conta.nome = '';
+                    this.conta.token = '';
+                    this.selected = null;
                 }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading()
+                        this.$vs.loading();
                         const obj = {...this.conta};
                         obj.integracao_id = this.selected.id;
                         if (this.conta.id !== null && this.conta.id >= 0) {
                             obj._method = 'PUT';
-                            console.log('obj atualizando', obj)
                             this.$store.dispatch("updateItem", {rota: 'contas', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -132,16 +129,13 @@
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                            }).catch(err => {
-                                console.error(err)
                             }).finally(()=>{
-                              this.$emit('closeSidebar')
-                              this.$emit('finish')
-                              this.initValues()
-                            })
+                              this.$emit('closeSidebar');
+                              this.$emit('finish');
+                              this.initValues();
+                            });
                         } else {
-                            delete obj.id
-                            console.log('obj criando', obj)
+                            delete obj.id;
                             this.$store.dispatch("addItem", {rota: 'contas', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -149,7 +143,7 @@
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
-                                })
+                                });
                             }).catch(error => {
                                 this.$vs.notify({
                                     title: 'Error',
@@ -157,15 +151,15 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
+                                });
                             }).finally(()=>{
-                              this.$emit('closeSidebar')
-                              this.$emit('finish')
-                              this.initValues()
-                            })
+                              this.$emit('closeSidebar');
+                              this.$emit('finish');
+                              this.initValues();
+                            });
                         }
                     }
-                })
+                });
             },
         },
         components: {
@@ -176,9 +170,8 @@
             this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 this.conta = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.conta.integracao_id;
                 this.selected = {id: this.conta.integracao_id, label: this.conta.integracao.descricao};
@@ -187,7 +180,7 @@
             }
             this.getOpcoes();
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -145,7 +145,7 @@ export default {
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       activePrompt:false,
       activePrompt2:false,
@@ -154,32 +154,32 @@ export default {
         value1:'',
         value2:''
       },
-    }
+    };
   },
   computed:{
-    validName(){
-      return (this.valMultipe.value1.length > 0 && this.valMultipe.value2.length > 0)
+    validName() {
+      return (this.valMultipe.value1.length > 0 && this.valMultipe.value2.length > 0);
     }
   },
   methods:{
-    acceptAlert(){
+    acceptAlert() {
       this.$vs.notify({
         color:'success',
         title:'Accept Selected',
         text:'Lorem ipsum dolor sit amet, consectetur'
-      })
+      });
     },
-    close(){
+    close() {
       this.$vs.notify({
         color:'danger',
         title:'Closed',
         text:'You close a dialog!'
-      })
+      });
     },
     clearValMultiple() {
       this.valMultipe.value1 = "";
       this.valMultipe.value2 = "";
     }
   }
-}
+};
 </script>

@@ -63,7 +63,7 @@ export default {
         return {
             switch1: true,
             number1: 10,
-        }
+        };
     }
-}
+};
 </script>

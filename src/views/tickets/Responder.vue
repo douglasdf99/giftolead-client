@@ -17,16 +17,16 @@
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
             <div class="p-0">
-                <div id="chat-app" class="d-theme-border-grey-light rounded relative overflow-hidden chat-whats-bg">
+                <div id="chat-app" class="d-theme-border-gray-light rounded relative overflow-hidden chat-whats-bg">
                     <!-- RIGHT COLUMN -->
-                    <div class="chat-whats chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-grey-light border-t-0 border-r-0 border-b-0"
+                    <div class="chat-whats chat__bg no-scroll-content chat-content-area border border-solid d-theme-border-gray-light border-t-0 border-r-0 border-b-0"
                          :class="{'sidebar-spacer--wide': clickNotClose, 'flex items-center justify-center': activeChatUser === null}">
                         <template v-if="activeChatUser">
                             <div class="chat__navbar">
                                 <chat-navbar :tipo="'whatsapp'" :dados="data" :enviado="enviado" @setMensagem="setMensagem" :isSidebarCollapsed="!clickNotClose" :user-id="activeChatUser" :isPinnedProp="isChatPinned"></chat-navbar>
                                 <vs-progress indeterminate color="primary" v-if="enviando"></vs-progress>
                             </div>
-                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-grey-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
+                            <VuePerfectScrollbar class="chat-content-scroll-area border border-solid d-theme-border-gray-light" style="border-color: transparent" :settings="settings" ref="chatLogPS" :key="$vs.rtl">
                                 <div class="chat__log" ref="chatLog">
                                     <chat-log :userId="activeChatUser" :dados="data" v-if="activeChatUser"></chat-log>
                                 </div>
@@ -44,7 +44,7 @@
                                 <i class="material-icons text-4xl text-gray p-4 cursor-pointer">sms</i>
                                 <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                                     <span class="span-identifica-item-dropdown mb-0">Variáveis</span>
-                                    <vs-dropdown-item v-for="i in variaveis">
+                                    <vs-dropdown-item v-for="i in variaveis" :key="i.value">
                                         <span @click="addVarText(i.value)">{{i.nome}}</span>
                                     </vs-dropdown-item>
                                     <vs-dropdown-item @click="addLinkCheckoutVarText">
@@ -54,7 +54,7 @@
                             </vs-dropdown>
                         </vx-tooltip>
                         <vs-textarea v-model="typedMessage" id="text-area-chat" class="w-full bg-white mb-0" rows="4" placeholder="Digite uma mensagem"/>
-                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @dblclick="" @click="sendMsg">send</i>
+                        <i class="material-icons text-4xl text-gray p-4 cursor-pointer" @click="sendMsg">send</i>
                     </div>
                 </div>
                 <vs-prompt
@@ -125,16 +125,16 @@
                 modal: false,
                 selectedLink: {id: null, label: 'Selecione o link'},
                 links: []
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -149,26 +149,26 @@
                         this.$emit('closeSidebar');
                         this.initValues();
                     }
-                })
+                });
             },
             fechar() {
                 //this.$emit('getItems')
-                this.isSidebarActiveLocal = false
+                this.isSidebarActiveLocal = false;
             },
             setSidebarWidth() {
                 if (this.windowWidth < 1200) {
-                    this.isChatSidebarActive = this.clickNotClose = false
+                    this.isChatSidebarActive = this.clickNotClose = false;
                 } else {
-                    this.isChatSidebarActive = this.clickNotClose = true
+                    this.isChatSidebarActive = this.clickNotClose = true;
                 }
             },
             toggleChatSidebar(value = false) {
-                if (!value && this.clickNotClose) return
-                this.isChatSidebarActive = value
+                if (!value && this.clickNotClose) return;
+                this.isChatSidebarActive = value;
             },
             sendMsg() {
-                if (!this.typedMessage) return
-                if(!this.enviando){//Previnindo segundo clique
+                if (!this.typedMessage) return;
+                if(!this.enviando) {//Previnindo segundo clique
                     this.enviando = true;
                     this.$store.dispatch('tickets/sendMsg', {id: this.data.id, mensagem: this.typedMessage}).then(response => {
                         this.enviado = true;
@@ -184,12 +184,12 @@
                 this.$emit('getId');
             },
             showProfileSidebar(userId, openOnLeft = false) {
-                this.userProfileId = userId
-                this.isLoggedInUserProfileView = openOnLeft
-                this.activeProfileSidebar = !this.activeProfileSidebar
+                this.userProfileId = userId;
+                this.isLoggedInUserProfileView = openOnLeft;
+                this.activeProfileSidebar = !this.activeProfileSidebar;
             },
             toggleIsChatPinned(value) {
-                this.isChatPinned = value
+                this.isChatPinned = value;
             },
             setMensagem(text) {
                 this.typedMessage = text;
@@ -229,21 +229,20 @@
                 });
             });
 
-            if(this.data.resposta){
+            if(this.data.resposta) {
                 this.enviado = true;
             }
         },
         mounted() {
-            if(this.data.mensagens.length > 0){
+            if(this.data.mensagens.length > 0) {
                 this.data.mensagens.forEach(msg => {
-                    if(msg.tipo == 'whatsapp'){
-                        console.log('mensagem', msg);
-                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem, avatar: msg.responsavel.avatar})
+                    if(msg.tipo == 'whatsapp') {
+                        this.$store.dispatch('tickets/pushMsg', {isSent: true, textContent: msg.mensagem, avatar: msg.responsavel.avatar});
                     }
-                })
+                });
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

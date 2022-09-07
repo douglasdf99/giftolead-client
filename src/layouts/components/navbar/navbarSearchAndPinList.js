@@ -43,4 +43,4 @@ export default {
       {img: require("@/assets/images/portrait/small/avatar-s-23.jpg"), name: "Mardell Channey", email: "peseta@myrica.com", time: "11/11/2019"},
     ]
   },
-}
+};

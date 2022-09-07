@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleProdutoState.js'
-import mutations from './moduleProdutoMutations.js'
-import actions from './moduleProdutoActions.js'
-import getters from './moduleProdutoGetters.js'
+import state from './moduleProdutoState.js';
+import mutations from './moduleProdutoMutations.js';
+import actions from './moduleProdutoActions.js';
+import getters from './moduleProdutoGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

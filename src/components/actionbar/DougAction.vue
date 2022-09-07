@@ -28,9 +28,9 @@
         name: "vx-timeline",
         props: {},
         data() {
-            return {}
+            return {};
         },
-    }
+    };
 </script>
 
 
@@ -43,12 +43,12 @@
             padding-left: 3rem;
             right: 0;
             bottom: 0;
-            left: 291px;
+            left: 85px;
             color: #494949;
             background-color: #ffffff;
             text-align: center;
             border-top: 2px solid #e5e5e5;
-            z-index: 500;
+      
         }
     }
 

@@ -41,7 +41,7 @@
                 </VuePerfectScrollbar>
 
                 <div class="checkout-footer fixed bottom-0 rounded-b-lg text-primary w-full p-2 font-semibold text-center border border-b-0 border-l-0 border-r-0
-                    border-solid d-theme-border-grey-light cursor-pointer">
+                    border-solid d-theme-border-gray-light cursor-pointer">
                     <router-link :to="{name: 'todas-notificacoes'}">Ver todas as notificações</router-link>
                 </div>
             </vs-dropdown-menu>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import moduleNotificacoes from "@/store/notificacoes/moduleNotificacoes";
 
 export default {
@@ -65,7 +65,7 @@ export default {
                 maxScrollbarLength: 60,
                 wheelSpeed: .60,
             },
-        }
+        };
     },
     created() {
         if (!moduleNotificacoes.isRegistered) {
@@ -77,8 +77,6 @@ export default {
     },
     mounted() {
         // this.$echo.private('App.Models.User.29').listen('BroadcastNotificationCreated', (payload) => {
-        //   console.log('escutou');
-        //   console.log(payload);
         // });
         let user = JSON.parse(localStorage.getItem('userInfo'));
         this.$echo.private('App.Models.User.' + user.uid).notification((notification) => {
@@ -95,17 +93,17 @@ export default {
     methods: {
         // Method for creating dummy notification time
         randomDate({hr, min, sec}) {
-            let date = new Date()
+            let date = new Date();
 
-            if (hr) date.setHours(date.getHours() - hr)
-            if (min) date.setMinutes(date.getMinutes() - min)
-            if (sec) date.setSeconds(date.getSeconds() - sec)
+            if (hr) date.setHours(date.getHours() - hr);
+            if (min) date.setMinutes(date.getMinutes() - min);
+            if (sec) date.setSeconds(date.getSeconds() - sec);
 
-            return date
+            return date;
         },
         getNotificacoes() {
             this.$store.dispatch('notificacoes/get').then(response => {
-                response.forEach((item, index) => {
+                response.forEach(item => {
                     this.unreadNotifications.push({
                         index: item.id,
                         title: item.data.title,
@@ -113,7 +111,7 @@ export default {
                         icon: item.data.icon,
                         time: item.data.time,
                         category: item.data.category
-                    })
+                    });
                 });
             });
         },
@@ -121,15 +119,15 @@ export default {
             if (this.unreadNotifications.length > 0) {
                 this.$store.dispatch('notificacoes/setread').then(() => {
                     this.unreadNotifications.forEach(item => {
-                        this.notifications.push(item)
-                    })
+                        this.notifications.push(item);
+                    });
                     //this.notifications = [...this.unreadNotifications];
                     this.unreadNotifications = [];
                 });
             }
         }
     }
-}
+};
 
 </script>
 

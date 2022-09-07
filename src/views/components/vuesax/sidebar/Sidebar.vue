@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import SidebarDefault from './SidebarDefault.vue'
-import SidebarParent from './SidebarParent.vue'
-import SidebarStatic from './SidebarStatic.vue'
-import SidebarGroupCollapsed from './SidebarGroupCollapsed.vue'
-import SidebarRight from './SidebarRight.vue'
-import SidebarReduceExpand from './SidebarReduceExpand.vue'
-import SidebarCustom from './SidebarCustom.vue'
+import SidebarDefault from './SidebarDefault.vue';
+import SidebarParent from './SidebarParent.vue';
+import SidebarStatic from './SidebarStatic.vue';
+import SidebarGroupCollapsed from './SidebarGroupCollapsed.vue';
+import SidebarRight from './SidebarRight.vue';
+import SidebarReduceExpand from './SidebarReduceExpand.vue';
+import SidebarCustom from './SidebarCustom.vue';
 
 export default{
     components: {
@@ -39,7 +39,7 @@ export default{
         SidebarReduceExpand,
         SidebarCustom,
     }
-}
+};
 </script>
 
 <style lang="scss">

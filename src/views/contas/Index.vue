@@ -93,8 +93,8 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import moduleContas from '@/store/contas/moduleContas.js'
+    import SideBar from './SideBar';
+    import moduleContas from '@/store/contas/moduleContas.js';
 
     export default {
         name: "Index",
@@ -116,35 +116,33 @@
                 },
                 currentx: 1
                 //items: {}
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             if (!moduleContas.isRegistered) {
-                this.$store.registerModule('contas', moduleContas)
-                moduleContas.isRegistered = true
+                this.$store.registerModule('contas', moduleContas);
+                moduleContas.isRegistered = true;
             }
 
             this.getContas();
         },
         methods: {
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getContas() {
                 this.$store.dispatch('getVarios', {rota: 'contas', params: this.dados}).then(response => {
-                    console.log('retornado com sucesso', response)
                     this.pagination = response;
-                }).catch(erro => {
-                console.log('erro', erro.response);
+                }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -167,18 +165,17 @@
                                 title: 'Sucesso',
                                 text: 'A URL foi deletada com sucesso'
                             });
-                        }).catch(erro => {
-                            console.log(erro)
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                            })
+                            });
                         }).finally(()=>{
                           this.getContas();
-                        })
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
               this.dados.page = 1;
@@ -188,14 +185,13 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getContas();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
 
         },
@@ -210,5 +206,5 @@
             },*/
         },
 
-    }
+    };
 </script>

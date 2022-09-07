@@ -9,13 +9,11 @@
 
 <template>
     <div id="component-chat-log" class="m-8" v-if="chatData">
-        <div v-for="(msg, index) in chatData.msg" class="msg-grp-container">
+        <div v-for="(msg, index) in chatData.msg" :key="index" class="msg-grp-container">
             <div class="flex items-start" :class="[{'flex-row-reverse' : msg.isSent}]">
                 <template>
-                    <vs-avatar v-if="dados.resposta" size="40px" class="border-2 shadow border-solid border-white m-0 flex-shrink-0" :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
-                                :src="msg.isSent ? get_img_api(dados.resposta.responsavel.avatar) : msg.photoURL"></vs-avatar>
-                    <vs-avatar v-else size="40px" class="border-2 shadow border-solid border-white m-0 flex-shrink-0" :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
-                               :src="msg.isSent ? get_img_api(msg.avatar) : msg.photoURL"></vs-avatar>
+                    <vs-avatar size="40px" class="border-2 shadow border-solid border-white m-0 flex-shrink-0" :class="msg.isSent ? 'sm:ml-5 ml-3' : 'sm:mr-5 mr-3'"
+                               :text="msg.isSent ? dados.resposta.responsavel.name : dados.nome" :color="msg.isSent ? 'primary': 'warning'"></vs-avatar>
                 </template>
 
                 <template v-if="chatData.msg[index-1]">
@@ -23,7 +21,7 @@
                          v-if="!(!hasSentPreviousMsg(chatData.msg[index-1].isSent, msg.isSent) || !isSameDay(msg.time, chatData.msg[index-1].time))"></div>
                 </template>
 
-                <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-4 rounded-lg max-w-sm" :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-grey-light bg-white': !msg.isSent}">
+                <div class="msg break-words relative shadow-md rounded py-3 px-4 mb-4 rounded-lg max-w-sm" :class="{'bg-primary-gradient text-white': msg.isSent, 'border border-solid border-gray-light bg-white': !msg.isSent}">
                     <span>{{ msg.textContent }}</span>
                 </div>
             </div>
@@ -50,22 +48,22 @@ export default {
             /*chatData: {
                 msg: []
             }*/
-        }
+        };
     },
     created() {
         this.$store.dispatch('whatsapplist/emptyChat');
         let msg = '';
-        if (this.$route.name != 'brindes-automacao'){
+        if (this.$route.name != 'brindes-automacao') {
             if (this.dados.mensagem)
-                msg = this.dados.mensagem
+                msg = this.dados.mensagem;
             else
-                msg = 'Veio de uma campanha de Boleto.'
+                msg = 'Veio de uma campanha de Boleto.';
 
             this.$store.dispatch('whatsapplist/pushMsg', {isSent: false, textContent: msg});
         } else {
-            if(this.dados.mensagens.length > 0){
+            if(this.dados.mensagens.length > 0) {
                 this.dados.mensagens.forEach(msg => {
-                    this.$store.dispatch('whatsapplist/pushMsg', {isSent: true, textContent: msg.mensagem, avatar: msg.responsavel.avatar})
+                    this.$store.dispatch('whatsapplist/pushMsg', {isSent: true, textContent: msg.mensagem, avatar: msg.responsavel.avatar});
                 });
             }
         }
@@ -76,12 +74,12 @@ export default {
         },
         senderImg() {
             return (isSentByActiveUser) => {
-                if (isSentByActiveUser) return this.$store.state.AppActiveUser.photoURL
-                else return this.$store.getters['chat/contact'](this.userId).photoURL
-            }
+                if (isSentByActiveUser) return this.$store.state.AppActiveUser.photoURL;
+                else return this.$store.getters['chat/contact'](this.userId).photoURL;
+            };
         },
         hasSentPreviousMsg() {
-            return (last_sender, current_sender) => last_sender == current_sender
+            return (last_sender, current_sender) => last_sender == current_sender;
         },
         chatData() {
             return this.$store.state.whatsapplist.chatData;
@@ -89,7 +87,7 @@ export default {
     },
     methods: {
         isSameDay(time_to, time_from) {
-            const date_time_to = new Date(Date.parse(time_to))
+            const date_time_to = new Date(Date.parse(time_to));
             const date_time_from = new Date(Date.parse(time_from));
             return date_time_to.getFullYear() === date_time_from.getFullYear() &&
                 date_time_to.getMonth() === date_time_from.getMonth() &&
@@ -105,7 +103,7 @@ export default {
         },
         scrollToBottom() {
             this.$nextTick(() => {
-                this.$parent.$el.scrollTop = this.$parent.$el.scrollHeight
+                this.$parent.$el.scrollTop = this.$parent.$el.scrollHeight;
             });
         }
     },
@@ -115,5 +113,5 @@ export default {
     mounted() {
         this.scrollToBottom();
     }
-}
+};
 </script>

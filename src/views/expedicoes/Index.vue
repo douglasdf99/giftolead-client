@@ -143,16 +143,16 @@
 </template>
 
 <script>
-import SideBar from './SideBar'
-import listagem from './Listagem'
-import moduleBrindes from '@/store/brindes/moduleBrindes.js'
-import vSelect from 'vue-select'
+import SideBar from './SideBar';
+import listagem from './Listagem';
+import moduleBrindes from '@/store/brindes/moduleBrindes.js';
+import vSelect from 'vue-select';
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
 import Datepicker from 'vuejs-datepicker';
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import saveleadsConfig from "../../../saveleadsConfig";
-import VueMoment from 'vue-moment'
+import VueMoment from 'vue-moment';
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -223,7 +223,7 @@ export default {
             },
             selectedEditBrinde: {},
             brindesEdit: [],
-        }
+        };
     },
     created() {
         this.$vs.loading();
@@ -249,22 +249,21 @@ export default {
     },
     methods: {
         paginate() {
-            console.log('resetou');
             this.currentx = 1;
         },
         visualizar(obj) {
-            this.sidebarData = obj
-            this.toggleDataSidebar(true)
+            this.sidebarData = obj;
+            this.toggleDataSidebar(true);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getItems(status = this.dados.status) {
             this.$vs.loading();
             if(status !== this.dados.status)
-                this.currentx = 1
+                this.currentx = 1;
 
-            this.dados.status = status
+            this.dados.status = status;
             switch (status) {
                 case "pendente":
                     this.dados.fechado = 0;
@@ -282,12 +281,10 @@ export default {
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
             this.$store.dispatch('getVarios', {rota: 'expedicaos', params: this.dados}).then(response => {
-                console.log('retornado com sucesso', response);
                 this.pagination = response;
             }).catch(erro => {
-                console.log('erro', erro.response);
                 this.$vs.notify({
-                    text: error.response.data.message,
+                    text: erro.response.data.message,
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
@@ -295,7 +292,7 @@ export default {
             }).finally(() => this.$vs.loading.close());
         },
         getOpcoes() {
-            this.$store.dispatch('brindes/get').then(response => {
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
                 this.brindes = [...this.arraySelect(response)];
                 this.brindesCru = [...response];
             });
@@ -325,9 +322,8 @@ export default {
                     color: 'success',
                     text: 'Rastreios enviados com sucesso.'
                 });
-                this.getItems()
-            }).catch(erro => {
-                console.log('erro', erro);
+                this.getItems();
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     text: 'Algo deu errado. Contate o suporte'
@@ -337,13 +333,13 @@ export default {
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         deletar(id) {
             this.$vs.dialog({
@@ -360,16 +356,15 @@ export default {
                             text: 'Deletado com sucesso'
                         });
                         this.getItems();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
             this.data.page = 1;
@@ -380,7 +375,6 @@ export default {
 
         //Procedimentos
         fecharVarias(arr, rota, tipo) {
-            console.log('fechando várias', arr)
             var self = this;
             this.$vs.dialog({
                 color: 'primary',
@@ -400,10 +394,9 @@ export default {
                         for (const [idx, item] of arr.entries()) {
                             self.atual = idx;
                             self.expedicao = item;
-                            const fecha = await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
+                            await self.$store.dispatch('expedicaos/gerarPlp', item.id).then(() => {
                                 self.items.splice(idx, 1);
-                            }).catch(erro => {
-                                console.log('erro', erro);
+                            }).catch(() => {
                                 self.$vs.notify({
                                     color: 'danger',
                                     text: 'Algo deu errado ao gerar a PLP. Contate o suporte'
@@ -413,12 +406,12 @@ export default {
                         }
                         self.modalGerarPlp = false;
                         self.getItems(tipo);
-                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading")
+                        self.$vs.loading.close("#button-with-loading-fecharPlp > .con-vs-loading");
                     }
 
                     diags();
                 }
-            })
+            });
         },
 
         //Prompt Editar
@@ -434,7 +427,6 @@ export default {
             this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
         },
         update() {
-            console.log(this.selectedEditBrinde);
             this.val.brinde_id = this.selectedEditBrinde.id;
             this.$vs.loading();
             this.$store.dispatch('expedicaos/store', this.val).then(() => {
@@ -445,36 +437,31 @@ export default {
                     text: 'Salvo com sucesso'
                 });
                 this.getItems();
-            }).catch(erro => {
-                console.log(erro)
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     title: 'Erro',
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                })
+                });
             });
 
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getItems();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
-        selectedBrinde(val) {
+        selectedBrinde() {
             this.$vs.loading();
             this.dados.brinde_id = this.selectedBrinde != null ? this.selectedBrinde.id : null;
             this.getItems();
         },
-        selectedEditBrinde(val) {
-            console.log(val)
-        },
-        dateRange(val) {
+        dateRange() {
             this.$vs.loading();
             this.getItems();
         },
@@ -485,7 +472,7 @@ export default {
         },
     },
 
-}
+};
 </script>
 <style>
 .td-icons > span {

@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import UserSettingsGeneral from "./UserSettingsGeneral.vue"
-import UserSettingsChangePassword from "./UserSettingsChangePassword.vue"
-import UserSettingsInfo from "./UserSettingsInfo.vue"
-import UserSettingsSocialLinks from "./UserSettingsSocialLinks.vue"
-import UserSettingsConnections from "./UserSettingsConnections.vue"
-import UserSettingsNotifications from "./UserSettingsNotifications.vue"
+import UserSettingsGeneral from "./UserSettingsGeneral.vue";
+import UserSettingsChangePassword from "./UserSettingsChangePassword.vue";
+import UserSettingsInfo from "./UserSettingsInfo.vue";
+import UserSettingsSocialLinks from "./UserSettingsSocialLinks.vue";
+import UserSettingsConnections from "./UserSettingsConnections.vue";
+import UserSettingsNotifications from "./UserSettingsNotifications.vue";
 
 export default {
   components: {
@@ -55,14 +55,14 @@ export default {
   data() {
     return {
 
-    }
+    };
   },
   computed: {
     isSmallerScreen() {
-      return this.$store.state.windowWidth < 768
+      return this.$store.state.windowWidth < 768;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

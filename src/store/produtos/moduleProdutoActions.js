@@ -8,64 +8,63 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    updateProduto({commit}, dados) {
+    updateProduto(_, dados) {
         return new Promise((resolve, reject) => {
             dados._method = 'PUT';
             axios.post(`/produtos/${dados.id}`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeProduto({commit}, dados) {
+    storeProduto(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/produtos/`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/produtos/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/produtos`, {params: {}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getArraySelect({commit}) {
-        console.log('ebtriy aqyu')
+    getArraySelect() {
         return new Promise((resolve, reject) => {
             axios.get(`/selects/produtos`)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

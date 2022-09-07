@@ -62,10 +62,9 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import vSelect from 'vue-select';
 import {Validator} from 'vee-validate';
-import moduleContas from '@/store/contas/moduleContas.js'
 import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 
 
@@ -140,16 +139,16 @@ export default {
             },
             validado: false,
             verificaLeadEmail: false
-        }
+        };
     },
     computed: {
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
                     // this.$validator.reset()
                     // this.initValues()
                 }
@@ -157,10 +156,6 @@ export default {
         },
     },
     methods: {
-        alertinha() {
-            console.log(this.lead, this.selectedBrinde, this.selectedCampanha)
-        },
-
         submitData() {
             this.$validator.validateAll().then(result => {
                 if (result) {
@@ -169,22 +164,20 @@ export default {
                     obj.nome = this.lead.nome;
                     obj.email = this.lead.email;
                     obj.brinde = this.selectedBrinde.id;
-                    obj.campanha = this.selectedCampanha.id
-                    this.$vs.loading()
+                    obj.campanha = this.selectedCampanha.id;
+                    this.$vs.loading();
 
-                    console.log(obj);
-                    this.$store.dispatch("automacao/store", {rota: 'automacaos', item: obj}).then(() => {
+                    this.$store.dispatch("automacao/store", obj).then(() => {
                         this.$vs.notify({
                             title: '',
                             text: "Automação criada com sucesso.",
                             iconPack: 'feather',
                             icon: 'icon-check-circle',
                             color: 'success'
-                        })
-                        this.$emit('getItems')
-                        this.$emit('closeSidebar')
+                        });
+                        this.$emit('getItems');
+                        this.$emit('closeSidebar');
                     }).catch(error => {
-                        console.log(error.response)
                         if (error.response.status == 412) {
                             this.$vs.dialog({
                                 type: 'confirm',
@@ -194,7 +187,7 @@ export default {
                                 accept: this.acceptAlert,
                                 acceptText: "Confirmar",
                                 cancelText: "Cancelar"
-                            })
+                            });
                         } else {
                             this.$vs.notify({
                                 title: '',
@@ -202,11 +195,11 @@ export default {
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
-                            })
+                            });
                         }
                     }).finally(() => {
                         this.$vs.loading.close();
-                    })
+                    });
                 } else {
                     this.$vs.notify({
                         title: '',
@@ -214,7 +207,7 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
             });
         },
@@ -223,17 +216,15 @@ export default {
             this.submitData();
         },
         getBrindes() {
-            this.$store.dispatch('brindes/get').then(response => {
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
                 this.brindes = [...this.arraySelect(response)];
             });
         },
         getCampanhas() {
             this.$vs.loading();
             this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
-                console.log('ué', response)
                 this.campanhas = [...response];
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -248,17 +239,17 @@ export default {
         'v-select': vSelect
     },
     created() {
-        this.$vs.loading()
+        this.$vs.loading();
 
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
 
         this.getBrindes();
         this.getCampanhas();
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -219,7 +219,7 @@ export default{
                     }]
                 },
             ]
-        }
+        };
     },
     computed: {
     },
@@ -228,5 +228,5 @@ export default{
     mounted() {
         this.$emit('changeRouteTitle', 'Category');
     }
-}
+};
 </script>

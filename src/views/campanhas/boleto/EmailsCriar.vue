@@ -2,7 +2,7 @@
     <div>
         <div class="vx-row">
             <div class="vx-col w-full mb-5">
-                <p class="destaque">Configure o período de envio depois do último e-mail enviado</p>
+                <p class="destaque">Configure o período de envio do e-mail depois da entrada do Lead na campanha.</p>
             </div>
         </div>
         <div class="vx-row mb-4">
@@ -68,8 +68,7 @@
                 <div class="vx-row mb-3">
                     <div class="vx-col w-full">
                         <span class="font-regular mb-2">Mensagem</span>
-                        <quill-editor id="quill-editor" v-model="email.corpo" class="bg-white"
-                                      @ready="onEditorReady($event)"></quill-editor>
+                        <Editor v-if="email.corpo" :content="email.corpo" @ready="onEditorReady($event)" @changed="onChange"/>
                     </div>
                 </div>
             </div>
@@ -97,7 +96,9 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="flat" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/campanha/configurar-boleto/' + $route.params.id })">
+                               @click="$router.push({
+                                name: 'campanha-configurar-boleto', params:{id:$route.params.id }
+                                })">
                         Cancelar
                     </vs-button>
                     <vs-button class="float-right mr-3" color="primary" type="filled" @click="validar" :disabled="isValid">
@@ -136,8 +137,7 @@
             <div class="con-exemple-prompt">
                 <div class="my-3">
                     <span class="font-regular mb-2">Telefone que recebe a mensagem</span>
-                    <vs-input class="w-full" v-mask="'(##) #####-####'"
-                              v-model="email.telefone" size="large" name="nome"/>
+                    <phone-number :key="email.telefone" :ddi.sync="email.ddi" :phone.sync="email.telefone"/>
                 </div>
                 <div>
                     <span class="font-regular mb-2">Mensagem</span>
@@ -149,13 +149,15 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import {Validator} from "vee-validate";
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import {quillEditor} from 'vue-quill-editor'
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import {quillEditor} from 'vue-quill-editor';
 import moduleCampBoletos from "../../../store/campanha_boleto/moduleCampBoletos";
+import Editor from "@/components/Editor";
+import PhoneNumber from "@/components/PhoneNumber";
 
 const dict = {
     custom: {
@@ -180,16 +182,19 @@ Validator.localize('pt-br', dict);
 export default {
     name: "EmailsCriar",
     components: {
+        Editor, PhoneNumber,
         'v-select': vSelect,
         quillEditor
     },
     created() {
         if (!moduleCampBoletos.isRegistered) {
-            this.$store.registerModule('boleto', moduleCampBoletos)
-            moduleCampBoletos.isRegistered = true
+            this.$store.registerModule('boleto', moduleCampBoletos);
+            moduleCampBoletos.isRegistered = true;
         }
-        if (this.$route.name === 'campanha-config-boleto-emails-editar')
+        if (this.$route.name === 'campanha-config-boleto-emails-editar') {
+             this.email.corpo = '';
             this.getId(this.$route.params.idEmail);
+        }
         else {
             this.confereCampanha();
         }
@@ -201,7 +206,7 @@ export default {
                 titulo: '',
                 responder: '',
                 assunto: '',
-                corpo: '',
+                corpo: ' ',
                 status: true,
                 unidade_tempo: 0,
                 unidade_medida: ''
@@ -220,7 +225,7 @@ export default {
             produto_id: null,
             modalWhats: false,
             mensagemWhats: '',
-        }
+        };
     },
     methods: {
         addLinkCheckoutVarText() {
@@ -250,7 +255,7 @@ export default {
                             accept: () => {
                                 this.validarPeriodo();
                             },
-                        })
+                        });
                     } else {
                         this.validarPeriodo();
                     }
@@ -261,14 +266,14 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
 
         },
         validarPeriodo() {
             //Validando o período deste e-mail em relação aos já cadastrados, afim de barrar na excedência de 31 dias
-            let somaTotal = this.somaPeriodo + (this.email.unidade_tempo * this.periodoSelected.id)
+            let somaTotal = this.somaPeriodo + (this.email.unidade_tempo * this.periodoSelected.id);
             if (somaTotal > 44640) {
                 this.$vs.dialog({
                     color: 'danger',
@@ -279,7 +284,7 @@ export default {
                     buttonCancel: false,
                 });
             } else {
-                this.salvar()
+                this.salvar();
             }
         },
         salvar() {
@@ -287,14 +292,12 @@ export default {
             this.email.campanha_id = this.$route.params.id;
             this.email.periodo = this.email.unidade_tempo * this.periodoSelected.id;
             this.email.unidade_medida = this.periodoSelected.label;
-            console.log('email aí', this.email)
             if (this.email.id !== undefined) {
                 this.email._method = 'PUT';
                 this.$store.dispatch('boleto/updateEmail', {
                     id: this.email.id,
                     dados: this.email
-                }).then(response => {
-                    console.log('response', response);
+                }).then(() => {
                     this.$vs.notify({
                         title: '',
                         text: "Atualizado com sucesso.",
@@ -302,7 +305,8 @@ export default {
                         icon: 'icon-check-circle',
                         color: 'success'
                     });
-                    this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id})
+                    this.$router.push({
+                        name: 'campanha-configurar-boleto', params:{id:this.$route.params.id }});
                 }).catch(erro => {
                     this.$vs.notify({
                         title: 'Error',
@@ -310,11 +314,10 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
-                })
+                    });
+                });
             } else {
-                this.$store.dispatch('boleto/storeEmail', this.email).then(response => {
-                    console.log('response', response);
+                this.$store.dispatch('boleto/storeEmail', this.email).then(() => {
                     this.$vs.notify({
                         title: '',
                         text: "Criado com sucesso.",
@@ -322,7 +325,8 @@ export default {
                         icon: 'icon-check-circle',
                         color: 'success'
                     });
-                    this.$router.push({path: '/campanha/configurar-boleto/' + this.$route.params.id})
+                    this.$router.push({
+                        name: 'campanha-configurar-boleto', params:{id:this.$route.params.id }});
                 }).catch(erro => {
                     this.$vs.notify({
                         title: 'Error',
@@ -330,13 +334,16 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
-                })
+                    });
+                });
             }
         },
         onEditorReady(editor) {
             this.editor = editor;
         },
+        onChange(content) {
+			this.email.corpo = content;
+		},
         getId(id) {
             this.$vs.loading();
             this.$store.dispatch('boleto/getEmails', this.$route.params.id).then(response => {
@@ -351,29 +358,21 @@ export default {
                         this.somaPeriodo += item.periodo;
                     }
                 });
-                console.log('somaperiodo', this.somaPeriodo)
             });
             this.$store.dispatch('boleto/getEmailId', id).then(response => {
                 this.email = {...response};
                 switch (this.email.unidade_medida) {
                     case 'dias':
-                        this.periodoSelected = {id: 1440, label: 'dias'}
+                        this.periodoSelected = {id: 1440, label: 'dias'};
                         break;
                     case 'horas':
-                        this.periodoSelected = {id: 60, label: 'horas'}
+                        this.periodoSelected = {id: 60, label: 'horas'};
                         break;
                     default:
-                        this.periodoSelected = {id: 1, label: 'minutos'}
+                        this.periodoSelected = {id: 1, label: 'minutos'};
                 }
                 this.getLinks(this.email.campanha.produto_id);
             });
-        },
-        metodoCriar() {
-            this.get
-        },
-        formatPrice(value) {
-            let val = (value / 1).toFixed(2).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         },
         addVarText(value) {
             //Quill Editor
@@ -391,7 +390,6 @@ export default {
                         this.somaPeriodo += item.periodo;
                     }
                 });
-                console.log('somaperiodo', this.somaPeriodo)
             });
             this.getLinksCamp(this.$route.params.id);
         },
@@ -401,9 +399,8 @@ export default {
                 arr.forEach(item => {
                     this.links.push({id: item.identidade, label: item.descricao});
                 });
-                this.linkSelected = {id: null, label: 'Selecione o link'}
-            }).catch(erro => {
-                console.log('erro', erro.response);
+                this.linkSelected = {id: null, label: 'Selecione o link'};
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -422,18 +419,18 @@ export default {
                 arr.forEach(item => {
                     this.links.push({id: item.identidade, label: item.descricao});
                 });
-                this.linkSelected = {id: null, label: 'Selecione o link'}
+                this.linkSelected = {id: null, label: 'Selecione o link'};
             });
         },
     },
     computed: {
       isValidWhats() {
         if (this.email.telefone == null || this.email.telefone == '')
-          return false
+          return false;
         if (this.email.whatsapp == null || this.email.whatsapp == '')
-          return false
+          return false;
 
-        return true
+        return true;
       },
         isValid() {
             return this.errors.any();
@@ -455,24 +452,15 @@ export default {
             }
 
             //return parseInt(sobra / 1440);
-            return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`
+            return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`;
         }
     },
     watch: {
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
+            this.routeTitle = this.$route.meta.pageTitle;
         },
     },
-}
+};
 </script>
 
 <style>

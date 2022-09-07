@@ -8,33 +8,33 @@
 ==========================================================================================*/
 
 
-import 'firebase/auth'
-import axios from "@/axios.js"
+import 'firebase/auth';
+import axios from "@/axios.js";
 
 export default {
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/solicitacao_brindes`, {params: {}})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    aprovarVarias({commit}, dados) {
+    aprovarVarias(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/solicitacao_brindes/${dados.rota}`, {solicitacoes: dados.arr})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         let rota = '/solicitacao_brindes';
         if (dados.id != null) {
             rota = '/solicitacao_brindes/' + dados.id;
@@ -46,6 +46,6 @@ export default {
             }).catch((error) => {
                 reject(error);
             });
-        })
+        });
     },
-}
+};

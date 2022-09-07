@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleCampWhatsappState.js'
-import mutations from './moduleCampWhatsappMutations.js'
-import actions from './moduleCampWhatsappActions.js'
-import getters from './moduleCampWhatsappGetters.js'
+import state from './moduleCampWhatsappState.js';
+import mutations from './moduleCampWhatsappMutations.js';
+import actions from './moduleCampWhatsappActions.js';
+import getters from './moduleCampWhatsappGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

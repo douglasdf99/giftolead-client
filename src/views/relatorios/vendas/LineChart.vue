@@ -1,10 +1,9 @@
 <template>
     <vx-card title="Overview comparativo entre produtos" class="card-overlay">
         <template slot="actions">
-            <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-grey"></feather-icon>
+            <feather-icon icon="SettingsIcon" svgClasses="w-6 h-6 text-gray"></feather-icon>
         </template>
         <div slot="no-body" class="p-6 pb-0">
-
             <div class="flex">
                 <div class="mr-6">
                     <p class="mb-1 font-semibold">Valor total recuperado neste período</p>
@@ -21,7 +20,7 @@
     </vx-card>
 </template>
 <script>
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from 'vue-apexcharts';
 
 export default {
     name: "LineChart",
@@ -61,7 +60,7 @@ export default {
                 xaxis: {
                     labels: {
                         style: {
-                            cssClass: 'text-grey fill-current',
+                            cssClass: 'text-gray fill-current',
                         }
                     },
                     categories: [],
@@ -70,7 +69,7 @@ export default {
                     tickAmount: 5,
                     labels: {
                         style: {
-                            cssClass: 'text-grey fill-current',
+                            cssClass: 'text-gray fill-current',
                         },
                         formatter: function (val) {
                             return val > 999 ? (val / 1000).toFixed(2) + 'k' : val;
@@ -84,18 +83,18 @@ export default {
             loadings: {
                 productSales: false
             }
-        }
+        };
     },
-    created(){
-        this.chartOptions.xaxis.categories = this.vendas.grafico.categories
+    created() {
+        this.chartOptions.xaxis.categories = this.vendas.grafico.categories;
     },
     computed: {
         vendas() {
-            return this.$store.state.relatorios.vendas
+            return this.$store.state.relatorios.vendas;
         },
     },
     // updated() {
     //     this.chartOptions.xaxis.categories = this.categories
     // },
-}
+};
 </script>

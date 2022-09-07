@@ -69,15 +69,15 @@ export default {
                 title: `Confirm`,
                 text: 'Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups.',
                 accept: this.acceptAlert
-            })
+            });
         },
         acceptAlert() {
             this.$vs.notify({
                 color: 'danger',
                 title: 'Deleted image',
                 text: 'The selected image was successfully deleted'
-            })
+            });
         },
     }
-}
+};
 </script>

@@ -1,13 +1,13 @@
 const subtickets = [
     {
-        url: '/tickets',
+        url: 'tickets',
         name: "Listagem",
         slug: "tickets-list",
         icon: 'people_outline',
         can: 'ticket_listagem'
     },
     {
-        url: '/agenda',
+        url: 'agenda',
         name: "Agenda",
         slug: "agenda",
         icon: 'today',
@@ -15,4 +15,4 @@ const subtickets = [
     },
 ];
 
-export default subtickets
+export default subtickets;

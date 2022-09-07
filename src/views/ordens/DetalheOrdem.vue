@@ -9,7 +9,7 @@
             <div class="p-10">
                 <div class="vx-row mb-5 flex items-center">
                     <div class="vx-col w-1/2">
-                        <img :src="get_img_api(empresa.logo)" width="35%" class="mx-5"/>
+                        <img :src="get_img_cdn(empresa.logo)" width="35%" class="mx-5"/>
                     </div>
                     <div class="vx-col w-1/2 text-right">
                         <p class="font-bold text-2xl">Ordem: {{data.id}}</p>
@@ -77,7 +77,7 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
     import axios from "@/axios";
 
     export default {
@@ -98,26 +98,22 @@
             },
         },
         data() {
-            return {}
-        },
-        created() {
-            console.log('dados', this.data);
-            console.log('listagem', this.listaComissao);
+            return {};
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
 
                     }
                 }
             },
             somaComissao() {
-                let soma = 0.0
+                let soma = 0.0;
                 this.data.comissaos.forEach(item => {
                     soma += parseFloat(item.valor);
                 });
@@ -164,7 +160,6 @@
                     if (quantidadeAtendimento > 0)
                         arrFinal.push(atendimentoProduto);
                 });
-                console.log('arrFinal', arrFinal);
                 return arrFinal;
             }
         },
@@ -172,9 +167,9 @@
             getResponsavel(val) {
                 switch (val) {
                     case 'App\\Models\\PreComissao':
-                        return 'Pré Comissão'
+                        return 'Pré Comissão';
                     default:
-                        return val
+                        return val;
                 }
             },
             somaConquistas(val) {
@@ -186,7 +181,7 @@
             },
             imprimir(id) {
                 this.$vs.loading();
-                let ids = [id]
+                let ids = [id];
 
                 axios.get(`/ordems/imprimir`, {params: {ids: ids}, responseType: 'arraybuffer'})
                     .then((response) => {
@@ -196,16 +191,13 @@
                         var url = window.URL.createObjectURL(blob);
                         window.open(url);
                         this.$vs.loading.close();
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    })
+                    });
             }
         },
         components: {
             VuePerfectScrollbar,
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

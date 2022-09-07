@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleOrigemState.js'
-import mutations from './moduleOrigemMutations.js'
-import actions from './moduleOrigemActions.js'
-import getters from './moduleOrigemGetters.js'
+import state from './moduleOrigemState.js';
+import mutations from './moduleOrigemMutations.js';
+import actions from './moduleOrigemActions.js';
+import getters from './moduleOrigemGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

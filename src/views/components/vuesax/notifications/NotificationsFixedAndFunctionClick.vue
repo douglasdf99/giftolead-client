@@ -66,10 +66,10 @@ export default {
                         color: 'success',
                         iconPack: 'feather',
                         icon: 'icon-check'
-                    })
+                    });
                 },
-            })
+            });
         },
     }
-}
+};
 </script>

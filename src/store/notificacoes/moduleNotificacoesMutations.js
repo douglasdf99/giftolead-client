@@ -9,6 +9,6 @@
 
 export default {
   NOTIFICATION(state, notifications) {
-    state.notifications = notifications
+    state.notifications = notifications;
   }
-}
+};

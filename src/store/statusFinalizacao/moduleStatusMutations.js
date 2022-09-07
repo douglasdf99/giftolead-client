@@ -12,4 +12,4 @@ export default {
     state.items = obj.data;
     state.pagination = obj;
   }
-}
+};

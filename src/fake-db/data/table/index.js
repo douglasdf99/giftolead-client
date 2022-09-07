@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 const data = {
   dispatchedOrders: [
@@ -73,7 +73,7 @@ const data = {
       estDelDate: "28/07/2018"
     }
   ]
-}
+};
 
 
 mock.onGet("/api/table/dispatched-orders").reply(() => {

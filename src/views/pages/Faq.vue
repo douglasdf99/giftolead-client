@@ -70,7 +70,7 @@ export default{
                 {
                     id: 1,
                     name: 'All',
-                    color: 'grey',
+                    color: 'gray',
                 },
                 {
                     id: 2,
@@ -205,7 +205,7 @@ export default{
                     profession: 'Web Designer'
                 },
             ]
-        }
+        };
     },
     computed: {
         filteredFaq() {
@@ -222,7 +222,7 @@ export default{
     },
     components: {
     }
-}
+};
 </script>
 
 <style lang="scss">

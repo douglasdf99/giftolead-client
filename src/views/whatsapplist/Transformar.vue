@@ -101,16 +101,16 @@ export default {
             modal: false,
             selectedLink: {id: null, label: 'Selecione o link'},
             links: []
-        }
+        };
     },
     computed: {
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
                     // this.$validator.reset()
                     // this.initValues()
                 }
@@ -131,7 +131,6 @@ export default {
                     else obj.data = this.datetime;
 
                   this.$store.dispatch('whatsapplist/transformar', obj).then((response) => {
-                        console.log('eita')
                         this.$vs.notify({
                             title: '',
                             text: "Ticket criado com sucesso.",
@@ -141,34 +140,32 @@ export default {
                         });
 
                         if (this.metodo) {
-                            this.$emit('closeSidebar')
+                            this.$emit('closeSidebar');
                             this.$router.push({name: 'tickets-atender' , params: { id: response.data.data.ticket_id }});
                         }
-                    }).catch(erro => {
-                      console.log(erro);
-                      let self = this;
+                    }).catch(() => {
                       this.$vs.dialog({
                         color: 'danger',
                         title: `Ops`,
                         text: 'Algo de errado ocorreu na criação do ticket',
                         accept: this.fechar(),
                         acceptText: 'Ok'
-                      })
+                      });
                     });
                   this.$vs.loading.close();
-                  this.fechar();;
+                  this.fechar();
                 }
             });
         },
         fechar() {
-            this.$emit('getItems')
-            this.isSidebarActiveLocal = false
+            this.$emit('getItems');
+            this.isSidebarActiveLocal = false;
         },
         close() {
             this.modal = false;
         },
         origem(val) {
-            let tipo = ''
+            let tipo = '';
             switch (val) {
                 case 'App\\Models\\CampanhaWhatsapp':
                     tipo = 'Campanha Whatsapp';
@@ -181,9 +178,8 @@ export default {
         VuePerfectScrollbar, flatPickr
     },
     created() {
-        console.log('data aí', this.data)
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

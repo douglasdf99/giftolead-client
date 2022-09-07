@@ -1,11 +1,11 @@
 const subextensoes = [
     {
-        url: '/extensoes/instalar',
-        name: "Instalar",
+        url: 'extensoes/correios',
+        name: "Correios",
         slug: "extensoes-list",
         icon: 'apps',
         can: 'public'
     },
 ];
 
-export default subextensoes
+export default subextensoes;

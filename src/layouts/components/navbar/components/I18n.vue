@@ -17,14 +17,14 @@
 export default {
   computed: {
     i18n_locale_img() {
-      return require(`@/assets/images/flags/${this.$i18n.locale}.png`)
+      return require(`@/assets/images/flags/${this.$i18n.locale}.png`);
     },
     getCurrentLocaleData() {
         const locale = this.$i18n.locale;
-        if (locale == "en")      return { flag: "us", lang: 'English'    }
-        else if (locale == "pt") return { flag: "br", lang: 'Portuguese' }
-        else if (locale == "fr") return { flag: "fr", lang: 'French'     }
-        else if (locale == "de") return { flag: "de", lang: 'German'     }
+        if (locale == "en")      return { flag: "us", lang: 'English'    };
+        else if (locale == "pt") return { flag: "br", lang: 'Portuguese' };
+        else if (locale == "fr") return { flag: "fr", lang: 'French'     };
+        else if (locale == "de") return { flag: "de", lang: 'German'     };
     },
   },
   methods: {
@@ -32,5 +32,5 @@ export default {
       this.$i18n.locale = locale;
     },
   }
-}
+};
 </script>

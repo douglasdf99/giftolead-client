@@ -32,7 +32,7 @@
 
                     <!-- Logo -->
                     <router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/">
-                        <img :src="get_img_api('images/logo2.svg')" width="100%">
+                        <img :src="get_img_local('logo2.svg')" width="100%">
 
                         <!-- <logo class="w-10 mr-4 fill-current text-primary"/>
                          <span class="vx-logo-text text-primary" v-show="isMouseEnter || !reduce" v-if="title">{{ title }}</span>-->
@@ -57,9 +57,9 @@
                         <vs-row>
                             <vs-col vs-w="12">
                                 <ul id="submenu">
-                                    <li v-for="item in menus" :key="item.name" v-if="$acl.check(item.can)">
+                                    <li v-for="item in menus" :key="item.name" v-show="$acl.check(item.can)">
                                         <vs-icon icon-pack="material-icons" :icon="item.icon"/>
-                                        <router-link :to="item.url"><span class="ml-3 menu-name"
+                                        <router-link :to="'/'+$route.params.company_slug+'/'+item.url"><span class="ml-3 menu-name"
                                                                           :class="{'menu-ativo' : activeLink(item.url)}">{{item.name}}</span>
                                         </router-link>
                                     </li>
@@ -84,11 +84,11 @@
 
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import VNavMenuGroup from './VerticalNavMenuGroup.vue'
-    import VNavMenuItem from './VerticalNavMenuItem.vue'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import VNavMenuGroup from './VerticalNavMenuGroup.vue';
+    import VNavMenuItem from './VerticalNavMenuItem.vue';
 
-    import Logo from "../Logo.vue"
+    import Logo from "../Logo.vue";
 
     export default {
         name: 'v-nav-menu',
@@ -132,88 +132,88 @@
             },
             isGroupActive() {
                 return (item) => {
-                    const path = this.$route.fullPath
-                    const routeParent = this.$route.meta ? this.$route.meta.parent : undefined
-                    let open = false
+                    const path = this.$route.fullPath;
+                    const routeParent = this.$route.meta ? this.$route.meta.parent : undefined;
+                    let open = false;
 
                     let func = (item) => {
                         if (item.submenu) {
                             item.submenu.forEach((item) => {
                                 if (item.url && (path === item.url || routeParent === item.slug)) {
-                                    open = true
+                                    open = true;
                                 } else if (item.submenu) {
-                                    func(item)
+                                    func(item);
                                 }
-                            })
+                            });
                         }
-                    }
-                    func(item)
-                    return open
-                }
+                    };
+                    func(item);
+                    return open;
+                };
             },
             menuItemsUpdated() {
-                let clone = this.navMenuItems.slice()
+                let clone = this.navMenuItems.slice();
 
                 for (let [index, item] of this.navMenuItems.entries()) {
                     if (item.header && item.items.length && (index || 1)) {
-                        let i = clone.findIndex(ix => ix.header === item.header)
+                        let i = clone.findIndex(ix => ix.header === item.header);
                         for (let [subIndex, subItem] of item.items.entries()) {
-                            clone.splice(i + 1 + subIndex, 0, subItem)
+                            clone.splice(i + 1 + subIndex, 0, subItem);
                         }
                     }
                 }
 
-                return clone
+                return clone;
             },
             isVerticalNavMenuActive2: {
                 get() {
-                    return this.$store.state.isVerticalNavMenuActive2
+                    return this.$store.state.isVerticalNavMenuActive2;
                 },
                 set(val) {
-                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', val)
+                    this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', val);
                 }
             },
             layoutType() {
-                return this.$store.state.mainLayoutType
+                return this.$store.state.mainLayoutType;
             },
             reduceButton: {
                 get() {
-                    return this.$store.state.reduceButton
+                    return this.$store.state.reduceButton;
                 },
                 set(val) {
-                    this.$store.commit('TOGGLE_REDUCE_BUTTON', val)
+                    this.$store.commit('TOGGLE_REDUCE_BUTTON', val);
                 }
             },
             isVerticalNavMenuReduced() {
-                return Boolean(this.reduce && this.reduceButton)
+                return Boolean(this.reduce && this.reduceButton);
             },
             verticalNavMenuItemsMin() {
-                return this.$store.state.verticalNavMenuItemsMin
+                return this.$store.state.verticalNavMenuItemsMin;
             },
             windowWidth() {
-                return this.$store.state.windowWidth
+                return this.$store.state.windowWidth;
             },
         },
         watch: {
             '$route'() {
-                if (this.isVerticalNavMenuActive2 && this.showCloseButton) this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)
+                if (this.isVerticalNavMenuActive2 && this.showCloseButton) this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false);
             },
             reduce(val) {
-                const verticalNavMenuWidth = val ? "reduced" : this.$store.state.windowWidth < 1200 ? "no-nav-menu" : "default"
-                this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth)
+                const verticalNavMenuWidth = val ? "reduced" : this.$store.state.windowWidth < 1200 ? "no-nav-menu" : "default";
+                this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth);
 
                 setTimeout(function () {
-                    window.dispatchEvent(new Event('resize'))
-                }, 100)
+                    window.dispatchEvent(new Event('resize'));
+                }, 100);
             },
             layoutType() {
-                this.setVerticalNavMenuWidth()
+                this.setVerticalNavMenuWidth();
             },
             reduceButton() {
-                this.setVerticalNavMenuWidth()
+                this.setVerticalNavMenuWidth();
             },
             windowWidth() {
-                this.setVerticalNavMenuWidth()
+                this.setVerticalNavMenuWidth();
             }
         },
         methods: {
@@ -225,20 +225,20 @@
                 return url === this.$route.path;
             },
             onSwipeLeft() {
-                if (this.isVerticalNavMenuActive2 && this.showCloseButton) this.isVerticalNavMenuActive2 = false
+                if (this.isVerticalNavMenuActive2 && this.showCloseButton) this.isVerticalNavMenuActive2 = false;
             },
             onSwipeAreaSwipeRight() {
-                if (!this.isVerticalNavMenuActive2 && this.showCloseButton) this.isVerticalNavMenuActive2 = true
+                if (!this.isVerticalNavMenuActive2 && this.showCloseButton) this.isVerticalNavMenuActive2 = true;
             },
             psSectionScroll() {
-                this.showShadowBottom = this.$refs.verticalNavMenuPs.$el.scrollTop > 0 ? true : false
+                this.showShadowBottom = this.$refs.verticalNavMenuPs.$el.scrollTop > 0 ? true : false;
             },
             mouseEnter() {
-                if (this.reduce) this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false)
-                this.isMouseEnter = true
+                if (this.reduce) this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false);
+                this.isMouseEnter = true;
             },
             mouseLeave() {
-                if (this.reduce) this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', true)
+                if (this.reduce) this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', true);
                 this.isMouseEnter = false;
             },
             setVerticalNavMenuWidth() {
@@ -247,23 +247,23 @@
                     if (this.layoutType === 'vertical') {
 
                         // Set reduce
-                        this.reduce = this.reduceButton ? true : false
+                        this.reduce = this.reduceButton ? true : false;
 
                         // Open NavMenu
                         //this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', true)
 
                         // Set Menu Items Only Icon Mode
-                        const verticalNavMenuItemsMin = (this.reduceButton && !this.isMouseEnter) ? true : false
-                        this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', verticalNavMenuItemsMin)
+                        const verticalNavMenuItemsMin = (this.reduceButton && !this.isMouseEnter) ? true : false;
+                        this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', verticalNavMenuItemsMin);
 
                         // Menu Action buttons
-                        this.clickNotClose = true
-                        this.showCloseButton = false
+                        this.clickNotClose = true;
+                        this.showCloseButton = false;
 
-                        const verticalNavMenuWidth = this.isVerticalNavMenuReduced ? "reduced" : "default"
-                        this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth)
+                        const verticalNavMenuWidth = this.isVerticalNavMenuReduced ? "reduced" : "default";
+                        this.$store.dispatch('updateVerticalNavMenuWidth', verticalNavMenuWidth);
 
-                        return
+                        return;
                     }
                 }
 
@@ -271,17 +271,17 @@
                 //this.$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_2_ACTIVE', false)
 
                 // Reduce button
-                if (this.reduceButton) this.reduce = false
+                if (this.reduceButton) this.reduce = false;
 
                 // Menu Action buttons
-                this.showCloseButton = true
-                this.clickNotClose = false
+                this.showCloseButton = true;
+                this.clickNotClose = false;
 
                 // Update NavMenu Width
-                this.$store.dispatch('updateVerticalNavMenuWidth', 'no-nav-menu')
+                this.$store.dispatch('updateVerticalNavMenuWidth', 'no-nav-menu');
 
                 // Remove Only Icon in Menu
-                this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false)
+                this.$store.commit('UPDATE_VERTICAL_NAV_MENU_ITEMS_MIN', false);
 
 
                 // if(this.layoutType === 'vertical' || (this.layoutType === 'horizontal' && this.windowWidth < 1200))
@@ -324,13 +324,12 @@
                 // }
             },
             toggleReduce(val) {
-                this.reduceButton = val
-                this.setVerticalNavMenuWidth()
+                this.reduceButton = val;
+                this.setVerticalNavMenuWidth();
             },
         },
         created() {
             /*let submenu = JSON.parse(localStorage.getItem('submenu'));
-            console.log('submenu', submenu)
             if (submenu.name) {
                 this.$store.dispatch('submenu', submenu)
                 this.icone_destaque = submenu.icon
@@ -338,9 +337,9 @@
             }*/
         },
         mounted() {
-            this.setVerticalNavMenuWidth()
+            this.setVerticalNavMenuWidth();
         },
-    }
+    };
 
 </script>
 

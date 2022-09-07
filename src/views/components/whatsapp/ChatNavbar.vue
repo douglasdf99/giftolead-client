@@ -20,7 +20,7 @@
                     <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
                     <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                         <span class="span-identifica-item-dropdown mb-0">Mensagem Padrão</span>
-                        <vs-dropdown-item v-for="msg in mensagens" @click="$emit('setMensagem', msg.mensagem)">
+                        <vs-dropdown-item v-for="(msg, index) in mensagens" @click="$emit('setMensagem', msg.mensagem)" :key="index">
                             <span v-if="msg.tipo === 'whatsapp'">{{msg.titulo}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -58,20 +58,19 @@
         data() {
             return {
                 mensagens: []
-            }
+            };
         },
         created() {
-            console.log('dados', this.dados);
             if (!moduleMensagem.isRegistered) {
-                this.$store.registerModule('mensagens', moduleMensagem)
-                moduleMensagem.isRegistered = true
+                this.$store.registerModule('mensagens', moduleMensagem);
+                moduleMensagem.isRegistered = true;
             }
             this.getMensagens();
         },
         computed: {
             isPinnedLocal: {
                 get() {
-                    return this.isPinnedProp
+                    return this.isPinnedProp;
                 },
             },
             userDetails() {
@@ -86,7 +85,7 @@
                 });
             },
         }
-    }
+    };
 </script>
 <style>
     .dropdown-chat {

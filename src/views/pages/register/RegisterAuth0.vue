@@ -28,18 +28,18 @@ export default {
           iconPack: 'feather',
           icon: 'icon-alert-circle',
           color: 'warning'
-        })
+        });
 
-        return false
+        return false;
       }
-      return true
+      return true;
     },
     registerAuth0() {
-      if (!this.checkLogin()) return
-      this.$auth.login({ target: this.$route.query.to })
+      if (!this.checkLogin()) return;
+      this.$auth.login({ target: this.$route.query.to });
     }
   }
-}
+};
 
 </script>
 

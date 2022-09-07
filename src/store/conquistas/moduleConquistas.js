@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleConquistaState.js'
-import mutations from './moduleConquistaMutations.js'
-import actions from './moduleConquistaActions.js'
-import getters from './moduleConquistaGetters.js'
+import state from './moduleConquistaState.js';
+import mutations from './moduleConquistaMutations.js';
+import actions from './moduleConquistaActions.js';
+import getters from './moduleConquistaGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

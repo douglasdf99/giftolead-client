@@ -50,7 +50,7 @@
             return {
                 active1: true,
                 active2: true,
-            }
+            };
         },
-    }
+    };
 </script>

@@ -2,12 +2,12 @@ import subcomissoes from "./subRotaComissoes";
 
 const rotasComissoes = [
     {
-        path: '/comissoes/todas',
+        path: 'comissoes/todas',
         name: 'comissoes-todas',
         component: () => import('@/views/comissoes/Todas.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Comissões'},
                 {title: 'Todas as comissões', active: true},
             ],
@@ -19,12 +19,12 @@ const rotasComissoes = [
         },
     },
     {
-        path: '/comissoes/aprovar',
+        path: 'comissoes/aprovar',
         name: 'comissoes-aprovar',
         component: () => import('@/views/comissoes/Aprovar.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Comissões'},
                 {title: 'Aprovar', active: true},
             ],
@@ -36,12 +36,12 @@ const rotasComissoes = [
         },
     },
     {
-        path: '/comissoes/comissionar',
+        path: 'comissoes/comissionar',
         name: 'comissoes-comissionar',
         component: () => import('@/views/comissoes/Comissionar.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Comissões'},
                 {title: 'Comissionar', active: true},
             ],
@@ -53,12 +53,12 @@ const rotasComissoes = [
         },
     },
     {
-        path: '/comissoes/pagamentos',
+        path: 'comissoes/pagamentos',
         name: 'comissoes-pagamentos',
         component: () => import('@/views/ordens/Ordens.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Comissões'},
                 {title: 'Pagamentos', active: true},
             ],
@@ -71,4 +71,4 @@ const rotasComissoes = [
     },
 ];
 
-export default rotasComissoes
+export default rotasComissoes;

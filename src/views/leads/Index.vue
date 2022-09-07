@@ -27,14 +27,14 @@
         <div class="vx-row mt-5 -mb-4">
             <div class="vx-col w-full">
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
-                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                    <div class="p-4 border border-solid d-theme-border-gray-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
                         <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{
                                 pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total
                             }} de {{ pagination.total }}</span>
                         <feather-icon icon="ChevronDownIcon" svgClasses="h-4 w-4"/>
                     </div>
                     <vs-dropdown-menu>
-                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                        <vs-dropdown-item v-for="(item, index) in lengths" @click="dados.length = item" :key="index">
                             <span>{{ item }}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import moduleContas from '@/store/contas/moduleContas.js'
+import moduleContas from '@/store/contas/moduleContas.js';
 import saveleadsConfig from "../../../saveleadsConfig";
 
 export default {
@@ -127,28 +127,25 @@ export default {
             currentx: 1,
             lengths: saveleadsConfig.lengths
             //items: {}
-        }
+        };
     },
     created() {
-        this.$vs.loading()
+        this.$vs.loading();
         if (!moduleContas.isRegistered) {
-            this.$store.registerModule('contas', moduleContas)
-            moduleContas.isRegistered = true
+            this.$store.registerModule('contas', moduleContas);
+            moduleContas.isRegistered = true;
         }
 
         this.getLeads();
     },
     methods: {
         show(id) {
-            this.$router.push({path: '/leads/detalhe/' + id});
+            this.$router.push({name: 'leads-detalhe', params:{id}});
         },
         getLeads() {
             this.$store.dispatch('getVarios', {rota: 'leads', params: this.dados}).then(response => {
-                console.log('retornado com sucesso', response)
                 this.pagination = response;
-                //this.items = response.data
-                //this.dados.page = this.pagination.current_page
-                this.$vs.loading.close()
+                this.$vs.loading.close();
             });
         },
         deletar(id) {
@@ -165,15 +162,14 @@ export default {
                             text: 'A URL foi deletada com sucesso'
                         });
                         this.getLeads();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             text: 'Algo deu errado ao deletar o produto. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
             e.preventDefault();
@@ -191,7 +187,7 @@ export default {
             }
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
         dados: {
             handler(val) {
@@ -215,5 +211,5 @@ export default {
         },*/
     },
 
-}
+};
 </script>

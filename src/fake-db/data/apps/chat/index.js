@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 // Contact
 let data = {
@@ -182,106 +182,104 @@ let data = {
         ],
       },
     },
-}
+};
 
 // Functions
 const chatDataOfUser = (id) => {
-  return data.chats[Object.keys(data.chats).find(key => key == id)]
-}
+  return data.chats[Object.keys(data.chats).find(key => key == id)];
+};
 
 // GET : Contacts List
 mock.onGet("/api/apps/chat/contacts").reply((request) => {
 
   // Filter contact based on search query
   const filteredContacts = data.contacts.filter((contact) => {
-    return contact.displayName.toLowerCase().includes(request.params.q.toLowerCase())
-  })
+    return contact.displayName.toLowerCase().includes(request.params.q.toLowerCase());
+  });
 
-  return [200, filteredContacts]
-})
+  return [200, filteredContacts];
+});
 
 
 // GET : Get All Contacts
 mock.onGet("/api/apps/chat/contacts").reply(() => {
-  return [200, data.contacts]
-})
+  return [200, data.contacts];
+});
 
 // GET : Get All Chats
 mock.onGet("/api/apps/chat/chats").reply(() => {
-  return [200, data.chats]
-})
+  return [200, data.chats];
+});
 
 // GET : Chats List
 mock.onGet("/api/apps/chat/chat-contacts").reply((request) => {
 
   const chatContactsArray = data.contacts.filter((contact) => {
-    if(data.chats[contact.uid]) return (data.chats[contact.uid] && contact.displayName.toLowerCase().includes(request.params.q.toLowerCase()))
-  })
+    if(data.chats[contact.uid]) return (data.chats[contact.uid] && contact.displayName.toLowerCase().includes(request.params.q.toLowerCase()));
+  });
 
-  return [200, chatContactsArray]
-})
+  return [200, chatContactsArray];
+});
 
 
 // POST : Mark all msgs as seen
 mock.onPost("/api/apps/chat/mark-all-seen/").reply((request) => {
-  let contactId = JSON.parse(request.data).contactId
+  let contactId = JSON.parse(request.data).contactId;
 
 
   // Get chat data
-  let chatLog = chatDataOfUser(contactId)
+  let chatLog = chatDataOfUser(contactId);
 
-  // console.log(chatLog);
-  chatDataOfUser(1) == chatLog
+  // chatLog);
+  chatDataOfUser(1) == chatLog;
 
   // Loop over all msg & mark them as seen
   chatLog.msg.forEach((msg) => {
-    msg.isSeen = true
-  })
+    msg.isSeen = true;
+  });
 
   // Set unsen Msg flag to 0
-  chatLog.unseenMsg = 0
+  chatLog.unseenMsg = 0;
 
-  // console.log(data.chats[0] == chatDataOfUser(contactId));
-
-  return [200]
-})
+  return [200];
+});
 
 
 mock.onPost("/api/apps/chat/set-pinned/").reply((request) => {
-  let {contactId, value} = JSON.parse(request.data)
-  let index = Object.keys(data.chats).find(key => key == contactId)
+  let {contactId, value} = JSON.parse(request.data);
+  let index = Object.keys(data.chats).find(key => key == contactId);
   data.chats[index].isPinned = value;
-  return [200, data.chats[index]]
-})
+  return [200, data.chats[index]];
+});
 
 
 mock.onPost("/api/apps/chat/msg").reply((request) => {
-  let payload = JSON.parse(request.data).payload
+  let payload = JSON.parse(request.data).payload;
 
   // Get chat data
-  payload.chatData = chatDataOfUser(payload.id)
+  payload.chatData = chatDataOfUser(payload.id);
 
-  if(payload.chatData){
+  if(payload.chatData) {
       // If there's already chat. Push msg to existing chat
       data.chats[Object.keys(data.chats).find(key => key == payload.id)].msg.push(payload.msg);
   }else{
       // Create New chat and add msg
-      data.chats[payload.id] = {isPinned: payload.isPinned, msg: [payload.msg]}
+      data.chats[payload.id] = {isPinned: payload.isPinned, msg: [payload.msg]};
   }
 
-  return [200]
-})
+  return [200];
+});
 
 
 mock.onPost("/api/apps/chat/mark-all-seen").reply((request) => {
-  const uid = JSON.parse(request.data).id
+  const uid = JSON.parse(request.data).id;
 
   // Get chat data
-  let chatLog = chatDataOfUser(uid)
+  let chatLog = chatDataOfUser(uid);
 
   chatLog.msg.forEach((msg) => {
-    msg.isSeen = true
-  })
+    msg.isSeen = true;
+  });
 
-  return [200]
-})
+  return [200];
+});

@@ -85,9 +85,9 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
-import moduleLinks from '@/store/links/moduleLinks.js'
-import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+import vSelect from 'vue-select';
+import moduleLinks from '@/store/links/moduleLinks.js';
+import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -118,12 +118,12 @@ export default {
     },
     created() {
         if (!moduleLinks.isRegistered) {
-            this.$store.registerModule('links', moduleLinks)
-            moduleLinks.isRegistered = true
+            this.$store.registerModule('links', moduleLinks);
+            moduleLinks.isRegistered = true;
         }
         if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos)
-            moduleProdutos.isRegistered = true
+            this.$store.registerModule('produtos', moduleProdutos);
+            moduleProdutos.isRegistered = true;
         }
         this.getProduto(this.$route.params.id);
 
@@ -131,7 +131,6 @@ export default {
             this.getLink(this.$route.params.link);
         }
 
-        console.log('mudando nome da rota')
         //this.$route.meta.pageTitle = "Link do curso:"+ this.produto.nome;
 
     },
@@ -180,19 +179,17 @@ export default {
                 precision: 2,
                 masked: false /* doesn't work with directive */
             },
-        }
+        };
     },
     methods: {
         salvar() {
             this.link.produto_id = this.produto.id;
-            console.log('link montado =', this.link);
             var self = this;
             this.$validator.validateAll().then(result => {
                 if (result) {
                     this.$vs.loading();
                     if (self.link.id !== undefined) {
-                        this.$store.dispatch('links/update', self.link).then(response => {
-                            console.log('response', response);
+                        this.$store.dispatch('links/update', self.link).then(() => {
                             this.$vs.notify({
                                 title: 'Sucesso',
                                 text: "O link foi atualizado com sucesso.",
@@ -208,14 +205,12 @@ export default {
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
-                            })
+                            });
                         }).finally(() => {
                             this.$vs.loading.close();
-                        })
+                        });
                     } else {
-                        console.log('store', self.produto.id)
-                        this.$store.dispatch('links/store', self.link).then(response => {
-                            console.log('response', response);
+                        this.$store.dispatch('links/store', self.link).then(() => {
                             this.$vs.notify({
                                 title: 'Sucesso',
                                 text: "O link foi criado com sucesso.",
@@ -231,10 +226,10 @@ export default {
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
-                            })
+                            });
                         }).finally(() => {
                             this.$vs.loading.close();
-                        })
+                        });
                     }
                 } else {
                     this.$vs.notify({
@@ -243,14 +238,14 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
 
         },
         selecionaCor(cor) {
             if (cor) {
-                this.produto.cor = cor
+                this.produto.cor = cor;
             } else {
                 this.produto.cor = this.customcor;
             }
@@ -258,22 +253,20 @@ export default {
         },
         selecionaTipoComissao(val) {
             this.produto.comissao_tipo = val;
-            console.log(this.produto.comissao_tipo)
         },
         getProduto(id) {
-            this.$vs.loading()
+            this.$vs.loading();
             this.$store.dispatch('produtos/getId', id).then(data => {
                 this.produto = {...data};
-                console.log('chamou produto', this.produto);
                 this.$vs.loading.close();
-            })
+            });
         },
         getLink(id) {
-            this.$vs.loading()
+            this.$vs.loading();
             this.$store.dispatch('links/getId', id).then(data => {
                 this.link = {...data};
                 this.$vs.loading.close();
-            })
+            });
         },
         copyText() {
             const thisIns = this;
@@ -284,7 +277,7 @@ export default {
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
-                })
+                });
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
@@ -293,8 +286,8 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         }
     },
     computed: {
@@ -303,22 +296,12 @@ export default {
         },
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
         },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
-        },
     },
-}
+};
 </script>
 
 <style>

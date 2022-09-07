@@ -99,13 +99,13 @@
 </template>
 
 <script>
-  import vSelect from 'vue-select'
-  import moduleMensagem from '@/store/mensagemPadrao/moduleMensagem.js'
+  import vSelect from 'vue-select';
+  import moduleMensagem from '@/store/mensagemPadrao/moduleMensagem.js';
   import {Validator} from 'vee-validate';
-  import 'quill/dist/quill.core.css'
-  import 'quill/dist/quill.snow.css'
-  import 'quill/dist/quill.bubble.css'
-  import {quillEditor} from 'vue-quill-editor'
+  import 'quill/dist/quill.core.css';
+  import 'quill/dist/quill.snow.css';
+  import 'quill/dist/quill.bubble.css';
+  import {quillEditor} from 'vue-quill-editor';
 
   const dict = {
     custom: {
@@ -132,8 +132,8 @@
     },
     created() {
       if (!moduleMensagem.isRegistered) {
-        this.$store.registerModule('mensagem', moduleMensagem)
-        moduleMensagem.isRegistered = true
+        this.$store.registerModule('mensagem', moduleMensagem);
+        moduleMensagem.isRegistered = true;
       }
       this.getOpcoes();
 
@@ -166,7 +166,7 @@
         modal: false,
         links: [],
         linkSelected: {id: null, label: 'Selecione o link'}
-      }
+      };
     },
     methods: {
       addLinkCheckoutVarText() {
@@ -203,8 +203,7 @@
               this.$store.dispatch('mensagem/update', {
                 dados: formData,
                 id: this.mensagem.id
-              }).then(response => {
-                console.log('response', response);
+              }).then(() => {
                 this.$vs.notify({
                   title: 'Sucesso',
                   text: "Atualizado com sucesso.",
@@ -220,11 +219,10 @@
                   iconPack: 'feather',
                   icon: 'icon-alert-circle',
                   color: 'danger'
-                })
-              })
+                });
+              });
             } else {
-              this.$store.dispatch('addItem', {item: formData, rota: 'mensagem_padraos'}).then(response => {
-                console.log('response', response);
+              this.$store.dispatch('addItem', {item: formData, rota: 'mensagem_padraos'}).then(() => {
                 this.$vs.notify({
                   title: 'Sucesso',
                   text: "Criado com sucesso.",
@@ -240,8 +238,8 @@
                   iconPack: 'feather',
                   icon: 'icon-alert-circle',
                   color: 'danger'
-                })
-              })
+                });
+              });
             }
           } else {
             this.$vs.notify({
@@ -250,9 +248,9 @@
               iconPack: 'feather',
               icon: 'icon-alert-circle',
               color: 'danger'
-            })
+            });
           }
-        })
+        });
 
       },
       getOpcoes() {
@@ -265,15 +263,15 @@
         })*/
       },
       getMensagem(id) {
-        this.$vs.loading()
+        this.$vs.loading();
         this.$store.dispatch('mensagem/getId', id).then(data => {
           this.mensagem = {...data};
           if (this.mensagem.tipo === 'email')
             this.mensagem.mensagem_email = this.mensagem.mensagem;
-          this.selectTipo = {id: this.mensagem.tipo, label: this.mensagem.tipo}
+          this.selectTipo = {id: this.mensagem.tipo, label: this.mensagem.tipo};
           this.$vs.loading.close();
 
-        })
+        });
       },
       addVarText(value) {
         if (this.mensagem.tipo == 'whatsapp') {
@@ -290,7 +288,6 @@
         }
       },
       onEditorReady(editor) {
-        console.log('editor', editor.getSelection());
         this.editor = editor;
       },
     },
@@ -300,29 +297,19 @@
       },
     },
     watch: {
-      currentx(val) {
+      currentx() {
         this.$vs.loading();
-        console.log('val', val);
         this.dados.page = this.currentx;
         this.getContas();
       },
       "$route"() {
-        this.routeTitle = this.$route.meta.pageTitle
-      },
-      usuario: {
-        handler(val) {
-          console.log('mudou');
-          if (val) {
-            console.log('watch', val);
-          }
-        },
-        deep: true
+        this.routeTitle = this.$route.meta.pageTitle;
       },
       selectTipo(val) {
-        this.mensagem.tipo = val.id
+        this.mensagem.tipo = val.id;
       }
     },
-  }
+  };
 </script>
 
 <style scoped lang="scss">

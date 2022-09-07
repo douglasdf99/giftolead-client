@@ -20,12 +20,12 @@ export default {
       old_password: "",
       new_password: "",
       confirm_new_password: "",
-    }
+    };
   },
   computed: {
     activeUserInfo() {
-      return this.$store.state.AppActiveUser
+      return this.$store.state.AppActiveUser;
     },
   }
-}
+};
 </script>

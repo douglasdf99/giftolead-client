@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleCampCheckoutState.js'
-import mutations from './moduleCampCheckoutMutations.js'
-import actions from './moduleCampCheckoutActions.js'
-import getters from './moduleCampCheckoutGetters.js'
+import state from './moduleCampCheckoutState.js';
+import mutations from './moduleCampCheckoutMutations.js';
+import actions from './moduleCampCheckoutActions.js';
+import getters from './moduleCampCheckoutGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

@@ -111,4 +111,4 @@ export default {
     t -= 2;
     return c/2 * (Math.sqrt(1 - t*t) + 1) + b;
   }
-}
+};

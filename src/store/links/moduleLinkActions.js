@@ -8,7 +8,7 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
     update({commit}, dados) {
@@ -17,56 +17,56 @@ export default {
             axios.post(`/links/${dados.id}`, dados)
                 .then((response) => {
                     commit('UPDATE_EMPRESA', response.data.data);
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/links/`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/links/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/links`, {params: {}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    gerarlink({commit}, dados) {
+    gerarlink(_, dados) {
         return new Promise((resolve, reject) => {
           axios.post(`/link-store/`, dados)
             .then((response) => {
-              resolve(response)
+              resolve(response);
             })
             .catch((error) => {
-              reject(error)
-            })
-        })
+              reject(error);
+            });
+        });
       },
 
-}
+};

@@ -93,5 +93,5 @@ export default {
     data: () => ({
         colorx: '#c80948'
     }),
-}
+};
 </script>

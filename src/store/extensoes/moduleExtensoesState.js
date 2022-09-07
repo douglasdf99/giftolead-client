@@ -1,5 +1,6 @@
 
 
 export default {
-    campanha: {}
-}
+    campanha: {},
+    extensoes:[]
+};

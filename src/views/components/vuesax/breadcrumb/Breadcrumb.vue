@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import BreadcrumbDefault from './BreadcrumbDefault.vue'
-import BreadcrumbColor from './BreadcrumbColor.vue'
-import BreadcrumbSeparator from './BreadcrumbSeparator.vue'
-import BreadcrumbSlot from './BreadcrumbSlot.vue'
-import BreadcrumbAlignment from './BreadcrumbAlignment.vue'
+import BreadcrumbDefault from './BreadcrumbDefault.vue';
+import BreadcrumbColor from './BreadcrumbColor.vue';
+import BreadcrumbSeparator from './BreadcrumbSeparator.vue';
+import BreadcrumbSlot from './BreadcrumbSlot.vue';
+import BreadcrumbAlignment from './BreadcrumbAlignment.vue';
 
 export default{
     components: {
@@ -33,5 +33,5 @@ export default{
         BreadcrumbSlot,
         BreadcrumbAlignment,
     }
-}
+};
 </script>

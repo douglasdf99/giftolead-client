@@ -2,7 +2,42 @@ import subbrindes from "./subRotaBrindes";
 
 const rotasBrindes = [
     {
-        path: '/brindes/campanhas',
+        path: 'brindes',
+        name: 'brindes',
+        component: () => import('@/views/brindes/Index.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes', active: true},
+            ],
+            pageTitle: 'Brindes',
+            rule: 'configuracao_brinde',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subbrindes
+        },
+    },
+    {
+        path: 'brindes/embalagens',
+        name: 'embalagens',
+        component: () => import('@/views/embalagens/Index.vue'),
+        meta: {
+            breadcrumb: [
+                {title: 'Home', url: '/'},
+                {title: 'Brindes', url: '/brindes'},
+                {title: 'Embalagens', active: true},
+            ],
+            pageTitle: 'Embalagens',
+            rule: 'configuracao_embalagens',
+            pai: 'configuracoes',
+            subTitle: 'Configurações',
+            subIcon: 'settings',
+            submenu: subbrindes
+        },
+    },
+    {
+        path: 'brindes/campanhas',
         name: 'brindes-campanhas',
         component: () => import('@/views/brindes/Campanhas.vue'),
         meta: {
@@ -19,7 +54,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/campanhas/criar',
+        path: 'brindes/campanhas/criar',
         name: 'brindes-campanhas-criar',
         component: () => import('@/views/brindes/AddConfig.vue'),
         meta: {
@@ -37,7 +72,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/campanhas/editar/:id',
+        path: 'brindes/campanhas/editar/:id',
         name: 'brindes-campanhas-editar',
         component: () => import('@/views/brindes/AddConfig.vue'),
         meta: {
@@ -55,7 +90,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/campanhas/config/:id',
+        path: 'brindes/campanhas/config/:id',
         name: 'brindes-campanhas-config',
         component: () => import('@/views/brindes/Condicoes.vue'),
         meta: {
@@ -73,7 +108,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/solicitacoes',
+        path: 'brindes/solicitacoes',
         name: 'brindes-solicitacoes',
         component: () => import('@/views/solicitacao_brinde/Index.vue'),
         meta: {
@@ -90,7 +125,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes-escolha',
+        path: 'brindes/expedicoes-escolha',
         name: 'brindes-expedicoes-escolha',
         component: () => import('@/views/expedicoes/Escolha.vue'),
         meta: {
@@ -107,7 +142,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes',
+        path: 'brindes/expedicoes',
         name: 'brindes-expedicoes',
         component: () => import('@/views/expedicoes/Index.vue'),
         meta: {
@@ -124,7 +159,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes/:id',
+        path: 'brindes/expedicoes/:id',
         name: 'brindes-expedicoes-detalhe',
         component: () => import('@/views/expedicoes/ListDetal.vue'),
         meta: {
@@ -141,7 +176,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes-melhor-envio',
+        path: 'brindes/expedicoes-melhor-envio',
         name: 'brindes-expedicoes-melhor-envio',
         component: () => import('@/views/expedicoes/IndexMelhorEnvio.vue'),
         meta: {
@@ -158,7 +193,7 @@ const rotasBrindes = [
         },
     },
     {
-        path: '/brindes/expedicoes-melhor-envio/:id',
+        path: 'brindes/expedicoes-melhor-envio/:id',
         name: 'brindes-expedicoes-melhorenvio-detalhe',
         component: () => import('@/views/expedicoes/ListDetalMelhorEnvio.vue'),
         meta: {

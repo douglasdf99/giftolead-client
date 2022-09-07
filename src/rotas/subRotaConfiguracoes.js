@@ -1,38 +1,31 @@
 const subRotaConfiguracoes = [
     {
-        url: '/configuracoes/geral',
+        url: 'configuracoes/geral',
         name: "Geral",
-        slug: "configuracoes",
+        slug: "configuracoes-geral",
         icon: 'view_module',
         can: 'configuracao'
     },
     {
-        url: '/configuracoes/tickets',
+        url: 'configuracoes/tickets',
         name: "Tickets",
-        slug: "configuracoes",
+        slug: "configuracoes-tickets",
         icon: 'view_module',
         can: 'configuracao'
     },
     {
-        url: '/configuracoes/expedicoes',
-        name: "Expedições",
-        slug: "configuracoes",
-        icon: 'view_module',
-        can: 'configuracao'
-    },
-    {
-        url: '/configuracoes/usuarios',
+        url: 'configuracoes/usuarios',
         name: "Usuários",
-        slug: "configuracoes",
+        slug: "configuracoes-usuarios",
         icon: 'account_box',
         can: 'configuracao'
     },
     /*{
-        url: '/configuracoes/conquistas',
+        url: 'configuracoes/conquistas',
         name: "Conquistas",
         slug: "configuracoes",
         icon: 'emoji_events'
     },*/
 ];
 
-export default subRotaConfiguracoes
+export default subRotaConfiguracoes;

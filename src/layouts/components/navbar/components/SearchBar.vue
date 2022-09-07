@@ -74,7 +74,7 @@
           @click="showFullSearch = false" />
       </div>
     </div>
-    <feather-icon icon="SearchIcon" @click="showFullSearch = true" class="cursor-pointer navbar-fuzzy-search ml-4" />
+    <font-awesome-icon icon="fa-solid fa-magnifying-glass" @click="showFullSearch = true" class="text-gray-500 cursor-pointer navbar-fuzzy-search ml-4"/>
   </div>
 </template>
 
@@ -89,18 +89,18 @@ export default {
     return {
       navbarSearchAndPinList: this.$store.state.navbarSearchAndPinList,
       showFullSearch: false,
-    }
+    };
   },
   methods: {
     selected(item) {
-      item.pages ?  this.$router.push(item.pages.url).catch(() => {}) : null
+      item.pages ?  this.$router.push(item.pages.url).catch(() => {}) : null;
       this.showFullSearch = false;
     },
     hnd_search_query_update(query) {
       // Show overlay if any character is entered
-      this.$store.commit('TOGGLE_CONTENT_OVERLAY', query ? true : false)
+      this.$store.commit('TOGGLE_CONTENT_OVERLAY', query ? true : false);
     }
   }
-}
+};
 
 </script>

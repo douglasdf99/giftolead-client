@@ -8,84 +8,84 @@
 ==========================================================================================*/
 
 
-import 'firebase/auth'
-import axios from "@/axios.js"
+import 'firebase/auth';
+import axios from "@/axios.js";
 
 export default {
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/brindes`, {params: {}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getArraySelect({commit}) {
+    getArraySelect() {
         return new Promise((resolve, reject) => {
             axios.get(`/selects/brindes`)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     getEmbalagems() {
         return new Promise((resolve, reject) => {
             axios.get(`/embalagems`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     getProdutos() {
         return new Promise((resolve, reject) => {
             axios.get(`/produtos`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     getContratos() {
         return new Promise((resolve, reject) => {
             axios.get(`/selects/correios`)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getCampanhas({commit}, dados) {
+    getCampanhas(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_brindes`, {params: dados}).then((response) => {
-                resolve(response.data.data)
+                resolve(response.data.data);
             }).catch((error) => {
-                reject(error)
-            })
-        })
+                reject(error);
+            });
+        });
     },
-    getCampanha({commit}, id) {
+    getCampanha(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_brindes/${id}`).then((response) => {
-                resolve(response.data.data)
+                resolve(response.data.data);
             }).catch((error) => {
-                reject(error)
-            })
-        })
+                reject(error);
+            });
+        });
     },
-    storeCampanha({commit}, dados) {
+    storeCampanha(_, dados) {
         let rota = '/campanha_brindes';
         if (dados.id != null) {
             rota = '/campanha_brindes/' + dados.id;
@@ -97,9 +97,9 @@ export default {
             }).catch((error) => {
                 reject(error);
             });
-        })
+        });
     },
-    storeCondicao({commit}, dados) {
+    storeCondicao(_, dados) {
         let rota = '/config_brindes';
         if (dados.id != null) {
             rota = '/config_brindes/' + dados.id;
@@ -111,9 +111,9 @@ export default {
             }).catch((error) => {
                 reject(error);
             });
-        })
+        });
     },
-    deleteCondicao({commit}, id) {
+    deleteCondicao(_, id) {
         let dados = {};
         dados._method = 'DELETE';
         dados.id = id;
@@ -123,6 +123,6 @@ export default {
             }).catch((error) => {
                 reject(error);
             });
-        })
+        });
     },
-}
+};

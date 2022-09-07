@@ -25,7 +25,7 @@ export default {
     prependClasses : { type: String },
     appendClasses  : { type: String }
   }
-}
+};
 </script>
 
 <style lang="scss">

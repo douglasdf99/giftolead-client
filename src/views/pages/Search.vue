@@ -134,7 +134,7 @@
                     </div>
                     <p>{{ knowledgePanel.description }}</p>
                     <div class="knowledge-panel__info-list flex mt-6">
-                        <div class="knowledge-panel__info flex-1 text-center border-solid border-grey-light border border-r-0 border-b-0 border-t-0" v-for="(info, index) in knowledgePanel.info" :key="info.title" :class="{'border-l-0': index == 0}">
+                        <div class="knowledge-panel__info flex-1 text-center border-solid border-gray-light border border-r-0 border-b-0 border-t-0" v-for="(info, index) in knowledgePanel.info" :key="info.title" :class="{'border-l-0': index == 0}">
                             <p class="font-medium">{{ info.title }}</p>
                             <small>{{ info.subtitle }}</small>
                         </div>
@@ -160,8 +160,8 @@
 </template>
 
 <script>
-import { videoPlayer } from 'vue-video-player'
-import 'video.js/dist/video-js.css'
+import { videoPlayer } from 'vue-video-player';
+import 'video.js/dist/video-js.css';
 
 export default{
     data() {
@@ -301,7 +301,7 @@ export default{
                     description: 'Cake fruitcake cake caramels jelly beans chocolate bar. Macaroon gingerbread pastry. Gummies ice cream chocolate lollipop brownie cotton candy. Topping cotton candy brownie. Cake tiramisu macaroon sugar plum. Sweet cotton candy powder tootsie roll candy gummies brownie lollipop. Sweet muffin pudding.',
                 },
             ]
-        }
+        };
     },
     computed: {
         playerOptions() {
@@ -316,15 +316,15 @@ export default{
                     playbackRates: [0.7, 1.0, 1.5, 2.0],
                     sources: media.sources,
                     poster: media.poster,
-                }
-            }
+                };
+            };
         }
     },
     methods: {},
     components: {
         videoPlayer,
     }
-}
+};
 </script>
 
 <style lang="scss">

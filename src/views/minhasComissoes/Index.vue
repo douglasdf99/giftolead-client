@@ -31,23 +31,6 @@
                 </vx-card>
             </div>
         </div>
-        <!--<div class="vx-row flex items-end my-5" v-if="dados.aba == 'aprovadas' || dados.aba == 'comissionadas'">
-            <div class="vx-col w-full lg:w-6/12">
-                <p>Resultado da busca considerando o período: <span class="destaque">{{dateRange.startDate | formatDate}} a {{dateRange.endDate | formatDate}}</span>
-                </p>
-            </div>
-            <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
-                <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
-                <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
-                <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
-                <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
-                <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
-                                   :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
-                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
-                                   :append-to-body="true" :ranges="ranges">
-                </date-range-picker>
-            </div>
-        </div>-->
         <vs-row class="mt-10">
             <vs-col vs-w="12">
                 <vs-tabs :color="colorx">
@@ -77,14 +60,13 @@
 </template>
 
 <script>
-    import SideBar from './SideBar'
-    import listagem from './Listagem'
-    import listagemcomi from './ListagemComissao'
-    import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+    import SideBar from './SideBar';
+    import listagem from './Listagem';
+    import listagemcomi from './ListagemComissao';
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleMComissoes from "@/store/minhasComissoes/moduleMComissoes";
     import VueMoment from 'vue-moment';
-    import DateRangePicker from 'vue2-daterange-picker'
+    import DateRangePicker from 'vue2-daterange-picker';
 
     const moment = require('moment/moment');
     require('moment/locale/pt-br');
@@ -153,7 +135,7 @@
                     'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
                     'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
                 }
-            }
+            };
         },
         created() {
             this.$vs.loading();
@@ -169,19 +151,18 @@
         },
         methods: {
             paginate() {
-                console.log('resetou');
                 this.currentx = 1;
             },
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
                 if(!val)
                     this.getItems(this.dados.tipo);
             },
@@ -194,7 +175,7 @@
                     this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
                 this.$store.dispatch('getVarios', {rota: 'comissaos/minhas', params: this.dados}).then(response => {
                     this.$vs.loading.close();
-                    this.comissoes = [...response[0].data]
+                    this.comissoes = [...response[0].data];
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
                     this.$vs.loading.close();
@@ -226,26 +207,25 @@
             },
             getDay(dia) {
                 //Definindo datas usadas nos ranges padronizados
-                let today = new Date()
-                today.setHours(0, 0, 0, 0)
+                let today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-                let yesterday = new Date()
-                yesterday.setDate(today.getDate() - 1)
+                let yesterday = new Date();
+                yesterday.setDate(today.getDate() - 1);
                 yesterday.setHours(0, 0, 0, 0);
-                return (dia ? today : yesterday)
+                return (dia ? today : yesterday);
             },
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems(this.dados.tipo);
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
-            dateRange(val) {
+            dateRange() {
                 this.$vs.loading();
                 this.getItems(this.dados.tipo);
             },
@@ -259,7 +239,7 @@
             },*/
         },
 
-    }
+    };
 </script>
 <style>
     .td-icons > span {

@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 // Contact
 let data = {
@@ -480,37 +480,37 @@ let data = {
     { text: 'Important', value: 'important', color:"warning"},
     { text: 'Private', value: 'private', color:"danger"},
   ]
-}
+};
 
 // GET : Emails
 mock.onGet("api/apps/email/mails").reply((request) => {
 
-  const filter = request.params.filter
+  const filter = request.params.filter;
 
   const filteredEmails = data.emails.filter((email)=> {
 
-    if (filter == "inbox") return email.mailFolder === "inbox"
-    if (filter === "sent") return email.mailFolder === "sent"
-    if (filter === "draft") return email.mailFolder === "draft"
-    if (filter === "starred") return email.isStarred && email.mailFolder !== "trash"
-    if (filter === "trash") return email.mailFolder === "trash"
-    if (filter === "spam") return email.mailFolder === "spam"
-    else return email.mailFolder != "trash" && email.labels.includes(filter)
+    if (filter == "inbox") return email.mailFolder === "inbox";
+    if (filter === "sent") return email.mailFolder === "sent";
+    if (filter === "draft") return email.mailFolder === "draft";
+    if (filter === "starred") return email.isStarred && email.mailFolder !== "trash";
+    if (filter === "trash") return email.mailFolder === "trash";
+    if (filter === "spam") return email.mailFolder === "spam";
+    else return email.mailFolder != "trash" && email.labels.includes(filter);
 
-  }).reverse()
+  }).reverse();
 
-  return [200, JSON.parse(JSON.stringify(filteredEmails))]
-})
+  return [200, JSON.parse(JSON.stringify(filteredEmails))];
+});
 
 // GET : Emails
 mock.onGet("api/apps/email/tags").reply(() => {
-  return [200, data.emailTags]
-})
+  return [200, data.emailTags];
+});
 
 // GET : Unread Mails
 mock.onGet("/api/apps/email/meta").reply(() => {
 
-  let countUnreadMailFolders = ["inbox", "spam"]
+  let countUnreadMailFolders = ["inbox", "spam"];
 
   let meta = {
     unreadMails: {
@@ -518,7 +518,7 @@ mock.onGet("/api/apps/email/meta").reply(() => {
       label: {}
     },
     draftMails: []
-  }
+  };
 
   data.emails.forEach((mail) => {
 
@@ -527,81 +527,81 @@ mock.onGet("/api/apps/email/meta").reply(() => {
 
       // Add mail id
       if(countUnreadMailFolders.includes(mail.mailFolder)) {
-        meta.unreadMails.folder[mail.mailFolder] ? meta.unreadMails.folder[mail.mailFolder].push(mail.id) : meta.unreadMails.folder[mail.mailFolder] = [mail.id]
+        meta.unreadMails.folder[mail.mailFolder] ? meta.unreadMails.folder[mail.mailFolder].push(mail.id) : meta.unreadMails.folder[mail.mailFolder] = [mail.id];
       }
 
       // Add mail id
       mail.labels.forEach((label) => {
-        meta.unreadMails.label[label] ? meta.unreadMails.label[label].push(mail.id) : meta.unreadMails.label[label] = [mail.id]
-      })
+        meta.unreadMails.label[label] ? meta.unreadMails.label[label].push(mail.id) : meta.unreadMails.label[label] = [mail.id];
+      });
     }
 
     // Get draft mail count
-    if(mail.mailFolder === "draft") meta.draftMails.push(mail.id)
-  })
+    if(mail.mailFolder === "draft") meta.draftMails.push(mail.id);
+  });
 
-  return [200, meta]
-})
+  return [200, meta];
+});
 
 
 // POST : Move Mails to another folder
 mock.onPost("/api/apps/email/move-mails").reply((request) => {
-  const mailsToMove = JSON.parse(request.data).emailIds
+  const mailsToMove = JSON.parse(request.data).emailIds;
 
   data.emails.forEach((mail) => {
-    if(mailsToMove.includes(mail.id)) mail.mailFolder = JSON.parse(request.data).mailFolder
-  })
+    if(mailsToMove.includes(mail.id)) mail.mailFolder = JSON.parse(request.data).mailFolder;
+  });
 
-  return [200]
-})
+  return [200];
+});
 
 // POST : Update Mails Labels
 mock.onPost("/api/apps/email/update-labels").reply((request) => {
 
-  const label = JSON.parse(request.data).label
-  const mailsToUpdate = JSON.parse(request.data).emailIds
+  const label = JSON.parse(request.data).label;
+  const mailsToUpdate = JSON.parse(request.data).emailIds;
 
   mailsToUpdate.forEach((mailId) => {
-    const mailIndex = data.emails.findIndex((mail) => mail.id == mailId)
-    const labelIndex = data.emails[mailIndex].labels.indexOf(label)
+    const mailIndex = data.emails.findIndex((mail) => mail.id == mailId);
+    const labelIndex = data.emails[mailIndex].labels.indexOf(label);
 
     if(labelIndex == -1) {
-        data.emails[mailIndex].labels.push(label)
+        data.emails[mailIndex].labels.push(label);
     }else{
-        data.emails[mailIndex].labels.splice(labelIndex, 1)
+        data.emails[mailIndex].labels.splice(labelIndex, 1);
     }
-  })
+  });
 
-  return [200]
-})
+  return [200];
+});
 
 // POST : Set Mails Labels for single mail
 mock.onPost("/api/apps/email/set-labels").reply((request) => {
-  const mailId = JSON.parse(request.data).mailId
-  data.emails.find((mail) => mail.id === mailId).labels = JSON.parse(request.data).labels
-  return [200]
-})
+  const mailId = JSON.parse(request.data).mailId;
+  data.emails.find((mail) => mail.id === mailId).labels = JSON.parse(request.data).labels;
+  return [200];
+});
 
 // POST : Mark as Unread
 mock.onPost("/api/apps/email/mark-unread").reply((request) => {
-  const mailsToUpdate = JSON.parse(request.data).emailIds
+  const mailsToUpdate = JSON.parse(request.data).emailIds;
 
   mailsToUpdate.forEach((mailId) => {
-    const mailIndex = data.emails.findIndex((mail) => mail.id == mailId)
-    data.emails[mailIndex].unread = JSON.parse(request.data).unreadFlag
-  })
+    const mailIndex = data.emails.findIndex((mail) => mail.id == mailId);
+    data.emails[mailIndex].unread = JSON.parse(request.data).unreadFlag;
+  });
 
-  return [200]
-})
+  return [200];
+});
 
 // POST : Set starred
 mock.onPost("/api/apps/email/set-starred").reply((request) => {
-  const mailId = JSON.parse(request.data).mailId
+  const mailId = JSON.parse(request.data).mailId;
 
-  data.emails.find((mail) => mail.id === mailId).isStarred = JSON.parse(request.data).value
+  data.emails.find((mail) => mail.id === mailId).isStarred = JSON.parse(request.data).value;
 
-  return [200]
-})
+  return [200];
+});
 
 // GET: Fetch Calendar Labels
 // mock.onGet("api/apps/calendar/labels").reply(() => {

@@ -82,7 +82,7 @@ export default{
                   url         : '/pages/knowledge-base/category'
                 },
             ]
-        }
+        };
     },
     computed: {
         filteredKB() {
@@ -91,7 +91,7 @@ export default{
     },
     methods: {},
     components: {}
-}
+};
 </script>
 
 <style lang="scss">

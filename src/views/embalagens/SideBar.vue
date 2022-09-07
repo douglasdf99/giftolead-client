@@ -107,8 +107,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
     import {Validator} from 'vee-validate';
 
     const dict = {
@@ -149,9 +149,9 @@
         },
         watch: {
             isSidebarActive(val) {
-              if (!val) return
+              if (!val) return;
                 if (Object.entries(this.data).length === 0) {
-                    this.initValues()
+                    this.initValues();
                     this.$validator.reset();
                 } else {
                     this.embalagem = JSON.parse(JSON.stringify(this.data));
@@ -163,7 +163,6 @@
             },
             embalagem: {
                 handler(val) {
-                    console.log('val', val);
                     switch (val.tipo_de_caixa.id) {
                         case '001':
                             this.tipo_envelope = true;
@@ -206,16 +205,16 @@
                   {id: '003', label: 'TIPO ROLO CILINDRO'}
                   ],
                 imagem: ''
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -227,14 +226,14 @@
         },
         methods: {
             initValues() {
-                if (this.data.id) return
-                this.embalagem.nome = ''
-                this.embalagem.token = ''
+                if (this.data.id) return;
+                this.embalagem.nome = '';
+                this.embalagem.token = '';
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading()
+                        this.$vs.loading();
                         const obj = {...this.embalagem};
                         obj.tipo_de_caixa = this.embalagem.tipo_de_caixa.id;
                         if (this.embalagem.id !== null && this.embalagem.id >= 0) {
@@ -253,12 +252,11 @@
                                 }).then(() => {
                                     this.$vs.loading.close();
                                 });
-                            }).catch(err => {
-                                console.error(err)
-                            })
+                            }).finally(() => {
+                           this.$vs.loading.close();
+                        });
                         } else {
-                            delete obj.id
-                            console.log('obj', obj)
+                            delete obj.id;
                             obj.integracao_id = this.selected;
                             this.$store.dispatch("addItem", {rota: 'embalagems', item: obj}).then(() => {
                                 this.$vs.notify({
@@ -267,7 +265,7 @@
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
-                                })
+                                });
                                 this.$store.dispatch('getVarios', {
                                     rota: 'embalagems',
                                     params: {search: null, page: 1}
@@ -275,21 +273,20 @@
                                     this.$vs.loading.close();
                                 });
                             }).catch(error => {
-                                console.error(error)
                                 this.$vs.notify({
                                     title: 'Error',
                                     text: error.response.data.message,
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
-                        this.$emit('pagiante')
-                        this.$emit('closeSidebar')
-                        this.initValues()
+                        this.$emit('pagiante');
+                        this.$emit('closeSidebar');
+                        this.initValues();
                     }
-                })
+                });
             },
             /*getOpcoes() {
                 this.$store.dispatch('brindes/getOpcoes').then(response => {
@@ -297,12 +294,9 @@
                     arr.forEach(item => {
                         this.opcoesContrato.push({id: item.id, label: item.descricao})
                     });
-                    console.log('af', this.opcoesContrato)
-                    console.log('af2', [{id: 'Foo', label: 'foo'}])
                 })
             },*/
             mudou() {
-                console.log(this.selected)
             }
         },
         components: {
@@ -312,15 +306,13 @@
         created() {
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 this.embalagem = JSON.parse(JSON.stringify(this.data));
               this.opcoesTipoCaixa.forEach(item=>{
-                if (item.id == this.data.tipo_de_caixa){
+                if (item.id == this.data.tipo_de_caixa) {
                   this.embalagem.tipo_de_caixa = item;
                 }
-                console.log('item', item);
               });
                 //this.selected = this.embalagem.integracao_id;
                 //this.selected = {id: this.embalagem.integracao_id, label: this.embalagem.integracao.descricao};
@@ -330,7 +322,7 @@
             //this.getOpcoes();
 
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

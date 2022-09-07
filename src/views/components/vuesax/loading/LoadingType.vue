@@ -126,26 +126,26 @@ export default {
     ],
     activeLoading:false,
   }),
-  mounted(){
+  mounted() {
     this.types.forEach((type)=>{
       this.$vs.loading({
         container: `#loading-${type}`,
         type,
         text:type
-      })
-    })
+      });
+    });
   },
   methods:{
-    openLoading(type){
-      this.activeLoading = true
+    openLoading(type) {
+      this.activeLoading = true;
       this.$vs.loading({
         type:type,
-      })
+      });
       setTimeout( ()=> {
-        this.activeLoading = false
-        this.$vs.loading.close()
+        this.activeLoading = false;
+        this.$vs.loading.close();
       }, 3000);
     },
   }
-}
+};
 </script>

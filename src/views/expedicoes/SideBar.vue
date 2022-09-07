@@ -78,8 +78,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
 
     export default {
         props: {
@@ -95,27 +95,27 @@
         },
         watch: {
             isSidebarActive(val) {
-                if (!val) return
+                if (!val) return;
                 if (Object.entries(this.data).length === 0) {
-                    this.initValues()
-                    this.$validator.reset()
+                    this.initValues();
+                    this.$validator.reset();
                 } else {
                     this.brinde = JSON.parse(JSON.stringify(this.data));
                 }
             },
         },
         data() {
-            return {}
+            return {};
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
 
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -126,7 +126,7 @@
             VuePerfectScrollbar,
             'v-select': vSelect
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

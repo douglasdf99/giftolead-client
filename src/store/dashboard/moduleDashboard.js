@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleDashboard.js'
-import mutations from './moduleDashboardMutations.js'
-import actions from './moduleDashboardActions.js'
-import getters from './moduleDashboardGetters.js'
+import state from './moduleDashboard.js';
+import mutations from './moduleDashboardMutations.js';
+import actions from './moduleDashboardActions.js';
+import getters from './moduleDashboardGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

@@ -24,7 +24,7 @@
                 <p class="text-gray">Esta opção habilita a solicitação automática de endereço para qualquer oferta no Hotmart para o produto desta campanha</p>
             </div>
             <div class="vx-col w-full">
-                <vx-card class="mb-10" v-for="(item, index) in items">
+                <vx-card class="mb-10" v-for="(item, index) in items" :key="index">
                     <span class="btn btn-dark btn-rounded font-13 text-white font-weight-bold text-ou" v-if="(items.length > 1 && index != 0)"><vs-button
                             size="small" color="dark">OU</vs-button></span>
                     <div class="vx-row">
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-    import vSelect from 'vue-select'
+    import vSelect from 'vue-select';
     import moduleBrindes from "../../store/brindes/moduleBrindes";
 
     export default {
@@ -131,7 +131,7 @@
                     {id: 'sck', label: 'SCK'},
                     {id: 'src', label: 'SRC'},
                 ],
-            }
+            };
         },
         created() {
             if (!moduleBrindes.isRegistered) {
@@ -149,15 +149,14 @@
                         this.items = this.campanha.excecoes;
                     else
                         this.items = this.campanha.condicoes;
-                }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                }).catch(error => {
+                    this.$vs.notify({
+                        text: error.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                }).finally(() => this.$vs.loading.close());
             },
             getTipo(val) {
                 switch (val) {
@@ -166,9 +165,9 @@
                     case 'sck':
                         return 'SCK';
                     case 'src':
-                        return 'SRC'
+                        return 'SRC';
                     default:
-                        return 'Valor'
+                        return 'Valor';
                 }
             },
 
@@ -183,7 +182,7 @@
                 this.val.valor = "";
             },
             editarCondicao(obj) {
-                this.val.tipo = {id: obj.tipo, label: this.getTipo(obj.tipo)}
+                this.val.tipo = {id: obj.tipo, label: this.getTipo(obj.tipo)};
                 this.val.valor = obj.valor;
                 this.val.id = obj.id;
                 this.modalexcecao = true;
@@ -199,16 +198,13 @@
                         text: 'Salvo com sucesso!'
                     });
                     this.getConfig();
-                }).catch(erro => {
+                }).catch(() => {
                     this.$vs.notify({
                         color: 'danger',
                         title: 'Erro',
                         text: 'Erro ao salvar. Contate o suporte.'
                     });
-                    console.log('erro', erro)
-                }).finally(()=>{
-
-              });
+                });
             },
             deleteCondicao(id) {
                 this.$vs.dialog({
@@ -225,18 +221,17 @@
                                 text: 'Deletado com sucesso!'
                             });
                             this.getConfig();
-                        }).catch(erro => {
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Erro ao deletar. Contate o suporte.'
                             });
-                            console.log('erro', erro)
                         });
                     }
                 });
             },
-            updateCamp(){
+            updateCamp() {
                 let obj = {...this.campanha};
                 obj.oferta_all = !this.campanha.oferta_all;
                 this.$vs.loading();
@@ -245,21 +240,20 @@
                         color: 'success',
                         title: '',
                         text: 'Configuração da Campanha de Brinde alterada.'
-                    })
-                }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                    });
+                }).catch(error => {
+                    this.$vs.notify({
+                        text: error.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                }).finally(() => this.$vs.loading.close());
             }
         },
         computed: {
             validExcecao() {
-                return (this.val.tipo !== "" && this.val.valor !== "")
+                return (this.val.tipo !== "" && this.val.valor !== "");
             }
         },
         watch: {
@@ -275,7 +269,7 @@
                 deep: true
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

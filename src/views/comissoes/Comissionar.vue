@@ -65,9 +65,9 @@
 </template>
 
 <script>
-    import DetalheComissao from '../comissoes/DetalheComissao'
-    import listagem from './ListComissoes'
-    import vSelect from 'vue-select'
+    import DetalheComissao from '../comissoes/DetalheComissao';
+    import listagem from './ListComissoes';
+    import vSelect from 'vue-select';
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
     import moduleUsuario from "../../store/usuarios/moduleUsuario";
@@ -109,42 +109,41 @@
                 ],
                 soma: 0,
                 usuarios: []
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             if (!moduleComissoes.isRegistered) {
-                this.$store.registerModule('comissoes', moduleComissoes)
-                moduleComissoes.isRegistered = true
+                this.$store.registerModule('comissoes', moduleComissoes);
+                moduleComissoes.isRegistered = true;
             }
 
             if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('users', moduleUsuario)
-                moduleUsuario.isRegistered = true
+                this.$store.registerModule('users', moduleUsuario);
+                moduleUsuario.isRegistered = true;
             }
             this.getItems();
         },
         methods: {
             addNewData() {
-                this.sidebarData = {}
-                this.toggleDataSidebar(true)
+                this.sidebarData = {};
+                this.toggleDataSidebar(true);
             },
             updateData(obj) {
-                console.log('editando', obj)
-                this.sidebarData = obj
-                this.toggleDataSidebar(true)
+                this.sidebarData = obj;
+                this.toggleDataSidebar(true);
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getItems(aba = this.dados.aba) {
                 this.$vs.loading();
 
                 if(aba !== this.dados.aba)
-                    this.currentx = 1
+                    this.currentx = 1;
 
-                this.dados.aba = aba
                 let url = '';
+                this.dados.aba = aba;
                 let control = 0;//Controla entradas em cada condição
                 if (this.search !== '') {
                     url += 'name:' + this.search + ';';
@@ -152,11 +151,11 @@
                     control++;
                 }
 
-                if(this.selectedAten.id != null){
+                if(this.selectedAten.id != null) {
                     this.dados.user_id = this.selectedAten.id;
                 }
 
-                if(this.selectedResp){
+                if(this.selectedResp) {
                     //this.dados.responsavel_type = this.selectedResp.id;
                     this.dados.responsavel_type = this.selectedResp.criador_type;
                     this.dados.responsavel_id = this.selectedResp.id;
@@ -165,28 +164,25 @@
                 if (control >= 2)
                     url += '&searchJoin=and';
 
-                this.dados.search = this.search;
+                this.dados.search = url;
 
                 this.$store.dispatch('comissoes/getCom', {params: this.dados}).then(response => {
-                    console.log('retornado com sucessso', response)
-                    this.comissoes = [...response[0].data]
+                    this.comissoes = [...response[0].data];
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
                     //this.dados.page = this.pagination.current_page
-                }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                }).catch(error => {
+                    this.$vs.notify({
+                        text: error.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                }).finally(() => this.$vs.loading.close());
             },
-            getOpcoes(){
+            getOpcoes() {
                 this.selectedAten.label = 'Carregando...';
-                this.$store.dispatch('users/get').then(response => {
-                    console.log('ae, doido', response)
+                this.$store.dispatch('users/getArraySelect').then(response => {
                     this.usuarios = [...this.arraySelect(response)];
                     this.selectedAten.label = 'Selecione o atendente';
                 });
@@ -197,35 +193,30 @@
                 this.$vs.loading();
                 this.getItems();
             },
-            visualizar(obj){
-                console.log('entrou no visualizar')
+            visualizar(obj) {
                 this.sidebarData = obj;
-              console.log('entrou no visualizar',obj)
               this.toggleDataSidebar(true);
             },
-            gerandoOrdem(arr){
-                let ids = arr.map(item => {return item.id});
+            gerandoOrdem(arr) {
+                let ids = arr.map(item => {return item.id;});
                 this.$vs.loading();
                 this.$store.dispatch('comissoes/storeOrdens', ids).then(() => {
                     this.getItems();
-                }).catch(erro => {
-                    console.log('erro', erro);
-                })
+                });
             },
 
-            chooseResp(obj){
+            chooseResp(obj) {
                 this.selectedResp = obj;
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('valsssss', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
             selectedAten() {
                 this.$vs.loading();
@@ -239,7 +230,6 @@
             },
             dados: {
                 handler(val) {
-                    console.log(val.length)
                     if (val.length != this.pagination.per_page) {
                         this.dados.page = 1;
                         this.$vs.loading();
@@ -259,5 +249,5 @@
             },*/
         },
 
-    }
+    };
 </script>

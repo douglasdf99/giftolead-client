@@ -1,13 +1,3 @@
-<!-- =========================================================================================
-    File Name: ForgotPassword.vue
-    Description: FOrgot Password Page
-    ----------------------------------------------------------------------------------------
-    Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-      Author: Pixinvent
-    Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
     <div class="h-screen flex w-full bg-img vx-row no-gutter items-center" id="page-login">
         <div class="vx-col sm:w-1/2 md:w-1/2 lg:w-5/12 xl:w-5/12 sm:m-0 m-4 sm:h-full">
@@ -50,19 +40,19 @@
 </template>
 
 <script>
-    import axios from "@/axios.js"
+    import axios from "@/axios.js";
 
     export default {
         data() {
             return {
                 email: '',
                 enviado: false
-            }
+            };
         },
         methods: {
             solicitar() {
-                this.$vs.loading()
-                axios.post('/api/remember', {email: this.email}).then(response => {
+                this.$vs.loading();
+                axios.post('/api/remember', {email: this.email}).then(() => {
                     this.$vs.loading.close();
 
                     this.$vs.notify({
@@ -73,18 +63,17 @@
                         color: 'success'
                     });
                     this.enviado = true;
-                }).catch(erro => {
+                }).catch(() => {
                     this.$vs.loading.close();
-                    console.log(erro);
                     this.$vs.notify({
                         title: 'Erro',
                         text: "Houve um problema com o servidor, favor contate o suporte.",
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 });
             },
         }
-    }
+    };
 </script>

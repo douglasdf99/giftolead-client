@@ -77,8 +77,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
 
     export default {
         props: {
@@ -105,16 +105,16 @@
                     espera: 0,
                     fechamento: 1
                 },
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -124,19 +124,17 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
-                    return
+                    return;
                 } else {
-                    this.status.id = null
+                    this.status.id = null;
                     this.status.nome = '';
                 }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading()
+                        this.$vs.loading();
                         const obj = {...this.status};
                         obj.hab_comissao = (obj.tipo == 0 ?  true : false); //Habilitando comissão
                         if (this.status.id !== null && this.status.id >= 0) {
@@ -155,11 +153,13 @@
                                 }).then(() => {
                                     this.$vs.loading.close();
                                 });
-                            }).catch(err => {
-                                console.error(err)
-                            })
+                            }).catch(() => {
+                               
+                            }).finally(() => {
+                            this.$vs.loading.close();
+                            });
                         } else {
-                            delete obj.id
+                            delete obj.id;
                             this.$store.dispatch("addItem", {rota: 'status_de_finalizacaos', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -172,7 +172,7 @@
                                     rota: 'status_de_finalizacaos',
                                     params: {page: 1}
                                 }).then(() => {
-                                    this.$vs.loading.close()
+                                    this.$vs.loading.close();
                                 });
 
                             }).catch(error => {
@@ -182,14 +182,14 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
 
-                        this.$emit('closeSidebar')
-                        this.initValues()
+                        this.$emit('closeSidebar');
+                        this.initValues();
                     }
-                })
+                });
             },
         },
         components: {
@@ -200,13 +200,12 @@
             this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 this.status = JSON.parse(JSON.stringify(this.data));
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

@@ -8,28 +8,34 @@
 ==========================================================================================*/
 
 
-import Vue from 'vue'
-import VxTooltip from './layouts/components/vx-tooltip/VxTooltip.vue'
-import VxCard  from './components/vx-card/VxCard.vue'
-import VxList  from './components/vx-list/VxList.vue'
-import VxBreadcrumb  from './layouts/components/VxBreadcrumb.vue'
-import FeatherIcon  from './components/FeatherIcon.vue'
-import VxInputGroup  from './components/vx-input-group/VxInputGroup.vue'
-import footerSave  from './components/actionbar/DougAction.vue'
-import nenhumregistro  from './views/components/NenhumRegistro'
+import Vue from 'vue';
+import VxTooltip from './layouts/components/vx-tooltip/VxTooltip.vue';
+import VxCard  from './components/vx-card/VxCard.vue';
+import VxList  from './components/vx-list/VxList.vue';
+import VxBreadcrumb  from './layouts/components/VxBreadcrumb.vue';
+import FeatherIcon  from './components/FeatherIcon.vue';
+import VxInputGroup  from './components/vx-input-group/VxInputGroup.vue';
+import footerSave  from './components/actionbar/DougAction.vue';
+import nenhumregistro  from './views/components/NenhumRegistro';
+import CustomPopup from "@/components/CustomPopup";
+/* import font awesome icon component */
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-Vue.component(VxTooltip.name, VxTooltip)
-Vue.component(VxCard.name, VxCard)
-Vue.component(VxList.name, VxList)
-Vue.component(VxBreadcrumb.name, VxBreadcrumb)
-Vue.component(FeatherIcon.name, FeatherIcon)
-Vue.component(VxInputGroup.name, VxInputGroup)
-Vue.component('footer-doug', footerSave)
-Vue.component('nenhum-registro', nenhumregistro)
+/* add font awesome icon component */
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component(VxTooltip.name, VxTooltip);
+Vue.component(VxCard.name, VxCard);
+Vue.component(VxList.name, VxList);
+Vue.component(VxBreadcrumb.name, VxBreadcrumb);
+Vue.component(FeatherIcon.name, FeatherIcon);
+Vue.component(VxInputGroup.name, VxInputGroup);
+Vue.component('footer-doug', footerSave);
+Vue.component('nenhum-registro', nenhumregistro);
+Vue.component("custom-popup", CustomPopup);
 
 
 // v-select component
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 
 // Set the components prop default to return our fresh components
 vSelect.props.components.default = () => ({
@@ -51,4 +57,4 @@ vSelect.props.components.default = () => ({
   },
 });
 
-Vue.component(vSelect)
+Vue.component(vSelect);

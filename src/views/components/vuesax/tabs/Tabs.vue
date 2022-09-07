@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import TabsDefault from './TabsDefault.vue'
-import TabsColor from './TabsColor.vue'
-import TabsAlignments from './TabsAlignments.vue'
-import TabsPosition from './TabsPosition.vue'
-import TabsIcons from './TabsIcons.vue'
+import TabsDefault from './TabsDefault.vue';
+import TabsColor from './TabsColor.vue';
+import TabsAlignments from './TabsAlignments.vue';
+import TabsPosition from './TabsPosition.vue';
+import TabsIcons from './TabsIcons.vue';
 
 export default{
     components: {
@@ -33,5 +33,5 @@ export default{
         TabsPosition,
         TabsIcons,
     }
-}
+};
 </script>

@@ -71,7 +71,7 @@
   }
 
   code {
-    color: $grey;
+    color: $gray;
     background: $content-dark-bg;
   }
 
@@ -135,7 +135,7 @@
         color: $black !important;
 
         .filling {
-          background: $grey !important;
+          background: $gray !important;
         }
 
         h3 {
@@ -160,7 +160,7 @@
     }
 
     .con-vs-alert-dark {
-      color: $grey-light;
+      color: $gray-light;
     }
 
     .code-content {
@@ -488,7 +488,7 @@
   // Alert
   .vs-alert {
     code {
-      color: $grey;
+      color: $gray;
       background: $content-dark-bg;
     }
   }
@@ -519,7 +519,7 @@
     }
 
     &.con-vs-avatar-dark {
-      background: rgba($grey, 1) !important;
+      background: rgba($gray, 1) !important;
     }
   }
 
@@ -545,14 +545,14 @@
 
     a,
     .vs-breadcrum--separator {
-      color: $grey-light;
+      color: $gray-light;
     }
   }
 
   // Button
   // .vs-button-dark {
   //   &.vs-button-filled {
-  //     background: $grey !important;
+  //     background: $gray !important;
 
   //     .vs-button--text {
   //       color: $dark;
@@ -562,7 +562,7 @@
 
   // .demo-text-dark {
   //   .vs-button-text {
-  //     color: $grey;
+  //     color: $gray;
   //   }
   // }
 
@@ -571,12 +571,12 @@
   //   &.vs-button-border,
   //   &.vs-button-flat,
   //   &.vs-button-line {
-  //     border-color: $grey;
+  //     border-color: $gray;
   //   }
 
   //   .vs-button--text,
   //   .vs-icon {
-  //     color: $grey;
+  //     color: $gray;
   //   }
   // }
 
@@ -652,7 +652,7 @@
       }
 
       &.vs-divider-border-dark {
-        border-color: rgba($grey, 0.5) !important;
+        border-color: rgba($gray, 0.5) !important;
       }
     }
 
@@ -678,7 +678,7 @@
 
     .vs-dropdown--item {
       .vs-dropdown--item-link.disabled {
-        color: $grey !important;
+        color: $gray !important;
       }
     }
   }
@@ -710,7 +710,7 @@
     li {
       &.vs-navbar--item {
         a {
-          color: $grey-light;
+          color: $gray-light;
         }
 
         &.is-active-item {
@@ -819,6 +819,7 @@
 
   // Tabs
   .ul-tabs {
+    z-index: 0;
     .vs-tabs--li {
       button {
         color: $theme-dark-text-color;
@@ -830,12 +831,12 @@
 
     .activeChild button,
     button:not(:disabled):hover {
-      color: $grey !important;
+      color: $gray !important;
     }
 
     .line-vs-tabs {
-      background: linear-gradient(30deg, rgba($grey, 1), rgba($grey, .5)) !important;
-      box-shadow: 0 0 8px 0 rgba($grey, .4) !important;
+      background: linear-gradient(30deg, rgba($gray, 1), rgba($gray, .5)) !important;
+      box-shadow: 0 0 8px 0 rgba($gray, .4) !important;
     }
   }
 
@@ -899,7 +900,7 @@
         &:disabled,
         &.limit {
           opacity: 0.75;
-          background: $grey;
+          background: $gray;
         }
       }
     }
@@ -967,15 +968,15 @@
 
     &.vs-switch-dark {
       &.vs-switch-active {
-        background: $grey;
+        background: $gray;
       }
     }
   }
 
   .vs-radio-dark {
     .vs-radio--circle {
-      background: $grey;
-      box-shadow: 0 3px 12px 0 rgba($grey, .4);
+      background: $gray;
+      box-shadow: 0 3px 12px 0 rgba($gray, .4);
     }
   }
 
@@ -986,10 +987,10 @@
   .vs-input-dark {
     .vs-input--input {
       &:focus {
-        border-color: $grey !important;
+        border-color: $gray !important;
 
         ~.vs-input--placeholder {
-          color: $grey;
+          color: $gray;
         }
       }
     }
@@ -1007,7 +1008,7 @@
           color: $white;
 
           .stepTitle {
-            color: $grey-light;
+            color: $gray-light;
           }
 
           &:hover {
@@ -1020,7 +1021,7 @@
     .wizard-navigation {
       .wizard-nav {
         .stepTitle {
-          color: $grey-light;
+          color: $gray-light;
         }
       }
     }
@@ -1108,7 +1109,7 @@
     .apexcharts-legend {
       .apexcharts-legend-series {
         .apexcharts-legend-text {
-          color: $grey !important;
+          color: $gray !important;
         }
       }
     }
@@ -1169,20 +1170,20 @@
   // Select
   .vs-select--options {
     background: $dark-card-color;
-    border-color: rgba($grey, 0.2);
+    border-color: rgba($gray, 0.2);
 
     span {
       color: $theme-dark-text-color;
     }
 
     .vs-select--item {
-      color: $grey;
-      border-color: rgba($grey, 0.2);
+      color: $gray;
+      border-color: rgba($gray, 0.2);
       box-shadow: none;
 
       &:hover {
         background: $content-dark-bg;
-        // color: $grey;
+        // color: $gray;
       }
     }
   }
@@ -1249,7 +1250,7 @@
         }
       }
       .disabled {
-        color: rgba($grey, .6);
+        color: rgba($gray, .6);
       }
 
       .cell {
@@ -1441,7 +1442,7 @@
       }
 
       &.con-vs-avatar-dark {
-        background: rgba($grey, 1) !important;
+        background: rgba($gray, 1) !important;
       }
     }
 

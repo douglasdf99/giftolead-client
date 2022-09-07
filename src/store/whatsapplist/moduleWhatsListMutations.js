@@ -14,7 +14,7 @@ export default {
     PUSH_MSG(state, dados) {
         state.chatData.msg.push(dados);
     },
-    EMPTY_CHAT(state){
+    EMPTY_CHAT(state) {
         state.chatData.msg = [];
     }
-}
+};

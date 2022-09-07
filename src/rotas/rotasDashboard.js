@@ -1,11 +1,7 @@
 import subdashboard from "@/rotas/subRotaDashboard";
 const rotasDashboard = [
     {
-        path: '/',
-        redirect: '/dashboard'
-    },
-    {
-        path: '/dashboard',
+        path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/views/Dashboard.vue'),
         meta: {
@@ -15,13 +11,12 @@ const rotasDashboard = [
         }
     },
     {
-        path: '/minhas-comissoes',
+        path: 'minhas-comissoes',
         name: 'minhas-comissoes',
         component: () => import('@/views/minhasComissoes/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Tickets'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Meus atendimentos comissionados', active: true},
             ],
             pageTitle: 'Meus atendimentos comissionados',
@@ -33,12 +28,12 @@ const rotasDashboard = [
         },
     },
     {
-        path: '/todas-notificacoes',
+        path: 'todas-notificacoes',
         name: 'todas-notificacoes',
         component: () => import('@/views/ListNotificacoes.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Todas as Notificações', active: true},
             ],
             pageTitle: 'Notificações da última semana',
@@ -50,13 +45,12 @@ const rotasDashboard = [
         },
     },
     {
-        path: '/meus-links',
+        path: 'meus-links',
         name: 'meus-links',
         component: () => import('@/views/links/MeusLinks.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Dashboard', url: '/dashboard'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Meus links', active: true},
             ],
             pageTitle: 'Meus Links',
@@ -68,13 +62,12 @@ const rotasDashboard = [
         },
     },
     {
-        path: '/perfil',
+        path: 'perfil',
         name: 'perfil',
         component: () => import('@/views/usuarios/Perfil.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Dashboard', url: '/dashboard'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Meu perfil', active: true},
             ],
             pageTitle: 'Meu perfil',
@@ -82,7 +75,6 @@ const rotasDashboard = [
             pai: 'dashboard',
             subTitle: 'Meu perfil',
             subIcon: 'bell',
-            submenu: subdashboard
         },
     },
 ];

@@ -24,7 +24,7 @@
                 <h2 class="subtitulo">Escolha o tipo de campanha de recuperação</h2>
             </div>
             <div class="vx-col w-full lg:w-1/5 sm:w-full text-center hover-opacidade cursor-pointer"
-                 v-for="tipo in tiposCampanha" @click="campanhaSelected = tipo.img">
+                 v-for="(tipo, index) in tiposCampanha" @click="campanhaSelected = tipo.img" :key="index">
                 <div class="tipo-conquista" :class="{'conquista-ativa': (campanhaSelected == tipo.img)}">
                     <div class="vx-row py-5">
                         <div class="vx-col w-full">
@@ -35,7 +35,7 @@
                             <img src="@/assets/images/util/cancelado.svg" alt="" v-if="tipo.img == 'cancelado'">
                         </div>
                         <div class="vx-col w-full text-center mt-5">
-                            <p class="destaque mb-3" v-html="tipo.text"></p>
+                            <p class="destaque justify-center mb-3" v-html="tipo.text"></p>
                         </div>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
-import moduleCampanhas from '@/store/campanhas/moduleCampanhas.js'
-import moduleProdutos from '@/store/produtos/moduleProdutos.js'
+import vSelect from 'vue-select';
+import moduleCampanhas from '@/store/campanhas/moduleCampanhas.js';
+import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -85,12 +85,12 @@ export default {
     },
     created() {
         if (!moduleCampanhas.isRegistered) {
-            this.$store.registerModule('campanhas', moduleCampanhas)
-            moduleCampanhas.isRegistered = true
+            this.$store.registerModule('campanhas', moduleCampanhas);
+            moduleCampanhas.isRegistered = true;
         }
         if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos)
-            moduleProdutos.isRegistered = true
+            this.$store.registerModule('produtos', moduleProdutos);
+            moduleProdutos.isRegistered = true;
         }
         this.getOpcoes();
 
@@ -112,7 +112,7 @@ export default {
             },
             campanhaSelected: null,
             url: saveleadsConfig.url_api,
-            produtoSelected: null,
+            produtoSelected: {id: null, label: 'Selecione'},
             produtos: [],
             tiposCampanha: [
                 {img: 'checkout', text: 'Recuperação <br> de carrinho'},
@@ -121,7 +121,7 @@ export default {
                 {img: 'agendamento', text: 'Agendamento <br> de Ticket'},
                 {img: 'cancelado', text: 'Ticket para <br> Vendas Canceladas'},
             ]
-        }
+        };
     },
     methods: {
         salvar() {
@@ -134,15 +134,14 @@ export default {
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     } else {
                         this.$vs.loading();
                         this.campanha.produto_id = this.produtoSelected.id;
                         this.campanha.tipo = this.campanhaSelected;
                         this.campanha.plano_id = this.$route.params.id;
                         if (this.campanha.id !== undefined) {
-                            this.$store.dispatch('campanhas/update', this.campanha).then(response => {
-                                console.log('response', response);
+                            this.$store.dispatch('campanhas/update', this.campanha).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Atualizado com sucesso.",
@@ -150,7 +149,7 @@ export default {
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
+                                this.$router.push({name: 'planos-gerenciar', params:{plan_id:this.$route.params.id }});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: '',
@@ -158,10 +157,10 @@ export default {
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            }).finally(() => this.$vs.loading.close())
+                                });
+                            }).finally(() => this.$vs.loading.close());
                         } else {
-                            this.$store.dispatch('campanhas/store', this.campanha).then(response => {
+                            this.$store.dispatch('campanhas/store', this.campanha).then(() => {
                                 this.$vs.notify({
                                     title: '',
                                     text: "Criada com sucesso.",
@@ -169,10 +168,8 @@ export default {
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({path: '/planos/gerenciar/' + this.$route.params.id});
-                            }).catch(erro => {
-                                console.log('erro', erro)
-                            }).finally(() => this.$vs.loading.close())
+                                this.$router.push({name: 'planos-gerenciar', params:{plan_id:this.$route.params.id }});
+                            }).finally(() => this.$vs.loading.close());
                         }
                     }
                 } else {
@@ -182,9 +179,9 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
 
         },
         getOpcoes() {
@@ -194,11 +191,10 @@ export default {
             });
         },
         getId(id) {
-            this.$vs.loading()
+            this.$vs.loading();
             this.$store.dispatch('campanhas/getId', id).then(data => {
                 this.campanha = {...data};
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -216,7 +212,7 @@ export default {
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
-                })
+                });
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
@@ -225,8 +221,8 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         }
     },
     computed: {
@@ -236,19 +232,10 @@ export default {
     },
     watch: {
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
-        },
+            this.routeTitle = this.$route.meta.pageTitle;
+        }
     },
-}
+};
 </script>
 
 <style>

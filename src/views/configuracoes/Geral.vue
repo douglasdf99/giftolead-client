@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul>
-            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-if="$acl.check(line.can)">
+            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-show="$acl.check(line.can)">
                 {{line.nome}}
             </router-link>
         </ul>
@@ -45,12 +45,9 @@
                         can: 'public'
                     },
                 ]
-            }
+            };
         },
-        created() {
-            console.log('rota', this.$route);
-        }
-    }
+    };
 </script>
 
 <style scoped>

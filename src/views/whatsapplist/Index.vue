@@ -26,9 +26,8 @@
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-6">
                                 <button type="submit" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="h-6 w-6 text-gray-500"/>
                                 </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
                             </div>
                         </form>
                     </div>
@@ -42,8 +41,7 @@
                 <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
                 <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
                                    :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
-                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
-                                   :append-to-body="true" :ranges="ranges">
+                                   v-model="dateRange" :linkedCalendars="true" :close-on-esc="true" :append-to-body="true" :ranges="ranges">
                 </date-range-picker>
             </div>
         </div>
@@ -62,7 +60,7 @@
                 <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
                           :options="lengths"/>-->
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
-                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                    <div class="p-4 border border-solid d-theme-border-gray-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
                         <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{
                                 pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total
                             }} de {{ pagination.total }}</span>
@@ -70,7 +68,7 @@
                     </div>
                     <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
                     <vs-dropdown-menu>
-                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                        <vs-dropdown-item v-for="(item, index) in lengths" @click="dados.length = item" :key="index">
                             <span>{{ item }}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -113,29 +111,27 @@ import * as lang from "vuejs-datepicker/dist/locale";
 import SideBar from "./Responder";
 import SideBarTransformar from "./Transformar";
 import vSelect from "vue-select";
-import VueMoment from "vue-moment";
-import Datepicker from "vuejs-datepicker";
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import moduleProdutos from "../../store/produtos/moduleProdutos";
-import listagem from './Listagem'
+import listagem from './Listagem';
 import saveleadsConfig from "../../../saveleadsConfig";
 import SelectResponsaveis from "../components/SelectResponsaveis";
-
+//const calendarIcon = require("@/assets/fontawesome/calendar.svg");
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
+
 var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
 
 export default {
     name: "Index",
     components: {
-        SideBar, Datepicker, VueMoment, moment, DateRangePicker, SelectResponsaveis, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
+        SideBar, DateRangePicker, SelectResponsaveis, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
     },
     channel: subdomain + '_whatsapp-list',
     echo: {
-        'WhatsapplistEvent': (payload, vm) => {
-            console.log('evento disparado', payload);
+        'WhatsapplistEvent': () => {
         },
     },
     data() {
@@ -194,19 +190,19 @@ export default {
             },
             currentx: 1,
             lengths: saveleadsConfig.lengths,
-            selectedTipo: {},
+            selectedTipo: {id: null, label: 'Selecione'},
             tipos: [
                 {id: 'carrinho', label: 'Carrinho/Checkout'},
                 {id: 'boleto', label: 'Boleto'},
                 {id: 'whatsapp', label: 'Whatsapp'},
             ],
-            selectedProduto: null,
+            selectedProduto: {id: null, label: 'Selecione'},
             produtos: [],
-            selectedCampanha: null,
+            selectedCampanha: {id: null, label: 'Selecione'},
             campanhas: [],
             mensagensPadrao: [],
             //items: {}
-        }
+        };
     },
     created() {
 
@@ -214,38 +210,33 @@ export default {
         //this.dateRange.endDate = moment()
 
         if (!moduleWhatsList.isRegistered) {
-            this.$store.registerModule('whatsapplist', moduleWhatsList)
-            moduleWhatsList.isRegistered = true
+            this.$store.registerModule('whatsapplist', moduleWhatsList);
+            moduleWhatsList.isRegistered = true;
         }
 
         if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos)
-            moduleProdutos.isRegistered = true
+            this.$store.registerModule('produtos', moduleProdutos);
+            moduleProdutos.isRegistered = true;
         }
 
         this.$store.dispatch('produtos/getArraySelect').then(response => {
-            console.log('console.logoasdhasdh', response)
             this.produtos = [...response];
         });
 
         this.$store.dispatch('whatsapplist/setFilter', false);
     },
     methods: {
-        idsocket(){
-          console.log(this.$echo.socketId());
+        idsocket() {
         },
-        conectar(){
+        conectar() {
           this.$echo.connect();
           this.$echo.channel(subdomain + '_whatsapp-list').listen('WhatsapplistEvent', (payload) => {
-            console.log('escutou')
             this.items = this.items.filter(function (item) {
-              console.log('Playload', payload);
-              console.log('ITEM DO PAYLOAD', item);
               if (payload.array.tipo == "excluir") {
                 if (item.id !== payload.array.whatsapp.id) {
                   return item;
                 }
-              } else return item
+              } else return item;
             });
             if (payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') {
               this.newTickets = true;
@@ -258,13 +249,13 @@ export default {
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         setDate(val) {
             switch (val) {
@@ -281,7 +272,7 @@ export default {
                     this.dateRange.startDate = moment().subtract(30, 'days');
                     break;
             }
-            this.dados.page = 1
+            this.dados.page = 1;
             this.getItems(this.$route.params.id);
         },
         responder(dados) {
@@ -305,10 +296,9 @@ export default {
             });
 
             if (tipo != this.dados.situacao)
-                this.currentx = 1
+                this.currentx = 1;
 
             this.dados.situacao = tipo;
-            console.log('alou', this.dados.situacao, this.currentx)
 
             if (this.selectedResp) {
                 //this.dados.responsavel_type = this.selectedResp.id;
@@ -328,13 +318,12 @@ export default {
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
             this.$store.dispatch('whatsapplist/getVarios', this.dados).then(response => {
-                console.log('getItems', response.data.data)
 
-                this.items = response.data.data
+                this.items = response.data.data;
                 this.pagination = response.data;
                 this.numeros = {...response.numeros};
                 this.$vs.loading.close();
-                this.$vs.loading.close("#listagem-whatsapplist > .con-vs-loading")
+                this.$vs.loading.close("#listagem-whatsapplist > .con-vs-loading");
             });
             this.newTickets = false;
         },
@@ -357,7 +346,7 @@ export default {
                 let arr = [...response];
                 arr.forEach(item => {
                     this.campanhas.push({id: item.id, label: item.nome});
-                })
+                });
             });
         },
         deletar(id) {
@@ -374,16 +363,15 @@ export default {
                             text: 'Deletado com sucesso'
                         });
                         this.getItems(this.dados.situacao);
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
             this.dados.page = 1;
@@ -392,16 +380,14 @@ export default {
         },
     },
     watch: {
-        currentx(val) {
-            console.log('val', val);
+        currentx() {
             this.dados.page = this.currentx;
             this.getItems(this.dados.situacao);
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
         $echo() {
-            console.log('echo mudou');
         },
         dateRange() {
             this.dados.page = 1;
@@ -442,15 +428,12 @@ export default {
             this.getItems('pendentes');
         }
         this.$echo.channel(subdomain + '_whatsapp-list').listen('WhatsapplistEvent', (payload) => {
-            console.log('escutou')
             this.items = this.items.filter(function (item) {
-                console.log('Playload', payload);
-                console.log('ITEM DO PAYLOAD', item);
                 if (payload.array.tipo == "excluir") {
                     if (item.id !== payload.array.whatsapp.id) {
                         return item;
                     }
-                } else return item
+                } else return item;
             });
             if (payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') {
                 this.newTickets = true;
@@ -458,6 +441,5 @@ export default {
             }
         });
     },
-
-}
+};
 </script>

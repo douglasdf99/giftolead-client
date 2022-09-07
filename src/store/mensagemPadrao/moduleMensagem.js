@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleMensagemState.js'
-import mutations from './moduleMensagemMutations.js'
-import actions from './moduleMensagemActions.js'
-import getters from './moduleMensagemGetters.js'
+import state from './moduleMensagemState.js';
+import mutations from './moduleMensagemMutations.js';
+import actions from './moduleMensagemActions.js';
+import getters from './moduleMensagemGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

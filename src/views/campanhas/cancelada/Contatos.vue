@@ -57,7 +57,7 @@
                 <v-select v-model="dados.length" :class="'select-large-base'" :clearable="false" class="bg-white"
                           :options="lengths"/>-->
                 <vs-dropdown vs-trigger-click class="cursor-pointer float-right">
-                    <div class="p-4 border border-solid d-theme-border-grey-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
+                    <div class="p-4 border border-solid d-theme-border-gray-light rounded-lg d-theme-dark-bg cursor-pointer flex items-center justify-between font-medium">
                         <span class="mr-2">{{ currentx * dados.length - (dados.length - 1) }} - {{
                                 pagination.total - currentx * dados.length > 0 ? currentx * dados.length : pagination.total
                             }} de {{ pagination.total }}</span>
@@ -65,7 +65,7 @@
                     </div>
                     <!-- <vs-button class="btn-drop" type="line" color="primary" icon-pack="feather" icon="icon-chevron-down"></vs-button> -->
                     <vs-dropdown-menu>
-                        <vs-dropdown-item v-for="item in lengths" @click="dados.length = item">
+                        <vs-dropdown-item v-for="(item, index) in lengths" @click="dados.length = item" :key="index">
                             <span>{{ item }}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -116,7 +116,8 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/campanha/configurar-canceladas/' + $route.params.id})">
+                               @click="$router.push({
+                                name: 'campanha-config-canceladas', params:{id: $route.params.id}})">
                         Voltar
                     </vs-button>
                 </div>
@@ -129,9 +130,9 @@
 import moduleCampCanceladas from "@/store/campanha_canceladas/moduleCampCanceladas";
 import Datepicker from 'vuejs-datepicker';
 import * as lang from 'vuejs-datepicker/src/locale';
-import VueMoment from 'vue-moment'
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import VueMoment from 'vue-moment';
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import vSelect from "vue-select";
 import saveleadsConfig from "../../../../saveleadsConfig";
 
@@ -150,8 +151,8 @@ export default {
     },
     created() {
         if (!moduleCampCanceladas.isRegistered) {
-            this.$store.registerModule('canceladas', moduleCampCanceladas)
-            moduleCampCanceladas.isRegistered = true
+            this.$store.registerModule('canceladas', moduleCampCanceladas);
+            moduleCampCanceladas.isRegistered = true;
         }
         this.dados.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
         this.dados.dt_fim = moment().format('YYYY-MM-DD');
@@ -221,7 +222,7 @@ export default {
             },
             lengths: saveleadsConfig.lengths,
             selected: []
-        }
+        };
     },
     methods: {
         pesquisar(e) {
@@ -234,13 +235,13 @@ export default {
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         setDate(val) {
             this.$vs.loading();
@@ -259,18 +260,16 @@ export default {
                     break;
             }
             this.dateRange.endDate = moment();
-            this.dados.page = 1
+            this.dados.page = 1;
             if (this.filtroContatos.id !== null) {
                 this.filtrar(this.filtroContatos.id);
             }
             this.getId(this.$route.params.id);
         },
         handleSelected(tr) {
-            console.log('clicou no contato', tr);
-            this.$router.push({path: '/leads/detalhe/' + tr.lead_id});
+            this.$router.push({name: 'leads-detalhe', params:{id: tr.lead_id}});
         },
         getId(id) {
-            console.log(id)
             this.$vs.loading();
             let url = '';
             if (this.search !== '') {
@@ -288,9 +287,7 @@ export default {
             this.$store.dispatch('canceladas/getContatos', {params: this.dados}).then(response => {
                 this.items = [...new Set(response.data)];
                 this.pagination = response;
-                console.log('setPagination', this.pagination);
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -318,7 +315,6 @@ export default {
     computed: {},
     watch: {
         currentx(val) {
-            console.log('escuta paginacao')
             this.$vs.loading();
             if (this.dados.page != val) {
                 this.dados.page = val;
@@ -331,15 +327,13 @@ export default {
             this.getId(this.$route.params.id);
         },
         filtroContatos(val) {
-            console.log('escuta filtrocontatos')
             this.$vs.loading();
-            this.filtrar(val.id)
+            this.filtrar(val.id);
             this.dados.campanha_id = this.$route.params.id;
             this.$store.dispatch('canceladas/getContatos', {params: this.dados}).then(response => {
                 this.items = [...new Set(response.data)];
                 this.pagination = response;
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -350,18 +344,15 @@ export default {
         },
         dados: {
             handler(val) {
-                console.log('escuta objetyodados')
-                console.log('LENGHT', val.length)
-                console.log('PAGINATION', this.pagination)
                 if (val.length != this.pagination.per_page) {
                     this.currentx = 1;
-                    this.getId(this.$route.params.id)
+                    this.getId(this.$route.params.id);
                 }
             },
             deep: true
         },
     },
-}
+};
 </script>
 
 <style scoped>

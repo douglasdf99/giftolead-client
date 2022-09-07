@@ -41,7 +41,7 @@
                 "<strong>dashed</strong> - Defines a dotteddashed border",
                 "<strong>solid</strong> - Defines a solid border(default)",
                 ],
-            }
+            };
         },
-    }
+    };
 </script>

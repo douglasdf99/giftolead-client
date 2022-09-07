@@ -1,0 +1,12 @@
+version: '3'
+services:
+  saveleads-app-new:
+    container_name: client-new
+    image: node:12-alpine
+    working_dir: /client
+    ports:
+      - 8090:8080
+    volumes:
+      - .:/client
+
+    entrypoint: ["./entrypoint"]

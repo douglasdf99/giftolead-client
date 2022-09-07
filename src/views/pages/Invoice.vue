@@ -184,21 +184,21 @@ export default{
                 discountedAmount: 5700,
                 total: 108300,
             }
-        }
+        };
     },
     computed: {
 
     },
     methods: {
       printInvoice() {
-        window.print()
+        window.print();
       }
     },
     components: {},
     mounted() {
-      this.$emit("setAppClasses", "invoice-page")
+      this.$emit("setAppClasses", "invoice-page");
     }
-}
+};
 </script>
 
 <style lang="scss">

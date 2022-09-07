@@ -30,7 +30,7 @@
 
   .vs-sidebar{
     z-index: 51000;
-    position: fixed;
+    position: fixed !important;
 
     .vs-sidebar--items {
       padding: 0;
@@ -90,11 +90,11 @@
     height: calc(var(--vh, 1vh) * 100 - 69px);
 
     > .vs-sidebar-group{
-      padding: 0 15px;
+      padding: 0 0px;
     }
 
     > .vs-sidebar--item{
-      padding: 0 15px;
+      padding: 0 0px;
     }
   }
 

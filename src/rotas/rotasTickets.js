@@ -2,12 +2,12 @@ import subtickets from "./subRotaTicket";
 
 const rotasTickets = [
     {
-        path: '/tickets',
+        path: 'tickets',
         name: 'tickets-list',
         component: () => import('@/views/tickets/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Tickets'},
                 {title: 'Listagem', active: true},
             ],
@@ -20,14 +20,14 @@ const rotasTickets = [
         },
     },
     {
-        path: '/tickets/atender/:id',
+        path: 'tickets/atender/:id',
         name: 'tickets-atender',
         component: () => import('@/views/tickets/Atender.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Tickets'},
-                {title: 'Listagem', url: '/tickets'},
+                {title: 'Listagem', url: 'tickets-list'},
                 {title: 'Atender', active: true},
             ],
             pageTitle: 'Atendendo Ticket',
@@ -39,14 +39,14 @@ const rotasTickets = [
         },
     },
     {
-        path: '/tickets/detalhar/:id',
+        path: 'tickets/detalhar/:id',
         name: 'tickets-detalhar',
         component: () => import('@/views/tickets/Detalhamento.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Tickets'},
-                {title: 'Listagem', url: '/tickets'},
+                {title: 'Listagem', url: 'tickets-list'},
                 {title: 'Atender', active: true},
             ],
             pageTitle: 'Atendendo Ticket',
@@ -58,12 +58,12 @@ const rotasTickets = [
         },
     },
     {
-        path: '/agenda',
+        path: 'agenda',
         name: 'agenda',
         component: () => import('@/views/tickets/Agenda.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
+                {title: 'Home', url: 'dashboard'},
                 {title: 'Tickets'},
                 {title: 'Agenda', active: true},
             ],
@@ -75,6 +75,6 @@ const rotasTickets = [
             submenu: subtickets
         },
     }
-]
+];
 
-export default rotasTickets
+export default rotasTickets;

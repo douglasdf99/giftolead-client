@@ -1,6 +1,6 @@
 const rotasWhatsapplist = [
     {
-        path: '/whatsapplist/listagem',
+        path: 'whatsapplist/listagem',
         name: 'whatsapplist-list',
         component: () => import('@/views/whatsapplist/Index.vue'),
         meta: {
@@ -21,6 +21,6 @@ const rotasWhatsapplist = [
             }],
         },
     },
-]
+];
 
-export default rotasWhatsapplist
+export default rotasWhatsapplist;

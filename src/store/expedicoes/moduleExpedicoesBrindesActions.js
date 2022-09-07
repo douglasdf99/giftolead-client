@@ -1,66 +1,56 @@
-/*=========================================================================================
-  File Name: moduleAuthActions.js
-  Description: Auth Module Actions
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-
-import 'firebase/auth'
-import axios from "@/axios.js"
-import defaultAxios from "axios"
+import 'firebase/auth';
+import axios from "@/axios.js";
+import defaultAxios from "axios";
 import saveleadsConfig from "../../../saveleadsConfig";
 
 let {url_melhorenvio} = saveleadsConfig;
 
 export default {
-    get({commit}, dados) {
+    get(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/expedicaos`, {params: dados})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/expedicaos/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    aprovarVarias({commit}, dados) {
+    aprovarVarias(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/expedicaos/${dados.rota}`, {expedicaos: dados.arr})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    tranferir({commit}, dados) {
+    tranferir(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/transferir/${dados.id}`, {expedicao : dados.expedicao_id})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         let rota = '/expedicaos';
         if (dados.id != null) {
             rota = '/expedicaos/' + dados.id;
@@ -72,108 +62,119 @@ export default {
             }).catch((error) => {
                 reject(error);
             });
-        })
+        });
     },
-    rastreio({commit}, dados) {
+    rastreio(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post("https://api.saveleads.com.br/weentrega/rastreio", dados)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    imprimirEtiquetas({commit}, dados) {
+    imprimirEtiquetas(_, dados) {
         return new Promise((resolve, reject) => {
-            axios.get("expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
+            axios.get("/expedicaos/imprimiretiqueta", {params: dados, responseType: 'arraybuffer'})
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    gerarPlp({commit}, id) {
+    gerarEtiquetas(_, id) {
         return new Promise((resolve, reject) => {
-            axios.get("expedicaos/fechar/" + id)
-                .then((response) => {
+            axios.get("/expedicaos/gerar_etiquetas/" + id)
+                .then(() => {
                     resolve();
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    enviarRastreio({commit}, dados) {
+    gerarPlp(_, id) {
+        return new Promise((resolve, reject) => {
+            axios.get("/expedicaos/fechar/" + id)
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
+    enviarRastreio(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get("expedicaos/enviaremailrastreio", {params: dados})
-                .then((response) => {
+                .then(() => {
                     resolve();
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeEndereco({commit}, dados) {
+    storeEndereco(_, dados) {
         return new Promise((resolve, reject) => {
             axios.put("/automacao_enderecos/" + dados.id, dados)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeEnderecoNovo({commit}, dados) {
+    storeEnderecoNovo(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post("/automacao_enderecos/", dados)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getEndereco({commit}, id) {
+    getEndereco(_, id) {
         return new Promise((resolve, reject) => {
             axios.get("/automacao_enderecos/" + id)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    arquivar({commit}, id) {
+    arquivar(_, id) {
         return new Promise((resolve, reject) => {
             axios.get("/automacaos/arquivar/" + id)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    refreshStatus({commit}, id) {
+    refreshStatus(_, id) {
         return new Promise((resolve, reject) => {
             axios.post("/expedicaos/rastreio_melhor_envio/" + id)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    tracking({commit}, dados) {
+    tracking(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/tracking`, {orders: [dados.token]})
@@ -181,11 +182,11 @@ export default {
                     resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    itensCarrinho({commit}, {headers}) {
+    itensCarrinho(_, {headers}) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = headers;
             defaultAxios.get(`${url_melhorenvio}/api/v2/me/cart`)
@@ -193,8 +194,8 @@ export default {
                     resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

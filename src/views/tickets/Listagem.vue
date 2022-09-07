@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="vx-row bg-white p-4 my-5 rounded-lg" v-for="ticket in items">
+        <div class="vx-row bg-white p-4 my-5 rounded-lg" v-for="ticket in items" :key="ticket.id">
             <div class="vx-col w-1/12 flex-row">
                 <img :src="null" width="80" class="rounded-full"
                      :style="{ backgroundImage: 'url('+getAvatar(ticket.lead.email)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '60px', height:'60px' }">
@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             currentx: 1,
-        }
+        };
     },
 
     methods: {
@@ -78,7 +78,7 @@ export default {
         },
         canEditar(ticket) {
             if (ticket.status != 2 && this.$acl.check('ticket_editar_todos')) {
-                return true
+                return true;
             } else if (ticket.status != 2 && this.$acl.check('ticket_editar')) {
                 let user = JSON.parse(localStorage.getItem("userInfo"));
                 if (ticket.responsavel_type == 'App\\Models\\User' && ticket.responsavel_id == user.uid) {
@@ -90,7 +90,7 @@ export default {
         },
         canDeletar(ticket) {
             if (ticket.status != 2 && this.$acl.check('ticket_deletar_todos')) {
-                return true
+                return true;
             } else if (ticket.status != 2 && this.$acl.check('ticket_deletar')) {
                 let user = JSON.parse(localStorage.getItem("userInfo"));
                 if (ticket.responsavel_type == 'App\\Models\\User', ticket.responsavel_id == user.uid) {
@@ -101,5 +101,5 @@ export default {
             return false;
         }
     }
-}
+};
 </script>

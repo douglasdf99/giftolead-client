@@ -8,191 +8,191 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    update({commit}, dados) {
+    update(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinhos/${dados.id}`, dados.dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    updateEmail({commit}, dados) {
+    updateEmail(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails/${dados.id}`, dados.dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    updateSms({commit}, dados) {
+    updateSms(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_sms/${dados.id}`, dados.dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinhos`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeEmail({commit}, dados) {
+    storeEmail(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeSms({commit}, dados) {
+    storeSms(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_sms`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinhos/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getEmails({commit}, id) {
+    getEmails(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_emails`, {params: {campanha_id: id}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getEmailId({commit}, id) {
+    getEmailId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_emails/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getSms({commit}, id) {
+    getSms(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_sms`, {params: {campanha_id: id}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject('erro aí', error)
-                })
-        })
+                    reject('erro aí', error);
+                });
+        });
     },
-    getSmsId({commit}, id) {
+    getSmsId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_sms/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinhos`, {params: {}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getHistorico({commit}, dados) {
+    getHistorico(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_historicos`, {params: {campanha_id: dados.id, ...dados.params}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getAgendados({commit}, dados) {
+    getAgendados(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_rastreio/${dados.id}`, {params: {campanha_id: dados.id, ...dados.params}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    reorganizarEmails({commit}, dados) {
+    reorganizarEmails(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_emails_posicao`, {posicoes: dados})
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    reorganizarSms({commit}, dados) {
+    reorganizarSms(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/campanha_carrinho_sms_posicao`, {posicoes: dados})
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getContatos({commit}, dados) {
-        return new Promise((resolve, reject) => {
+    getContatos(_, dados) {
+        return new Promise((resolve) => {
             axios.get(`/campanha_carrinho_contatos`, {params: dados.params})
                 .then((response) => {
-                    resolve(response.data.data)
-                })
+                    resolve(response.data.data);
+                });
         });
     }
-}
+};

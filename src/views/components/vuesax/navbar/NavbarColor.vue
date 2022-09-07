@@ -105,5 +105,5 @@ export default {
         colorx: '#5A8DEE',
         indexActive: 0
     })
-}
+};
 </script>

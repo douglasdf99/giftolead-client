@@ -53,7 +53,7 @@
                             <div class="px-8 pt-8 login-tabs-container">
                                 <div class="vx-card__title mb-5 flex justify-center"
                                      style="margin-bottom: 5rem !important;">
-                                    <img :src="url_api('images/logo2.svg')">
+                                    <img :src="get_img_local('logo2.svg')">
                                 </div>
                                 <div class="p-8" v-if="!comErro">
                                     <div class="vx-card__title mb-8">
@@ -95,7 +95,7 @@
 </template>
 
 <script>
-    import axios from "@/axios.js"
+    import axios from "@/axios.js";
 
     export default {
         data() {
@@ -105,26 +105,24 @@
                 repeat_password: '',
                 email: '',
                 comErro: false
-            }
+            };
         },
         created() {
-            console.log('token aí', this.$route.params.token)
-            this.findToken().catch(erro => {
-                console.log(erro)
-                this.comErro = true
+            this.findToken().catch(() => {
+                this.comErro = true;
                 this.$vs.notify({
                     title: 'Erro',
                     text: "Token não encontrado",
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
-                })
+                });
             });
         },
         methods: {
             recuperar() {
                 if (this.password === this.repeat_password) {
-                    this.$vs.loading()
+                    this.$vs.loading();
                     axios.post('/api/reset', {
                         token: this.token,
                         password: this.password,
@@ -140,17 +138,16 @@
                             color: 'success'
                         });
                         this.$router.push({name: 'login'});
-                    }).catch(erro => {
+                    }).catch(() => {
                         this.$vs.loading.close();
-                        console.log(erro)
                         this.$vs.notify({
                             title: 'Erro',
                             text: "Algo deu errado na recuperação de senha",
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
-                    })
+                        });
+                    });
                 }
             },
             findToken() {
@@ -158,12 +155,12 @@
                     axios.get(`/api/find/${this.token}`).then(response => {
 
                         this.email = response.data.email;
-                        resolve(response)
+                        resolve(response);
                     }).catch(erro => reject(erro));
-                })
+                });
             }
         }
-    }
+    };
 </script>
 
 <style scoped>

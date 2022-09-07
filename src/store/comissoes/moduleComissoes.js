@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleComissoesState.js'
-import mutations from './moduleComissoesMutations.js'
-import actions from './moduleComissoesActions.js'
-import getters from './moduleComissoesGetters.js'
+import state from './moduleComissoesState.js';
+import mutations from './moduleComissoesMutations.js';
+import actions from './moduleComissoesActions.js';
+import getters from './moduleComissoesGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

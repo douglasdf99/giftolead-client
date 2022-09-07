@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleCampAgendamentoState.js'
-import mutations from './moduleCampAgendamentoMutations.js'
-import actions from './moduleCampAgendamentoActions.js'
-import getters from './moduleCampAgendamentoGetters.js'
+import state from './moduleCampAgendamentoState.js';
+import mutations from './moduleCampAgendamentoMutations.js';
+import actions from './moduleCampAgendamentoActions.js';
+import getters from './moduleCampAgendamentoGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

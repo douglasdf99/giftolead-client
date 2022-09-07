@@ -32,14 +32,14 @@ export default {
     },
     computed: {
       rtlSpecificIcon() {
-        let i = this.icon
+        let i = this.icon;
         if(this.$vs.rtl) {
-          i.includes("Left") ? i=i.replace("Left", "Right") : i.includes("Right") ? i=i.replace("Right", "Left") : null
+          i.includes("Left") ? i=i.replace("Left", "Right") : i.includes("Right") ? i=i.replace("Right", "Left") : null;
         }
-        return i
+        return i;
       }
     }
-}
+};
 </script>
 
 <style lang="scss">

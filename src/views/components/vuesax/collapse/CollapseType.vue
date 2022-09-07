@@ -119,7 +119,7 @@ export default {
     data() {
         return {
             type: 'shadow',
-        }
+        };
     }
-}
+};
 </script>

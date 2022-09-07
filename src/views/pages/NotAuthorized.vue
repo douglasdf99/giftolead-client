@@ -14,7 +14,12 @@
             <img src="@/assets/images/pages/not-authorized.png" alt="graphic-not-authorized" class="mx-auto mb-4">
             <h1 class="sm:mx-0 mx-4 sm:mb-12 mb-8 text-5xl d-theme-heading-color">Você não está autorizado!</h1>
             <p class="sm:mx-0 mx-4 sm:mb-12 mb-8 d-theme-text-inverse">Verifica se seu perfil possui permissão acesso à rota.</p>
-            <vs-button size="large" to="/dashboard">Voltar</vs-button>
+            <vs-button size="large" :to="{name:'dashboard'}">Voltar</vs-button>
         </div>
     </div>
 </template>
+<script>
+	export default {
+		name: 'NotAuthorized',
+	};
+</script>

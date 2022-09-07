@@ -1,7 +1,7 @@
 <template>
   <div id="loading-bg">
     <div class="loading-logo">
-      <img :src="url_api('images/logo2.svg')" alt="Logo">
+      <img :src="get_img_local('logo2.svg')" alt="Logo">
     </div>
     <div class="loading">
       <div class="effect-1 effects"></div>
@@ -12,24 +12,13 @@
 </template>
 
 <script>
+//import { bootstrap } from "@/auth/sso";
+
 export default {
-  methods: {
-    handleLoginEvent(data) {
-      this.$store.dispatch('updateUserInfo', {
-        displayName: data.profile.name,
-        email: data.profile.email,
-        photoURL: data.profile.picture,
-        providerId: data.profile.sub.substr(0, data.profile.sub.indexOf('|')),
-        uid: data.profile.sub
-      })
-      this.$router.push(data.state.target || "/");
-    }
-  },
-  created() {
-    this.$auth.handleAuthentication()
-    if (this.$auth.isAuthenticated()) this.$router.push('/').catch(() => {})
-  }
-}
+  // async created() {
+  //   await bootstrap.start();
+  // }
+};
 
 </script>
 

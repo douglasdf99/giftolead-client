@@ -1,4 +1,4 @@
-import mock from "@/fake-db/mock.js"
+import mock from "@/fake-db/mock.js";
 
 const data = {
   subscribers_gained: {
@@ -169,7 +169,7 @@ const data = {
         data: [-144, -155, -141, -167, -122, -143, -158, -107, -126, -131, -140, -137]
     }],
   }
-}
+};
 
 
 mock.onGet("/api/card/card-analytics/session-by-device").reply(() => {

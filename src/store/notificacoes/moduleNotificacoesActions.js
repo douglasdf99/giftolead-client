@@ -8,62 +8,63 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    update({commit}, dados) {
+    update(_, dados) {
         return new Promise((resolve, reject) => {
             axios.put(`/confignotifications/1`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
+        id = 1;
         return new Promise((resolve, reject) => {
-            axios.get(`/notifications/1`)
+            axios.get(`/notifications/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/nlidas`)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
+                    reject(error);
+                });
         });
     },
-    getAll({commit}, dados) {
+    getAll(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/todas`, {params: dados})
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
+                    reject(error);
+                });
         });
     },
-    setread({commit}) {
+    setread() {
         return new Promise((resolve, reject) => {
             axios.get(`/notifications/setlidas`)
-                .then((response) => {
+                .then(() => {
                     resolve();
                 })
                 .catch((error) => {
-                    reject()
-                })
+                    reject(error);
+                });
         });
     }
-}
+};

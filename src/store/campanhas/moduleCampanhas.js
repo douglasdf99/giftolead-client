@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleCampanhaState.js'
-import mutations from './moduleCampanhaMutations.js'
-import actions from './moduleCampanhaActions.js'
-import getters from './moduleCampanhaGetters.js'
+import state from './moduleCampanhaState.js';
+import mutations from './moduleCampanhaMutations.js';
+import actions from './moduleCampanhaActions.js';
+import getters from './moduleCampanhaGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

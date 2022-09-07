@@ -18,7 +18,7 @@
               <p class="font-semibold">{{ item.title }}</p>
               <span class="activity-desc">{{ item.desc }}</span>
           </div>
-          <small class="text-grey activity-e-time">{{ item.time }}</small>
+          <small class="text-gray activity-e-time">{{ item.time }}</small>
       </li>
   </ul>
 </template>
@@ -32,7 +32,7 @@ export default {
       required: true
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

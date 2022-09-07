@@ -80,7 +80,7 @@ export default {
     data() {
         return {
             isDeleted: false,
-        }
+        };
     }
-}
+};
 </script>

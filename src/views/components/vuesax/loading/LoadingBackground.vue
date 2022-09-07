@@ -59,15 +59,15 @@ export default {
     data() {
         return {
             backgroundLoading: '#22c16b',
-        }
+        };
     },
     methods: {
         openLoadingBackground() {
-            this.$vs.loading({ background: this.backgroundLoading, color: 'rgb(255, 255, 255)' })
+            this.$vs.loading({ background: this.backgroundLoading, color: 'rgb(255, 255, 255)' });
             setTimeout(() => {
-                this.$vs.loading.close()
+                this.$vs.loading.close();
             }, 3000);
         },
     }
-}
+};
 </script>

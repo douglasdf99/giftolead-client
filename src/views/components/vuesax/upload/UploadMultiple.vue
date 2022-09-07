@@ -40,8 +40,8 @@ export default {
 export default {
     methods: {
         successUpload() {
-            this.$vs.notify({ color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur' })
+            this.$vs.notify({ color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur' });
         }
     }
-}
+};
 </script>

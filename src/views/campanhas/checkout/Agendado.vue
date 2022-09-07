@@ -87,7 +87,7 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/campanha/configurar-checkout/' + historico[0].campanha_id})">
+                               @click="$router.push({name: 'campanha-config-checkout'})">
                         Voltar
                     </vs-button>
                 </div>
@@ -98,12 +98,12 @@
 
 <script>
 import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
-import SideBar from './DetalheHistorico'
+import SideBar from './DetalheHistorico';
 import Datepicker from 'vuejs-datepicker';
 import * as lang from 'vuejs-datepicker/src/locale';
-import VueMoment from 'vue-moment'
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import VueMoment from 'vue-moment';
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import vSelect from "vue-select";
 
 const moment = require('moment/moment');
@@ -126,13 +126,13 @@ export default {
     },
     created() {
         if (!moduleCampCheckouts.isRegistered) {
-            this.$store.registerModule('checkout', moduleCampCheckouts)
-            moduleCampCheckouts.isRegistered = true
+            this.$store.registerModule('checkout', moduleCampCheckouts);
+            moduleCampCheckouts.isRegistered = true;
         }
         this.dados.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
         this.dados.dt_fim = moment().format('YYYY-MM-DD');
-        this.dateRange.startDate = moment().subtract(30, 'days')
-        this.dateRange.endDate = moment()
+        this.dateRange.startDate = moment().subtract(30, 'days');
+        this.dateRange.endDate = moment();
 
         this.getId(this.$route.params.id);
     },
@@ -201,7 +201,7 @@ export default {
             addNewDataSidebar: false,
             sidebarData: {},
             selected: []
-        }
+        };
     },
     methods: {
         pesquisar(e) {
@@ -214,13 +214,13 @@ export default {
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         setDate(val) {
             this.$vs.loading();
@@ -238,24 +238,24 @@ export default {
                     this.dateRange.startDate = moment().subtract(30, 'days');
                     break;
             }
-            this.dados.page = 1
+            this.dados.page = 1;
             this.getId(this.$route.params.id);
         },
-        tipo(val){
+        tipo(val) {
           let value = JSON.parse(val).displayName;
           let tipo = 'JSON.parse(val).displayName';
           switch (value) {
             case 'App\\Jobs\\sendSMSCarrinho':
-              tipo = 'sms'
+              tipo = 'sms';
               break;
             case 'App\\Jobs\\sendSMSBoleto':
-              tipo = 'sms'
+              tipo = 'sms';
               break;
             case 'App\\Jobs\\sendEmailCarrinho':
-              tipo = 'email'
+              tipo = 'email';
               break;
             case 'App\\Jobs\\sendEmailBoleto':
-              tipo = 'email'
+              tipo = 'email';
               break;
           }
           return tipo;
@@ -265,7 +265,7 @@ export default {
             this.toggleDataSidebar(true);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getId(id) {
             this.$vs.loading();
@@ -297,17 +297,15 @@ export default {
             this.$store.dispatch('checkout/getEmails', this.$route.params.id).then(response => {
                 this.emails = response;
                 this.assuntos = [];
-                this.emails.forEach((item, index) => {
+                this.emails.forEach((item) => {
                     this.assuntos.push({id: item.id, label: item.assunto ? item.assunto : ''});
                 });
             });
 
             this.$store.dispatch('checkout/getAgendados', {id: id, params: this.dados}).then(response => {
-              console.log(response);
                 this.historico = response.data;
                 this.pagination = response;
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -323,17 +321,17 @@ export default {
             this.dados.page = val;
             this.getId(this.$route.params.id);
         },
-        selectedStatus(val) {
+        selectedStatus() {
             this.$vs.loading();
             this.dados.page = 1;
             this.getId(this.$route.params.id);
         },
-        selectedAssunto(val) {
+        selectedAssunto() {
             this.$vs.loading();
             this.dados.page = 1;
             this.getId(this.$route.params.id);
         },
-        selectedTipo(val) {
+        selectedTipo() {
             this.$vs.loading();
             this.dados.page = 1;
             this.getId(this.$route.params.id);
@@ -343,7 +341,7 @@ export default {
             this.getId(this.$route.params.id);
         }
     },
-}
+};
 </script>
 
 <style scoped>

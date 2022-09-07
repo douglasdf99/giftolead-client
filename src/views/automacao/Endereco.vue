@@ -21,19 +21,15 @@
                 <h4 class="text-center text-xl md:text-left Arial font-bold md:text-2xl text-gray-900 my-3">Informações pessoais</h4>
                 <form class="w-full px-6">
                     <div class="flex flex-col">
-                        <p class="gray-wdc mb-2 font-bold">Destinatário</p>
+                        <span class="gray-wdc mb-2 font-bold">Destinatário</span>
                         <vs-input class="w-full mb-3" v-model="endereco.nome" type="text" required/>
                     </div>
                     <div class="vx-row mt-2">
-                        <div class="vx-col w-3/12">
-                            <p class="gray-wdc mb-2 font-bold">DDD</p>
-                            <vs-input class="w-full mb-3"
-                                      v-model="endereco.ddd" type="text" required v-mask="'##'" @keypress="isNumber"/>
-                        </div>
-                        <div class="vx-col w-9/12">
-                            <p class="gray-wdc mb-2 font-bold">Telefone</p>
-                            <vs-input class="w-full mb-3"
-                                      v-model="endereco.telefone" type="text" required v-mask="['####-####', '#####-####']" @keypress="isNumber"/>
+                        <div class="vx-col w-full">
+                            <span class="gray-wdc mb-2 font-bold">Telefone</span>
+                            <phone-number :key="endereco.telefone" :ddi.sync="endereco.ddi" :phone.sync="endereco.telefone"/>
+                            <!-- <vs-input class="w-full mb-3"
+                                      v-model="endereco.telefone" type="text" required v-mask="['####-####', '#####-####']" @keypress="isNumber"/> -->
                         </div>
                     </div>
                 </form>
@@ -98,12 +94,14 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import vSelect from 'vue-select';
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
 import {Validator} from 'vee-validate';
+import PhoneNumber from "@/components/PhoneNumber";
 
-const {consultarCep} = require("correios-brasil");
+//const {consultarCep} = require("correios-brasil");
+
 const dict = {
     custom: {
         cep: {
@@ -137,7 +135,6 @@ export default {
             },
         },
     },
-
     data() {
         return {
             endereco: {
@@ -150,7 +147,7 @@ export default {
             },
             valido: false,
             antigoCep: '',
-        }
+        };
     },
     watch: {
         endereco: {
@@ -162,10 +159,10 @@ export default {
             deep: true
         },
         isSidebarActive(val) {
-            if (!val) return
+            if (!val) return;
             if (Object.entries(this.data).length === 0) {
-                this.initValues()
-                this.$validator.reset()
+                this.initValues();
+                this.$validator.reset();
             } else {
                 this.brinde = JSON.parse(JSON.stringify(this.data));
             }
@@ -179,11 +176,11 @@ export default {
     },
     computed: {
         invalidoEntrega() {
-            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length < 8)
+            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length < 5);
         },
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
@@ -206,7 +203,7 @@ export default {
                     this.$vs.loading();
                     if (this.endereco.id) {
                         this.$store.dispatch('expedicaos/storeEndereco', this.endereco)
-                            .then(response => {
+                            .then(() => {
                                 this.isSidebarActiveLocal = false;
                                 this.$vs.notify({
                                     color: 'success',
@@ -218,12 +215,12 @@ export default {
                                 this.$vs.notify({
                                     color: 'danger',
                                     text: erro.response.data.message
-                                })
+                                });
                             }).finally(() => this.$vs.loading.close());
                     } else {
-                        this.endereco.automacao_id = this.automacao.id
+                        this.endereco.automacao_id = this.automacao.id;
                         this.$store.dispatch('expedicaos/storeEnderecoNovo', this.endereco)
-                            .then(response => {
+                            .then(() => {
                                 this.isSidebarActiveLocal = false;
                                 this.$vs.notify({
                                     color: 'success',
@@ -233,18 +230,17 @@ export default {
                                 this.$emit('getItems', '');
                             })
                             .catch(erro => {
-                                console.log('erro', erro.response);
                                 this.$vs.notify({
                                     title: '',
                                     color: 'danger',
                                     text: erro.response.data.message
-                                })
+                                });
                             }).finally(() => this.$vs.loading.close());
                     }
                 } else {
                     alert('Verifique os erros');
                 }
-            })
+            });
         },
         getEndereco(id) {
             this.$vs.loading();
@@ -257,42 +253,39 @@ export default {
                     this.valido = true;
                 }
             }).catch(erro => {
-                console.log('erro', erro.response);
                 this.$vs.notify({
                     title: '',
                     color: 'danger',
                     text: erro.response.data.message
-                })
+                });
             }).finally(() => this.$vs.loading.close());
         },
         buscaCep() {
-            if (this.valido) {
-            } else {
+            if (!this.valido) {
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
-                consultarCep(this.endereco.cep).then(response => {
+                this.$store.dispatch('consultCep', this.endereco.cep).then(response => {
                     this.antigoCep = this.endereco.cep;
                     this.valido = true;
-                    this.endereco.cidade = this.removeAccents(response.localidade);
-                    this.endereco.bairro = this.removeAccents(response.bairro);
-                    this.endereco.endereco = this.removeAccents(response.logradouro);
-                    this.endereco.estado = this.removeAccents(response.uf);
-
+                    this.endereco.cidade = this.removeAccents(response.city);
+                    this.endereco.bairro = this.removeAccents(response.neighborhood);
+                    this.endereco.endereco = this.removeAccents(response.street);
+                    this.endereco.estado = this.removeAccents(response.state);
                 }).catch(erro => {
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
                         text: erro.response.data.message
-                    })
+                    });
                 });
             }
         },
     },
     components: {
-        VuePerfectScrollbar,
+        VuePerfectScrollbar, PhoneNumber,
         'v-select': vSelect
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

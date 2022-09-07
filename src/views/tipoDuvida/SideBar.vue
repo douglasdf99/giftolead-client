@@ -39,8 +39,7 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
     export default {
         props: {
@@ -61,16 +60,16 @@
                     empresa_id: 1,
                     nome: '',
                 },
-            }
+            };
         },
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
                     if (!val) {
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -80,19 +79,17 @@
         },
         methods: {
             initValues() {
-                console.log('chamou init');
                 if (this.data.id) {
-                    console.log(this.data)
-                    return
+                    return;
                 } else {
-                    this.tipoDuvida.id = null
-                    this.tipoDuvida.nome = ''
+                    this.tipoDuvida.id = null;
+                    this.tipoDuvida.nome = '';
                 }
             },
             submitData() {
                 this.$validator.validateAll().then(result => {
                     if (result) {
-                        this.$vs.loading()
+                        this.$vs.loading();
                         const obj = {...this.tipoDuvida};
                         if (this.tipoDuvida.id !== null && this.tipoDuvida.id >= 0) {
                             obj._method = 'PUT';
@@ -107,11 +104,11 @@
                                 this.$store.dispatch('getVarios', {rota: 'tipo_de_duvidas', params: {page: 1}}).then(() => {
                                     this.$vs.loading.close();
                                 });
-                            }).catch(err => {
-                                console.error(err)
-                            })
+                            }).finally(() => {
+                           this.$vs.loading.close();
+                            });
                         } else {
-                            delete obj.id
+                            delete obj.id;
                             this.$store.dispatch("addItem", {rota: 'tipo_de_duvidas', item: obj}).then(() => {
                                 this.$vs.notify({
                                     title: 'Sucesso',
@@ -119,9 +116,9 @@
                                     iconPack: 'feather',
                                     icon: 'icon-check-circle',
                                     color: 'success'
-                                })
+                                });
                                 this.$store.dispatch('getVarios', {rota: 'tipo_de_duvidas', params: {page: 1}}).then(() => {
-                                    this.$vs.loading.close()
+                                    this.$vs.loading.close();
                                 });
 
                             }).catch(error => {
@@ -131,27 +128,25 @@
                                     iconPack: 'feather',
                                     icon: 'icon-alert-circle',
                                     color: 'danger'
-                                })
-                            })
+                                });
+                            });
                         }
 
-                        this.$emit('closeSidebar')
-                        this.initValues()
+                        this.$emit('closeSidebar');
+                        this.initValues();
                     }
-                })
+                });
             },
         },
         components: {
             VuePerfectScrollbar,
-            'v-select': vSelect
         },
         created() {
             this.initValues();
             if (Object.entries(this.data).length === 0) {
                 //this.initValues()
-                this.$validator.reset()
+                this.$validator.reset();
             } else {
-                console.log('entrou aqui', this.data);
                 this.tipoDuvida = JSON.parse(JSON.stringify(this.data));
                 //this.selected = this.origem.integracao_id;
                 //this.selected = {id: this.origem.integracao_id, label: this.origem.integracao.descricao};
@@ -160,7 +155,7 @@
             }
             this.getOpcoes();
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

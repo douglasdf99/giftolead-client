@@ -53,16 +53,16 @@ export default {
     data() {
         return {
             value1: '',
-        }
+        };
     },
     computed: {
         inputValid() {
             if (/^\d+$/.test(this.value1)) {
-                return false
+                return false;
             } else {
-                return true
+                return true;
             }
         }
     }
-}
+};
 </script>

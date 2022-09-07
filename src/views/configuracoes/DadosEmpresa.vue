@@ -5,7 +5,7 @@
 <script>
     export default {
         name: "DadosEmpresa"
-    }
+    };
 </script>
 
 <style scoped>

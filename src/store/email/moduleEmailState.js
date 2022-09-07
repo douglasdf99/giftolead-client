@@ -14,4 +14,4 @@ export default {
     mailTags: [],
     meta: {},
     mailSearchQuery: '',
-}
+};

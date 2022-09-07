@@ -55,15 +55,15 @@ export default {
     data() {
         return {
             colorLoading: '#ff8000',
-        }
+        };
     },
     methods: {
         openLoadingColor() {
-            this.$vs.loading({ color: this.colorLoading })
+            this.$vs.loading({ color: this.colorLoading });
             setTimeout(() => {
-                this.$vs.loading.close()
+                this.$vs.loading.close();
             }, 2000);
         },
     }
-}
+};
 </script>

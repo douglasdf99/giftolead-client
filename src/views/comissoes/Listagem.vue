@@ -6,7 +6,7 @@
     <div class="" v-else>
       <vs-button color="primary" type="border" @click="realizarDiagnostico" icon-pack="feather" icon="icon-refresh-cw" id="button-with-loading-diagnostico" class="vs-con-loading__container w-full">Realizar Diagnóstico em Todos</vs-button>
 
-      <div class="vx-row bg-white p-4 my-5 rounded-lg vs-con-loading__container" v-for="(item,index) in items" @click="visualizar(item)"
+      <div class="vx-row bg-white p-4 my-5 rounded-lg vs-con-loading__container" v-for="(item, index) in items" :key="index" @click="visualizar(item)"
            v-bind:class="{'cursor-pointer' : ( item.tipo != 'reprovado' && $acl.check('comissao_pendente_detalhar')),
               'clicavel' : (item.tipo != 'reprovado' && $acl.check('comissao_pendente_detalhar'))}"  :id="'button-with-loading-card-'+index">
         <div class="vx-col w-3/12">
@@ -26,12 +26,10 @@
             <img src="@/assets/images/util/agendamento.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaAgendamento'">
             <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\CampanhaCancelado'">
             <img src="@/assets/images/util/cancelado.svg" width="40px" class="ml-2 rounded-full agente" v-else-if="item.criador_type == 'App\\Models\\Link'">
-            <div :src="null" width="40px" class="ml-2 rounded-full agente" v-else :style="{ backgroundImage: 'url('+get_img_api(item.criador.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
-
+            <vs-avatar v-else color="primary" size="40px" :text="item.criador.name" />
           </vx-tooltip>
           <vx-tooltip position="top" :text="'Atendente | ' + item.atendente.name" style="margin-left: -15px">
-            <div :src="null" width="40px" class="rounded-full agente"
-                 :style="{ backgroundImage: 'url('+get_img_api(item.atendente.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
+            <vs-avatar color="primary" size="40px" :text="item.atendente.name" :src="item.atendente.avatar" />
           </vx-tooltip>
         </div>
         <div class="vx-col w-1/12 flex items-center justify-center">
@@ -74,7 +72,7 @@
     data() {
       return {
         currentx: 1,
-      }
+      };
     },
     methods: {
       realizarDiagnostico() {
@@ -82,23 +80,23 @@
           color: this.colorLoading,
           container: "#button-with-loading-diagnostico",
           scale: 0.45
-        })
-        var self = this
+        });
+        var self = this;
         async function diags() {
           for (const [idx, item] of self.items.entries()) {
             self.$vs.loading({
               color: self.colorLoading,
               container: "#button-with-loading-card-"+idx,
               scale: 0.45
-            })
+            });
             document.getElementById('button-with-loading-card-'+idx).focus();
-            const diag = await self.$store.dispatch('comissoes/diagnosticar', {pre_comissao_id: item.id}).then(response => {
+            await self.$store.dispatch('comissoes/diagnosticar', {pre_comissao_id: item.id}).then(response => {
               item.disgnostico = response.data;
             }).finally(() => {
-              self.$vs.loading.close("#button-with-loading-card-"+idx+" > .con-vs-loading")
+              self.$vs.loading.close("#button-with-loading-card-"+idx+" > .con-vs-loading");
             });
           }
-          self.$vs.loading.close("#button-with-loading-diagnostico > .con-vs-loading")
+          self.$vs.loading.close("#button-with-loading-diagnostico > .con-vs-loading");
         }
         diags();
       },
@@ -112,7 +110,7 @@
       },
       visualizar(item) {
         if (this.$acl.check('comissao_pendente_detalhar'))
-          this.$emit('visualizar', item)
+          this.$emit('visualizar', item);
         else {
           this.$vs.notify({
             color: 'danger',
@@ -121,5 +119,5 @@
         }
       }
     }
-  }
+  };
 </script>

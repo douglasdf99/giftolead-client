@@ -2,14 +2,14 @@ import subRotaPlanos from "../subRotaPlanos";
 
 const rotasCampCheckout = [
     {
-        path: '/campanha/configurar-checkout/:id',
+        path: 'campanha/configurar-checkout/:id',
         name: 'campanha-config-checkout',
         component: () => import('@/views/campanhas/checkout/Checkout.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar Campanha', active: true},
             ],
             pageTitle: 'Configuração da Campanha de recuperação de carrinho',
@@ -21,14 +21,15 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/historico-envios',
+        path: 'campanha/configurar-checkout/:id/historico-envios',
         name: 'campanha-config-checkout-historico',
         component: () => import('@/views/campanhas/checkout/Historico.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
+                {title: 'Campanha de Carrinho'},
                 {title: 'Histórico de Envios', active: true}
             ],
             pageTitle: 'Histórico de envios dos e-mails',
@@ -40,14 +41,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/agendados',
+        path: 'campanha/configurar-checkout/:id/agendados',
         name: 'campanha-config-checkout-agendados',
         component: () => import('@/views/campanhas/checkout/Agendado.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Histórico de Envios', active: true}
             ],
             pageTitle: 'Lista de agendamentos de envios',
@@ -59,14 +60,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/contatos-ativos',
+        path: 'campanha/configurar-checkout/:id/contatos-ativos',
         name: 'campanha-config-checkout-contatos-ativos',
         component: () => import('@/views/campanhas/checkout/Contatos.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Contatos Ativos', active: true}
             ],
             pageTitle: 'Contatos ativos da campanha',
@@ -78,14 +79,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/contatos-inativos',
+        path: 'campanha/configurar-checkout/:id/contatos-inativos',
         name: 'campanha-config-checkout-contatos-inativos',
         component: () => import('@/views/campanhas/checkout/Contatos.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Contatos Inativos', active: true}
             ],
             pageTitle: 'Contatos inativos da campanha',
@@ -97,14 +98,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/contatos-todos',
+        path: 'campanha/configurar-checkout/:id/contatos-todos',
         name: 'campanha-config-checkout-contatos-todos',
         component: () => import('@/views/campanhas/checkout/Contatos.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Todos os contatos', active: true}
             ],
             pageTitle: 'Todos os contatos da campanha',
@@ -116,14 +117,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/emails',
+        path: 'campanha/configurar-checkout/:id/emails',
         name: 'campanha-config-checkout-emails',
         component: () => import('@/views/campanhas/checkout/Emails.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar E-mails', active: true}
             ],
             pageTitle: 'Configuração de E-mails',
@@ -135,14 +136,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/emails/criar',
+        path: 'campanha/configurar-checkout/:id/emails/criar',
         name: 'campanha-config-checkout-emails-criar',
         component: () => import('@/views/campanhas/checkout/EmailsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar E-mails'},
                 {title: 'Criar configuração de e-mail', active: true},
             ],
@@ -155,14 +156,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/emails/editar/:idEmail',
+        path: 'campanha/configurar-checkout/:id/emails/editar/:idEmail',
         name: 'campanha-config-checkout-emails-editar',
         component: () => import('@/views/campanhas/checkout/EmailsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar E-mails'},
                 {title: 'Criar configuração de e-mail', active: true},
             ],
@@ -175,14 +176,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/sms',
+        path: 'campanha/configurar-checkout/:id/sms',
         name: 'campanha-config-checkout-sms',
         component: () => import('@/views/campanhas/checkout/Sms.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar SMS', active: true}
             ],
             pageTitle: 'Configuração de SMSs',
@@ -194,14 +195,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/sms/criar',
+        path: 'campanha/configurar-checkout/:id/sms/criar',
         name: 'campanha-config-checkout-sms-criar',
         component: () => import('@/views/campanhas/checkout/SmsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar SMS'},
                 {title: 'Criar configuração de SMS', active: true},
             ],
@@ -214,14 +215,14 @@ const rotasCampCheckout = [
         },
     },
     {
-        path: '/campanha/configurar-checkout/:id/sms/editar/:idEmail',
+        path: 'campanha/configurar-checkout/:id/sms/editar/:idEmail',
         name: 'campanha-config-checkout-sms-editar',
         component: () => import('@/views/campanhas/checkout/SmsCriar.vue'),
         meta: {
             breadcrumb: [
                 {title: 'Home', url: '/'},
                 {title: 'Planos', url: '/planos/meus-planos'},
-                {title: 'Gerenciar'},
+                {title: 'Gerenciar', url: 'planos-gerenciar'},
                 {title: 'Configurar SMSs'},
                 {title: 'Editar configuração de SMS', active: true},
             ],
@@ -235,4 +236,4 @@ const rotasCampCheckout = [
     },
 ];
 
-export default rotasCampCheckout
+export default rotasCampCheckout;

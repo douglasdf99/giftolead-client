@@ -20,7 +20,7 @@
                 <div class="vx-row mb-5">
                     <div class="vx-col w-1/2">
                         <div class="flex items-center">
-                          <div class="ml-2 rounded-full agente" :style="{ backgroundImage: 'url('+get_img_api(data.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '50px', height:'50px',backgroundPositionX: 'center' }"></div>
+                          <div class="ml-2 rounded-full agente" :style="{ backgroundImage: 'url('+get_img_cdn(data.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '50px', height:'50px',backgroundPositionX: 'center' }"></div>
                             <p class="font-bold text-dark text-xl">{{ data.name }}</p>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                               <img src="@/assets/images/util/link.svg" width="40" class="ml-2 rounded-full" v-if="tr.origem_type == 'App\\Models\\Link'">
                                             </vx-tooltip>
                                             <vx-tooltip delay=".5s" :text="tr.origem.name">
-                                              <div class="ml-2 rounded-full agente" v-if="tr.origem.avatar" :style="{ backgroundImage: 'url('+get_img_api(tr.origem.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '50px', height:'50px',backgroundPositionX: 'center' }"></div>
+                                                <vs-avatar v-if="tr.origem.name" color="primary" size="40px" :text="tr.origem.name" />
                                             </vx-tooltip>
                                         </div>
                                     </vs-td>
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
 export default {
     props: {
@@ -115,26 +115,22 @@ export default {
         },
     },
     data() {
-        return {}
-    },
-    created() {
-        console.log('dados', this.data);
-        console.log('listagem', this.listaComissao);
+        return {};
     },
     computed: {
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
 
                 }
             }
         },
         somaComissao() {
-            let soma = 0.0
+            let soma = 0.0;
             this.data.comissaos.forEach(item => {
                 soma += parseFloat(item.valor);
             });
@@ -146,9 +142,9 @@ export default {
         getResponsavel(val) {
             switch (val) {
                 case 'App\\Models\\PreComissao':
-                    return 'Pré Comissão'
+                    return 'Pré Comissão';
                 default:
-                    return val
+                    return val;
             }
         },
         somaConquistas(val) {
@@ -162,7 +158,7 @@ export default {
     components: {
         VuePerfectScrollbar,
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

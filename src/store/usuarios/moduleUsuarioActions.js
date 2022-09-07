@@ -1,87 +1,70 @@
-/*=========================================================================================
-  File Name: moduleAuthActions.js
-  Description: Auth Module Actions
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    update({commit}, dados) {
+    update(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/users/${dados.id}`, dados.dados)
                 .then((response) => {
-                    console.log('usuário alterado', response);
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/users/`, dados)
                 .then((response) => {
-                    console.log('produto criado', response);
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
-            axios.get(`/users/${id}`)
+            axios.get(`/users/` + id)
                 .then((response) => {
-                    console.log('produto resgatado', response);
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/users`, {params: {status: 1, admin: true}})
                 .then((response) => {
-                    console.log('usuários resgatados', response.data.data);
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
-                .catch((error) => {
-                    console.log(error)
-                    reject()
-                })
-        })
+                .catch(() => {
+                    reject();
+                });
+        });
     },
-    getArraySelect({commit}) {
+    getArraySelect() {
         return new Promise((resolve, reject) => {
             axios.get(`/selects/usuarios`)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
-                .catch((error) => {
-                    console.log(error)
-                    reject()
-                })
-        })
+                .catch(() => {
+                    reject();
+                });
+        });
     },
-    getUserAuth({commit}) {
+    getUserAuth() {
         return new Promise((resolve, reject) => {
             axios.get(`/user`)
                 .then((response) => {
-                    console.log('usuários logado', response.data);
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

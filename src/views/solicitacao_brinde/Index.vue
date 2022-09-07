@@ -1,7 +1,6 @@
 <template>
     <div>
-        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar"
-                  :data="sidebarData"/>
+        <side-bar v-if="addNewDataSidebar" :isSidebarActive="addNewDataSidebar" @closeSidebar="toggleDataSidebar" :data="sidebarData"/>
         <div class="vx-row flex items-end lg:mt-10 sm:mt-6">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -108,11 +107,11 @@
 </template>
 
 <script>
-import SideBar from './SideBar'
-import listagem from './Listagem'
-import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+import SideBar from './SideBar';
+import listagem from './Listagem';
+import moduleBrindes from '@/store/brindes/moduleBrindes.js';
 import moduleSolicitacaoBrindes from "../../store/solicitacao_brinde/moduleSolicitacaoBrindes";
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 
 export default {
     name: "Index",
@@ -155,7 +154,7 @@ export default {
             },
             selectedEditBrinde: {},
             brindesEdit: []
-        }
+        };
     },
     created() {
         this.$vs.loading();
@@ -174,35 +173,33 @@ export default {
     },
     methods: {
         paginate() {
-            console.log('resetou');
             this.currentx = 1;
         },
         addNewData() {
-            this.sidebarData = {}
-            this.toggleDataSidebar(true)
+            this.sidebarData = {};
+            this.toggleDataSidebar(true);
         },
         visualizar(obj) {
-            this.sidebarData = obj
-            this.toggleDataSidebar(true)
+            this.sidebarData = obj;
+            this.toggleDataSidebar(true);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getItems(status = this.dados.status) {
             this.$vs.loading();
 
             if(status !== this.dados.status)
-                this.currentx = 1
+                this.currentx = 1;
 
             this.dados.status = status;
             this.$store.dispatch('getVarios', {rota: 'solicitacao_brindes', params: this.dados}).then(response => {
-                console.log('retornado com sucesso', response);
                 this.pagination = response;
                 this.$vs.loading.close();
             });
         },
         getOpcoes() {
-            this.$store.dispatch('brindes/get').then(response => {
+            this.$store.dispatch('brindes/getArraySelect').then(response => {
                 this.brindes = [...this.arraySelect(response)];
                 this.brindesCru = [...response];
             });
@@ -222,16 +219,15 @@ export default {
                             text: 'Deletado com sucesso'
                         });
                         this.getItems();
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: '',
                             text: 'Algo deu errado ao deletar. Contate o suporte.'
-                        })
-                    })
+                        });
+                    });
                 }
-            })
+            });
         },
         pesquisar(e) {
             this.dados.page = 1;
@@ -243,9 +239,8 @@ export default {
         //Procedimentos
         aprovarVarias(arr, rota) {
             let tipo = this.dados.status;
-            console.log('aprovando várias', arr)
             let arr2 = arr.map(item => {
-                return item.id
+                return item.id;
             });
             this.$vs.dialog({
                 color: 'primary',
@@ -261,16 +256,15 @@ export default {
                             text: 'Procedimento realizado com sucesso'
                         });
                         this.getItems(tipo);
-                    }).catch(erro => {
-                        console.log(erro)
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             title: 'Erro',
                             text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                        })
+                        });
                     });
                 }
-            })
+            });
 
         },
 
@@ -287,7 +281,6 @@ export default {
             this.selectedEditBrinde = {id: obj.brinde.id, label: obj.brinde.nome};
         },
         update() {
-            console.log(this.selectedEditBrinde);
             this.val.brinde_id = this.selectedEditBrinde.id;
             this.$vs.loading();
             this.$store.dispatch('solicitacao/store', this.val).then(() => {
@@ -298,35 +291,30 @@ export default {
                     text: 'Salvo com sucesso'
                 });
                 this.getItems();
-            }).catch(erro => {
-                console.log(erro)
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     title: 'Erro',
                     text: 'Algo deu errado ao finalizar. Reinicie a página.'
-                })
+                });
             });
 
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getItems();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
-        selectedBrinde(val) {
+        selectedBrinde() {
             this.$vs.loading();
             this.dados.brinde_id = this.selectedBrinde != null ? this.selectedBrinde.id : null;
             this.getItems();
         },
-        selectedEditBrinde(val) {
-            console.log(val)
-        }
     },
     computed: {
         items() {
@@ -334,7 +322,7 @@ export default {
         },
     },
 
-}
+};
 </script>
 <style>
 .td-icons > span {

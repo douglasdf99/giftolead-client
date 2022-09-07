@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleMotivoState.js'
-import mutations from './moduleMotivoMutations.js'
-import actions from './moduleMotivoActions.js'
-import getters from './moduleMotivoGetters.js'
+import state from './moduleMotivoState.js';
+import mutations from './moduleMotivoMutations.js';
+import actions from './moduleMotivoActions.js';
+import getters from './moduleMotivoGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

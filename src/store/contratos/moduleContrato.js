@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleContrato.js'
-import mutations from './moduleContratoMutations.js'
-import actions from './moduleContratoActions.js'
-import getters from './moduleContratoGetters.js'
+import state from './moduleContrato.js';
+import mutations from './moduleContratoMutations.js';
+import actions from './moduleContratoActions.js';
+import getters from './moduleContratoGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

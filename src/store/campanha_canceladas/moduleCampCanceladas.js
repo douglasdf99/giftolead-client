@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleCampCanceladaState.js'
-import mutations from './moduleCampCanceladaMutations.js'
-import actions from './moduleCampCanceladaActions.js'
-import getters from './moduleCampCanceladaGetters.js'
+import state from './moduleCampCanceladaState.js';
+import mutations from './moduleCampCanceladaMutations.js';
+import actions from './moduleCampCanceladaActions.js';
+import getters from './moduleCampCanceladaGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

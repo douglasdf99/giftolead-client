@@ -101,7 +101,7 @@
 </template>
 
 <script>
-    import modulePlanos from '@/store/planos/modulePlanos.js'
+    import modulePlanos from '@/store/planos/modulePlanos.js';
 
     export default {
         name: "Index",
@@ -119,13 +119,13 @@
                 },
                 currentx: 1
                 //items: {}
-            }
+            };
         },
         created() {
-            this.$vs.loading()
+            this.$vs.loading();
             if (!modulePlanos.isRegistered) {
-                this.$store.registerModule('planos', modulePlanos)
-                modulePlanos.isRegistered = true
+                this.$store.registerModule('planos', modulePlanos);
+                modulePlanos.isRegistered = true;
             }
 
             this.getItems();
@@ -135,18 +135,17 @@
                 this.$router.push({name: 'planos-criar'});
             },
             updateData(obj) {
-                this.$router.push({path: '/planos/gerenciar/' + obj.id});
+                this.$router.push({name: 'planos-gerenciar', params:{plan_id: obj.id}});
             },
             toggleDataSidebar(val = false) {
-                this.addNewDataSidebar = val
+                this.addNewDataSidebar = val;
             },
             getItems() {
                 this.$store.dispatch('getVarios', {rota: 'planos', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
                     //this.dados.page = this.pagination.current_page
-                    this.$vs.loading.close()
-                });
+                }).finally(() => this.$vs.loading.close());
             },
             deletar(id) {
                 this.$vs.dialog({
@@ -163,18 +162,17 @@
                                 text: 'O registro foi deletada com sucesso'
                             });
                             this.getItems();
-                        }).catch(erro => {
-                            console.log(erro)
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
                                 text: 'Algo deu errado ao deletar a conta. Contate o suporte.'
-                            })
+                            });
                         }).finally(() => {
                             this.$vs.loading.close();
-                        })
+                        });
                     }
-                })
+                });
             },
             pesquisar(e) {
                 this.dados.page = 1;
@@ -184,20 +182,17 @@
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
 
         },
-
         computed: {
-
             items() {
                 return this.$store.state.items;
             },
@@ -206,5 +201,5 @@
             },*/
         },
 
-    }
+    };
 </script>

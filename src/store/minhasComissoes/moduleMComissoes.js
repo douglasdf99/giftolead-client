@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleMComissoesState.js'
-import mutations from './moduleMComissoesMutations.js'
-import actions from './moduleMComissoesActions.js'
-import getters from './moduleMComissoesGetters.js'
+import state from './moduleMComissoesState.js';
+import mutations from './moduleMComissoesMutations.js';
+import actions from './moduleMComissoesActions.js';
+import getters from './moduleMComissoesGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

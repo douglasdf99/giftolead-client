@@ -41,15 +41,13 @@
 </template>
 
 <script>
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import {quillEditor} from 'vue-quill-editor'
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import {quillEditor} from 'vue-quill-editor';
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import {Validator} from 'vee-validate';
-import moduleLinks from '@/store/links/moduleLinks.js'
-import saveleadsConfig from "../../../saveleadsConfig";
-import moduleMensagem from "../../store/mensagemPadrao/moduleMensagem";
+import moduleLinks from '@/store/links/moduleLinks.js';
 
 const dict = {
     custom: {
@@ -95,12 +93,12 @@ export default {
                 current_page: 1
             },
             currentx: 1
-        }
+        };
     },
     created() {
         if (!moduleLinks.isRegistered) {
-            this.$store.registerModule('links', moduleLinks)
-            moduleLinks.isRegistered = true
+            this.$store.registerModule('links', moduleLinks);
+            moduleLinks.isRegistered = true;
         }
         this.dados.produto = this.data.produto_id;
         this.getItems();
@@ -111,11 +109,11 @@ export default {
         },
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
                     // this.$validator.reset()
                     // this.initValues()
                 }
@@ -131,13 +129,10 @@ export default {
             let user = JSON.parse(localStorage.getItem("userInfo"));
             item.linksexternos.forEach(ext => {
                 if (ext.user_id == user.uid) {
-                    link = 'https://svlds.me/' + ext.codigo;
+                    link = process.env.VUE_APP_URL_SHORTENED_LINK + ext.codigo;
                 }
             });
             return link;
-        },
-        meulink() {
-
         },
         copyText(text) {
             const thisIns = this;
@@ -148,7 +143,7 @@ export default {
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
-                })
+                });
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
@@ -157,8 +152,8 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         },
         goto(text) {
             window.open(text, '_blank');
@@ -173,14 +168,13 @@ export default {
                     text: 'O link foi gerado com sucesso'
                 });
                 this.getItems();
-            }).catch(erro => {
-                console.log(erro)
+            }).catch(() => {
                 this.$vs.notify({
                     color: 'danger',
                     title: 'Erro',
                     text: 'Algo deu errado ao gerar o link. Contate o suporte.'
-                })
-            })
+                });
+            });
         },
         getItems() {
             this.$vs.loading();
@@ -190,7 +184,6 @@ export default {
             });
         },
         onEditorReady(editor) {
-            console.log('editor', editor.getSelection());
             this.editor = editor;
         },
         addVarText(value) {
@@ -200,7 +193,6 @@ export default {
         },
         enviar() {
             this.$store.dispatch('tickets/sendEmail', {id: this.data.id, assunto: this.email.assunto, mensagem: this.email.body}).then(response => {
-                console.log('voltou pro front', response);
                 if (response.return) {
                     this.$emit('closeSidebar');
                     this.$emit('getId');
@@ -216,8 +208,6 @@ export default {
                         text: 'Houve um erro ao enviar seu e-mail. Entre em contato com o suporte.'
                     });
                 }
-            }).catch(erro => {
-                console.log('erro', erro)
             });
         },
         getMensagens() {
@@ -227,7 +217,7 @@ export default {
             });
         },
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

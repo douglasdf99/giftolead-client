@@ -16,7 +16,7 @@
             <feather-icon icon="XIcon" @click.stop="isSidebarActiveLocal = false" class="cursor-pointer"></feather-icon>
         </div>
         <VuePerfectScrollbar class="scroll-area--data-list-add-new" :key="$vs.rtl">
-            <div class="p-10">
+            <div class="p-10" v-if="data.ticket">
                 <div class="vx-row flex items-center">
                     <div class="vx-col w-full lg:w-1/2">
                         <p class="font-bold text-dark text-xl">{{ data.ticket.lead.nome }}</p>
@@ -40,13 +40,13 @@
                     <vx-card title="Diagnóstico" refresh-content-action @refresh="closeCardAnimationDemo">
                         <vs-list>
                             <vs-list-header title="Motivos para aprovar" color="success" v-if="diagnosticoBom.length > 0"></vs-list-header>
-                            <vs-list-item icon-pack="feather" icon="icon-check" v-for=" (item, index) in diagnosticoBom" :subtitle="item"></vs-list-item>
+                            <vs-list-item icon-pack="feather" icon="icon-check" v-for=" (item, index) in diagnosticoBom" :key="index" :subtitle="item"></vs-list-item>
 
                             <vs-list-header title="Motivos para aguardar" color="warning" v-if="diagnosticoAguardar.length > 0"></vs-list-header>
-                            <vs-list-item icon-pack="feather" icon="icon-clock" v-for=" (item, index) in diagnosticoAguardar" :subtitle="item"></vs-list-item>
+                            <vs-list-item icon-pack="feather" icon="icon-clock" v-for=" (item, index) in diagnosticoAguardar" :key="index" :subtitle="item"></vs-list-item>
 
                             <vs-list-header title="Motivos para reprovar" color="danger" v-if="diagnosticoRuim.length > 0"></vs-list-header>
-                            <vs-list-item icon-pack="feather" icon="icon-x" v-for=" (item, index) in diagnosticoRuim" :subtitle="item"></vs-list-item>
+                            <vs-list-item icon-pack="feather" icon="icon-x" v-for=" (item, index) in diagnosticoRuim" :key="index" :subtitle="item"></vs-list-item>
                         </vs-list>
                     </vx-card>
                 </div>
@@ -72,7 +72,7 @@
                     <div v-if="resultado.length === 0">
                         <div class="vx-row">
                             <div class="vx-col w-full text-center">
-                                <p class="font-bold">Não foi encontrado nenhuma transação que se encaixe nas consições de aprovação</p>
+                                <p class="font-bold">Não foi encontrado nenhuma transação que se encaixe nas condições de aprovação</p>
                                 <p class="mt-5">Caso deseje criar uma transação manual preencha os dados abaixo</p>
                             </div>
                         </div>
@@ -103,7 +103,8 @@
                                     <vs-th>Transação</vs-th>
                                     <vs-th>Lead</vs-th>
                                     <vs-th>Produto</vs-th>
-                                    <vs-th>Data e Hora</vs-th>
+                                    <vs-th>Criada em</vs-th>
+                                    <vs-th>Movimentada em</vs-th>
                                 </template>
 
                                 <template slot-scope="{data}">
@@ -118,6 +119,9 @@
                                             <vs-chip :color="tr.produto.cor || ''" class="product-order-status">
                                                 {{ tr.produto.nome }}
                                             </vs-chip>
+                                        </vs-td>
+                                        <vs-td :data="tr.created_at">
+                                            <span class="destaque">{{ tr.created_at | formatDateTime }}</span>
                                         </vs-td>
                                         <vs-td :data="tr.updated_at">
                                             <span class="destaque">{{ tr.updated_at | formatDateTime }}</span>
@@ -152,8 +156,8 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import vSelect from 'vue-select';
 import galeria from '../components/Galeria';
 
 export default {
@@ -191,7 +195,7 @@ export default {
             pesquisado: false,
             diagnosticando: false,
             selecteds: [],
-        }
+        };
     },
     created() {
     },
@@ -199,11 +203,11 @@ export default {
         diagnosticoBom() {
             if (this.data.disgnostico) {
                 let bons = this.data.disgnostico.descricao.filter(($bons) => {
-                    return $bons.bom
+                    return $bons.bom;
                 }).map(($bons) => {
-                    return $bons.bom
+                    return $bons.bom;
                 });
-                return bons
+                return bons;
             } else {
                 return [];
             }
@@ -211,11 +215,11 @@ export default {
         diagnosticoAguardar() {
             if (this.data.disgnostico) {
                 let aguardar = this.data.disgnostico.descricao.filter(($bons) => {
-                    return $bons.aguardar
+                    return $bons.aguardar;
                 }).map(($bons) => {
-                    return $bons.aguardar
+                    return $bons.aguardar;
                 });
-                return aguardar
+                return aguardar;
             } else {
                 return [];
             }
@@ -224,18 +228,18 @@ export default {
         diagnosticoRuim() {
             if (this.data.disgnostico) {
                 let ruim = this.data.disgnostico.descricao.filter(($bons) => {
-                    return $bons.ruim
+                    return $bons.ruim;
                 }).map(($bons) => {
-                    return $bons.ruim
+                    return $bons.ruim;
                 });
-                return ruim
+                return ruim;
             } else {
                 return [];
             }
         },
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
@@ -244,7 +248,7 @@ export default {
                     this.resultado = [],
                         this.dados.search = '';
                     this.pesquisado = false;
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
                     // this.$validator.reset()
                     // this.initValues()
                 }
@@ -265,20 +269,18 @@ export default {
                 color: this.colorLoading,
                 container: "#button-with-loading-diagnostico",
                 scale: 0.45
-            })
+            });
             this.diagnosticando = true;
             this.$store.dispatch('comissoes/diagnosticar', {pre_comissao_id: this.data.id}).then(response => {
-                console.log('response', response.data);
                 this.data.disgnostico = response.data;
             }).finally(() => {
                 this.diagnosticando = false;
-                this.$vs.loading.close("#button-with-loading-diagnostico > .con-vs-loading")
+                this.$vs.loading.close("#button-with-loading-diagnostico > .con-vs-loading");
             });
         },
         closeCardAnimationDemo(card) {
 
             this.$store.dispatch('comissoes/diagnosticar', {pre_comissao_id: this.data.id}).then(response => {
-                console.log('response', response.data);
                 this.data.disgnostico = response.data;
                 this.$vs.notify({
                     color: 'success',
@@ -292,21 +294,17 @@ export default {
                     text: 'Houve um problema ou realizar o diagnóstigo.'
                 });
             }).finally(() => {
-                card.removeRefreshAnimation(1000)
+                card.removeRefreshAnimation(1000);
             });
         },
         pesquisarTrans(e) {
             this.pesquisado = true;
             if (e)
                 e.preventDefault();
-            console.log('pesquiisa');
             this.$vs.loading();
             this.$store.dispatch('comissoes/searchTrans', {produto_id: this.data.lead_produto.produto_id, comissao: true, ...this.dados}).then(response => {
-                console.log('response', response);
                 this.resultado = response;
-                console.log('result', this.resultado);
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -314,9 +312,6 @@ export default {
                     color: 'danger'
                 });
             }).finally(() => this.$vs.loading.close());
-        },
-        handleSelected(e) {
-            console.log(e)
         },
         storeTransacao() {
             this.$validator.validateAll().then(result => {
@@ -330,21 +325,20 @@ export default {
                         });
                         this.dados.search = this.transacao.email;
                         this.pesquisarTrans();
-                    }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                    }).catch(error => {
+                        this.$vs.notify({
+                            text: error.response.data.message,
+                            iconPack: 'feather',
+                            icon: 'icon-alert-circle',
+                            color: 'danger'
+                        });
+                    }).finally(() => this.$vs.loading.close());
                 }
             });
         }
     },
     watch: {}
-}
+};
 </script>
 
 <style lang="scss" scoped>

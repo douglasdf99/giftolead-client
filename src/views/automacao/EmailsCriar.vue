@@ -72,15 +72,15 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import {Validator} from "vee-validate";
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import {quillEditor} from 'vue-quill-editor'
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
+import 'quill/dist/quill.bubble.css';
+import {quillEditor} from 'vue-quill-editor';
 import moduleAutomacao from "../../store/automacao/moduleAutomacao";
-import preview from './Preview'
-import preview2 from './PreviewRastreio'
+import preview from './Preview';
+import preview2 from './PreviewRastreio';
 
 const dict = {
     custom: {
@@ -110,8 +110,8 @@ export default {
     },
     created() {
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
         if (this.$route.name === 'brindes-automacao-emails-editar')
             this.getId(this.$route.params.id);
@@ -133,7 +133,7 @@ export default {
             campanha: {
                 produto: {}
             },
-        }
+        };
     },
     methods: {
         validar() {
@@ -159,17 +159,16 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
 
         },
         salvar() {
             this.$vs.loading();
             if (this.$route.name === 'brindes-automacao-emails-criar')
                 this.email.evento = this.$route.params.tipo;
-            this.$store.dispatch('automacao/storeEmail', this.email).then(response => {
-                console.log('response', response);
+            this.$store.dispatch('automacao/storeEmail', this.email).then(() => {
                 this.$vs.notify({
                     title: '',
                     text: (this.email.id !== undefined ? 'Atualizado' : 'Criado') + "Atualizado com sucesso.",
@@ -177,7 +176,7 @@ export default {
                     icon: 'icon-check-circle',
                     color: 'success'
                 });
-                this.$router.push({path: '/brindes/automacao/emails'});
+                this.$router.push({name: 'brindes-automacao-emails'});
             }).catch(erro => {
                 this.$vs.notify({
                     title: 'Error',
@@ -185,8 +184,8 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
-                })
-            })
+                });
+            });
         },
         onEditorReady(editor) {
             this.editor = editor;
@@ -205,15 +204,14 @@ export default {
                         this.somaPeriodo += item.periodo;
                     }
                 });
-                console.log('somaperiodo', this.somaPeriodo)
             });
             this.$store.dispatch('automacao/getEmailId', id).then(response => {
                 this.email = {...response};
-            }).catch(erro => console.log(erro.response)).finally(() => this.$vs.loading.close());
+            }).finally(() => this.$vs.loading.close());
         },
         formatPrice(value) {
-            let val = (value / 1).toFixed(2).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            let val = (value / 1).toFixed(2).replace('.', ',');
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         },
         addVarText(value) {
             //Quill Editor
@@ -227,12 +225,11 @@ export default {
         },
         getLinks() {
             this.$store.dispatch('getLinks', this.campanha.produto_id).then(response => {
-                console.log('chou aqui 2', response)
                 let arr = [...response];
                 arr.forEach(item => {
                     this.links.push({id: item.identidade, label: item.descricao});
                 });
-                this.selectedLink = {id: null, label: 'Selecione o link'}
+                this.selectedLink = {id: null, label: 'Selecione o link'};
             });
         },
         cancelar() {
@@ -261,24 +258,15 @@ export default {
             }
 
             //return parseInt(sobra / 1440);
-            return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`
+            return `Você possui ${parseInt(dias)} dias, ${parseInt(horas)} horas e ${parseInt(mins)} minutos disponíveis para usar no período desta campanha.`;
         }
     },
     watch: {
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
+            this.routeTitle = this.$route.meta.pageTitle;
         },
     },
-}
+};
 </script>
 
 <style>

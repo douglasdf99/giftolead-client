@@ -12,22 +12,17 @@
                             }}</span>
                         </p>
                     </div>
-                    <div class="vx-col w-full relative lg:w-6/12 sm:w-1/2 flex justify-end">
-                        <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje
-                        </vs-button>
-                        <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias
-                        </vs-button>
-                        <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias
-                        </vs-button>
-                        <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias
-                        </vs-button>
-                        <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
-                                           :timePicker="false" :showWeekNumbers="false" :showDropdowns="true"
-                                           :autoApply="true"
-                                           v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
-                                           :append-to-body="true" :ranges="ranges">
-                        </date-range-picker>
-                    </div>
+                  <div class="vx-col w-full relative lg:w-8/12 sm:w-1/2 flex justify-end">
+                    <vs-button color="black" type="flat" @click="setDate('hoje')" class="btn-periodo">Hoje</vs-button>
+                    <vs-button color="black" type="flat" @click="setDate('7')" class="btn-periodo">7 Dias</vs-button>
+                    <vs-button color="black" type="flat" @click="setDate('15')" class="btn-periodo">15 Dias</vs-button>
+                    <vs-button color="black" type="flat" @click="setDate('30')" class="btn-periodo">30 Dias</vs-button>
+                    <date-range-picker ref="picker" opens="left" :locale-data="localeData" :singleDatePicker="false"
+                                       :timePicker="false" :showWeekNumbers="false" :showDropdowns="true" :autoApply="true"
+                                       v-model="dateRange" :linkedCalendars="true" :close-on-esc="true"
+                                       :append-to-body="true" :ranges="ranges">
+                    </date-range-picker>
+                  </div>
                 </div>
                 <div class="flex items-center">
                     <div class="relative w-full">
@@ -84,17 +79,16 @@
 </template>
 
 <script>
-import DetalheComissao from '../ordens/DetalheOrdem'
-import listagem from './Listagem'
-import vSelect from 'vue-select'
+import DetalheComissao from '../ordens/DetalheOrdem';
+import listagem from './Listagem';
+import vSelect from 'vue-select';
 import saveleadsConfig from "../../../saveleadsConfig";
 import moduleOrdens from "../../store/ordens/moduleOrdens";
 import Datepicker from 'vuejs-datepicker';
-import * as lang from 'vuejs-datepicker/src/locale';
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 
-import VueMoment from 'vue-moment'
+import VueMoment from 'vue-moment';
 import SideBar from "@/views/transacoes/SideBar";
 
 const moment = require('moment/moment');
@@ -162,32 +156,32 @@ export default {
                 'Este ano': [new Date(this.getDay(true).getFullYear(), 0, 1), new Date(this.getDay(true))],
                 'Último mês': [new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth() - 1, 1), new Date(this.getDay(true).getFullYear(), this.getDay(true).getMonth(), 0)],
             }
-        }
+        };
     },
     created() {
-        this.$vs.loading()
+        this.$vs.loading();
         if (!moduleOrdens.isRegistered) {
-            this.$store.registerModule('ordens', moduleOrdens)
-            moduleOrdens.isRegistered = true
+            this.$store.registerModule('ordens', moduleOrdens);
+            moduleOrdens.isRegistered = true;
         }
 
         this.dt_inicio = '';
         this.dt_fim = '';
-        this.dateRange.startDate = ''
-        this.dateRange.endDate = ''
+        this.dateRange.startDate = '';
+        this.dateRange.endDate = '';
 
         this.getItems(0);
     },
     methods: {
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         setDate(val) {
             switch (val) {
@@ -207,22 +201,21 @@ export default {
             this.getItems();
         },
         addNewData() {
-            this.sidebarData = {}
-            this.toggleDataSidebar(true)
+            this.sidebarData = {};
+            this.toggleDataSidebar(true);
         },
         updateData(obj) {
-            console.log('editando', obj)
-            this.sidebarData = obj
-            this.toggleDataSidebar(true)
+            this.sidebarData = obj;
+            this.toggleDataSidebar(true);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getItems(pago = this.dados.pago) {
             if(pago !== this.dados.pago)
-                this.currentx = 1
+                this.currentx = 1;
 
-            this.dados.pago = pago
+            this.dados.pago = pago;
             this.$vs.loading();
 
             let url = '';
@@ -240,11 +233,10 @@ export default {
             if (control >= 2)
                 url += '&searchJoin=and';
 
-            this.dados.search = this.search;
+            this.dados.search = url;
 
             this.$store.dispatch('ordens/getOrdens', this.dados).then(response => {
-                console.log('retornado com sucessso', response)
-                this.ordens = [...response[0].data]
+                this.ordens = [...response[0].data];
                 this.pagination = response[0];
                 this.empresa = response.empresa;
                 this.soma = parseFloat(response.soma);
@@ -259,13 +251,12 @@ export default {
             this.getItems(this.dados.pago);
         },
         visualizar(obj) {
-            console.log('entrou no visualizar')
             this.sidebarData = obj;
             this.toggleDataSidebar(true);
         },
         action(obj) {
             let ids = obj.ids.map(item => {
-                return item.id
+                return item.id;
             });
             this.$vs.loading();
             this.$store.dispatch('ordens/' + obj.method, ids).then(() => {
@@ -274,20 +265,17 @@ export default {
                     text: 'Operação realizada com sucesso.'
                 });
                 this.getItems(this.dados.pago);
-            }).catch(erro => {
-                console.log('erro', erro);
             });
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getItems();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
+            this.routeTitle = this.$route.meta.pageTitle;
         },
         selectedUser() {
             this.$vs.loading();
@@ -301,7 +289,6 @@ export default {
         },
         dados: {
             handler(val) {
-                console.log(val.length)
                 if (val.length != this.pagination.per_page) {
                     this.dados.page = 1;
                     this.$vs.loading();
@@ -322,5 +309,5 @@ export default {
         },*/
     },
 
-}
+};
 </script>

@@ -44,7 +44,7 @@ export default {
         return {
             value1: [60,90],
             value2: [30,40]
-        }
+        };
     }
-}
+};
 </script>

@@ -2,14 +2,13 @@ import subRotaConfiguracoes from "../subRotaConfiguracoes";
 
 const rotasConfigUsuarios = [
     {
-        path: '/configuracoes/usuarios',
+        path: 'configuracoes/usuarios',
         name: 'configuracoes-usuarios',
         component: () => import('@/views/configuracoes/Usuarios.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Usuários', active: true},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', active: true},
             ],
             pageTitle: 'Configurações de Usuários',
             rule: 'configuracao_usuario',
@@ -20,14 +19,13 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/usuarios/list',
+        path: 'configuracoes/usuarios/list',
         name: 'usuarios',
         component: () => import('@/views/usuarios/Index.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
                 {title: 'Usuários', active: true},
             ],
             pageTitle: 'Listagem de Usuários',
@@ -39,15 +37,14 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/usuarios/criar',
+        path: 'configuracoes/usuarios/criar',
         name: 'usuario-criar',
         component: () => import('@/views/usuarios/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
-                {title: 'Usuários', url: '/configuracoes/usuarios'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
+                {title: 'Usuários', url: 'usuarios'},
                 {title: 'Criar', active: true},
             ],
             pageTitle: 'Configurar novo usuário',
@@ -59,16 +56,15 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/usuarios/editar/:id',
+        path: 'configuracoes/usuarios/editar/:id',
         name: 'usuario-editar',
         component: () => import('@/views/usuarios/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Geral', url: '/configuracoes/geral'},
-                {title: 'Usuários', url: '/configuracoes/usuarios'},
-                {title: 'Criar', active: true},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
+                {title: 'Usuários', url: 'usuarios'},
+                {title: 'Editar', active: true},
             ],
             pageTitle: 'Editar usuário',
             rule: 'configuracao_usuario_editar',
@@ -79,13 +75,13 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/conquistas',
+        path: 'configuracoes/conquistas',
         name: 'conquistas',
         component: () => import('@/views/configuracoes/Conquistas.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
                 {title: 'Conquistas', active: true},
             ],
             pageTitle: 'Conquistas',
@@ -97,14 +93,14 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/conquistas/nova',
+        path: 'configuracoes/conquistas/nova',
         name: 'conquista-nova',
         component: () => import('@/views/conquistas/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Conquistas', url: '/configuracoes/conquistas'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
+                {title: 'Conquistas', url: 'conquistas'},
                 {title: 'Nova Conquista', active: true},
             ],
             pageTitle: 'Nova Conquista',
@@ -116,14 +112,14 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/conquistas/editar/:id',
+        path: 'configuracoes/conquistas/editar/:id',
         name: 'conquista-editar',
         component: () => import('@/views/conquistas/AddEdit.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Conquistas', url: '/configuracoes/conquistas'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
+                {title: 'Conquistas', url: 'conquistas'},
                 {title: 'Editar Conquista', active: true},
             ],
             pageTitle: 'Editar Conquista',
@@ -135,13 +131,13 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/funcoes',
+        path: 'configuracoes/funcoes',
         name: 'funcoes',
         component: () => import('@/views/configuracoes/Funcoes.vue'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
                 {title: 'Funções', active: true},
             ],
             pageTitle: 'Configurações das Funções',
@@ -153,14 +149,14 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/funcoes/criar',
+        path: 'configuracoes/funcoes/criar',
         name: 'funcoes-criar',
         component: () => import('@/views/funcoes/AddEdit'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Funções', url: '/configuracoes/funcoes'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
+                {title: 'Funções', url: 'funcoes'},
                 {title: 'Criar', active: true},
             ],
             pageTitle: 'Criar função',
@@ -172,14 +168,14 @@ const rotasConfigUsuarios = [
         },
     },
     {
-        path: '/configuracoes/funcoes/editar/:id',
+        path: 'configuracoes/funcoes/editar/:id',
         name: 'funcoes-editar',
         component: () => import('@/views/funcoes/AddEdit'),
         meta: {
             breadcrumb: [
-                {title: 'Home', url: '/'},
-                {title: 'Configurações'},
-                {title: 'Funções', url: '/configuracoes/funcoes'},
+                {title: 'Home', url: 'dashboard'},
+                {title: 'Configurações de Usuários', url: 'configuracoes-usuarios'},
+                {title: 'Funções', url: 'funcoes'},
                 {title: 'Editar', active: true},
             ],
             pageTitle: 'Editar função',
@@ -192,4 +188,4 @@ const rotasConfigUsuarios = [
     },
 ];
 
-export default rotasConfigUsuarios
+export default rotasConfigUsuarios;

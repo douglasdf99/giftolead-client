@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleStatusState.js'
-import mutations from './moduleStatusMutations.js'
-import actions from './moduleStatusActions.js'
-import getters from './moduleStatusGetters.js'
+import state from './moduleStatusState.js';
+import mutations from './moduleStatusMutations.js';
+import actions from './moduleStatusActions.js';
+import getters from './moduleStatusGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

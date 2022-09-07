@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" v-if="tipo != 'aprovado'" class="table-items">
+        <vs-table multiple v-model="selecteds" :data="items" v-if="tipo != 'aprovado'" class="table-items">
             <template slot="thead">
                 <vs-th v-if="tipo == 'pendente'"></vs-th>
                 <vs-th>Número</vs-th>
@@ -18,7 +18,7 @@
                                        icon-pack="material-icons" icon="more_horiz"
                             ></vs-button>
                             <vs-dropdown-menu class="dropdown-menu-list">
-                                <vs-dropdown-item @click="$router.push({path: `/brindes/expedicoes/${tr.id}`})" v-if="$acl.check('brinde_expedicao_detalhar')">
+                                <vs-dropdown-item @click="$router.push({name:'brindes-expedicoes-detalhe', params:{id: tr.id} })" v-if="$acl.check('brinde_expedicao_detalhar')">
                                     <vs-icon icon-pack="material-icons" icon="visibility"></vs-icon>
                                     Detalhar Expedição
                                 </vs-dropdown-item>
@@ -129,26 +129,23 @@ export default {
         return {
             selecteds: [],
 
-        }
+        };
     },
     methods: {
-        handleSelected(tr) {
-        },
         checkPerm() {
-            return this.$acl.check('brinde_expedicao_editar') || this.$acl.check('brinde_expedicao_detalhar') || this.$acl.check('brinde_expedicao_deletar')
+            return this.$acl.check('brinde_expedicao_editar') || this.$acl.check('brinde_expedicao_detalhar') || this.$acl.check('brinde_expedicao_deletar');
         }
     },
     computed: {
         somaPesoTotal() {
-            console.log('selecionados', this.selecteds);
             let soma = 0;
             this.selecteds.forEach((item, index) => {
                 soma = item.brinde.peso * this.selecteds[index].automacaos.length;
             });
-            return parseFloat(soma).toFixed(2).toString().replace(".", ",") + ' Kg'
+            return parseFloat(soma).toFixed(2).toString().replace(".", ",") + ' Kg';
         }
     }
-}
+};
 </script>
 
 <style scoped>

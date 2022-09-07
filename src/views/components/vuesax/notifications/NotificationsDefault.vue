@@ -136,15 +136,15 @@ export default {
             function getRandomInt(min, max) {
                 return Math.floor(Math.random() * (max - min)) + min;
             }
-            let color = `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`
+            let color = `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`;
 
             this.$vs.notify({
                 title: 'Color',
                 text: 'Lorem ipsum dolor sit amet, consectetur',
                 color: color
-            })
+            });
 
         },
     }
-}
+};
 </script>

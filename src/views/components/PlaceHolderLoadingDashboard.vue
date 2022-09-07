@@ -112,7 +112,7 @@
 export default {
     name: "PlaceHolderLoadingDashboard",
     props: ['tipo']
-}
+};
 </script>
 
 <style scoped>

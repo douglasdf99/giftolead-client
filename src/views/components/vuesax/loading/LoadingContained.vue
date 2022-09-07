@@ -80,33 +80,33 @@ export default {
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       backgroundLoading:'primary',
       colorLoading:'#fff',
-    }
+    };
   },
   methods:{
-    openLoadingContained(){
+    openLoadingContained() {
       this.$vs.loading({
         background: this.backgroundLoading,
         color: this.colorLoading,
         container: "#button-with-loading",
         scale: 0.45
-      })
+      });
       setTimeout( ()=> {
-        this.$vs.loading.close("#button-with-loading > .con-vs-loading")
+        this.$vs.loading.close("#button-with-loading > .con-vs-loading");
       }, 3000);
     },
-    openLoadingInDiv(){
+    openLoadingInDiv() {
       this.$vs.loading({
         container: '#div-with-loading',
         scale: 0.6
-      })
+      });
       setTimeout( ()=> {
-        this.$vs.loading.close('#div-with-loading > .con-vs-loading')
+        this.$vs.loading.close('#div-with-loading > .con-vs-loading');
       }, 3000);
     },
   }
-}
+};
 </script>

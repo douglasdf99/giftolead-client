@@ -42,7 +42,7 @@
                         </h1>
                         <table class="md:mx-auto table-auto mt-8 poppins md:w-10/12">
                             <tbody>
-                            <tr class="border-t border-gray-600" v-for="item in historicoRastreio">
+                            <tr class="border-t border-gray-600" v-for="(item, index) in historicoRastreio" :key='index'>
                                 <td class="py-2 w-1/3 text-sm font-normal md:pl-16 pt-5 pb-8">
                                     <p class="text-xs md:text-sm">{{item.date + ' ' + item.hour}}</p>
                                     <p>{{item.location}}</p>
@@ -71,8 +71,8 @@
 </template>
 
 <script>
-    import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-    import vSelect from 'vue-select'
+    import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+    import vSelect from 'vue-select';
 
     export default {
         props: {
@@ -93,10 +93,10 @@
         },
         watch: {
             isSidebarActive(val) {
-                if (!val) return
+                if (!val) return;
                 if (Object.entries(this.data).length === 0) {
-                    this.initValues()
-                    this.$validator.reset()
+                    this.initValues();
+                    this.$validator.reset();
                 } else {
                     this.brinde = JSON.parse(JSON.stringify(this.data));
                 }
@@ -105,25 +105,20 @@
         data() {
             return {
                 historicoRastreio: [],
-            }
+            };
         },
         created() {
-            console.log(this.data)
             /*this.$vs.loading({
                 container: '#div-with-loading',
                 scale: 0.6
             });*/
             this.$store.dispatch('expedicao/rastreio', {rastreio: this.data.rastreio}).then(response => {
-                if (response.erro) {
-                    console.log('erro', response)
-                } else {
-                    console.log('ae', response)
+                if (!response.erro) {
                     this.historicoRastreio = response;
                 }
             }).catch(erro => {
-                console.log('erro', erro.response);
                 this.$vs.notify({
-                    text: error.response.data.message,
+                    text: erro.response.data.message,
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
@@ -133,14 +128,12 @@
         computed: {
             isSidebarActiveLocal: {
                 get() {
-                    return this.isSidebarActive
+                    return this.isSidebarActive;
                 },
                 set(val) {
-                    console.log('valor side', val);
                     if (!val) {
-                        console.log('entou no emit side', val);
 
-                        this.$emit('closeSidebar')
+                        this.$emit('closeSidebar');
                         // this.$validator.reset()
                         // this.initValues()
                     }
@@ -152,7 +145,7 @@
             VuePerfectScrollbar,
             'v-select': vSelect
         },
-    }
+    };
 </script>
 
 <style lang="scss" scoped>

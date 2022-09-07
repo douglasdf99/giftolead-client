@@ -138,16 +138,16 @@ export default {
             "bottom-right",
             "bottom-left",
             ]
-        }
+        };
     },
     methods: {
         randomCenter() {
             function getRandomInt(min, max) {
                 return Math.floor(Math.random() * (max - min)) + min;
             }
-            let color = `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`
-            this.$vs.notify({ title: 'Position top-center', text: 'Lorem ipsum dolor sit amet, consectetur', color: color, position: 'top-center' })
+            let color = `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`;
+            this.$vs.notify({ title: 'Position top-center', text: 'Lorem ipsum dolor sit amet, consectetur', color: color, position: 'top-center' });
         }
     }
-}
+};
 </script>

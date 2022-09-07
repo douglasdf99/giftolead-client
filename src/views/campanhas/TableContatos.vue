@@ -27,10 +27,10 @@
         props: ['dados', 'items'],
         methods: {
             handleSelected(tr) {
-                this.$router.push({path: '/leads/detalhe/' + tr.lead_id});
+                this.$router.push({name: 'leads-detalhe', params:{id: tr.lead_id}});
             },
         }
-    }
+    };
 </script>
 
 <style scoped>

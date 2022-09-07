@@ -57,13 +57,13 @@ export default {
             value1: 55,
             widthx: 55,
             heightx: 55
-        }
+        };
     },
     methods: {
         cambio(value) {
-            this.widthx = value
-            this.heightx = value
+            this.widthx = value;
+            this.heightx = value;
         }
     }
-}
+};
 </script>

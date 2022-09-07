@@ -17,9 +17,8 @@
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
                                 <button type="submit" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="h-6 w-6 text-gray-500"/>
                                 </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
                             </div>
                         </form>
                     </div>
@@ -38,9 +37,8 @@
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-3 px-4">
                                 <button type="submit" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="h-6 w-6 text-gray-500"/>
                                 </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
                             </div>
                         </form>
                     </div>
@@ -103,13 +101,13 @@
 </template>
 
 <script>
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 import moduleAutomacao from "../../store/automacao/moduleAutomacao";
-import Listagem from './Listagem'
+import Listagem from './Listagem';
 import moduleBrindes from "../../store/brindes/moduleBrindes";
 import SideBar from './SideBar';
-import endereco from './Endereco'
-import reenviar from './Whatsapp'
+import endereco from './Endereco';
+import reenviar from './Whatsapp';
 import moduleWhatsList from "@/store/whatsapplist/moduleWhatsList";
 
 
@@ -149,32 +147,32 @@ export default {
             brindes: [],
             selectedBrinde: {id: null, label: 'Filtre por brinde'},
             currentx: 1
-        }
+        };
     },
     created() {
         if (!moduleAutomacao.isRegistered) {
-            this.$store.registerModule('automacao', moduleAutomacao)
-            moduleAutomacao.isRegistered = true
+            this.$store.registerModule('automacao', moduleAutomacao);
+            moduleAutomacao.isRegistered = true;
         }
 
         if (!moduleBrindes.isRegistered) {
-            this.$store.registerModule('brindes', moduleBrindes)
-            moduleBrindes.isRegistered = true
+            this.$store.registerModule('brindes', moduleBrindes);
+            moduleBrindes.isRegistered = true;
         }
 
         if (!moduleWhatsList.isRegistered) {
-            this.$store.registerModule('whatsapplist', moduleWhatsList)
-            moduleWhatsList.isRegistered = true
+            this.$store.registerModule('whatsapplist', moduleWhatsList);
+            moduleWhatsList.isRegistered = true;
         }
         this.getBrindes();
         this.getItems();
     },
     methods: {
         toggleDataSidebarEnd(val = false) {
-            this.modalEndereco = val
+            this.modalEndereco = val;
         },
         getLength(status) {
-            return (this.dados.tipo === status ? ` (${this.items.length})` : '')
+            return (this.dados.tipo === status ? ` (${this.items.length})` : '');
         },
         reenviarWhats(dados) {
             this.aresponder = dados;
@@ -198,7 +196,7 @@ export default {
         },
         getItems(tipo = this.dados.tipo) {
             if(tipo !== this.dados.tipo)
-                this.currentx =1
+                this.currentx =1;
 
             this.$vs.loading();
             if (tipo != 'arquivadas' && tipo != null) {
@@ -211,20 +209,19 @@ export default {
 
             this.$store.dispatch('automacao/get', this.dados).then(response => {
                 this.items = response.data;
-                this.pagination = response
-            }).catch(erro => {console.log('erro', erro.response)}).finally(() => this.$vs.loading.close());
+                this.pagination = response;
+            }).finally(() => this.$vs.loading.close());
         },
         pesquisar() {
             this.dados.page = 1;
-            console.log('pesquisando', this.dados)
             this.getItems();
         },
         addNewData() {
-            this.sidebarData = {'brindes': this.brindes}
-            this.toggleDataSidebar(true)
+            this.sidebarData = {'brindes': this.brindes};
+            this.toggleDataSidebar(true);
         },
         toggleDataSidebar(val = false) {
-            this.addNewDataSidebar = val
+            this.addNewDataSidebar = val;
         },
         getBrindes() {
             this.$store.dispatch('brindes/getArraySelect').then(response => {
@@ -233,18 +230,18 @@ export default {
         }
     },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
             this.dados.page = this.currentx;
             this.getItems();
         },
-        selectedBrinde(val) {
+        selectedBrinde() {
             this.$vs.loading();
             this.dados.brinde_id = this.selectedBrinde ? this.selectedBrinde.id : null;
             this.getItems();
         }
     }
-}
+};
 </script>
 
 <style scoped>

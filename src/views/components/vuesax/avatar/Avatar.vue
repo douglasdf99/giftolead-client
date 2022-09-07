@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import AvatarDefault from './AvatarDefault.vue'
-import AvatarSize from './AvatarSize.vue'
-import AvatarColor from './AvatarColor.vue'
-import AvatarWithBadge from './AvatarWithBadge.vue'
-import AvatarIcon from './AvatarIcon.vue'
+import AvatarDefault from './AvatarDefault.vue';
+import AvatarSize from './AvatarSize.vue';
+import AvatarColor from './AvatarColor.vue';
+import AvatarWithBadge from './AvatarWithBadge.vue';
+import AvatarIcon from './AvatarIcon.vue';
 
 export default{
     components: {
@@ -33,5 +33,5 @@ export default{
         AvatarWithBadge,
         AvatarIcon,
     }
-}
+};
 </script>

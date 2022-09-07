@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleAgendamentoLinkState.js'
-import mutations from './moduleAgendamentoLinkMutations.js'
-import actions from './moduleAgendamentoLinkActions.js'
-import getters from './moduleAgendamentoLinkGetters.js'
+import state from './moduleAgendamentoLinkState.js';
+import mutations from './moduleAgendamentoLinkMutations.js';
+import actions from './moduleAgendamentoLinkActions.js';
+import getters from './moduleAgendamentoLinkGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

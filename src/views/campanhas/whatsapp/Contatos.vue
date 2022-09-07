@@ -93,7 +93,8 @@
             <footer-doug>
                 <div class="vx-col sm:w-11/12 mb-2">
                     <vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-                               @click="$router.push({path: '/campanha/configurar-whatsapp/' + $route.params.id})">
+                               @click="$router.push({
+                                name: 'campanha-config-whatsapp' , params:{id: $route.params.id}})">
                         Voltar
                     </vs-button>
                 </div>
@@ -105,9 +106,9 @@
 <script>
 import Datepicker from 'vuejs-datepicker';
 import * as lang from 'vuejs-datepicker/src/locale';
-import VueMoment from 'vue-moment'
-import DateRangePicker from 'vue2-daterange-picker'
-import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import VueMoment from 'vue-moment';
+import DateRangePicker from 'vue2-daterange-picker';
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import vSelect from "vue-select";
 import moduleCampWhatsapp from "../../../store/campanha_whatsapp/moduleCampWhatsapp";
 
@@ -125,8 +126,8 @@ export default {
     },
     created() {
         if (!moduleCampWhatsapp.isRegistered) {
-            this.$store.registerModule('whatsapp', moduleCampWhatsapp)
-            moduleCampWhatsapp.isRegistered = true
+            this.$store.registerModule('whatsapp', moduleCampWhatsapp);
+            moduleCampWhatsapp.isRegistered = true;
         }
         this.dt_inicio = moment().subtract(30, 'days').format('YYYY-MM-DD');
         this.dt_fim = moment().format('YYYY-MM-DD');
@@ -191,7 +192,7 @@ export default {
             },
             items: [],
             selected: []
-        }
+        };
     },
     methods: {
         pesquisar(e) {
@@ -207,13 +208,13 @@ export default {
         },
         getDay(dia) {
             //Definindo datas usadas nos ranges padronizados
-            let today = new Date()
-            today.setHours(0, 0, 0, 0)
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
-            let yesterday = new Date()
-            yesterday.setDate(today.getDate() - 1)
+            let yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            return (dia ? today : yesterday)
+            return (dia ? today : yesterday);
         },
         setDate(val) {
             this.$vs.loading();
@@ -232,18 +233,16 @@ export default {
                     break;
             }
             this.dateRange.endDate = moment();
-            this.dados.page = 1
+            this.dados.page = 1;
             if (this.filtroContatos.id !== null) {
                 this.filtrar(this.filtroContatos.id);
             }
             this.getId(this.$route.params.id);
         },
         handleSelected(tr) {
-            console.log('clicou no contato', tr);
-            this.$router.push({path: '/leads/detalhe/' + tr.lead_id});
+            this.$router.push({name: 'leads-detalhe', params:{id: tr.lead_id}});
         },
         getId(id) {
-            console.log(id)
             this.$vs.loading();
             let url = '';
             if (this.search !== '') {
@@ -261,8 +260,7 @@ export default {
             this.$store.dispatch('whatsapp/getContatos', {params: this.dados}).then(response => {
                 this.items = [...new Set(response.data)];
                 this.pagination = response;
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -300,13 +298,12 @@ export default {
         },
         filtroContatos(val) {
             this.$vs.loading();
-            this.filtrar(val.id)
+            this.filtrar(val.id);
             this.dados.campanha_id = this.$route.params.id;
             this.$store.dispatch('whatsapp/getContatos', {params: this.dados}).then(response => {
                 this.items = [...new Set(response.data)];
                 this.pagination = response;
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -316,5 +313,5 @@ export default {
             }).finally(() => this.$vs.loading.close());
         }
     },
-}
+};
 </script>

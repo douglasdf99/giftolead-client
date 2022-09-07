@@ -100,12 +100,11 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import vSelect from 'vue-select';
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
 import {Validator} from 'vee-validate';
 
-const {consultarCep} = require("correios-brasil");
 const dict = {
     custom: {
         cep: {
@@ -154,7 +153,7 @@ export default {
             },
             valido: false,
             antigoCep: '',
-        }
+        };
     },
     watch: {
         endereco: {
@@ -166,10 +165,10 @@ export default {
             deep: true
         },
         isSidebarActive(val) {
-            if (!val) return
+            if (!val) return;
             if (Object.entries(this.data).length === 0) {
-                this.initValues()
-                this.$validator.reset()
+                this.initValues();
+                this.$validator.reset();
             } else {
                 this.brinde = JSON.parse(JSON.stringify(this.data));
             }
@@ -194,7 +193,7 @@ export default {
         },
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
                 if (!val) {
@@ -210,7 +209,7 @@ export default {
                     this.endereco.telefone = this.endereco.ddd + this.endereco.telefone.replace('-', '');
                     this.endereco.nome = this.removeAccents(this.endereco.nome);
                     this.$vs.loading();
-                    this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(response => {
+                    this.$store.dispatch('expedicaos/storeEndereco', this.endereco).then(() => {
                         this.isSidebarActiveLocal = false;
                         this.$vs.notify({
                             color: 'success',
@@ -221,12 +220,12 @@ export default {
                         this.$vs.notify({
                             color: 'danger',
                             text: erro.response.data.message
-                        })
+                        });
                     }).finally(() => this.$vs.loading.close());
                 } else {
                     alert('Verifique os erros');
                 }
-            })
+            });
         }
         ,
         getEndereco(id) {
@@ -248,27 +247,26 @@ export default {
                     title: '',
                     color: 'danger',
                     text: erro.response.data.message
-                })
+                });
             });
         },
         buscaCep() {
-            if (this.valido) {
-            } else {
+            if (!this.valido) {
                 this.endereco.complemento = '';
                 this.endereco.numero = '';
-                consultarCep(this.endereco.cep).then(response => {
+                this.$store.dispatch('consultCep', this.endereco.cep).then(response => {
                     this.antigoCep = this.endereco.cep;
                     this.valido = true;
-                    this.endereco.cidade = this.removeAccents(response.localidade);
-                    this.endereco.bairro = this.removeAccents(response.bairro);
-                    this.endereco.endereco = this.removeAccents(response.logradouro);
-                    this.endereco.estado = this.removeAccents(response.uf);
+                    this.endereco.cidade = this.removeAccents(response.city);
+                    this.endereco.bairro = this.removeAccents(response.neighborhood);
+                    this.endereco.endereco = this.removeAccents(response.street);
+                    this.endereco.estado = this.removeAccents(response.state);
                 }).catch(erro => {
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
                         text: erro.response.data.message
-                    })
+                    });
                 });
             }
         },
@@ -277,7 +275,7 @@ export default {
         VuePerfectScrollbar,
         'v-select': vSelect
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

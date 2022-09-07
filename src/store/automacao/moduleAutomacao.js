@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleAutomacaoState.js'
-import mutations from './moduleAutomacaoMutations.js'
-import actions from './moduleAutomacaoActions.js'
-import getters from './moduleAutomacaoGetters.js'
+import state from './moduleAutomacaoState.js';
+import mutations from './moduleAutomacaoMutations.js';
+import actions from './moduleAutomacaoActions.js';
+import getters from './moduleAutomacaoGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

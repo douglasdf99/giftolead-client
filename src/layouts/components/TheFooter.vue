@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BuyNow from '../../components/BuyNow.vue'
+import BuyNow from '../../components/BuyNow.vue';
 
 export default {
     name: "the-footer",
@@ -32,5 +32,5 @@ export default {
           }
       }
     }
-}
+};
 </script>

@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleLinkState.js'
-import mutations from './moduleLinkMutations.js'
-import actions from './moduleLinkActions.js'
-import getters from './moduleLinkGetters.js'
+import state from './moduleLinkState.js';
+import mutations from './moduleLinkMutations.js';
+import actions from './moduleLinkActions.js';
+import getters from './moduleLinkGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

@@ -20,7 +20,7 @@
                     <feather-icon icon="MenuIcon" class="mr-4 cursor-pointer"/>
                     <vs-dropdown-menu class="dropdown-menu-list dropdown-usuario dropdown-chat">
                         <span class="span-identifica-item-dropdown mb-0">Mensagem Padrão</span>
-                        <vs-dropdown-item v-for="msg in filtro" @click="$emit('setMensagem', msg.mensagem)">
+                        <vs-dropdown-item v-for="msg in filtro" @click="$emit('setMensagem', msg.mensagem)" :key="msg.titulo">
                             <span>{{msg.titulo}}</span>
                         </vs-dropdown-item>
                     </vs-dropdown-menu>
@@ -61,25 +61,25 @@
         data() {
             return {
                 mensagens: []
-            }
+            };
         },
         created() {
             if (!moduleMensagem.isRegistered) {
-                this.$store.registerModule('mensagens', moduleMensagem)
-                moduleMensagem.isRegistered = true
+                this.$store.registerModule('mensagens', moduleMensagem);
+                moduleMensagem.isRegistered = true;
             }
             this.getMensagens();
         },
         computed: {
             isPinnedLocal: {
                 get() {
-                    return this.isPinnedProp
+                    return this.isPinnedProp;
                 },
             },
-            filtro(){
+            filtro() {
               return this.mensagens.filter((msg)=>{
-                  if (msg.tipo == 'whatsapp'){
-                    return msg
+                  if (msg.tipo == 'whatsapp') {
+                    return msg;
                   }
               });
             },
@@ -95,7 +95,7 @@
                 });
             },
         }
-    }
+    };
 </script>
 <style>
     .dropdown-chat {

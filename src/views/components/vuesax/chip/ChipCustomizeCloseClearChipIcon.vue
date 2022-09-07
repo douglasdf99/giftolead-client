@@ -88,12 +88,12 @@ export default {
                 'Vuejs',
                 'Vuexy',
             ],
-        }
+        };
     },
     methods: {
         remove(item) {
-            this.chips.splice(this.chips.indexOf(item), 1)
+            this.chips.splice(this.chips.indexOf(item), 1);
         }
     }
-}
+};
 </script>

@@ -109,133 +109,133 @@ export default{
       currentSelected: -1,
       inputFocused: false,
       insideSuggestions: false,
-    }
+    };
   },
   watch: {
     // UPDATE SUGGESTIONS LIST
     searchQuery(val) {
-      this.$emit('input', val)
+      this.$emit('input', val);
 
       if(val == '') {
-        this.inputInit()
+        this.inputInit();
       }else {
-        let queried_data = {}
-        const data_grps = Object.keys(this.data)
+        let queried_data = {};
+        const data_grps = Object.keys(this.data);
 
         data_grps.forEach((grp, i) => {
-          queried_data[data_grps[i]] = this.filter_grp(this.data[grp])
-        })
+          queried_data[data_grps[i]] = this.filter_grp(this.data[grp]);
+        });
 
         // Check if any of group has at least one queried item
         if(!Object.values(queried_data).some(obj => obj.length)) {
-          this.currentSelected = -1
+          this.currentSelected = -1;
         }
 
-        this.filteredData = queried_data
+        this.filteredData = queried_data;
       }
     },
     autoFocus(val) {
-      if(val) this.focusInput()
-      else this.searchQuery = ''
+      if(val) this.focusInput();
+      else this.searchQuery = '';
     },
     filteredData(val) {
       // Auto Select first item if it's not item-404
-      let grp_index = null
+      let grp_index = null;
 
       for(let[index, grp_suggestions] of Object.values(val).entries()) {
         if(grp_suggestions.length) {
-          grp_index = index
-          break
+          grp_index = index;
+          break;
         }
       }
 
-      if(grp_index != null) this.currentSelected = grp_index + ".0"
+      if(grp_index != null) this.currentSelected = grp_index + ".0";
     }
   },
   methods: {
     escPressed() {
-      this.$emit('closeSearchbar')
-      this.searchQuery = ''
+      this.$emit('closeSearchbar');
+      this.searchQuery = '';
     },
     filter_grp(grp) {
       let exactEle = grp.data.filter((item) => {
-        return item[grp.key].toLowerCase().startsWith(this.searchQuery.toLowerCase())
-      })
+        return item[grp.key].toLowerCase().startsWith(this.searchQuery.toLowerCase());
+      });
       let containEle = grp.data.filter((item) => {
-        return !item[grp.key].toLowerCase().startsWith(this.searchQuery.toLowerCase()) && item[grp.key].toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1
-      })
-      return exactEle.concat(containEle).slice(0,this.searchLimit)
+        return !item[grp.key].toLowerCase().startsWith(this.searchQuery.toLowerCase()) && item[grp.key].toLowerCase().indexOf(this.searchQuery.toLowerCase()) > -1;
+      });
+      return exactEle.concat(containEle).slice(0,this.searchLimit);
     },
     inputInit() {
       if(Object.entries(this.initalData).length === 0 && this.initalData.constructor === Object) {
-        this.filteredData = {}
+        this.filteredData = {};
       }else {
-        this.filteredData = this.initalData
+        this.filteredData = this.initalData;
       }
     },
     updateInputFocus(val = true) {
       if(val) {
-        if(this.searchQuery == '') this.inputInit()
+        if(this.searchQuery == '') this.inputInit();
         setTimeout(() => {
-          this.inputFocused = true
-        }, 100)
+          this.inputFocused = true;
+        }, 100);
       }
       else {
-        if(this.insideSuggestions) return
+        if(this.insideSuggestions) return;
         setTimeout(() => {
-          this.inputFocused = false
-        }, 100)
-        this.escPressed()
+          this.inputFocused = false;
+        }, 100);
+        this.escPressed();
       }
     },
     suggestionSelected() {
       if(this.currentSelected > -1) {
 
-        const [grp_index, item_index] = this.currentSelected.split(".")
+        const [grp_index, item_index] = this.currentSelected.split(".");
 
-        const grp_of_selected_item = Object.keys(this.data)[grp_index]
-        const selected_item = this.filteredData[grp_of_selected_item][item_index]
+        const grp_of_selected_item = Object.keys(this.data)[grp_index];
+        const selected_item = this.filteredData[grp_of_selected_item][item_index];
 
-        this.$emit('selected', {[grp_of_selected_item]: selected_item})
+        this.$emit('selected', {[grp_of_selected_item]: selected_item});
 
-        this.searchQuery = ''
+        this.searchQuery = '';
       }
     },
     increaseIndex(val = true) {
-      const [grp_i, item_i] = this.currentSelected.split(".")
+      const [grp_i, item_i] = this.currentSelected.split(".");
 
-      const grp_arr = Object.entries(this.filteredData)
-      const active_grp_total_items = grp_arr[grp_i][1].length
+      const grp_arr = Object.entries(this.filteredData);
+      const active_grp_total_items = grp_arr[grp_i][1].length;
 
 
         if(val) {
           // If active item is not of last item in grp
           if(active_grp_total_items-1 > item_i) {
-            this.currentSelected = grp_i + "." +  (Number(item_i)+1)
+            this.currentSelected = grp_i + "." +  (Number(item_i)+1);
 
           // If active item grp is not last in grp list
           }else if(grp_i < grp_arr.length-1) {
-            this.currentSelected = Number(grp_i)+1 + ".0"
+            this.currentSelected = Number(grp_i)+1 + ".0";
           }
         }else {
           // If active item is not of first item in grp
           if(Number(item_i)) {
-            this.currentSelected = grp_i + "." +  (Number(item_i)-1)
+            this.currentSelected = grp_i + "." +  (Number(item_i)-1);
 
           // If active item grp  is not first in grp list
           }else if(Number(grp_i)) {
-            this.currentSelected = (Number(grp_i)-1) + "." + (grp_arr[grp_i-1][1].length-1)
+            this.currentSelected = (Number(grp_i)-1) + "." + (grp_arr[grp_i-1][1].length-1);
           }
         }
     },
     focusInput() {
-      this.$refs.input.$el.querySelector('input').focus()
+      this.$refs.input.$el.querySelector('input').focus();
     }
   },
   mounted() {
-    if(this.autoFocus) this.focusInput()
+    if(this.autoFocus) this.focusInput();
   }
-}
+};
 </script>
 
 <style lang="scss">

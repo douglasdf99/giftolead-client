@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleTicketsState.js'
-import mutations from './moduleTicketsMutations.js'
-import actions from './moduleTicketsActions.js'
-import getters from './moduleTicketsGetters.js'
+import state from './moduleTicketsState.js';
+import mutations from './moduleTicketsMutations.js';
+import actions from './moduleTicketsActions.js';
+import getters from './moduleTicketsGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

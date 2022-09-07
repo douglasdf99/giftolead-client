@@ -64,7 +64,7 @@
                             <template slot="no-body">
                                 <!-- ITEM IMAGE -->
                                 <div class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer">
-                                    <img :src="get_img_api(item.logotipo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
+                                    <img :src="get_img_cdn(item.logotipo)" style="width: 200px" alt="logotipo" class="grid-view-img px-4">
                                 </div>
                                 <div class="item-details px-4">
                                 </div>
@@ -101,7 +101,7 @@
                             <div v-show="!images.length">
                                 <label for="file">
                                     <i class="fa fa-cloud-upload"></i>
-                                    <img :src="get_img_api('images/upload.png')">
+                                    <img :src="get_img_cdn('images/upload.png')">
                                     <p class="text-lg mt-6">Arraste e solte ou clique aqui</p>
                                     <div class="file-input">
                                         <input type="file" id="file" @change="onInputChange">
@@ -217,13 +217,13 @@
 
 <script>
 import moduleContrato from '@/store/contratos/moduleContrato.js';
-import moduleBrindes from '@/store/brindes/moduleBrindes.js'
+import moduleBrindes from '@/store/brindes/moduleBrindes.js';
 
 // register custom messages
 import {Validator} from 'vee-validate';
-import vSelect from 'vue-select'
+import vSelect from 'vue-select';
 
-const {consultarCep} = require("correios-brasil");
+//const {consultarCep} = require("correios-brasil");
 
 const dict = {
     custom: {
@@ -359,8 +359,8 @@ export default {
         }
         this.getBrindes();
         if (!moduleContrato.isRegistered) {
-            this.$store.registerModule('contratos', moduleContrato)
-            moduleContrato.isRegistered = true
+            this.$store.registerModule('contratos', moduleContrato);
+            moduleContrato.isRegistered = true;
         }
         if (this.$route.name === 'contratos-editar') {
             this.getContrato(this.$route.params.id);
@@ -375,7 +375,7 @@ export default {
             if (this.brindes && this.brindes.length > 0) {
                 this.brindes.forEach(item => {
                     option.push({id: item.id, label: item.nome});
-                })
+                });
             }
             return option;
         },
@@ -384,73 +384,55 @@ export default {
             if (this.item.servicos && this.item.servicos.length > 0) {
                 this.item.servicos.forEach(item => {
                     option.push({id: item.codigo, label: item.descricao});
-                })
+                });
             }
             return option;
         }
     },
-    mounted() {
-        this.verifica();
-    },
     watch: {
-        currentx(val) {
+        currentx() {
             this.$vs.loading();
-            console.log('val', val);
             this.dados.page = this.currentx;
             this.getContas();
         },
         "$route"() {
-            this.routeTitle = this.$route.meta.pageTitle
-        },
-        produto: {
-            handler(val) {
-                console.log('mudou');
-                if (val) {
-                    console.log('watch', val);
-                }
-            },
-            deep: true
+            this.routeTitle = this.$route.meta.pageTitle;
         },
     },
     methods: {
         buscaCep() {
 
-            if (this.valido) {
-                console.log('teste')
-            } else {
+            if (!this.valido) {
                 this.remetenteComplemento = '';
                 this.remetenteNumero = '';
-                consultarCep(this.item.remetenteCep).then(response => {
-                    console.log('resposta', response);
+                this.$store.dispatch('consultCep', this.item.remetenteCep).then(response => {
                     this.valido = true;
                     this.antigoCep = this.item.remetenteCep;
-                    this.item.remetenteCidade = this.removeAccents(response.localidade);
-                    this.item.remetenteBairro = this.removeAccents(response.bairro);
-                    this.item.remetenteEndereco = this.removeAccents(response.logradouro);
-                    this.item.remetenteEstado = this.removeAccents(response.uf);
+                    this.item.remetenteCidade = this.removeAccents(response.city);
+                    this.item.remetenteBairro = this.removeAccents(response.neighborhood);
+                    this.item.remetenteEndereco = this.removeAccents(response.street);
+                    this.item.remetenteEstado = this.removeAccents(response.state);
                     this.$vs.notify({
                         title: '',
                         color: 'success',
                         text: 'CEP encontrado e informações preenchidas'
-                    })
+                    });
                 }).catch(erro => {
-                    console.log(erro);
                     this.$vs.notify({
                         title: '',
                         color: 'danger',
                         text: erro.response.data.message
-                    })
+                    });
                 });
             }
         },
         configurar() {
-            this.$router.push({path: '/configuracoes/contratos/servicos/' + this.item.id});
+            this.$router.push({
+                name: 'contratos-servicos', params:{id: this.item.id}});
         },
         getBrindes() {
             this.$store.dispatch('getVarios', {rota: 'brindes'}).then(response => {
-                console.log('retornado com sucesso', response)
                 this.brindes = response;
-                console.log('brindes', this.brindes);
                 //this.dados.page = this.pagination.current_page
             });
         },
@@ -460,14 +442,14 @@ export default {
                 color: 'success',
                 title: 'Accept Selected',
                 text: 'Lorem ipsum dolor sit amet, consectetur'
-            })
+            });
         },
         close() {
             this.$vs.notify({
                 color: 'danger',
                 title: 'Closed',
                 text: 'You close a dialog!'
-            })
+            });
         },
         clearValMultiple() {
             this.val.tipo = "";
@@ -495,16 +477,14 @@ export default {
                 acceptText: 'Deletar',
                 cancelText: 'Cancelar',
                 accept: this.deleteExcexao,
-            })
+            });
         },
         showEditarExcecao(item) {
-            console.log('servico', item);
             this.val.id = item.id;
             let val = JSON.parse(JSON.stringify(item));
             let nome = this.selectedtipo(val.tipo);
             let estado = this.selectedEstado(val.variavel);
             let brinde = this.selectedBrinde(val.variavel);
-            console.log('capiturado', estado);
             this.val.tipo = {id: val.tipo, label: nome};
             if (val.tipo == 'estado') {
                 this.val.variavel = {value: val.variavel, text: estado};
@@ -518,14 +498,13 @@ export default {
             let serv = false;
             this.item.servicos.forEach(item => {
                 if (item.codigo == servico) {
-                    console.log(item.descricao);
                     serv = item.descricao;
                 }
             });
             if (serv) {
                 return serv;
             } else {
-                return 'Serviço não encontrado'
+                return 'Serviço não encontrado';
             }
         },
         selectedtipo(config) {
@@ -542,7 +521,6 @@ export default {
             let item2 = '';
             this.estados.forEach(item => {
                 if (item.value == estado) {
-                    console.log('retorno', item.text)
                     item2 = item.text;
                 }
             });
@@ -551,33 +529,23 @@ export default {
         selectedBrinde(brinde) {
             let item2 = '';
             this.brindes.forEach(item => {
-                console.log('retorno brinde', item)
                 if (item.id == brinde) {
-                    console.log('retorno', item.nome)
                     item2 = item.nome;
                 }
             });
             return item2;
         },
-        successUpload(event) {
-            console.log('evento sucesso', event);
-
-            this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
+        successUpload() {
+            this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'});
         },
-        errorUpload(event) {
-            console.log('evento error', event);
-            this.$vs.notify({color: 'success', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'})
-        },
-        verifica() {
-            console.log('funcao de verificacao')
+        errorUpload() {
+            this.$vs.notify({color: 'danger', title: 'Upload Success', text: 'Lorem ipsum dolor sit amet, consectetur'});
         },
         getContrato(id) {
-            this.$vs.loading()
+            this.$vs.loading();
             this.$store.dispatch('contratos/getId', id).then(data => {
                 this.item = {...data};
-                console.log(this.item)
-            }).catch(erro => {
-                console.log('erro', erro.response);
+            }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -594,14 +562,12 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-alert-circle',
                     color: 'danger'
-                })
+                });
             } else {
                 this.$vs.loading();
-                console.log('chama etiquetas');
                 this.$store.dispatch('contratos/logarind', this.item)
                     .then(() => {
-                        console.log('login contrato')
-                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Login realizado com sucesso'})
+                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Login realizado com sucesso'});
                     })
                     .catch(() => {
                         this.$vs.notify({
@@ -610,7 +576,7 @@ export default {
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     }).finally(() => {
                     this.salvando = false;
                 }).finally(() => this.$vs.loading.close());
@@ -620,7 +586,7 @@ export default {
             this.$vs.loading({
                 container: '#div-with-loading',
                 scale: 0.6
-            })
+            });
         },
         correiosservicos() {
             this.$vs.loading({
@@ -629,9 +595,8 @@ export default {
             });
             this.$store.dispatch('contratos/servicos', this.item)
                 .then(() => {
-                    console.log('login contrato')
                     this.$vs.loading.close('#div-servicos > .con-vs-loading');
-                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
+                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'});
                 })
                 .catch(error => {
                     this.$vs.loading.close('#div-servicos > .con-vs-loading');
@@ -641,7 +606,7 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }).finally(() => {
                 this.salvando = false;
             });
@@ -664,10 +629,9 @@ export default {
                 obj.id = this.val.id;
                 this.$store.dispatch('contratos/editexcecao', obj)
                     .then(() => {
-                        console.log('add excecao');
                         this.getContrato(this.item.id);
                         this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção adicionada com sucesso'})
+                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção adicionada com sucesso'});
                     })
                     .catch(error => {
                         this.$vs.loading.close('#div-excecao > .con-vs-loading');
@@ -677,17 +641,16 @@ export default {
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     }).finally(() => {
                     this.salvando = false;
                 });
             } else {
                 this.$store.dispatch('contratos/addexcecao', obj)
                     .then(() => {
-                        console.log('editar excecao');
                         this.getContrato(this.item.id);
                         this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'})
+                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção alterada com sucesso'});
                     })
                     .catch(error => {
                         this.$vs.loading.close('#div-excecao > .con-vs-loading');
@@ -697,7 +660,7 @@ export default {
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
+                        });
                     }).finally(() => {
                     this.salvando = false;
                 });
@@ -716,7 +679,6 @@ export default {
             obj.correio_id = this.item.id;
             this.$store.dispatch('contratos/addexcecao', obj)
                 .then(() => {
-                    console.log('editar excecao');
                     this.getContrato(this.item.id);
                     this.$vs.loading.close('#div-servicos > .con-vs-loading');
                     this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Serviço padrão alterado com sucesso'});
@@ -729,7 +691,7 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }).finally(() => {
                 this.salvando = false;
             });
@@ -741,10 +703,9 @@ export default {
             });
             this.$store.dispatch('contratos/removeexcecao', this.configExclud)
                 .then(() => {
-                    console.log('remover excecao');
                     this.getContrato(this.item.id);
                     this.$vs.loading.close('#div-excecao > .con-vs-loading');
-                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção deleta com sucesso'})
+                    this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Exceção deleta com sucesso'});
                 })
                 .catch(error => {
                     this.$vs.loading.close('#div-excecao > .con-vs-loading');
@@ -754,7 +715,7 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }).finally(() => {
                 this.salvando = false;
             });
@@ -787,8 +748,7 @@ export default {
                     formData.append('telefone', this.item.telefone);
 
                     this.$store.dispatch('contratos/update', {id: this.item.id, dados: formData}).then(() => {
-                        console.log('enviou')
-                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
+                        this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'});
                     }).catch(error => {
                         this.$vs.notify({
                             title: 'Error',
@@ -800,7 +760,7 @@ export default {
                     }).finally(() => {
                         this.salvando = false;
                         this.$vs.loading.close();
-                    })
+                    });
                 } else {
                     this.$vs.notify({
                         title: 'Error',
@@ -808,9 +768,9 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
             this.salvando = false;
         },
 
@@ -842,9 +802,8 @@ export default {
 
                     this.$store.dispatch('contratos/store', formData)
                         .then(() => {
-                            console.log('enviou')
-                            this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'})
-                            this.$router.push({name: 'contratos'})
+                            this.$vs.notify({color: 'success', title: 'Sucesso!', text: 'Dados alterados com sucesso'});
+                            this.$router.push({name: 'contratos'});
                         }).catch(error => {
                             this.$vs.notify({
                                 title: 'Error',
@@ -852,11 +811,11 @@ export default {
                                 iconPack: 'feather',
                                 icon: 'icon-alert-circle',
                                 color: 'danger'
-                            })
+                            });
                         }).finally(() => {
                         this.salvando = false;
                         this.$vs.loading.close();
-                    })
+                    });
                 } else {
                     this.$vs.notify({
                         title: 'Error',
@@ -864,9 +823,9 @@ export default {
                         iconPack: 'feather',
                         icon: 'icon-alert-circle',
                         color: 'danger'
-                    })
+                    });
                 }
-            })
+            });
             this.salvando = false;
         },
         //drag
@@ -901,8 +860,7 @@ export default {
             }
             this.files.push(file);
             this.item.logotipo = file;
-            const img = new Image(),
-                reader = new FileReader();
+            const reader = new FileReader();
             this.images.pop();
             reader.onload = (e) => this.images.push(e.target.result);
             reader.readAsDataURL(file);
@@ -918,7 +876,7 @@ export default {
             return `${(Math.round(size * 100) / 100)} ${fSExt[i]}`;
         },
     }
-}
+};
 </script>
 
 <style scoped>

@@ -39,5 +39,5 @@ export default {
     data: () => ({
         currentx: 14
     })
-}
+};
 </script>

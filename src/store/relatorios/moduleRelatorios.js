@@ -8,10 +8,10 @@
 ==========================================================================================*/
 
 
-import state from './moduleRelatorioState.js'
-import mutations from './moduleRelatorioMutations.js'
-import actions from './moduleRelatorioActions.js'
-import getters from './moduleRelatorioGetters.js'
+import state from './moduleRelatorioState.js';
+import mutations from './moduleRelatorioMutations.js';
+import actions from './moduleRelatorioActions.js';
+import getters from './moduleRelatorioGetters.js';
 
 export default {
 	namespaced: true,
@@ -19,4 +19,4 @@ export default {
     mutations: mutations,
     actions: actions,
     getters: getters
-}
+};

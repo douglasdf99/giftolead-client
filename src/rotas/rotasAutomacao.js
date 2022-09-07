@@ -2,7 +2,7 @@ import subbrindes from "./subRotaBrindes";
 
 const rotasAutomacao = [
     {
-        path: '/brindes/automacao',
+        path: 'brindes/automacao',
         name: 'brindes-automacao',
         component: () => import('@/views/automacao/Automacao.vue'),
         meta: {
@@ -19,7 +19,7 @@ const rotasAutomacao = [
         },
     },
     {
-        path: '/brindes/automacao/emails',
+        path: 'brindes/automacao/emails',
         name: 'brindes-automacao-emails',
         component: () => import('@/views/automacao/Emails.vue'),
         meta: {
@@ -37,7 +37,7 @@ const rotasAutomacao = [
         },
     },
     {
-        path: '/brindes/automacao/emails/criar/:tipo',
+        path: 'brindes/automacao/emails/criar/:tipo',
         name: 'brindes-automacao-emails-criar',
         component: () => import('@/views/automacao/EmailsCriar.vue'),
         meta: {
@@ -55,7 +55,7 @@ const rotasAutomacao = [
         },
     },
     {
-        path: '/brindes/:brinde/emails/editar/:id',
+        path: 'brindes/:brinde/emails/editar/:id',
         name: 'brindes-automacao-emails-editar',
         component: () => import('@/views/automacao/EmailsCriar.vue'),
         meta: {
@@ -74,4 +74,4 @@ const rotasAutomacao = [
     },
 ];
 
-export default rotasAutomacao
+export default rotasAutomacao;

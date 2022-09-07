@@ -157,7 +157,7 @@
     export default {
         name: "PreviewRastreio",
         props: ['text']
-    }
+    };
 </script>
 
 <style scoped>

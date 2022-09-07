@@ -69,7 +69,7 @@ export default {
         return {
             colorx: '#9ecc38',
             colorx2: '#3EC9D6'
-        }
+        };
     },
-}
+};
 </script>

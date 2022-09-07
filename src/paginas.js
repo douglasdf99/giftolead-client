@@ -14,4 +14,4 @@ export default {
         {slug: 'produtos', title: "Produtos", url: "/configuracoes/produtos", icon: "category", is_bookmarked: false},
         {slug: 'contratos', title: "Contratos", url: "/configuracoes/contratos", icon: "assignment", is_bookmarked: false}
     ],
-}
+};

@@ -1,33 +1,23 @@
-/*=========================================================================================
-  File Name: moduleAuthActions.js
-  Description: Auth Module Actions
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
-
-import 'firebase/auth'
-import axios from "@/axios.js"
-import defaultAxios from "axios"
+import 'firebase/auth';
+import axios from "@/axios.js";
+import defaultAxios from "axios";
 import saveleadsConfig from "../../../saveleadsConfig";
 
 let {url_melhorenvio} = saveleadsConfig;
 
 export default {
-    get({commit}, dados) {
+    get(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/automacaos`, {params: dados})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    storeEmail({commit}, dados) {
+    storeEmail(_, dados) {
         let rota = '/automacao_emails/';
         if (dados.id != null) {
             dados._method = 'PUT';
@@ -36,239 +26,239 @@ export default {
         return new Promise((resolve, reject) => {
             axios.post(rota, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getEmails({commit}, id) {
+    getEmails(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/automacao_emails`, {params: {brinde_id: id}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getEmailId({commit}, id) {
+    getEmailId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/automacao_emails/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    store({commit}, dados) {
+    store(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos`, dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    deleteItem({commit}, id) {
+    deleteItem(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/automacaos/arquivar/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    restaurarItem({commit}, id) {
+    restaurarItem(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/automacaos/restaurar/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    enviarEmail({commit}, obj) {
+    enviarEmail(_, obj) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacao_enviar_email`, obj)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    adicionarCarrinho({commit}, id) {
+    adicionarCarrinho(_, id) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/adiconar_carrinho/${id}`, id)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    login({commit}, dados) {
+    login(_, dados) {
         return new Promise((resolve, reject) => {
-            defaultAxios.defaults.headers.common = dados.config.headers
+            defaultAxios.defaults.headers.common = dados.config.headers;
             defaultAxios.get(`${url_melhorenvio}`, dados.params)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    verificaLimite({commit}, dados) {
+    verificaLimite(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.config.headers;
             defaultAxios.get(`${url_melhorenvio}/api/v2/me/limits`, dados.params)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    calcular({commit}, dados) {
+    calcular(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/calculate`, dados.payload)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    saldo({commit}, dados) {
+    saldo(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.get(`${url_melhorenvio}/api/v2/me/balance?pretty`)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    geraEtiqueta({commit}, dados) {
+    geraEtiqueta(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/generate`, {orders: dados.ids})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    imprmirMelhorEnvio({commit}, dados) {
+    imprmirMelhorEnvio(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/print`, {mode: "public", orders: dados.ids})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    geraEtiquetas({commit}, dados) {
+    geraEtiquetas(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/generate`, {orders: dados.ids, pretty: 1})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    finalizar({commit}, dados) {
+    finalizar(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/finalizar_carrinho`, dados)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    removerCarrinho({commit}, dados) {
+    removerCarrinho(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/automacaos/remover_carrinho/${dados.id}`)
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    comprar({commit}, dados) {
+    comprar(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post("/automacaos/comprarEtiquetas/", dados)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    cancelar({commit}, dados) {
+    cancelar(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post("/automacaos/cancelarCompra/", dados)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    checkCancel({commit}, dados) {
+    checkCancel(_, dados) {
         return new Promise((resolve, reject) => {
             defaultAxios.defaults.headers.common = dados.headers;
             defaultAxios.post(`${url_melhorenvio}/api/v2/me/shipment/cancellable`, {orders: dados.ids})
                 .then((response) => {
-                    resolve(response.data)
+                    resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    validarAutomacao({commit}, id) {
+    validarAutomacao(_, id) {
         return new Promise((resolve, reject) => {
             axios.post(`automacaos/validaInfor/${id}`)
                 .then((response) => {
                     resolve(response.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};

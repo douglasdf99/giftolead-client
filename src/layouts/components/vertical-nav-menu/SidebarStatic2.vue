@@ -44,7 +44,7 @@
          return {
              active: false,
              rota: this.$route
-         }
+         };
         },
         methods: {
             ativarMenu(e) {
@@ -65,7 +65,7 @@
         created() {
 
         }
-    }
+    };
 </script>
 
 <style>

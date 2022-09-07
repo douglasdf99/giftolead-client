@@ -67,7 +67,7 @@
 
 <script>
 // import VNavMenuItem from './VerticalNavMenuItem.vue'
-import HNavMenuItem from "./HorizontalNavMenuItem.vue"
+import HNavMenuItem from "./HorizontalNavMenuItem.vue";
 
 export default {
   name  : 'h-nav-menu-group',
@@ -88,105 +88,105 @@ export default {
   }),
   computed: {
     iconClasses() {
-      let classes = "mr-3 "
-      classes += this.groupIndex % 1 != 0 ? 'w-3 h-3' : 'w-5 h-5'
-      return classes
+      let classes = "mr-3 ";
+      classes += this.groupIndex % 1 != 0 ? 'w-3 h-3' : 'w-5 h-5';
+      return classes;
     },
     styleItems() {
-      let style = {}
+      let style = {};
       if(this.bottom) {
-        style.top = "100%"
-        style.left = "0"
+        style.top = "100%";
+        style.left = "0";
       }else {
-        style.top = "12px"
-        style.left = "100%"
+        style.top = "12px";
+        style.left = "100%";
       }
 
       if(this.dropLeft) {
-        style.left = null
-        style.right = "100%"
+        style.left = null;
+        style.right = "100%";
       }
 
       if(this.$vs.rtl) {
-        let temp = style.left
-        style.left = style.right
-        style.right = temp
+        let temp = style.left;
+        style.left = style.right;
+        style.right = temp;
       }
 
-      return style
+      return style;
     },
     itemIcon() {
       // return (index) => {
       //   // if (!((index.match(/\./g) || []).length > 1)) return "CircleIcon"
       // }
-      return "CircleIcon"
+      return "CircleIcon";
     },
     isGroupActive() {
       return (item) => {
-        const path        = this.$route.fullPath
-        let open          = false
-        const routeParent = this.$route.meta ? this.$route.meta.parent : undefined
+        const path        = this.$route.fullPath;
+        let open          = false;
+        const routeParent = this.$route.meta ? this.$route.meta.parent : undefined;
 
         let func = (item) => {
           if (item.submenu) {
             item.submenu.forEach((item) => {
-              if ((path == item.url || routeParent == item.slug) && item.url) { open = true}
-              else if (item.submenu) { func(item) }
-            })
+              if ((path == item.url || routeParent == item.slug) && item.url) { open = true;}
+              else if (item.submenu) { func(item); }
+            });
           }
-        }
+        };
 
-        func(item)
-        return open
-      }
+        func(item);
+        return open;
+      };
     },
   },
   watch: {
     hovered(val) {
       this.$nextTick(() => {
         if(val) {
-          let dd = this.$refs.childDropdown
+          let dd = this.$refs.childDropdown;
 
           if(((window.innerHeight - dd.getBoundingClientRect().top) - dd.getBoundingClientRect().height - 28) < 1) {
-            const maxHeight = (window.innerHeight - dd.getBoundingClientRect().top - 70)
-            dd.style.maxHeight = `${maxHeight}px`
-            dd.style.overflowY = "auto"
-            dd.style.overflowX = "hidden"
+            const maxHeight = (window.innerHeight - dd.getBoundingClientRect().top - 70);
+            dd.style.maxHeight = `${maxHeight}px`;
+            dd.style.overflowY = "auto";
+            dd.style.overflowX = "hidden";
           }
 
           if(dd.getBoundingClientRect().left + dd.offsetWidth - (window.innerWidth - 16) >= 0 || this.$parent.dropLeft) {
-            this.dropLeft = true
+            this.dropLeft = true;
           }
 
           if(this.$vs.rtl) {
             if(dd.getBoundingClientRect().right - dd.offsetWidth - 16 < 0) {
-              this.dropLeft = true
+              this.dropLeft = true;
             }
           }
         }else {
-          this.dropLeft = false
+          this.dropLeft = false;
         }
-      })
+      });
     }
   },
   methods: {
     mouseover() {
-      this.hovered = true
+      this.hovered = true;
       if (this.openHover) {
-        this.showChildren()
+        this.showChildren();
       }
     },
     mouseout() {
-      this.hovered = false
+      this.hovered = false;
       if (this.openHover) {
-        this.showChildren(false)
+        this.showChildren(false);
       }
     },
     showChildren(val = true) {
-      this.openItems = val
+      this.openItems = val;
     }
   },
-}
+};
 
 </script>
 

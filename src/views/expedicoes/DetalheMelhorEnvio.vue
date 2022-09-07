@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from 'vue-perfect-scrollbar'
-import vSelect from 'vue-select'
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import vSelect from 'vue-select';
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
 
 export default {
@@ -73,10 +73,10 @@ export default {
     },
     watch: {
         isSidebarActive(val) {
-            if (!val) return
+            if (!val) return;
             if (Object.entries(this.data).length === 0) {
-                this.initValues()
-                this.$validator.reset()
+                this.initValues();
+                this.$validator.reset();
             } else {
                 this.brinde = JSON.parse(JSON.stringify(this.data));
             }
@@ -85,10 +85,9 @@ export default {
     data() {
         return {
             historicoRastreio: [],
-        }
+        };
     },
     created() {
-        console.log(this.data);
         if (!moduleExpedicoesBrindes.isRegistered) {
             this.$store.registerModule('expedicaos', moduleExpedicoesBrindes);
             moduleExpedicoesBrindes.isRegistered = true;
@@ -99,14 +98,12 @@ export default {
     computed: {
         isSidebarActiveLocal: {
             get() {
-                return this.isSidebarActive
+                return this.isSidebarActive;
             },
             set(val) {
-                console.log('valor side', val);
                 if (!val) {
-                    console.log('entou no emit side', val);
 
-                    this.$emit('closeSidebar')
+                    this.$emit('closeSidebar');
                     // this.$validator.reset()
                     // this.initValues()
                 }
@@ -116,10 +113,7 @@ export default {
     methods: {
         getItem() {
             this.$store.dispatch('expedicaos/rastreio', {rastreio: this.data.rastreio}).then(response => {
-                if (response.erro) {
-                    console.log('erro', response)
-                } else {
-                    console.log('ae', response);
+                if (!response.erro) {
                     this.historicoRastreio = response;
                 }
                 //this.$vs.loading.close();
@@ -133,7 +127,7 @@ export default {
         VuePerfectScrollbar,
         'v-select': vSelect
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

@@ -59,7 +59,7 @@
                 return this.$store.state.submenu;
             }
         }
-    }
+    };
 </script>
 
 <style>

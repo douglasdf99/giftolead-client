@@ -16,7 +16,7 @@
                     <vs-th>Status</vs-th>
                 </template>
                 <template slot-scope="{data}">
-                    <vs-tr v-for="tr in data">
+                    <vs-tr v-for="(tr, index) in data" :key="index">
                         <vs-td class="flex justify-center items-center">
                             <vs-dropdown vs-trigger-click
                                          v-if="$acl.check('brinde_automacao_editar') || $acl.check('brinde_automacao_deletar')">
@@ -108,9 +108,9 @@
 </template>
 
 <script>
-import moduleAutomacao from "../../store/automacao/moduleAutomacao";
 import NenhumRegistro from "../components/NenhumRegistro";
 import moduleExpedicoesBrindes from "../../store/expedicoes/moduleExpedicoesBrindes";
+import saveleadsConfig from "../../../saveleadsConfig";
 
 
 export default {
@@ -118,7 +118,7 @@ export default {
     data() {
         return {
             idSelected: null,
-        }
+        };
     },
     name: "Listagem",
     props: ['items', 'tipo'],
@@ -134,7 +134,7 @@ export default {
                 acceptText: "Deletar",
                 cancelText: "Cancelar"
 
-            })
+            });
         },
         restaurarAlert(id) {
             this.idSelected = id;
@@ -147,7 +147,7 @@ export default {
                 acceptText: "Restaurar",
                 cancelText: "Cancelar"
 
-            })
+            });
         },
         deleteItem() {
             this.$store.dispatch('automacao/deleteItem', this.idSelected).then(() => {
@@ -157,13 +157,10 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-check-circle',
                     color: 'success'
-                })
-                this.$emit('getItems', this.dados.tipo)
+                });
+                this.$emit('getItems', this.dados.tipo);
 
-            }).catch(error => {
-
-            })
-
+            });
         },
         arquivar(obj) {
             this.$vs.dialog({
@@ -175,19 +172,19 @@ export default {
                 cancelText: 'Cancelar',
                 accept: () => {
                     this.$store.dispatch('expedicaos/arquivar', obj.id).then(() => {
-                        this.$emit('getItems')
+                        this.$emit('getItems');
                         this.$vs.notify({
                             color: 'success',
                             text: 'Arquivado realizado com sucesso'
                         });
-                    }).catch(erro => {
+                    }).catch(() => {
                         this.$vs.notify({
                             color: 'danger',
                             text: 'Algo deu errado ao arquivar a automação. Contate o suporte'
                         });
                     });
                 }
-            })
+            });
         },
         restaurarItem() {
             this.$store.dispatch('automacao/restaurarItem', this.idSelected).then(() => {
@@ -197,13 +194,10 @@ export default {
                     iconPack: 'feather',
                     icon: 'icon-check-circle',
                     color: 'success'
-                })
-                this.$emit('getItems')
+                });
+                this.$emit('getItems');
 
-            }).catch(error => {
-
-            })
-
+            });
         },
         getResponsavel(obj) {
             switch (obj.responsavel_type) {
@@ -214,39 +208,39 @@ export default {
             }
         },
         getLinkRastreio(obj) {
-            let url = 'https://weentrega.saveleads.com.br/preencher/' + obj.uuid + '/' + obj.email_destinatario;
-            const thisIns = this;
-            this.$copyText(url).then(function () {
-                    thisIns.$vs.notify({
-                        title: 'Success',
-                        text: 'URL copiada para sua área de transferência',
-                        color: 'success',
-                        iconPack: 'feather',
-                        icon: 'icon-check-circle'
-                    })
-                },
-                function () {
-                    thisIns.$vs.notify({
-                        title: 'Failed',
-                        text: 'Erro ao copiar link',
-                        color: 'danger',
-                        iconPack: 'feather',
-                        position: 'top-center',
-                        icon: 'icon-alert-circle'
-                    })
-                })
-        },
+                let url = saveleadsConfig.url_entrega + '/preencher/' + obj.uuid + '/' + obj.email_destinatario;
+                const thisIns = this;
+                this.$copyText(url).then(function () {
+                        thisIns.$vs.notify({
+                            title: 'Success',
+                            text: 'URL copiada para sua área de transferência',
+                            color: 'success',
+                            iconPack: 'feather',
+                            icon: 'icon-check-circle'
+                        });
+                    },
+                    function () {
+                        thisIns.$vs.notify({
+                            title: '',
+                            text: 'Erro ao copiar link',
+                            color: 'danger',
+                            iconPack: 'feather',
+                            position: 'top-center',
+                            icon: 'icon-alert-circle'
+                        });
+                    });
+            },
         getOrdemEnvio(obj) {
             if (obj.endereco == null)
-                return 'Pendente'
+                return 'Pendente';
             else
-                return 'Preenchida'
+                return 'Preenchida';
         },
         getOrdemColor(obj) {
             if (obj.endereco == null)
-                return 'text-warning'
+                return 'text-warning';
             else
-                return 'text-primary'
+                return 'text-primary';
         },
         getEventoRed(obj) {
             if (obj.eventos.length > 0)
@@ -269,7 +263,7 @@ export default {
                     color: 'success',
                     iconPack: 'feather',
                     icon: 'icon-check-circle'
-                })
+                });
             }, function () {
                 thisIns.$vs.notify({
                     title: 'Failed',
@@ -278,11 +272,11 @@ export default {
                     iconPack: 'feather',
                     position: 'top-center',
                     icon: 'icon-alert-circle'
-                })
-            })
+                });
+            });
         },
         reenviar(token) {
-            let self = this
+            let self = this;
             this.$vs.dialog({
                 type: 'confirm',
                 color: 'primary',
@@ -300,23 +294,22 @@ export default {
                             color: 'danger',
                             title: 'Ops! Algo deu errado. Contate o suporte.',
                             time: 10000,
-                        })
-                    })
+                        });
+                    });
                 },
                 acceptText: "Enviar",
                 cancelText: "Cancelar"
 
-            })
+            });
         },
         detailExpedicao(ex) {
-            let routeData, routeName
+            let routeData, routeName;
             if(ex.contrato_type === 'App\\\\Models\\\\Correio')//Detalhando expedição de acordo com o tipo do contrato
-                routeName = 'brindes-expedicoes-detalhe'
+                routeName = 'brindes-expedicoes-detalhe';
             else
-                routeName = 'brindes-expedicoes-melhorenvio-detalhe'
+                routeName = 'brindes-expedicoes-melhorenvio-detalhe';
 
             routeData = this.$router.resolve({name: routeName, query: {id: ex.id}});
-            console.log('routedata', routeData)
             window.open(routeData.href, '_blank');
         },
 
@@ -332,7 +325,7 @@ export default {
         }
     }
 
-}
+};
 </script>
 
 <style scoped>

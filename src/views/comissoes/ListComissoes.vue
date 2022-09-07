@@ -4,7 +4,7 @@
 			<nenhum-registro/>
 		</div>
 		<div class="" v-else>
-			<vs-table multiple v-model="selecteds" @selected="handleSelected" :data="items" class="table-items"
+			<vs-table multiple v-model="selecteds" :data="items" class="table-items"
 			          v-if="tipo == 'usuario'">
 				<template slot="thead">
 					<vs-th></vs-th>
@@ -16,7 +16,7 @@
 						<vs-td class="flex items-center">
 							<div class="flex items-center">
 								<div :src="null" width="40px" class="rounded-full mx-5"
-								     :style="{ backgroundImage: 'url('+get_img_api(tr.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
+								     :style="{ backgroundImage: 'url('+get_img_cdn(tr.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
 								<p class="font-bold text-dark text-xl">{{ tr.name }}</p>
 							</div>
 						</vs-td>
@@ -53,7 +53,7 @@
 						<vs-td>
 							<div class="flex items-center" v-if="tr.user">
 								<div :src="null" width="40px" class="rounded-full mr-5 ml-1"
-								     :style="{ backgroundImage: 'url('+get_img_api(tr.user.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
+								     :style="{ backgroundImage: 'url('+get_img_cdn(tr.user.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
 								<p class="font-bold text-dark text-xl">{{ tr.user.name }}</p>
 							</div>
 						</vs-td>
@@ -74,11 +74,9 @@
 								     v-else-if="tr.origem_type == 'App\\Models\\CampanhaCancelado'">
 								<img src="@/assets/images/util/link.svg" width="40" class="ml-2 rounded-full"
 								     v-else-if="tr.origem_type == 'App\\Models\\Link'">
+								<vs-avatar v-else color="primary" size="40px" :text="tr.origem.name" />
 
-								<div :src="null" width="40px" class="ml-2 rounded-full agente" v-else-if="tr.origem"
-								     :style="{ backgroundImage: 'url('+get_img_api(tr.origem.avatar)+')',backgroundRepeat: 'no-repeat',backgroundSize:'cover', width: '40px', height:'40px',backgroundPositionX: 'center' }"></div>
-
-								<!--                  <img :src="get_img_api(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
+								<!--                  <img :src="get_img_cdn(tr.origem.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
 								<p class="font-bold text-dark text-xl ml-3">{{ nameCriador(tr) }}</p>
 							</div>
 						</vs-td>
@@ -91,7 +89,7 @@
 									</div>
 
 								</vx-tooltip>
-								<!--                  <img :src="get_img_api(tr.responsavel.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
+								<!--                  <img :src="get_img_cdn(tr.responsavel.avatar)" v-else-if="tr.origem" width="40px" class="rounded-full">-->
 
 							</div>
 						</vs-td>
@@ -131,14 +129,9 @@ export default {
 		return {
 			selecteds: [],
 			ids: [],
-		}
-	},
-	created() {
-		console.log('items', this.items);
+		};
 	},
 	methods: {
-		handleSelected(tr) {
-		},
 		getValComissao(arr) {
 			let soma = 0;
 			arr.forEach(item => {
@@ -156,7 +149,7 @@ export default {
 					this.$emit('gerarOrdens', this.selecteds);
 					this.selecteds = [];
 				}
-			})
+			});
 		},
 		nameCriador(obj) {
 			if (obj.origem_type == 'App\\Models\\User') return obj.origem.name;
@@ -183,5 +176,5 @@ export default {
 			return soma;
 		}
 	}
-}
+};
 </script>

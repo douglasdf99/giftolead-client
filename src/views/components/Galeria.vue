@@ -2,23 +2,23 @@
     <div class="w-full">
         <div class="carousel-example w-full">
             <swiper :options="swiperOption" :dir="$vs.rtl ? 'rtl' : 'ltr'" :key="$vs.rtl">
-                <swiper-slide v-for="(img, index) in imagens" class="relative">
+                <swiper-slide v-for="(img, index) in imagens" class="relative" :key="index">
                     <vs-icon icon-pack="material-icons" icon="cancel" class="icon-grande text-danger cursor-pointer remove-img" v-if="remove" @click="removeImg(img.id, index)"></vs-icon>
-                    <img class="responsive" style="cursor: zoom-in" :src="get_img_api(img.arquivo)" :alt="img.descricao" @click="modalGaleria = true; imgExpandida = img">
+                    <img class="responsive" style="cursor: zoom-in" :src="get_img_cdn(img.arquivo)" :alt="img.descricao" @click="modalGaleria = true; imgExpandida = img">
                 </swiper-slide>
                 <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
         </div>
 
-        <vs-popup id="pdf-with-loading" class="popup-galeria vs-con-loading__container text-center" :active.sync="modalGaleria">
-            <img :src="get_img_api(imgExpandida.arquivo)" :alt="imgExpandida.descricao" class="img-expandida w-full">
-        </vs-popup>
+        <custom-popup id="pdf-with-loading" class="popup-galeria vs-con-loading__container text-center" :active.sync="modalGaleria">
+            <img :src="get_img_cdn(imgExpandida.arquivo)" :alt="imgExpandida.descricao" class="img-expandida w-full">
+        </custom-popup>
     </div>
 </template>
 
 <script>
-import 'swiper/dist/css/swiper.min.css'
-import {swiper, swiperSlide} from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.min.css';
+import {swiper, swiperSlide} from 'vue-awesome-swiper';
 
 export default {
     props: ['imagens', 'remove'],
@@ -49,7 +49,7 @@ export default {
 
             modalGaleria: false,
             imgExpandida: {}
-        }
+        };
     },
     methods: {
         removeImg(id, index) {
@@ -67,7 +67,7 @@ export default {
         swiper,
         swiperSlide
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

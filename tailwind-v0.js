@@ -47,9 +47,9 @@ let colors = {
   'transparent': 'transparent',
   'black': '#22292f',
   'white': '#ffffff',
-  'grey': '#b8c2cc',
-  'grey-light': '#dae1e7',
-}
+  'gray': '#b8c2cc',
+  'gray-light': '#dae1e7',
+};
 
 module.exports = {
 
@@ -341,7 +341,7 @@ module.exports = {
   |
   */
 
-  borderColors: global.Object.assign({ default: colors['grey-light'] }, colors),
+  borderColors: global.Object.assign({ default: colors['gray-light'] }, colors),
 
 
   /*
@@ -865,4 +865,4 @@ module.exports = {
     separator: ':',
   },
 
-}
+};

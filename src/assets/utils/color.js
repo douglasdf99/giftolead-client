@@ -3,92 +3,92 @@ export default {
     var f=color.split(","),t=percent<0?0:255,p=percent<0?percent*-1:percent,R=parseInt(f[0].slice(4)),G=parseInt(f[1]),B=parseInt(f[2]);
     return "rgb("+(Math.round((t-R)*p)+R)+","+(Math.round((t-G)*p)+G)+","+(Math.round((t-B)*p)+B)+")";
   },
-  getColor(colorx, alphax = 1, defaultx = true){
+  getColor(colorx, alphax = 1, defaultx = true) {
     // change color hex to RGB
-    if(/^[#]/.test(colorx)){
-      let c = this.hexToRgb(colorx)
+    if(/^[#]/.test(colorx)) {
+      let c = this.hexToRgb(colorx);
 
-      if(alphax == 1){
-        colorx = `rgb(${c.r},${c.g},${c.b})`
+      if(alphax == 1) {
+        colorx = `rgb(${c.r},${c.g},${c.b})`;
 
       } else {
-        colorx = `rgba(${c.r},${c.g},${c.b},${alphax})`
+        colorx = `rgba(${c.r},${c.g},${c.b},${alphax})`;
 
       }
     } else if (/^rgba/.test(colorx)) {
 
-      if(colorx.search(/.([0-9]\))$/)==-1 && !defaultx){
-        colorx = colorx.replace(/.?([0-9]\))$/,`${alphax})`)
+      if(colorx.search(/.([0-9]\))$/)==-1 && !defaultx) {
+        colorx = colorx.replace(/.?([0-9]\))$/,`${alphax})`);
       }
 
 
     } else if (/^(rgb)/.test(colorx)) {
     // change rgb and rgba
-      if(alphax != 1){
-        colorx = colorx.replace(/^(rgb)/,`rgba`)
-        colorx = colorx.replace(/\)$/,`,${alphax})`)
+      if(alphax != 1) {
+        colorx = colorx.replace(/^(rgb)/,`rgba`);
+        colorx = colorx.replace(/\)$/,`,${alphax})`);
       }
 
     }
-    return colorx
+    return colorx;
   },
-  isColor(colorx){
-    let vscolors = ['primary','secondary','success','danger','warning','dark', 'light']
-    return vscolors.includes(colorx)
+  isColor(colorx) {
+    let vscolors = ['primary','primarylight','secondary','success','danger','warning','dark', 'light'];
+    return vscolors.includes(colorx);
   },
-  RandomColor(){
+  RandomColor() {
     function getRandomInt(min, max) {
       return Math.floor(Math.random() * (max - min)) + min;
     }
-    return `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`
+    return `rgb(${getRandomInt(0,255)},${getRandomInt(0,255)},${getRandomInt(0,255)})`;
   },
-  rColor(colorx,opacity=1){
-    if(/^[#]/.test(colorx)){
-      let c = this.hexToRgb(colorx)
-      colorx = `rgba(${c.r},${c.g},${c.b},${opacity})`
-    } else if (/^[rgb]/.test(colorx)){
-      let colorSplit = colorx.split(')')[0]
-      if(!/^[rgba]/.test(colorx)){
-        colorSplit.replace('rgb','rgba')
-        colorSplit += `,${opacity})`
+  rColor(colorx,opacity=1) {
+    if(/^[#]/.test(colorx)) {
+      let c = this.hexToRgb(colorx);
+      colorx = `rgba(${c.r},${c.g},${c.b},${opacity})`;
+    } else if (/^[rgb]/.test(colorx)) {
+      let colorSplit = colorx.split(')')[0];
+      if(!/^[rgba]/.test(colorx)) {
+        colorSplit.replace('rgb','rgba');
+        colorSplit += `,${opacity})`;
       } else {
         // colorSplit.replace('rgb','rgba')
-        colorSplit += `)`
+        colorSplit += `)`;
       }
-      colorx = colorSplit
+      colorx = colorSplit;
     }
 
-    let vscolors = ['primary','success','danger','warning','dark']
-    if(colorx){
-      if(/[#()]/.test(colorx)){
-        return colorx
+    let vscolors = ['primary','primarylight','success','danger','warning','dark'];
+    if(colorx) {
+      if(/[#()]/.test(colorx)) {
+        return colorx;
       } else {
-        if(vscolors.includes(colorx)){
-          return `rgba(var(--${colorx}),${opacity})`
+        if(vscolors.includes(colorx)) {
+          return `rgba(var(--${colorx}),${opacity})`;
         } else {
-          return `rgba(var(--primary),${opacity})`
+          return `rgba(var(--primary),${opacity})`;
         }
       }
     } else {
-      return `rgba(var(--primary),${opacity})`
+      return `rgba(var(--primary),${opacity})`;
     }
   },
   contrastColor(elementx) {
-    let c = elementx
-    if(/[#]/g.test(elementx)){
-      let rgbx = this.hexToRgb(elementx)
-      c = `rgb(${rgbx.r},${rgbx.g},${rgbx.b})`
+    let c = elementx;
+    if(/[#]/g.test(elementx)) {
+      let rgbx = this.hexToRgb(elementx);
+      c = `rgb(${rgbx.r},${rgbx.g},${rgbx.b})`;
     }
     var rgb = c.replace(/^(rgb|rgba)\(/,'').replace(/\)$/,'').replace(/\s/g,'').split(',');
     var yiq = ((rgb[0]*299)+(rgb[1]*587)+(rgb[2]*114))/1000;
-    if(yiq >= 128){
-      return true
+    if(yiq >= 128) {
+      return true;
     } else {
-      return false
+      return false;
     }
   },
   setCssVariable(propertyName, value) {
-    if(typeof window !== 'undefined'){
+    if(typeof window !== 'undefined') {
       document.documentElement.style.setProperty(propertyName, value);
     }
   },
@@ -109,24 +109,24 @@ export default {
   getVariable(styles, propertyName) {
     return String(styles.getPropertyValue(propertyName)).trim();
   },
-  changeColor(colorInicial){
-    let colores = ['primary','success','danger','warning','dark']
-    let colorx
+  changeColor(colorInicial) {
+    let colores = ['primary','primarylight','success','danger','warning','dark'];
+    let colorx;
 
-    if(colores.includes(colorInicial)){
-      let style = getComputedStyle(document.documentElement)
-      colorx = this.getVariable(style,'--'+colorInicial)
+    if(colores.includes(colorInicial)) {
+      let style = getComputedStyle(document.documentElement);
+      colorx = this.getVariable(style,'--'+colorInicial);
     } else {
-      if(/[rgb()]/g.test(colorInicial)){
-        colorx = colorInicial.replace(/[rgb()]/g,'')
-      } else if(/[#]/g.test(colorInicial)){
-        let rgbx = this.hexToRgb(colorInicial)
-        colorx = `${rgbx.r},${rgbx.g},${rgbx.b}`
+      if(/[rgb()]/g.test(colorInicial)) {
+        colorx = colorInicial.replace(/[rgb()]/g,'');
+      } else if(/[#]/g.test(colorInicial)) {
+        let rgbx = this.hexToRgb(colorInicial);
+        colorx = `${rgbx.r},${rgbx.g},${rgbx.b}`;
       } else {
-        colorx = '--'+colorInicial
+        colorx = '--'+colorInicial;
       }
     }
-    return colorx
+    return colorx;
     // this.setCssVariable('--'+clave,colorx)
   }
-}
+};

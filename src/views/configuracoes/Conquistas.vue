@@ -34,7 +34,7 @@
                     <div class="vx-row">
                         <div class="vx-col col-conquista mb-10" v-if="$acl.check('configuracao_conquista_incluir')">
                             <div class="conquista nova cursor-pointer"
-                                 @click="$router.push({path: '/configuracoes/conquistas/nova'})">
+                                 @click="$router.push({name: 'conquista-nova'})">
                                 <div class="img-plus">
                                     <i class="material-icons">add</i>
                                 </div>
@@ -43,7 +43,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="vx-col col-conquista mb-10" v-for="item in items">
+                        <div class="vx-col col-conquista mb-10" v-for="item in items" :key="item.id">
                             <div class="conquista" v-bind:class="{'desativado': !item.ativo}">
                                 <div class="py-2 w-full">
                                     <vs-switch vs-icon-on="check" color="#0FB599" v-model="item.ativo" :disabled="!$acl.check('configuracao_conquista_editar')"
@@ -51,7 +51,7 @@
                                     <!--<span class="float-right mt-1 mx-4" style="font-weight: bold">Ativação da Origem</span>-->
                                 </div>
                                 <div class="conquista-clicavel w-full cursor-pointer" @click="editar(item.id)">
-                                    <img :src="get_img_api(item.imagem)" class="img-conquista my-4" alt="" width="150">
+                                    <img :src="get_img_cdn(item.imagem)" class="img-conquista my-4" alt="" width="150">
                                     <p class="nome-conq">
                                         {{item.nome}}
                                     </p>
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-    import moduleConquistas from '@/store/conquistas/moduleConquistas.js'
-    import vSelect from 'vue-select'
+    import moduleConquistas from '@/store/conquistas/moduleConquistas.js';
+    import vSelect from 'vue-select';
 
     export default {
         name: "Index",
@@ -94,14 +94,14 @@
                 selectedTipo: {},
                 countSwitch: []
                 //items: {}
-            }
+            };
         },
         created() {
             if (!moduleConquistas.isRegistered) {
-                this.$store.registerModule('conquistas', moduleConquistas)
-                moduleConquistas.isRegistered = true
+                this.$store.registerModule('conquistas', moduleConquistas);
+                moduleConquistas.isRegistered = true;
             }
-            this.$vs.loading()
+            this.$vs.loading();
             this.getItems();
         },
         methods: {
@@ -113,9 +113,8 @@
                 this.$store.dispatch('getVarios', {rota: 'conquistas', params: this.dados}).then(response => {
                     this.pagination = response;
                     //this.items = response.data
-                    this.dados.page = this.pagination.current_page
-                }).catch(erro => {
-                console.log('erro', erro.response);
+                    this.dados.page = this.pagination.current_page;
+                }).catch(error => {
                 this.$vs.notify({
                     text: error.response.data.message,
                     iconPack: 'feather',
@@ -141,7 +140,6 @@
                         color: 'danger'
                     });
                 } else {
-                    console.log(e)
                     const formData = new FormData();
                     let ativo = e.ativo ? 0 : 1;
                     let text = e.ativo ? 'Desativada' : 'Ativada';
@@ -170,33 +168,34 @@
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
-                    })
+                        });
+                    });
                     this.countSwitch[e.id] = this.countSwitch[e.id] !== undefined ? this.countSwitch[e.id] + 1 : 1;
                 }
             },
-            editar(id){
+            editar(id) {
                 if(this.$acl.check('configuracao_conquista_editar'))
-                    this.$router.push({path: '/configuracoes/conquistas/editar/' + id})
+                    this.$router.push({
+                        name: 'conquista-editar', params:{id}
+                        });
                 else {
                     this.$vs.notify({
                         color: 'danger',
                         text: 'Você não possui permissão para editar conquistas.'
-                    })
+                    });
                 }
             }
         },
         watch: {
-            currentx(val) {
+            currentx() {
                 this.$vs.loading();
-                console.log('val', val);
                 this.dados.page = this.currentx;
                 this.getItems();
             },
             "$route"() {
-                this.routeTitle = this.$route.meta.pageTitle
+                this.routeTitle = this.$route.meta.pageTitle;
             },
-            selectedTipo(){
+            selectedTipo() {
                 this.$vs.loading();
                 this.dados.page = 1;
                 this.getItems();
@@ -212,5 +211,5 @@
             },*/
         },
 
-    }
+    };
 </script>

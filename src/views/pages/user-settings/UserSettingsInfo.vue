@@ -47,9 +47,9 @@
 </template>
 
 <script>
-import flatPickr from 'vue-flatpickr-component'
-import 'flatpickr/dist/flatpickr.css'
-import vSelect from 'vue-select'
+import flatPickr from 'vue-flatpickr-component';
+import 'flatpickr/dist/flatpickr.css';
+import vSelect from 'vue-select';
 
 export default {
   components: {
@@ -87,12 +87,12 @@ export default {
         { label: "Arabic",   value: "arabic"   },
         { label: "Sanskrit", value: "sanskrit" },
       ],
-    }
+    };
   },
   computed: {
     activeUserInfo() {
-      return this.$store.state.AppActiveUser
+      return this.$store.state.AppActiveUser;
     },
   }
-}
+};
 </script>

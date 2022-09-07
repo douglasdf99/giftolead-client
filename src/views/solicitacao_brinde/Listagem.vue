@@ -118,25 +118,25 @@ export default {
     data() {
         return {
             selecteds: []
-        }
+        };
     },
     methods: {
         getStatus(status) {
             switch (status) {
                 case 'pendente':
-                    return '#ff9f43'
+                    return '#ff9f43';
                 case 'aprovado':
-                    return '#28c76f'
+                    return '#28c76f';
                 case 'emexpedicao':
-                    return '#31aef0'
+                    return '#31aef0';
                 default:
-                    return ''
+                    return '';
             }
         },
         handleSelected() {
         }
     }
-}
+};
 </script>
 
 <style scoped>

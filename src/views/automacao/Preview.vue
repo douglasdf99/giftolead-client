@@ -16,7 +16,7 @@
             </xml>
             <![endif]-->
             <!--user entered Head Start-->
-            ​
+
             <!--End Head user entered-->
         </head>
         <body>
@@ -166,7 +166,6 @@
         </center>
         </body>
         </html>
-        </html>
     </div>
 </template>
 
@@ -174,7 +173,7 @@
     export default {
         name: "Preview",
         props: ['text']
-    }
+    };
 </script>
 
 <style scoped>

@@ -96,10 +96,10 @@ export default{
                     "answerUrl" : "/pages/knowledge-base/category/question"
                 }
             ]
-        }
+        };
     },
     mounted() {
         this.$emit('changeRouteTitle', 'Question');
     }
-}
+};
 </script>

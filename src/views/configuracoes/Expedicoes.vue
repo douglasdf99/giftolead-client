@@ -1,10 +1,8 @@
 <template>
     <div>
         <ul>
-            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-if="$acl.check(line.can)">
-
+            <router-link :to="{name: line.routername}" :class="'line'" tag="li" v-for="line in lista" :key="line.nome" v-show="$acl.check(line.can)">
                 {{ line.nome }}
-
             </router-link>
         </ul>
     </div>
@@ -17,11 +15,6 @@ export default {
         return {
             lista: [
                 {
-                    nome: 'Cadastrar ou alterar contrato dos Correios',
-                    routername: 'contratos',
-                    can: 'configuracao_contrato'
-                },
-                {
                     nome: 'Cadastrar ou alterar brindes',
                     routername: 'brindes',
                     can: 'configuracao_brinde'
@@ -32,9 +25,9 @@ export default {
                     can: 'configuracao_embalagens'
                 },
             ]
-        }
+        };
     },
-}
+};
 </script>
 
 <style scoped>

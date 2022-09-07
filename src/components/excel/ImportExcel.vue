@@ -6,8 +6,8 @@
       @drop="handleDrop"
       @dragover="handleDragover"
       @dragenter="handleDragover"
-      class="px-8 py-16 cursor-pointer text-center border-2 border-dashed d-theme-border-grey-light d-theme-dark-bg text-xl">
-      <feather-icon icon="UploadCloudIcon" svgClasses="h-16 w-16 stroke-current text-grey" class="block" />
+      class="px-8 py-16 cursor-pointer text-center border-2 border-dashed d-theme-border-gray-light d-theme-dark-bg text-xl">
+      <feather-icon icon="UploadCloudIcon" svgClasses="h-16 w-16 stroke-current text-gray" class="block" />
       <span>Drop Excel File or </span>
       <span class="font-medium text-primary" @click.stop="$refs.fileInput.click()">Browse</span>
       <!-- <vs-button type="border" @click.stop="$refs.fileInput.click()">Browse</vs-button> -->
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import XLSX from 'xlsx'
+import XLSX from 'xlsx';
 
 export default {
   props: {
@@ -32,39 +32,39 @@ export default {
         results: null,
         meta: null,
       }
-    }
+    };
   },
   methods: {
     generateData({ header, results, meta }) {
-      this.excelData.header = header
-      this.excelData.results = results
-      this.excelData.meta = meta
-      this.onSuccess && this.onSuccess(this.excelData)
+      this.excelData.header = header;
+      this.excelData.results = results;
+      this.excelData.meta = meta;
+      this.onSuccess && this.onSuccess(this.excelData);
     },
     getHeaderRow(sheet) {
-      const headers = []
-      const range = XLSX.utils.decode_range(sheet['!ref'])
-      let C
-      const R = range.s.r
+      const headers = [];
+      const range = XLSX.utils.decode_range(sheet['!ref']);
+      let C;
+      const R = range.s.r;
       /* start in the first row */
       for (C = range.s.c; C <= range.e.c; ++C) { /* walk every column in the range */
-        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })]
+        const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })];
         /* find the cell in the first row */
-        let hdr = 'UNKNOWN ' + C // <-- replace with your desired default
-        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell)
-        headers.push(hdr)
+        let hdr = 'UNKNOWN ' + C; // <-- replace with your desired default
+        if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
+        headers.push(hdr);
       }
-      return headers
+      return headers;
     },
     handleDragover(e) {
-      e.stopPropagation()
-      e.preventDefault()
-      e.dataTransfer.dropEffect = 'copy'
+      e.stopPropagation();
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'copy';
     },
     handleDrop(e) {
-      e.stopPropagation()
-      e.preventDefault()
-      const files = e.dataTransfer.files
+      e.stopPropagation();
+      e.preventDefault();
+      const files = e.dataTransfer.files;
       if (files.length !== 1) {
         this.$vs.notify({
             title: 'Login Attempt',
@@ -72,10 +72,10 @@ export default {
             iconPack: 'feather',
             icon: 'icon-alert-circle',
             color: 'warning'
-        })
-        return
+        });
+        return;
       }
-      const rawFile = files[0] // only use files[0]
+      const rawFile = files[0]; // only use files[0]
       if (!this.isExcel(rawFile)) {
         this.$vs.notify({
             title: 'Login Attempt',
@@ -83,42 +83,42 @@ export default {
             iconPack: 'feather',
             icon: 'icon-alert-circle',
             color: 'warning'
-        })
-        return false
+        });
+        return false;
       }
-      this.uploadFile(rawFile)
+      this.uploadFile(rawFile);
     },
     readerData(rawFile) {
       return new Promise((resolve) => {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = e => {
-          const data = e.target.result
-          const workbook = XLSX.read(data, { type: 'array' })
-          const firstSheetName = workbook.SheetNames[0]
-          const worksheet = workbook.Sheets[firstSheetName]
-          const header = this.getHeaderRow(worksheet)
-          const results = XLSX.utils.sheet_to_json(worksheet)
-          const meta = { sheetName: firstSheetName }
-          this.generateData({ header, results, meta })
-          resolve()
-        }
-        reader.readAsArrayBuffer(rawFile)
-      })
+          const data = e.target.result;
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[firstSheetName];
+          const header = this.getHeaderRow(worksheet);
+          const results = XLSX.utils.sheet_to_json(worksheet);
+          const meta = { sheetName: firstSheetName };
+          this.generateData({ header, results, meta });
+          resolve();
+        };
+        reader.readAsArrayBuffer(rawFile);
+      });
     },
     handleClick(e) {
-      const files = e.target.files
-      const rawFile = files[0]
-      if (!rawFile) return
-      this.uploadFile(rawFile)
+      const files = e.target.files;
+      const rawFile = files[0];
+      if (!rawFile) return;
+      this.uploadFile(rawFile);
     },
     isExcel(file) {
-      return /\.(xlsx|xls|csv)$/.test(file.name)
+      return /\.(xlsx|xls|csv)$/.test(file.name);
     },
     uploadFile(file) {
-      this.$refs['fileInput'].value = null // fix can't select the same excel
-      this.readerData(file)
+      this.$refs['fileInput'].value = null; // fix can't select the same excel
+      this.readerData(file);
     }
 
   }
-}
+};
 </script>

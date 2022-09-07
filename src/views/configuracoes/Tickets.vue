@@ -40,9 +40,9 @@
                         can: 'configuracao_mensagem'
                     },
                 ]
-            }
+            };
         },
-    }
+    };
 </script>
 
 <style scoped>

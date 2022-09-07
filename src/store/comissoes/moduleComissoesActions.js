@@ -8,107 +8,107 @@
 ==========================================================================================*/
 
 
-import axios from "@/axios.js"
+import axios from "@/axios.js";
 
 export default {
-    update({commit}, dados) {
+    update(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`/${dados.rota}/${dados.id}`, dados.dados)
                 .then((response) => {
-                    resolve(response)
+                    resolve(response);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getId({commit}, id) {
+    getId(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanhas/${id}`)
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    get({commit}) {
+    get() {
         return new Promise((resolve, reject) => {
             axios.get(`/campanhas`, {params: {}})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getPreCom({commit}, dados){
+    getPreCom(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/pre_comissaos`, {params: dados.params})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    getCom({commit}, dados){
+    getCom(_, dados) {
         return new Promise((resolve, reject) => {
             axios.get(`/comissaos`, {params: dados.params})
                 .then((response) => {
-                    resolve(response.data.data)
+                    resolve(response.data.data);
                 })
                 .catch((error) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-    action({commit}, obj){
+    action(_, obj) {
         return new Promise((resolve, reject) => {
-            axios.get(`pre_comissaos/${obj.method}/${obj.id}`, {params: {ids: obj.ids}}).then(response => {
+            axios.get(`pre_comissaos/${obj.method}/${obj.id}`, {params: {ids: obj.ids}}).then(() => {
                 resolve();
             }).catch(erro => {
                 reject(erro);
-            })
+            });
         });
     },
-    diagnosticar({commit}, dados){
+    diagnosticar(_, dados) {
         return new Promise((resolve, reject) => {
             axios.post(`pre_comissao_diagnosticos`, dados).then(response => {
                 resolve(response.data);
             }).catch(erro => {
-                reject();
-            })
+                reject(erro);
+            });
         });
     },
-    storeOrdens({commit}, ids){
+    storeOrdens(_, ids) {
         return new Promise((resolve, reject) => {
-            axios.post(`comissaos/gerarordens`, {ids: ids}).then(response => {
+            axios.post(`comissaos/gerarordens`, {ids: ids}).then(() => {
                 resolve();
             }).catch(erro => {
-                reject();
-            })
+                reject(erro);
+            });
         });
     },
-    searchTrans({commit}, obj){
+    searchTrans(_, obj) {
         return new Promise((resolve, reject) => {
             axios.get(`transacaos`, {params: obj}).then(response => {
                 resolve(response.data.data);
             }).catch(erro => {
-                reject();
-            })
+                reject(erro);
+            });
         });
     },
-    storeTrans({commit}, obj){
+    storeTrans(_, obj) {
         return new Promise((resolve, reject) => {
-            axios.post(`transacaos`, obj).then(response => {
+            axios.post(`transacaos`, obj).then(() => {
                 resolve();
             }).catch(erro => {
-                reject();
-            })
+                reject(erro);
+            });
         });
     },
-}
+};

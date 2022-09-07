@@ -13,9 +13,8 @@
                             <!-- SEARCH ICON -->
                             <div slot="submit-icon" class="absolute top-0 right-0 py-4 px-6">
                                 <button type="submit" class="btn-search-bar">
-                                    <feather-icon icon="SearchIcon" svgClasses="h-6 w-6"/>
+                                    <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="h-6 w-6 text-gray-500"/>
                                 </button>
-                                <!--<feather-icon icon="SearchIcon" svgClasses="h-6 w-6" />-->
                             </div>
                         </form>
                     </div>
@@ -34,7 +33,7 @@
             <div class="vx-row">
                 <div class="vx-col col-conquista mb-10" v-if="$acl.check('brinde_campanha_adicionar')">
                     <div class="conquista nova cursor-pointer"
-                         @click="$router.push({path: '/brindes/campanhas/criar'})">
+                         @click="$router.push({name: 'brindes-campanhas-criar'})">
                         <div class="img-plus cursor-pointer">
                             <i class="material-icons">add</i>
                         </div>
@@ -48,7 +47,7 @@
                         <div class="py-2 w-full flex justify-between">
                             <div class="flex">
                                 <vs-button @click="deletar(item.id)" :disabled="!$acl.check('brinde_campanha_deletar')" type="border" color="danger" class="mr-2" icon-pack="feather" icon="icon-trash"></vs-button>
-                                <vs-button type="border" color="primary" :disabled="!$acl.check('brinde_campanha_editar')" icon-pack="feather" icon="icon-sliders" @click="$router.push({path: '/brindes/campanhas/config/' + item.id})"></vs-button>
+                                <vs-button type="border" color="primary" :disabled="!$acl.check('brinde_campanha_editar')" icon-pack="feather" icon="icon-sliders" @click="$router.push({name: 'brindes-campanhas-config', params:{id: item.id}})"></vs-button>
                             </div>
                             <vs-switch vs-icon-on="check" :disabled="!$acl.check('brinde_campanha_editar')" color="#0FB599" class="float-right switch" v-model="item.status" @click="ativaModal(item)"/>
                         </div>
@@ -77,20 +76,20 @@
                 },
                 items: [],
                 countSwitch: [],
-            }
+            };
         },
         created() {
             if (!moduleBrindes.isRegistered) {
-                this.$store.registerModule('brindes', moduleBrindes)
-                moduleBrindes.isRegistered = true
+                this.$store.registerModule('brindes', moduleBrindes);
+                moduleBrindes.isRegistered = true;
             }
             this.getCampanhas();
         },
       computed:{
-        itemsR(){
+        itemsR() {
           return this.items.filter((item)=>{
             return item.nome.includes(this.dados.search) || item.nome.toLowerCase().includes(this.dados.search);
-          })
+          });
         }
       },
         methods: {
@@ -98,19 +97,18 @@
                 this.$vs.loading();
                 this.$store.dispatch('brindes/getCampanhas', this.dados).then(response => {
                     this.items = [...response];
-                }).catch(erro => {
-                console.log('erro', erro.response);
-                this.$vs.notify({
-                    text: error.response.data.message,
-                    iconPack: 'feather',
-                    icon: 'icon-alert-circle',
-                    color: 'danger'
-                });
-            }).finally(() => this.$vs.loading.close());
+                }).catch(error => {
+                    this.$vs.notify({
+                        text: error.response.data.message,
+                        iconPack: 'feather',
+                        icon: 'icon-alert-circle',
+                        color: 'danger'
+                    });
+                }).finally(() => this.$vs.loading.close());
             },
-            ativaModal(obj){
-                if(obj.brinde.ativo){
-                    if(!obj.status){
+            ativaModal(obj) {
+                if(obj.brinde.ativo) {
+                    if(!obj.status) {
                         this.$vs.dialog({
                             type: 'confirm',
                             color: 'danger',
@@ -119,7 +117,7 @@
                             acceptText: 'Ativar',
                             cancelText: 'Cancelar',
                             accept: () => {this.ativaCamp(obj);},
-                            cancel: () => {obj.status = !obj.status}
+                            cancel: () => {obj.status = !obj.status;}
 
                         });
                     } else {
@@ -134,7 +132,7 @@
                 }
             },
             ativaCamp(obj) {
-                let obj2 = {...obj}
+                let obj2 = {...obj};
                 obj2.status = obj.status === true ? 1 : 0;
                 let text = obj2.status ? 'Ativada' : 'Desativada';
                 if (this.countSwitch[obj.id] !== undefined && this.countSwitch[obj.id] === 3) {
@@ -162,8 +160,8 @@
                             iconPack: 'feather',
                             icon: 'icon-alert-circle',
                             color: 'danger'
-                        })
-                    })
+                        });
+                    });
                     this.countSwitch[obj.id] = this.countSwitch[obj.id] !== undefined ? this.countSwitch[obj.id] + 1 : 1;
                 }
             },
@@ -182,7 +180,7 @@
                                 text: 'Deletado com sucesso!'
                             });
                             this.getCampanhas();
-                        }).catch(erro => {
+                        }).catch(() => {
                             this.$vs.notify({
                                 color: 'danger',
                                 title: 'Erro',
@@ -190,22 +188,19 @@
                             });
                         }).finally(()=>{
                           this.$vs.loading.close();
-                        })
+                        });
                     }
                 });
             },
-            pesquisar(e){
-                // e.preventDefault();
-                // this.$vs.loading();
-                // this.getCampanhas();
+            pesquisar() {
                 return this.items.filter((item)=>{
                   return item.nome == this.dados.search;
-                })
+                });
             },
 
-            editar(id){
+            editar(id) {
                 if(this.$acl.check('brinde_campanha_editar'))
-                    this.$router.push({path: '/brindes/campanhas/editar/' + id})
+                    this.$router.push({name: 'brindes-campanhas-editar' , params:{id}});
                 else {
                     this.$vs.notify({
                         color: 'danger',
@@ -214,7 +209,7 @@
                 }
             }
         }
-    }
+    };
 </script>
 
 <style>
@@ -228,7 +223,6 @@
     }
 
     #copy-icon {
-        position: absolute;
         top: 0.7rem;
         position: absolute;
         right: 30px;
