@@ -1,12 +1,12 @@
 version: '3'
 services:
-  saveleads-app-new:
-    container_name: client-new
+  saveleads-app-new-wdc:
+    container_name: client-new-wdc
     image: node:12-alpine
-    working_dir: /client
     ports:
-      - 8090:8080
+      - 8095:8080
     volumes:
-      - .:/client
+      - ./:/srv/app
+    working_dir: /srv/app
 
     entrypoint: ["./entrypoint"]

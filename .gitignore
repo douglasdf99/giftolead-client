@@ -14,6 +14,5 @@ docs/.vuepress/dist/
 yarn.lock
 yarn-error.log
 vuexy-shell-scripts
-.env
 client/.env
 client/.env-st
