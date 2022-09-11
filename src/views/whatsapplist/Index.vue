@@ -122,12 +122,14 @@ import SelectResponsaveis from "../components/SelectResponsaveis";
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
 
+var subdomain = this.$route.params.company_slug;
+
 export default {
     name: "Index",
     components: {
         SideBar, DateRangePicker, SelectResponsaveis, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
     },
-    channel: this.$route.params.company_slug + '_whatsapp-list',
+    channel: subdomain + '_whatsapp-list',
     echo: {
         'WhatsapplistEvent': () => {
         },
