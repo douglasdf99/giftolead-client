@@ -358,10 +358,6 @@ export default {
 			self.realtimeConnect = false;
 		});
 	},
-	async mounted() {
-		this.subdomain = this.$route.params.company_slug;
-
-	}
 };
 
 </script>
