@@ -359,7 +359,7 @@ export default {
 		});
 	},
 	async mounted() {
-		this.subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+		this.subdomain = this.$route.params.company_slug;
 
 	}
 };

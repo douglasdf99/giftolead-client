@@ -296,7 +296,7 @@ export default {
         },
         setScripts() {
             this.scripts = [];
-            var subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app';
+            var subdomain = this.$route.params.company_slug;
 
             var scripts = [
                 saveleadsConfig.url_cdn + "/widgets/whatsapp/form.js",
