@@ -36,7 +36,6 @@ export default {
 	},
 	methods: {
 		handleBack(fallback) {
-			console.log("route", fallback);
 			if (!this.fromRoute.name) {
 				this.$router.push(fallback);
 			} else {

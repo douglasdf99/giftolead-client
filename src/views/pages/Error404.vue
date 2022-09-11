@@ -76,7 +76,6 @@ export default {
 			this.$router.push({ name: "dashboard", params: this.$route.params });
 		},
 		handleBack(fallback) {
-			console.log("route", fallback);
 			if (!this.fromRoute.name) {
 				this.$router.push(fallback);
 			} else {

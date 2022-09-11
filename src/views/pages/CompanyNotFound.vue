@@ -47,11 +47,8 @@ export default {
 		});
 	},
 	methods: {
-		handleBack(fallback) {
-			console.log("route", fallback);
-			
+		handleBack() {			
 			this.$router.push('/');
-			
 		},
 	},
 };
