@@ -122,7 +122,7 @@ import SelectResponsaveis from "../components/SelectResponsaveis";
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
 
-var subdomain = this.$route.params.company_slug;
+var subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app';
 
 export default {
     name: "Index",

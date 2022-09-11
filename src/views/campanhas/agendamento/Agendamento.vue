@@ -571,7 +571,7 @@ export default {
 			tag.setAttribute("token", this.campanha.token);
 			tag.setAttribute("horaInicio", horainicio.padStart(2, '0'));
 			tag.setAttribute("horaFim", horafim.padStart(2, '0'));
-			tag.setAttribute("slug", (window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'app'));
+			tag.setAttribute("slug", (window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app'));
 			this.scriptsWidget = tag.outerHTML;
 			tag.setAttribute("typewid", 'button');
 			this.scriptsWidgetButton = tag.outerHTML;

@@ -295,7 +295,7 @@ export default {
         };
     },
     mounted() {
-        var subdomain = this.$route.params.company_slug;
+        var subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app';
 
         this.$echo.channel(`${subdomain}_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
             if (this.step < 1) {
@@ -427,7 +427,7 @@ export default {
             });
         },
         async getExtensao() {
-            let subdomain = this.$route.params.company_slug;
+            let subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app';
             await this.$store.dispatch('extensoes/get', subdomain).then(response => {
                 let arr = response.extensoes;
                 if (arr.length > 0) {

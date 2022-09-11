@@ -143,10 +143,11 @@ import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import saveleadsConfig from "../../../saveleadsConfig";
 import moduleUsuario from "@/store/usuarios/moduleUsuario";
 
+var subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app';
 export default {
    name: "Index",
    components: {SideBar, listagem, 'v-select': vSelect},
-   channel: this.$route.params.company_slug + '_lista-ticket',
+   channel: subdomain + '_lista-ticket',
    echo: {
       'ListaTicket': () => {
          this.getTickets();

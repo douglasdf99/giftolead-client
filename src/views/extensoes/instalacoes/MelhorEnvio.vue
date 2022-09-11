@@ -391,7 +391,7 @@ export default {
         },
         async verifica() {
             this.$vs.loading();
-            this.dados.subdomain = this.$route.params.company_slug;
+            this.dados.subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app';
             await this.$store.dispatch('extensoes/get', this.dados.subdomain).then(response => {
                 let arr = response.extensoes;
 

@@ -187,7 +187,7 @@
                     container: "#cards-limits",
                     scale: 0.45
                 });
-                let subdomain = this.$route.params.company_slug;
+                let subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'app';
                 await this.$store.dispatch('extensoes/get', subdomain).then(response => {
                     let arr = response.extensoes;
                     if (arr.length > 0) {

@@ -1,4 +1,4 @@
-let subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : false;
+let subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : false;
 let api = '';
 // let identity = (subdomain || process.env.VUE_APP_COMPANY_IDENTITY);
 

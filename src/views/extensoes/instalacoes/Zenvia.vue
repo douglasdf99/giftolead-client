@@ -505,7 +505,7 @@ export default {
       return id;
     },
     async verifica() {
-      this.dados.subdomain = window.location.host.split('.')[1] ? window.location.host.split('.')[0] : 'hotmart';
+      this.dados.subdomain = window.location.pathname.split('/')[1] ? window.location.host.split('.')[0] : 'hotmart';
       this.$vs.loading({
         container: "#cards-zenvia-instalar",
         scale: 0.45
