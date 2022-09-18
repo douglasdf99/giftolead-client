@@ -225,7 +225,7 @@ export default {
 			this.$validator.validateAll().then(result => {
 				if (result) {
 					this.$vs.loading();
-					this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
+					this.campanha.plano_id = this.$route.params.plan_id;
 					this.campanha._method = 'PUT';
 					if (this.campanha.id !== undefined) {
 						this.$store.dispatch('checkout/update', {
@@ -259,7 +259,7 @@ export default {
 								color: 'success'
 							});
 							this.$router.push({
-								name: 'planos-gerenciar' , params:{plan_id: this.campanha.campanhas[0].plano_id}});
+								name: 'planos-gerenciar' , params:{plan_id: this.$route.params.plan_id}});
 						}).catch(erro => {
 							this.$vs.notify({
 								title: 'Error',
