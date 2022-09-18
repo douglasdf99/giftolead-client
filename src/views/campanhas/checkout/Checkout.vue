@@ -110,7 +110,7 @@
 				<div class="vx-col sm:w-11/12 mb-2">
 					<vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
 								  @click="$router.push({
-									name: 'planos-gerenciar' , params:{plan_id: campanha.campanhas[0].plano_id}})">
+									name: 'planos-gerenciar'})">
 						Cancelar
 					</vs-button>
 
@@ -288,8 +288,8 @@ export default {
 		getId(id) {
 			this.$vs.loading();
 			this.$store.dispatch('checkout/getId', id).then(response => {
-				this.campanha = JSON.parse(JSON.stringify(response));
-				this.campanhaOld = JSON.parse(JSON.stringify(response));
+				this.campanha = response;
+				this.campanhaOld = response;
 				if (this.campanha.checkout) this.not_configured = false;
 			}).catch(erro => {
 				//Redirecionando caso 404

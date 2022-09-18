@@ -139,7 +139,7 @@ export default {
                         this.$vs.loading();
                         this.campanha.produto_id = this.produtoSelected.id;
                         this.campanha.tipo = this.campanhaSelected;
-                        this.campanha.plano_id = this.$route.params.id;
+                        this.campanha.plano_id = this.$route.params.plan_id;
                         if (this.campanha.id !== undefined) {
                             this.$store.dispatch('campanhas/update', this.campanha).then(() => {
                                 this.$vs.notify({
@@ -149,7 +149,7 @@ export default {
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({name: 'planos-gerenciar', params:{plan_id:this.$route.params.id }});
+                                this.$router.push({name: 'planos-gerenciar', params:{plan_id:this.$route.params.plan_id }});
                             }).catch(erro => {
                                 this.$vs.notify({
                                     title: '',
@@ -168,7 +168,7 @@ export default {
                                     icon: 'icon-check-circle',
                                     color: 'success'
                                 });
-                                this.$router.push({name: 'planos-gerenciar', params:{plan_id:this.$route.params.id }});
+                                this.$router.push({name: 'planos-gerenciar', params:{plan_id:this.$route.params.plan_id }});
                             }).finally(() => this.$vs.loading.close());
                         }
                     }
@@ -182,8 +182,8 @@ export default {
                     });
                 }
             });
-
         },
+
         getOpcoes() {
             this.produtos = [];
             this.$store.dispatch('produtos/getArraySelect').then(response => {
