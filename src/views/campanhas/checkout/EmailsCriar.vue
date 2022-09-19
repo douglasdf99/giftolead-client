@@ -432,7 +432,7 @@ export default {
 		getLinksCamp() {
 			let params = {
 				campanha: this.$route.params.id,
-				campanha_tipo: 'boleto',
+				campanha_tipo: 'carrinho',
 				produto_id: this.campanha.produto_id
 			};
 			this.$store.dispatch('getLinksCamp', params).then(response => {
