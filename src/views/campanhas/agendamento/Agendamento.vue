@@ -358,7 +358,7 @@ export default {
 		},
 		codigohtml() {
 			this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+<form accept-charset="UTF - 8" action="${this.url_api(this.$route.params.company_slug + '/campanhaagendamento/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
     <input type="text" name="nome" id="nome" placeholder="Nome completo">
     <label for="email">E-mail</label>
@@ -476,7 +476,7 @@ export default {
 		},
 		copyUrl() {
 			const thisIns = this;
-			let value = this.url_api('campanhaagendamento/' + this.campanha.token);
+			let value = this.url_api(this.$route.params.company_slug + '/campanhaagendamento/' + this.campanha.token);
 			this.$copyText(value).then(function () {
 				thisIns.$vs.notify({
 					title: '',

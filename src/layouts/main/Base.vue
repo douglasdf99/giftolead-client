@@ -73,8 +73,8 @@
 						</vx-card>
 					</div>
 				</transition>
-				<div class="router-view relative">
-					<div class="router-content">
+				<div class="router-view relative pb-12">
+					<div class="router-content pb-12">
 						<transition :name="routerTransition">
 							<div v-if="$route.meta.breadcrumb || $route.meta.pageTitle" class="items-center mb-5">
 								<vx-breadcrumb class="md:block hidden mb-12" v-if="$route.meta.breadcrumb" :route="$route"

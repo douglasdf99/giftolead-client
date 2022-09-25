@@ -5,7 +5,7 @@ let methods = {
       return window.location.protocol + '//' + window.location.host + '/' + local;
    },
    url_api: function (local) {
-      return saveleadsConfig.url_api + '/' + local;
+      return saveleadsConfig.url_api + local;
    },
    get_img_local: function (local) {
       return window.location.protocol + '//' + window.location.host + '/' + local;

@@ -109,8 +109,7 @@
 			<footer-doug>
 				<div class="vx-col sm:w-11/12 mb-2">
 					<vs-button class="float-right mr-3" color="dark" type="border" icon-pack="feather" icon="x-circle"
-								  @click="$router.push({
-									name: 'planos-gerenciar'})">
+					@click="$router.push({name: 'planos-gerenciar'})">
 						Cancelar
 					</vs-button>
 
@@ -312,7 +311,7 @@ export default {
 		},
 		codigohtml() {
 			this.html = `
-                <form accept-charset="UTF - 8" action="${this.url_api('campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+                <form accept-charset="UTF - 8" action="${this.url_api(this.$route.params.company_slug + '/campanhacarrinho/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
                     <label for="nome">Nome</label>
                     <input type="text" name="name" id="name" placeholder="Nome completo">
                     <label for="email">E-mail</label>
@@ -348,7 +347,7 @@ export default {
 		},
 		copyUrl() {
 			const thisIns = this;
-			let value = this.url_api('campanhacarrinho/' + this.campanha.token);
+			let value = this.url_api(this.route.params.company_slug + '/campanhacarrinho/' + this.campanha.token);
 			this.$copyText(value).then(function () {
 				thisIns.$vs.notify({
 					title: '',

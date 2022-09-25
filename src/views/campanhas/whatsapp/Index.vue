@@ -316,7 +316,7 @@ export default {
         },
         codigohtml() {
             this.html = `
-<form accept-charset="UTF - 8" action="${this.url_api('campanhawhatsapp/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
+<form accept-charset="UTF - 8" action="${this.url_api(this.$route.params.company_slug + '/campanhawhatsapp/' + this.campanha.token)}" id="formulario-saveleads" method="POST">
     <label for="nome">Nome</label>
     <input type="text" required name="nome" id="nome" placeholder="Nome completo">
     <label for="email">E-mail</label>
