@@ -18,6 +18,7 @@ const userDefaults = {
 	uid: 0,          // From Auth
 	displayName: "John Doe", // From Auth
 	about: "",
+	email: "",
 	photoURL: null, // From Auth
 	status: "online",
 	userRole: "Administrador",

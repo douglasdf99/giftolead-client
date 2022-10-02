@@ -12,6 +12,9 @@ import getters from "./getters";
 import mutations from "./mutations";
 import actions from "./actions";
 import moduleAuth from './auth/moduleAuth.js';
+import users from './usuarios/moduleUsuario';
+import moduleDashboard from "@/store/dashboard/moduleDashboard";
+
 
 Vue.use(Vuex);
 
@@ -22,6 +25,8 @@ export default new Vuex.Store({
     actions,
     modules: {
         auth: moduleAuth,
+        users,
+        dashboard:moduleDashboard,
     },
     strict: process.env.NODE_ENV !== 'production'
 });

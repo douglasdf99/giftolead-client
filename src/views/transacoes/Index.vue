@@ -170,7 +170,10 @@ export default {
         return {
             // Data Sidebar
             addNewDataSidebar: false,
-            sidebarData: {},
+            sidebarData: {
+                lead:{},
+                produto: {},
+            },
             routeTitle: 'Leads',
             dados: {
                 search: '',

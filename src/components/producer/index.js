@@ -32,11 +32,10 @@ export const authorizeUser  = async () => {
 };
 export const traitContext = (slug) =>{
   if (getCompanyContext() !== slug) {
-    console.log('context diferent',getCompanyContext() , slug );
     setCompanyContext(slug);
     cleanInfos();
   }else{
-    console.log('context same',getCompanyContext() , slug );
+    getCompanyContext();
   }
  
  // getCompanyContext();
@@ -59,10 +58,7 @@ const loadUser = async () => {
     window.onload = (event) => {
       console.log('The page has fully loaded');
     };
-    // router.go()
     goToCompanyContext();
-    //router.push({name:'dashboard'});
-    //window.location.reload(true);
   } 
   return getUserInfoFromStorage();
 };

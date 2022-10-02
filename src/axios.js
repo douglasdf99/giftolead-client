@@ -5,8 +5,6 @@ import saveleadsConfig from "../saveleadsConfig";
 import router from "./router";
 import { removeCompanyContext } from "./components/producer";
 
-var domain = saveleadsConfig.url_api;
-
 let headers = {};
 if (store.getters.getToken)
 	headers = { Authorization: `Bearer ${store.getters.getToken}` };
@@ -101,7 +99,7 @@ instance.interceptors.response.use(
 			return;
 		} else if (error.response.status === 500 && !originalRequest._retry) {
 			originalRequest._retry = true;
-			router.push({ name: "page-error-500" });
+			// router.push({ name: "page-error-500" });
 		}
 		// Do something with response error
 		return Promise.reject(error);

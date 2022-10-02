@@ -23,7 +23,8 @@ const getters = {
 		else return "xs";
 	},
 	getToken: state => state.auth.token || saveleadsConfig.token || localStorage.getItem('accessToken'),
-	getUserInfoLocalStorage: () => () => localStorage.getItem('userInfo') ?  JSON.parse(localStorage.getItem('userInfo')) : false,
+	AppActiveUser: state =>localStorage.getItem('userInfo') ?  JSON.parse(localStorage.getItem('userInfo')) : state.auth.AppActiveUser || false,
+	getUserInfoLocalStorage: () => () => localStorage.getItem('userInfo') ?  JSON.parse(localStorage.getItem('userInfo')) :  false,
 	getPermissionsLocalStorage: () => () => localStorage.getItem('permissoes') ? JSON.parse(localStorage.getItem('permissoes')) : false
 };
 

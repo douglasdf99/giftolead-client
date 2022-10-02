@@ -162,16 +162,6 @@
 </template>
 
 <script>
-(function () {
-	var s = document.createElement("script");
-	s.src =
-		"https://survey.survicate.com/workspaces/9cd0d9cb3823f32f6cb3492eb6e7d1e4/web_surveys.js";
-	s.async = true;
-	var e = document.getElementsByTagName("script")[0];
-	e.parentNode.insertBefore(s, e);
-	console.log("survicate", e, s);
-})(window);
-
 import BackToTop from "vue-backtotop";
 import navMenuItems from "@/layouts/components/vertical-nav-menu/navMenuItems.js";
 import TheNavbarVertical from "@/layouts/components/navbar/TheNavbarVertical.vue";
@@ -344,7 +334,7 @@ export default {
 		async canSee(slug) {
       let route= await this.$router.match({name: slug});
       console.log(route.meta.rule);
-      let can = await this.$acl.check(route.meta.rule)
+      let can = await this.$acl.check(route.meta.rule);
       console.log('slug ',slug,'meta', route.meta,'can', can,'check', this.$acl.check(route.meta.rule));
 
 			return true;

@@ -129,6 +129,7 @@ export default {
         const usuario = {};
         usuario.uid = response.data.id;
         usuario.displayName = response.data.name;
+        usuario.email = response.data.email;
         usuario.photoURL = response.data.avatar;
         usuario.status = response.data.status ? "online" : "offline";
         usuario.userRole = response.data.role_name;

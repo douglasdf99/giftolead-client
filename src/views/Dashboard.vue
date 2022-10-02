@@ -1,12 +1,3 @@
-<!-- =========================================================================================
-  File Name: DashboardAnalytics.vue
-  Description: Dashboard Analytics
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-  Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
 <template>
   <div id="dashboard-analytics">
     <!-- Topo -->
@@ -17,15 +8,15 @@
             <div class="vx-col w-5/12">
               <div class="vx-row items-center">
                 <div class="vx-col w-1/4 text-center">
-                  <vs-avatar size="80px" :text="user.name" class="text-3xl"/>
+                  <vs-avatar size="80px" :text="userInfo.displayName" class="text-3xl"/>
                 </div>
                 <div class="vx-col w-3/2">
-                  <p class="mb-1">{{ user.email }}</p>
+                  <p class="mb-1">{{ userInfo.email }}</p>
                   <p class="mb-1 text-3xl font-light">
-                    {{ user.name }}
+                    {{ userInfo.displayName }}
                   </p>
-                  <p v-if="user.roles" class="mb-0 text-lg">
-                    {{ user.roles.nome }}
+                  <p class="mb-0 text-lg">
+                    {{ userInfo.userRole }}
                   </p>
                 </div>
               </div>
@@ -519,13 +510,13 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import VueApexCharts from "vue-apexcharts";
 import StatisticsCardLine from "@/components/statistics-cards/StatisticsCardLine.vue";
 import ChangeTimeDurationDropdown from "@/components/ChangeTimeDurationDropdown.vue";
 import VxTimeline from "@/components/timeline/VxTimeline";
-import moduleUsuario from "@/store/usuarios/moduleUsuario";
-import moduleDashboard from "@/store/dashboard/moduleDashboard";
 import ChangeDateDashboard from "@/views/components/ChangeDateDashboard";
 import PlaceHolderLoadingDashboard from "@/views/components/PlaceHolderLoadingDashboard";
 
@@ -742,47 +733,25 @@ export default {
     PlaceHolderLoadingDashboard,
   },
   computed: {
-    userInfo() {
-      return this.$store.state.AppActiveUser;
-    },
+    ...mapGetters({
+      userInfo:'AppActiveUser'
+    }),
   },
-  created() {
-    this.$vs.loading();
-    if (!moduleUsuario.isRegistered) {
-      this.$store.registerModule("users", moduleUsuario);
-      moduleUsuario.isRegistered = true;
-    }
-
-    if (!moduleDashboard.isRegistered) {
-      this.$store.registerModule("dashboard", moduleDashboard);
-      moduleDashboard.isRegistered = true;
-    }
-
-    this.getUserInfo(this.userInfo.uid);
-
-    var self = this;
-
-    async function init() {
-      await self.getComissoes();
-      await self.getVendaPorProduto();
-      await self.getMeusTickets();
-      await self.getTicketsAtrasados();
-      await self.getWhatsList();
-      await self.getUltimosTickets();
-      await self.getMediaMensal();
-      //await self.$acl.change(JSON.parse(localStorage.getItem('permissoes')))
-      await self.$vs.loading.close();
-    }
-
-    init();
-
-    //this.$store.dispatch("ativarMenu", true);
+  mounted() {
+    this.init();
   },
   methods: {
-    getUserInfo(id) {
-      this.$store.dispatch("users/getId", id).then((response) => {
-        this.user = response;
-      });
+    ...mapActions({
+      getData: 'dashboard/getData',
+    }),
+    async init() {
+      await this.getComissoes();
+      await this.getVendaPorProduto();
+      await this.getMeusTickets();
+      await this.getTicketsAtrasados();
+      await this.getWhatsList();
+      await this.getUltimosTickets();
+      await this.getMediaMensal();
     },
     nameCauser(obj, responsavel_type = null) {
       if (obj && obj.causer_type) {
@@ -803,8 +772,7 @@ export default {
     },
     getComissoes() {
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", { rota: "comissaos", params: {} })
+        this.getData( { rota: "comissaos", params: {} })
           .then((response) => {
             this.comissoes = response;
             resolve();
@@ -821,8 +789,7 @@ export default {
       this.produtos = [];
       this.por_produto_pesquisado = false;
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: "dados_venda_por_produto",
             params: datas,
           })
@@ -854,8 +821,7 @@ export default {
       else this.datas_tipo_meus_tickets = datas;
 
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: "meus_tickets",
             params: { ...datas, type: this.tipo_meus_tickets },
           })
@@ -944,8 +910,7 @@ export default {
     },
     getTicketsAtrasados() {
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: "tickets_atrasados",
             params: {},
           })
@@ -957,8 +922,7 @@ export default {
     },
     getWhatsList() {
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: "whatsapplist_respondidos",
             params: {},
           })
@@ -971,8 +935,7 @@ export default {
     getUltimosTickets(page = 1) {
       this.ultimos_tickets_pesquisados = false;
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: "meus_tickets_atividades",
             params: { page: page, lenght: 4 },
           })
@@ -994,8 +957,7 @@ export default {
       this.media_tickets.analyticsData.thisMonth = 0;
       this.media_tickets.analyticsData.lastMonth = 0;
       return new Promise((resolve) => {
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: this.tipo_media_mensal,
             params: datas,
           })
@@ -1025,8 +987,7 @@ export default {
         this.paginationUltimos.current_page < this.paginationUltimos.last_page
       ) {
         let page = this.paginationUltimos.current_page + 1;
-        this.$store
-          .dispatch("dashboard/getData", {
+        this.getData( {
             rota: "meus_tickets_atividades",
             params: { page: page },
           })

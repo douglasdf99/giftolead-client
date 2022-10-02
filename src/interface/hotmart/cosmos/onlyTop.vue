@@ -184,15 +184,7 @@
 </template>
 
 <script>
-(function () {
-	var s = document.createElement("script");
-	s.src =
-		"https://survey.survicate.com/workspaces/9cd0d9cb3823f32f6cb3492eb6e7d1e4/web_surveys.js";
-	s.async = true;
-	var e = document.getElementsByTagName("script")[0];
-	e.parentNode.insertBefore(s, e);
-	console.log("survicate", e, s);
-})(window);
+
 
 import BackToTop from "vue-backtotop";
 import TheNavbarVertical from "@/layouts/components/navbar/TheNavbarVertical.vue";
