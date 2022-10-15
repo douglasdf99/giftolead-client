@@ -192,7 +192,7 @@ export default {
    methods: {
       ...mapActions({
          getNums: 'tickets/getNums',
-         getTickets: 'tickets/getTickets',
+         getTicketsStore: 'tickets/getTickets',
          transferir: 'tickets/transferir',
          reabrir: 'tickets/reabrir',
          userSelect: 'users/getArraySelect',
@@ -275,7 +275,7 @@ export default {
 
          this.dados.search = url;
 
-         this.getTickets({tipo: tipo, params: this.dados}).then(response => {
+         this.getTicketsStore({tipo: tipo, params: this.dados}).then(response => {
             this.pagination = response;
             this.tickets = response.data;
             this.newTickets = false;
