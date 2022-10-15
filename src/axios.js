@@ -63,11 +63,11 @@ instance.interceptors.response.use(
 		}
 
 		if (error.response.status === 403 && !originalRequest._retry) {
-			if (error.response.data.error == "not.access.in.company") {
-				router.push("/company-not-authorized");
-			} else {
-				router.push("/nao-autorizado");
-			}
+			// if (error.response.data.error == "not.access.in.company") {
+			// 	router.push("/company-not-authorized");
+			// } else {
+			// 	router.push("/nao-autorizado");
+			// }
 
 			originalRequest._retry = true;
 			// Vue.swal({

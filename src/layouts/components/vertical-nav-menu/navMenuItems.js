@@ -28,7 +28,7 @@ export default [
 		name: "Comissões",
 		slug: 'comissoes-todas',
 		icon: "monetization_on",
-		can: 'comissao',
+		can: 'comissao_pendente',
 		submenu: subComissoes
 	},
 	{
