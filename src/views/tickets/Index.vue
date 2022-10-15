@@ -136,12 +136,8 @@
 import SideBar from './SideBar';
 import listagem from './Listagem';
 import vSelect from 'vue-select';
-import moduleTickets from '@/store/tickets/moduleTickets.js';
-import moduleOrigens from '@/store/origens/moduleOrigens.js';
-import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import saveleadsConfig from "../../../saveleadsConfig";
-import moduleUsuario from "@/store/usuarios/moduleUsuario";
+import { mapActions } from 'vuex';
 
 var subdomain = window.location.pathname.split('/')[1] ? window.location.pathname.split('/')[1] : 'app';
 export default {
@@ -160,7 +156,6 @@ export default {
          iconsucess: '<vs-icon icon-pack="material-icons" icon="fiber_manual_record"\n' +
             '                                           class="icon-grande text-success"\n' +
             '                                           ></vs-icon>',
-         // Data Sidebar
          addNewDataSidebar: false,
          sidebarData: {},
          routeTitle: 'Contas',
@@ -183,8 +178,6 @@ export default {
          selectedProduto: {id: null, label: 'Selecione'},
          produtos: [],
          newTickets: false,
-
-         //modal transferência
          modalTransfer: false,
          selectedUser: {},
          users: [],
@@ -193,35 +186,20 @@ export default {
    },
    created() {
       this.$vs.loading();
-      if (!moduleTickets.isRegistered) {
-         this.$store.registerModule('tickets', moduleTickets);
-         moduleTickets.isRegistered = true;
-      }
-
-      if (!moduleProdutos.isRegistered) {
-         this.$store.registerModule('produtos', moduleProdutos);
-         moduleProdutos.isRegistered = true;
-      }
-
-      if (!moduleOrigens.isRegistered) {
-         this.$store.registerModule('origens', moduleOrigens);
-         moduleOrigens.isRegistered = true;
-      }
-
-      if (!moduleDuvidas.isRegistered) {
-         this.$store.registerModule('duvidas', moduleDuvidas);
-         moduleDuvidas.isRegistered = true;
-      }
-
-      if (!moduleUsuario.isRegistered) {
-         this.$store.registerModule('users', moduleUsuario);
-         moduleUsuario.isRegistered = true;
-      }
-
       this.getProdutos();
       this.getTickets();
    },
    methods: {
+      ...mapActions({
+         getNums: 'tickets/getNums',
+         getTickets: 'tickets/getTickets',
+         transferir: 'tickets/transferir',
+         reabrir: 'tickets/reabrir',
+         userSelect: 'users/getArraySelect',
+         produtoSelect: 'produtos/getArraySelect',
+         deleteItem: 'deleteItem',
+         verificaDisponibilidade: 'tickets/verificaDisponibilidade',
+      }),
       openAlert(title, text, color, id = null) {
          this.$vs.dialog({
             color: color,
@@ -252,10 +230,6 @@ export default {
          this.sidebarData = obj;
          this.toggleDataSidebar(true);
       },
-      openData(obj) {
-         this.sidebarData = obj;
-         this.toggleDataSidebar(true);
-      },
       popupTransferir(ticket_id) {
          this.ticketIdTrasnfer = ticket_id;
          this.modalTransfer = true;
@@ -266,7 +240,7 @@ export default {
             user_id: this.selectedUser.id
          };
          this.$vs.loading();
-         this.$store.dispatch('tickets/transferir', obj).then(() => {
+         this.transferir(obj).then(() => {
             this.newTickets = true;
          }).finally(() => this.$vs.loading.close());
       },
@@ -275,7 +249,7 @@ export default {
       },
       getTickets(tipo = this.tipoTicket) {
          this.tipoTicket = tipo;
-         this.$store.dispatch('tickets/getNums', {teste: 'asjdhajshd'}).then(response => {
+         this.getNums({teste: 'asjdhajshd'}).then(response => {
             this.nums = response;
          });
 
@@ -301,7 +275,7 @@ export default {
 
          this.dados.search = url;
 
-         this.$store.dispatch('tickets/getTickets', {tipo: tipo, params: this.dados}).then(response => {
+         this.getTickets({tipo: tipo, params: this.dados}).then(response => {
             this.pagination = response;
             this.tickets = response.data;
             this.newTickets = false;
@@ -313,13 +287,13 @@ export default {
 
       },
       getProdutos() {
-         this.$store.dispatch('produtos/get').then(response => {
-            let arr = [...response];
-            arr.forEach(item => {
-               this.produtos.push({id: item.id, label: item.nome});
-            });
+         this.produtoSelect().then(response => {
+            this.produtos = [...response];
          });
-         this.$store.dispatch('users/getArraySelect').then(response => {
+         this.$store.dispatch('produtos/getArraySelect').then(response => {
+            this.produtos = [...response];
+        });
+         this.userSelect().then(response => {
             this.users = [...this.arraySelect(response)];
          });
       },
@@ -331,7 +305,7 @@ export default {
             acceptText: 'Sim, reabrir!',
             accept: () => {
                this.$vs.loading();
-               this.$store.dispatch('tickets/reabrir', obj).then(() => {
+               this.reabrir(obj).then(() => {
                   this.$vs.notify({
                      color: 'success',
                      title: 'Sucesso',
@@ -360,7 +334,7 @@ export default {
             acceptText: 'Sim, deletar!',
             accept: () => {
                this.$vs.loading();
-               this.$store.dispatch('deleteItem', {id: id, rota: 'tickets'}).then(() => {
+               this.deleteItem({id: id, rota: 'tickets'}).then(() => {
                   this.$vs.notify({
                      color: 'success',
                      title: 'Sucesso',
@@ -380,7 +354,7 @@ export default {
          });
       },
       atender(id) {
-         this.$store.dispatch('tickets/verificaDisponibilidade', id).then(response => {
+         this.verificaDisponibilidade(id).then(response => {
             if (response.status == 'ok')
                this.$router.push({name: 'tickets-atender',params:{id}});
             else if (response.status == 'atendendo') {

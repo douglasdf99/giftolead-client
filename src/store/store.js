@@ -14,6 +14,10 @@ import actions from "./actions";
 import moduleAuth from './auth/moduleAuth.js';
 import users from './usuarios/moduleUsuario';
 import moduleDashboard from "@/store/dashboard/moduleDashboard";
+import moduleTickets from '@/store/tickets/moduleTickets.js';
+import moduleOrigens from '@/store/origens/moduleOrigens.js';
+import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js';
+import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 
 
 Vue.use(Vuex);
@@ -27,6 +31,10 @@ export default new Vuex.Store({
         auth: moduleAuth,
         users,
         dashboard:moduleDashboard,
+        tickets:moduleTickets,
+        produtos:moduleProdutos,
+        origens:moduleOrigens,
+        duvidas:moduleDuvidas,
     },
     strict: process.env.NODE_ENV !== 'production'
 });
