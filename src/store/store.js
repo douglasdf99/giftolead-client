@@ -18,6 +18,9 @@ import moduleTickets from '@/store/tickets/moduleTickets.js';
 import moduleOrigens from '@/store/origens/moduleOrigens.js';
 import moduleDuvidas from '@/store/tipoDuvida/moduleDuvidas.js';
 import moduleProdutos from '@/store/produtos/moduleProdutos.js';
+import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
+import moduleCampWhatsapp from "@/store/campanha_whatsapp/moduleCampWhatsapp";
+import moduleWhatsList from "@/store/whatsapplist/moduleWhatsList";
 
 
 Vue.use(Vuex);
@@ -35,6 +38,9 @@ export default new Vuex.Store({
         produtos:moduleProdutos,
         origens:moduleOrigens,
         duvidas:moduleDuvidas,
+        campaign_checkout: moduleCampCheckouts,
+        campaign_whatsapp: moduleCampWhatsapp,
+        whatsapplist: moduleWhatsList,
     },
     strict: process.env.NODE_ENV !== 'production'
 });

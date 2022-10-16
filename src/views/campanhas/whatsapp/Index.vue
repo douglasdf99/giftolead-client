@@ -88,25 +88,25 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-full lg:w-4/12">
+            <div class="vx-col w-full lg:w-4/12 vs-con-loading__container" ref="metrics">
                 <div class="vx-row">
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('respondidos')">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos respondidos</span>
                             <!-- contatos_count neste caso traz quem não foi respondido pelo chat -->
-                            <p class="font-bold text-3xl my-5">{{ campanha.contatos_respondidos_count }}</p>
+                            <p class="font-bold text-3xl my-5">{{ metrics.contatos_respondidos_count }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('pendentes')">
                         <vx-card class="shadow-none">
                             <span class="destaque">Nº de contatos não respondidos</span>
-                            <p class="font-bold text-3xl my-5">{{ campanha.contatos_pendentes_count }}</p>
+                            <p class="font-bold text-3xl my-5">{{ metrics.contatos_pendentes_count }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full mb-4">
                         <vx-card class="shadow-none">
                             <span class="destaque">Vendas recuperadas</span>
-                            <p class="font-bold text-3xl my-5">{{ campanha.tickets_vendidos.length }}</p>
+                            <p class="font-bold text-3xl my-5">{{ metrics.tickets_vendidos }}</p>
                         </vx-card>
                     </div>
                     <div class="vx-col w-full text-center cursor-pointer" @click="verMaisCards = true"
@@ -119,7 +119,7 @@
                             <vx-card class="shadow-none">
                                 <span class="destaque">Nº total de contatos</span>
                                 <p class="font-bold text-3xl my-5">
-                                    {{ campanha.contatos_pendentes_count + campanha.contatos_respondidos_count }}</p>
+                                    {{ metrics.contatos_pendentes_count + metrics.contatos_respondidos_count }}</p>
                             </vx-card>
                         </div>
                     </transition>
@@ -127,7 +127,7 @@
                         <div class="vx-col w-full mb-4" v-if="verMaisCards">
                             <vx-card class="shadow-none">
                                 <span class="destaque">Valor recuperado</span>
-                                <p class="font-bold text-3xl my-5">R$ {{ formatPrice(campanha.valor_recuperado) }}</p>
+                                <p class="font-bold text-3xl my-5">R$ {{ formatPrice(metrics.valor_recuperado) }}</p>
                             </vx-card>
                         </div>
                     </transition>
@@ -143,7 +143,7 @@
                         Cancelar
                     </vs-button>
                     <vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar"
-                               :disabled="isInvalid && !$acl.check('planos_campanhas_editar')" v-if="edited">
+                               :disabled="isInvalid && !$acl.check('planos_campanhas_editar')">
                         Salvar
                     </vs-button>
                 </div>
@@ -155,8 +155,6 @@
 <script>
 import vSelect from 'vue-select';
 import Prism from 'vue-prism-component';
-import moduleCampWhatsapp from "../../../store/campanha_whatsapp/moduleCampWhatsapp";
-import moduleWhatsList from "../../../store/whatsapplist/moduleWhatsList";
 import saveleadsConfig from "../../../../saveleadsConfig";
 import PhoneNumber from '@/components/PhoneNumber';
 
@@ -165,32 +163,24 @@ export default {
     components: {
         'v-select': vSelect, PhoneNumber, Prism
     },
-    async created() {
-        if (!moduleCampWhatsapp.isRegistered) {
-            this.$store.registerModule('whatsapp', moduleCampWhatsapp);
-            moduleCampWhatsapp.isRegistered = true;
-        }
-        if (!moduleWhatsList.isRegistered) {
-            this.$store.registerModule('whatsapplist', moduleWhatsList);
-            moduleWhatsList.isRegistered = true;
-        }
-        await this.getId(this.$route.params.id);
-    },
     data() {
         return {
             campanha: {
                 nome: '',
                 produto: '',
-                status: null,
+                status: false,
                 checkout: '',
                 infusion: false,
-                tickets_vendidos: [],
                 telefone: '',
-                ddi: ''
+                ddi: '',
+            },
+            metrics: {
+                contatos_respondidos_count: 0,
+                contatos_pendentes_count: 0,
+                tickets_vendidos: 0,
+                valor_recuperado: 0,
             },
             not_configured: true,
-            campanhaOld: {},
-            edited: false,
             customcor: '',
             html: '',
             verMaisCards: false,
@@ -198,19 +188,9 @@ export default {
         };
     },
     mounted() {
-        this.verifica();
-    },
-    updated() {
-        // let { telefone, ddi } = this.campanha;
-        // console.log('updated index', ddi, telefone, this.campanha);
+        this.getId(this.$route.params.id);
     },
     methods: {
-        verifica() {
-            if (JSON.stringify(this.campanha) === JSON.stringify(this.campanhaOld))
-                this.edited = false;
-            else
-                this.edited = true;
-        },
         validateInputsToScript() {
             let {ddi, telefone} = this.campanha;
             if(ddi && telefone) this.not_configured = false;
@@ -222,7 +202,7 @@ export default {
                     this.campanha.plano_id = this.campanha.campanhas[0].plano_id;
                     this.campanha._method = 'PUT';
                     if (this.campanha.id !== undefined) {
-                        this.$store.dispatch('whatsapp/update', {
+                        this.$store.dispatch('campaign_whatsapp/update', {
                             id: this.campanha.id,
                             dados: this.campanha
                         }).then(() => {
@@ -244,7 +224,7 @@ export default {
                             });
                         }).finally(() => this.$vs.loading.close());
                     } else {
-                        this.$store.dispatch('whatsapp/store', this.campanha).then(() => {
+                        this.$store.dispatch('campaign_whatsapp/store', this.campanha).then(() => {
                             this.$vs.notify({
                                 title: '',
                                 text: "Criado com sucesso.",
@@ -279,11 +259,10 @@ export default {
         selecionaTipoComissao(val) {
             this.campanha.comissao_tipo = val;
         },
-        async getId(id) {
+        getId(id) {
             this.$vs.loading();
-            await this.$store.dispatch('whatsapp/getId', id).then(response => {
-                this.campanha = JSON.parse(JSON.stringify(response));
-                this.campanhaOld = JSON.parse(JSON.stringify(response));
+            this.$store.dispatch('campaign_whatsapp/getId', id).then(response => {
+                this.campanha = response;
                 this.setScripts();
                 this.validateInputsToScript();
             }).catch(erro => {
@@ -293,10 +272,24 @@ export default {
                     params: {back: 'meus-planos', text: 'Retornar à listagem de Planos'}
                 });
             }).finally(() => this.$vs.loading.close());
+
+            this.$vs.loading({
+                container: this.$refs.metrics,
+                scale: 0.5,
+            });
+            this.$store.dispatch('campaign_whatsapp/metrics', id).then(response => {
+                this.metrics = response;
+            }).catch(error => {
+                this.$vs.notify({
+					text: error.message,
+					iconPack: 'feather',
+					icon: 'icon-alert-circle',
+					color: 'danger'
+				});
+            }).finally(() => this.$vs.loading.close(this.$refs.metrics));
         },
         setScripts() {
             this.scripts = [];
-            var subdomain = window.location.pathname.split('/')[1] ? window.location.pathname.split('/')[1] : 'app';
 
             var scripts = [
                 saveleadsConfig.url_cdn + "/widgets/whatsapp/form.js",
@@ -306,7 +299,7 @@ export default {
                 tag.setAttribute("type", 'text/javascript');
                 tag.setAttribute("src", script);
                 tag.setAttribute("token", this.campanha.token);
-                tag.setAttribute("slug", subdomain);
+                tag.setAttribute("slug", this.$route.params.company_slug);
                 this.scripts.push(tag.outerHTML);
             });
         },
@@ -418,14 +411,6 @@ export default {
     watch: {
         "$route"() {
             this.routeTitle = this.$route.meta.pageTitle;
-        },
-        empresa: {
-            handler(val) {
-                if (val) {
-                    this.verifica();
-                }
-            },
-            deep: true
         },
     },
 };

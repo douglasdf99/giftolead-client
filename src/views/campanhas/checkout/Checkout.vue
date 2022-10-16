@@ -50,36 +50,36 @@
 					</div>
 				</div>
 			</div>
-			<div class="vx-col w-full lg:w-4/12">
+			<div class="vx-col w-full lg:w-4/12 vs-con-loading__container" ref="metrics">
 				<div class="vx-row">
 					<div class="vx-col w-full mb-4">
 						<vx-card class="shadow-none hover-opacidade cursor-pointer" @click="agendados">
 							<span class="destaque">Envios Agendados</span>
-							<p class="font-bold text-3xl my-5">{{ campanha.totalAgendados }}</p>
+							<p class="font-bold text-3xl my-5">{{ metrics.total_schedules }}</p>
 						</vx-card>
 					</div>
 					<div class="vx-col w-full mb-4">
 						<vx-card class="shadow-none hover-opacidade cursor-pointer" @click="historico">
 							<span class="destaque">Histórico de envios</span>
-							<p class="font-bold text-3xl my-5">{{ campanha.historico_count }}</p>
+							<p class="font-bold text-3xl my-5">{{ metrics.send_history }}</p>
 						</vx-card>
 					</div>
 					<div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('ativos')">
 						<vx-card class="shadow-none">
 							<span class="destaque">Nº de contatos ativos</span>
-							<p class="font-bold text-3xl my-5">{{ campanha.contatos_count }}</p>
+							<p class="font-bold text-3xl my-5">{{ metrics.contacts_count }}</p>
 						</vx-card>
 					</div>
 					<div class="vx-col w-full mb-4 hover-opacidade cursor-pointer" @click="contatos('inativos')">
 						<vx-card class="shadow-none">
 							<span class="destaque">Nº de contatos inativos</span>
-							<p class="font-bold text-3xl my-5">{{ campanha.contatos_inativos_count }}</p>
+							<p class="font-bold text-3xl my-5">{{ metrics.total_contacts_inactive }}</p>
 						</vx-card>
 					</div>
 					<div class="vx-col w-full mb-4">
 						<vx-card class="shadow-none">
 							<span class="destaque">Vendas recuperadas</span>
-							<p class="font-bold text-3xl my-5">{{ campanha.total_recuperado }}</p>
+							<p class="font-bold text-3xl my-5">{{ metrics.total_recovered }}</p>
 						</vx-card>
 					</div>
 					<div class="vx-col w-full text-center cursor-pointer" @click="verMaisCards = true" v-if="!verMaisCards">
@@ -90,7 +90,7 @@
 							  v-if="verMaisCards">
 							<vx-card class="shadow-none">
 								<span class="destaque">Nº total de contatos</span>
-								<p class="font-bold text-3xl my-5">{{ campanha.contatos_todos_count }}</p>
+								<p class="font-bold text-3xl my-5">{{ metrics.total_contacts }}</p>
 							</vx-card>
 						</div>
 					</transition>
@@ -98,7 +98,7 @@
 						<div class="vx-col w-full mb-4" v-if="verMaisCards">
 							<vx-card class="shadow-none">
 								<span class="destaque">Valor recuperado</span>
-								<p class="font-bold text-3xl my-5">R$ {{ formatPrice(campanha.totalValorRecuperado) }}</p>
+								<p class="font-bold text-3xl my-5">R$ {{ formatPrice(metrics.value_recovered) }}</p>
 							</vx-card>
 						</div>
 					</transition>
@@ -118,7 +118,7 @@
 						Configurar envios
 					</vs-button>
 					<vs-button class="float-right mr-3" color="primary" type="filled" @click="salvar"
-								  :disabled="isValid && !$acl.check('planos_campanhas_editar')" v-if="edited">
+								  :disabled="isValid && !$acl.check('planos_campanhas_editar')">
 						Salvar
 					</vs-button>
 				</div>
@@ -149,9 +149,9 @@
 
 <script>
 import vSelect from 'vue-select';
-import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
 import Prism from 'vue-prism-component';
 import Vue from "vue";
+import { mapActions } from 'vuex';
 
 export default {
 	name: "Checkout",
@@ -159,13 +159,7 @@ export default {
 		'v-select': vSelect,
 		Prism
 	},
-	created() {
-		if (!moduleCampCheckouts.isRegistered) {
-			this.$store.registerModule('checkout', moduleCampCheckouts);
-			moduleCampCheckouts.isRegistered = true;
-		}
-		this.getId(this.$route.params.id);
-	},
+
 	data() {
 		return {
 			campanha: {
@@ -174,26 +168,29 @@ export default {
 				status: null,
 				checkout: '',
 			},
+			metrics: {
+				value_recovered: 0,
+				total_contacts: 0,
+				total_contacts_inactive: 0,
+				total_recovered: 0,
+				contacts_count: 0,
+				send_history: 0,
+				total_schedules: 0,
+			},
 			not_configured: true,
-			campanhaOld: {},
-			edited: false,
-			customcor: '',
 			html: '',
 			verMaisCards: false,
-
 			modal: false
 		};
 	},
 	mounted() {
-		this.verifica();
+		this.getId(this.$route.params.id);
 	},
 	methods: {
-		verifica() {
-			if (JSON.stringify(this.campanha) === JSON.stringify(this.campanhaOld))
-				this.edited = false;
-			else
-				this.edited = true;
-		},
+		...mapActions({
+			getCampaing: 'campaign_checkout/getId',
+			getMetrics: 'campaign_checkout/getMetrics',
+		}),
 		configEnvio(val) {
 			this.modal = false;
 			if (val == 'emails') {
@@ -227,7 +224,7 @@ export default {
 					this.campanha.plano_id = this.$route.params.plan_id;
 					this.campanha._method = 'PUT';
 					if (this.campanha.id !== undefined) {
-						this.$store.dispatch('checkout/update', {
+						this.$store.dispatch('campaign_checkout/update', {
 							id: this.campanha.id,
 							dados: this.campanha
 						}).then(() => {
@@ -249,7 +246,7 @@ export default {
 							});
 						}).finally(() => this.$vs.loading.close());
 					} else {
-						this.$store.dispatch('checkout/store', this.campanha).then(() => {
+						this.$store.dispatch('campaign_checkout/store', this.campanha).then(() => {
 							this.$vs.notify({
 								title: '',
 								text: "Criado com sucesso.",
@@ -286,9 +283,8 @@ export default {
 		},
 		getId(id) {
 			this.$vs.loading();
-			this.$store.dispatch('checkout/getId', id).then(response => {
+			this.getCampaing(id).then(response => {
 				this.campanha = response;
-				this.campanhaOld = response;
 				if (this.campanha.checkout) this.not_configured = false;
 			}).catch(erro => {
 				//Redirecionando caso 404
@@ -304,6 +300,21 @@ export default {
 					color: 'danger'
 				});
 			}).finally(() => this.$vs.loading.close());
+
+			this.$vs.loading({
+                container: this.$refs.metrics,
+                scale: 0.5,
+            });
+			this.getMetrics(id).then(response => {
+				this.metrics = response;
+			}).catch(error => {
+				this.$vs.notify({
+					text: error.message,
+					iconPack: 'feather',
+					icon: 'icon-alert-circle',
+					color: 'danger'
+				});
+			}).finally(() => this.$vs.loading.close(this.$refs.metrics));
 		},
 		formatPrice(value) {
 			let val = (value / 1).toFixed(2).replace('.', ',');
@@ -416,14 +427,6 @@ export default {
 		"$route"() {
 			this.routeTitle = this.$route.meta.pageTitle;
 		},
-		empresa: {
-			handler(val) {
-				if (val) {
-					this.verifica();
-				}
-			},
-			deep: true
-		}
 	},
 };
 </script>

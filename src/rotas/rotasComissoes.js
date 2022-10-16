@@ -13,7 +13,7 @@ const rotasComissoes = [
             ],
             pageTitle: 'Todas as Comissões',
             rule: 'comissao_pendente',
-            pai: 'comissoes',
+            pai: 'comissaos',
             subTitle: 'Comissões',
             submenu: subcomissoes
         },

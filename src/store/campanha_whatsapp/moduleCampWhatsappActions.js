@@ -66,6 +66,17 @@ export default {
                 });
         });
     },
+    metrics(_, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/campanha_whatsapps/${id}/metrics`)
+                .then((response) => {
+                    resolve(response.data.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
     get() {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_whatsapps`, {params: {}})

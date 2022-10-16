@@ -88,6 +88,17 @@ export default {
                 });
         });
     },
+    getMetrics(_, id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`/campanha_carrinhos/${id}/metrics`)
+                .then((response) => {
+                    resolve(response.data.data);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
     getEmails(_, id) {
         return new Promise((resolve, reject) => {
             axios.get(`/campanha_carrinho_emails`, {params: {campanha_id: id}})
