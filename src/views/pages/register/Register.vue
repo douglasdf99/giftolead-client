@@ -20,14 +20,10 @@
                         <div class="vx-col sm:w-full md:w-full lg:w-1/2 mx-auto self-center  d-theme-dark-bg">
                             <div class="px-8 pt-8 register-tabs-container">
                                 <div class="vx-card__title mb-4">
-                                    <h4 class="mb-4">Create Account</h4>
-                                    <p>Fill the below form to create a new account.</p>
+                                    <h4 class="mb-4">Crie seu acesso</h4>
+                                    <p>Preencha o formulário abaixo para criar uma nova conta.</p>
                                 </div>
-                                <vs-tabs>
-                                  <vs-tab label="JWT">
-                                    <register-jwt></register-jwt>
-                                  </vs-tab>
-                                </vs-tabs>
+                                <register-jwt></register-jwt>
                             </div>
                         </div>
                     </div>

@@ -123,7 +123,7 @@
             recuperar() {
                 if (this.password === this.repeat_password) {
                     this.$vs.loading();
-                    axios.post('/api/reset', {
+                    axios.post('/reset', {
                         token: this.token,
                         password: this.password,
                         password_confirmed: this.repeat_password,
@@ -152,7 +152,7 @@
             },
             findToken() {
                 return new Promise((resolve, reject) => {
-                    axios.get(`/api/find/${this.token}`).then(response => {
+                    axios.get(`/find/${this.token}`).then(response => {
 
                         this.email = response.data.email;
                         resolve(response);

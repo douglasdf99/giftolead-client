@@ -53,6 +53,8 @@ register([]);
 
 Vue.prototype.$http = axios;
 
+
+
 let acl = {};
 	acl = require('./acl/acl');
 
@@ -119,6 +121,24 @@ Vue.filter("showDateMonth", function (value) {
 		return moment(String(value)).format("MMM YYYY");
 	}
 });
+Vue.prototype.$setLaravelValidationErrorsFromResponse = function(errorResponse) {
+	// only allow this function to be run if the validator exists
+	if (!this.hasOwnProperty('$validator')) {
+		return;
+	}
+
+	// clear errors
+	this.$validator.errors.clear();
+
+	let errorFields = Object.keys(errorResponse);
+	// insert laravel errors
+	for (let i = 0; i < errorFields.length; i++) {
+		let field = errorFields[i];
+
+		let errorString = errorResponse[field].join(', ');
+		this.$validator.errors.add({ field: field, msg: errorString });
+	}
+};
 
 // Feather font icon
 require("./assets/css/iconfont.css");

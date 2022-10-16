@@ -109,12 +109,13 @@ instance.interceptors.response.use(
 export default instance;
 
 export const changeBaseUrl = (identity) => {
+	let by_passes = ['master', 'esqueceu-a-senha', 'remember'];
 	if (identity) {
 		saveleadsConfig.identity = identity;
 	}
-  if (saveleadsConfig.identity == 'master') {
-    removeCompanyContext();
-  }
+	if (by_passes.includes(saveleadsConfig.identity)) {
+		removeCompanyContext();
+	}
 
 	let baseURL = saveleadsConfig.url_api + saveleadsConfig.identity;
 	return baseURL;

@@ -97,6 +97,14 @@ const PUBLIC_CONTEXT = [
 		}
 	 },
 	{
+		path: '/register',
+		name: 'register',
+		component: () => import('@/views/pages/register/Register.vue'),
+		meta: {
+		   rule: 'public'
+		}
+	 },
+	{
 		path: "/pages/lock-screen",
 		name: "page-lock-screen",
 		component: () => import("@/views/pages/LockScreen.vue"),
@@ -140,6 +148,22 @@ const PUBLIC_CONTEXT = [
 		path: "/nao-autorizado",
 		name: "nao-autorizado",
 		component: () => import("@/views/pages/NotAuthorized.vue"),
+		meta: {
+			rule: "public",
+		},
+	},
+	{
+		path: "/esqueceu-a-senha",
+		name: "esqueceu-a-senha",
+		component: () => import("@/views/pages/ForgotPassword.vue"),
+		meta: {
+			rule: "public",
+		},
+	},
+	{
+		path: "/recuperar-a-senha/:token",
+		name: "recuperar-a-senha",
+		component: () => import("@/views/pages/RecuperarSenha.vue"),
 		meta: {
 			rule: "public",
 		},

@@ -55,13 +55,15 @@ Author URL: http://www.themeforest.net/user/pixinvent
       class="w-full mt-6" />
     <span class="text-danger text-sm">{{ errors.first('confirm_password') }}</span>
 
-    <vs-checkbox v-model="isTermsConditionAccepted" class="mt-6">I accept the terms & conditions.</vs-checkbox>
-    <vs-button  type="border" to="/pages/login" class="mt-6">Login</vs-button>
-    <vs-button class="float-right mt-6" @click="registerUserJWt" :disabled="!validateForm">Register</vs-button>
+    <vs-checkbox v-model="isTermsConditionAccepted" class="mt-6">Eu aceito os termos e condições.</vs-checkbox>
+    <vs-button  type="border" to="/login" class="mt-6">Login</vs-button>
+    <vs-button class="float-right mt-6" @click="registerUserJWt" :disabled="!validateForm">Registrar</vs-button>
   </div>
 </template>
 
 <script>
+import { ErrorBag } from 'vee-validate';
+
 export default {
     data() {
         return {
@@ -110,7 +112,16 @@ export default {
               },
               notify: this.$vs.notify
             };
-            this.$store.dispatch('auth/registerUserJWT', payload);
+            this.$store.dispatch('auth/registerUserJWT', payload).catch((err)  => { 
+              this.$setLaravelValidationErrorsFromResponse(err.response.data.data);
+                this.$vs.notify({
+                  title: 'Error',
+                  text: err.message,
+                  iconPack: 'feather',
+                  icon: 'icon-alert-circle',
+                  color: 'danger'
+                });
+             });
         }
     }
 };

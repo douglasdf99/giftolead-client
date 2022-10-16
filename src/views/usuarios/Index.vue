@@ -240,11 +240,10 @@ export default {
 	},
 	methods: {
 		addNewData() {
-			//this.$router.push({ name: "usuario-criar" });
 			this.modal = true;
 		},
 		updateData(id) {
-			this.$router.push({ path: "/configuracoes/usuarios/editar/" + id });
+			this.$router.push({ name: 'usuario-editar', params:{ id }});
 		},
 		toggleDataSidebar(val = false) {
 			this.addNewDataSidebar = val;
@@ -342,9 +341,6 @@ export default {
 		items() {
 			return this.$store.state.usersCompanies.users;
 		},
-		/*pagination() {
-                return this.$store.state.pagination;
-            },*/
 	},
 };
 </script>

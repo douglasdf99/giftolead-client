@@ -50,7 +50,7 @@
 			<div
 				class="flex flex-wrap items-center justify-between mb-3 buttons-login"
 			>
-				<a href="#" class="registrar">Não tenho conta!</a>
+				<span @click="$router.push({name: 'register'})" class="registrar">Não tenho conta!</span>
 				<button
 					type="submit"
 					class="btn-entrar bg-primary cursor-pointer"

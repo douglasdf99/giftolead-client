@@ -9,7 +9,7 @@
                             <div class="px-8 pt-8 login-tabs-container">
                                 <div class="vx-card__title mb-5 flex justify-center"
                                      style="margin-bottom: 5rem !important;">
-                                    <img :src="url_api('images/logo2.svg')">
+                                     <img :src="get_img_local('logo2.svg')" />
                                 </div>
                                 <div class="p-8">
                                     <div class="vx-card__title mb-8">
@@ -52,7 +52,7 @@
         methods: {
             solicitar() {
                 this.$vs.loading();
-                axios.post('/api/remember', {email: this.email}).then(() => {
+                axios.post('/remember', {email: this.email}).then(() => {
                     this.$vs.loading.close();
 
                     this.$vs.notify({
