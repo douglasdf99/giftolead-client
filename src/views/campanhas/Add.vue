@@ -63,7 +63,6 @@
 <script>
 import vSelect from 'vue-select';
 import moduleCampanhas from '@/store/campanhas/moduleCampanhas.js';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -88,10 +87,7 @@ export default {
             this.$store.registerModule('campanhas', moduleCampanhas);
             moduleCampanhas.isRegistered = true;
         }
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
-        }
+
         this.getOpcoes();
 
         /*if (this.$route.name === 'produto-editar') {

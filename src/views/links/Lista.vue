@@ -105,7 +105,6 @@
 
 <script>
 import SideBar from './SideBar';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import vSelect from 'vue-select';
 
 export default {
@@ -136,10 +135,7 @@ export default {
    },
    created() {
       this.$vs.loading();
-      if (!moduleProdutos.isRegistered) {
-         this.$store.registerModule('produtos', moduleProdutos);
-         moduleProdutos.isRegistered = true;
-      }
+
       this.dados.produto = this.$route.params.id;
       this.getProduto(this.$route.params.id);
       this.getOpcoes();

@@ -87,7 +87,6 @@
 <script>
 import vSelect from 'vue-select';
 import moduleLinks from '@/store/links/moduleLinks.js';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -120,10 +119,6 @@ export default {
         if (!moduleLinks.isRegistered) {
             this.$store.registerModule('links', moduleLinks);
             moduleLinks.isRegistered = true;
-        }
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
         }
         this.getProduto(this.$route.params.id);
 

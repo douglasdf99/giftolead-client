@@ -52,7 +52,6 @@
 
 <script>
   import vSelect from 'vue-select';
-  import moduleProdutos from '@/store/produtos/moduleProdutos.js';
   import modulePlanos from '@/store/planos/modulePlanos.js';
   import {Validator} from 'vee-validate';
   import saveleadsConfig from "../../../saveleadsConfig";
@@ -71,10 +70,7 @@
       'v-select': vSelect
     },
     created() {
-      if (!moduleProdutos.isRegistered) {
-        this.$store.registerModule('produtos', moduleProdutos);
-        moduleProdutos.isRegistered = true;
-      }
+
       if (!modulePlanos.isRegistered) {
         this.$store.registerModule('planos', modulePlanos);
         modulePlanos.isRegistered = true;

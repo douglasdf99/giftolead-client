@@ -197,7 +197,6 @@
 <script>
 import vSelect from 'vue-select';
 import moduleConquistas from '@/store/conquistas/moduleConquistas.js';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
 
@@ -218,10 +217,6 @@ export default {
         if (!moduleConquistas.isRegistered) {
             this.$store.registerModule('conquistas', moduleConquistas);
             moduleConquistas.isRegistered = true;
-        }
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
         }
 
         this.getOpcoes();

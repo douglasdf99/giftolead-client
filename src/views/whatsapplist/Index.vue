@@ -106,14 +106,12 @@
 </template>
 
 <script>
-import moduleWhatsList from "../../store/whatsapplist/moduleWhatsList";
 import * as lang from "vuejs-datepicker/dist/locale";
 import SideBar from "./Responder";
 import SideBarTransformar from "./Transformar";
 import vSelect from "vue-select";
 import DateRangePicker from 'vue2-daterange-picker';
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
-import moduleProdutos from "../../store/produtos/moduleProdutos";
 import listagem from './Listagem';
 import saveleadsConfig from "../../../saveleadsConfig";
 import SelectResponsaveis from "../components/SelectResponsaveis";

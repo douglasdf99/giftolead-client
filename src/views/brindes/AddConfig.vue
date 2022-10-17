@@ -57,7 +57,6 @@
 <script>
 import vSelect from 'vue-select';
 import moduleBrindes from "../../store/brindes/moduleBrindes";
-import moduleProdutos from "../../store/produtos/moduleProdutos";
 import {Validator} from 'vee-validate';
 
 Validator.localize('pt-br');
@@ -87,10 +86,6 @@ export default {
         if (!moduleBrindes.isRegistered) {
             this.$store.registerModule('brindes', moduleBrindes);
             moduleBrindes.isRegistered = true;
-        }
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
         }
 
         this.getOpcoes();

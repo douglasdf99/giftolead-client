@@ -45,7 +45,6 @@ import Datepicker from 'vuejs-datepicker';
 import DateRangePicker from 'vue2-daterange-picker';
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import vSelect from 'vue-select';
-import moduleProdutos from "../../store/produtos/moduleProdutos";
 import moduleRelatorios from "../../store/relatorios/moduleRelatorios";
 
 const moment = require('moment/moment');
@@ -92,11 +91,6 @@ export default {
         if (!moduleRelatorios.isRegistered) {
             this.$store.registerModule('relatorios', moduleRelatorios);
             moduleRelatorios.isRegistered = true;
-        }
-
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
         }
 
         this.dateRange.startDate = moment().subtract(this.dados.daysInterval, 'days');

@@ -150,7 +150,6 @@
 <script>
 import SideBar from './SideBar';
 import vSelect from 'vue-select';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import * as lang from 'vuejs-datepicker/src/locale';
 import DateRangePicker from 'vue2-daterange-picker';
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
@@ -241,10 +240,6 @@ export default {
     },
     created() {
         this.$vs.loading();
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
-        }
 
         this.dateRange.startDate = moment().subtract(30, 'days');
         this.dateRange.endDate = moment();

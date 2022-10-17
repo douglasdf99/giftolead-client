@@ -51,7 +51,6 @@
 
 <script>
 import SideBar from './SideBar';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import moduleLinks from '@/store/links/moduleLinks.js';
 import vSelect from 'vue-select';
 import NenhumRegistro from "../components/NenhumRegistro";
@@ -86,10 +85,7 @@ export default {
     },
     async created() {
         this.$vs.loading();
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
-        }
+
         if (!moduleLinks.isRegistered) {
             this.$store.registerModule('links', moduleLinks);
             moduleLinks.isRegistered = true;

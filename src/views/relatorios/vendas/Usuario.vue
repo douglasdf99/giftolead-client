@@ -20,7 +20,6 @@ import LineChart from "./LineChart";
 import CustomStatisticsCard from './CustomStatisticsCard';
 import moduleRelatorios from "../../../store/relatorios/moduleRelatorios";
 import gsap from 'gsap';
-import moduleProdutos from "../../../store/produtos/moduleProdutos";
 import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 import Coorecuperados from "./Coorecuperados";
 import Automaticas from "./Automaticas";
@@ -69,11 +68,6 @@ export default {
         if (!moduleRelatorios.isRegistered) {
             this.$store.registerModule('relatorios', moduleRelatorios);
             moduleRelatorios.isRegistered = true;
-        }
-
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
         }
 
         if (!moduleUsuario.isRegistered) {

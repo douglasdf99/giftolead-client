@@ -172,7 +172,6 @@
 import { Validator } from "vee-validate";
 import moduleFuncoes from "@/store/funcoes/moduleFuncoes";
 import axios from "@/axios.js";
-import moduleProdutos from "@/store/produtos/moduleProdutos";
 import vSelect from "vue-select";
 
 const dict = {
@@ -209,11 +208,6 @@ export default {
 		if (!moduleFuncoes.isRegistered) {
 			this.$store.registerModule("funcoes", moduleFuncoes);
 			moduleFuncoes.isRegistered = true;
-		}
-
-		if (!moduleProdutos.isRegistered) {
-			this.$store.registerModule("produtos", moduleProdutos);
-			moduleProdutos.isRegistered = true;
 		}
 
 		this.getProdutos();

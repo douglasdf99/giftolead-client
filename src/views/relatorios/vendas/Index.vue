@@ -21,7 +21,6 @@ import Coorecuperados from './Coorecuperados';
 import Automaticas from './Automaticas';
 import moduleRelatorios from "../../../store/relatorios/moduleRelatorios";
 import gsap from 'gsap';
-import moduleProdutos from "../../../store/produtos/moduleProdutos";
 import MetodosPagamento from "./MetodosPagamento";
 import RelHeader from "../rel-header";
 
@@ -67,10 +66,6 @@ export default {
             moduleRelatorios.isRegistered = true;
         }
 
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
-        }
     },
     methods: {
         animateStatisticNumbers() {

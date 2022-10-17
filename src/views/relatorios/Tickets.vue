@@ -24,7 +24,6 @@ import gsap from 'gsap';
 import MetodosPagamento from "./vendas/MetodosPagamento";
 import RelHeader from "./rel-header";
 import moduleRelatorios from "../../store/relatorios/moduleRelatorios";
-import moduleProdutos from "../../store/produtos/moduleProdutos";
 
 export default {
     name: "Index",
@@ -66,11 +65,6 @@ export default {
         if(!moduleRelatorios.isRegistered) {
             this.$store.registerModule('relatorios', moduleRelatorios);
             moduleRelatorios.isRegistered = true;
-        }
-
-        if(!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
         }
     },
     methods: {

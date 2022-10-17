@@ -71,7 +71,6 @@
 <script>
 import vSelect from 'vue-select';
 import moduleContas from '@/store/contas/moduleContas.js';
-import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import modulePlanos from '@/store/planos/modulePlanos.js';
 import {Validator} from 'vee-validate';
 import saveleadsConfig from "../../../saveleadsConfig";
@@ -94,10 +93,6 @@ export default {
 		if (!moduleContas.isRegistered) {
 			this.$store.registerModule('contas', moduleContas);
 			moduleContas.isRegistered = true;
-		}
-		if (!moduleProdutos.isRegistered) {
-			this.$store.registerModule('produtos', moduleProdutos);
-			moduleProdutos.isRegistered = true;
 		}
 		if (!modulePlanos.isRegistered) {
 			this.$store.registerModule('planos', modulePlanos);
