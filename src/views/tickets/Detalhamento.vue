@@ -146,7 +146,6 @@
 </template>
 
 <script>
-  import moduleTickets from "../../store/tickets/moduleTickets";
   import atendimento from "./Atendimento";
   import SideBar from "./Responder";
   import Email from "./Email";
@@ -192,11 +191,6 @@
             };
         },
         created() {
-
-            if (!moduleTickets.isRegistered) {
-                this.$store.registerModule('tickets', moduleTickets);
-                moduleTickets.isRegistered = true;
-            }
 
             this.getId(this.$route.params.id);
 

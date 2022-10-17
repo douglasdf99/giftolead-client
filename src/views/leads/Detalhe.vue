@@ -273,7 +273,6 @@
 
 <script>
 import moduleLeads from '@/store/leads/moduleLeads.js';
-import moduleTickets from "../../store/tickets/moduleTickets";
 import Tooltip from "../components/vuesax/tooltip/Tooltip";
 import VuePhoneNumberInput from 'vue-phone-number-input';
 import 'vue-phone-number-input/dist/vue-phone-number-input.css';
@@ -320,10 +319,6 @@ export default {
         if (!moduleLeads.isRegistered) {
             this.$store.registerModule('leads', moduleLeads);
             moduleLeads.isRegistered = true;
-        }
-        if (!moduleTickets.isRegistered) {
-            this.$store.registerModule('tickets', moduleTickets);
-            moduleTickets.isRegistered = true;
         }
 
         if (this.$route.name === 'leads-detalhe')

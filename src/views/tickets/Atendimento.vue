@@ -223,7 +223,6 @@ import flatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
 import {Portuguese} from 'flatpickr/dist/l10n/pt.js';
 import moduleStatus from "../../store/statusFinalizacao/moduleStatus";
-import moduleProdutos from "../../store/produtos/moduleProdutos";
 import moduleMotivos from "../../store/motivoPerda/moduleMotivos";
 import moduleBrindes from "../../store/brindes/moduleBrindes";
 import {Validator} from 'vee-validate';
@@ -289,11 +288,6 @@ export default {
 		if (!moduleStatus.isRegistered) {
 			this.$store.registerModule('status', moduleStatus);
 			moduleStatus.isRegistered = true;
-		}
-
-		if (!moduleProdutos.isRegistered) {
-			this.$store.registerModule('produtos', moduleProdutos);
-			moduleProdutos.isRegistered = true;
 		}
 
 		if (!moduleBrindes.isRegistered) {

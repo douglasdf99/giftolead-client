@@ -159,7 +159,6 @@
 </template>
 
 <script>
-import moduleTickets from "../../store/tickets/moduleTickets";
 
 export default {
     name: "Historico",
@@ -174,12 +173,6 @@ export default {
                 sucesso: false,
             }
         };
-    },
-    created() {
-        if (!moduleTickets.isRegistered) {
-            this.$store.registerModule('tickets', moduleTickets);
-            moduleTickets.isRegistered = true;
-        }
     },
 
     methods: {

@@ -29,7 +29,6 @@
 
 <script>
 import Calendario from "./Calendario";
-import moduleTickets from "../../store/tickets/moduleTickets";
 import CardSchedule from "../components/tickets/CardSchedule";
 
 const moment = require('moment/moment');
@@ -130,10 +129,6 @@ export default {
 		}
 	},
 	created() {
-		if (!moduleTickets.isRegistered) {
-			this.$store.registerModule('tickets', moduleTickets);
-			moduleTickets.isRegistered = true;
-		}
 		this.getAtendimentos();
 	},
 	updated() {
