@@ -209,16 +209,6 @@ export default {
         //this.dateRange.startDate = moment().subtract(30, 'days')
         //this.dateRange.endDate = moment()
 
-        if (!moduleWhatsList.isRegistered) {
-            this.$store.registerModule('whatsapplist', moduleWhatsList);
-            moduleWhatsList.isRegistered = true;
-        }
-
-        if (!moduleProdutos.isRegistered) {
-            this.$store.registerModule('produtos', moduleProdutos);
-            moduleProdutos.isRegistered = true;
-        }
-
         this.$store.dispatch('produtos/getArraySelect').then(response => {
             this.produtos = [...response];
         });

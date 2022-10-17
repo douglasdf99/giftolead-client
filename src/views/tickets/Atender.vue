@@ -231,8 +231,6 @@
 </template>
 
 <script>
-import moduleTickets from "../../store/tickets/moduleTickets";
-import moduleUsuario from "../../store/usuarios/moduleUsuario";
 import atendimento from "./Atendimento";
 import SideBar from "./Responder";
 import Email from "./Email";
@@ -291,17 +289,9 @@ export default {
 		};
 	},
 	created() {
-		if (!moduleTickets.isRegistered) {
-			this.$store.registerModule('tickets', moduleTickets);
-			moduleTickets.isRegistered = true;
-		}
 		if (!moduleLeads.isRegistered) {
 			this.$store.registerModule('leads', moduleLeads);
 			moduleLeads.isRegistered = true;
-		}
-		if (!moduleUsuario.isRegistered) {
-			this.$store.registerModule('users', moduleUsuario);
-			moduleUsuario.isRegistered = true;
 		}
 		this.verificacao();
 		this.$store.dispatch('users/getUserAuth').then(response => {
@@ -475,6 +465,7 @@ export default {
 		},
 		verificacao() {
 			this.$store.dispatch('tickets/verificaDisponibilidade', this.$route.params.id).then(response => {
+				console.log('resoibse', response);
 				if (response.status == 'ok') {
 					localStorage.removeItem("atendimento");
 					this.getId(this.$route.params.id);
