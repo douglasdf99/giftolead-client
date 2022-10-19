@@ -188,7 +188,7 @@ export default {
     },
     computed: {
         invalidoEntrega() {
-            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.ddd || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length < 8
+            return (!this.endereco.complemento || !this.endereco.numero || !this.endereco.telefone || !this.endereco.nome || this.endereco.telefone.length < 8
                 || !this.endereco.endereco || !this.endereco.bairro);
         },
         isSidebarActiveLocal: {
