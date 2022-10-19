@@ -422,12 +422,7 @@ export default {
 			});
 
 			this.$store.dispatch('brindes/getArraySelect').then(response => {
-				//let arr = [...response];
 				this.brindes = [...response];
-				/*arr.forEach(item => {
-					 if(this.ticket.produto.id == item.produto_id)
-						  this.brindes.push({id: item.id, label: item.nome});
-				});*/
 			});
 
 			this.$store.dispatch('motivos/get').then(response => {

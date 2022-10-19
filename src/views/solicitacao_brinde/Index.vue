@@ -200,7 +200,7 @@ export default {
         },
         getOpcoes() {
             this.$store.dispatch('brindes/getArraySelect').then(response => {
-                this.brindes = [...this.arraySelect(response)];
+                this.brindes = [...response];
                 this.brindesCru = [...response];
             });
         },

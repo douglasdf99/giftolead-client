@@ -153,11 +153,7 @@ export default {
                 if (this.$route.name == 'brindes-campanhas-criar')
                     this.brindeSelected = {};
                 this.$store.dispatch('brindes/getArraySelect').then(response => {
-                    let arr = [...response];
-                    arr.forEach(item => {
-                        if (item.produto_id === this.produtoSelected.id)
-                            this.brindes.push({id: item.id, label: item.nome});
-                    });
+                    this.brindes = [...response];
                 });
             }
         },

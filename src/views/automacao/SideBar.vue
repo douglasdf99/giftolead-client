@@ -124,7 +124,7 @@ export default {
                 nome: '',
             },
             campanhas: '',
-            brindes: '',
+            brindes: [],
             selectedLead: null,
             selectedOrigem: null,
             selectedBrinde: null,
@@ -217,7 +217,7 @@ export default {
         },
         getBrindes() {
             this.$store.dispatch('brindes/getArraySelect').then(response => {
-                this.brindes = [...this.arraySelect(response)];
+                this.brindes = [...response];
             });
         },
         getCampanhas() {

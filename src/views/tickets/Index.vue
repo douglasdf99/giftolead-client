@@ -294,7 +294,7 @@ export default {
             this.produtos = [...response];
         });
          this.userSelect().then(response => {
-            this.users = [...this.arraySelect(response)];
+            this.users = [...response];
          });
       },
       open(obj) {
