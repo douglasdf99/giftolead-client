@@ -258,7 +258,6 @@
 <script>
 import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
 import vSelect from 'vue-select';
-import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 import moduleBrindes from "@/store/brindes/moduleBrindes";
 
 const moment = require('moment/moment');
@@ -349,10 +348,7 @@ export default {
             this.$store.registerModule('extensoes', moduleExtensoes);
             moduleExtensoes.isRegistered = true;
         }
-        if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('users', moduleUsuario);
-            moduleUsuario.isRegistered = true;
-        }
+
     },
     mounted() {
         this.verifica();

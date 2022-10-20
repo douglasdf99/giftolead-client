@@ -78,7 +78,6 @@
     import vSelect from 'vue-select';
     import saveleadsConfig from "../../../saveleadsConfig";
     import moduleComissoes from "../../store/comissoes/moduleComissoes";
-    import moduleUsuario from "../../store/usuarios/moduleUsuario";
 
     export default {
         name: "Index",
@@ -124,10 +123,6 @@
                 moduleComissoes.isRegistered = true;
             }
 
-            if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('users', moduleUsuario);
-                moduleUsuario.isRegistered = true;
-            }
             this.getOpcoes();
             this.getItems();
         },

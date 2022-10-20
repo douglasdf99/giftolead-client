@@ -12,7 +12,6 @@
   import moduleCampBoletos from "../../store/campanha_boleto/moduleCampBoletos";
   import moduleCampCanceladas from "../../store/campanha_canceladas/moduleCampCanceladas";
   import moduleCampWhatsapp from "../../store/campanha_whatsapp/moduleCampWhatsapp";
-  import moduleUsuario from "../../store/usuarios/moduleUsuario";
 
   export default {
     name: "SelectResponsaveis",
@@ -32,10 +31,7 @@
       };
     },
     mounted() {
-      if (!moduleUsuario.isRegistered) {
-        this.$store.registerModule('users', moduleUsuario);
-        moduleUsuario.isRegistered = true;
-      }
+
       if (!moduleCampAgendamentos.isRegistered) {
         this.$store.registerModule('agendadas', moduleCampAgendamentos);
         moduleCampAgendamentos.isRegistered = true;

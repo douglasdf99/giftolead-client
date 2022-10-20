@@ -128,7 +128,6 @@
     import moduleCampCanceladas from "../../../store/campanha_canceladas/moduleCampCanceladas";
     import moduleOrigens from "../../../store/origens/moduleOrigens";
     import moduleDuvidas from "../../../store/tipoDuvida/moduleDuvidas";
-    import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
     export default {
         name: "Canceladas",
@@ -149,10 +148,7 @@
                 this.$store.registerModule('duvidas', moduleDuvidas);
                 moduleDuvidas.isRegistered = true;
             }
-            if (!moduleUsuario.isRegistered) {
-                this.$store.registerModule('users', moduleUsuario);
-                moduleUsuario.isRegistered = true;
-            }
+
             this.getId(this.$route.params.id);
             this.getOpcoes();
         },

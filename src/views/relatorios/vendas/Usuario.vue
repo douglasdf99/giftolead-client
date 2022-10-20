@@ -20,7 +20,6 @@ import LineChart from "./LineChart";
 import CustomStatisticsCard from './CustomStatisticsCard';
 import moduleRelatorios from "../../../store/relatorios/moduleRelatorios";
 import gsap from 'gsap';
-import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 import Coorecuperados from "./Coorecuperados";
 import Automaticas from "./Automaticas";
 import MetodosPagamento from "./MetodosPagamento";
@@ -70,10 +69,6 @@ export default {
             moduleRelatorios.isRegistered = true;
         }
 
-        if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('users', moduleUsuario);
-            moduleUsuario.isRegistered = true;
-        }
     },
     methods: {
         animateStatisticNumbers() {

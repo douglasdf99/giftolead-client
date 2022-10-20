@@ -41,7 +41,6 @@
 <script>
 import moduleExtensoes from "../../../store/extensoes/moduleExtensoes";
 import vSelect from 'vue-select';
-import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -77,11 +76,6 @@ export default {
         if (!moduleExtensoes.isRegistered) {
             this.$store.registerModule('extensoes', moduleExtensoes);
             moduleExtensoes.isRegistered = true;
-        }
-
-        if (!moduleUsuario.isRegistered) {
-            this.$store.registerModule('users', moduleUsuario);
-            moduleUsuario.isRegistered = true;
         }
 
         this.verifica();

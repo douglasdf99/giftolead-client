@@ -375,7 +375,6 @@ import DateRangePicker from 'vue2-daterange-picker';
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 import StatisticsCardLine from '@/components/statistics-cards/StatisticsCardLine.vue';
 import vSelect from 'vue-select';
-import moduleUsuario from "../../../store/usuarios/moduleUsuario";
 
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
@@ -464,10 +463,6 @@ export default {
       moduleExtensoes.isRegistered = true;
     }
 
-    if (!moduleUsuario.isRegistered) {
-      this.$store.registerModule('users', moduleUsuario);
-      moduleUsuario.isRegistered = true;
-    }
 
     this.dados.dt_inicio = moment().subtract(1, 'days').format('YYYY-MM-DD');
     this.dados.dt_fim = moment().format('YYYY-MM-DD');
