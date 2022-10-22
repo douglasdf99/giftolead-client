@@ -5,7 +5,7 @@
                 <div class="rounded-t-lg bg-dark" style="height: 100px;"></div>
                 <img src="@/assets/images/util/correios.png" width="50%" class="absolute bg-white px-4 mb-4" style="border-radius: 10px;left: 25%; top: 20%">
                 <div class="rounded-b-lg text-center pb-base" style="background-color: #E8EBF2">
-                    <p class="pt-10 font-bold text-black">Melhor Envio</p>
+                    <p class="pt-10 font-bold text-black">Correios</p>
                     <p class="my-2 ">Entregue brindes utilizando a logistica dos Correios, possibilitando várias opções de transporte.</p>
                 </div>
             </div>

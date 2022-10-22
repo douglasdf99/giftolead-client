@@ -330,6 +330,9 @@ export default {
                     <label for="email">Whatsapp</label>
                     <input type="text" name="ddi" id="ddi" value="+55">
                     <input type="text" name="telefone" id="telefone" placeholder="Insira seu Whatsapp">
+                    <input type="hidden" name="src" id="src" value="">
+                    <input type="hidden" name="sck" id="sck" value="">
+                    <input type="hidden" name="off" id="off" value="">
                     <button type="submit">Enviar</button>
                 </form>
 			`;
