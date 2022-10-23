@@ -453,59 +453,8 @@
         </VuePerfectScrollbar>
       </div>
     </div>
-    <div class="vx-row">
-      <div class="vx-col w-full">
-        <place-holder-loading-dashboard
-          v-if="this.chart_media_options.xaxis.categories.length == 0"
-          tipo="media"
-        />
-        <vx-card
-          v-if="this.chart_media_options.xaxis.categories.length > 0"
-          :title="`Tickets ${
-            tipo_media_mensal == 'atendimentos' ? 'Atendidos' : 'Inseridos'
-          } - Comparativo Mensal`"
-        >
-          <template slot="actions">
-            <vs-dropdown vs-trigger-click class="cursor-pointer">
-              <feather-icon
-                icon="SettingsIcon"
-                svgClasses="w-6 h-6 text-grey mr-4"
-              ></feather-icon>
-              <vs-dropdown-menu class="w-32">
-                <vs-dropdown-item @click="tipo_media_mensal = 'atendimentos'"
-                  >Atendidos
-                </vs-dropdown-item>
-                <vs-dropdown-item @click="tipo_media_mensal = 'inseridos'"
-                  >Inseridos</vs-dropdown-item
-                >
-              </vs-dropdown-menu>
-            </vs-dropdown>
-          </template>
-          <div slot="no-body" class="p-6 pb-0">
-            <div class="flex">
-              <div class="mr-6">
-                <p class="mb-1 font-semibold">Esse mês</p>
-                <p class="text-3xl" :style="{ color: '#F97794' }">
-                  {{ media_tickets.analyticsData.thisMonth.toLocaleString() }}
-                </p>
-              </div>
-              <div>
-                <p class="mb-1 font-semibold">Mês passado</p>
-                <p class="text-3xl">
-                  {{ media_tickets.analyticsData.lastMonth.toLocaleString() }}
-                </p>
-              </div>
-            </div>
-            <vue-apex-charts
-              type="line"
-              height="266"
-              :options="chart_media_options"
-              :series="media_tickets.series"
-            />
-          </div>
-        </vx-card>
-      </div>
-    </div>
+    <media-mensal-tickets class="mb-base"/>
+    <whatsapplist-media-mensal/>
   </div>
 </template>
 
@@ -519,6 +468,8 @@ import ChangeTimeDurationDropdown from "@/components/ChangeTimeDurationDropdown.
 import VxTimeline from "@/components/timeline/VxTimeline";
 import ChangeDateDashboard from "@/views/components/ChangeDateDashboard";
 import PlaceHolderLoadingDashboard from "@/views/components/PlaceHolderLoadingDashboard";
+import MediaMensalTickets from "@/views/dashboard/TicketsMediaMensal";
+import WhatsapplistMediaMensal from "@/views/dashboard/WhatsapplistMediaMensal";
 
 const moment = require("moment/moment");
 require("moment/locale/pt-br");
@@ -634,96 +585,14 @@ export default {
       ultimos_tickets_pesquisados: false,
       paginationUltimos: null,
 
-      //Média Mensagel
-      media_tickets: {
-        analyticsData: {
-          thisMonth: 0,
-          lastMonth: 0,
-        },
-        series: [
-          { name: "Este mês", data: [] },
-          { name: "Mês passado", data: [] },
-        ],
-      },
-      chart_media_options: {
-        chart: {
-          toolbar: { show: false },
-          dropShadow: {
-            enabled: true,
-            top: 5,
-            left: 0,
-            blur: 4,
-            opacity: 0.1,
-          },
-        },
-        stroke: {
-          curve: "smooth",
-          dashArray: [0, 8],
-          width: [4, 2],
-        },
-        grid: {
-          borderColor: "#e7e7e7",
-        },
-        legend: {
-          show: false,
-        },
-        colors: ["#F97794", "#b8c2cc"],
-        fill: {
-          type: "gradient",
-          gradient: {
-            shade: "dark",
-            inverseColors: false,
-            gradientToColors: ["#7367F0", "#b8c2cc"],
-            shadeIntensity: 1,
-            type: "horizontal",
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 100, 100, 100],
-          },
-        },
-        markers: {
-          size: 0,
-          hover: {
-            size: 5,
-          },
-        },
-        xaxis: {
-          labels: {
-            style: {
-              cssClass: "text-grey fill-current",
-            },
-          },
-          axisTicks: {
-            show: false,
-          },
-          categories: [],
-          axisBorder: {
-            show: false,
-          },
-        },
-        yaxis: {
-          tickAmount: 5,
-          labels: {
-            style: {
-              cssClass: "text-grey fill-current",
-            },
-            formatter: function (val) {
-              return val > 999 ? (val / 1000).toFixed(1) + "k" : val;
-            },
-          },
-        },
-        tooltip: {
-          x: { show: false },
-        },
-      },
-      tipo_media_mensal: "atendimentos",
-
       //Quantidades
       qtdWhats: null,
       qtdAtrasados: null,
     };
   },
   components: {
+    WhatsapplistMediaMensal,
+    MediaMensalTickets,
     VueApexCharts,
     VuePerfectScrollbar,
     StatisticsCardLine,
@@ -751,7 +620,6 @@ export default {
       await this.getTicketsAtrasados();
       await this.getWhatsList();
       await this.getUltimosTickets();
-      await this.getMediaMensal();
     },
     nameCauser(obj, responsavel_type = null) {
       if (obj && obj.causer_type) {
@@ -947,34 +815,6 @@ export default {
           });
       });
     },
-    getMediaMensal() {
-      let datas = {
-        dt_inicio: moment().subtract(30, "days").format("YYYY-MM-DD"),
-        dt_fim: moment().format("YYYY-MM-DD"),
-      };
-      this.media_tickets.series[0].data = [];
-      this.media_tickets.series[1].data = [];
-      this.media_tickets.analyticsData.thisMonth = 0;
-      this.media_tickets.analyticsData.lastMonth = 0;
-      return new Promise((resolve) => {
-        this.getData( {
-            rota: this.tipo_media_mensal,
-            params: datas,
-          })
-          .then((response) => {
-            response.periodo_anterior.forEach((item) => {
-              this.media_tickets.analyticsData.lastMonth += item.quantidade;
-              this.media_tickets.series[1].data.push(item.quantidade);
-            });
-            response.periodo_atual.forEach((item) => {
-              this.media_tickets.analyticsData.thisMonth += item.quantidade;
-              this.media_tickets.series[0].data.push(item.quantidade);
-              this.chart_media_options.xaxis.categories.push(item.dia);
-            });
-            resolve();
-          });
-      });
-    },
     somaTickets() {
       let soma = 0;
       this.meus_tickets.analyticsData.forEach((item) => {
@@ -1004,14 +844,6 @@ export default {
   watch: {
     tipo_meus_tickets() {
       this.getMeusTickets(this.datas_tipo_meus_tickets);
-    },
-    tipo_media_mensal() {
-      this.chart_media_options.xaxis.categories = [];
-      this.media_tickets.series[0].data = [];
-      this.media_tickets.series[1].data = [];
-      this.media_tickets.analyticsData.thisMonth = 0;
-      this.media_tickets.analyticsData.lastMonth = 0;
-      this.getMediaMensal();
     },
   },
 };
