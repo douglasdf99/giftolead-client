@@ -48,7 +48,7 @@
 									</button>
 									<div class="powerby">
 										<h4>Power By</h4>
-										<img src="https://api.saveleads.com.br/images/logo2.svg" alt="save leads logo">
+										<img :src="get_img_local('logo2.svg')" alt="save leads logo">
 									</div>
 								</div>
 							</div>
@@ -77,7 +77,8 @@
 								<div class="flex justify-center flex-wrap">
 									<div class="powerby">
 										<h4>Power By</h4>
-										<img src="https://api.saveleads.com.br/images/logo2.svg" alt="save leads logo">
+
+										<img :src="get_img_local('logo2.svg')" alt="save leads logo">
 									</div>
 								</div>
 							</div>
