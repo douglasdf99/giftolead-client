@@ -3,10 +3,10 @@
     class="container-cstm-popup"
     :id="'popup-' + title"
     :key="'popup-' + title"
-    v-if="active" 
+    v-show="active" 
   >
     <div class="backdrop-cstm-popup vs-popup--background" />
-    <div class="card-cstm-popup">
+    <div class="card-cstm-popup" :style="{ width, height }">
       <header class="header-cstm-popup">
         <div class="title-cstm-popup">
           <h3>{{ title }}</h3>
@@ -14,7 +14,7 @@
         <i class="vs-icon notranslate icon-scale vs-popup--close vs-popup--close--icon material-icons null" 
         style="background: rgb(255, 255, 255)" @click="$emit('update:active', false)">close</i>
       </header>
-      <div class="content-cstm-popup">
+      <div class="card-cstm-body" >
         <slot />
       </div>
     </div>
@@ -31,6 +31,14 @@ export default {
     active: {
       type: Boolean,
       default: false,
+    },
+    width: {
+      type: String,
+      default: '600px',
+    },
+    height: {
+      type: String,
+      default: 'auto',
     },
   },
   unmounted() {
@@ -56,7 +64,7 @@ export default {
 .card-cstm-popup {
   transition: all 0.2s;
   z-index: 100;
-  width: 600px;
+  min-width: 600px;
   margin: 10px;
   max-width: calc(100% - 30px);
   max-height: calc(100% - 30px);
@@ -64,6 +72,12 @@ export default {
   box-shadow: 0 5px 20px 0 #0000004d;
   background: #fff;
   animation: rebound 0.3s;
+}
+
+.card-cstm-body {
+  width: 100%;
+  padding: 10px;
+  background: #fff;
 }
 
 .header-cstm-popup {

@@ -364,18 +364,23 @@
 		</transition>
 		<custom-popup
 			id="pdf-with-loading"
-			class="popup-iframe vs-con-loading__container"
+			class="popup-iframe"
 			style="overflow: hidden"
 			title="Imprimindo etiquetas"
+			width="80%"
+			height="80%"
 			:active.sync="modalIframe"
 		>
-			<iframe
-				v-if="urlIframe"
-				:src="urlIframe"
-				width="100%"
-				height="100%"
-				title="Imprimindo Etiqueta"
-			></iframe>
+			<div class="vs-con-loading__container">
+				<iframe
+					v-if="urlIframe"
+					:src="urlIframe"
+					width="100%"
+					height="700px"
+					title="Imprimindo Etiqueta"
+				></iframe>
+			</div>
+			
 		</custom-popup>
 		<vs-prompt
 			@cancel="modalContrato = false"
