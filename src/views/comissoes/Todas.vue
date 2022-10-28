@@ -125,14 +125,6 @@ export default {
         getItems() {
             this.$vs.loading();
 
-            let control = 0;//Controla entradas em cada condição
-            let url = '';
-            if (this.search !== '') {
-                url += 'name:' + this.search + ';';
-                url += 'email:' + this.search;
-                control++;
-            }
-
             if(this.selectedAten.id != null) {
                 this.dados.user_id = this.selectedAten.id;
             } else this.dados.user_id = null;
@@ -146,10 +138,7 @@ export default {
                 this.dados.responsavel_id = null;
             }
 
-            if (control >= 2)
-                url += '&searchJoin=and';
-
-            this.dados.search = url;
+            this.dados.search = this.search;
 
             this.$store.dispatch('comissoes/getCom', {params: this.dados}).then(response => {
                 this.comissoes = [...response[0].data];
