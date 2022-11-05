@@ -5,11 +5,16 @@
                           :data="sidebarData" :empresa="empresa"/>
         <div class="vx-row flex items-center lg:mt-5 sm:mt-6 justify-between">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
-                <div class="vx-row flex items-end mb-10">
-                    <div class="vx-col w-full lg:w-6/12">
-                        <p>Resultado da busca considerando o período: <span
-                            class="destaque">{{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate
-                            }}</span>
+                <div class="vx-row flex-row items-end mb-10">
+                    <div class="vx-col w-full lg:w-8/12">
+                        <p v-if="dateRange.startDate !== ''" class="flex-row">
+                            Resultado da busca considerando o período: 
+                            <span class="flex"> 
+                                <span class="destaque">
+                                    {{ dateRange.startDate | formatDate }} a {{ dateRange.endDate | formatDate}} 
+                                </span> 
+                                <strong class="cursor-pointer ml-2" @click="cleanDate()">Limpar</strong>
+                            </span>
                         </p>
                     </div>
                   <div class="vx-col w-full relative lg:w-8/12 sm:w-1/2 flex justify-end">
@@ -187,15 +192,19 @@ export default {
             switch (val) {
                 case 'hoje':
                     this.dateRange.startDate = moment();
+                    this.dateRange.endDate = moment().add(1, 'days');
                     break;
                 case '7':
                     this.dateRange.startDate = moment().subtract(7, 'days');
+                    this.dateRange.endDate = moment().add(1, 'days');
                     break;
                 case '15':
                     this.dateRange.startDate = moment().subtract(15, 'days');
+                    this.dateRange.endDate = moment().add(1, 'days');
                     break;
                 case '30':
                     this.dateRange.startDate = moment().subtract(30, 'days');
+                    this.dateRange.endDate = moment().add(1, 'days');
                     break;
             }
             this.getItems();
@@ -217,36 +226,26 @@ export default {
 
             this.dados.pago = pago;
             this.$vs.loading();
-
-            let url =  this.search;
-            //let control = 0;//Controla entradas em cada condição
-            // if (this.search !== '') {
-            //     url += 'name:' + this.search + ';';
-            //     url += 'email:' + this.search;
-            //     control++;
-            // }
+            
             if (this.dateRange.startDate)
                 this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
             if (this.dateRange.endDate)
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
-            // if (control >= 2)
-            //     url += '&searchJoin=and';
-
-            this.dados.search = url;
+            this.dados.search = this.search;
 
             this.$store.dispatch('ordens/getOrdens', this.dados).then(response => {
-                this.ordens = [...response[0].data];
-                this.pagination = response[0];
+                this.ordens = response.data.data;
+                this.pagination = response.data;
                 this.empresa = response.empresa;
                 this.soma = parseFloat(response.soma);
-                //this.dados.page = this.pagination.current_page
                 this.$vs.loading.close();
             });
         },
-        pesquisar(e) {
+        pesquisar(e = null) {
+            if(e)
+                e.preventDefault();
             this.dados.page = 1;
-            e.preventDefault();
             this.$vs.loading();
             this.getItems(this.dados.pago);
         },
@@ -266,6 +265,13 @@ export default {
                 });
                 this.getItems(this.dados.pago);
             });
+        },
+        cleanDate() {
+            this.dateRange.startDate = '';
+            this.dateRange.endDate = '';
+            this.dados.dt_inicio = '';
+            this.dados.dt_fim = '';
+            this.pesquisar();
         }
     },
     watch: {

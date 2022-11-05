@@ -16,9 +16,13 @@
                     <vs-td class="w-2/12">
                         <vs-chip class="bg-primary p-2 text-white"># {{tr.id}}</vs-chip>
                     </vs-td>
-                    <vs-td class="flex items-center">
-                        <div class="flex items-center">
-                            <img :src="get_img_cdn(tr.user.avatar)" width="40px" class="rounded-full mx-5" style="margin-left: -8%"/>
+                    <vs-td >
+                        <div class="flex items-center whitespace-nowrap text-ellipsis overflow-hidden">
+                            <vs-avatar
+										color="primary"	
+										size="large"
+										:text="tr.user.name"
+									/>
                             <p class="font-bold text-dark text-xl">{{tr.user.name}}</p>
                         </div>
                     </vs-td>
@@ -131,5 +135,10 @@
 </script>
 
 <style scoped>
-
+ .whitespace-nowrap{
+    white-space: nowrap;
+ } 
+ .text-ellipsis{
+    text-overflow: ellipsis;
+ }
 </style>

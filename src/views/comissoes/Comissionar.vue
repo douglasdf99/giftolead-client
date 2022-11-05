@@ -137,35 +137,23 @@
                 if(aba !== this.dados.aba)
                     this.currentx = 1;
 
-                let url = '';
+                let url = this.search;
                 this.dados.aba = aba;
-                let control = 0;//Controla entradas em cada condição
-                if (this.search !== '') {
-                    url += 'name:' + this.search + ';';
-                    url += 'email:' + this.search;
-                    control++;
-                }
 
                 if(this.selectedAten.id != null) {
                     this.dados.user_id = this.selectedAten.id;
                 }
 
                 if(this.selectedResp) {
-                    //this.dados.responsavel_type = this.selectedResp.id;
                     this.dados.responsavel_type = this.selectedResp.criador_type;
                     this.dados.responsavel_id = this.selectedResp.id;
                 }
-
-                if (control >= 2)
-                    url += '&searchJoin=and';
-
                 this.dados.search = url;
 
                 this.$store.dispatch('comissoes/getCom', {params: this.dados}).then(response => {
                     this.comissoes = [...response[0].data];
                     this.pagination = response[0];
                     this.soma = parseFloat(response.soma);
-                    //this.dados.page = this.pagination.current_page
                 }).catch(error => {
                     this.$vs.notify({
                         text: error.response.data.message,
