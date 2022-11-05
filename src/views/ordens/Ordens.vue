@@ -218,20 +218,20 @@ export default {
             this.dados.pago = pago;
             this.$vs.loading();
 
-            let url = '';
-            let control = 0;//Controla entradas em cada condição
-            if (this.search !== '') {
-                url += 'name:' + this.search + ';';
-                url += 'email:' + this.search;
-                control++;
-            }
+            let url =  this.search;
+            //let control = 0;//Controla entradas em cada condição
+            // if (this.search !== '') {
+            //     url += 'name:' + this.search + ';';
+            //     url += 'email:' + this.search;
+            //     control++;
+            // }
             if (this.dateRange.startDate)
                 this.dados.dt_inicio = moment(this.dateRange.startDate).format('YYYY-MM-DD');
             if (this.dateRange.endDate)
                 this.dados.dt_fim = moment(this.dateRange.endDate).format('YYYY-MM-DD');
 
-            if (control >= 2)
-                url += '&searchJoin=and';
+            // if (control >= 2)
+            //     url += '&searchJoin=and';
 
             this.dados.search = url;
 
