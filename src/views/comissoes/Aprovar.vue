@@ -77,7 +77,6 @@
     import listagem from './Listagem';
     import vSelect from 'vue-select';
     import saveleadsConfig from "../../../saveleadsConfig";
-    import moduleComissoes from "../../store/comissoes/moduleComissoes";
 
     export default {
         name: "Index",
@@ -118,11 +117,6 @@
         },
         created() {
             this.$vs.loading();
-            if (!moduleComissoes.isRegistered) {
-                this.$store.registerModule('comissoes', moduleComissoes);
-                moduleComissoes.isRegistered = true;
-            }
-
             this.getOpcoes();
             this.getItems();
         },

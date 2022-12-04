@@ -171,6 +171,9 @@ const actions = {
     updateWindowTheme({ commit }, payload) {
         commit('UPDATE_WINDOW_WIDTH', payload);
     },
+    updateWindowWidth({ commit }, payload) {
+        commit('UPDATE_WINDOW_WIDTH', payload);
+    },
     toggleIsVerticalNavMenuActive({ commit }, payload) {
         commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', payload);
     }

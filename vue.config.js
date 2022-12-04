@@ -2,6 +2,7 @@ module.exports = {
   publicPath: '/',
   devServer: {
     disableHostCheck: true,
+    inline: false,
   },
   transpileDependencies: [
     'vue-echarts',

@@ -192,7 +192,6 @@ import TheFooter from "@/layouts/components/TheFooter.vue";
 import themeConfig from "@/../themeConfig.js";
 import VNavMenu from "@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue";
 import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue";
-import { AclRule } from "vue-acl";
 import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
 
 export default {
@@ -261,7 +260,6 @@ export default {
 			return this.$store.state.auth.AppActiveUser;
 		}
 	},
-
 	async created() {
 		const color =
 			this.navbarColor === "#fff" && this.isThemeDark
@@ -306,70 +304,6 @@ export default {
 			this.dynamicWatchers[i]();
 			delete this.dynamicWatchers[i];
 		});
-	},
-	updated() {
-		if (!this.$echo.socketId()) {
-			//this.$echo.connect();
-		} else {
-			this.realtimeConnect = true;
-		}
-		let self = this;
-		this.$echo.connector.socket.on("connect", function () {
-			self.realtimeConnect = true;
-		});
-
-		this.$echo.connector.socket.on("disconnect", function () {
-			self.realtimeConnect = false;
-		});
-	},
-	async mounted() {
-		console.log("meu user");
-		var subdomain = window.location.host.split(".")[1]
-			? window.location.host.split(".")[0]
-			: "app";
-
-		await this.$echo
-			.channel(`${subdomain}_permissions`)
-			.listen("PermissionEvent", (e) => {
-				let permissoes = {};
-				e.permissions.forEach((item) => {
-					if (item.permission_role.length > 0) {
-						var ac = new AclRule("Administrador");
-						item.permission_role.forEach((perfil) => {
-							ac = ac.or(perfil.role.nome);
-						});
-						permissoes[item.name] = ac.generate();
-						//permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
-					} else {
-						permissoes[item.name] = new AclRule(
-							"Administrador"
-						).generate();
-						//permissoes.push({'permissao':item.name, 'funcoes':new AclRule('Administrador').generate()});
-					}
-				});
-
-				var ac = new AclRule("Administrador");
-				e.roles.forEach((role) => {
-					ac = ac.or(role.nome);
-				});
-				permissoes["public"] = ac.generate();
-				localStorage.setItem("permissoes", JSON.stringify(permissoes));
-				this.getMenus();
-			});
-
-		//let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-		// await this.$echo.channel(`${subdomain}_profile_${userInfo.uid}`).listen('ProfileEvent', (e) => {
-		// 	let userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-		// 	userInfo.photoURL = e.user.avatar;
-		// 	userInfo.userRole = e.user.roles.nome;
-		// 	userInfo.displayName = e.user.name;
-		// 	userInfo.about = e.user.roles.nome;
-
-		// 	localStorage.setItem("userInfo", JSON.stringify(userInfo));
-		// 	this.$store.state.AppActiveUser = userInfo;
-		// });
 	},
 	methods: {
 		logOff() {

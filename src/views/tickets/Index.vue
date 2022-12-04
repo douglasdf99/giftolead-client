@@ -139,16 +139,9 @@ import vSelect from 'vue-select';
 import saveleadsConfig from "../../../saveleadsConfig";
 import { mapActions } from 'vuex';
 
-var subdomain = window.location.pathname.split('/')[1] ? window.location.pathname.split('/')[1] : 'app';
 export default {
    name: "Index",
    components: {SideBar, listagem, 'v-select': vSelect},
-   channel: subdomain + '_lista-ticket',
-   echo: {
-      'ListaTicket': () => {
-         this.getTickets();
-      },
-   },
    data() {
       return {
          ticketIdTrasnfer: '',
@@ -400,18 +393,6 @@ export default {
          },
          deep: true
       },
-   },
-   mounted() {
-      this.channel.listen('ListaTicket', (payload) => {
-         this.tickets = this.tickets.filter(function (item) {
-            if (payload.array && payload.array.tipo == "excluir") {
-               if (item.id !== payload.array.ticket.id) {
-                  return item;
-               }
-            } else return item;
-         });
-         if (payload.array && payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') this.newTickets = true;
-      });
    },
 };
 </script>

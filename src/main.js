@@ -1,5 +1,3 @@
-import VueEcho from 'vue-echo-laravel';
-import * as io from 'socket.io-client';
 import Vue from 'vue';
 // import { VueHotmartCosmos } from '@/plugins/hotmart';
 
@@ -10,7 +8,6 @@ import "./fake-db/index.js";
 import "../themeConfig.js";
 import VueTheMask from "vue-the-mask";
 import "@/firebase/firebaseConfig";
-
 
 import { VueMaskFilter } from "v-mask";
 import money from "v-money";
@@ -32,7 +29,6 @@ import "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
 
 import VueMoment from "vue-moment";
-import saveleadsConfig from "../saveleadsConfig";
 import VueSweetalert2 from "vue-sweetalert2";
 import methods from "@/globalMethods";
 
@@ -42,18 +38,13 @@ import "./assets/scss/main.scss";
 import "./assets/css/base.css";
 import "@/assets/css/main.css";
 
-window.io = io;
-
 require("vue-tour/dist/vue-tour.css");
 register([]);
-
 
 // Vue.use(VueHotmartCAS);
 // Vue.use(VueHotmartCosmos);
 
 Vue.prototype.$http = axios;
-
-
 
 let acl = {};
 	acl = require('./acl/acl');
@@ -74,15 +65,6 @@ Vue.use(VueGoogleMaps, {
 Vue.use(VueHammer);
 Vue.mixin({
 	methods: { ...methods },
-});
-Vue.use(VueEcho, {
-	broadcaster: "socket.io",
-	host: saveleadsConfig.url_socket,
-	auth: {
-		headers: {
-			Authorization: `Bearer ${store.getters.getToken}`,
-		},
-	},
 });
 
 const moment = require("moment/moment");

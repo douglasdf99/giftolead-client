@@ -390,21 +390,7 @@ export default {
 			delete this.dynamicWatchers[i];
 		});
 	},
-	updated() {
-		if (!this.$echo.socketId()) {
-			//this.$echo.connect();
-		} else {
-			this.realtimeConnect = true;
-		}
-		let self = this;
-		this.$echo.connector.socket.on("connect", function () {
-			self.realtimeConnect = true;
-		});
 
-		this.$echo.connector.socket.on("disconnect", function () {
-			self.realtimeConnect = false;
-		});
-	},
 	async mounted() {
 		this.subdomain = window.location.host.split(".")[1]
 			? window.location.host.split(".")[0]

@@ -220,11 +220,8 @@ import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
 import moduleAutomacao from "@/store/automacao/moduleAutomacao";
 import DetalheMelhorEnvio from "./DetalheMelhorEnvio";
 
-//const {consultarCep} = require("correios-brasil");
-
 export default {
     name: "ListDetalMelhorEnvio",
-    //channel: `laravel_database_listarautomacao${this.$route.params.id}`,
     components: {
         DetalheMelhorEnvio, endereco, 'v-select': vSelect
     },
@@ -295,38 +292,6 @@ export default {
         };
     },
     mounted() {
-        var subdomain = window.location.pathname.split('/')[1] ? window.location.pathname.split('/')[1] : 'app';
-
-        this.$echo.channel(`${subdomain}_listarautomacao${this.$route.params.id}`).listen('ListarAutomacao', (e) => {
-            if (this.step < 1) {
-                if (e.automacao.status == 'fechado') {
-                    this.count++;
-                    this.percent = (this.count / this.expedicao.automacaos.length) * 100;
-                }
-                if (e.automacao.status == 'error') {
-                    this.count++;
-                    this.percent = (this.count / this.expedicao.automacaos.length) * 100;
-                    this.automacaosErros.push(e.automacao);
-                }
-            }
-            if (e.automacao.status == 'sucesso') {
-                this.plpGerada = 10;
-            }
-
-            if (e.automacao.status == 'ngerada') {
-                if (e.automacao.erroMensage) {
-                    this.erroMensage = e.automacao.erroMensage;
-                }
-                this.plpGerada = 5;
-            }
-
-            if (this.percent == 100) {
-                this.step++;
-                this.percent = 0;
-                this.count = 0;
-            }
-        });
-
         this.getContratos();
         this.getExtensao();
     },

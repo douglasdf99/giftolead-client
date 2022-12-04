@@ -109,11 +109,9 @@ import vSelect from 'vue-select';
 
 export default {
    name: "Index",
-
    components: {SideBar, 'v-select': vSelect,},
    data() {
       return {
-         // Data Sidebar
          addNewDataSidebar: false,
          sidebarData: {},
          routeTitle: 'Contas',
@@ -130,7 +128,6 @@ export default {
             current_page: 1
          },
          currentx: 1
-         //items: {}
       };
    },
    created() {
@@ -139,19 +136,10 @@ export default {
       this.dados.produto = this.$route.params.id;
       this.getProduto(this.$route.params.id);
       this.getOpcoes();
-      // this.getItems();
 
-   },
-   mounted() {
-
-      /*   Echo.channel('lista-ticket')
-           .listen('ListaTicket',(e) => {
-             this.getProjects();
-           });*/
    },
    methods: {
       getOpcoes() {
-         //Produtos
          this.$store.dispatch('produtos/get').then(response => {
             let arr = [...response];
             arr.forEach(item => {
@@ -240,9 +228,6 @@ export default {
       items() {
          return this.$store.state.items;
       },
-      /*pagination() {
-          return this.$store.state.pagination;
-      },*/
    },
 
 };

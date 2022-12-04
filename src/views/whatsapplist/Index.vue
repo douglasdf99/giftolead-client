@@ -10,9 +10,6 @@
                 </p>
             </div>
         </div>
-<!--      <vs-button @click="$echo.disconnect()">desconectar</vs-button>-->
-<!--      <vs-button @click="conectar">connect</vs-button>-->
-<!--      <vs-button @click="idsocket()">id</vs-button>-->
         <div class="vx-row flex items-end lg:mt-3 sm:mt-4">
             <div class="vx-col w-full sm:w-full md:w-full lg:w-6/12 xlg:w-5/12">
                 <div class="flex items-center">
@@ -120,17 +117,10 @@ import SelectResponsaveis from "../components/SelectResponsaveis";
 const moment = require('moment/moment');
 require('moment/locale/pt-br');
 
-var subdomain = window.location.pathname.split('/')[1] ? window.location.pathname.split('/')[1] : 'app';
-
 export default {
     name: "Index",
     components: {
         SideBar, DateRangePicker, SelectResponsaveis, 'v-select': vSelect, listagem, 'transformar': SideBarTransformar
-    },
-    channel: subdomain + '_whatsapp-list',
-    echo: {
-        'WhatsapplistEvent': () => {
-        },
     },
     data() {
         return {
@@ -214,29 +204,10 @@ export default {
         this.$store.dispatch('whatsapplist/setFilter', false);
     },
     methods: {
-        idsocket() {
-        },
-        conectar() {
-          this.$echo.connect();
-          this.$echo.channel(subdomain + '_whatsapp-list').listen('WhatsapplistEvent', (payload) => {
-            this.items = this.items.filter(function (item) {
-              if (payload.array.tipo == "excluir") {
-                if (item.id !== payload.array.whatsapp.id) {
-                  return item;
-                }
-              } else return item;
-            });
-            if (payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') {
-              this.newTickets = true;
-
-            }
-          });
-        },
         chooseResp(obj) {
             this.selectedResp = obj;
         },
         getDay(dia) {
-            //Definindo datas usadas nos ranges padronizados
             let today = new Date();
             today.setHours(0, 0, 0, 0);
 
@@ -289,7 +260,6 @@ export default {
             this.dados.situacao = tipo;
 
             if (this.selectedResp) {
-                //this.dados.responsavel_type = this.selectedResp.id;
                 this.dados.campanhable_type = this.selectedResp.criador_type;
                 this.dados.campanhable_id = this.selectedResp.id;
             } else {
@@ -375,8 +345,6 @@ export default {
         "$route"() {
             this.routeTitle = this.$route.meta.pageTitle;
         },
-        $echo() {
-        },
         dateRange() {
             this.dados.page = 1;
             this.getItems(this.dados.situacao);
@@ -405,7 +373,6 @@ export default {
     },
     computed: {},
     mounted() {
-        //this.$echo.socketId()
         if (this.$store.state.globalSearch != '') {
             this.dados.search = this.$store.state.globalSearch;
             this.dados.situacao = 'todos';
@@ -415,19 +382,6 @@ export default {
         } else {
             this.getItems('pendentes');
         }
-        this.$echo.channel(subdomain + '_whatsapp-list').listen('WhatsapplistEvent', (payload) => {
-            this.items = this.items.filter(function (item) {
-                if (payload.array.tipo == "excluir") {
-                    if (item.id !== payload.array.whatsapp.id) {
-                        return item;
-                    }
-                } else return item;
-            });
-            if (payload.array.tipo != "excluir" && payload.array.tipo != 'alterar') {
-                this.newTickets = true;
-
-            }
-        });
     },
 };
 </script>

@@ -169,7 +169,6 @@ import TheFooter from "@/layouts/components/TheFooter.vue";
 import themeConfig from "@/../themeConfig.js";
 import VNavMenu from "@/layouts/components/vertical-nav-menu/VerticalNavMenu.vue";
 import VNavMenu2 from "@/layouts/components/vertical-nav-menu/SidebarStatic.vue";
-import { AclRule } from "vue-acl";
 import moduleExtensoes from "@/store/extensoes/moduleExtensoes";
 import { getCompanyContext, logOut } from "@/components/producer";
 
@@ -183,7 +182,6 @@ export default {
 	},
 	data() {
 		return {
-			realtimeConnect: false,
 			//disableThemeTour: themeConfig.disableThemeTour,
 			disableThemeTour: true,
 			dynamicWatchers: {},
@@ -260,7 +258,6 @@ export default {
 		// 	this.disableThemeTour = true;
 		// },
 	},
-
 	async created() {
 
 		if (!moduleExtensoes.isRegistered) {
@@ -277,66 +274,15 @@ export default {
 			delete this.dynamicWatchers[i];
 		});
 	},
-	updated() {
-		if (!this.$echo.socketId()) {
-			//this.$echo.connect();
-		} else {
-			this.realtimeConnect = true;
-		}
-		let self = this;
-		this.$echo.connector.socket.on("connect", function () {
-			self.realtimeConnect = true;
-		});
-
-		this.$echo.connector.socket.on("disconnect", function () {
-			self.realtimeConnect = false;
-		});
-	},
-	async mounted() {
-		console.log("meu user");
-		var subdomain = window.location.host.split(".")[1]
-			? window.location.host.split(".")[0]
-			: "app";
-
-		await this.$echo
-			.channel(`${subdomain}_permissions`)
-			.listen("PermissionEvent", (e) => {
-				let permissoes = {};
-				e.permissions.forEach((item) => {
-					if (item.permission_role.length > 0) {
-						var ac = new AclRule("Administrador");
-						item.permission_role.forEach((perfil) => {
-							ac = ac.or(perfil.role.nome);
-						});
-						permissoes[item.name] = ac.generate();
-						//permissoes.push({'permissao':item.name, 'funcoes':ac.generate()});
-					} else {
-						permissoes[item.name] = new AclRule(
-							"Administrador"
-						).generate();
-						//permissoes.push({'permissao':item.name, 'funcoes':new AclRule('Administrador').generate()});
-					}
-				});
-
-				var ac = new AclRule("Administrador");
-				e.roles.forEach((role) => {
-					ac = ac.or(role.nome);
-				});
-				permissoes["public"] = ac.generate();
-				localStorage.setItem("permissoes", JSON.stringify(permissoes));
-				this.getMenus();
-			});
-	},
 	methods: {
-    logOff() {
-      logOut();
-    },
+		logOff() {
+			logOut();
+		},
 		async canSee(slug) {
-      let route= await this.$router.match({name: slug});
-      console.log(route.meta.rule);
-      let can = await this.$acl.check(route.meta.rule);
-      console.log('slug ',slug,'meta', route.meta,'can', can,'check', this.$acl.check(route.meta.rule));
-
+			let route= await this.$router.match({name: slug});
+			console.log(route.meta.rule);
+			let can = await this.$acl.check(route.meta.rule);
+			console.log('slug ',slug,'meta', route.meta,'can', can,'check', this.$acl.check(route.meta.rule));
 			return true;
 		},
 		changeRouteTitle(title) {

@@ -72,26 +72,8 @@ export default {
             this.$store.registerModule('notificacoes', moduleNotificacoes);
             moduleNotificacoes.isRegistered = true;
         }
-
-        //this.getNotificacoes();
-    },
-    mounted() {
-        // this.$echo.private('App.Models.User.29').listen('BroadcastNotificationCreated', (payload) => {
-        // });
-        let user = JSON.parse(localStorage.getItem('userInfo'));
-        this.$echo.private('App.Models.User.' + user.uid).notification((notification) => {
-            this.unreadNotifications.push({
-                index: notification.notification.id,
-                title: notification.notification.data.title,
-                msg: notification.notification.data.message,
-                icon: notification.notification.data.icon,
-                time: notification.notification.data.time,
-                category: notification.notification.data.category
-            });
-        });
     },
     methods: {
-        // Method for creating dummy notification time
         randomDate({hr, min, sec}) {
             let date = new Date();
 
@@ -121,7 +103,6 @@ export default {
                     this.unreadNotifications.forEach(item => {
                         this.notifications.push(item);
                     });
-                    //this.notifications = [...this.unreadNotifications];
                     this.unreadNotifications = [];
                 });
             }

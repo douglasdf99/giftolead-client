@@ -544,7 +544,6 @@ import moduleWhatsList from "@/store/whatsapplist/moduleWhatsList";
 
 export default {
 	name: "ListDetal",
-	//channel: `laravel_database_listarautomacao${this.$route.params.id}`,
 	components: {
 		endereco,
 		detalhe,

@@ -21,6 +21,7 @@ import moduleProdutos from '@/store/produtos/moduleProdutos.js';
 import moduleCampCheckouts from "@/store/campanha_checkout/moduleCampCheckouts";
 import moduleCampWhatsapp from "@/store/campanha_whatsapp/moduleCampWhatsapp";
 import moduleWhatsList from "@/store/whatsapplist/moduleWhatsList";
+import moduleComissoes from "@/store/comissoes/moduleComissoes";
 
 
 Vue.use(Vuex);
@@ -41,6 +42,7 @@ export default new Vuex.Store({
         campaign_checkout: moduleCampCheckouts,
         campaign_whatsapp: moduleCampWhatsapp,
         whatsapplist: moduleWhatsList,
+        comissoes: moduleComissoes,
     },
     strict: process.env.NODE_ENV !== 'production'
 });

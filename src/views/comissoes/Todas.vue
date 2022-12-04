@@ -58,7 +58,6 @@ import DetalheComissao from '../comissoes/DetalheComissao';
 import listagem from './ListComissoes';
 import vSelect from 'vue-select';
 import saveleadsConfig from "../../../saveleadsConfig";
-import moduleComissoes from "../../store/comissoes/moduleComissoes";
 import SelectResponsaveis from "../components/SelectResponsaveis";
 
 export default {
@@ -100,12 +99,8 @@ export default {
             usuarios: []
         };
     },
-    created() {
+    mounted() {
         this.$vs.loading();
-        if (!moduleComissoes.isRegistered) {
-            this.$store.registerModule('comissoes', moduleComissoes);
-            moduleComissoes.isRegistered = true;
-        }
 
         this.getItems();
         this.getOpcoes();
@@ -216,7 +211,6 @@ export default {
             deep: true
         },
     },
-    mounted() {},
     computed: {
         items() {
             return this.$store.state.items;

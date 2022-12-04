@@ -69,7 +69,6 @@
     import listagem from './ListComissoes';
     import vSelect from 'vue-select';
     import saveleadsConfig from "../../../saveleadsConfig";
-    import moduleComissoes from "../../store/comissoes/moduleComissoes";
     import SelectResponsaveis from "../components/SelectResponsaveis";
 
     export default {
@@ -112,10 +111,6 @@
         },
         created() {
             this.$vs.loading();
-            if (!moduleComissoes.isRegistered) {
-                this.$store.registerModule('comissoes', moduleComissoes);
-                moduleComissoes.isRegistered = true;
-            }
 
             this.getItems();
         },
