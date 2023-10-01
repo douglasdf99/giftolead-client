@@ -1,14 +1,3 @@
-<!-- =========================================================================================
-  File Name: VerticalNavMenu.vue
-  Description: Vertical NavMenu Component
-  Component Name: VerticalNavMenu
-  ----------------------------------------------------------------------------------------
-  Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-    Author: Pixinvent
-  Author URL: http://www.themeforest.net/user/pixinvent
-========================================================================================== -->
-
-
 <template>
 	<div class="parentx">
 		<vs-sidebar
@@ -20,25 +9,15 @@
 			:reduce-not-rebound="reduceNotRebound"
 			:parent="parent"
 			:hiddenBackground="clickNotClose"
-			:reduce="reduce"
+			:reduce="false"
 			v-hammer:swipe.left="onSwipeLeft">
 
 			<div @mouseenter="mouseEnter" @mouseleave="mouseLeave">
 				<div class="header-sidebar flex items-end justify-center" slot="header">
-					<router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/"
-									 v-show="!verticalNavMenuItemsMin">
-						<img :src="get_img_local('logo.svg')" v-show="!verticalNavMenuItemsMin"/>
+					<router-link tag="div" class="vx-logo cursor-pointer flex items-center pt-12" to="/">
+						<img :src="get_img_local('logo.svg')"/>
 					</router-link>
 					<!-- /Logo -->
-
-					<!-- Menu Buttons -->
-					<div>
-						<!-- Close Button -->
-						<template v-if="showCloseButton">
-							<feather-icon icon="XIcon" class="m-0 cursor-pointer" @click="$store.commit('TOGGLE_IS_VERTICAL_NAV_MENU_ACTIVE', false)"/>
-						</template>
-					</div>
-					<!-- /Menu Toggle Buttons -->
 				</div>
 				<!-- /Header -->
 
@@ -46,7 +25,35 @@
 				<VuePerfectScrollbar ref="verticalNavMenuPs" class="scroll-area-v-nav-menu pt-2" :settings="settings"
 											@ps-scroll-y="psSectionScroll" :key="$vs.rtl">
 					<template v-for="(item, index) in navMenuItems">
-						<v-nav-menu-item
+            <vs-collapse class="menu" v-if="item.submenu">
+              <vs-collapse-item>
+                <div slot="header">
+                  <p class="mb-0 flex items-center text-white font-bold">
+                    <vs-icon class="mr-2" icon-pack="material-icons" :icon="item.icon"/>
+                    {{ item.name }}
+                  </p>
+                </div>
+                <router-link v-for="sub in item.submenu" :key="sub.name" :to="sub.url"
+                          class="menu-statico-2-link font-normal"
+                          :class="{'menu-ativo' : activeLink(sub.url)}">
+                  <vs-list-item icon-pack="material-icons" :icon="sub.icon" :title="sub.name"/>
+                </router-link>
+              </vs-collapse-item>
+            </vs-collapse>
+            <v-nav-menu-item
+							:key="`item2-${index}`"
+							:index="index"
+							:submenu="item.submenu"
+							:can="item.can"
+							:to="item.slug !== 'external' ? item.url : null"
+							:href="item.slug === 'external' ? item.url : null"
+							:icon="item.icon" :target="item.target"
+							:isDisabled="item.isDisabled"
+							:grande="true"
+							:slug="item.slug" v-else>
+							<span class="truncate">{{ $t(item.i18n) || item.name }}</span>
+						</v-nav-menu-item>
+						<!-- <v-nav-menu-item
 							:key="`item-${index}`"
 							:index="index"
 							:submenu="item.submenu"
@@ -55,7 +62,7 @@
 							:href="item.slug === 'external' ? item.url : null"
 							:icon="item.icon" :target="item.target"
 							:isDisabled="item.isDisabled"
-							:slug="item.slug" v-if="verticalNavMenuItemsMin"
+							:slug="item.slug" v-if="false"
 							:grande="false">
 						</v-nav-menu-item>
 						<v-nav-menu-item
@@ -70,7 +77,7 @@
 							:grande="true"
 							:slug="item.slug" v-else>
 							<span class="truncate">{{ $t(item.i18n) || item.name }}</span>
-						</v-nav-menu-item>
+						</v-nav-menu-item> -->
 					</template>
 					<div class="flex justify-center div-icon-open-menu" v-if="verticalNavMenuItemsMin">
 						<vs-icon :icon-pack="'material-icons'" icon="menu_open" class="icone-controle"/>
@@ -80,10 +87,6 @@
 
 			</div>
 		</vs-sidebar>
-
-		<!-- Swipe Gesture -->
-		<div v-if="!isVerticalNavMenuActive" class="v-nav-menu-swipe-area" v-hammer:swipe.right="onSwipeAreaSwipeRight"/>
-		<!-- /Swipe Gesture -->
 	</div>
 </template>
 
@@ -212,6 +215,9 @@ export default {
 		//   this.windowWidth = event.currentTarget.innerWidth;
 		//   this.setVerticalNavMenuWidth()
 		// },
+    activeLink(url) {
+			return url === this.$route.path;
+		},
 		onSwipeLeft() {
 			if (this.isVerticalNavMenuActive && this.showCloseButton) this.isVerticalNavMenuActive = false;
 		},
@@ -287,7 +293,8 @@ export default {
 
 <style>
 .main-menu .vs-sidebar {
-	background: #2B2B2B;
+	background: #00437a;
+  max-width: 290px;
 }
 
 .main-menu * {
@@ -345,5 +352,8 @@ export default {
 	position: absolute;
 	bottom: 20vh;
 	left: 35%;
+}
+.vs-collapse.menu {
+  padding: 0 !important;
 }
 </style>

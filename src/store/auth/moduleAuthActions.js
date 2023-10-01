@@ -124,7 +124,6 @@ export default {
       let domain = saveleadsConfig.url_api;
 
       axios.get('/user').then((response) => {
-        console.log('user',response.data);
         // Update user details
         const usuario = {};
         usuario.uid = response.data.id;

@@ -38,77 +38,6 @@
     <div class="vx-row">
       <div class="vx-col w-full md:w-1/3 mb-base">
         <div class="vx-row">
-          <div class="vx-col w-full">
-            <place-holder-loading-dashboard
-              tipo="comissoes"
-              v-if="comissoes.length == 0"
-            />
-            <vx-card v-else>
-              <div class="vx-row">
-                <div class="vx-col w-full">
-                  <p>Comissões pendentes de aprovação</p>
-                  <p class="font-bold text-3xl text-warning">
-                    R$
-                    {{ formatPrice(parseFloat(comissoes.soma_pendente)) }}
-                  </p>
-                  <p>{{ comissoes.quantidade_pendente }} vendas</p>
-
-                  <p class="mt-5">Comissões a receber</p>
-                  <p class="font-bold text-3xl text-warning">
-                    R$
-                    {{ formatPrice(parseFloat(comissoes.soma_receber)) }}
-                  </p>
-                  <p>{{ comissoes.quantidade_receber }} vendas</p>
-
-                  <p class="mt-5">Comissões pagas</p>
-                  <p class="font-bold text-3xl text-success">
-                    R$
-                    {{ formatPrice(parseFloat(comissoes.soma_paga)) }}
-                  </p>
-                  <p>{{ comissoes.quantidade_paga }} vendas</p>
-                </div>
-              </div>
-            </vx-card>
-          </div>
-          <div class="vx-col w-full">
-            <place-holder-loading-dashboard
-              tipo="produtos"
-              v-if="!por_produto_pesquisado"
-            />
-            <vx-card
-              :title="
-                produtos.length > 0
-                  ? 'Venda por produto'
-                  : 'Nenhuma venda encontrada'
-              "
-              class="mt-base"
-              :class="{ 'venda-por-produto': produtos.length == 0 }"
-              v-show="por_produto_pesquisado"
-            >
-              <template slot="actions">
-                <change-date-dashboard @changeDate="getVendaPorProduto"></change-date-dashboard>
-              </template>
-              <div
-                v-for="(item, index) in produtos"
-                :key="index"
-                :class="{ 'mt-4': index }"
-                v-show="produtos.length > 0"
-              >
-                <div class="flex justify-between">
-                  <div class="flex flex-col">
-                    <span class="mb-1">{{ item.nome }}</span>
-                    <h4>{{ parseFloat(item.ratio).toFixed(2) }}%</h4>
-                  </div>
-                </div>
-                <vs-progress :percent="item.ratio"></vs-progress>
-              </div>
-            </vx-card>
-          </div>
-        </div>
-      </div>
-
-      <div class="vx-col w-full md:w-1/3 mb-base">
-        <div class="vx-row">
           <!-- Meus Tickets -->
           <div class="vx-col w-full mb-base">
             <place-holder-loading-dashboard
@@ -123,7 +52,7 @@
               "
             >
               <!-- CARD ACTION -->
-              <template slot="actions" class="flex items-center">
+              <template slot="actions">
                 <vs-dropdown vs-trigger-click class="cursor-pointer">
                   <feather-icon
                     icon="SettingsIcon"
@@ -177,41 +106,6 @@
                 </li>
               </ul>
             </vx-card>
-          </div>
-          <!-- Tickets Atrasados -->
-          <div class="vx-col w-full">
-            <place-holder-loading-dashboard
-              v-if="qtdAtrasados == null"
-              tipo="whatsapplist"
-            />
-            <statistics-card-line
-              hideChart
-              class="mb-base"
-              chart-data=""
-              icon="ClockIcon"
-              v-else
-              icon-right
-              :statistic="qtdAtrasados"
-              statisticTitle="Tickets Atrasados"
-              color="danger"
-            />
-          </div>
-
-          <!-- Whatslist atendidos -->
-          <div class="vx-col w-full">
-            <place-holder-loading-dashboard
-              v-if="qtdWhats == null"
-              tipo="whatsapplist"
-            />
-            <statistics-card-line
-              v-else
-              hideChart
-              icon="SmartphoneIcon"
-              icon-right
-              :statistic="qtdWhats"
-              statisticTitle="WhatsappLists Respondidos"
-              color="success"
-            />
           </div>
         </div>
       </div>
@@ -453,8 +347,6 @@
         </VuePerfectScrollbar>
       </div>
     </div>
-    <media-mensal-tickets class="mb-base"/>
-    <whatsapplist-media-mensal/>
   </div>
 </template>
 
@@ -481,7 +373,6 @@ export default {
         conquistas: [],
       },
       conquistas: [],
-      comissoes: [],
 
       //Venda por Produto
       por_produto: [],
@@ -614,11 +505,7 @@ export default {
       getData: 'dashboard/getData',
     }),
     async init() {
-      await this.getComissoes();
-      await this.getVendaPorProduto();
       await this.getMeusTickets();
-      await this.getTicketsAtrasados();
-      await this.getWhatsList();
       await this.getUltimosTickets();
     },
     nameCauser(obj, responsavel_type = null) {
@@ -637,52 +524,6 @@ export default {
             return obj.nome;
         }
       }
-    },
-    getComissoes() {
-      return new Promise((resolve) => {
-        this.getData( { rota: "comissaos", params: {} })
-          .then((response) => {
-            this.comissoes = response;
-            resolve();
-          });
-      });
-    },
-    getVendaPorProduto(datas = null) {
-      if (datas == null) {
-        datas = {
-          dt_inicio: moment().subtract(7, "days").format("YYYY-MM-DD"),
-          dt_fim: moment().format("YYYY-MM-DD"),
-        };
-      }
-      this.produtos = [];
-      this.por_produto_pesquisado = false;
-      return new Promise((resolve) => {
-        this.getData( {
-            rota: "dados_venda_por_produto",
-            params: datas,
-          })
-          .then((response) => {
-            this.por_produto = response; //armazenando array que já vem agrupado por produto
-            this.por_produto_pesquisado = true;
-            if (this.por_produto.length > 0) {
-              this.por_produto.forEach((prod) => {
-                this.produtos.push({
-                  nome: prod[0].produto.nome,
-                  quantidade: prod.length,
-                }); //salvando cada produto com suas quantidades
-              });
-              let somaQuantidade = 0;
-              this.produtos.forEach((item) => {
-                somaQuantidade += item.quantidade; //guarda a soma da quantidade de todas as vendas, independente do produto
-              });
-              this.produtos.forEach((item) => {
-                //calculando a parcela da quantidade de cada produto. Porcentagem de venda = quantidaede do item vendido 8 100 dividido
-                item.ratio = (item.quantidade * 100) / somaQuantidade;
-              });
-            }
-            resolve();
-          });
-      });
     },
     getMeusTickets(datas = null) {
       if (datas == null) datas = this.datas_tipo_meus_tickets;

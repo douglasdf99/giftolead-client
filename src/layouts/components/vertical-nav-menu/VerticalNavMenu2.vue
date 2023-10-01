@@ -36,7 +36,7 @@
 
 			<!-- Menu Items -->
 			<ul id="MainMenu" v-if="menuAtivo">
-				<li v-for="item in navMenuItems" @click="ativarMenu(false, item)">
+				<li v-for="(item, index) in navMenuItems" @click="ativarMenu(false, item)" :key="index">
 					<vs-icon icon-pack="material-icons" :icon="item.icon" />
 					<span class="menu-name">{{ item.name }}</span>
 				</li>

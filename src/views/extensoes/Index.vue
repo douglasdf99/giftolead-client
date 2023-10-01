@@ -48,7 +48,7 @@
 								</div>
 							</div>
 						</div>
-						<!--
+						
 												<div class="vx-col col-conquista mb-10">
 													<div class="conquista">
 														<div class="flex items-center text-left">
@@ -231,7 +231,7 @@
 														</p>
 													</div>
 												</div>
-						-->
+						
 					</div>
 				</div>
 			</vs-col>

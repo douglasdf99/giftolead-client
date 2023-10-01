@@ -2,9 +2,6 @@
     <div class="relative">
         <div class="vx-navbar-wrapper" :class="classObj">
             <vs-navbar class="vx-navbar navbar-custom navbar-skelton" :color="navbarColorLocal" :class="textColor">
-                <feather-icon class="sm:inline-flex xl:hidden cursor-pointer p-2" icon="MenuIcon"
-                              @click.stop="showSidebar"/>
-                <bookmarks :navbarColor="navbarColor" v-if="windowWidth >= 992"/>
                 <vs-spacer/>
                 <profile-drop-down/>
             </vs-navbar>
@@ -67,4 +64,8 @@
         }
     };
 </script>
-
+<style>
+[dir] .vs-navbar.navbar-skelton {
+  background: #ffad01;
+}
+</style>

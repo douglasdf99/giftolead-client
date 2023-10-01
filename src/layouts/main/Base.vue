@@ -12,7 +12,7 @@
 	<div class="layout--main" :class="[layoutTypeClass, navbarClasses, footerClasses, {'no-scroll': isAppPage}]">
 
 		<v-nav-menu :navMenuItems="navMenuItems" title="Vuexy" parent=".layout--main"/>
-		<v-nav-menu-2 title="Vuexy" parent=".layout--main"/>
+		<!-- <v-nav-menu-2 title="Vuexy" parent=".layout--main"/> -->
 
 		<div id="content-area" :class="[contentAreaClass, {'show-overlay': bodyOverlay}]">
 			<div id="content-overlay"/>
@@ -79,7 +79,6 @@
 							<div v-if="$route.meta.breadcrumb || $route.meta.pageTitle" class="items-center mb-5">
 								<vx-breadcrumb class="md:block hidden mb-12" v-if="$route.meta.breadcrumb" :route="$route"
 													:isRTL="$vs.rtl"/>
-
 								<div class="content-area__heading"
 									  :class="{'pr-4 border-0' : $route.meta.breadcrumb}">
 									<h2 class="mb-1">{{ $route.meta.pageTitle }}</h2>

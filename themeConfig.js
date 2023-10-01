@@ -15,7 +15,7 @@ const themeConfig = {
   footerType        : "static",    // options[String]  : static(default) / sticky / hidden
   hideScrollToTop   : false,       // options[Boolean] : true, false(default)
   mainLayoutType    : "vertical",  // options[String]  : vertical(default) / horizontal
-  navbarColor       : "#181830",      // options[String]  : HEX color / rgb / rgba / Valid HTML Color name - (default: #fff)
+  navbarColor       : "#ffad01",      // options[String]  : HEX color / rgb / rgba / Valid HTML Color name - (default: #fff)
   navbarType        : "sticky",  // options[String]  : floating(default) / static / sticky / hidden
   routerTransition  : "zoom-fade", // options[String]  : zoom-fade / slide-fade / fade-bottom / fade / zoom-out / none(default)
   rtl               : false,       // options[Boolean] : true, false(default)

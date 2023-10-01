@@ -374,12 +374,10 @@
         font-size: 15px;
         font-weight: 700;
         color: #4A4A4A;
-        padding: 20px 19px 16px 23px;
     }
 
     #submenu {
         font-family: "Poppins", sans-serif;
-        padding: 20px 19px 16px 23px;
     }
 
     #submenu li {
