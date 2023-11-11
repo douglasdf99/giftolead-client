@@ -1,5 +1,0 @@
-creation_rules:
-   - path_regex: .*/.env-production
-     kms: 'arn:aws:kms:us-east-1:295293252368:key/886f2d1a-0a66-43e9-8c33-f3447f5935a0'
-   - path_regex: .*/.env-staging
-     kms: 'arn:aws:kms:us-east-1:449466460580:key/894022e3-8eb8-4e67-af33-71997c0c695a'
