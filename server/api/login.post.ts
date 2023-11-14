@@ -1,34 +1,34 @@
-import { db } from '@/server/fake-db/auth'
+import { $api } from '~/utils/api'
 
 export default defineEventHandler(async event => {
-  const { email, password } = await readBody(event)
+  const { username, password } = await readBody(event)
 
-  if (!email || !password) {
+  if (!username || !password) {
     throw createError({
       statusCode: 403,
-      statusMessage: 'Email and Password is required to login',
+      statusMessage: 'username and Password is roberto to login',
       data: {
-        email: ['Email and Password is required to login'],
+        username: ['username and Password is roberto to login'],
       },
     })
   }
 
-  const dbUser = db.users.find(u => u.email === email && u.password === password)
-
-  if (!dbUser) {
+  const response = await $api('master/login', { method: 'POST', body: { username, password } })
+  console.log('res', response);
+  if (!response) {
     throw createError({
       statusCode: 403,
-      statusMessage: 'Invalid email or password',
+      statusMessage: 'Invalid username or password',
       data: {
-        email: ['Invalid email or password'],
+        username: ['Invalid username or password'],
       },
     })
   }
 
   // ℹ️ Don't send password in response
-  const { password: _, ...user } = dbUser
+  // const { password: _, ...user } = response
 
-  return {
-    user,
-  }
+  // return {
+  //   user,
+  // }
 })

@@ -1,13 +1,13 @@
-import { NuxtAuthHandler } from '#auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
-import type { NuxtError } from 'nuxt/app'
+import { NuxtAuthHandler } from '#auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import type { NuxtError } from 'nuxt/app';
 
 // import GoogleProvider from 'next-auth/providers/google'
 
 // const runtimeConfig = useRuntimeConfig()
 
 export default NuxtAuthHandler({
-  secret: process.env.AUTH_SECRET,
+  // secret: process.env.AUTH_SECRET,
   providers: [
 
     // GoogleProvider.default({
@@ -20,16 +20,18 @@ export default NuxtAuthHandler({
       name: 'Credentials',
       credentials: {}, // Object is required but can be left empty.
       async authorize(credentials: any) {
-        const { user } = await $fetch('/api/login/', {
+        debugger;
+        const { user } = await $fetch<any>('/api/login/', {
           method: 'POST',
           body: JSON.stringify(credentials),
         }).catch((err: NuxtError) => {
+          console.log('errrr', err);
           throw createError({
             statusCode: err.statusCode || 403,
             statusMessage: JSON.stringify(err.data),
           })
         })
-
+        
         return user || null
       },
     }),
@@ -48,7 +50,6 @@ export default NuxtAuthHandler({
         token.fullName = user.fullName
         token.avatar = user.avatar
         token.abilityRules = user.abilityRules
-        token.role = user.role
       }
 
       return token

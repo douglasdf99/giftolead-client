@@ -32,14 +32,14 @@ const route = useRoute()
 const ability = useAbility()
 
 const errors = ref<Record<string, string | undefined>>({
-  email: undefined,
+  username: undefined,
   password: undefined,
 })
 
 const refVForm = ref<VForm>()
 
 const credentials = ref({
-  email: 'lucasemanuel@wedocare.com.br',
+  username: 'lucasemanuel@wedocare.com.br',
   password: '123456',
   show_password: false,
   tipo: "password",
@@ -49,16 +49,17 @@ const rememberMe = ref(false)
 
 async function login() {
   const response = await signIn('credentials', {
-    callbackUrl: '/',
+    callbackUrl: '/apps',
     redirect: false,
     ...credentials.value,
   })
+  console.log('chegou aqui', response)
 
   // If error is not null => Error is occurred
   if (response && response.error) {
     const apiStringifiedError = response.error
     const apiError: NuxtError = JSON.parse(apiStringifiedError)
-
+    console.log('apierror', apiError, apiStringifiedError);
     errors.value = apiError.data
 
     // If err => Don't execute further
@@ -81,59 +82,11 @@ async function login() {
   navigateTo(route.query.to ? String(route.query.to) : '/', { replace: true })
 }
 
-// function checkLogin() {
-//   if (this.$store.state.auth.isUserLoggedIn()) {
-//     this.$vs.notify({
-//     	title: "Tentativa de Login",
-//     	text: "Você já está logado!",
-//     	iconPack: "feather",
-//     	icon: "icon-alert-circle",
-//     	color: "warning",
-//     });
-//     return false;
-//   }
-//   return true;
-// };
-
-async function jwt() {
-  //if (!checkLogin()) return;
-
-  // Loading
-  // this.$vs.loading();
-
-  const payload = {
-    username: credentials.value.email,
-    password: credentials.value.password,
-  };
-  
-  return await loginJWT(payload);
-}
-
-function loginJWT(payload: any) {
-  return new Promise(async (resolve, reject) => {
-    await $fetch('/master/login', { method: 'POST', body: JSON.stringify(payload) })
-    // await useApi<any>(createUrl('/login', payload))
-    // .then((response: any) => {
-    //   if (response.data.access_token) {
-    //     console.log(response)
-    //     // localStorage.setItem("accessToken", response.data.access_token);
-    //     // commit("SET_BEARER", response.data.access_token);
-    //     resolve(response.data.access_token);
-    //   } else {
-    //     reject({ message: "E-mail ou senha incorretos." });
-    //   }
-    // })
-    // .catch((error: any) => {
-    //   reject(error);
-    // });
-  });
-}
-
 const onSubmit = () => {
   refVForm.value?.validate()
     .then(({ valid: isValid }) => {
       if (isValid)
-        jwt()
+      login()
     })
 }
 </script>
@@ -208,13 +161,13 @@ const onSubmit = () => {
               <!-- email -->
               <VCol cols="12">
                 <AppTextField
-                  v-model="credentials.email"
+                  v-model="credentials.username"
                   label="Email"
                   placeholder="johndoe@email.com"
                   type="email"
                   autofocus
                   :rules="[requiredValidator, emailValidator]"
-                  :error-messages="errors.email"
+                  :error-messages="errors.username"
                 />
               </VCol>
 
